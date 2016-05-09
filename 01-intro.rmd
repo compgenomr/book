@@ -1,0 +1,4 @@
+# Introduction to Genomics
+
+This chapter is an overview of the methods that
+we propose to solve an **important problem**.

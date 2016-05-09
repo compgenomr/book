@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="">
+  <meta name="generator" content="bookdown 0.0.71 and GitBook 2.6.7">
+
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="dealing-with-high-throughput-sequencing-reads.html">
+<link rel="next" href="visualizing-and-summarizing-genomic-intervals.html">
+
+<script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html"><i class="fa fa-check"></i><b>1</b> Genomic Intervals and R</a></li>
+<li class="chapter" data-level="2" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html"><i class="fa fa-check"></i><b>2</b> Operations on Genomic Intervals with GenomicRanges package</a><ul>
+<li class="chapter" data-level="2.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#how-to-create-and-manipulate-a-granges-object"><i class="fa fa-check"></i><b>2.1</b> How to create and manipulate a GRanges object</a></li>
+<li class="chapter" data-level="2.2" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#getting-genomic-regions-into-r-as-granges-objects"><i class="fa fa-check"></i><b>2.2</b> Getting genomic regions into R as GRanges objects</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#frequently-used-file-formats-and-how-to-read-them-into-r-as-a-table"><i class="fa fa-check"></i><b>2.2.1</b> Frequently used file formats and how to read them into R as a table</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><i class="fa fa-check"></i><b>2.3</b> Finding regions that do/do not overlap with another set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html"><i class="fa fa-check"></i><b>3</b> Dealing with high-throughput sequencing reads</a><ul>
+<li class="chapter" data-level="3.1" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html#quality-check-on-sequencing-reads-and-mapping-reads-to-the-genome"><i class="fa fa-check"></i><b>3.1</b> Quality check on sequencing reads and mapping reads to the genome</a></li>
+<li class="chapter" data-level="3.2" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html#counting-mapped-reads-for-a-set-of-regions"><i class="fa fa-check"></i><b>3.2</b> Counting mapped reads for a set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html"><i class="fa fa-check"></i><b>4</b> Dealing with continuous scores over the genome</a><ul>
+<li class="chapter" data-level="4.1" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html#extracting-subsections-of-rle-and-rlelist-objects"><i class="fa fa-check"></i><b>4.1</b> Extracting subsections of Rle and RleList objects</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html"><i class="fa fa-check"></i><b>5</b> Visualizing and summarizing genomic intervals</a><ul>
+<li class="chapter" data-level="5.1" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#visualizing-intervals-in-locus-of-interest"><i class="fa fa-check"></i><b>5.1</b> Visualizing intervals in locus of interest</a></li>
+<li class="chapter" data-level="5.2" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#summaries-of-genomic-intervals"><i class="fa fa-check"></i><b>5.2</b> Summaries of genomic intervals</a></li>
+<li class="chapter" data-level="5.3" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#making-karyograms-and-circos-plots"><i class="fa fa-check"></i><b>5.3</b> Making karyograms and circos plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>6</b> Session info</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dealing-with-continuous-scores-over-the-genome" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Dealing with continuous scores over the genome</h1>
+<p>Most high-throughput data can be viewed as a continuous score over the bases of the genome. In case of RNA-seq or ChIP-seq experiments the data can be represented as read coverage values per genomic base position. In addition, other information (not necessarily from high-throughput experiments) can be represented this way. The GC content and conservation scores per base are prime examples of other data sets that can be represented as scores. This sort of data can be stored as a generic text file or can have special formats such as Wig (stands for wiggle) from UCSC, or the bigWig format is which is indexed binary format of the wig files. The bigWig format is great for data that covers large fraction of the genome with varying scores, because the file is much smaller than regular text files that have the same information and it can be queried easier since it is indexed.</p>
+<p>In R/Bioconductor, the continuous data can also be represented in a compressed format, in a format called Rle vector, which stands for run-length encoded vector. This gives superior memory performance over regular vectors because repeating consecutive values are represented as one value in the Rle vector (See Figure 3). <img src="GenomicIntervals_data/nonR_Figures/Rle_demo.png" alt="Rle" /> Figure 3: Rle encoding explained</p>
+<p>Typically, for genome-wide data you will have a RleList object which is a list of Rle vectors per chromosome. You can obtain such vectors by reading the reads in and calling <em>coverage()</em> function from <em>GenomicRanges</em> package. Let’s try that on the above data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">covs=<span class="kw">coverage</span>(alns) <span class="co"># get coverage vectors</span>
+covs</code></pre></div>
+<pre><code>## RleList of length 24
+## $chr1
+## integer-Rle of length 249250621 with 1 run
+##   Lengths: 249250621
+##   Values :         0
+## 
+## $chr2
+## integer-Rle of length 243199373 with 1 run
+##   Lengths: 243199373
+##   Values :         0
+## 
+## $chr3
+## integer-Rle of length 198022430 with 1 run
+##   Lengths: 198022430
+##   Values :         0
+## 
+## $chr4
+## integer-Rle of length 191154276 with 1 run
+##   Lengths: 191154276
+##   Values :         0
+## 
+## $chr5
+## integer-Rle of length 180915260 with 1 run
+##   Lengths: 180915260
+##   Values :         0
+## 
+## ...
+## &lt;19 more elements&gt;</code></pre>
+<p>Alternatively, you can get the coverage from the Bam file directly. Below, we are getting the coverage directly from the Bam file for our previously defined promoters.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">covs=<span class="kw">coverage</span>(bamfile, <span class="dt">param=</span>param) <span class="co"># get coverage vectors</span></code></pre></div>
+<p>One of the most common ways of storing score data is, as mentioned, wig or bigWig format. Most of the ENCODE project data can be downloaded in bigWig format. In addition, conservation scores can also be downloaded as wig/bigWig format. You can import bigWig files into R using <em>import()</em> function from <em>rtracklayer</em> package. However, it is generally not advisable to read the whole bigWig file in memory as it was the case with BAM files. Usually, you will be interested in only a fraction of the genome, such as promoters, exons etc. So it is best you extract the data for those regions and read those into memory rather than the whole file. Below we read the a bigWig file only for promoters. The operation returns an <em>GRanges</em> object with score column which indicates the scores in the BigWig file per genomic region.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rtracklayer)
+<span class="co"># File from ENCODE ChIP-seq tracks</span>
+bwFile=<span class="st">&quot;GenomicIntervals_data/data/wgEncodeHaibTfbsA549.chr21.bw&quot;</span>
+bw.gr=<span class="kw">import</span>(bwFile, <span class="dt">which=</span>promoter.gr) <span class="co"># get coverage vectors</span>
+bw.gr</code></pre></div>
+<pre><code>## GRanges object with 9205 ranges and 1 metadata column:
+##          seqnames               ranges strand |     score
+##             &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt;
+##      [1]    chr21   [9825456, 9825457]      * |         1
+##      [2]    chr21   [9825458, 9825464]      * |         2
+##      [3]    chr21   [9825465, 9825466]      * |         4
+##      [4]    chr21   [9825467, 9825470]      * |         5
+##      [5]    chr21   [9825471, 9825471]      * |         6
+##      ...      ...                  ...    ... .       ...
+##   [9201]    chr21 [48055809, 48055856]      * |         2
+##   [9202]    chr21 [48055857, 48055858]      * |         1
+##   [9203]    chr21 [48055872, 48055921]      * |         1
+##   [9204]    chr21 [48055944, 48055993]      * |         1
+##   [9205]    chr21 [48056069, 48056118]      * |         1
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome</code></pre>
+<p>Following this we can create an <code>RleList</code> object from the GRanges with <code>coverage</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cov.bw=<span class="kw">coverage</span>(bw.gr,<span class="dt">weight =</span> <span class="st">&quot;score&quot;</span>)
+
+<span class="co"># or get this directly from</span>
+cov.bw=<span class="kw">import</span>(bwFile, <span class="dt">which=</span>promoter.gr,<span class="dt">as =</span> <span class="st">&quot;RleList&quot;</span>)</code></pre></div>
+<div id="extracting-subsections-of-rle-and-rlelist-objects" class="section level2">
+<h2><span class="header-section-number">4.1</span> Extracting subsections of Rle and RleList objects</h2>
+<p>Frequently, we will need to extract subsections of the Rle vectors or RleList objects. We will need to do this to visualize that subsection or get some statistics out of those sections. For example, we could be interested in average coverage per base for the regions we are interested in. We have to extract those regions from RleList object and apply summary statistics. Below, we show how to extract subsections of RleList object. We are extracting promoter regions from ChIP-seq read coverage RleList. Following that, we will plot the one of the promoters associated coverage values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myViews=<span class="kw">Views</span>(cov.bw,<span class="kw">as</span>(promoter.gr,<span class="st">&quot;RangesList&quot;</span>)) <span class="co"># get subsets of coverage</span>
+<span class="co"># there is a views object for each chromosome</span>
+myViews</code></pre></div>
+<pre><code>## RleViewsList of length 1
+## names(1): chr21</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myViews[[<span class="dv">1</span>]]</code></pre></div>
+<pre><code>## Views on a 48129895-length Rle subject
+## 
+## views:
+##          start      end width
+##   [1] 42218039 42220039  2001 [2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [2] 17441841 17443841  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [3] 17565698 17567698  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [4] 30395937 30397937  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [5] 27542138 27544138  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 1 ...]
+##   [6] 27511708 27513708  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [7] 32930290 32932290  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [8] 27542446 27544446  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [9] 28338439 28340439  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   ...      ...      ...   ... ...
+## [370] 47517032 47519032  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]
+## [371] 47648157 47650157  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]
+## [372] 47603373 47605373  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [373] 47647738 47649738  2001 [2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 ...]
+## [374] 47704236 47706236  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [375] 47742785 47744785  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [376] 47881383 47883383  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]
+## [377] 48054506 48056506  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [378] 48024035 48026035  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the coverage vector from the 5th view and plot</span>
+<span class="kw">plot</span>(myViews[[<span class="dv">1</span>]][[<span class="dv">5</span>]],<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre></div>
+<div class="figure"><span id="fig:getViews"></span>
+<img src="04-genomicIntervals_files/figure-html/getViews-1.png" alt="Figure  4: Coverage vector extracted from RleList via Views() function is plotted as a line plot." width="672" />
+<p class="caption">
+Figure 4.1: Figure 4: Coverage vector extracted from RleList via Views() function is plotted as a line plot.
+</p>
+</div>
+<p>Next, we are interested in average coverage per base for the promoters using summary functions that works on Views object.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the mean of the views</span>
+<span class="kw">head</span>(
+  <span class="kw">viewMeans</span>(myViews[[<span class="dv">1</span>]])
+)</code></pre></div>
+<pre><code>## [1] 0.2258871 0.3498251 1.2243878 0.4997501 2.0904548 0.6996502</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the max of the views</span>
+<span class="kw">head</span>(
+  <span class="kw">viewMaxs</span>(myViews[[<span class="dv">1</span>]])
+)</code></pre></div>
+<pre><code>## [1]  2  4 12  4 21  6</code></pre>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dealing-with-high-throughput-sequencing-reads.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="visualizing-and-summarizing-genomic-intervals.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"search": false
+});
+});
+</script>
+
+</body>
+
+</html>

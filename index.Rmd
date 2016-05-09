@@ -1,0 +1,28 @@
+--- 
+title: "Computational Genomics with R"
+author: "Altuna Akalin"
+date: "`r Sys.Date()`"
+knit: "bookdown::render_book"
+documentclass: book
+link-citations: yes
+description: "book files for computatiation genomcis with R"
+---
+  
+  # Prerequisites
+  
+  This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
+
+For now, you have to install the development versions of **bookdown** from Github:
+
+```{r eval=FALSE}
+devtools::install_github("rstudio/bookdown")
+```
+
+Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading `#`.
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```

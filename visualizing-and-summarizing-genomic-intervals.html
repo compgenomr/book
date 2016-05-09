@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="">
+  <meta name="generator" content="bookdown 0.0.71 and GitBook 2.6.7">
+
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="dealing-with-continuous-scores-over-the-genome.html">
+<link rel="next" href="session-info.html">
+
+<script src="book_assets/jquery-2.2.3/jquery.min.js"></script>
+<link href="book_assets/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="book_assets/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html"><i class="fa fa-check"></i><b>1</b> Genomic Intervals and R</a></li>
+<li class="chapter" data-level="2" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html"><i class="fa fa-check"></i><b>2</b> Operations on Genomic Intervals with GenomicRanges package</a><ul>
+<li class="chapter" data-level="2.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#how-to-create-and-manipulate-a-granges-object"><i class="fa fa-check"></i><b>2.1</b> How to create and manipulate a GRanges object</a></li>
+<li class="chapter" data-level="2.2" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#getting-genomic-regions-into-r-as-granges-objects"><i class="fa fa-check"></i><b>2.2</b> Getting genomic regions into R as GRanges objects</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#frequently-used-file-formats-and-how-to-read-them-into-r-as-a-table"><i class="fa fa-check"></i><b>2.2.1</b> Frequently used file formats and how to read them into R as a table</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><i class="fa fa-check"></i><b>2.3</b> Finding regions that do/do not overlap with another set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html"><i class="fa fa-check"></i><b>3</b> Dealing with high-throughput sequencing reads</a><ul>
+<li class="chapter" data-level="3.1" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html#quality-check-on-sequencing-reads-and-mapping-reads-to-the-genome"><i class="fa fa-check"></i><b>3.1</b> Quality check on sequencing reads and mapping reads to the genome</a></li>
+<li class="chapter" data-level="3.2" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html#counting-mapped-reads-for-a-set-of-regions"><i class="fa fa-check"></i><b>3.2</b> Counting mapped reads for a set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html"><i class="fa fa-check"></i><b>4</b> Dealing with continuous scores over the genome</a><ul>
+<li class="chapter" data-level="4.1" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html#extracting-subsections-of-rle-and-rlelist-objects"><i class="fa fa-check"></i><b>4.1</b> Extracting subsections of Rle and RleList objects</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html"><i class="fa fa-check"></i><b>5</b> Visualizing and summarizing genomic intervals</a><ul>
+<li class="chapter" data-level="5.1" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#visualizing-intervals-in-locus-of-interest"><i class="fa fa-check"></i><b>5.1</b> Visualizing intervals in locus of interest</a></li>
+<li class="chapter" data-level="5.2" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#summaries-of-genomic-intervals"><i class="fa fa-check"></i><b>5.2</b> Summaries of genomic intervals</a></li>
+<li class="chapter" data-level="5.3" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#making-karyograms-and-circos-plots"><i class="fa fa-check"></i><b>5.3</b> Making karyograms and circos plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="session-info.html"><a href="session-info.html"><i class="fa fa-check"></i><b>6</b> Session info</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="visualizing-and-summarizing-genomic-intervals" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Visualizing and summarizing genomic intervals</h1>
+<p>Data integration and visualization is corner stone of genomic data analysis. Below, we will show different ways of integrating and visualizing genomic intervals.</p>
+<div id="visualizing-intervals-in-locus-of-interest" class="section level2">
+<h2><span class="header-section-number">5.1</span> Visualizing intervals in locus of interest</h2>
+<p>Often times, we will be interested in particular genomic locus and try to visualize different genomic datasets over that locus. This is similar to looking at the data over one of the genome browsers. Below we will display genes, GpG islands and read coverage from a ChIP-seq experiment using Gviz package.For Gviz, we first need to set the tracks to display. The tracks can be in various formats. They can be R objects such as IRanges,GRanges and data.frame, or they can be in flat file formats such as BigWig,BED and BAM. After the tracks are set, we can display them with <code>plotTracks</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Gviz)
+<span class="co"># set tracks to display</span>
+
+<span class="co"># set CpG island track</span>
+cpgi.track=<span class="kw">AnnotationTrack</span>(cpgi.gr,
+                           <span class="dt">name =</span> <span class="st">&quot;CpG&quot;</span>)
+
+<span class="co"># set gene track</span>
+<span class="co"># we will get this from EBI Biomart webservice</span>
+gene.track &lt;-<span class="st"> </span><span class="kw">BiomartGeneRegionTrack</span>(<span class="dt">genome =</span> <span class="st">&quot;hg19&quot;</span>,
+                                    <span class="dt">chromosome =</span> <span class="st">&quot;chr21&quot;</span>, 
+                                    <span class="dt">start =</span> <span class="dv">27698681</span>, <span class="dt">end =</span> <span class="dv">28083310</span>,
+                                    <span class="dt">name =</span> <span class="st">&quot;ENSEMBL&quot;</span>)
+
+
+<span class="co"># set track for ChIP-seq coverage</span>
+cov.track=<span class="kw">DataTrack</span>(<span class="st">&quot;GenomicIntervals_data/data/wgEncodeHaibTfbsA549.chr21.bw&quot;</span>,<span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,
+                    <span class="dt">name=</span><span class="st">&quot;coverage&quot;</span>)
+  
+<span class="co"># call the display function plotTracks</span>
+track.list=<span class="kw">list</span>(cpgi.track,gene.track,cov.track)
+<span class="kw">plotTracks</span>(track.list,<span class="dt">from=</span><span class="dv">27698681</span>,<span class="dt">to=</span><span class="dv">28083310</span>,<span class="dt">chromsome=</span><span class="st">&quot;chr21&quot;</span>)</code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-1"></span>
+<img src="04-genomicIntervals_files/figure-html/unnamed-chunk-1-1.png" alt="Figure  5: tracks visualized using Gviz" width="672" />
+<p class="caption">
+Figure 5.1: Figure 5: tracks visualized using Gviz
+</p>
+</div>
+</div>
+<div id="summaries-of-genomic-intervals" class="section level2">
+<h2><span class="header-section-number">5.2</span> Summaries of genomic intervals</h2>
+<p>Looking at data one region at a time could be inefficient. One can summarize different data sets over thousands of regions of interest and identify patterns. This summaries can include different data types such as motifs, read coverage and other scores associated with genomic intervals. The <code>genomation</code> package can summarize and help identify patterns in the datasets. The datasets can have different kinds of information and multiple file types can be used such as BED, GFF, BAM and bigWig. We will look at H3K4me3 ChIP-seq and DNAse-seq signals from H1 embryonic stem cell line. H3K4me3 is usually associated with promoters and regions with high DNAse-seq signal are associated with accessible regions, that means mostly regulatory regions. We will summarize those datasets around the transcription start sites (TSS) of genes on chromosome 20 of human hg19 assembly. We will first read the genes and extract the region around TSS, 500bp upstream and downstream. We will then create a matrix of ChIP-seq scores for those regions, each row will represent a region around a specific TSS and columns will be the scores per base. We will then plot, average enrichment values around the TSSes of genes on chromosome 20.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get transcription start sites on chr20</span>
+<span class="kw">library</span>(genomation)
+feat=<span class="kw">readTranscriptFeatures</span>(<span class="st">&quot;GenomicIntervals_data/data/refseq.hg19.chr20.bed&quot;</span>,<span class="dt">remove.unusual =</span> <span class="ot">TRUE</span>,
+                            <span class="dt">up.flank =</span> <span class="dv">500</span>, <span class="dt">down.flank =</span> <span class="dv">500</span>)
+prom=feat$promoters <span class="co"># get promoters from the features</span>
+
+
+<span class="co"># get for H3K4me3 values around TSSes</span>
+<span class="co"># we use strand.aware=TRUE so - strands will</span>
+<span class="co"># be reversed</span>
+sm=<span class="kw">ScoreMatrix</span>(<span class="st">&quot;GenomicIntervals_data/data/H1.ESC.H3K4me3.chr20.bw&quot;</span>,prom,
+               <span class="dt">type=</span><span class="st">&quot;bigWig&quot;</span>,<span class="dt">strand.aware =</span> <span class="ot">TRUE</span>)
+
+
+<span class="co"># look for the average enrichment</span>
+<span class="kw">plotMeta</span>(sm, <span class="dt">profile.names =</span> <span class="st">&quot;H3K4me3&quot;</span>, <span class="dt">xcoords =</span> <span class="kw">c</span>(-<span class="dv">500</span>,<span class="dv">500</span>),
+         <span class="dt">ylab=</span><span class="st">&quot;H3K4me3 enrichment&quot;</span>,<span class="dt">dispersion =</span> <span class="st">&quot;se&quot;</span>,
+         <span class="dt">xlab=</span><span class="st">&quot;bases around TSS&quot;</span>)</code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-2"></span>
+<img src="04-genomicIntervals_files/figure-html/unnamed-chunk-2-1.png" alt="Figure  6: meta region plot using genomation" width="672" />
+<p class="caption">
+Figure 5.2: Figure 6: meta region plot using genomation
+</p>
+</div>
+<p>The pattern we see is expected, there is a dip just around TSS and signal is more intense on the downstream of the TSS. We can also plot a heatmap where each row is a region around TSS and color coded by enrichment. This can show us not only the general pattern as in the meta-region plot but also how many of the regions produce such a pattern.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">heatMatrix</span>(sm,<span class="dt">order=</span><span class="ot">TRUE</span>,<span class="dt">xcoords =</span> <span class="kw">c</span>(-<span class="dv">500</span>,<span class="dv">500</span>),<span class="dt">xlab=</span><span class="st">&quot;bases around TSS&quot;</span>)</code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-3"></span>
+<img src="04-genomicIntervals_files/figure-html/unnamed-chunk-3-1.png" alt="Figure  7: Heatmap of enrichment of H3K4me2 around TSS" width="672" />
+<p class="caption">
+Figure 5.3: Figure 7: Heatmap of enrichment of H3K4me2 around TSS
+</p>
+</div>
+<p>Here we saw that about half of the regions do not have any signal. In addition it seems the multi-modal profile we have observed earlier is more complicated. Certain regions seems to have signal on both sides of the TSS, whereas others have signal mostly on the downstream side.</p>
+<p>Normally, there would be more than one experiment or we can integrate datasets from public repositories. In this case, we can see how different signals look like on the regions we are interested in. Now, we will also use DNAse-seq data and create a list of matrices with our datasets and plot the average profile of the signals from both datasets.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sml=<span class="kw">ScoreMatrixList</span>(<span class="kw">c</span>(<span class="dt">H3K4me3=</span><span class="st">&quot;GenomicIntervals_data/data/H1.ESC.H3K4me3.chr20.bw&quot;</span>,
+                      <span class="dt">DNAse=</span><span class="st">&quot;GenomicIntervals_data/data/H1.ESC.dnase.chr20.bw&quot;</span>),prom,
+                      <span class="dt">type=</span><span class="st">&quot;bigWig&quot;</span>,<span class="dt">strand.aware =</span> <span class="ot">TRUE</span>)
+<span class="kw">plotMeta</span>(sml)</code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-4"></span>
+<img src="04-genomicIntervals_files/figure-html/unnamed-chunk-4-1.png" alt="Figure  8: Average profiles of DNAse and H3K4me3 ChIP-seq" width="672" />
+<p class="caption">
+Figure 5.4: Figure 8: Average profiles of DNAse and H3K4me3 ChIP-seq
+</p>
+</div>
+<p>We should now look at the heatmaps side by side and we should also cluster the rows based on their similarity. We will be using <code>multiHeatMatrix</code> since we have multiple ScoreMatrix objects in the list. In this case, we will also use <code>winsorize</code> argument to limit extreme values, every score above 95th percentile will be equalized the the value of the 95th percentile. In addition, <code>heatMatrix</code> and <code>multiHeatMatrix</code> can cluster the rows. Below, we will be using k-means clustering with 3 clusters.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1029</span>)
+<span class="kw">multiHeatMatrix</span>(sml,<span class="dt">order=</span><span class="ot">TRUE</span>,<span class="dt">xcoords =</span> <span class="kw">c</span>(-<span class="dv">500</span>,<span class="dv">500</span>),
+                <span class="dt">xlab=</span><span class="st">&quot;bases around TSS&quot;</span>,<span class="dt">winsorize =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">95</span>),
+                <span class="dt">matrix.main =</span> <span class="kw">c</span>(<span class="st">&quot;H3K4me3&quot;</span>,<span class="st">&quot;DNAse&quot;</span>),
+                <span class="dt">column.scale=</span><span class="ot">TRUE</span>,
+                <span class="dt">clustfun=</span>function(x) <span class="kw">kmeans</span>(x, <span class="dt">centers=</span><span class="dv">3</span>)$cluster)</code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-5"></span>
+<img src="04-genomicIntervals_files/figure-html/unnamed-chunk-5-1.png" alt="Figure  9: Heatmaps of H3K4me3 & DNAse data" width="672" />
+<p class="caption">
+Figure 5.5: Figure 9: Heatmaps of H3K4me3 &amp; DNAse data
+</p>
+</div>
+<p>This revealed a different picture than we have observed before. Almost half of the promoters have no signal for DNAse or H3K4me3; these regions are probably not active and associated genes are not expressed. For regions with H3K4me3 signal, there are two major patterns. One pattern where both downstream and upstream of the TSS are enriched. On the other pattern, mostly downstream of the TSS is enriched.</p>
+</div>
+<div id="making-karyograms-and-circos-plots" class="section level2">
+<h2><span class="header-section-number">5.3</span> Making karyograms and circos plots</h2>
+<p>Chromosomal karyograms and circos plots are beneficial for displaying data over the whole genome of chromosomes of interest. Although,the information that can be displayed over these large regions are usually not very clear and only large trends can be discerned by eye, such as loss of methylation in large regions or genome-wide. Below, we are showing how to use <code>ggbio</code> package for plotting. This package has a slightly different syntax than base graphics. The syntax follows <a href="http://www.springer.com/de/book/9780387245447">grammar of graphics</a> logic. It is a deconstructed way of thinking about the plot. You add your data and apply mappings and transformations in order to achieve the final output. In ggbio, things are relatively easy since a high-level function <code>autoplot</code> function will recognize most of the datatypes and guess the most appropriate plot type. You can change it is behavior by applying low-level functions. We first get the sizes of chromosomes and make a karyogram template.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggbio)
+<span class="kw">data</span>(ideoCyto, <span class="dt">package =</span> <span class="st">&quot;biovizBase&quot;</span>)
+p &lt;-<span class="st"> </span><span class="kw">autoplot</span>(<span class="kw">seqinfo</span>(ideoCyto$hg19), <span class="dt">layout =</span> <span class="st">&quot;karyogram&quot;</span>)</code></pre></div>
+<p>Next, we would like to plot CpG islands on this Karyogram. We simply do this by adding a layer with <code>layout_karyogram</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># read CpG islands from a generic text file</span>
+cpgi.gr=genomation::<span class="kw">readGeneric</span>(<span class="st">&quot;GenomicIntervals_data/data/CpGi.hg19.table.txt&quot;</span>, 
+                        <span class="dt">chr =</span> <span class="dv">1</span>, <span class="dt">start =</span> <span class="dv">2</span>, <span class="dt">end =</span> <span class="dv">3</span>,<span class="dt">header=</span><span class="ot">TRUE</span>, 
+                        <span class="dt">keep.all.metadata =</span><span class="ot">TRUE</span>,<span class="dt">remove.unusual=</span><span class="ot">TRUE</span> )
+
+p +<span class="st"> </span><span class="kw">layout_karyogram</span>(cpgi.gr)</code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-7"></span>
+<img src="04-genomicIntervals_files/figure-html/unnamed-chunk-7-1.png" alt="Figure  11: Karyogram of CpG islands" width="672" />
+<p class="caption">
+Figure 5.6: Figure 11: Karyogram of CpG islands
+</p>
+</div>
+<p>Next, we would like to plot some data over the chromosomes. This could be ChIP-seq signal or any other signal over the genome, we will use CpG island scores from the data set we read earlier. We will plot a point proportional to “obsExp” column in the data set. We use <code>ylim</code> argument to squish the chromosomal rectangles and plot on top of those. <code>aes</code> argument defines how the data is mapped to geometry. In this case, it says the points will have x coordinate from CpG island start positions and y coordinate from obsExp score of CpG islands.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p +<span class="st"> </span><span class="kw">layout_karyogram</span>(cpgi.gr, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">size =</span> <span class="fl">0.5</span>, 
+                         <span class="kw">aes</span>(<span class="dt">x =</span> start, <span class="dt">y =</span> obsExp),
+                         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">11</span>,<span class="dv">40</span>), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-8"></span>
+<img src="04-genomicIntervals_files/figure-html/unnamed-chunk-8-1.png" alt="Figure  11: Karyogram of CpG islands" width="672" />
+<p class="caption">
+Figure 5.7: Figure 11: Karyogram of CpG islands
+</p>
+</div>
+<p>Another way to depict regions or quantitative signals on the chromosomes is circos plots. These are circular plots usually used for showing chromosomal rearrangements, but can also be used for depicting signals.<code>ggbio</code> package can produce all kinds of circos plots. Below, we will show how to use that for our CpG island score example.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># set the chromsome in a circle</span>
+<span class="co"># color set to white to look transparent </span>
+p &lt;-<span class="st"> </span><span class="kw">ggplot</span>() +<span class="st"> </span><span class="kw">layout_circle</span>(ideoCyto$hg19, <span class="dt">geom =</span> <span class="st">&quot;ideo&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;white&quot;</span>,
+                              <span class="dt">colour=</span><span class="st">&quot;white&quot;</span>,<span class="dt">cytoband =</span> <span class="ot">TRUE</span>,
+                              <span class="dt">radius =</span> <span class="dv">39</span>, <span class="dt">trackWidth =</span> <span class="dv">2</span>)
+<span class="co"># plot the scores as points   </span>
+p &lt;-<span class="st"> </span>p +<span class="st"> </span><span class="kw">layout_circle</span>(cpgi.gr, <span class="dt">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="dt">grid=</span><span class="ot">TRUE</span>,
+                           <span class="dt">size =</span> <span class="dv">1</span>, <span class="kw">aes</span>(<span class="dt">y =</span> obsExp),<span class="dt">color=</span><span class="st">&quot;red&quot;</span>,
+                       <span class="dt">radius =</span> <span class="dv">42</span>, <span class="dt">trackWidth =</span> <span class="dv">10</span>)
+<span class="co"># set the chromosome names</span>
+p &lt;-<span class="st"> </span>p +<span class="st"> </span><span class="kw">layout_circle</span>(<span class="kw">as</span>(<span class="kw">seqinfo</span>(ideoCyto$hg19),<span class="st">&quot;GRanges&quot;</span>), 
+                       <span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="kw">aes</span>(<span class="dt">label =</span> seqnames), 
+                      <span class="dt">vjust =</span> <span class="dv">0</span>, <span class="dt">radius =</span> <span class="dv">55</span>, <span class="dt">trackWidth =</span> <span class="dv">7</span>,
+                      <span class="dt">size=</span><span class="dv">3</span>) 
+
+<span class="co"># display the plot</span>
+p</code></pre></div>
+<div class="figure"><span id="fig:unnamed-chunk-9"></span>
+<img src="04-genomicIntervals_files/figure-html/unnamed-chunk-9-1.png" alt="Figure  12: circos plot for CpG islands scores" width="672" />
+<p class="caption">
+Figure 5.8: Figure 12: circos plot for CpG islands scores
+</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dealing-with-continuous-scores-over-the-genome.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="session-info.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="book_assets/gitbook-2.6.7/js/app.min.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/lunr.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="book_assets/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+},
+"search": false
+});
+});
+</script>
+
+</body>
+
+</html>

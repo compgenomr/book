@@ -1,0 +1,230 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+## multiple testing correction
+$P(X <= -2 \; | \; \mu=0,\sigma=2)$
+
+
+We should think of hypothesis testing as a non-errorfree method of making
+decisions. There will be times when we declare something significant and accept 
+
+$H_1$ but we will be wrong. 
+These decisions are also called "false positives" or "false discoveries", this
+is also known as "type I error". Similary, we can fail to reject a hypothesis 
+when we actually should. These cases are known as "false negatives", also known
+as "type II error". 
+
+The ratio of true negatives to the sum of 
+true negatives and false positives ($\frac{TN}{FP+TN}$) is known as specificity.
+And we usually want to decrease the FP and get higher specificity. 
+The ratio of true positives to the sum of 
+true positives and false negatives ($\frac{TP}{TP+FN}$) is known as sensitivity.
+And, again we usually want to decrease the FN and get higher sensitiviy. 
+Sensitivity is also known as "power of a test" in the context of hypothesis 
+testing. More powerful tests will be higly sensitive and will do less type
+II errors. For the t-test the power is positively associated with sample size
+and the effect size. Higher the sample size, smaller the standard error and 
+looking for the larger effect sizes will similary increase the power.
+
+The general summary of these the different combination of the decisions are
+included in the table below. 
+
+-------------------------------------------------------------
+                 $H_0$ is            $H_1$ is   
+                 TRUE,                 TRUE,
+                [Gene is NOT          [Gene is
+                 differentially      differentially 
+                expressed]           expressed]
+--------------- -------------------- -------------------- -------------------------
+  Accept $H_0$  True Negatives (TN)  False Negatives (FN)  $m_0$: number of truly
+  (claim that                          ,type II error       null hypotheses
+the gene is not 
+differentially
+expressed)                                   
+
+  reject $H_0$  False Positives (FP) True Positives (TP)  $m-m_0$: number of 
+  (claim that      ,type I error                           truly alternative
+the gene is                                                hypotheses
+differentially
+expressed)
+-------------------------------------------------------------
+
+
+We expect to make more type I errors as the number of tests increase, that 
+means we will reject the null hypothesis by mistake. For example, if we 
+performe a test the 5% significance level, there is a 5% chance of 
+incorrectly rejecting the null hypothesis if the null hypothesis is true. 
+However, if we make 1000 tests where all null hypotheses are true for 
+each of them, the average number of incorrect rejections is 50. And if we 
+apply the rules of probability, there are is almost a 100% chance that
+we will have at least one incorrect rejection.
+There are multiple statistical techniques to prevent this from happening. 
+These techniques generally shrink the P-values obtained from multiple
+tests to higher values, if the individual P-value is low enough it survives
+this process. The most simple method is just to multiply the individual,
+P-value ($p_i$) with the number of tests ($m$): $m \cdot p_i$, this is 
+called "bonferonnni correction". However, this is too harsh if you have thousands
+of tests. Other methods are developed to remedy this. Those methods 
+rely on ranking the P-values and dividing  $m \cdot p_i$ by the 
+rank,$i$, :$\frac{m \cdot p_i }{i}$, this is derived from  Benjamini–Hochberg 
+procedure. This procedure is developed to control for "False Discovery Rate (FDR)"
+, which is proportion of false positives among all significant tests. And in
+practical terms, we get the "FDR adjusted P-value" from the procedure described
+above. This gives us an estimate of proportion of false discoveries for a given
+test.
+
+One final method that is also popular is called the "q-value" 
+method and related . This procedure relies on estimating the proportion of true null 
+hypotheses from the distribution of raw p-values and using that quantity
+to come up with what is called a "q-value". That can be practically defined
+as "the proportion of significant features that turn out to be false
+leads." A q-value 0.01 would mean 1% of the tests called significant at this 
+level will be truly null on average. This is a similar quantity to the one
+estimated by "FDR adjusted P-value" method above. Within the genomics community
+q-value and FDR adjusted P-value are synoymous. 
+
+In R, the base function `p.adjust()` implements most of the p-value correction 
+methods described above. For the q-value, we can use the `qvalue` package from 
+Bioconductor. Below we are demonstrating how touse them on a set of simulated 
+p-values.The plot shows that Bonferroni correction does a terrible job. FDR(BH) and q-value
+approach are better but q-value approach is more permissive than FDR(BH).
+
+```{r}
+library(qvalue)
+data(hedenfalk)
+
+qvalues <- qvalue(hedenfalk$p)$q
+bonf.pval=p.adjust(hedenfalk$p,method ="bonferroni")
+fdr.adj.pval=p.adjust(hedenfalk$p,method ="fdr")
+
+plot(hedenfalk$p,qvalues,pch=19,ylim=c(0,1),
+     xlab="raw P-values",ylab="adjusted P-values")
+points(hedenfalk$p,bonf.pval,pch=19,col="red")
+points(hedenfalk$p,fdr.adj.pval,pch=19,col="blue")
+legend("bottomright",legend=c("q-value","FDR (BH)","Bonferroni"),
+       fill=c("black","blue","red"))
+```
+
+
+generate exp matrix for exercises
+```{r}
+sd <- 0.2*sqrt(4/rchisq(1000,df=4))
+data <- matrix(rnorm(1000*6,sd=sd),1000,6)
+rownames(data) <- paste("Gene",1:1000)
+data[1:100,4:6] <- data[1:100,4:6] + 2
+```
+
+
+process Xianjun data
+```{r}
+df=read.table("~/Downloads/TSS-based.cm1w.all.bestbin.lm.0.10.tab.txt",
+           header=T,sep="\t")
+df2=df[,c("H3k4me3","H3k27me3","measured_log2")]
+df3=df2[df$predicted_C==0,]
+
+
+ cor(df2$H3k4me3,df2$measured_log2)
+ cor(df2$H3k27me3,df2$measured_log2)
+  
+ cor(df3$H3k4me3,df3$measured_log2)
+ cor(df3$H3k27me3,df3$measured_log2) 
+ 
+ mod.all=lm(df2$measured_log2 ~ df2$H3k27me3+ df2$H3k4me3 )
+ mod.k4=lm(df2$measured_log2 ~  df2$H3k4me3 )
+ anova(mod.k4,mod.all,test="F")
+ summary(mod.all)
+ plot(mod.all,which=1) 
+```
+
+
+
+```{r}
+
+data=readRDS("StatisticsForGenomics/geneExpMat.rds")
+
+# set groups
+group1=1:3
+group2=4:6
+n1=3
+n2=3
+dx=rowMeans(data[,group1])-rowMeans(data[,group2])
+  
+require(matrixStats)
+
+# get the esimate of pooled variance 
+stderr <- sqrt( (rowVars(data[,group1])*(n1-1) + rowVars(data[,group2])*(n2-1)) / (n1+n2-2) * ( 1/n1 + 1/n2 ))
+
+# do the shrinking towards median
+mod.stderr <- (stderr + median(stderr)) / 2 # moderation in variation
+
+# esimate t statistic with moderated variance
+t.mod = dx / mod.stderr
+
+# calculate P-value of rejecting null 
+p.mod = 2*pt( -abs(t.mod), n1+n2-2 )
+
+# esimate t statistic without moderated variance
+t = dx / stderr
+
+# calculate P-value of rejecting null 
+p = 2*pt( -abs(t), n1+n2-2 )
+
+par(mfrow=c(1,2))
+hist(p,col="cornflowerblue",border="white",main="",xlab="P-values t-test")
+mtext(paste("signifcant tests:",sum(p<0.05))  )
+hist(p.mod,col="cornflowerblue",border="white",main="",xlab="P-values mod. t-test")
+mtext(paste("signifcant tests:",sum(p.mod<0.05))  )
+
+hist(
+p.adjust(p.mod,method ="fdr")
+)
+
+hist(
+p.adjust(p,method ="fdr")
+)
+
+```
+
+
+```{r}
+set.seed(32)
+
+# get 50 X values between 1 and 100
+x = runif(50,1,100)
+
+# set b0,b1 and varience (sigma)
+b0 = 10
+b1 = 2
+sigma = 20
+# simulate error terms from normal distribution
+eps = rnorm(50,0,sigma)
+# get y values from the linear equation and addition of error terms
+y = b0 + b1*x+ eps
+
+mod=lm(y~x)
+sm.mod=summary(mod)
+
+sm.mod$coefficients
+sm.mod$coefficients[,4]
+cor(x,y)
+plot(mod,which=1)
+```
+
+
+```{r}
+df=readRDS("StatisticsForGenomics/HistoneModeVSgeneExp.rds")
+
+ cor(df$H3k4me3,df$measured_log2)
+ cor(df$H3k27me3,df$measured_log2)
+  
+ cor(df$H3k4me3,df$measured_log2)
+ cor(df$H3k27me3,df$measured_log2) 
+ 
+ mod.all=lm(df$measured_log2 ~ df$H3k27me3+ df$H3k4me3 )
+ mod.k4=lm(df$measured_log2 ~  df$H3k4me3 )
+ anova(mod.k4,mod.all,test="F")
+ summary(mod.all)
+ plot(mod.all,which=1) 
+```
