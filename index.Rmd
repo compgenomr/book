@@ -8,7 +8,7 @@ link-citations: yes
 description: "book files for computatiation genomcis with R"
 ---
   
-  # Prerequisites
+# Preface
   
   This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
 
@@ -20,9 +20,3 @@ devtools::install_github("rstudio/bookdown")
 
 Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading `#`.
 
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
-```
