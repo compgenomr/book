@@ -9,14 +9,91 @@ description: "book files for computatiation genomcis with R"
 ---
   
 # Preface
-  
-  This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
+The aim of computational genomics is to do biological interpretation of high dimensional 
+genomics data. Generally speaking, it is similar to any other kind of data analysis but often 
+times doing computational genomics will require domain specific knowledge and tools.
 
-For now, you have to install the development versions of **bookdown** from Github:
+As new high-throughout experimental techniques on the rise, data analysis capabilities are sought-after features for researchers. R, with its statistical heritage, plotting features and rich user-contributed packages is one of the best languages for the task of analyzing data. The book gives a brief introduction on basics of R and later divided to chapters that represent subsets of genomics data analysis.
 
-```{r eval=FALSE}
-devtools::install_github("rstudio/bookdown")
-```
+## Why R ?
+The most of the computational genomics tasks can be accomplished by R. 
+R is not only a powerful statistical programming language but also go-to data analysis tool for 
+many computational genomics experts. High-dimensional genomics datasets are usually suitable to 
+be analyzed with core R packages and functions. On top of that, Bioconductor and CRAN have an 
+array of specialized tools for doing genomics specific analysis. Here is a list of computational genomics tasks that can be completed using R.
 
-Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading `#`.
+### Data munging (pre-processing)
 
+Often times, the data will not come in ready to analyze format. You may need to convert it to other formats by transforming data points (such as log transforming, normalizing etc), or remove columns/rows that , or remove data points with empty values and, and subset the data set with some arbitrary condition. Most of these tasks can be achieved using R. In addition, with the help of packages R can con- nect to databases in various formats such as mySQL, mongoDB, etc., and query and get the data to R environment using database specific tools. Unfortunately, not all data muging and processing tasks can be accomplished only by R. At times, you may need to use domain specific software or software dealing better with specific type of data sets. For example, R is not great at dealing with character strings, if you are trying to filter a large dataset based on some regular expres- sion you may be better of with perl or awk.
+
+### General data anaylsis and exploration
+
+Most genomics data sets are suitable for application of general data analysis tools. In some cases, you may need to preprocess the data to get it to a state that is suitable for application such tools.
+
+ - unsupervised data analysis: clustering (k-means, hierarchical), matrix factorization 
+(PCA, ICA etc)
+ - supervised data analysis: generalized linear models, support vector machines, randomForests
+
+### Visualization
+
+Visualization is an important part of all data analysis techniques including computational genomics. Again, you can use core visu- alization technniques in R and also genomics specific ones with the help of specific packages.
+
+ - Basic plots: Histograms, scatter plots, bar plots, box plots
+ - ideograms and circus plots for genomics 
+ - heatmaps
+ - meta-profiles of genomic features, read enrichment over all pro- moters
+ - genomic track visualization for given locus
+
+
+### Dealing with genomic intervals
+
+Most of the genomics data come in a tabular format that contains the location in the genome and 
+some other relevant values, such as scores for those genomic features and/or names. 
+R/Bioconductor has dedicated methods to deal with such data. Here are a couple of example tasks 
+that you can achieve using R.
+
+ - Overlapping CpG islands with transcription start sites, and filter- ing based on overlaps
+ - Aligning reads and making read enrichment profiles
+ - Overlapping aligned reads with exons and counting aligned reads per gene
+ 
+### Application of other bioinformatics specific algorithms
+
+In addition to genomic interval centered methods, R/Bioconductor gives you access to multitude of other bioinformatics specific algo- rithms. Here are some of the things you can do.
+
+ - Sequence analysis: TF binding motifs, GC content and CpG counts of a given DNA sequence
+ - Differential expression (or arrays and sequencing based measure- ments)
+ - Gene set/Pathway analysis: What kind of genes are enriched in my gene set
+
+## Who is this book for? 
+The book contains practical and theoretical aspects for computational genomics. Biology and 
+medicine generate more data than ever before and we need to educate more people with data 
+analysis skills and understanding of computational genomics.
+Since computational genomics is interdisciplinary; this book aims to be accessible for both 
+biologists and computer scientists. We wrote this book for the following audiences:
+
+ - Biologists and medical scientists who generate the data and are keen on 
+   analyzing it themselves.
+ - Students and researchers who are formally starting to do research on or using
+   computational genomics but do not have extensive domain specific knowledge but
+   has at least a beginner level in a quantitative field: math, stats
+ - Experienced researchers looking for recipes or quick how-tos to get started 
+   in specific data analysis tasks relating to computational genomics. 
+
+
+### What will you get out of this?  
+This resource describes the skills and provides how-tos that will help readers 
+analyze their own genomics data.
+
+After reading:
+
+- If you are not familiar with R, you will get the basics of R and divide right in to specialized uses of R for computational genomics.
+- you will understand genomic intervals and operations on them, such as overlap
+- You will be able to use R and its vast package library to do sequence analysis: Such as calculating GC content for given segments of a genome or find transcription factor binding sites
+- You will be familiar with visualization techniques used in genomics, such as heatmaps,meta-gene plots and genomic track visualization
+- You will be familiar with supervised and unsupervised learning techniques which are important in data modelling and exploratory analysis of high-dimensional data
+- You will be familiar with analysis of different high-throughput sequencing data
+sets mostly using R based tools.
+
+
+## Acknowledgements
+Here goes the acknowledgements
