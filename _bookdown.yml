@@ -1,2 +1,3 @@
 book_filename: "compgenomr"
 chapter_name: "Chapter "
+output_dir: "book-output"

@@ -615,12 +615,12 @@ $$
 
 Luckily, R does all those calculations for us. Below we will show the use of `t.test()` function in R. We will use it on the samples we simulated 
 above.
-```{r}
+```{r,welchTtest}
 # Welch's t-test
-t.test(gene1,gene2)
+stats::t.test(gene1,gene2)
 
 # t-test with equal varience assumption
-t.test(gene1,gene2,var.equal=TRUE)
+stats::t.test(gene1,gene2,var.equal=TRUE)
 ```
 
 A final word on t-tests: they generally assume population where samples coming 
@@ -716,7 +716,7 @@ Bioconductor. Below we are demonstrating how to use them on a set of simulated
 p-values.The plot shows that Bonferroni correction does a terrible job. FDR(BH) and q-value
 approach are better but q-value approach is more permissive than FDR(BH).
 
-```{r}
+```{r,multtest}
 library(qvalue)
 data(hedenfalk)
 

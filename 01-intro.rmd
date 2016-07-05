@@ -1,6 +1,6 @@
 
 
-```{r,setupGenomicIntervals,echo=FALSE}
+```{r,introGenomics,echo=FALSE}
 library(knitr)
 opts_chunk$set(echo = TRUE, cache=TRUE,warning=FALSE,message=FALSE)
 
