@@ -1,6 +1,12 @@
 base
 knitr
 captioner
+BiocGenerics
+S4Vectors
+IRanges
+GenomeInfoDb
+GenomicRanges
+genomation
 dplyr
 lattice
 ggplot2
@@ -11,12 +17,6 @@ qvalue
 matrixStats
 plot3D
 scales
-BiocGenerics
-S4Vectors
-IRanges
-GenomeInfoDb
-GenomicRanges
-genomation
 XVector
 Biostrings
 Rsamtools
