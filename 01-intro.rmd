@@ -627,15 +627,23 @@ to genome, see where they are coming from and count them. This is a better
 technology where the quantification is based on the real identiy of fragments 
 rather than based on hybridization to designed probes.
 
-In summary HT techniques has the following steps:
+In summary HT techniques has the following steps, and this also summarized in
+Figure \@ref(fig:HTassays):
 
-- Enrichment: This is the step where you enrich for the event you are interested
-  in.
+- Extraction: This is the step where you extract the genetic
+  material of interest, RNA or DNA.
+  and nrichment
+- Enrichment: In this step, you enrich for the event you are interested
+  in. For example, protein binding sites. In some cases such as whole-genome DNA
+  sequencing there is no need for enrichment step. You just get fragments of
+  genomic DNA and sequence them.
 - Quantification: This is where you quantify your enriched material. Depending
   on the protocol you may need to quantify a control set as well, where you
   should see no enrichment or only background enrichment.
 
-
+```{r,HTassays,fig.cap="Common steps of High-throughput assays in genome biology",fig.align = 'center',out.width='100%',ref.label='HTassays',echo=FALSE}
+knitr::include_graphics("genomicsIntro_data/nonR_figures/HTassays.png" )
+```
 
 
 
