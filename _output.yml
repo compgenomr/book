@@ -1,5 +1,8 @@
 bookdown::gitbook:
+  css: css/style.css
   lib_dir: "book_assets"
+bookdown::html_chapters:
+  css: css/style.css
 bookdown::pdf_book:
   keep_tex: yes
 output_dir: "book-output"

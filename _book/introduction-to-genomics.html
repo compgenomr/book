@@ -7,31 +7,26 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Computational Genomics with R</title>
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <meta name="description" content="book files for computatiation genomcis with R">
+  <meta name="description" content="book files for Computational Genomics with R">
   <meta name="generator" content="bookdown 0.0.71 and GitBook 2.6.7">
 
   <meta property="og:title" content="Computational Genomics with R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="book files for computatiation genomcis with R" />
+  <meta property="og:description" content="book files for Computational Genomics with R" />
   
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Computational Genomics with R" />
   
-  <meta name="twitter:description" content="book files for computatiation genomcis with R" />
+  <meta name="twitter:description" content="book files for Computational Genomics with R" />
   
 
 <meta name="author" content="Altuna Akalin">
 
-<meta name="date" content="2016-05-10">
+<meta name="date" content="2016-07-05">
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-});
-</script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -56,44 +51,8 @@ MathJax.Hub.Config({
 
 
 
-<style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-</style>
 
+<link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
 <body>
@@ -105,126 +64,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#why-r"><i class="fa fa-check"></i><b>1.1</b> Why R ?</a><ul>
-<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#data-munging-pre-processing"><i class="fa fa-check"></i><b>1.1.1</b> Data munging (pre-processing)</a></li>
-<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#general-data-anaylsis-and-exploration"><i class="fa fa-check"></i><b>1.1.2</b> General data anaylsis and exploration</a></li>
-<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#visualization"><i class="fa fa-check"></i><b>1.1.3</b> Visualization</a></li>
-<li class="chapter" data-level="1.1.4" data-path="index.html"><a href="index.html#dealing-with-genomic-intervals"><i class="fa fa-check"></i><b>1.1.4</b> Dealing with genomic intervals</a></li>
-<li class="chapter" data-level="1.1.5" data-path="index.html"><a href="index.html#application-of-other-bioinformatics-specific-algorithms"><i class="fa fa-check"></i><b>1.1.5</b> Application of other bioinformatics specific algorithms</a></li>
-</ul></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#who-is-this-book-for"><i class="fa fa-check"></i><b>1.2</b> Who is this book for?</a><ul>
-<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#what-will-you-get-out-of-this"><i class="fa fa-check"></i><b>1.2.1</b> What will you get out of this?</a></li>
-</ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i><b>1.3</b> Acknowledgements</a></li>
-</ul></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
 <li class="chapter" data-level="2" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html"><i class="fa fa-check"></i><b>2</b> Introduction to Genomics</a><ul>
-<li class="chapter" data-level="2.1" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#dna-genes-and-central-dogma"><i class="fa fa-check"></i><b>2.1</b> DNA, genes and central dogma</a><ul>
-<li class="chapter" data-level="2.1.1" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#gene-transcription-and-its-implications"><i class="fa fa-check"></i><b>2.1.1</b> Gene transcription and its implications</a></li>
+<li class="chapter" data-level="2.1" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#genes-dna-and-central-dogma"><i class="fa fa-check"></i><b>2.1</b> Genes, DNA and central dogma</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#what-is-a-genome"><i class="fa fa-check"></i><b>2.1.1</b> What is a genome?</a></li>
+<li class="chapter" data-level="2.1.2" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#what-is-a-gene"><i class="fa fa-check"></i><b>2.1.2</b> What is a gene?</a></li>
+<li class="chapter" data-level="2.1.3" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#how-genes-are-controlled-the-transcriptional-and-the-post-transcriptional-regulation"><i class="fa fa-check"></i><b>2.1.3</b> How genes are controlled ? The transcriptional and the post-transcriptional regulation</a></li>
+<li class="chapter" data-level="2.1.4" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#what-does-a-gene-look-like"><i class="fa fa-check"></i><b>2.1.4</b> What does a gene look like?</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#gene-regulation"><i class="fa fa-check"></i><b>2.2</b> Gene regulation</a><ul>
-<li class="chapter" data-level="2.2.1" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#core-promoters"><i class="fa fa-check"></i><b>2.2.1</b> Core Promoters</a></li>
-<li class="chapter" data-level="2.2.2" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#proximal-and-long-range-distal-regulation"><i class="fa fa-check"></i><b>2.2.2</b> Proximal and long-range (distal) regulation</a></li>
-<li class="chapter" data-level="2.2.3" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#epigenetic-regulation"><i class="fa fa-check"></i><b>2.2.3</b> Epigenetic regulation</a></li>
-<li class="chapter" data-level="2.2.4" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#regulation-by-ncrnas"><i class="fa fa-check"></i><b>2.2.4</b> Regulation by ncRNAs</a></li>
+<li class="chapter" data-level="2.2" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#elements-of-gene-regulation"><i class="fa fa-check"></i><b>2.2</b> Elements of gene regulation</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#transcriptional-regulation"><i class="fa fa-check"></i><b>2.2.1</b> Transcriptional regulation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#post-transcriptional-regulation"><i class="fa fa-check"></i><b>2.2.2</b> Post-transcriptional regulation</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#high-throughput-experimental-methods-in-genomics"><i class="fa fa-check"></i><b>2.3</b> High-throughput experimental methods in genomics</a><ul>
-<li class="chapter" data-level="2.3.1" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#end-sequencing"><i class="fa fa-check"></i><b>2.3.1</b> 5’ end sequencing:</a></li>
-<li class="chapter" data-level="2.3.2" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#chromatin-immunoprecipitation-chip-followed-by-microarray-hybridization-or-sequencing"><i class="fa fa-check"></i><b>2.3.2</b> Chromatin immunoprecipitation (ChIP) followed by microarray hybridization or sequencing:</a></li>
-<li class="chapter" data-level="2.3.3" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#dnase-hypersensitive-sites"><i class="fa fa-check"></i><b>2.3.3</b> DNAse hypersensitive sites:</a></li>
-<li class="chapter" data-level="2.3.4" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#bisulfite-sequencing"><i class="fa fa-check"></i><b>2.3.4</b> Bisulfite sequencing:</a></li>
-<li class="chapter" data-level="2.3.5" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#chromosome-conformation-capture-based-technologies"><i class="fa fa-check"></i><b>2.3.5</b> Chromosome-conformation capture based technologies:</a></li>
+<li class="chapter" data-level="2.3" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#shaping-the-genome-dna-mutation"><i class="fa fa-check"></i><b>2.3</b> Shaping the genome: DNA mutation</a></li>
+<li class="chapter" data-level="2.4" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#high-throughput-experimental-methods-in-genomics"><i class="fa fa-check"></i><b>2.4</b> High-throughput experimental methods in genomics</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#the-general-idea-behind-high-throughput-techniques"><i class="fa fa-check"></i><b>2.4.1</b> The general idea behind high-throughput techniques</a></li>
+<li class="chapter" data-level="2.4.2" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#high-throughput-sequencing"><i class="fa fa-check"></i><b>2.4.2</b> High-throughput sequencing</a></li>
 </ul></li>
+<li class="chapter" data-level="2.5" data-path="introduction-to-genomics.html"><a href="introduction-to-genomics.html#visualization-and-data-repositories-for-genomics"><i class="fa fa-check"></i><b>2.5</b> Visualization and data repositories for genomics</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>3</b> Introduction to R</a><ul>
-<li class="chapter" data-level="3.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#the-setup"><i class="fa fa-check"></i><b>3.1</b> The Setup</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#installing-packages"><i class="fa fa-check"></i><b>3.1.1</b> Installing packages</a></li>
-<li class="chapter" data-level="3.1.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#installing-packages-in-custom-locations"><i class="fa fa-check"></i><b>3.1.2</b> Installing packages in custom locations</a></li>
-<li class="chapter" data-level="3.1.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#getting-help-on-functions-and-packages"><i class="fa fa-check"></i><b>3.1.3</b> Getting help on functions and packages</a></li>
-</ul></li>
-<li class="chapter" data-level="3.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#computations-in-r"><i class="fa fa-check"></i><b>3.2</b> Computations in R</a></li>
-<li class="chapter" data-level="3.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-structures"><i class="fa fa-check"></i><b>3.3</b> Data structures</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#vectors"><i class="fa fa-check"></i><b>3.3.1</b> Vectors</a></li>
-<li class="chapter" data-level="3.3.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#matrices"><i class="fa fa-check"></i><b>3.3.2</b> Matrices</a></li>
-<li class="chapter" data-level="3.3.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-frames"><i class="fa fa-check"></i><b>3.3.3</b> Data Frames</a></li>
-<li class="chapter" data-level="3.3.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#lists"><i class="fa fa-check"></i><b>3.3.4</b> Lists</a></li>
-<li class="chapter" data-level="3.3.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#factors"><i class="fa fa-check"></i><b>3.3.5</b> Factors</a></li>
-</ul></li>
-<li class="chapter" data-level="3.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-types"><i class="fa fa-check"></i><b>3.4</b> Data types</a></li>
-<li class="chapter" data-level="3.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#reading-and-writing-data"><i class="fa fa-check"></i><b>3.5</b> Reading and writing data</a></li>
-<li class="chapter" data-level="3.6" data-path="introduction-to-r.html"><a href="introduction-to-r.html#plotting-in-r"><i class="fa fa-check"></i><b>3.6</b> Plotting in R</a></li>
-<li class="chapter" data-level="3.7" data-path="introduction-to-r.html"><a href="introduction-to-r.html#functions-and-control-structures-for-ifelse-etc."><i class="fa fa-check"></i><b>3.7</b> Functions and control structures (for, if/else etc.)</a><ul>
-<li class="chapter" data-level="3.7.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#user-defined-functions"><i class="fa fa-check"></i><b>3.7.1</b> User defined functions</a></li>
-<li class="chapter" data-level="3.7.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#loops-and-looping-structures-in-r"><i class="fa fa-check"></i><b>3.7.2</b> Loops and looping structures in R</a></li>
-</ul></li>
-<li class="chapter" data-level="3.8" data-path="introduction-to-r.html"><a href="introduction-to-r.html#session-info"><i class="fa fa-check"></i><b>3.8</b> Session info</a></li>
-<li class="chapter" data-level="3.9" data-path="introduction-to-r.html"><a href="introduction-to-r.html#exercises"><i class="fa fa-check"></i><b>3.9</b> Exercises</a><ul>
-<li class="chapter" data-level="3.9.1" data-path="introduction-to-r.html"><a href="introduction-to-r.html#computations-in-r-1"><i class="fa fa-check"></i><b>3.9.1</b> Computations in R</a></li>
-<li class="chapter" data-level="3.9.2" data-path="introduction-to-r.html"><a href="introduction-to-r.html#data-structures-in-r"><i class="fa fa-check"></i><b>3.9.2</b> Data structures in R</a></li>
-<li class="chapter" data-level="3.9.3" data-path="introduction-to-r.html"><a href="introduction-to-r.html#reading-in-and-writing-data-out-in-r"><i class="fa fa-check"></i><b>3.9.3</b> Reading in and writing data out in R</a></li>
-<li class="chapter" data-level="3.9.4" data-path="introduction-to-r.html"><a href="introduction-to-r.html#plotting-in-r-1"><i class="fa fa-check"></i><b>3.9.4</b> Plotting in R</a></li>
-<li class="chapter" data-level="3.9.5" data-path="introduction-to-r.html"><a href="introduction-to-r.html#functions-and-control-structures-for-ifelse-etc.-1"><i class="fa fa-check"></i><b>3.9.5</b> Functions and control structures (for, if/else etc.)</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html"><i class="fa fa-check"></i><b>4</b> Statistics for Genomics</a><ul>
-<li class="chapter" data-level="4.1" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions"><i class="fa fa-check"></i><b>4.1</b> How to summarize collection of data points: The idea behind statistical distributions</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#describing-the-central-tendency-mean-and-median"><i class="fa fa-check"></i><b>4.1.1</b> Describing the central tendency: mean and median</a></li>
-<li class="chapter" data-level="4.1.2" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#describing-the-spread-measurements-of-variation"><i class="fa fa-check"></i><b>4.1.2</b> Describing the spread: measurements of variation</a></li>
-<li class="chapter" data-level="4.1.3" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#precision-of-estimates-confidence-intervals"><i class="fa fa-check"></i><b>4.1.3</b> Precision of estimates: Confidence intervals</a></li>
-</ul></li>
-<li class="chapter" data-level="4.2" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#how-to-test-for-differences-in-samples"><i class="fa fa-check"></i><b>4.2</b> How to test for differences in samples</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#randomization-based-testing-for-difference-of-the-means"><i class="fa fa-check"></i><b>4.2.1</b> randomization based testing for difference of the means</a></li>
-<li class="chapter" data-level="4.2.2" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#using-t-test-for-difference-of-the-means-between-two-samples"><i class="fa fa-check"></i><b>4.2.2</b> Using t-test for difference of the means between two samples</a></li>
-<li class="chapter" data-level="4.2.3" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#multiple-testing-correction"><i class="fa fa-check"></i><b>4.2.3</b> multiple testing correction</a></li>
-<li class="chapter" data-level="4.2.4" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#moderated-t-tests-using-information-from-multiple-comparisons"><i class="fa fa-check"></i><b>4.2.4</b> moderated t-tests: using information from multiple comparisons</a></li>
-<li class="chapter" data-level="4.2.5" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#want-to-know-more"><i class="fa fa-check"></i><b>4.2.5</b> Want to know more…</a></li>
-</ul></li>
-<li class="chapter" data-level="4.3" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#relationship-between-variables-linear-models-and-correlation"><i class="fa fa-check"></i><b>4.3</b> Relationship between variables: linear models and correlation</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#how-to-fit-a-line"><i class="fa fa-check"></i><b>4.3.1</b> How to fit a line</a></li>
-<li class="chapter" data-level="4.3.2" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#how-to-estimate-the-error-of-the-coefficients"><i class="fa fa-check"></i><b>4.3.2</b> How to estimate the error of the coefficients</a></li>
-<li class="chapter" data-level="4.3.3" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#accuracy-of-the-model"><i class="fa fa-check"></i><b>4.3.3</b> Accuracy of the model</a></li>
-<li class="chapter" data-level="4.3.4" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#regression-with-categorical-variables"><i class="fa fa-check"></i><b>4.3.4</b> Regression with categorical variables</a></li>
-<li class="chapter" data-level="4.3.5" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#regression-pitfalls"><i class="fa fa-check"></i><b>4.3.5</b> Regression pitfalls</a></li>
-<li class="chapter" data-level="4.3.6" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#want-to-know-more-1"><i class="fa fa-check"></i><b>4.3.6</b> Want to know more…</a></li>
-</ul></li>
-<li class="chapter" data-level="4.4" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#roadmap-for-future"><i class="fa fa-check"></i><b>4.4</b> Roadmap for future</a><ul>
-<li class="chapter" data-level="4.4.1" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#clustering"><i class="fa fa-check"></i><b>4.4.1</b> Clustering</a></li>
-<li class="chapter" data-level="4.4.2" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#dimension-reduction-with-pca"><i class="fa fa-check"></i><b>4.4.2</b> Dimension reduction with PCA</a></li>
-<li class="chapter" data-level="4.4.3" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#classification"><i class="fa fa-check"></i><b>4.4.3</b> Classification</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#exercises-1"><i class="fa fa-check"></i><b>4.5</b> Exercises</a><ul>
-<li class="chapter" data-level="4.5.1" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><i class="fa fa-check"></i><b>4.5.1</b> How to summarize collection of data points: The idea behind statistical distributions</a></li>
-<li class="chapter" data-level="4.5.2" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#how-to-test-for-differences-in-samples-1"><i class="fa fa-check"></i><b>4.5.2</b> How to test for differences in samples</a></li>
-<li class="chapter" data-level="4.5.3" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html#relationship-between-variables-linear-models-and-correlation-1"><i class="fa fa-check"></i><b>4.5.3</b> Relationship between variables: linear models and correlation</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html"><i class="fa fa-check"></i><b>5</b> Genomic Intervals and R</a><ul>
-<li class="chapter" data-level="5.1" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#operations-on-genomic-intervals-with-genomicranges-package"><i class="fa fa-check"></i><b>5.1</b> Operations on Genomic Intervals with GenomicRanges package</a><ul>
-<li class="chapter" data-level="5.1.1" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#how-to-create-and-manipulate-a-granges-object"><i class="fa fa-check"></i><b>5.1.1</b> How to create and manipulate a GRanges object</a></li>
-<li class="chapter" data-level="5.1.2" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#getting-genomic-regions-into-r-as-granges-objects"><i class="fa fa-check"></i><b>5.1.2</b> Getting genomic regions into R as GRanges objects</a></li>
-<li class="chapter" data-level="5.1.3" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><i class="fa fa-check"></i><b>5.1.3</b> Finding regions that do/do not overlap with another set of regions</a></li>
-</ul></li>
-<li class="chapter" data-level="5.2" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#dealing-with-high-throughput-sequencing-reads"><i class="fa fa-check"></i><b>5.2</b> Dealing with high-throughput sequencing reads</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#quality-check-on-sequencing-reads-and-mapping-reads-to-the-genome"><i class="fa fa-check"></i><b>5.2.1</b> Quality check on sequencing reads and mapping reads to the genome</a></li>
-<li class="chapter" data-level="5.2.2" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#counting-mapped-reads-for-a-set-of-regions"><i class="fa fa-check"></i><b>5.2.2</b> Counting mapped reads for a set of regions</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#dealing-with-continuous-scores-over-the-genome"><i class="fa fa-check"></i><b>5.3</b> Dealing with continuous scores over the genome</a><ul>
-<li class="chapter" data-level="5.3.1" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#extracting-subsections-of-rle-and-rlelist-objects"><i class="fa fa-check"></i><b>5.3.1</b> Extracting subsections of Rle and RleList objects</a></li>
-</ul></li>
-<li class="chapter" data-level="5.4" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#visualizing-and-summarizing-genomic-intervals"><i class="fa fa-check"></i><b>5.4</b> Visualizing and summarizing genomic intervals</a><ul>
-<li class="chapter" data-level="5.4.1" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#visualizing-intervals-in-locus-of-interest"><i class="fa fa-check"></i><b>5.4.1</b> Visualizing intervals in locus of interest</a></li>
-<li class="chapter" data-level="5.4.2" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#summaries-of-genomic-intervals"><i class="fa fa-check"></i><b>5.4.2</b> Summaries of genomic intervals</a></li>
-<li class="chapter" data-level="5.4.3" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#making-karyograms-and-circos-plots"><i class="fa fa-check"></i><b>5.4.3</b> Making karyograms and circos plots</a></li>
-</ul></li>
-<li class="chapter" data-level="5.5" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#session-info-1"><i class="fa fa-check"></i><b>5.5</b> Session info</a></li>
-<li class="chapter" data-level="5.6" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#exercises-2"><i class="fa fa-check"></i><b>5.6</b> Exercises</a><ul>
-<li class="chapter" data-level="5.6.1" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#the-setup-1"><i class="fa fa-check"></i><b>5.6.1</b> The setup</a></li>
-<li class="chapter" data-level="5.6.2" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#operations-on-genomic-intervals-with-genomicranges-package-1"><i class="fa fa-check"></i><b>5.6.2</b> Operations on Genomic Intervals with GenomicRanges package</a></li>
-<li class="chapter" data-level="5.6.3" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#dealing-with-mapped-high-throughput-sequencing-reads"><i class="fa fa-check"></i><b>5.6.3</b> Dealing with mapped high-throughput sequencing reads</a></li>
-<li class="chapter" data-level="5.6.4" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#dealing-with-contiguous-scores-over-the-genome"><i class="fa fa-check"></i><b>5.6.4</b> Dealing with contiguous scores over the genome</a></li>
-<li class="chapter" data-level="5.6.5" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>5.6.5</b> Visualizing and summarizing genomic intervals</a></li>
-</ul></li>
-</ul></li>
+<li class="chapter" data-level="3" data-path="introduction-to-r.html"><a href="introduction-to-r.html"><i class="fa fa-check"></i><b>3</b> Introduction to R</a></li>
+<li class="chapter" data-level="4" data-path="statistics-for-genomics.html"><a href="statistics-for-genomics.html"><i class="fa fa-check"></i><b>4</b> Statistics for Genomics</a></li>
+<li class="chapter" data-level="5" data-path="genomic-intervals-and-r.html"><a href="genomic-intervals-and-r.html"><i class="fa fa-check"></i><b>5</b> Genomic Intervals and R</a></li>
 </ul>
 
       </nav>
@@ -244,59 +105,106 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="introduction-to-genomics" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Introduction to Genomics</h1>
-<div id="dna-genes-and-central-dogma" class="section level2">
-<h2><span class="header-section-number">2.1</span> DNA, genes and central dogma</h2>
-<p>All living organisms store and transmit information necessary for their development and functioning. This information can be coded into a string - a molecule of DNA, a polymer made of recurring units called nucleotides. The four nucleotides in DNA molecules, Adenine, Guanine, Cytosine and Thymine (coded as four letters: A, C, G, and T) in a specific sequence, store the information for life. DNA is organized in a double-helix form where two complementary polymers interlace with each other and twist into the familiar shape. In eukaryotic cells DNA is wrapped around proteins (histones) forming higher-order structures like nucleosomes, chromatins and chromosomes. There might be several chromosomes depending on the organisms. In most prokaryotes DNA is stored in a circular form. The full DNA sequence of an organism is called a genome.</p>
-<p>In the genome, there are specific regions containing precise information that encodes for a physical products of genetic information. A region in the genome with this kind of information is traditionally called a “gene”. However, the precise definition of the gene is still developing. According to the classical textbooks in molecular biology, a gene is a segment of a DNA sequence corresponding to a single protein or to a single catalytic and structural RNA molecule [1]. A modern definition is: “A region (or regions) that includes all of the sequence elements necessary to encode a functional transcript” [2]. No matter how variable the definitions are, all agree on the fact that genes are basic units of heredity in all living organisms. All cells use their hereditary information in the same way most of the time; the DNA is replicated in order to transfer the information to new cells. First, genes are transcribed into messenger RNAs (mRNAs) in nucleus (in eukaryotes), followed by mRNAs (if the gene is protein coding) translation into proteins in the cytoplasm. This is essentially a process of information transfer between information carrying polymers; DNA, RNA and proteins, known as the “central dogma” of molecular biology.</p>
-<div id="gene-transcription-and-its-implications" class="section level3">
-<h3><span class="header-section-number">2.1.1</span> Gene transcription and its implications</h3>
-<p>The first step in a process of information transfer - a production of an RNA copy (of a part of the DNA sequence) - is called transcription. This task is carried out by the RNA polymerase enzyme. RNA polymerase-dependent initiation of transcription is enabled by the existence of a specific region in the sequence of DNA - a core promoter. Core promoters are regions of DNA that promote transcription and are found upstream from the start site of transcription. In eukaryotes, several proteins, called general transcription factors recognize and bind to core promoters and form a pre-initiation complex. RNA polymerases recognize these complexes and initiate synthesis of all RNAs [3]. After mRNA is produced it is often translated into proteins. However, non-coding RNA (ncRNAs) genes are processed and assume their functional structures after that. This set of processes is usually referred as gene expression.</p>
+<p>The aim of this chapter is to provide the reader with some of the fundamentals required for understanding genome biology. By no means, this is a complete overview of the subject but just a summary that will help the non-biologist reader understand the recurring biological concepts in computational genomics. Readers that are well-versed in genome biology and modern genome-wide quantitative assays should feel free to skip this chapter or skim it through.</p>
+<div id="genes-dna-and-central-dogma" class="section level2">
+<h2><span class="header-section-number">2.1</span> Genes, DNA and central dogma</h2>
+<p>A central concept that will come up again and again is “the gene”. Before we can explain that we need to introduce a few other concepts that are important to understand the gene concept. Human body is made up of billions of cells. These cells specialize in different tasks. For example, in the liver there are cells that help produce enzymes to break toxins. In the heart, there are specialized muscle cells that make the heart beat. Yet, all these different kinds of cells come from a single celled embryo. All the instructions to make different kinds of cells are contained within that single cell and with every division of that cell, those instructions are transmitted to new cells. These instructions can be coded into a string - a molecule of DNA, a polymer made of recurring units called nucleotides. The four nucleotides in DNA molecules, Adenine, Guanine, Cytosine and Thymine (coded as four letters: A, C, G, and T) in a specific sequence, store the information for life. DNA is organized in a double-helix form where two complementary polymers interlace with each other and twist into the familiar helical shape.</p>
+<div id="what-is-a-genome" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> What is a genome?</h3>
+<p>The full DNA sequence of an organism, which contains all the hereditary information, is called a genome. The genome contains all the information to build and maintain an organism. Genomes come in different sizes and structures. Our genome is not only a naked strech of DNA. In eukaryotic cells, DNA is wrapped around proteins (histones) forming higher-order structures like nucleosomes which make up chromatins and chromosomes (see Figure <a href="introduction-to-genomics.html#fig:chromatinChr">2.1</a>).</p>
+<div class="figure" style="text-align: center"><span id="fig:chromatinChr"></span>
+<img src="genomicsIntro_data/nonR_Figures/chromatinChr.png" alt="Chromosome structure in animals" width="100%" />
+<p class="caption">
+Figure 2.1: Chromosome structure in animals
+</p>
+</div>
+<p>There might be several chromosomes depending on the organism. However, in some species (such as most prokaryotes) DNA is stored in a circular form. The size of genome between species differs too. Human genome has 46 chromosomes and over 3 billion base-pairs, whereas wheat genome has 42 chromosomes and 17 billion base-pairs, both genome size and chromosome numbers are variable between different organisms. Genome sequences of organisms are obtained using sequencing technology. With this technology, fragments of the DNA sequence from the genome, called reads, are obtained. Larger chunks of the genome sequence is later obtained by stitching the initial fragments to larger ones by using the overlapping reads. Latest, sequencing technologies made genome sequencing cheaper and faster. These technologies output more reads, longer reads and more accurate reads.</p>
+<p>Estimated cost of the first human genome is $300 million in 1999-2000, today a high-quality human genome can be obtained for $1500. Since the costs are going down, researchers and clinicians can generate more data. This drives up to costs for data storage and also drives up the demand for qualified people to analyze genomic data. This was one of the motivations behind writing this book.</p>
+</div>
+<div id="what-is-a-gene" class="section level3">
+<h3><span class="header-section-number">2.1.2</span> What is a gene?</h3>
+<p>In the genome, there are specific regions containing the precise information that encodes for physical products of genetic information. A region in the genome with this information is traditionally called a “gene”. However, the precise definition of the gene is still developing. According to the classical textbooks in molecular biology, a gene is a segment of a DNA sequence corresponding to a single protein or to a single catalytic and structural RNA molecule [1]. A modern definition is: “A region (or regions) that includes all of the sequence elements necessary to encode a functional transcript” [2]. No matter how variable the definitions are, all agree on the fact that genes are basic units of heredity in all living organisms.</p>
+<p>All cells use their hereditary information in the same way most of the time; the DNA is replicated to transfer the information to new cells. If activated, the genes are transcribed into messenger RNAs (mRNAs) in nucleus (in eukaryotes), followed by mRNAs (if the gene is protein coding) getting translated into proteins in the cytoplasm. This is essentially a process of information transfer between information carrying polymers; DNA, RNA and proteins, known as the “central dogma” of molecular biology (see Figure <a href="introduction-to-genomics.html#fig:CentDog">2.2</a> for a summary). Proteins are essential elements for life. The growth and repair, functioning and structure of all living cells depends on them. This is why the gene is a central concept in genome biology, because a gene can encode information for proteins and other functional molecules. How genes are controled and activated dictates everything about an organism. From the identity of a cell to response to an infection, how cells develop and behave against certain stimuli is governed by activity of the genes and functional molecules they encode. The liver cell becomes a liver cell because certain genes are activated and their functional products are produced to help liver cell achieve its tasks.</p>
+<div class="figure" style="text-align: center"><span id="fig:CentDog"></span>
+<img src="genomicsIntro_data/nonR_Figures/centDogma.png" alt="Central Dogma: replication, transcription, translation" width="100%" />
+<p class="caption">
+Figure 2.2: Central Dogma: replication, transcription, translation
+</p>
 </div>
 </div>
-<div id="gene-regulation" class="section level2">
-<h2><span class="header-section-number">2.2</span> Gene regulation</h2>
-<p>The mechanisms regulating gene expression are essential for all living organisms as they dictate where and how much of a gene product (may it be protein or ncRNA) should be manufactured. Gene expression regulation, commonly referred to as gene regulation, drives cellular differentiation; a process during which different tissues and cell types are produced. It also helps cells maintain differentiated states of cells/tissues. As a product of this process, at the final stage of differentiation, different kinds of cells maintain different expression profiles although they contain the same genetic material.</p>
-<p>The rate of transcription initiation is the primary regulatory element in gene regulation. The rate is controlled by core promoter elements as well as distant-acting regulatory elements such as enhancers. On top of that, processes like histone modifications and/or DNA methylation have a crucial regulatory impact on transcription. If a region is not accessible for the transcriptional machinery, e.g. in the case when chromatin structure is compacted due to the presence of specific histone modifications, or if the promoter DNA is methylated, transcription may not start at all. Last but the not least, gene activity is also controlled post-transcriptionally by ncRNAs such as microRNAs (miRNAs), as well as by cell signaling resulting in protein modification or altered protein-protein interactions.</p>
-<div id="core-promoters" class="section level3">
-<h3><span class="header-section-number">2.2.1</span> Core Promoters</h3>
-<p>Core promoters are the immediate neighboring regions around the transcription start site (TSS) that serves as a docking site for the transcriptional machinery and pre-initiation complex (PIC) assembly [4]. The textbook model for transcription initiation is as follows: The core promoter has a TATA motif (referred as TATA-box) 30 bp upstream of an initiator sequence (Inr), which also containsTSS. Firstly, transcription factor TFIID binds to the TATA-box. Next, general transcription factors are recruited and transcription is initiated on the initiator sequence (see [4-6] for reviews). Apart from the TATA-box and Inr, there are a number of sequence elements on the metazoan core promoters that are associated with transcription initiation and PIC assembly, such as downstream promoter elements (DPEs), the BRE elements and CpG islands. DPEs are found 28-32 bp downstream of the TSS in TATA-less promoters of Drosophila melanogaster, it generally co-occurs with the Inr element, and is thought to have a similar function to the TATA-box [7, 8]. The BRE element is recognized by TFIIB protein and lies upstream of the TATA-box [9]. CpG islands are CG dinucleotide-enriched segments of vertebrate genomes, despite the general depletion of CG dinucleotides in those genomes [10]. 50-70% of promoters in human genome are associated with CpG islands [11, 12].</p>
-<p>Core promoter elements are not as universal as was previously thought. Gershenzon et al. [13] found Inr to be the most common element and TATA-boxes were present only in one eighth of analyzed promoters. Similarly, Cooper et al. [14] estimate a low occurrence of TATA-box in core promoters. In addition, as noted above, not every promoter is associated with a CpG island. All these indicate that the presence of a TATA-box is an exception associated with a particular subset of genes rather than the rule, and this conclusion directly contradicts the long-held textbook transcription initiation model. In addition to that contradiction, recent advances have shown that core promoter elements and PIC assembly may not be sufficient for transcription initiation and elongation. RNA polymerase can be paused on the initiation site and can be reactivated in a later stage, especially in development (reviewed in [15]).</p>
-<p>Recent improvements in high-throughput sequencing techniques have enabled scientists to perform genome-wide analysis of TSSs, and thus helped them to further understand core promoter features in mammalian genomes. Carninci et al. [16] sequenced 5’ends of mRNAs from various tissues in mouse and human using a technology called CAGE (Cap analysis of gene expression). 5’-end mRNA sequencing of sufficient depth essentially shows all the 5’ capped transcription initiation events on the genome for the cells or tissues in the experiment. Authors concluded that the distribution of TSS sites on the promoters indicates the existence of two major classes of promoters. “Broad promoters” had multiple TSSs spanning around 50-100 bp, and usually none of those were dominant over the other ones. On the other hand, “sharp promoters” had a dominant TSS and most of the transcription initiation events originated from a very short region[17]. Sharp promoters were associated with TATA-boxes and tissue specific expression on the other hand majority of broad promoters were associated with CpG islands and expressed ubiquitously [17].</p>
+<div id="how-genes-are-controlled-the-transcriptional-and-the-post-transcriptional-regulation" class="section level3">
+<h3><span class="header-section-number">2.1.3</span> How genes are controlled ? The transcriptional and the post-transcriptional regulation</h3>
+<p>In order to answer this question, we have to dig a little deeper on the transcription concept we introduced via the central dogma. The first step in a process of information transfer - a production of an RNA copy of a part of the DNA sequence - is called transcription. This task is carried out by the RNA polymerase enzyme. RNA polymerase-dependent initiation of transcription is enabled by the existence of a specific region in the sequence of DNA - a core promoter. Core promoters are regions of DNA that promote transcription and are found upstream from the start site of transcription. In eukaryotes, several proteins, called general transcription factors recognize and bind to core promoters and form a pre-initiation complex. RNA polymerases recognize these complexes and initiate synthesis of RNAs, the polymerase travels along the template DNA and making an RNA copy[3]. After mRNA is produced it is often spliced by splicesosome. The sections called ‘introns’ are removed and sections called ‘exons’ left in. Then, the remaining mRNA translated into proteins. Which exons will be part of the final mature transcript can also be regulated and creates diversity in protein structure and function (See Figure <a href="introduction-to-genomics.html#fig:TransSplice">2.3</a>`).</p>
+<div class="figure" style="text-align: center"><span id="fig:TransSplice"></span>
+<img src="genomicsIntro_data/nonR_Figures/TransSplice.png" alt="Transcription could be followed by splicing, which creates different transcript isoforms. This will in return create different protein isoforms since the information required to produce the protein is encoded in the transcripts. Differences in transcript of the same gene can give rise to different protein isoforms" width="100%" />
+<p class="caption">
+Figure 2.3: Transcription could be followed by splicing, which creates different transcript isoforms. This will in return create different protein isoforms since the information required to produce the protein is encoded in the transcripts. Differences in transcript of the same gene can give rise to different protein isoforms
+</p>
 </div>
-<div id="proximal-and-long-range-distal-regulation" class="section level3">
-<h3><span class="header-section-number">2.2.2</span> Proximal and long-range (distal) regulation</h3>
-<p>Context-specific control over transcription is provided by cis-regulatory elements outside the core promoters. Such elements include enhancers, silencers, insulators and locus control regions [4] (See Figure 1 for their hypothesized organization around a gene).</p>
-<div id="proximal-promoters" class="section level4">
-<h4><span class="header-section-number">2.2.2.1</span> Proximal promoters:</h4>
-<p>Proximal promoter elements are typically right upstream of the core promoters and usually contain binding sites for activator transcription factors. Early studies on regulation showed that there are multiple functional elements near the TSSs [18]; this observation is also confirmed by the latest high-throughput genome wide experiments [19, 20]. In summary proximal promoter elements contain binding sites for transcription factors, they are located right upstream of core-promoter elements, and they provide additional control over gene expression.</p>
+<p>On the contrary to protein coding genes, non-coding RNA (ncRNAs) genes are processed and assume their functional structures after transcription and without going into translation, hence the name: non-coding RNAs. certain ncRNAs can also be spliced but still not translated. ncRNAs and other RNAs in general can form complementary base-pairs within the RNA molecule which gives them additional complexity. This self-complementarity based structure, termed RNA secondary structure, is often necessary for functions of many ncRNA species.</p>
+<p>In summary, the set of processes, from transcription initiation to production of the functional product, is referred to as gene expression. Gene expression quantification and regulation is a fundamental topic in genome biology.</p>
 </div>
-<div id="enhancers" class="section level4">
-<h4><span class="header-section-number">2.2.2.2</span> Enhancers:</h4>
-<p>Proximal regulation is not the only, nor the most important mode of gene regulation. In fact, the same recent high-throughput experiments cited above [19, 20] suggest that most of the transcription factor binding sites in the human or Drosophila genome are found in intergenic regions or in introns . This indicates the widespread usage of distant regulatory elements of metazoan genomes. A number of enhancers have been studied in depth. On a molecular function level, they are similar to proximal promoters; they contain binding sites for the same transcriptional activators and they basically enhance the gene expression [4]. However, they are often highly modular and several of them can affect the same promoter at the same time or in different time-points or tissues [21, 22]. In addition, their activity is independent of their orientation and their distance to the promoter they interact with [21, 23]. A number of studies showed that enhancers can act upon their target genes over several kilobases away [24, 25] (also reviewed in [26]). According to a popular model, enhancers achieve this by looping the DNA and coming to contact with their target genes [27].</p>
-</div>
-<div id="silencers" class="section level4">
-<h4><span class="header-section-number">2.2.2.3</span> Silencers:</h4>
-<p>Silencers are similar to enhancers; however their effect is opposite of enhancers on the transcription of the target gene, and results in decreasing their level of transcription. They contain binding sites for repressive transcription factors. Repressor transcription factors can either block the binding of an activator , directly compete for the same binding site, or induce a repressive chromatin state in which no activator binding is possible. Silencer effects, similar to those of enhancers, are independent of orientation and distance to target genes. In contradiction to this general view, in Drosophila there are two types of silencers, long-range and short-range. Short-range silencers are close to promoters and long-range silencers can silence multiple promoters or enhancers over kilobases away [28]. Like enhancers, silencers bound by repressors may also induce changes in DNA structure by looping and creating higher order structures [29]. One class of such repressor proteins, which is thought to initiate higher-order structures by looping, is Polycomb group proteins (PcGs). These proteins are thought to maintain a silenced state of the genes by interacting with Polycomb response elements (PREs) and promoters. Recently it has been shown that PcGs, PREs and promoters interact with each other even at a distance,and by these interactions they maintain a compacted chromosome structure for repressed genes [30, 31].</p>
-</div>
-<div id="insulators" class="section level4">
-<h4><span class="header-section-number">2.2.2.4</span> Insulators:</h4>
-<p>Insulator regions limit the effect of other regulatory elements to certain chromosomal boundaries; in other words, they create regulatory domains untainted by the regulatory elements in regions outside that domain. Insulators can block enhancer-promoter communication and/or prevent spreading of repressive chromatin domains. In vertebrates and insects, some of the well-studied insulators are bound by CTCF (CCCTC-binding factor) [32-34]. Genome-wide studies from different mammalian tissues confirm that CTCF binding is largely invariant of cell type, and CTCF motif locations are conserved in vertebrates [35]. At present, there are two models of explaining the insulator function; the most prevalent model claims insulators create physically separate domains by modifying chromosome structure. This is thought to be achieved by CTCF-driven chromatin looping andrecent evidence shows that CTCF can induce a higher-order chromosome structure through creating loops of chromatins [29, 36]. According to the second model, an insulator-bound activator cannot bind an enhancer; thus enhancer-blocking activity is achieved and insulators can also recruit active histone domain, creating an active domain for enhancers to function [37, 38].</p>
-</div>
-<div id="locus-control-regions" class="section level4">
-<h4><span class="header-section-number">2.2.2.5</span> Locus control regions:</h4>
-<p>Locus control regions (LCRs) are clusters of different regulatory elements that control entire set of genes on a locus. LCRs help genes achieve their temporal and/or tissue-specific expression programs. LCRs may be composed of multiple cis-regulatory elements, such as insulators, enhancers and they act upon their targets even from long distances [39]. However LCRs function with an orientation dependent manner, for example the activity of b-globin LCR is lost if inverted [40]. The mechanism of LCR function otherwise seems similar to other long-range regulators described above. The evidence is mounting in the direction of a model where DNA-looping creates a chromosomal structure in which target genes are clustered together, which seems to be essential for maintaining open chromatin domain [41, 42].</p>
+<div id="what-does-a-gene-look-like" class="section level3">
+<h3><span class="header-section-number">2.1.4</span> What does a gene look like?</h3>
+<p>Before we move forward, it will be good to discuss how we can visualize genes. As someone interested in computational genomics, you will frequently encounter a gene on a computer screen, and how it is represented on the computer will be equivalent to what you imagine when you hear the word “gene”. In the online databases, the genes will appear as a sequence of letters or as a series of connected boxes showing exon-intron structure which may include the direction of transcription as well (see Figure <a href="introduction-to-genomics.html#fig:RealGene">2.4</a>). direction. You will encounter more with the latter so this is likely what will pop into your mind when you think of genes.</p>
+<p>As we have mentioned DNA has two strands, and a gene can be located on either of them, and direction of transcription will depend on that. In the Figure you can see arrows on introns (lines connecting boxes) indicating the direction of the gene.</p>
+<div class="figure" style="text-align: center"><span id="fig:RealGene"></span>
+<img src="genomicsIntro_data/nonR_Figures/RealGene.png" alt="A) Representation of a gene at UCSC browser. Boxes indicate exons, and lines indicate introns. B) Partial sequence of FATE1 gene as shown in NCBI GenBank database." width="100%" />
+<p class="caption">
+Figure 2.4: A) Representation of a gene at UCSC browser. Boxes indicate exons, and lines indicate introns. B) Partial sequence of FATE1 gene as shown in NCBI GenBank database.
+</p>
 </div>
 </div>
-<div id="epigenetic-regulation" class="section level3">
-<h3><span class="header-section-number">2.2.3</span> Epigenetic regulation</h3>
-<p>Epigenetics in biology usually refers to constructions (chromatin structure, DNA methylation etc.) other than DNA sequence that influence gene regulation. In essence, epigenetic regulation is the regulation of DNA packing and structure, the consequence of which is gene expression regulation therefore the regulation of gene expression as a consequence. A typical example is that DNA packing inside the nucleus can directly influence gene expression [55]. There are two main mechanisms in epigenetic regulation: i) DNA methylation ii) histone modifications.</p>
-<div id="dna-methylation" class="section level4">
-<h4><span class="header-section-number">2.2.3.1</span> DNA methylation:</h4>
-<p>DNA methylation is usually associated with gene silencing. DNA methyltransferase catalyzes the addition of a methyl group to cytosine of CpG dinucleotides (while in mammals the addition of methyl group is largely restricted to CpG dinucleotides, methylation can occur in other bases as well) [56]. This covalent modification either interferes with transcription factor binding on the region, or methyl-CpG binding proteins induce the spread of repressive chromatin domains, thus the gene is silenced if its promoter has methylated CG dinucleotides [57]. DNA methylation usually occurs in repeat sequences to repress transposable elements. DNA methylation is also related to a key core and proximal promoter element: CpG islands. CpG islands are usually unmethylated, however for some genes CpG island methylation accompanies their silenced expression [58]. For example, during X-chromosome inactivation many CpG islands are heavily methylated and the associated genes are silenced [58]. In addition, in embryonic stem cell differentiation pluripotency-associated genes are silenced due to DNA methylation [59].</p>
 </div>
-<div id="histone-modifications" class="section level4">
-<h4><span class="header-section-number">2.2.3.2</span> Histone Modifications:</h4>
-<p>Histones are proteins that constitute nucleosome. In eukaryotes, eight histones nucleosomes are wrapped around by DNA and build nucleoseome. They help super-coiling of DNA and inducing high-order structure called chromatin. In chromatin, DNA is either densely packed (called heterochromatin or closed chromatin), or it is loosely packed (called euchromatin or open chromatin) [60, 61]. Heterochromatin is thought to harbor inactive genes since DNA is densely packed and transcriptional machinery cannot access it. On the other hand, euchromatin is more accessible for transcriptional machinery and might therefore harbor active genes. Histones have long and unstructured N-terminal tails which can be covalently modified. The most studied modifications include acetylation, methylation and phosphorylation [60]. Using their tails, histones interact with neighboring nucleosomes and the modifications on the tail affect the nucleosomes affinity to bind DNA and therefore influence DNA packaging around nucleosomes. Different modifications on histones are used in different combinations to program the activity of the genes during differentiation. Histone modifications have a distinct nomenclature, for example: H3K4me3 means the lysine (K) on the 4th position of histone H3 is tri-methylated.</p>
+<div id="elements-of-gene-regulation" class="section level2">
+<h2><span class="header-section-number">2.2</span> Elements of gene regulation</h2>
+<p>The mechanisms regulating gene expression are essential for all living organisms as they dictate where and how much of a gene product (may it be protein or ncRNA) should be manufactured. This regulation could occur at the pre- and co-transcriptional level by controlling how many transcripts should be produced and/or which version of the transcript should be produced by regulating splicing. Different versions of the same gene could encode for proteins by regulating splicing the process can decide which parts will go into the final mRNA that will code for the protein. In addition, gene products can be regulated post-transcriptionally where certain molecules bind to RNA and mark them for degradation even before they can be used in protein production.</p>
+<p>Gene regulation drives cellular differentiation; a process during which different tissues and cell types are produced. It also helps cells maintain differentiated states of cells/tissues. As a product of this process, at the final stage of differentiation, different kinds of cells maintain different expression profiles although they contain the same genetic material. As mentioned above there are two main types of regulation and next we will provide information on those.</p>
+<div id="transcriptional-regulation" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Transcriptional regulation</h3>
+<p>The rate of transcription initiation is the primary regulatory element in gene expression regulation. The rate is controlled by core promoter elements as well as distant-acting regulatory elements such as enhancers. On top of that, processes like histone modifications and/or DNA methylation have a crucial regulatory impact on transcription. If a region is not accessible for the transcriptional machinery, e.g. in the case when chromatin structure is compacted due to the presence of specific histone modifications, or if the promoter DNA is methylated, transcription may not start at all. Last but the not least, gene activity is also controlled post-transcriptionally by ncRNAs such as microRNAs (miRNAs), as well as by cell signaling resulting in protein modification or altered protein-protein interactions.</p>
+<div id="regulation-by-transcription-factors-through-regulatory-regions" class="section level4">
+<h4><span class="header-section-number">2.2.1.1</span> Regulation by transcription factors through regulatory regions</h4>
+<p>Transcripton factors are proteins that recognize a specific DNA motif to bind on a regulatory region and regulate the transcription rate of the gene associated with that regulatory region (See Figure <a href="introduction-to-genomics.html#fig:regSummary">2.5</a>)` for an illustration). These factors bind to a variety of regulatory regions summarized in Figure <a href="introduction-to-genomics.html#fig:regSummary">2.5</a>, and their concerted action controls the transcription rate. Apart from their binding preference, their concentration, the availability of synergistic or competing transcription factors will also affect the transcription rate.</p>
+<div class="figure" style="text-align: center"><span id="fig:regSummary"></span>
+<img src="genomicsIntro_data/nonR_Figures/regulationSummary.png" alt="Representation of regulatory regions in animal genomes" width="100%" />
+<p class="caption">
+Figure 2.5: Representation of regulatory regions in animal genomes
+</p>
+</div>
+<div id="core-and-proximal-promoters" class="section level5">
+<h5><span class="header-section-number">2.2.1.1.1</span> Core and proximal promoters</h5>
+<p>Core promoters are the immediate neighboring regions around the transcription start site (TSS) that serves as a docking site for the transcriptional machinery and pre-initiation complex (PIC) assembly. The textbook model for transcription initiation is as follows: The core promoter has a TATA motif (referred as TATA-box) 30 bp upstream of an initiator sequence (Inr), which also contains TSS. Firstly, transcription factor TFIID binds to the TATA-box. Next, general transcription factors are recruited and transcription is initiated on the initiator sequence. Apart from the TATA-box and Inr, there are a number of sequence elements on the animal core promoters that are associated with transcription initiation and PIC assembly, such as downstream promoter elements (DPEs), the BRE elements and CpG islands. DPEs are found 28-32 bp downstream of the TSS in TATA-less promoters of Drosophila melanogaster, it generally co-occurs with the Inr element, and is thought to have a similar function to the TATA-box. The BRE element is recognized by TFIIB protein and lies upstream of the TATA-box. CpG islands are CG dinucleotide-enriched segments of vertebrate genomes, despite the general depletion of CG dinucleotides in those genomes. 50-70% of promoters in human genome are associated with CpG islands.</p>
+<p>Proximal promoter elements are typically right upstream of the core promoters and usually contain binding sites for activator transcription factors and they provide additional control over gene expression.</p>
+</div>
+<div id="enhancers" class="section level5">
+<h5><span class="header-section-number">2.2.1.1.2</span> Enhancers:</h5>
+<p>Proximal regulation is not the only, nor the most important mode of gene regulation. Most of the transcription factor binding sites in the human genome are found in intergenic regions or in introns . This indicates the widespread usage of distal regulatory elements in animal genomes. On a molecular function level, enhancers are similar to proximal promoters; they contain binding sites for the same transcriptional activators and they basically enhance the gene expression. However, they are often highly modular and several of them can affect the same promoter at the same time or in different time-points or tissues. In addition, their activity is independent of their orientation and their distance to the promoter they interact with. A number of studies showed that enhancers can act upon their target genes over several kilobases away. According to a popular model, enhancers achieve this by looping the DNA and coming to contact with their target genes.</p>
+</div>
+<div id="silencers" class="section level5">
+<h5><span class="header-section-number">2.2.1.1.3</span> Silencers:</h5>
+<p>Silencers are similar to enhancers; however their effect is opposite of enhancers on the transcription of the target gene, and results in decreasing their level of transcription. They contain binding sites for repressive transcription factors. Repressor transcription factors can either block the binding of an activator , directly compete for the same binding site, or induce a repressive chromatin state in which no activator binding is possible. Silencer effects, similar to those of enhancers, are independent of orientation and distance to target genes. In contradiction to this general view, in Drosophila there are two types of silencers, long-range and short-range. Short-range silencers are close to promoters and long-range silencers can silence multiple promoters or enhancers over kilobases away. Like enhancers, silencers bound by repressors may also induce changes in DNA structure by looping and creating higher order structures. One class of such repressor proteins, which is thought to initiate higher-order structures by looping, is Polycomb group proteins (PcGs).</p>
+</div>
+<div id="insulators" class="section level5">
+<h5><span class="header-section-number">2.2.1.1.4</span> Insulators:</h5>
+<p>Insulator regions limit the effect of other regulatory elements to certain chromosomal boundaries; in other words, they create regulatory domains untainted by the regulatory elements in regions outside that domain. Insulators can block enhancer-promoter communication and/or prevent spreading of repressive chromatin domains. In vertebrates and insects, some of the well-studied insulators are bound by CTCF (CCCTC-binding factor). Genome-wide studies from different mammalian tissues confirm that CTCF binding is largely invariant of cell type, and CTCF motif locations are conserved in vertebrates. At present, there are two models of explaining the insulator function; the most prevalent model claims insulators create physically separate domains by modifying chromosome structure. This is thought to be achieved by CTCF-driven chromatin looping and recent evidence shows that CTCF can induce a higher-order chromosome structure through creating loops of chromatins. According to the second model, an insulator-bound activator cannot bind an enhancer; thus enhancer-blocking activity is achieved and insulators can also recruit active histone domain, creating an active domain for enhancers to function.</p>
+</div>
+<div id="locus-control-regions" class="section level5">
+<h5><span class="header-section-number">2.2.1.1.5</span> Locus control regions:</h5>
+<p>Locus control regions (LCRs) are clusters of different regulatory elements that control entire set of genes on a locus. LCRs help genes achieve their temporal and/or tissue-specific expression programs. LCRs may be composed of multiple cis-regulatory elements, such as insulators, enhancers and they act upon their targets even from long distances. However LCRs function with an orientation dependent manner, for example the activity of beta-globin LCR is lost if inverted. The mechanism of LCR function otherwise seems similar to other long-range regulators described above. The evidence is mounting in the direction of a model where DNA-looping creates a chromosomal structure in which target genes are clustered together, which seems to be essential for maintaining open chromatin domain.</p>
+</div>
+</div>
+<div id="epigenetic-regulation" class="section level4">
+<h4><span class="header-section-number">2.2.1.2</span> Epigenetic regulation</h4>
+<p>Epigenetics in biology usually refers to constructions (chromatin structure, DNA methylation etc.) other than DNA sequence that influence gene regulation. In essence, epigenetic regulation is the regulation of DNA packing and structure, the consequence of which is gene expression regulation. A typical example is that DNA packing inside the nucleus can directly influence gene expression by creating accessible regions for transcription factors to bind. There are two main mechanisms in epigenetic regulation: i) DNA modifications ii) histone modifications. Below, we will introduce these two mechanisms.</p>
+<div id="dna-modifications-such-as-methylation" class="section level5">
+<h5><span class="header-section-number">2.2.1.2.1</span> DNA modifications such as methylation:</h5>
+<p>DNA methylation is usually associated with gene silencing. DNA methyltransferase enzyme catalyzes the addition of a methyl group to cytosine of CpG dinucleotides (while in mammals the addition of methyl group is largely restricted to CpG dinucleotides, methylation can occur in other bases as well) . This covalent modification either interferes with transcription factor binding on the region, or methyl-CpG binding proteins induce the spread of repressive chromatin domains, thus the gene is silenced if its promoter has methylated CG dinucleotides. DNA methylation usually occurs in repeat sequences to repress transposable elements, these elements when active can jump around and insert them to random parts of the genome, potentially distrupting the genomic functions.</p>
+<p>.DNA methylation is also related to a key core and proximal promoter element: CpG islands. CpG islands are usually unmethylated, however for some genes CpG island methylation accompanies their silenced expression. For example, during X-chromosome inactivation many CpG islands are heavily methylated and the associated genes are silenced. In addition, in embryonic stem cell differentiation pluripotency-associated genes are silenced due to DNA methylation. Apart from methylation, there are other kinds of DNA modifications present in mamalian genomes, such as hydroxy-methylation and formylcytosine. These are other modifications under current research that are either intermediate or stable modifications with distinct functional associations. There are as many as 12 distinct DNA modifications observed when we look accross all studied species.</p>
+</div>
+<div id="histone-modifications" class="section level5">
+<h5><span class="header-section-number">2.2.1.2.2</span> Histone Modifications:</h5>
+<p>Histones are proteins that constitute nucleosome. In eukaryotes, eight histones nucleosomes are wrapped around by DNA and build nucleosome. They help super-coiling of DNA and inducing high-order structure called chromatin. In chromatin, DNA is either densely packed (called heterochromatin or closed chromatin), or it is loosely packed (called euchromatin or open chromatin) [60, 61]. Heterochromatin is thought to harbor inactive genes since DNA is densely packed and transcriptional machinery cannot access it. On the other hand, euchromatin is more accessible for transcriptional machinery and might therefore harbor active genes. Histones have long and unstructured N-terminal tails which can be covalently modified. The most studied modifications include acetylation, methylation and phosphorylation [60]. Using their tails, histones interact with neighboring nucleosomes and the modifications on the tail affect the nucleosomes affinity to bind DNA and therefore influence DNA packaging around nucleosomes. Different modifications on histones are used in different combinations to program the activity of the genes during differentiation. Histone modifications have a distinct nomenclature, for example: H3K4me3 means the lysine (K) on the 4th position of histone H3 is tri-methylated.</p>
 <table>
 <caption>Table 1 Histone modifications and their effects. If more than one histone modification has the same effect, they are separated by commas.</caption>
 <thead>
@@ -334,35 +242,170 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </table>
 <p>Histone modifications are associated with a number of different transcription-related conditions; some of them are summarized in Table 1. Histone modifications can indicate where the regulatory regions are and they can also indicate activity of the genes. From a gene regulatory perspective, maybe the most important modifications are the ones associated with enhancers and promoters. Certain genes in mouse embryonic stem cells have both active H3K4me3 and inactive H3K27me3 modifications in their promoters. Surprisingly, most of these genes have high CpG content, are important for development and are shown to have paused RNA polymerase II [66, 67]. In addition, Heintzman et al. showed that H3K4me1 could predict tissue-specific active enhancers in human cells [68, 69]. The examples above demonstrate the capability of histone modifications in predicting regulatory potential.</p>
 <p>Furthermore, certain proteins can influence chromatin structure by interacting with histones. Some of these proteins, like those of the Polycomb Group (PcG) and CTCF, are discussed above in the insulators and silencer sections. In vertebrates and insects, PcGs are responsible for maintaining the silent state of developmental genes, and trithorax group proteins (trxG) for maintaining their active state [70, 71]. PcGs and trxGs induce repressed or active states by catalyzing histone modifications or DNA methylation. Both the proteins bind PREs that can be on promoters or several kilobases away [30, 31, 71]. Another protein that induces histone modifications is CTCF. In b-globin locus, CTCF binding is shown to be associated with repressive H3K9/K27me2 modifications [72].</p>
+<div class="rmdnote">
+<p><strong>Want to know more on transcriptional regulation ?</strong></p>
+<ul>
+<li><p>Transcriptional regulatory elements in the human genome: <a href="http://www.ncbi.nlm.nih.gov/pubmed/16719718" class="uri">http://www.ncbi.nlm.nih.gov/pubmed/16719718</a></p></li>
+<li><p>On metazoan promoters: types and transcriptional properties: <a href="http://www.ncbi.nlm.nih.gov/pubmed/22392219" class="uri">http://www.ncbi.nlm.nih.gov/pubmed/22392219</a></p></li>
+<li><p>General principles of regulatory sequence function <a href="http://www.nature.com/nrg/journal/v15/n7/abs/nrg3684.html" class="uri">http://www.nature.com/nrg/journal/v15/n7/abs/nrg3684.html</a></p></li>
+<li><p>DNA methylation: roles in mammalian development <a href="http://www.nature.com/doifinder/10.1038/nrg3354" class="uri">http://www.nature.com/doifinder/10.1038/nrg3354</a></p></li>
+<li><p>Histone modifications and organization of the genome <a href="http://www.nature.com/nrg/journal/v12/n1/full/nrg2905.html" class="uri">http://www.nature.com/nrg/journal/v12/n1/full/nrg2905.html</a></p></li>
+<li><p>DNA methylation and histone modifications are linked <a href="http://www.nature.com/nrg/journal/v10/n5/abs/nrg2540.html" class="uri">http://www.nature.com/nrg/journal/v10/n5/abs/nrg2540.html</a></p></li>
+</ul>
 </div>
 </div>
-<div id="regulation-by-ncrnas" class="section level3">
-<h3><span class="header-section-number">2.2.4</span> Regulation by ncRNAs</h3>
-<p>Recent years have witnessed an explosion in noncoding RNA (ncRNA)-related research. Many publications implicated ncRNAs as important regulatory elements (see [73-77] for examples). Plants and animals produce many different types of ncRNAs such as long non-coding RNAs (lncRNAs), small-interferring RNAs (siRNAs), microRNAs (miRNAs), promoter-associated RNAs (PARs) and small nucleolar RNAs (snoRNAs). lncRNAs are typically &gt;200 bp long, they are involved in epigenetic regulation by interacting with chromatin remodeling factors and they function in gene regulation [78]. siRNAs are short double-stranded RNAs which are involved in gene-regulation and transposon control, they silence their target genes by cooperating with Argonaute proteins [79]. miRNAs are short single-stranded RNA molecules that interact with their target genes by using their complementary sequence and mark them for quicker degradation [79]. PARs may regulate gene expression as well: they are ~18-200bp long ncRNAs originating from promoters of coding genes [80]. snoRNAs also shown to play roles in gene regulation, although they are mostly believed to guide ribosomal RNA modifications [81].</p>
 </div>
+</div>
+<div id="post-transcriptional-regulation" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Post-transcriptional regulation</h3>
+<div id="regulation-by-non-coding-rnas" class="section level4">
+<h4><span class="header-section-number">2.2.2.1</span> Regulation by non-coding RNAs</h4>
+<p>Recent years have witnessed an explosion in noncoding RNA (ncRNA)-related research. Many publications implicated ncRNAs as important regulatory elements. Plants and animals produce many different types of ncRNAs such as long non-coding RNAs (lncRNAs), small-interferring RNAs (siRNAs), microRNAs (miRNAs), promoter-associated RNAs (PARs) and small nucleolar RNAs (snoRNAs). lncRNAs are typically &gt;200 bp long, they are involved in epigenetic regulation by interacting with chromatin remodeling factors and they function in gene regulation. siRNAs are short double-stranded RNAs which are involved in gene-regulation and transposon control, they silence their target genes by cooperating with Argonaute proteins . miRNAs are short single-stranded RNA molecules that interact with their target genes by using their complementary sequence and mark them for quicker degradation. PARs may regulate gene expression as well: they are ~18-200bp long ncRNAs originating from promoters of coding genes. snoRNAs also shown to play roles in gene regulation, although they are mostly believed to guide ribosomal RNA modifications.</p>
+</div>
+<div id="splicing-regulation" class="section level4">
+<h4><span class="header-section-number">2.2.2.2</span> Splicing regulation</h4>
+<p>Splicing is regulated by regulatory elements on the pre-mRNA and proteins binding to those elements . Regulatory elements are categorized as splicing enhancers and repressors. They can be located either in exons or introns. Depending of their activity and their locations there are four types of regulatory elements: - exonic splicing enhancers (ESEs) - exonic splicing silencers (ESSs) - intronic splicing enhancers (ISEs) - intronic splicing silencers (ISSs).</p>
+<p>The majority of splicing repressors are heterogeneous nuclear ribonucleoproteins (hnRNPs). If splicing repressor protein bind silencer elements they reduce the change of nearby site to be used as splice junction. On the contrary, splicing enhancers are sites to which splicing activator proteins bind and binding on that region increases the probability that a nearby site will be used as a splice junction. Most of the activator proteins that bind to splicing enhancers are members of the SR protein family. Such proteins can recognize specific RNA recognition motifs. By regulating splicing exons can be skipped or included which creates protein diversity.</p>
+<div class="rmdnote">
+<p><strong>Want to know more on post-transcriptional regulation…</strong></p>
+<ul>
+<li><p>On miRNAs: Their genesis and modes of regulation <a href="http://www.sciencedirect.com/science/article/pii/S0092867404000455" class="uri">http://www.sciencedirect.com/science/article/pii/S0092867404000455</a></p></li>
+<li><p>Functions of small RNAs <a href="http://www.nature.com/nrg/journal/v15/n9/abs/nrg3765.html" class="uri">http://www.nature.com/nrg/journal/v15/n9/abs/nrg3765.html</a></p></li>
+<li><p>Functions of non coding RNAs <a href="http://www.nature.com/nrg/journal/v15/n6/abs/nrg3722.html" class="uri">http://www.nature.com/nrg/journal/v15/n6/abs/nrg3722.html</a></p></li>
+<li><p>on splicing: Wang, Zefeng; Christopher B. Burge (May 2008). “Splicing regulation: From a parts list of regulatory elements to an integrated splicing code”. RNA 14 (5): 802–813. <a href="doi:10.1261/rna.876308" class="uri">doi:10.1261/rna.876308</a>. ISSN 1355-8382. PMC 2327353. PMID 18369186. Retrieved 2013-08-15.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="shaping-the-genome-dna-mutation" class="section level2">
+<h2><span class="header-section-number">2.3</span> Shaping the genome: DNA mutation</h2>
+<p>Human and chimpanzee genomes are 98.8% similar. The 1.2% difference is what separetes us from chimpanzees. The further you move away from human in terms of evolutionary distance the higher the difference gets. However, even between the members of the same species differences in genome sequences exists. These differences are due to a process called mutation which drives differences between individuals but also the provides the fuel for evolution as the source of the genetic variation. Individuals with beneficial mutations can adapt to their surroundings better than others and in time these mutations which are beneficial for survival spreads in the population due to a process called “natural selection”. Selection acts upon individuals with beneficial features which gives them an edge for survival in a given environment. Genetic variation created by the mutations in individuals provide the material on which selection can act upon. If the selection process goes for a long time in a relatively isolated environment that requires adaptation, this population can evolve into a different species given enough time.This is the basic idea behind evolution in a nutshell, and without mutations providing the genetic variation there will be no evolution.</p>
+<p>Mutations in the genome occur due to multiple reasons. First, DNA replication is not an error-free process. Before a cell division, the DNA is replicated with 1 mistake per 10^8 to 10^10 base-pairs. Second, mutagens such as UV light can induce mutations on the genome. Third factor that contributes to mutation is imperfect DNA repair. Every day any human cell suffers multiple instances DNA damage. DNA repair enzymes are there to cope with this damage but they are also not error-free, depending on which DNA repair mechanism is used (there are multiple) mistakes will be made at varying rates.</p>
+<p>Mutations are classified by how many bases they effect, their effect on DNA structure and gene function. By their effect on DNA structure the mutations are classified as follows:</p>
+<ul>
+<li><strong>Base substitution</strong>: A base is changed with another.</li>
+<li><strong>Deletion</strong>: One or more bases is deleted.</li>
+<li><strong>Insertion</strong>: New base or bases inserted into the genome.</li>
+<li><strong>Microsatellite mutation</strong>: Small insertions or deletions of small tandemly repeating DNA segments.</li>
+<li><strong>Inversion</strong>: A DNA fragment changes its orientation 180 degrees.</li>
+<li><strong>Translocation</strong>: A DNA fragment moves to another location in the genome.</li>
+</ul>
+<p>Mutations can also be classified by their size as follows:</p>
+<ul>
+<li><strong>Point mutations</strong>: mutations that involve one base. Substitutions, deletions and insertions are point mutations. They are also termed as single nucleotide polymorphisms (<strong>SNPs</strong>).</li>
+<li><strong>small-scale mutations</strong>: mutations that involve several bases.</li>
+<li><strong>Large-scale mutations</strong>: mutations which involve larger chromosomal regions. Transposable element insertions (where a segment of the genome jumps to another region in the genome) and segmental duplications ( a large region is copied multiple times in tandem) are typical large scale mutations.</li>
+<li><strong>Aneuploidies</strong>: Insertions or deletions of whole chromosomes.</li>
+<li><strong>Whole-genome polyploidies</strong>: duplications involving whole genome.</li>
+</ul>
+<p>Mutations by their effect on gene function can be classified as follows:</p>
+<ul>
+<li><strong>gain-of-function mutations</strong>: A type of mutation in which the altered gene product possesses a new molecular function or a new pattern of gene expression.</li>
+<li><strong>loss-of-function mutations</strong>: A mutation that results in reduced or abolished protein function. This is the more common type of mutation.</li>
+</ul>
 </div>
 <div id="high-throughput-experimental-methods-in-genomics" class="section level2">
-<h2><span class="header-section-number">2.3</span> High-throughput experimental methods in genomics</h2>
-<p>A number of high-throughput methods are regularly used in regulatory genomics. Their high quality and genome-wide yield makes these methods perfect for genome-scale studies. The following methods are some of the frequently used high-throughput methods to study gene regulation, and most of them rely heavily on computational methods for data analysis.</p>
-<div id="end-sequencing" class="section level3">
-<h3><span class="header-section-number">2.3.1</span> 5’ end sequencing:</h3>
-<p>5’ end sequencing of mRNAs is one of the frequently used methods for promoter-profiling and genome-wide TSS identification. It is used to determine the precise sites for proximal and core promoters, and also to quantify expression coming from the promoters. These types of methods rely on accurate and complete cDNA synthesis from RNA followed by sequencing of 5’ ends of the transcripts and mapping to the reference genome. There are a number of research studies that used mainly CAGE technology to do 5’ end sequencing in various tissues in mouse and human [16, 17, 82]. In CAGE, a cap-trapper system is used to capture full-length RNAs while avoiding ribosomal and transfer RNAs. The system only captures capped mRNAs. The cap ensures mRNA stability needed when mRNA is translated, so mostly protein-coding mRNAs and functional ncRNAs will be captured by the protocol. Following cap-trapping, the 5’end tag of the transcript is sequenced and mapped to the genome.</p>
+<h2><span class="header-section-number">2.4</span> High-throughput experimental methods in genomics</h2>
+<p>Most of the biological phenomena described above relating to transcription , gene regulation or DNA mutation can be measured over the entire genome using high-throughput experimental techniques, which are quickly becoming the standard for studying genome biology. In addition, their applications in the clinic are also gaining momemntum: there are already diagnostic tests that are based on these techniques.</p>
+<p>Some of the things that can be measured by high-throughput assays are as follows:</p>
+<ul>
+<li><em>Which genes are expressed and how much ?</em></li>
+<li><em>Where does a transcription factor bind ?</em></li>
+<li><em>Which bases are methylated in the genome ?</em></li>
+<li><em>Which transcripts are translated ?</em></li>
+<li><em>Where does RNA-binding proteins bind ?</em></li>
+<li><em>Which microRNAs are expressed ?</em></li>
+<li><em>Which parts of the genome are in contact with each other ?</em></li>
+<li><em>Where are the mutations in the genome located ?</em></li>
+<li><em>Which parts of the genome are nucleosome-free ?</em></li>
+</ul>
+<p>There are many more questions one can answer using modern genome-wide techniques and every other day a new variant of the existing techniques comes along to answer a new question. However, One has to keep in mind that these methods are at varying degrees of maturity and they all come with technical limitations and are not noise-free. Despite this, they are extremely useful for research and clinical purposes. And, thanks to these methods we are able to sequence and annotate genomes at a massive scale.</p>
+<div id="the-general-idea-behind-high-throughput-techniques" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> The general idea behind high-throughput techniques</h3>
+<p>High-throughput methods aim to quantify or locate all or most of the genome that harbours the biological feature (expressed genes, binding sites, etc.) of interest. Most of the methods rely on some sort of enrichment of the the targeted biological feature. For example, if you want to measure expression of protein coding genes you need to be able to extract mRNA molecules with special post-transcriptional alterations that protein-coding genes acquire. If you are looking for transcription factor binding, you need to enrich for the DNA fragments that are bound by the protein if interest.This parts depends on available molecular biology and chemistry technques, and the final product of this part is RNA or DNA fragments.</p>
+<p>Next, you need to be able to tell where these fragments are coming from in the genome and how many of them are there. Microarrays were the standard tool for the quantification step until spread of sequencing techniques. In microarrays, one had to design complementary bases ,called “oligos” or “probes”, to the genetic material enriched via the experimental protocol. If the enriched material is complementary to the genetic material, a light signal will be produced and the intensity of the signal will be proportional to the amount of the genetic material pairing with that oligo. There will be more probes available for hybrdization (process of complementary bases forming bonds ), so the more fragments available stronger the signal. For this to be able to work, you need to know at least part of your genome sequence, and design probes. If you want to measure gene expression, your probes should overlap with genes and should be unique enough to not to bind sequences from other genes. This technology is now being replaced with sequencing technology, where you directly sequence your genetic material. If you have the sequence of your fragments, you can align them back to genome, see where they are coming from and count them. This is a better technology where the quantification is based on the real identiy of fragments rather than based on hybridization to designed probes.</p>
+<p>In summary HT techniques has the following steps:</p>
+<ul>
+<li>Enrichment: This is the step where you enrich for the event you are interested in.</li>
+<li>Quantification: This is where you quantify your enriched material. Depending on the protocol you may need to quantify a control set as well, where you should see no enrichment or only background enrichment.</li>
+</ul>
 </div>
-<div id="chromatin-immunoprecipitation-chip-followed-by-microarray-hybridization-or-sequencing" class="section level3">
-<h3><span class="header-section-number">2.3.2</span> Chromatin immunoprecipitation (ChIP) followed by microarray hybridization or sequencing:</h3>
-<p>In ChIP, protein-DNA complexes are covalently bound to each-other using one of the various cross-linking techniques. Then the cells are lysed and DNA is broken into small pieces. This is followed by immunoprecipation where the specific antibody for the protein of interest is used to pull down the specific protein-DNA complexes. Then, protein and DNA are separated and the purified DNA can be hybridized to a variety of high-resolution microarrays (resulting in ChIP-chip method) or it can be sequenced (resulting in ChIP-Seq method) using new high-throughput sequencing techniques (see [53, 66, 68, 69] for examples). This technique can identify the genome-wide locations of various DNA-binding proteins including RNA polymerases, modified histones and transcription factors.</p>
+<div id="high-throughput-sequencing" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> High-throughput sequencing</h3>
+<p>High-throughput sequencing, or massively parallel sequencing, is a collection of methods and technologies that can sequence DNA thousands/millons of fragments at a time. This is in contrast to older technologies that can produce a limited number of fragments at a time. Here, throughput refers to number of sequenced bases per hour. The older low-throughput sequencing methods have ~ 100 times less throughput compared to modern high-throughput methods. The increased throughput gives the ability to measure biological features on a genome-wide scale in a shorter time frame.</p>
+<p>Similar to other high-throughput methods, sequencing based methods also require an enrichment step. This step enriches for the features we are interested in. The main difference of the sequencing based methods is the quantification step. In high-throughput sequencing, enriched fragments are put through the sequencer which outputs the sequences for the fragments. Due to limitations in current leading technologies, only limited number of bases can be sequenced using from the input fragments. However, the length is usually enough to uniquely map the reads to the genome and quantify the input fragments.</p>
+<div id="high-throughput-sequencing-data" class="section level4">
+<h4><span class="header-section-number">2.4.2.1</span> High-throughput sequencing data</h4>
+<p>If there is a genome available, the reads are aligned to the genome and based on the sequencing protocol different strategies are applied for analysis. Some of the potential analysis strategies and processed output of read alignments are depicted in Figure <a href="introduction-to-genomics.html#fig:HTseq">2.6</a>. For example, we maybe interested to quantify the gene expression. The experimental protocol, called RNA sequencing- RNA-seq, enriches for fragments of RNA that are coming from protein coding genes. Upon alignment, we can calculate the coverage profile which gives us a read count per base along the genome. This information can be stored in a text file or specialized file formats to be used in subsequent analysis or visualization. We can also just count how many reads overlap with exons of each gene and record read counts per gene for further analysis. This essentially produces a table with gene names and read counts for different samples. As we will see in later chapters, this is an essential information for statistical models that model RNA-seq data. Furthermore, we can stack up the reads and count how many times we see a base position in a read mismatches the base in the genome. Read aligners allow for mismatches, and for this reason we can see reads with mismatches. This information can be used to identify SNPs, and can be stored again in a tabular format with the information of position and mismatch type and number of reads supporting the mismatch. The original algorithms are a bit more complicated than just counting mismatches but the general idea is the same, what they are doing differently is trying to minimize false positive rates by using filters, so that not every mismatch is recorded as SNP.</p>
+<div class="figure" style="text-align: center"><span id="fig:HTseq"></span>
+<img src="genomicsIntro_data/nonR_Figures/HTseq.png" alt="High-throughput sequencing summary" width="100%" />
+<p class="caption">
+Figure 2.6: High-throughput sequencing summary
+</p>
 </div>
-<div id="dnase-hypersensitive-sites" class="section level3">
-<h3><span class="header-section-number">2.3.3</span> DNAse hypersensitive sites:</h3>
-<p>In eukaryotic genomes, nucleosome-free regions are thought to have open chromatin structures. Therefore they have better access to transcription factors. These nucleosome-free regions are traditionally detected with DNAse I hypersensitive site detection [83]. DNAse I is an endonuclease enzyme which cuts the DNA into smaller pieces. The genomic regionsthat are easily accessible for this enzyme are thought to be nucleosome-free regions. DNAse hypersensitive sites are often found in gene regulatory regions including promoters, enhancers and locus control regions [83, 84].</p>
 </div>
-<div id="bisulfite-sequencing" class="section level3">
-<h3><span class="header-section-number">2.3.4</span> Bisulfite sequencing:</h3>
-<p>This technique is used for detection of methylated DNA. Sodium bisulphite converts unmethylated cytosine to uracil while methylated cytosines are protected from conversion to uracil [85]. The converted DNA can be fragmented and sequenced using various high-throughput sequencing techniques. The results will be aligned to the genome using special alignments procedures and the genome-wide methylation patterns can be produced [86].</p>
+<div id="future-of-high-throughput-sequencing" class="section level4">
+<h4><span class="header-section-number">2.4.2.2</span> Future of high-throughput sequencing</h4>
+<p>The sequencing tech is still evolving. Next frontier is the obtaining longer single-molecule reads and preferably being able to call base modifications on the fly. With longer reads, the genome asssembly will be easier for the regions that have high repeat content. With single-molecule sequencing, we will be able tell how many transcripts are present in a given cell population without relying on fragment amplification methods which can introduce biases.</p>
+<p>Another recent development is single-cell sequencing. Current technologies usually work on genetic material from thousands to millions of cells. This means that the results you receive represents the population of cells that were used in the experiment. However, there is a lot variation between the same type of cells, this variation is not observed at all. Newer sequecing techniques can work on single cells and give quantititave information on each cell.</p>
+<div class="rmdnote">
+<p><strong>Want to know more on high-throughput sequencing?</strong></p>
+<ul>
+<li><p>Current and the future high-throughput sequencing technologies <a href="http://www.sciencedirect.com/science/article/pii/S1097276515003408" class="uri">http://www.sciencedirect.com/science/article/pii/S1097276515003408</a></p></li>
+<li>Illumina repository for different library preperation protocols for sequencing <a href="http://www.illumina.com/techniques/sequencing/ngs-library-prep/library-prep-methods.html" class="uri">http://www.illumina.com/techniques/sequencing/ngs-library-prep/library-prep-methods.html</a></li>
+</ul>
 </div>
-<div id="chromosome-conformation-capture-based-technologies" class="section level3">
-<h3><span class="header-section-number">2.3.5</span> Chromosome-conformation capture based technologies:</h3>
-<p>Chromosome conformation capture (3C) is a high-throughput technique used to analyze the organization of chromosomes in a cell. 3C can tell which parts of the chromosomes are in close proximity [87]. Practically, this technique uncovers long-range regulatory interactions such as enhancer-promoter or silencer-promoter interactions. Recently, other variants of the 3C technique have been developed. 4C [88] and 5C [89] are the two main techniques that can discover interactions of a specific sequence with all the other regions in the genome. The higher throughput in 4C and 5C is achieved by using microarrays or high-throughput sequencing following regular 3C technique that captures DNA-DNA interactions. All of previously described 3C-based technologies can only reveal the genome wide-interactions of a single site (referred as “view-point” in the literature), however recently developed Hi-C technology can capture genome-wide many-to-many DNA interactions (although at a low resolution at present), enabling the creation of genome-wide contact maps can for the investigation of long-range interactions in DNA [90].</p>
+</div>
+</div>
+</div>
+<div id="visualization-and-data-repositories-for-genomics" class="section level2">
+<h2><span class="header-section-number">2.5</span> Visualization and data repositories for genomics</h2>
+<p>There are ~100 animal genomes sequenced as of 2016. On top these, there are many research projects from either individual labs or consortiums that produce petabytes of auxiliary genomics data, such as ChIP-seq, RNA-seq, etc.</p>
+<p>There are two requirements for to be able to visualize genomes and its associated data, 1) you need to be able to work with a species that has a sequenced genome and 2) you want to have annotation on that genome, meaning at the very least you want to know where the genes are. Most genomes after sequencing quickly annotated with gene-predictions or know gene sequences are mapped on to it, you can also have conservation to other species to filter functional elements. If you are working with a model organism or human you will also have a lot of auxiliary information to help demarcate the functional regions such as regulatory regions, ncRNA, SNPs that are common in the population. Or you might have disease or tissue specific data available. . The more the organism is worked on the more auxiliary data you will have.</p>
+<div id="accessing-genome-sequences-and-annotations-via-genome-browsers" class="section level4">
+<h4><span class="header-section-number">2.5.0.1</span> Accessing genome sequences and annotations via genome browsers</h4>
+<p>As someone intends to work with genomics, you will need to visualize a large amount of data to make biological inferences or simply check regions of interest in the genome visually. Looking at the genome case by case with all the additional datasets is a necessary step to develop hypothesis and understand the data.</p>
+<p>Many genomes and associated data is available through genome browsers. A genome browser is a website or an app that helps you visualize the genome and all the available data associated with it. Via genome browsers, you will be able to see where genes are in relation to each other and other functional elements. You will be able to see gene structure. You will be able to see auxiliary data such as conservation, repeat content and SNPs. Here we review some of the popular browsers.</p>
+<p><strong>UCSC genome browser:</strong> This is an online browser hosted by University of California, Santa Cruz at <a href="http://genome.ucsc.edu/" class="uri">http://genome.ucsc.edu/</a>. This is an interactive website that contains genomes and annotations for many species. You can search for genes or genome coordinates for the species of your interest. It is usually very responsive and allows you to visualize large amounts of data. In addition, it has multiple other tools that can be used in connection with the browser. One of the most useful tool is <em>UCSC Table Browser</em>, which lets you download the all the data you see on the browser, including sequence data, in multiple formats . Users can upload data or provide links to the data to visualize user specific data.</p>
+<p><strong>Ensembl:</strong> This is another online browser maintained by<br />
+European Bioinformatics Institute and the Wellcome Trust Sanger Institute in the UK, <a href="http://www.ensembl.org" class="uri">http://www.ensembl.org</a>. Similar to UCSC browser, users can visualize genes or genomic coordinates from multiple species and it also comes with auxiliary data. Ensemlb is associated with <em>Biomart</em> tool which is similar to UCSC Table browser, can download genome data including all the auxiliary data set in multiple formats.</p>
+<p><strong>IGV:</strong> Integrated genomics viewer (IGV) is a desktop application developed by Broad institute (<a href="https://www.broadinstitute.org/igv/" class="uri">https://www.broadinstitute.org/igv/</a>). It is developed to deal with large amounts of high-throughput sequencing data which is harder to view in online browsers. IGV can integrate your local sequencing results with online annotation on your desktop machine. This is useful when viewing sequencing data, especially alignments. Other browsers mentioned above have similar functionalities however you will need to make your large sequencing data available online somewhere before it can be viewed by browsers.</p>
+</div>
+<div id="data-repositories-for-high-throughput-assays" class="section level4">
+<h4><span class="header-section-number">2.5.0.2</span> Data repositories for high-throughput assays</h4>
+<p>Genome browser contain lots of auxiliary high-throughput data. However, there are many more public high-throughput data sets available and they are certainly not available through genome browsers. Normally, every high-throughput dataset associated with a publication should be deposited to public archieves. There are two major public archives we use to deposit data. One of them is <em>Gene expression Omnibus(GEO) </em> hosted at <a href="http://www.ncbi.nlm.nih.gov/geo/" class="uri">http://www.ncbi.nlm.nih.gov/geo/</a>, and the other one is <em>European nucleotide archive(ENA)</em> hosted at <a href="http://www.ebi.ac.uk/ena" class="uri">http://www.ebi.ac.uk/ena</a>. These repositories accept high-throughput datasets and users can freely download and use these public data sets for their own research. Many data sets in these repositories are in their raw format, for example the format the sequencer provides mostly. Some data sets will also have processed data but that is not a norm.</p>
+<p>Apart from these repositories, there are multiple multi-national consortia that is dedicated to certain genome biology or disease related problems and they maintain their own databases and provide access to processed and raw data. Some of these consortia is mentioned below.</p>
+<table style="width:81%;">
+<colgroup>
+<col width="27%" />
+<col width="52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Consortium</th>
+<th align="left">what is it for?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="https://www.encodeproject.org/">ENCODE</a></td>
+<td align="left">Transcription factor binding sites, gene expression and epigenomics data for cell lines</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://www.roadmapepigenomics.org/">Epigenomics Roadmap</a></td>
+<td align="left">Epigenomics data for multiple cell types</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="http://cancergenome.nih.gov/">The cancer genome atlas (TCGA)</a></td>
+<td align="left">Expression, mutation and epigenomics data for multiple cancer types</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="http://www.1000genomes.org/">1000 genomes project</a></td>
+<td align="left">Human genetic variation data obtained by sequencing 1000s of individuals</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 </div>
@@ -411,17 +454,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    if (location.protocol !== "file:" && /^https?:/.test(script.src))
-      script.src  = script.src.replace(/^https?:/, '');
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>
