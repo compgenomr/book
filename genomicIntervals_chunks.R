@@ -227,3 +227,34 @@ head(
   viewMaxs(myViews[[1]])
 )
 
+
+## ---- getViewsandBin ---
+
+myFunc<-function(bwFile,promoter.gr){
+  cov.bw=import(bwFile, which=promoter.gr,as = "RleList");
+  myViews=Views(cov.bw,as(promoter.gr,"RangesList")); # get subsets of coverage
+  # there is a views object for each chromosome
+  
+  #x=lapply(myViews[[1]],as.vector);
+  #system.time(viewApply(myViews[[1]],function(x) as.vector(x)))
+  #x=viewApply(myViews,  as.vector,simplify = FALSE)
+  #system.time(
+  # lapply(myViews,function(x) as.list((viewApply(x,as.vector,
+  #                                                    simplify = FALSE))) )
+  #)
+  #system.time(do.call("c",mat))
+  
+  mat = lapply(myViews,function(x) as.list((viewApply(x,as.vector,
+                                                      simplify = FALSE))) )
+  listSliceMean(do.call("c",mat),10);
+}
+system.time(
+  myFunc(bwFile,bigp)
+)
+head(y)
+
+library(genomation)
+y2=
+system.time(
+  ScoreMatrixBin(bwFile, bigp,bin.num = 10,type="bigWig")
+)

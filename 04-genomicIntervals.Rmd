@@ -4,8 +4,7 @@
 library(knitr)
 opts_chunk$set(echo = TRUE, cache=TRUE,warning=FALSE,message=FALSE)
 read_chunk('genomicIntervals_chunks.R')
-library(captioner)
-fig_nums <- captioner()
+
 
 ```
 
@@ -15,13 +14,17 @@ within the chromosomal coordinate system. In addition, each interval can carry
 different sorts of information. An interval may for instance represent exon coordinates or a transcription factor binding site. On the other hand,
 you can have base-pair resolution, continuous scores over the genome such as read coverage or 
 scores that could be associated with only certain bases such as in the case of CpG 
-methylation (See `r fig_nums("gintsum",display="cite")`). Typically, you will need to overlap intervals on interest with other features of 
+methylation (See Figure \@ref(fig:gintsum) ).
+Typically, you will need to overlap intervals on interest with other features of 
 the genome, again represented as intervals. For example, you may want to overlap 
 transcription factor binding sites with CpG islands or promoters to quantify what percentage of binding sites overlap with your regions of interest. Overlapping mapped reads from high-throughput sequencing experiments with genomic features such as exons, promoters, enhancers can also be classified as operations on genomic intervals. You can think of a million other ways that involves overlapping two sets of different features on the genome. This chapter aims to show how to do analysis involving operations on genomic intervals.
 
- ![](GenomicIntervals_data/nonR_Figures/genomeIntervalSummary.png) 
- 
- `r fig_nums("gintsum","Summary of genomic intervals with different kinds of information") ` 
+
+
+```{r,gintsum,fig.cap="Summary of genomic intervals with different kinds of information",fig.align = 'center',out.width='100%',echo=FALSE}
+knitr::include_graphics("GenomicIntervals_data/nonR_Figures/genomeIntervalSummary.png" )
+```
+
 
 ## Operations on Genomic Intervals with GenomicRanges package
 The [Bioconductor](http://bioconductor.org) project has a dedicated package called [**GenomicRanges**](http://www.bioconductor.org/packages/release/bioc/html/GenomicRanges.html) to deal with genomic intervals. In this section, we will provide use cases involving operations on genomic intervals. The main reason we will stick to this package is that it provides tools to do overlap operations. However package requires that users operate on specific data types that are conceptually similar to a tabular data structure implemented in a way that makes overlapping and related operations easier. The main object we will be using is called `GRanges` object and we will also see some other related objects from the `GenomicRanges` package.
@@ -138,7 +141,7 @@ The `findOverlaps()` function can be used to see one-to-one overlaps between pea
 
 Another interesting thing would be to look at the distances to nearest CpG islands for each peak. In addition, just finding the nearest CpG island could also be interesting. Often times, you will need to find nearest TSS or gene to your regions of interest, and the code below is handy for doing that.
 
-```{r,findNearest,fig.cap=fig_nums("hist","histogram of distances")}
+```{r,findNearest,fig.cap="histogram of distances"}
 
 ```
 
@@ -171,7 +174,13 @@ Alternatively, aligned reads can be read in using GenomicAlignments package (whi
 ## Dealing with continuous scores over the genome
 Most high-throughput data can be viewed as a continuous score over the bases of the genome. In case of RNA-seq or ChIP-seq experiments the data can be represented as read coverage values per genomic base position. In addition, other information (not necessarily from high-throughput experiments) can be represented this way. The GC content and conservation scores per base are prime examples of other data sets that can be represented as scores. This sort of data can be stored as a generic text file or can have special formats such as Wig (stands for wiggle) from UCSC, or the bigWig format is which is indexed binary format of the wig files. The bigWig format is great for data that covers large fraction of the genome with varying scores, because the file is much smaller than regular text files that have the same information and it can be queried easier since it is indexed.
 
-In R/Bioconductor, the continuous data can also be represented in a compressed format, in a format called Rle vector, which stands for run-length encoded vector. This gives superior memory performance over regular vectors because repeating consecutive values are represented as one value in the Rle vector (See `r fig_nums("Rle",display="cite")`). ![Rle](GenomicIntervals_data/nonR_Figures/Rle_demo.png) `r fig_nums("Rle","Rle encoding explained") ` 
+In R/Bioconductor, the continuous data can also be represented in a compressed format, in a format called Rle vector, which stands for run-length encoded vector. This gives superior memory performance over regular vectors because repeating consecutive values are represented as one value in the Rle vector (See Figure \@ref(fig:Rle) ).
+
+
+```{r,Rle,fig.cap="Rle encoding explained",fig.align = 'center',out.width='100%',echo=FALSE}
+knitr::include_graphics("GenomicIntervals_data/nonR_Figures/Rle_demo.png" )
+```
+
 
 Typically, for genome-wide data you will have a RleList object which is a list of Rle vectors per chromosome. You can obtain such vectors by reading the reads in and calling *coverage()* function from *GenomicRanges* package. Let's try that on the above data set.
 
@@ -201,7 +210,7 @@ base for the regions we are interested in. We have to extract those regions
 from RleList object and apply summary statistics. Below, we show how to extract
 subsections of RleList object. We are extracting promoter regions from ChIP-seq
 read coverage RleList. Following that, we will plot the one of the promoters associated coverage values.
-```{r,getViews,fig.cap=fig_nums("rleview","Coverage vector extracted from RleList via Views() function is plotted as a line plot.")}
+```{r,getViews,fig.cap="Coverage vector extracted from RleList via Views() function is plotted as a line plot."}
 
 ```
 
@@ -228,7 +237,7 @@ objects such as IRanges,GRanges and data.frame, or  they can be in flat file for
 such as BigWig,BED and BAM. After the tracks are set, we can display them with
 `plotTracks` function.
 
-```{r,fig.cap=fig_nums("gviz","tracks visualized using Gviz")}
+```{r,fig.cap="tracks visualized using Gviz"}
 library(Gviz)
 # set tracks to display
 
@@ -261,7 +270,7 @@ This summaries can include different data types such as motifs, read coverage
 and other scores associated with genomic intervals. The `genomation` package can 
 summarize and help identify patterns in the datasets. The datasets can have
 different kinds of information and multiple file types can be used such as BED, GFF, BAM and bigWig. We will look at H3K4me3 ChIP-seq and DNAse-seq signals from H1 embryonic stem cell line. H3K4me3 is usually associated with promoters and regions with high DNAse-seq signal are associated with accessible regions, that means mostly regulatory regions. We will summarize those datasets around the transcription start sites (TSS) of genes on chromosome 20 of human hg19 assembly. We will first read the genes and extract the region around TSS, 500bp upstream and downstream. We will then create a matrix of ChIP-seq scores for those regions, each row will represent a region around a specific TSS and columns will be the scores per base. We will then plot, average enrichment values around the TSSes of genes on chromosome 20.
-```{r,fig.cap=fig_nums("metaPlot","meta region plot using genomation")}
+```{r,fig.cap="meta region plot using genomation"}
 
 # get transcription start sites on chr20
 library(genomation)
@@ -289,7 +298,7 @@ intense on the downstream of the TSS. We can also plot a heatmap where each row 
 region around TSS and color coded by enrichment. This can show us not only the
 general pattern as in the meta-region 
 plot but also how many of the regions produce such a pattern. 
-```{r,fig.cap=fig_nums("heatMatrix","Heatmap of enrichment of H3K4me2 around TSS")}
+```{r,fig.cap="Heatmap of enrichment of H3K4me2 around TSS"}
 heatMatrix(sm,order=TRUE,xcoords = c(-500,500),xlab="bases around TSS")
 ```
 
@@ -297,7 +306,7 @@ Here we saw that about half of the regions do not have any signal. In addition i
 
 Normally, there would be more than one experiment or we can integrate datasets from
 public repositories. In this case, we can see how different signals look like on the regions we are interested in. Now, we will also use DNAse-seq data and create a list of matrices with our datasets and plot the average profile of the signals from both datasets.  
-```{r,fig.cap=fig_nums("metaPlot2","Average profiles of DNAse and H3K4me3 ChIP-seq")}
+```{r,fig.cap= "Average profiles of DNAse and H3K4me3 ChIP-seq"}
 sml=ScoreMatrixList(c(H3K4me3="GenomicIntervals_data/data/H1.ESC.H3K4me3.chr20.bw",
                       DNAse="GenomicIntervals_data/data/H1.ESC.dnase.chr20.bw"),prom,
                       type="bigWig",strand.aware = TRUE)
@@ -309,7 +318,7 @@ We should now look at the heatmaps side by side and we should also cluster the r
 based on their similarity. We will be using `multiHeatMatrix` since we have multiple ScoreMatrix objects in the list. In this case, we will also use `winsorize` argument to limit extreme values, 
 every score above 95th percentile will be equalized the the value of the 95th percentile. In addition, `heatMatrix` and `multiHeatMatrix` can cluster the rows.
 Below, we will be using k-means clustering with 3 clusters.
-```{r,fig.cap=fig_nums("multiHeatMatrix","Heatmaps of H3K4me3 & DNAse data")}
+```{r,fig.cap= "multiHeatMatrix","Heatmaps of H3K4me3 & DNAse data" }
 set.seed(1029)
 multiHeatMatrix(sml,order=TRUE,xcoords = c(-500,500),
                 xlab="bases around TSS",winsorize = c(0,95),
@@ -336,7 +345,7 @@ most of the datatypes and guess the most appropriate plot type. You can change
 it is behavior by applying low-level functions. We first get  the sizes of chromosomes
 and make a karyogram template. 
 
-```{r,fig.cap=fig_nums("karyo1","Karyogram example")}
+```{r,karyo1,fig.cap= "Karyogram example"}
 library(ggbio)
 data(ideoCyto, package = "biovizBase")
 p <- autoplot(seqinfo(ideoCyto$hg19), layout = "karyogram")
@@ -345,7 +354,7 @@ p <- autoplot(seqinfo(ideoCyto$hg19), layout = "karyogram")
 
 Next, we would like to plot CpG islands on this Karyogram. We simply do this
 by adding a layer with `layout_karyogram` function.
-```{r,fig.cap=fig_nums("karyoCpG","Karyogram of CpG islands")}
+```{r,karyo2,fig.cap= "Karyogram of CpG islands"}
 # read CpG islands from a generic text file
 cpgi.gr=genomation::readGeneric("GenomicIntervals_data/data/CpGi.hg19.table.txt", 
                         chr = 1, start = 2, end = 3,header=TRUE, 
@@ -361,7 +370,7 @@ signal
 or any other signal over the genome, we will use CpG island scores from the data set
 we read earlier. We will plot a point proportional to "obsExp" column in the data set. We use `ylim` argument to squish the chromosomal rectangles and plot on top of those. `aes` argument defines how the data is mapped to geometry. In this case,
 it says the points will have x coordinate from CpG island start positions and y coordinate from obsExp score of CpG islands.
-```{r,fig.cap=fig_nums("karyoCpG","Karyogram of CpG islands observed/expected scores")}
+```{r,karyoCpG,fig.cap="Karyogram of CpG islands observed/expected scores"}
 
 p + layout_karyogram(cpgi.gr, geom = "point", size = 0.5, 
                          aes(x = start, y = obsExp),
@@ -373,7 +382,7 @@ p + layout_karyogram(cpgi.gr, geom = "point", size = 0.5,
 
 Another way to depict regions or quantitative signals on the chromosomes is circos plots. These are circular plots usually used for showing chromosomal rearrangements, but can also be used for depicting signals.`ggbio` package can produce all kinds of circos plots. Below, we will show how to use that for our CpG island score example.
 
-```{r,fig.cap=fig_nums("circosCpG","circos plot for CpG islands scores")}
+```{r,"circosCpG",fig.cap="circos plot for CpG islands scores"}
 
 # set the chromsome in a circle
 # color set to white to look transparent 
