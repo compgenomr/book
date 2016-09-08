@@ -220,14 +220,156 @@ functions that works on Views object.
 
 ```
 
+## Genomic intervals with more information: SummarizedExperiment class
+As we have seen, genomic intervals can be mainly contained in a `GRanges` object.
+It can also contain additional columns associated with each interval, here 
+you can save information such as read counts or other scores associated with the
+interval. However,
+genomics data is often have many layers. With `GRanges` you can have a table 
+associated with the intervals, but what happens if you have many tables and each
+table has some metadata associated with it. In addition, rows and columns might 
+have additional annotation that can not be contained by row or column names. 
+For these cases, `SummarizedExperiment` class is ideal. It can hold multi-layered
+tabular data associated with each genomic interval and the meta-data associated with
+rows and columns, or associated with each table. For example, genomic intervals
+associated with the SummarizedExperiment object can be gene locations, and 
+each tabular data structure can be RNA-seq read counts in a time course experiment.
+Each table could represent different conditions in which experiments performed. 
+The SummarizedExperiment class is outlined in the figure below (Figure \@ref(fig:SumExpOv) ).
+
+
+
+```{r,SumExpOv,fig.cap="Overview of SummarizedExperiment class and functions",fig.align = 'center',out.width='100%',echo=FALSE}
+knitr::include_graphics("GenomicIntervals_data/nonR_Figures/Summarized.Experiment.svg" )
+```
+
+### Create a SummarizedExperiment object
+Here we show how to create a basic SummarizedExperiment object. We will first
+create a matrix of read counts. This matrix will represent read counts from
+a series RNA-seq experiments from different timepoints. Following that, 
+we create `GRanges` object to represent the locations of the genes, and a table
+for column annotations. This will include the names for the columns and any 
+other value we want to represent. Finally, we will create a `SummarizedExperiment`
+object by combining all those pieces.
+
+```{r,sumExpCreate}
+
+# simulate an RNA-seq read counts table
+nrows <- 200
+ncols <- 6
+counts <- matrix(runif(nrows * ncols, 1, 1e4), nrows)
+
+# create gene locations
+rowRanges <- GRanges(rep(c("chr1", "chr2"), c(50, 150)),
+                     IRanges(floor(runif(200, 1e5, 1e6)), width=100),
+                     strand=sample(c("+", "-"), 200, TRUE),
+                     feature_id=paste0("gene", 1:200))
+
+# create table for the columns
+colData <- DataFrame(timepoint=1:6,
+                     row.names=LETTERS[1:6])
+
+
+# create SummarizedExperiment object
+se=SummarizedExperiment(assays=list(counts=counts),
+                     rowRanges=rowRanges, colData=colData)
+
+se
+```
+
+### Subset and manipulate the SummarizedExperiment object
+Now that we have a SummarizedExperiment object, we can subset it and extract/change
+parts of it. 
+
+#### Extracting parts of the object
+`colData()` and `rowData()` extract the column associated and row associated
+tables. `metaData()` extracts the meta-data table if there is any table associated.
+```{r,extractSe}
+colData(se) # extract column associated data
+
+rowData(se) # extrac row associated data
+```
+
+To extract the main table or tables that contain the values of interest such 
+as read counts. We must use the `assays()` function. This returns a list of 
+DataFrame objects associated with the object.
+```{r,assaysSe}
+assays(se) # extract list of assays
+
+```
+ You can use names with `$` or `[]` notaion to extract specific tables from the list.
+```{r,assaysSe,eval=FALSE}
+
+assays(se)$counts # get the table named "counts"
+
+assays(se)[[1]] # get the first table
+
+```
+
+
+#### subsetting
+Subsetting is easy using `[ ]` notation. This can be 
+```{r,subsetSe1}
+# subset the first five transcripts and first three samples
+se[1:5, 1:3]
+```
+
+One can also use colu
+```{r,subsetSe2}
+colData(se)
+
+rowData(se)
+```
+
+$ operates on colData() columns, for easy sample extraction.
+se[, se$cell == "N61311"]
+## class: RangedSummarizedExperiment 
+## dim: 64102 2 
+## metadata(2): '' formula
+## assays(1): counts
+## rownames(64102): ENSG00000000003 ENSG00000000005 ... LRG_98 LRG_99
+## rowData names(0):
+## colnames(2): SRR1039508 SRR1039509
+## colData names(9): SampleName cell ... Sample BioSample
+4.2 Getters and setters
+
+rowRanges() / (rowData()), colData(), metadata()
+counts <- matrix(1:15, 5, 3, dimnames=list(LETTERS[1:5], LETTERS[1:3]))
+
+dates <- SummarizedExperiment(assays=list(counts=counts),
+                              rowData=DataFrame(month=month.name[1:5], day=1:5))
+
+# Subset all January assays
+dates[rowData(dates)$month == "January", ]
+## class: SummarizedExperiment 
+## dim: 1 3 
+## metadata(0):
+## assays(1): counts
+## rownames(1): A
+## rowData names(2): month day
+## colnames(3): A B C
+## colData names(0):
+assay() versus assays() There are two accessor functions for extracting the assay data from a SummarizedExperiment object. assays() operates on the entire list of assay data as a whole, while assay() operates on only one assay at a time. assay(x, i) is simply a convenience function which is equivalent to assays(x)[[i]].
+
+
+Range-based operations
+
+subsetByOverlaps() SummarizedExperiment objects support all of the findOverlaps() methods and associated functions. This includes subsetByOverlaps(), which makes it easy to subset a SummarizedExperiment object by an interval.
+# Subset for only rows which are in the interval 100,000 to 110,000 of
+# chromosome 1
+roi <- GRanges(seqnames="1", ranges=100000:1100000)
+subsetByOverlaps(se, roi)
+
 
 
 
 ## Visualizing and summarizing genomic intervals
 Data integration and visualization is corner stone of genomic data analysis. Below, we will
-show different ways of integrating and visualizing genomic intervals. 
+show different ways of integrating and visualizing genomic intervals. These methods
+can be use to visualize large amounts of data in a locus-specific or multi-loci
+manner.
 
-### Visualizing intervals in locus of interest
+### Visualizing intervals on a locus of interest
 Often times, we will be interested in particular genomic locus and try to visualize 
 different genomic datasets over that locus. This is similar to looking at the data 
 over one of the genome browsers. Below we will display genes, GpG islands and read 
@@ -263,7 +405,7 @@ plotTracks(track.list,from=27698681,to=28083310,chromsome="chr21")
 ```
 
 
-### Summaries of genomic intervals 
+### Summaries of genomic intervals on multiple loci
 Looking at data one region at a time could be inefficient. One can summarize 
 different data sets over thousands of regions of interest and identify patterns. 
 This summaries can include different data types such as motifs, read coverage 

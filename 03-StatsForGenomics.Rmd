@@ -570,7 +570,7 @@ gene.df=data.frame(exp=c(gene1,gene2),
                   group=c( rep("test",30),rep("control",30) ) )
 
 
-exp.null <- do(1000) * diff(mean(exp ~ shuffle(group), data=gene.df))
+exp.null <- do(1000) * diff(mosaic::mean(exp ~ shuffle(group), data=gene.df))
 hist(exp.null[,1],xlab="null distribution | no difference in samples",
      main=expression(paste(H[0]," :no difference in means") ),
      xlim=c(-2,2),col="cornflowerblue",border="white")

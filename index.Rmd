@@ -24,7 +24,7 @@ array of specialized tools for doing genomics specific analysis. Here is a list 
 
 ### Data munging (pre-processing)
 
-Often times, the data will not come in ready to analyze format. You may need to convert it to other formats by transforming data points (such as log transforming, normalizing etc), or remove columns/rows that , or remove data points with empty values and, and subset the data set with some arbitrary condition. Most of these tasks can be achieved using R. In addition, with the help of packages R can con- nect to databases in various formats such as mySQL, mongoDB, etc., and query and get the data to R environment using database specific tools. Unfortunately, not all data muging and processing tasks can be accomplished only by R. At times, you may need to use domain specific software or software dealing better with specific type of data sets. For example, R is not great at dealing with character strings, if you are trying to filter a large dataset based on some regular expres- sion you may be better of with perl or awk.
+Often times, the data will not come in ready to analyze format. You may need to convert it to other formats by transforming data points (such as log transforming, normalizing etc), or remove columns/rows that , or remove data points with empty values and, and subset the data set with some arbitrary condition. Most of these tasks can be achieved using R. In addition, with the help of packages R can con- nect to databases in various formats such as mySQL, mongoDB, etc., and query and get the data to R environment using database specific tools. Unfortunately, not all data muging and processing tasks can be accomplished only by R. At times, you may need to use domain specific software or software dealing better with specific type of data sets. For example, R is not great at dealing with character strings, if you are trying to filter a large dataset based on some regular expression you may be better of with perl or awk.
 
 ### General data anaylsis and exploration
 
@@ -36,7 +36,7 @@ Most genomics data sets are suitable for application of general data analysis to
 
 ### Visualization
 
-Visualization is an important part of all data analysis techniques including computational genomics. Again, you can use core visu- alization technniques in R and also genomics specific ones with the help of specific packages.
+Visualization is an important part of all data analysis techniques including computational genomics. Again, you can use core visualization technniques in R and also genomics specific ones with the help of specific packages.
 
  - Basic plots: Histograms, scatter plots, bar plots, box plots
  - ideograms and circus plots for genomics 

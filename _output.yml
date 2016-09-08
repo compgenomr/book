@@ -1,6 +1,8 @@
 bookdown::gitbook:
   css: css/style.css
   lib_dir: "book_assets"
+  includes:
+    after_body: ga.html
 bookdown::html_chapters:
   css: css/style.css
 bookdown::pdf_book:
