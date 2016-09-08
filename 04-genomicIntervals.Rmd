@@ -75,6 +75,15 @@ Next, we will show how to use other methods to automatically obtain the data in 
 ```{r,importFromUCSC,eval=FALSE}
 
 ```
+There is also an interface to Ensembl database called [biomaRt](https://bioconductor.org/packages/release/bioc/html/biomaRt.html). 
+This package will enable you to access and import all of the datasets included
+in Ensembl. Another similar package is [AnnotationHub](https://bioconductor.org/packages/release/bioc/html/AnnotationHub.html).
+. This package is an aggregator for different datasets from various sources. 
+Using AnnotationHub one can access data sets from UCSC browser, Ensembl browser
+and data sets from genomics consortiums such as ENCODE and RoadmapEpigenomics. 
+Although, we do not provide examples, we invite curious readers to read the 
+vignettes of the aforementioned annotation packages.
+
 
 #### Frequently used file formats and how to read them into R as a table
 There are multiple file formats in genomics but some of them you will see more
@@ -308,58 +317,27 @@ assays(se)[[1]] # get the first table
 
 
 #### subsetting
-Subsetting is easy using `[ ]` notation. This can be 
+Subsetting is easy using `[ ]` notation. This is similar to the way we 
+subset data frames or matrices.
 ```{r,subsetSe1}
 # subset the first five transcripts and first three samples
 se[1:5, 1:3]
 ```
 
-One can also use colu
-```{r,subsetSe2}
-colData(se)
-
-rowData(se)
+One can also use `$` operator to subset based on colData() columns. You can 
+extract certain samples or in our case time points.
+```{r,subsetSe2,eval=FALSE}
+se[, se$timepoint == 1]
 ```
 
-$ operates on colData() columns, for easy sample extraction.
-se[, se$cell == "N61311"]
-## class: RangedSummarizedExperiment 
-## dim: 64102 2 
-## metadata(2): '' formula
-## assays(1): counts
-## rownames(64102): ENSG00000000003 ENSG00000000005 ... LRG_98 LRG_99
-## rowData names(0):
-## colnames(2): SRR1039508 SRR1039509
-## colData names(9): SampleName cell ... Sample BioSample
-4.2 Getters and setters
-
-rowRanges() / (rowData()), colData(), metadata()
-counts <- matrix(1:15, 5, 3, dimnames=list(LETTERS[1:5], LETTERS[1:3]))
-
-dates <- SummarizedExperiment(assays=list(counts=counts),
-                              rowData=DataFrame(month=month.name[1:5], day=1:5))
-
-# Subset all January assays
-dates[rowData(dates)$month == "January", ]
-## class: SummarizedExperiment 
-## dim: 1 3 
-## metadata(0):
-## assays(1): counts
-## rownames(1): A
-## rowData names(2): month day
-## colnames(3): A B C
-## colData names(0):
-assay() versus assays() There are two accessor functions for extracting the assay data from a SummarizedExperiment object. assays() operates on the entire list of assay data as a whole, while assay() operates on only one assay at a time. assay(x, i) is simply a convenience function which is equivalent to assays(x)[[i]].
-
-
-Range-based operations
-
-subsetByOverlaps() SummarizedExperiment objects support all of the findOverlaps() methods and associated functions. This includes subsetByOverlaps(), which makes it easy to subset a SummarizedExperiment object by an interval.
-# Subset for only rows which are in the interval 100,000 to 110,000 of
-# chromosome 1
-roi <- GRanges(seqnames="1", ranges=100000:1100000)
+In addition, as `SummarizedExperiment` objects are `GRanges` objects on streoids,
+they support all of the `findOverlaps()` methods and associated functions that
+work on `GRanges` objects. 
+```{r,subsetByolapSE}
+# Subset for only rows which are in chr1:100,000-1,100,000 
+roi <- GRanges(seqnames="chr1", ranges=100000:1100000)
 subsetByOverlaps(se, roi)
-
+```
 
 
 
