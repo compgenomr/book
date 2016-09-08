@@ -8,8 +8,7 @@
 ```{r,setupStatsForGenomics,echo=FALSE}
 library(knitr)
 opts_chunk$set(echo = TRUE, cache=FALSE,warning=FALSE,message=FALSE)
-library(captioner)
-fig_nums <- captioner()
+
 
 ```
 

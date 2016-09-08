@@ -307,7 +307,7 @@ assays(se) # extract list of assays
 
 ```
  You can use names with `$` or `[]` notaion to extract specific tables from the list.
-```{r,assaysSe,eval=FALSE}
+```{r,assaysSe2,eval=FALSE}
 
 assays(se)$counts # get the table named "counts"
 
