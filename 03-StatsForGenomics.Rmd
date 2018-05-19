@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Statistics for Genomics
 
 
@@ -147,10 +152,10 @@ we have only access to a sample this formulation is biased. It means that it
 underestimates the population variance, so we make a small adjustment when we
 calculate the sample variance, denoted as $s^2$: 
 $$
-\begin{align}
+\begin{aligned}
 s^2=\sum_{i=1}^n \frac{(x_i-\overline{X})^2}{n-1} && \text{ where $x_i$ is the ith data point and
 $\overline{X}$ is the sample mean.}
-\end{align}
+\end{aligned}
 $$
 
 
@@ -375,24 +380,22 @@ probability of Z being between -1.96 and 1.96 is 0.95. We then use algebra
 to show that the probability that unknown $\mu$ is captured between
 $\overline{X}-1.96\sigma\sqrt{n}$ and $\overline{X}+1.96\sigma\sqrt{n}$ is 0.95, which is commonly known as 95% confidence interval.
 
-$$
-\begin{equation} 
+$$\begin{array}{ccc}
 Z=\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\\
 P(-1.96 < Z < 1.96)=0.95 \\
 P(-1.96 < \frac{\overline{X}-\mu}{\sigma/\sqrt{n}} < 1.96)=0.95\\
 P(\mu-1.96\sigma\sqrt{n} < \overline{X} < \mu+1.96\sigma\sqrt{n})=0.95\\
 P(\overline{X}-1.96\sigma\sqrt{n} < \mu < \overline{X}+1.96\sigma\sqrt{n})=0.95\\
 confint=[\overline{X}-1.96\sigma\sqrt{n},\overline{X}+1.96\sigma\sqrt{n}]
-\end{equation}
-$$
+\end{array}$$
 
 
 A 95% confidence interval for population mean is the most common
 common interval to use, and would 
 mean that we would expect 95% of the interval estimates to include the 
-population parameter, in this case mean. However, we can pick any value 
+population parameter, in this case the mean. However, we can pick any value 
 such as 99% or 90%. We can generalize the confidence interval for 
-$(1-\alpha)100%$ as follows:
+$100(1-\alpha)$ as follows:
 
 $$\overline{X} \pm Z_{\alpha/2}\sigma\sqrt{n}$$
 
@@ -951,24 +954,21 @@ below. First matrix would be our data matrix. This contains our explanatory
 variables and a column of 1s. The second term is a column vector of $\beta$ 
 values. We add a vector of error terms,$\epsilon$s to the matrix multiplication.
  
- $$\mathbf{Y} = \left[\begin{array}
-{r,r,r}
+ $$\mathbf{Y} = \left[\begin{array}{rrr}
 1 & X_{1,1} & X_{1,2} \\
 1 & X_{2,1} & X_{2,2} \\
 1 & X_{3,1} & X_{3,2} \\
 1 & X_{4,1} & X_{4,2}
 \end{array}\right]
 %
-\left[\begin{array}
-{r,r,r}
+\left[\begin{array}{rrr}
 \beta_0 \\
 \beta_1 \\
 \beta_2 
 \end{array}\right]
 % 
 +
-\left[\begin{array}
-{r,r,r}
+\left[\begin{array}{rrr}
 \epsilon_1 \\
 \epsilon_2 \\ 
 \epsilon_3 \\ 
@@ -980,12 +980,12 @@ The multiplication of data matrix and $\beta$ vector and addition of the
 error terms simply results in the the following set of equations per data point:
 
 $$
-\begin{align}
+\begin{aligned}
 Y_1= \beta_0+\beta_1X_{1,1}+\beta_2X_{1,2} +\epsilon_1 \\
 Y_2= \beta_0+\beta_1X_{2,1}+\beta_2X_{2,2} +\epsilon_2 \\
 Y_3= \beta_0+\beta_1X_{3,1}+\beta_2X_{3,2} +\epsilon_3 \\
 Y_4= \beta_0+\beta_1X_{4,1}+\beta_2X_{4,2} +\epsilon_4 
-\end{align}
+\end{aligned}
 $$
 
 
@@ -1130,10 +1130,10 @@ different notation of the same minimization problem defined above. Remember
 $\epsilon_i=Y_i-(\beta_0+\beta_1x_i)$
 
 $$
-\begin{align}
+\begin{aligned}
 \sum\epsilon_{i}^2=\epsilon^T\epsilon=(Y-{\beta}{X})^T(Y-{\beta}{X}) \\
 =Y^T{Y}-2{\beta}^T{Y}+{\beta}^TX^TX{\beta}
-\end{align}
+\end{aligned}
 $$
 After rearranging the terms, we take the derivative of $\epsilon^T\epsilon$ 
 with respect to $\beta$, and equalize that to zero. We then arrive at 
@@ -1287,11 +1287,11 @@ The estimates for standard errors of $\beta$s for simple regression are as
 follows and shown without derivation.
 
 $$
-\begin{align}
+\begin{aligned}
 s=RSE=\sqrt{\frac{\sum{(y_i-(\beta_0+\beta_1x_i))^2}}{n-2}  } =\sqrt{\frac{\sum{\epsilon^2}}{n-2}  } \\
 SE(\hat{\beta_1})=\frac{s}{\sqrt{\sum{(x_i-\overline{X})^2}}} \\
 SE(\hat{\beta_0})=s\sqrt{ \frac{1}{n} + \frac{\overline{X}^2}{\sum{(x_i-\overline{X})^2} }  }
-\end{align}
+\end{aligned}
 $$
 
 Notice that that $SE(\beta_1)$ depends on the estimate of variance of
