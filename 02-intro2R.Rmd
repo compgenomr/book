@@ -1,10 +1,97 @@
-# Introduction to R
-R is a free statistical programming language that is popular among researchers and data miners to build software and analyze data1. In next sections, we will first get you started with the setup of environment for using R and then introduce some basic R operations and data structures that will be good to know if you do not have prior experience with R. If you need more in depth R introduction you will want to check out some beginner level books and online tutorials. This website has a bunch of resources listed: [http: //www.introductoryr.co.uk/R_Resources_for_Beginners.html]()
+# Introduction to R for genomic data analysis {#Rintro}
+
+The aim of computational genomics is to provide biological interpretation and insights from high 
+dimensional genomics data. Generally speaking, it is similar to any other kind 
+of data analysis endeavor but often times doing computational genomics will require domain specific knowledge and tools.
+
+As new high-throughout experimental techniques on the rise, data analysis 
+capabilities are sought-after features for researchers.  The aim of this chapter is to first familiarize the readers with data analysis steps and then provide basics of R programming within the context of genomic data analysis.R is a free statistical programming language that is popular among researchers and data miners to build software and analyze data. Although 
+basic R programming tutorials are easily accessible, we are aiming to introduce 
+the subject with the genomic context in the background. The examples and 
+narrative will always be from real-life situations when you try to analyze 
+genomic data with R. We believe tailoring material to the context of genomics 
+makes a difference when learning this programming language for sake of analyzing
+genomic data.
+
+## Steps of (genomic) data analysis
+Regardless of the analysis type, the data analysis has a common pattern. We will
+discuss this general pattern and how it applies to genomics problems. The data analysis steps typically include data collection, quality check and cleaning, processing, modeling, visualization and reporting. Although, one expects to go through these steps in a linear fashion, it is normal to go back and repeat the steps with different parameters or tools. In practice, data analysis requires going through the same steps over and over again in order to be able to do a combination of the following: a)  answering other related questions, b) dealing with data quality issues later realized, c) including new data sets to the analysis. 
+
+We will now go through brief explanation of the steps within the context of genomic data analysis.
+
+### Data collection
+Data collection refers to any source, experiment or survey that provides data for the data analysis question you have. In genomics, data collection is done by high-throughput assays introduced in chapter \@ref(intro). One can also use publicly available data sets and specialized data bases also mentioned in chapter \@ref(intro). How much data and what type of data you should collect depends on the question you are trying to answer ant the technical and biological variability of the system you are studying.
+
+### Data quality check and cleaning
+In general, the data analysis almost always deals with imperfect data. It is 
+common to have missing values or measurements that are noisy. Data quality check
+and cleaning aims to identify any data quality issue and clean it from the dataset.
+
+High-throughout genomics data is produced by technologies that could embed 
+technical biases into the data. If we were to give an example from sequencing,
+the sequenced reads do not have the same quality of bases called. Towards the
+ends of the reads, you might have bases that might be called incorrectly. Identifying those low quality bases and removing them will improve read mapping step. 
+
+### Data processing 
+This step refers to processing the data to a format that is suitable for 
+exploratory analysis and modeling. Often times, the data will not come in ready
+to analyze format. You may need to convert it to other formats by transforming 
+data points (such as log transforming, normalizing etc), or subset the data set
+with some arbitrary or pre-defined condition. In terms of genomics, processing
+includes multiple steps. Following the sequencing analysis example above, 
+processing will include aligning reads to the genome and quantification over genes or regions of interest. This simply counting how many reads are covering your regions of interest. This quantity can give you ideas about how much a gene expressed if your experimental protocol was RNA sequencing. This can be followed by some normalization to aid the next step. 
+
+### Exploratory data analysis and modeling
+This phase usually takes in the processed or semi-processed data and applies machine-learning or statistical methods to explore the data. Typically, one needs to see relationship between variables measured, relationship between samples based on the variables measured. At this point, we might be looking to see if the samples group as expected by the experimental design, are there outliers or any other anomalies ? After this step you might want to do additional clean up or re-processing to deal with anomalies. 
+
+Another related step is modeling. This generally refers to modelling your variable of interest based on other variables you measured. In the context of genomics, it could be that you are trying to predict disease status of the patients from expression of genes you measured from their tissue samples. Then your variable of interest is the disease status and . This is generally called predictive modeling and could be solved with regression based or any other machine-learning methods. This kind of approach is generally called "predictive modeling".
 
 
+Statistical modeling would also be a part of this modeling step, this can cover predictive modeling as well where we use statistical methods such as linear regression. Other analyses such as hypothesis testing, where we have an expectation and we are trying to confirm that expectation is also related to statistical modeling. A good example of this in genomics is the differential gene expression analysis. This can be formulated as comparing two data sets, in this case expression values from condition A and condition B, with the expectation that condition A and condition B has similar expression values. You will see more on this on chapter \@ref(stats).
+ 
+### Visualization and reporting
+Visualization is necessary for all the previous steps more or less. But in the final phase, we need final figures, tables and text that describes the outcome of your analysis. This will be your report. In genomics, we use common data visualization methods as well as specific visualization methods developed or popularized by genomic data analysis. You will see many popular visualization methods in chapters \@ref(stats) and \@{genomicIntervals}
 
-## The Setup
+### Why use R for genomics ?
+R, with its statistical analysis
+heritage, plotting features and rich user-contributed packages is one of the 
+best languages for the task of analyzing genomic data.
+High-dimensional genomics datasets are usually suitable to 
+be analyzed with core R packages and functions. On top of that, Bioconductor and CRAN have an 
+array of specialized tools for doing genomics specific analysis. Here is a list of computational genomics tasks that can be completed using R.
 
+#### Data cleanup and processing
+
+Most of general data clean up, such as removing incomplete columns and values, reorganizing and transforming data, these tasks can be achieved using R. In addition, with the help of packages R can connect to databases in various formats such as mySQL, mongoDB, etc., and query and get the data to R environment using database specific tools. 
+
+On top of these, genomic data specific processing and quality check can be achieved via R/Bioconductor packages. For example, sequencing read quality checks and even HT-read alignments can be achieved via R packages. 
+
+#### General data anaylsis and exploration
+
+Most genomics data sets are suitable for application of general data analysis tools. In some cases, you may need to preprocess the data to get it to a state that is suitable for application such tools. Here is a non-exhaustive list of what kind of things can be done via R.
+
+ - unsupervised data analysis: clustering (k-means, hierarchical), matrix factorization 
+(PCA, ICA etc)
+ - supervised data analysis: generalized linear models, support vector machines, randomForests
+
+#### Genomics specific data analysis methods
+ R/Bioconductor gives you access to multitude of other bioinformatics specific algorithms. Here are some of the things you can do.
+
+ - Sequence analysis: TF binding motifs, GC content and CpG counts of a given DNA sequence
+ - Differential expression (or arrays and sequencing based measurements)
+ - Gene set/Pathway analysis: What kind of genes are enriched in my gene set
+ - Genomic Interval opertaions such as Overlapping CpG islands with transcription start sites, and filtering based on overlaps
+ - Overlapping aligned reads with exons and counting aligned reads per gene
+ 
+#### Visualization
+Visualization is an important part of all data analysis techniques including computational genomics. Again, you can use core visualization techniques in R and also genomics specific ones with the help of specific packages. Here are some of the things you can do with R.
+
+ - Basic plots: Histograms, scatter plots, bar plots, box plots, heatmaps
+ - ideograms and circus plots for genomics provides visualization of different features over the whole genome.
+ - meta-profiles of genomic features, such as read enrichment over all promoters
+ - Visualization of quantitative assays for given locus in the genome
+
+## Getting started with R
 Download and install R http://cran.r-project.org/ and RStudio http://www.rstudio.com/ if you do not have them already. Rstudio is optional but it is a great tool if you are just starting to learn R.
 You will need specific data sets to run the codes in this document. Download the data.zip[URL to come] and extract it to your directory of choice. The folder name should be “data” and your R working directory should be level above the data folder. That means in your R console, when you type “dir(“data”)” you should be able to see the contents of the data folder. You can change your working directory by *setwd()* command and get your current working directory with *getwd()* command in R. In RStudio, you can click on the top menu and change the location of your working directory via user interface.
 
@@ -76,7 +163,6 @@ help.search("hist")
 In addition, check package vignettes for help and practical understanding of the functions. All Bionconductor packages have vignettes that walk you through example analysis. Google search will always be helpful as well, there are many blogs and web pages that have posts about R. R-help, Stackoverflow and R-bloggers are usually source of good and reliable information.
 
 
-
 ## Computations in R
 R can be used as an ordinary calculator, some say it is an over-grown calculator. Here are some examples. Remember **#** is the comment character. The comments give details about the operations in case they are not clear.
 ```r{}
@@ -94,7 +180,7 @@ exp(2)        # exponential function
 ```
 
 ## Data structures
-R has multiple data structures. If you are familiar with excel you can think of data structures as building blocks of a table and the table itself, and a table is similar to a sheet in excel. Most of the time you will deal with tabular data sets, you will manipulate them, take sub-sections of them. It is essential to know what are the common data structures in R and how they can be used. R deals with named data structures, this means you can give names to data structures and manipulate or operate on them using those names.
+R has multiple data structures. If you are familiar with excel you can think of a single excel sheet as a table and data structures as building blocks of that table. Most of the time you will deal with tabular data sets or you will want to transform your raw data to a tabular data set, and you will try to manipulate this tabular data set in some way. For example, you may want to take sub-sections of the table or extract all the values in a column. For these and similar purposes, it is essential to know what are the common data structures in R and how they can be used. R deals with named data structures, this means you can give names to data structures and manipulate or operate on them using those names. It will be clear soon what we mean by this if "named data structures" does not ring a bell.
 
 ### Vectors
 Vectors are one the core R data structures. It is basically a list of elements of the same type (numeric,character or logical). Later you will see that every column of a table will be represented as a vector. R handles vectors easily and intuitively. You can create vectors with c() function, however that is not the only way. The operations on vectors will propagate to all the elements of the vectors.
@@ -131,10 +217,11 @@ You can also directly list the elements and specify the matrix:
 m2<-matrix(c(1,3,2,5,-1,2,2,3,9),nrow=3)
 m2
 ```
-Matrices and the next data structure **data frames** are tabular data structures. You can subset them using **[]** and providing desired rows and columns to subset. Here is how that works conceptually:
-![alt text](intro2R_data/nonR_figures/slicingDataFrames.png "slicing/subsetting")
-*slicing/subsetting of a matrix and data frame*.There are additional ways to subset data frames, see the next section.
+Matrices and the next data structure **data frames** are tabular data structures. You can subset them using **[]** and providing desired rows and columns to subset. Figure  \@ref(fig:slicingDataFrames) shows how that works conceptually.
 
+```{r,slicingDataFrames,fig.cap="slicing/subsetting of a matrix and a data frame",fig.align = 'center',out.width='80%',echo=FALSE}
+knitr::include_graphics("images/slicingDataFrames.png" )
+```
 
 ### Data Frames
 A data frame is more general than a matrix, in that different columns can have different modes (numeric, character, factor, etc.). A data frame can be constructed by data.frame() function. For example, we illustrate how to construct a data frame from genomic intervals or coordinates.
@@ -187,6 +274,7 @@ f.feat=factor(features)
 ```
 Important thing to note is that when you are reading a data.frame with read.table() or creating a data frame with **data.frame()** character columns are stored as factors by default, to change this behavior you need to set **stringsAsFactors=FALSE** in **read.table()** and/or **data.frame()** function arguments.
 
+
 ## Data types
 There are four common data types in R, they are **numeric**, **logical**, **character** and **integer**. All these data types can be used to create vectors natively.
 ```{r}
@@ -210,8 +298,18 @@ class(x)
 ## Reading and writing data
 Most of the genomics data sets are in the form of genomic intervals associated with a score. That means mostly the data will be in table format with columns denoting chromosome, start positions, end positions, strand and score. One of the popular formats is BED format used primarily by UCSC genome browser but most other genome browsers and tools will support BED format. We have all the annotation data in BED format. In R, you can easily read tabular format data with read.table() function.
 ```{r}
-enh.df <- read.table("intro2R_data/data/subset.enhancers.hg18.bed", header = FALSE)  # read enhancer marker BED file
-cpgi.df <- read.table("intro2R_data/data/subset.cpgi.hg18.bed", header = FALSE) # read CpG island BED file
+enhancerFilePath=system.file("extdata",
+                "subset.enhancers.hg18.bed",
+                package="compGenomRData")
+cpgiFilePath=system.file("extdata",
+                "subset.cpgi.hg18.bed",
+                package="compGenomRData")
+# read enhancer marker BED file
+enh.df <- read.table(enhancerFilePath, header = FALSE) 
+
+# read CpG island BED file
+cpgi.df <- read.table(cpgiFilePath, header = FALSE) 
+
 # check first lines to see how the data looks like
 head(enh.df)
 head(cpgi.df)
@@ -223,7 +321,7 @@ write.table(cpgi.df,file="cpgi.txt",quote=FALSE,
             row.names=FALSE,col.names=FALSE,sep="\t")
 ```
 You can save your R objects directly into a file using save() and saveRDS() and load them back in with load() and readRDS(). By using these functions you can save any R object whether or not they are in data frame or matrix classes.
-```{r}
+```{r,eval= FALSE}
 save(cpgi.df,enh.df,file="mydata.RData")
 load("mydata.RData")
 # saveRDS() can save one object at a type
@@ -231,13 +329,13 @@ saveRDS(cpgi.df,file="cpgi.rds")
 x=readRDS("cpgi.rds")
 head(x)
 ```
-One important thing is that with save() you can save many objects at a time and when they are loaded into memory with load() they retain their variable names. For example, in the above code when you use load("mydata.RData") in a fresh R session, an object names “cpg.df” will be created. That means you have to figure out what name you gave it to the objects before saving them. On the contrary to that, when you save an object by saveRDS() and read by readRDS() the name of the object is not retained, you need to assign the output of readRDS() to a new variable (“x” in the above code chunk).
+One important thing is that with `save()` you can save many objects at a time and when they are loaded into memory with `load(` they retain their variable names. For example, in the above code when you use `load("mydata.RData")` in a fresh R session, an object names “cpg.df” will be created. That means you have to figure out what name you gave it to the objects before saving them. On the contrary to that, when you save an object by `saveRDS()` and read by `readRDS()` the name of the object is not retained, you need to assign the output of `readRDS()` to a new variable (“x” in the above code chunk).
 
 
 ## Plotting in R
 R has great support for plotting and customizing plots. We will show only a few below. Let us sample 50 values from normal distribution and plot them as a histogram.
 
-```{r}
+```{r,out.width='65%',fig.width=6.5}
 # sample 50 values from normal distribution
 # and store them in vector x
 x<-rnorm(50)
@@ -245,13 +343,14 @@ hist(x) # plot the histogram of those values
 ```
 
 We can modify all the plots by providing certain arguments to the plotting function. Now let's give a title to the plot using **'main'** argument. We can also change the color of the bars using **'col'** argument. You can simply provide the name of the color. Below, we are using **'red'** for the color. See Figure below for the result this chunk.
-```{r}
+
+```{r,out.width='65%',fig.width=6.5}
 hist(x,main="Hello histogram!!!",col="red")
 ```
 
 Next, we will make a scatter plot. Scatter plots are one  the most common plots you will encounter in data analysis. We will sample another set of 50 values and plotted those against the ones we sampled earlier. Scatterplot shows values of two variables for a set of data points. It is useful to visualize relationships between two variables. It is frequently used in connection with correlation and linear regression. There are other variants of scatter plots which show density of the points with different colors. We will show examples of those that in following chapters. The scatter plot from our sampling experiment is shown in the figure. Notice that, in addition to main we used **“xlab”** and **“ylab”** arguments to give labels to the plot. You can customize the plots even more than this. See **?plot** and **?par** for more arguments that can help you customize the plots.
 
-```{r}
+```{r,out.width='65%',fig.width=5.5}
 # randomly sample 50 points from normal distribution
 y<-rnorm(50)
 #plot a scatter plot
@@ -266,21 +365,23 @@ we can also plot boxplots for vectors x and y. Boxplots depict groups of numeric
 
 In addition, outliers can be depicted as dots. In this case, outliers are the values that remain outside the whiskers.
 
-```{r}
+```{r,out.width='65%',fig.width=5.5}
  boxplot(x,y,main="boxplots of random samples")
 ```
 Next up is bar plot which you can plot by **barplot()** function. We are going to plot four imaginary percentage values and color them with two colors, and this time we will also show how to draw a legend on the plot using **legend()** function.
 
-```{r,tidy=FALSE}
+```{r,,out.width='65%',fig.width=5.5,tidy=FALSE}
 perc=c(50,70,35,25)
-barplot(height=perc,names.arg=c("CpGi","exon","CpGi","exon"),
+barplot(height=perc,
+        names.arg=c("CpGi","exon","CpGi","exon"),
         ylab="percentages",main="imagine %s",
         col=c("red","red","blue","blue"))
-legend("topright",legend=c("test","control"),fill=c("red","blue"))
+legend("topright",legend=c("test","control"),
+       fill=c("red","blue"))
 ```
 
- ## Saving plots
- If you want to save your plots to an image file there are couple of ways of doing that. Normally, you will have to do the following:
+## Saving plots
+If you want to save your plots to an image file there are couple of ways of doing that. Normally, you will have to do the following:
  1. Open a graphics device
  2. Create the plot
  3. Close the graphics device
@@ -375,9 +476,12 @@ head(result)
 ```
 
 #### apply family functions instead of loops
-R has other ways of repeating tasks that tend to be more efficient than using loops. They are known as the **“apply”** family of functions, which include *apply, lapply, mapply and tapply* (and some other variants). All of these functions apply a given function to a set of instances and returns the result of those functions for each instance. The differences between them is that they take different type of inputs. For example apply works on data frames or matrices and applies the function on each row or column of the data structure. *lapply* works on lists or vectors and applies a function which takes the list element as an argument. Next we will demonstrate how to use **apply()** on a matrix. The example applies the sum function on the rows of a matrix, it basically sums up the values on each row of the matrix, which is conceptualized in Figure below.
+R has other ways of repeating tasks that tend to be more efficient than using loops. They are known as the **“apply”** family of functions, which include *apply, lapply, mapply and tapply* (and some other variants). All of these functions apply a given function to a set of instances and returns the result of those functions for each instance. The differences between them is that they take different type of inputs. For example apply works on data frames or matrices and applies the function on each row or column of the data structure. *lapply* works on lists or vectors and applies a function which takes the list element as an argument. Next we will demonstrate how to use **apply()** on a matrix. The example applies the sum function on the rows of a matrix, it basically sums up the values on each row of the matrix, which is conceptualized in Figure  \@ref(fig:applyConcept).
 
-![alt text](intro2R_data/nonR_figures/apply.png "apply concept")
+
+```{r,applyConcept,fig.cap="apply concept in R",fig.align = 'center',out.width='80%',echo=FALSE}
+knitr::include_graphics("images/apply.png" )
+```
 
 ```{r}
 mat=cbind(c(3,0,3,3),c(3,0,0,0),c(3,0,0,3),c(1,1,0,0),c(1,1,1,0),c(1,1,1,0))
@@ -387,9 +491,12 @@ result
 result<-apply(mat,1,function(x) sum(x))
 result
 ```
-Notice that we used a second argument which equals to 1, that indicates that rows of the matrix/ data frame will be the input for the function. If we change the second argument to 2, this will indicate that columns should be the input for the function that will be applied. See Figure for the visualization of apply() on columns.
+Notice that we used a second argument which equals to 1, that indicates that rows of the matrix/ data frame will be the input for the function. If we change the second argument to 2, this will indicate that columns should be the input for the function that will be applied. See Figure \@ref(fig:applyConcept2) for the visualization of apply() on columns.
 
-![alt text](intro2R_data/nonR_figures/apply2.png "apply on columns concept")
+
+```{r,applyConcept2,fig.cap="apply function on columns",fig.align = 'center',out.width='80%',echo=FALSE}
+knitr::include_graphics("images/apply2.png" )
+```
 
 ```{r}
 result<-apply(mat,2,sum)
@@ -401,8 +508,11 @@ Next, we will use **lapply()**, which applies a function on a list or a vector. 
 input=c(1,2,3)
 lapply(input,function(x) x^2)
 ```
-**mapply()** is another member of apply family, it can apply a function on an unlimited set of vectors/lists, it is like a version of lapply that can handle multiple vectors as arguments. In this case, the argument to the mapply() is the function to be applied and the sets of parameters to be supplied as arguments of the function. This conceptualized Figure below, the function to be applied is a function that takes to arguments and sums them up. The arguments to be summed up are in the format of vectors, Xs and Ys. mapply() applies the summation function to each pair in Xs and Ys vector. Notice that the order of the input function and extra arguments are different for mapply.
-![alt text](intro2R_data/nonR_figures/mapply.png "mapply  concept")
+**mapply()** is another member of apply family, it can apply a function on an unlimited set of vectors/lists, it is like a version of lapply that can handle multiple vectors as arguments. In this case, the argument to the mapply() is the function to be applied and the sets of parameters to be supplied as arguments of the function. This conceptualized Figure \@ref(fig:mapplyConcept), the function to be applied is a function that takes to arguments and sums them up. The arguments to be summed up are in the format of vectors, Xs and Ys. `mapply()` applies the summation function to each pair in Xs and Ys vector. Notice that the order of the input function and extra arguments are different for mapply.
+
+```{r,mapplyConcept,fig.cap="mapply concept",fig.align = 'center',out.width='80%',echo=FALSE}
+knitr::include_graphics("images/mapply.png" )
+```
 
 ```{r}
 Xs=0:5
@@ -412,8 +522,11 @@ result
 ```
 
 #### apply family functions on multiple cores
-If you have large data sets apply family functions can be slow (although probably still better than for loops). If that is the case, you can easily use the parallel versions of those functions from parallel package. These functions essentially divide your tasks to smaller chunks run them on separate CPUs and merge the results from those parallel operations. This concept is visualized at Figure below , mcapply runs the summation function on three different processors. Each processor executes the summation function on a part of the data set, and the results are merged and returned as a single vector that has the same order as the input parameters Xs and Ys.
-![alt text](intro2R_data/nonR_figures/mcmapply.png "mcmapply  concept")
+If you have large data sets apply family functions can be slow (although probably still better than for loops). If that is the case, you can easily use the parallel versions of those functions from parallel package. These functions essentially divide your tasks to smaller chunks run them on separate CPUs and merge the results from those parallel operations. This concept is visualized at Figure below , `mcapply` runs the summation function on three different processors. Each processor executes the summation function on a part of the data set, and the results are merged and returned as a single vector that has the same order as the input parameters Xs and Ys.
+
+```{r,mcapplyConcept,fig.cap="mcapplyconcept",fig.align = 'center',out.width='80%',echo=FALSE}
+knitr::include_graphics("images/mcmapply.png" )
+```
 
 #### Vectorized Functions in R
 The above examples have been put forward to illustrate functions and loops in R because functions using sum() are not complicated and easy to understand. You will probably need to use loops and looping structures with more complicated functions. In reality, most of the operations we used do not need the use of loops or looping structures because there are already vectorized functions that can achieve the same outcomes, meaning if the input arguments are R vectors the output will be a vector as well, so no need for loops or vectorization.
@@ -430,71 +543,52 @@ rowSums(mat)
 ```
 However, remember that not every function is vectorized in R, use the ones that are. But sooner or later, apply family functions will come in handy.
 
-## Session info
-```{r}
-sessionInfo()
-```
 
 ## Exercises
 
-Set your working directory to the source file location in RStudio top menu:
-
-'Session > Set Working Directory > To Source File Location'
-
-if you have done it correctly you should see this script when you type dir()
-
-
-```
-> dir()
-[1] "intro2R.exercises.html"
-```
-
 ### Computations in R
 
-####
-Sum 2 and 3, use +
+
+1. Sum 2 and 3, use +
 
 ```{r,eval=FALSE,echo=FALSE}
 2+3
 ```
 
-#### 
-Take the square root of 36, use sqrt()
+
+2. Take the square root of 36, use sqrt()
 
 ```{r,echo=FALSE,eval=FALSE}
 sqrt(36)
 ```
 
-####
-Take the log10 of 1000, use function `log10()`
+3. Take the log10 of 1000, use function `log10()`
 
 ```{r,echo=FALSE,eval=FALSE}
 log10(1000)
 ```
 
-####
-Take the log2 of 32, use function `log2()`
+4. Take the log2 of 32, use function `log2()`
 
 
 ```{r,echo=FALSE,eval=FALSE}
 log2(32)
 ```
 
-####
-Assign the sum of 2,3 and 4 to variable x
+5. Assign the sum of 2,3 and 4 to variable x
 
 ```{r,echo=FALSE,eval=FALSE}
 x =  2+3+4
 x <- 2+3+4
 ```
-####
-Find the absolute value of  `5 - 145` using `abs()` function
+
+
+6. Find the absolute value of  `5 - 145` using `abs()` function
 ```{r,echo=FALSE,eval=FALSE}
 abs(5-145)
 ```
 
-####
-Calculate the square root of 625, divide it by 5 and assign it to variable `x`.
+7. Calculate the square root of 625, divide it by 5 and assign it to variable `x`.
 Ex: `y= log10(1000)/5`, the previous statement takes log10 of 1000, divides it 
 by 5 and assigns the value to variable y
 
@@ -503,8 +597,7 @@ x = sqrt(625)/5
  
 ```
 
-####
-Multiply the value you get from previous exercise with 10000, assign it variable x
+8. Multiply the value you get from previous exercise with 10000, assign it variable x
 Ex: `y=y*5`, multiplies y with 5 and assigns the value to y.
 
 **KEY CONCEPT:** results of computations or arbitrary values can be stored in variables we can re-use those variables later on and over-write them with new values
@@ -516,8 +609,7 @@ x2 = x*10000
 ### Data structures in R 
 
 
-####
-Make a vector of 1,2,3,5 and 10 using `c()`, assign it to `vec` variable.
+10. Make a vector of 1,2,3,5 and 10 using `c()`, assign it to `vec` variable.
 Ex: `vec1=c(1,3,4)` makes a vector out of 1,3,4.
 
 ```{r,echo=FALSE,eval=FALSE}
@@ -525,33 +617,28 @@ c(1:5,10)
 vec1=c(1,2,3,4,5,10)
 ```
 
-####
-Check the length of your vector with length(). 
+11. Check the length of your vector with length(). 
 Ex: `length(vec1)` should return 3
 
 ```{r,echo=FALSE,eval=FALSE}
 length(vec1)
 ```
 
-####
-Make a vector of all numbers between 2 and 15.
+12. Make a vector of all numbers between 2 and 15.
 Ex: `vec=1:6` makes a vector of numbers between 1 and 6, assigns to vec variable
 
 ```{r,echo=FALSE,eval=FALSE}
 vec=2:15 
 ```
 
-####
-Make a vector of  4s repeated 10 times using `rep()` function.
-Ex: `rep(x=2,times=5)` makes a vector of 2s repeated 5 times
+13. Make a vector of  4s repeated 10 times using `rep()` function. Ex: `rep(x=2,times=5)` makes a vector of 2s repeated 5 times
 
 ```{r,echo=FALSE,eval=FALSE}
 rep(x=4,times=10)
 rep(4,10)
 ```
 
-####
-Make a logical vector with TRUE, FALSE values of length 4, use `c()`.
+14. Make a logical vector with TRUE, FALSE values of length 4, use `c()`.
 Ex: `c(TRUE,FALSE)`
 
 ```{r,echo=FALSE,eval=FALSE}
@@ -559,25 +646,21 @@ c(TRUE,FALSE,FALSE,TRUE,FALSE)
 c(TRUE,TRUE,FALSE,TRUE,FALSE)
 ``` 
 
-####
-Make a character vector of gene names PAX6,ZIC2,OCT4 and SOX2.
+15. Make a character vector of gene names PAX6,ZIC2,OCT4 and SOX2.
 Ex: `avec=c("a","b","c")` a makes a character vector of a,b and c
 
 ```{r,echo=FALSE,eval=FALSE}
 c("PAX6","ZIC2","OCT4","SOX2")
 ```
 
-####
-Subset the vector using `[]` notation, get 5th and 6th elements. 
+16. Subset the vector using `[]` notation, get 5th and 6th elements. 
 Ex: `vec1[1]` gets the first element. `vec1[c(1,3)]` gets 1st and 3rd elements
 
 ```{r,echo=FALSE,eval=FALSE}
 vec1[c(5,6)]
 ```
 
-####
-You can also subset any vector using a logical vector in `[]`.
-Run the following:
+17. You can also subset any vector using a logical vector in `[]`. Run the following:
 
 ```{r, eval=FALSE}
 myvec=1:5
@@ -585,8 +668,7 @@ myvec[c(TRUE,TRUE,FALSE,FALSE,FALSE)] # the length of the logical vector should 
 myvec[c(TRUE,FALSE,FALSE,FALSE,TRUE)]
 ``` 
 
-####
-`==,>,<, >=, <=` operators create logical vectors. See the results of the following operations:
+18. `==,>,<, >=, <=` operators create logical vectors. See the results of the following operations:
 
 ```{r,eval=FALSE}
 myvec > 3
@@ -595,8 +677,7 @@ myvec <= 2
 myvec != 4
 ```
 
-####
-Use `>` operator in `myvec[ ]` to get elements larger than 2 in `myvec` whic is described above
+19.  Use `>` operator in `myvec[ ]` to get elements larger than 2 in `myvec` whic is described above
 ```{r,echo=FALSE,eval=FALSE}
 myvec[ myvec > 2 ] 
 myvec[ myvec == 2 ] 
@@ -604,8 +685,7 @@ myvec[ myvec != 2 ]
 ```
 
 
-####
-make a 5x3 matrix (5 rows, 3 columns) using `matrix()`.
+20. make a 5x3 matrix (5 rows, 3 columns) using `matrix()`.
 Ex: matrix(1:6,nrow=3,ncol=2) makes a 3x2 matrix using numbers between 1 and 6
 
 ```{r,echo=FALSE,eval=FALSE}
@@ -614,23 +694,20 @@ mat=matrix(1:15,nrow=5,ncol=3)
 
 ```
 
-####
-What happens when you use `byrow = TRUE` in your matrix() as an additional argument?
+21. What happens when you use `byrow = TRUE` in your matrix() as an additional argument?
 Ex: `mat=matrix(1:6,nrow=3,ncol=2,byrow = TRUE)`
 
 ```{r,echo=FALSE,eval=FALSE}
 mat=matrix(1:15,nrow=5,ncol=3,byrow = TRUE)
 ```
 
-####
-Extract first 3 columns and first 3 rows of your matrix using `[]` notation.
+22. Extract first 3 columns and first 3 rows of your matrix using `[]` notation.
 
 ```{r,echo=FALSE,eval=FALSE}
 mat[1:3,1:3]
 ```
 
-####
-Extract last two rows of the matrix you created earlier.
+23. Extract last two rows of the matrix you created earlier.
 
 Ex: `mat[2:3,]` or `mat[c(2,3),]` extracts 2nd and 3rd rows.
 
@@ -641,21 +718,19 @@ tail(mat,n=1)
 tail(mat,n=2)
 ```
 
-####
-Extract the first two columns and run `class()` on the result.
+24. Extract the first two columns and run `class()` on the result.
 
 ```{r,echo=FALSE,eval=FALSE}
 class(mat[,1:2])
 ```
-####
-Extract first column and run `class()` on the result, compare with the above exercise.
+
+25. Extract first column and run `class()` on the result, compare with the above exercise.
 
 ```{r,echo=FALSE,eval=FALSE}
 class(mat[,1])
 ```
 
-####
-Make a data frame with 3 columns and 5 rows, make sure first column is sequence
+26. Make a data frame with 3 columns and 5 rows, make sure first column is sequence
 of numbers 1:5, and second column is a character vector.
 
 Ex: `df=data.frame(col1=1:3,col2=c("a","b","c"),col3=3:1) # 3x3 data frame`.
@@ -666,8 +741,7 @@ Remember you need to make 3x5 data frame
 df=data.frame(col1=1:5,col2=c("a","2","3","b","c"),col3=5:1)
 ```
 
-####
-Extract first two columns and first two rows. 
+27. Extract first two columns and first two rows. 
 
 **HINT:** Same notation as matrices
 
@@ -678,23 +752,21 @@ df[1:2,]
 df[1:2,1:2]
 ```
 
-####
-Extract last two rows of the data frame you made.
+28. Extract last two rows of the data frame you made.
 
 **HINT:** Same notation as matrices
 
 ```{r,echo=FALSE,eval=FALSE}
 df[,4:5]
 ```
-####
-Extract last two columns using column names of the data frame you made.
+
+29. Extract last two columns using column names of the data frame you made.
 
 ```{r,echo=FALSE,eval=FALSE}
 df[,c("col2","col3")]
 ```
 
-####
-Extract second column using column names.
+30. Extract second column using column names.
 You can use `[]` or `$` as in lists, use both in two different answers.
 
 ```{r,echo=FALSE,eval=FALSE}
@@ -703,8 +775,8 @@ df[,"col2"]
 class(df["col1"])
 class(df[,"col1"])
 ```
-####
-Extract rows where 1st column is larger than 3.
+
+31. Extract rows where 1st column is larger than 3.
 **HINT:** you can get a logical vector using `>` operator
 ,logical vectors can be used in `[]` when subsetting.
 
@@ -712,15 +784,13 @@ Extract rows where 1st column is larger than 3.
 df[df$col1 >3 , ]
 ```
 
-####
-Extract rows where 1st column is larger than or equal to 3.
+32. Extract rows where 1st column is larger than or equal to 3.
 
 ```{r,echo=FALSE,eval=FALSE}
 df[df$col1 >= 3 , ]
 ```
 
-####
-Convert data frame to the matrix. **HINT:** use `as.matrix()`.
+33. Convert data frame to the matrix. **HINT:** use `as.matrix()`.
 
 Observe what happens to numeric values in the data frame.
 
@@ -730,8 +800,7 @@ as.matrix(df[,c(1,3)])
 as.matrix(df)
 ```
 
-####
-Make a list using `list()` function, your list should have 4 elements
+34. Make a list using `list()` function, your list should have 4 elements
 the one below has 2.
 
 Ex: `mylist= list(a=c(1,2,3),b=c("apple,"orange"))`
@@ -743,8 +812,7 @@ mylist= list(a=c(1,2,3),
             d="hello")
 ```
 
-####
-Select the 1st element of the list you made using `$` notation.
+35. Select the 1st element of the list you made using `$` notation.
 
 Ex: `mylist$a` selects first element named "a"
 
@@ -752,15 +820,13 @@ Ex: `mylist$a` selects first element named "a"
 mylist$a
 ```
 
-#### 
-Select the 4th element of the list you made earlier using `$` notation.
+36. Select the 4th element of the list you made earlier using `$` notation.
 
 ```{r,echo=FALSE,eval=FALSE}
 mylist$d
 ```
 
-####
-Select the 1st element of your list using `[ ]` notation. 
+37. Select the 1st element of your list using `[ ]` notation. 
 
 Ex: `mylist[1]` selects first element named "a", you get a list with one element.
 
@@ -774,23 +840,21 @@ mylist["a"]
 mylist[["a"]] 
 ```
 
-####
-select the 4th element of your list using '[ ]' notation.
+38. select the 4th element of your list using '[ ]' notation.
 
 ```{r,echo=FALSE,eval=FALSE}
 mylist[4] 
 mylist[[4]]
 ```
 
-####
-Make a factor using factor(), with 5 elements.
+39. Make a factor using factor(), with 5 elements.
 Ex: `fa=factor(c("a","a","b"))`
 
 ```{r,echo=FALSE,eval=FALSE}
 fa=factor(c("a","a","b","c","c"))
 ```
-####
-Convert a character vector to factor using `as.factor()`.
+
+40. Convert a character vector to factor using `as.factor()`.
 First, make a character vector using `c()` then use `as.factor()`.
 
 ```{r,echo=FALSE,eval=FALSE}
@@ -798,8 +862,8 @@ my.vec=c("a","a","b","c","c")
 fa=as.factor(my.vec)
 fa
 ```
-####
-Convert the factor you made above to character using `as.character()`.
+
+41. Convert the factor you made above to character using `as.character()`.
 
 ```{r,echo=FALSE,eval=FALSE}
 fa
@@ -810,30 +874,36 @@ as.factor()
 
 ### Reading in and writing data out in R
 
-####
-Read CpG island (CpGi) data from `intro2R_data/data/CpGi.table.hg18.txt`, this is a tab-separated file, store it in a variable called "cpgi".
+42. Read CpG island (CpGi) data from the compGenomRData package `CpGi.table.hg18.txt`, this is a tab-separated file, store it in a variable called "cpgi". Use `cpgtFilePath=system.file("extdata",
+                "CpGi.table.hg18.txt",
+                package="compGenomRData")`
+to get the file path within the installed `compGenomRData` package.
 
 ```{r,echo=FALSE,eval=FALSE}
 cpgi=read.table(file="intro2R_data/data/CpGi.table.hg18.txt",header=TRUE,sep="\t")
 cpgi=read.table("intro2R_data/data/CpGi.table.hg18.txt",header=TRUE,sep="\t")
 ```
-####
-Use `head()` on CpGi to see first few rows.
+
+43. Use `head()` on CpGi to see first few rows.
 
 ```{r,echo=FALSE,eval=FALSE}
 head(cpgi)
 tail(cpgi)
 ```
-####
-Why doesn't the following work? see 'sep' argument at `help(read.table)`.
+
+
+43. Why doesn't the following work? see 'sep' argument at `help(read.table)`.
 
 ```{r}
-cpgiSepComma=read.table("intro2R_data/data/CpGi.table.hg18.txt",header=TRUE,sep=",")
+cpgtFilePath=system.file("extdata",
+                "CpGi.table.hg18.txt",
+                package="compGenomRData")
+cpgtFilePath
+cpgiSepComma=read.table(cpgtFilePath,header=TRUE,sep=",")
 head(cpgiSepComma)
 ```
 
-####
-What happens when `stringsAsFactors=FALSE` ?
+43. What happens when `stringsAsFactors=FALSE` ?
 `cpgiHF=read.table("intro2R_data/data/CpGi.table.hg18.txt",header=FALSE,sep="\t",
                   stringsAsFactors=FALSE)`
                   
@@ -844,26 +914,22 @@ class(cpgiHF$V2)
 class(cpgiHF$V2)
 ```
 
-####
-Read only first 10 rows of the CpGi table.
+43. Read only first 10 rows of the CpGi table.
 
 ```{r,echo=FALSE,eval=FALSE}
 cpgi10row=read.table("intro2R_data/data/CpGi.table.hg18.txt",header=TRUE,sep="\t",nrow=10)
 cpgi10row
 ```
 
-####
-Use `read.table("intro2R_data/data/CpGi.table.hg18.txt",...` with `header=FALSE`.
-
-Do `head()` to see the results.
+44. Use `cpgtFilePath=system.file("extdata","CpGi.table.hg18.txt",package="compGenomRData")` to get the file path, then use
+`read.table()` with argument `header=FALSE`. Use `head()` to see the results.
 
 ```{r,echo=FALSE,eval=FALSE}
 df=read.table("intro2R_data/data/CpGi.table.hg18.txt",header=FALSE,sep="\t")
 head(df)
 ```
 
-####
-Write CpG islands to a text file called "my.cpgi.file.txt". Write the file
+44. Write CpG islands to a text file called "my.cpgi.file.txt". Write the file
 to your home folder, you can use `file="~/my.cpgi.file.txt"` in linux. `~/` denotes
 home folder.
 
@@ -871,33 +937,28 @@ home folder.
 write.table(cpgi,file="~/my.cpgi.file.txt")
 ```
 
-####
-Same as above but this time make sure use `quote=FALSE`,`sep="\t"` and `row.names=FALSE` arguments. 
+45. Same as above but this time make sure use `quote=FALSE`,`sep="\t"` and `row.names=FALSE` arguments. 
 Save the file to "my.cpgi.file2.txt" and compare it with "my.cpgi.file.txt"
 
 ```{r,echo=FALSE,eval=FALSE}
 write.table(cpgi,file="~/my.cpgi.file2.txt",quote=FALSE,sep="\t",row.names=FALSE)
 ```
 
-####
-Write out the first 10 rows of 'cpgi' data frame.
+46. Write out the first 10 rows of 'cpgi' data frame.
 **HINT:** use subsetting for data frames we learned before.
 
 ```{r,echo=FALSE,eval=FALSE}
 write.table(cpgi[1:10,],file="~/my.cpgi.fileNrow10.txt",quote=FALSE,sep="\t")
 ```
 
-####
-Write the first 3 columns of 'cpgi' data frame.
+44. Write the first 3 columns of 'cpgi' data frame.
 
 ```{r,echo=FALSE,eval=FALSE}
 dfnew=cpgi[,1:3]
 write.table(dfnew,file="~/my.cpgi.fileCol3.txt",quote=FALSE,sep="\t")
 ```
 
-####
-Write CpG islands only on chr1.
-**HINT:** use subsetting with `[]`, feed a logical vector using `==` operator.
+45. Write CpG islands only on chr1. **HINT:** use subsetting with `[]`, feed a logical vector using `==` operator.
 
 ```{r,echo=FALSE,eval=FALSE}
 write.table(cpgi[cpgi$chrom == "chr1",],file="~/my.cpgi.fileChr1.txt",
@@ -905,24 +966,23 @@ write.table(cpgi[cpgi$chrom == "chr1",],file="~/my.cpgi.fileChr1.txt",
 head(cpgi[cpgi$chrom == "chr1",])
 ```
 
-####
-Read two other data sets "intro2R_data/data/rn4.refseq.bed" and "intro2R_data/data/rn4.refseq2name.txt"
+46. Read two other data sets "rn4.refseq.bed" and "rn4.refseq2name.txt"
 with `header=FALSE`, assign them to df1 and df2 respectively.
+They are again included in the compGenomRData package, and you
+can use `system.file()` function to get the file paths.
 
 ```{r,echo=FALSE,eval=FALSE}
 df1=read.table("intro2R_data/data/rn4.refseq.bed",sep="\t",header=FALSE)
 df2=read.table("intro2R_data/data/rn4.refseq2name.txt",sep="\t",header=FALSE)
 ```
 
-####
-Use `head()` to see what is inside of the the data frames above.
+47. Use `head()` to see what is inside of the the data frames above.
 ```{r,echo=FALSE,eval=FALSE}
 head(df1)
 head(df2)
 ```
 
-####
-Merge data sets using `merge()` and assign the results to variable named 'new.df', and use `head()` to see the results.
+48. Merge data sets using `merge()` and assign the results to variable named 'new.df', and use `head()` to see the results.
 
 ```{r,echo=FALSE,eval=FALSE}
 new.df=merge(df1,df2,by.x="V4",by.y="V1")
@@ -939,46 +999,42 @@ set.seed(1001)
 x1=1:100+rnorm(100,mean=0,sd=15)
 y1=1:100
 ```
-####
-Make a scatter plot using `x1` and `y1` vectors generated above.
+
+44. Make a scatter plot using `x1` and `y1` vectors generated above.
 
 ```{r,echo=FALSE,eval=FALSE}
 plot(x1,y1)
 ```
-####
-Use `main` argument to give a title to `plot()` as in `plot(x,y,main="title")`
+
+
+44. Use `main` argument to give a title to `plot()` as in `plot(x,y,main="title")`
 
 ```{r,echo=FALSE,eval=FALSE}
 plot(x1,y1,main="scatter plot")
 ```
 
-####
-Use `xlab` argument to set a label to x-axis.Use `ylab` argument to set a label to y-axis.
+45. Use `xlab` argument to set a label to x-axis.Use `ylab` argument to set a label to y-axis.
 ```{r,echo=FALSE,eval=FALSE}
 plot(x1,y1,main="scatter plot",xlab="x label")
 ```
 
 
-####
-See what `mtext(side=3,text="hi there")` does. **HINT:** mtext stands for margin text.
+46. See what `mtext(side=3,text="hi there")` does. **HINT:** mtext stands for margin text.
 
 ```{r,echo=FALSE,eval=FALSE}
 plot(x1,y1,main="scatter plot",xlab="x label",ylab="y label")
 mtext(side=3,text="hi there") 
 ```
-####
-See what `mtext(side=2,text="hi there")` does.check your plot after execution.
+
+
+47. See what `mtext(side=2,text="hi there")` does.check your plot after execution.
 
 ```{r,echo=FALSE,eval=FALSE}
 mtext(side=2,text="hi there") 
 mtext(side=4,text="hi there") 
 ```
 
-
-
-
-####
-You can use `paste()` as 'text' argument in mtext() try that, you need to re-plot.
+48. You can use `paste()` as 'text' argument in mtext() try that, you need to re-plot.
 your plot first. **HINT:** `mtext(side=3,text=paste(...))`
 See what `paste()` is used for.
 
@@ -992,8 +1048,8 @@ Use *mtext()*  and *paste()* to put a margin text on the plot.
 ```{r,echo=FALSE,eval=FALSE}
 mtext(side=3,text=paste("here","here"))
 ```
-####
-`cor()` calculates correlation between two vectors.
+
+44. `cor()` calculates correlation between two vectors.
 Pearson correlation is a measure of the linear correlation (dependence) 
 between two variables X and Y.
 
@@ -1001,9 +1057,7 @@ between two variables X and Y.
 corxy=cor(x1,y1) # calculates pearson correlation
 ```
 
-####
-Try use `mtext()`,`cor()` and `paste()` to display correlation coefficient on
-your scatterplot ?
+44. Try use `mtext()`,`cor()` and `paste()` to display correlation coefficient on your scatterplot ?
 
 ```{r,echo=FALSE,eval=FALSE}
 plot(x1,y1,main="scatter")
@@ -1015,67 +1069,61 @@ plot(x1,y1)
 mtext(side=3,text=paste("Pearson Corr.",round( cor(x1,y1)  ,3)  ) )
 ```
 
-####
-Change the colors of your plot using `col` argument.
+44. Change the colors of your plot using `col` argument.
 Ex: `plot(x,y,col="red")`
 
 ```{r,echo=FALSE,eval=FALSE}
 plot(x1,y1,col="red")
 ```
 
-####
-Use `pch=19` as an argument in your `plot()` command.
+44. Use `pch=19` as an argument in your `plot()` command.
 
 ```{r,echo=FALSE,eval=FALSE}
 plot(x1,y1,col="red",pch=19)
 ```
 
-####
-Use `pch=18` as an argument to your `plot()` command.
+44. Use `pch=18` as an argument to your `plot()` command.
 
 ```{r,echo=FALSE,eval=FALSE}
 plot(x1,y1,col="red",pch=18)
 ?points
 ```
-####
-Make histogram of x1 with `hist()` function.Histogram is a graphical representation of the data distribution.
+
+44. Make histogram of x1 with `hist()` function.Histogram is a graphical representation of the data distribution.
 
 ```{r,echo=FALSE,eval=FALSE}
 hist(x1)
 ```
-####
-You can change colors with 'col', add labels with 'xlab', 'ylab', and add a 'title' with 'main' arguments. Try all these in a histogram.
+
+
+44. You can change colors with 'col', add labels with 'xlab', 'ylab', and add a 'title' with 'main' arguments. Try all these in a histogram.
  
  ```{r,echo=FALSE,eval=FALSE}
 hist(x1,main="title")
 ```
 
-####
-Make boxplot of y1 with `boxplot()`.
+44. Make boxplot of y1 with `boxplot()`.
 
 ```{r,echo=FALSE,eval=FALSE}
 boxplot(y1,main="title")
 ```
 
-####
-Make boxplots of `x1` and `y1` vectors in the same plot.
+44. Make boxplots of `x1` and `y1` vectors in the same plot.
 
 ```{r,echo=FALSE,eval=FALSE}
 boxplot(x1,y1,ylab="values",main="title")
 ```
 
-####
-In boxplot use horizontal = TRUE  argument
+44. In boxplot use horizontal = TRUE  argument
 
 ```{r,echo=FALSE,eval=FALSE}
 boxplot(x1,y1,ylab="values",main="title",horizontal=TRUE)
 ```
 
-####
-make multiple plots with par(mfrow=c(2,1))
-1. run par(mfrow=c(2,1))
-2. make a boxplot 
-3. make a histogram
+44. make multiple plots with par(mfrow=c(2,1))
+    - run par(mfrow=c(2,1)) 
+    - make a boxplot 
+    - make a histogram
 
 ```{r,echo=FALSE,eval=FALSE}
 par( mfrow=c(1,2) )
@@ -1083,8 +1131,7 @@ hist(x1)
 boxplot(y1)
 ```
 
-####
-Do the same as above but this time with par(mfrow=c(1,2))
+44. Do the same as above but this time with par(mfrow=c(1,2))
 
 ```{r,echo=FALSE,eval=FALSE}
 par(mfrow=c(2,2))
@@ -1092,24 +1139,20 @@ hist(x1)
 boxplot(y1)
 ```
 
-####
-Save your plot using "Export" button
+44. Save your plot using "Export" button in Rstudio
 
 
-####
-Save your plot by running :
+44. Save your plot by running :
 ```{r,eval=FALSE}
 dev.copy(pdf,file="plot.file.pdf");dev.off()
 ```
 
-####
-Save your plot running :
+44. Save your plot running :
 ```{r,eval=FALSE}
 dev.copy(png,filename="plot.file.png");dev.off()
 ```
 
-####
-Another way to save the plot is the following
+44. Another way to save the plot is the following
 
   1. Open a graphics device
   2. Create the plot
@@ -1121,8 +1164,7 @@ plot(x1, y1) # 2.
 dev.off()   # 3.
 ```
 
-####
-**EXTRA: Making color density scatterplot**. You can make a scatter plot showing density
+44. **EXTRA: Making color density scatterplot**. You can make a scatter plot showing density
 of points rather than points themselves. If you use points it looks like this:
 
 ```{r}
@@ -1149,32 +1191,30 @@ smoothScatter(x2,y2,
 ```
 
 ### Functions and control structures (for, if/else etc.)
+Read CpG island data as shown below for the rest of the exercises.
 
-
-####
-Read CpG island data
-
-```{r,eval=TRUE}
-cpgi=read.table("intro2R_data/data/CpGi.table.hg18.txt",header=TRUE,sep="\t")
+```{r,eval=TRUE,eval=TRUE}
+cpgtFilePath=system.file("extdata",
+                "CpGi.table.hg18.txt",
+                package="compGenomRData")
+cpgi=read.table(cpgtFilePath,header=TRUE,sep="\t")
 head(cpgi)
 ```
-####
-Check values at perGc column using a histogram.
+
+44. Check values at perGc column using a histogram.
 'perGc' stands for GC percent => percentage of C+G nucleotides
 
-```{r,echo=FALSE}
+```{r,echo=FALSE,eval=FALSE}
 hist(cpgi$perGc) # most values are between 60 and 70
 ```
 
-####
-Make a boxplot for 'perGc' column
+44. Make a boxplot for 'perGc' column
 
-```{r,echo=FALSE}
+```{r,echo=FALSE,eval=FALSE}
 boxplot(cpgi$perGc) 
 ```
 
-####
-Use if/else structure to decide if given GC percent high, low or medium.
+44. Use if/else structure to decide if given GC percent high, low or medium.
 If it is low, high, or medium. low < 60, high>75, medium is between 60 and 75
 use greater or less than operators <  or  > . 
 Fill in the values in the in code below, where it is written 'YOU_FILL_IN'
@@ -1182,13 +1222,14 @@ Fill in the values in the in code below, where it is written 'YOU_FILL_IN'
 ```{r,echo=TRUE,eval=FALSE}
 
 GCper=65
- #result="low"# set initial value
-  
-  if(GCper < 60){ # check if GC value is lower than 60, assign "low" to result
+
+  # check if GC value is lower than 60, 
+  # assign "low" to result
+  if('YOU_FILL_IN'){
     result="low"
     cat("low")
   }
-  else if(GCper > 75){  # check if GC value is higher than 75, assign "high" to result
+  else if('YOU_FILL_IN'){  # check if GC value is higher than 75, assign "high" to result
     result="high"
     cat("high")
   }else{ # if those two conditions fail then it must be "medium"
@@ -1199,8 +1240,7 @@ result
 
 ```
 
-####
-Write a function that takes a value of GC percent and decides
+44. Write a function that takes a value of GC percent and decides
 if it is low, high, or medium. low < 60, high>75, medium is between 60 and 75.
 Fill in the values in the in code below, where it is written 'YOU_FILL_IN'
 
@@ -1238,8 +1278,7 @@ GCclass(90) # should return "high"
 GCclass(65) # should return "medium"
 ```
 
-####
-Use a for loop to get GC percentage classes for gcValues below. Use the function
+44. Use a for loop to get GC percentage classes for gcValues below. Use the function
 you wrote above.
 
 ```
@@ -1257,9 +1296,7 @@ for( i in gcValues){
 }
 ```
 
-####
-Use `lapply` to get to get GC percentage classes for gcValues.
-Example: 
+44. Use `lapply` to get to get GC percentage classes for gcValues. Example: 
 
 ```{r,eval=FALSE}
 vec=c(1,2,4,5)
@@ -1270,14 +1307,14 @@ power2=function(x){ return(x^2)  }
 ```{r,echo=FALSE,eval=FALSE}
 s=lapply(gcValues,GCclass)
 ```
-####
-Use sapply to get values to get GC percentage classes for gcValues
+
+
+44. Use sapply to get values to get GC percentage classes for gcValues
 ```{r,echo=FALSE,eval=FALSE}
 sapply(gcValues,GCclass)
 ```
 
-####
-Is there a way to decide on the GC percentage class of given vector of GCpercentages
+44. Is there a way to decide on the GC percentage class of given vector of GCpercentages
 without using if/else structure and loops ? if so, how can you do it?
 **HINT:** subsetting using < and > operators
 

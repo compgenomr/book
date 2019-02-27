@@ -1,3 +1,12 @@
-book_filename: "compgenomr"
-chapter_name: "Chapter "
-output_dir: "book-output"
+book_filename: "compgenomrReloaded"
+repo: https://github.com/compgenomr/book/
+output_dir: _book
+clean: [packages.bib, bookdown.bbl]
+delete_merged_file: true
+language:
+  label:
+    fig: "FIGURE "
+    tab: "TABLE "
+  ui:
+    edit: "Edit"
+    chapter_name: "Chapter "

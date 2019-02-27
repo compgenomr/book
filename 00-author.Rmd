@@ -1,0 +1,5 @@
+# About the Authors {-}
+
+The authors have decades of combined experience in data analysis for genomics. They are developers of Bioconductor packages such as **methylKit**, **genomation**, **RCAS** and **netSmooth**. In addition, they have played key roles in developing end-to-end genomics data analysis pipelines for RNA-seq, ChIP-seq, Bisulfite-seq, and single cell RNA-seq called PiGx.
+
+

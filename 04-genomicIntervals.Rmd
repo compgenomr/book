@@ -1,9 +1,9 @@
-# Genomic Intervals and R
+# Operations on Genomic Intervals and Genome Arithmetic {#genomicIntervals}
 
 ```{r,setupGenomicIntervals,echo=FALSE}
 library(knitr)
-opts_chunk$set(echo = TRUE, cache=TRUE,warning=FALSE,message=FALSE)
-read_chunk('genomicIntervals_chunks.R')
+opts_chunk$set(echo = TRUE,out.width='65%',fig.width=5.1, cache=TRUE,warning=FALSE,message=FALSE)
+#read_chunk('genomicIntervals_chunks.R')
 
 
 ```
@@ -21,8 +21,8 @@ transcription factor binding sites with CpG islands or promoters to quantify wha
 
 
 
-```{r,gintsum,fig.cap="Summary of genomic intervals with different kinds of information",fig.align = 'center',out.width='100%',echo=FALSE}
-knitr::include_graphics("GenomicIntervals_data/nonR_Figures/genomeIntervalSummary.png" )
+```{r,gintsum,fig.cap="Summary of genomic intervals with different kinds of information",fig.align = 'center',out.width='75%',echo=FALSE}
+knitr::include_graphics("images/genomeIntervalSummary.png" )
 ```
 
 
@@ -36,14 +36,49 @@ The [Bioconductor](http://bioconductor.org) project has a dedicated package call
 `GRanges` (from GenomicRanges package) is the main object that holds the genomic intervals and extra information about those intervals. Here we will show how to create one. Conceptually, it is similar to a data frame and some operations such as using **[ ]** notation to subset the table will work also on GRanges, but keep in mind that not everything that works for data frames will work on GRanges objects.
 
 ```{r,createGR}
-
+library(GenomicRanges)
+gr=GRanges(seqnames=c("chr1","chr2","chr2"),
+           ranges=IRanges(start=c(50,150,200),
+                          end=c(100,200,300)),
+           strand=c("+","-","-")
+)
+gr
+# subset like a data frame
+gr[1:2,]
 ```
 As you can see it looks a bit like a data frame. Also, note that the peculiar second argument “ranges” which basically contains start and end positions of the genomic intervals. However, you can not just give start and end positions you actually have to provide another object of IRanges. Do not let this confuse you, GRanges actually depends on another object that is very similar to itself called `IRanges` and you have to provide the “ranges” argument as an IRanges object. In its simplest for, an IRanges object can be constructed by providing start and end positions to IRanges() function. Think of it as something you just have to provide in order to construct the GRanges object.
 
 GRanges can also contain other information about the genomic interval such as scores, names, etc. You can provide extra information at the time of the construction or you can add it later. Here is how you can do those:
 
 ```{r,createGRwMetadata}
+gr=GRanges(seqnames=c("chr1","chr2","chr2"),
+           ranges=IRanges(start=c(50,150,200),
+                          end=c(100,200,300)),
+           names=c("id1","id3","id2"),
+           scores=c(100,90,50)
+)
+# or add it later (replaces the existing meta data)
+mcols(gr)=DataFrame(name2=c("pax6","meis1","zic4"),
+                    score2=c(1,2,3))
 
+gr=GRanges(seqnames=c("chr1","chr2","chr2"),
+           ranges=IRanges(start=c(50,150,200),
+                          end=c(100,200,300)),
+           names=c("id1","id3","id2"),
+           scores=c(100,90,50)
+)
+
+# or appends to existing meta data
+mcols(gr)=cbind(mcols(gr),
+                          DataFrame(name2=c("pax6","meis1","zic4")) )
+gr
+# elementMetadata() and values() do the same things
+elementMetadata(gr)
+values(gr)
+
+# you may also add metadata using the $ operator, as for data frames
+gr$name3 = c("A","C", "B")
+gr
 ```
 
 ### Getting genomic regions into R as GRanges objects
@@ -51,29 +86,72 @@ GRanges can also contain other information about the genomic interval such as sc
 There are multiple ways you can read in your genomic features into R and create a GRanges object. Most genomic interval data comes as a tabular format that has the basic information about the location of the interval and some other information. We already showed how to read BED files as data frame. Now we will show how to convert it to GRanges object. This is one way of doing it, but there are more convenient ways described further in the text.
 
 ```{r,convertDataframe2gr}
+# read CpGi data set
+filePath=system.file("extdata",
+                      "cpgi.hg19.chr21.bed",
+                      package="compGenomRData")
+cpgi.df = read.table(filePath, header = FALSE,
+                     stringsAsFactors=FALSE) 
+# remove chr names with "_"
+cpgi.df =cpgi.df [grep("_",cpgi.df[,1],invert=TRUE),]
 
+cpgi.gr=GRanges(seqnames=cpgi.df[,1],
+                ranges=IRanges(start=cpgi.df[,2],
+                              end=cpgi.df[,3]))
 ```
 
 You may need to do some pre-processing before/after reading in the BED file. Below is an example of getting transcription start sites from BED files containing refseq transcript locations.
 
 ```{r,convertDataframe2grTSS}
+# read refseq file
+filePathRefseq=system.file("extdata",
+                      "refseq.hg19.chr21.bed",
+                      package="compGenomRData")
 
+
+ref.df = read.table(filePathRefseq, header = FALSE,
+                     stringsAsFactors=FALSE) 
+ref.gr=GRanges(seqnames=ref.df[,1],
+               ranges=IRanges(start=ref.df[,2],
+                              end=ref.df[,3]),
+               strand=ref.df[,6],name=ref.df[,4])
+# get TSS
+tss.gr=ref.gr
+# end of the + strand genes must be equalized to start pos
+end(tss.gr[strand(tss.gr)=="+",])  =start(tss.gr[strand(tss.gr)=="+",])
+# startof the - strand genes must be equalized to end pos
+start(tss.gr[strand(tss.gr)=="-",])=end(tss.gr[strand(tss.gr)=="-",])
+# remove duplicated TSSes ie alternative transcripts
+# this keeps the first instance and removes duplicates
+tss.gr=tss.gr[!duplicated(tss.gr),]
 ```
 
 Another way of doing this is from a BED file is to use `readTranscriptfeatures()`
-function from the `genomation` package.
+function from the `genomation` package. This function takes care of the steps described in the code chunk above.
 
 
 Reading the genomic features as text files and converting to GRanges is not the only way to create GRanges object. With the help of the [rtracklayer](http://www.bioconductor.org/packages/release/bioc/html/rtracklayer.html) package we can directly import BED files.
 
 ```{r,importbed_rtracklayer,eval=FALSE}
+require(rtracklayer)
+
+# we are reading a BED file, the path to the file
+# is stored in filePathRefseq variable
+import.bed(filePathRefseq)
 
 ```
 
-Next, we will show how to use other methods to automatically obtain the data in GRanges format from online databases. But you will not be able to use these methods for every data set so it is good to now how to read data from flat files as well. We will use rtracklayer package to download data from [UCSC browser](http://genome-euro.ucsc.edu/cgi-bin/hgGateway?hgsid=197855328_moRAG0Dqe1qlcOEtNDAt09E1e6ab). We will download CpG islands as GRanges objects.
+Next, we will show how to use other methods to automatically obtain the data in GRanges format from online databases. But you will not be able to use these methods for every data set so it is good to now how to read data from flat files as well. We will use rtracklayer package to download data from [UCSC browser](http://genome-euro.ucsc.edu/cgi-bin/hgGateway?hgsid=197855328_moRAG0Dqe1qlcOEtNDAt09E1e6ab). We will download CpG islands as GRanges objects. The `rtracklayer` workflow we show below works like using the UCSC table browser. You need to select which species you are working with, then you need to select which dataset you need to download and lastly you download the UCSC dataset or track as `GRanges` object.
 
 ```{r,importFromUCSC,eval=FALSE}
-
+require(rtracklayer)
+session <- browserSession("UCSC",url = 'http://genome-euro.ucsc.edu/cgi-bin/')
+genome(session) <- "mm9"
+## choose CpG island track on chr12
+query <- ucscTableQuery(session, track="CpG Islands",table="cpgIslandExt",
+        range=GRangesForUCSCGenome("mm9", "chr12"))
+## get the GRanges object for the track
+track(query)
 ```
 There is also an interface to Ensembl database called [biomaRt](https://bioconductor.org/packages/release/bioc/html/biomaRt.html). 
 This package will enable you to access and import all of the datasets included
@@ -127,6 +205,7 @@ formats are mostly used to store genomic variation data such as SNPs and indels.
 - `Rsamtools::scanBcf` 
 
 
+
 ### Finding regions that do/do not overlap with another set of regions
 
 This is one of the most common tasks in genomics. Usually, you have a set of regions that you are interested in and you want to see if they overlap with another set of regions or see how many of them overlap. A good example is transcription factor binding sites determined by [ChIP-seq](http://en.wikipedia.org/wiki/ChIP-sequencing) experiments. In these types of experiments and followed analysis, one usually ends up with genomic regions that are bound by transcription factors. One of the standard next questions would be to annotate binding sites with genomic annotations such as promoter,exon,intron and/or CpG islands. Below is a demonstration of how transcription factor binding sites can be annotated using CpG islands. First, we will get the subset of binding sites that overlap with the CpG islands. In this case, binding sites are ChIP-seq peaks.
@@ -134,26 +213,46 @@ This is one of the most common tasks in genomics. Usually, you have a set of reg
 We can find the subset of peaks that overlap with the CpG islands using the **subsetByoverlaps()** function. You will also see another way of converting **data frames** to **GRanges**.
 
 ```{r,findPeakwithCpGi}
+library(genomation)
+filePathPeaks=system.file("extdata",             "wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep1.broadPeak.gz",
+                      package="compGenomRData")
+
+# read the peaks from a bed file
+pk1.gr=readBroadPeak(filePathPeaks)
+
+# get the peaks that overlap with CpG islands
+subsetByOverlaps(pk1.gr,cpgi.gr)
 
 ```
 For each CpG island, we can count the number of peaks that overlap with a given CpG island with countOverlaps().
 
 ```{r,countOverlaps}
-
+counts=countOverlaps(pk1.gr,cpgi.gr)
+head(counts)
 ```
 
 The `findOverlaps()` function can be used to see one-to-one overlaps between peaks and CpG islands. It returns a matrix showing which peak overlaps with which CpGi island.
 
 ```{r,findOverlaps}
+findOverlaps(pk1.gr,cpgi.gr)
 
 ```
 
 Another interesting thing would be to look at the distances to nearest CpG islands for each peak. In addition, just finding the nearest CpG island could also be interesting. Often times, you will need to find nearest TSS or gene to your regions of interest, and the code below is handy for doing that.
 
 ```{r,findNearest,fig.cap="histogram of distances"}
+# find nearest CpGi to each TSS
+n.ind=nearest(pk1.gr,cpgi.gr)
+# get distance to nearest
+dists=distanceToNearest(pk1.gr,cpgi.gr,select="arbitrary")
+dists
+
+# histogram of the distances to nearest TSS
+dist2plot=mcols(dists)[,1]
+hist(log10(dist2plot),xlab="log10(dist to nearest TSS)",
+     main="Distances")
 
 ```
-
 
 ## Dealing with high-throughput sequencing reads
 In recent years, advances in sequencing technology helped researchers sequence the genome deeper than ever. The reads from sequencing machines are usually aligned to the genome and the next task is to quantify the enrichment of those aligned reads in the regions of interest. You may want to count how many reads overlapping with your promoter set of interest or you may want to quantify RNA-seq reads overlapping with exons. This is similar to operations on genomic intervals which are described previously. If you can read all your alignments into the memory and create a GRanges object, you can apply the previously described operations. However, most of the time we can not read all mapped reads into the memory, so we have to use specialized tools to query and quantify alignments on a given set of regions. One of the most common alignment formats is SAM/BAM format, most aligners will produce SAM/BAM output or you will be able to convert your specific alignment format to SAM/BAM format. The BAM format is a binary version of the human readable SAM format. The SAM format has specific columns that contain different kind of information about the alignment such as mismatches, qualities etc. (see http://samtools.sourceforge.net/SAM1.pdf for SAM format specification).
@@ -170,15 +269,28 @@ Read quality checking is possible with Bioconductor packages: [qcrc](http://www.
 Rsamtools package has functions to query BAM files. The function we will use in the first example is countBam which takes input of the BAM file and param argument. “param” argument takes a ScanBamParam object. The object is instantiated using **ScanBamParam()** and contains parameters for scanning the BAM file. The example below is a simple example where ScanBamParam() only includes regions of interest, promoters on chr21.
 
 ```{r,countBam}
+promoter.gr=tss.gr
+start(promoter.gr)=start(promoter.gr)-1000
+end(promoter.gr)  =end(promoter.gr)+1000
+promoter.gr=promoter.gr[seqnames(promoter.gr)=="chr21"]
+
+library(Rsamtools)
+bamfilePath=system.file("extdata",
+            "wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam",
+                      package="compGenomRData")
+
+# get reads for regions of interest from the bam file
+param <- ScanBamParam(which=promoter.gr)
+counts=countBam(bamfilePath, param=param)
 
 ```
 
 Alternatively, aligned reads can be read in using GenomicAlignments package (which on this occasion relies on RSamtools package).
 
 ```{r,readGAlignments}
-
+library(GenomicAlignments)
+alns <- readGAlignments(bamfilePath, param=param)
 ```
-
 
 ## Dealing with continuous scores over the genome
 Most high-throughput data can be viewed as a continuous score over the bases of the genome. In case of RNA-seq or ChIP-seq experiments the data can be represented as read coverage values per genomic base position. In addition, other information (not necessarily from high-throughput experiments) can be represented this way. The GC content and conservation scores per base are prime examples of other data sets that can be represented as scores. This sort of data can be stored as a generic text file or can have special formats such as Wig (stands for wiggle) from UCSC, or the bigWig format is which is indexed binary format of the wig files. The bigWig format is great for data that covers large fraction of the genome with varying scores, because the file is much smaller than regular text files that have the same information and it can be queried easier since it is indexed.
@@ -187,28 +299,41 @@ In R/Bioconductor, the continuous data can also be represented in a compressed f
 
 
 ```{r,Rle,fig.cap="Rle encoding explained",fig.align = 'center',out.width='100%',echo=FALSE}
-knitr::include_graphics("GenomicIntervals_data/nonR_Figures/Rle_demo.png" )
+knitr::include_graphics("images/Rle_demo.png" )
 ```
 
 
 Typically, for genome-wide data you will have a RleList object which is a list of Rle vectors per chromosome. You can obtain such vectors by reading the reads in and calling *coverage()* function from *GenomicRanges* package. Let's try that on the above data set.
 
 ```{r,getCoverageFromAln}
-
+covs=coverage(alns) # get coverage vectors
+covs
 ```
 
 Alternatively, you can get the coverage from the Bam file directly. Below, we are getting the coverage directly from the Bam file for our previously defined promoters.
 ```{r,getCoverageFromBam}
+covs=coverage(bamfilePath, param=param) # get coverage vectors
 
 ```
 
 One of the most common ways of storing score data is, as mentioned, wig or bigWig format. Most of the ENCODE project data can be downloaded in bigWig format. In addition, conservation scores can also be downloaded as wig/bigWig format. You can import bigWig files into R using *import()* function from *rtracklayer* package. However, it is generally not advisable to read the whole bigWig file in memory as it was the case with BAM files. Usually, you will be interested in only a fraction of the genome, such as promoters, exons etc. So it is best you extract the data for those regions and read those into memory rather than the whole file. Below we read the a bigWig file only for promoters. The operation returns an *GRanges* object with score column which indicates the scores in the BigWig file per genomic region.
 ```{r,getRleFromBigWig}
+library(rtracklayer)
 
+# File from ENCODE ChIP-seq tracks
+bwFile=system.file("extdata",
+                      "wgEncodeHaibTfbsA549.chr21.bw",
+                      package="compGenomRData")
+bw.gr=import(bwFile, which=promoter.gr) # get coverage vectors
+bw.gr
 ```
 Following this we can create an `RleList` object from the GRanges with `coverage`
 function.
 ```{r,BigWigCov}
+cov.bw=coverage(bw.gr,weight = "score")
+
+# or get this directly from
+cov.bw=import(bwFile, which=promoter.gr,as = "RleList")
 
 ```
 ### Extracting subsections of Rle and RleList objects 
@@ -220,13 +345,27 @@ from RleList object and apply summary statistics. Below, we show how to extract
 subsections of RleList object. We are extracting promoter regions from ChIP-seq
 read coverage RleList. Following that, we will plot the one of the promoters associated coverage values.
 ```{r,getViews,fig.cap="Coverage vector extracted from RleList via Views() function is plotted as a line plot."}
+myViews=Views(cov.bw,as(promoter.gr,"RangesList")) # get subsets of coverage
+# there is a views object for each chromosome
+myViews
+myViews[[1]]
+# get the coverage vector from the 5th view and plot
+plot(myViews[[1]][[5]],type="l")
 
 ```
 
 Next, we are interested in average coverage per base for the promoters using summary
 functions that works on Views object.
 ```{r, viewMeans}
+# get the mean of the views
+head(
+  viewMeans(myViews[[1]])
+)
 
+# get the max of the views
+head(
+  viewMaxs(myViews[[1]])
+)
 ```
 
 ## Genomic intervals with more information: SummarizedExperiment class
@@ -249,7 +388,7 @@ The SummarizedExperiment class is outlined in the figure below (Figure \@ref(fig
 
 
 ```{r,SumExpOv,fig.cap="Overview of SummarizedExperiment class and functions",fig.align = 'center',out.width='100%',echo=FALSE}
-knitr::include_graphics("GenomicIntervals_data/nonR_Figures/Summarized.Experiment.svg" )
+knitr::include_graphics("images/Summarized.Experiment.svg" )
 ```
 
 ### Create a SummarizedExperiment object
@@ -339,8 +478,6 @@ roi <- GRanges(seqnames="chr1", ranges=100000:1100000)
 subsetByOverlaps(se, roi)
 ```
 
-
-
 ## Visualizing and summarizing genomic intervals
 Data integration and visualization is corner stone of genomic data analysis. Below, we will
 show different ways of integrating and visualizing genomic intervals. These methods
@@ -374,13 +511,17 @@ gene.track <- BiomartGeneRegionTrack(genome = "hg19",
 
 
 # set track for ChIP-seq coverage
-cov.track=DataTrack("GenomicIntervals_data/data/wgEncodeHaibTfbsA549.chr21.bw",type = "l",
+chipseqFile=system.file("extdata",
+                      "wgEncodeHaibTfbsA549.chr21.bw",
+                      package="compGenomRData")
+cov.track=DataTrack(chipseqFile,type = "l",
                     name="coverage")
   
 # call the display function plotTracks
 track.list=list(cpgi.track,gene.track,cov.track)
 plotTracks(track.list,from=27698681,to=28083310,chromsome="chr21")
 ```
+
 
 
 ### Summaries of genomic intervals on multiple loci
@@ -394,7 +535,11 @@ different kinds of information and multiple file types can be used such as BED, 
 
 # get transcription start sites on chr20
 library(genomation)
-feat=readTranscriptFeatures("GenomicIntervals_data/data/refseq.hg19.chr20.bed",remove.unusual = TRUE,
+transcriptFile=system.file("extdata",
+                      "refseq.hg19.chr20.bed",
+                      package="compGenomRData")
+feat=readTranscriptFeatures(transcriptFile,
+                            remove.unusual = TRUE,
                             up.flank = 500, down.flank = 500)
 prom=feat$promoters # get promoters from the features
 
@@ -402,7 +547,10 @@ prom=feat$promoters # get promoters from the features
 # get for H3K4me3 values around TSSes
 # we use strand.aware=TRUE so - strands will
 # be reversed
-sm=ScoreMatrix("GenomicIntervals_data/data/H1.ESC.H3K4me3.chr20.bw",prom,
+H3K4me3File=system.file("extdata",
+                      "H1.ESC.H3K4me3.chr20.bw",
+                      package="compGenomRData")
+sm=ScoreMatrix(H3K4me3File,prom,
                type="bigWig",strand.aware = TRUE)
 
 
@@ -427,8 +575,13 @@ Here we saw that about half of the regions do not have any signal. In addition i
 Normally, there would be more than one experiment or we can integrate datasets from
 public repositories. In this case, we can see how different signals look like on the regions we are interested in. Now, we will also use DNAse-seq data and create a list of matrices with our datasets and plot the average profile of the signals from both datasets.  
 ```{r,fig.cap= "Average profiles of DNAse and H3K4me3 ChIP-seq"}
-sml=ScoreMatrixList(c(H3K4me3="GenomicIntervals_data/data/H1.ESC.H3K4me3.chr20.bw",
-                      DNAse="GenomicIntervals_data/data/H1.ESC.dnase.chr20.bw"),prom,
+
+DNAseFile=system.file("extdata",
+                      "H1.ESC.dnase.chr20.bw",
+                      package="compGenomRData")
+
+sml=ScoreMatrixList(c(H3K4me3=H3K4me3File,
+                      DNAse=DNAseFile),prom,
                       type="bigWig",strand.aware = TRUE)
 plotMeta(sml)
 
@@ -469,19 +622,23 @@ and make a karyogram template.
 library(ggbio)
 data(ideoCyto, package = "biovizBase")
 p <- autoplot(seqinfo(ideoCyto$hg19), layout = "karyogram")
-
+p
 ```
 
 Next, we would like to plot CpG islands on this Karyogram. We simply do this
 by adding a layer with `layout_karyogram` function.
 ```{r,karyo2,fig.cap= "Karyogram of CpG islands"}
 # read CpG islands from a generic text file
-cpgi.gr=genomation::readGeneric("GenomicIntervals_data/data/CpGi.hg19.table.txt", 
-                        chr = 1, start = 2, end = 3,header=TRUE, 
-                        keep.all.metadata =TRUE,remove.unusual=TRUE )
+
+CpGiFile=filePath=system.file("extdata",
+                      "CpGi.hg19.table.txt",
+                      package="compGenomRData")
+cpgi.gr=genomation::readGeneric(CpGiFile, 
+            chr = 1, start = 2, end = 3,header=TRUE, 
+          keep.all.metadata =TRUE,remove.unusual=TRUE )
 
 p + layout_karyogram(cpgi.gr)
- 
+
 
 ```
 
@@ -492,9 +649,10 @@ we read earlier. We will plot a point proportional to "obsExp" column in the dat
 it says the points will have x coordinate from CpG island start positions and y coordinate from obsExp score of CpG islands.
 ```{r,karyoCpG,fig.cap="Karyogram of CpG islands observed/expected scores"}
 
-p + layout_karyogram(cpgi.gr, geom = "point", size = 0.5, 
-                         aes(x = start, y = obsExp),
-                         ylim = c(11,40), color = "red")
+p + layout_karyogram(cpgi.gr, aes(x= start, y = obsExp),
+                     geom="point",
+                     ylim = c(2,50), color = "red",
+                     size=0.1,rect.height=1)
 
 
 
@@ -511,7 +669,7 @@ p <- ggplot() + layout_circle(ideoCyto$hg19, geom = "ideo", fill = "white",
                               radius = 39, trackWidth = 2)
 # plot the scores as points   
 p <- p + layout_circle(cpgi.gr, geom = "point", grid=TRUE,
-                           size = 1, aes(y = obsExp),color="red",
+                           size = 0.01, aes(y = obsExp),color="red",
                        radius = 42, trackWidth = 10)
 # set the chromosome names
 p <- p + layout_circle(as(seqinfo(ideoCyto$hg19),"GRanges"), 
@@ -525,21 +683,10 @@ p
 
 
 
-## Session info
-```{r}
-sessionInfo()
-```
-
 ## Exercises
 
-### The setup
-
-Set your working directory to the source file location in RStudio top menu:
-
-'Session > Set Working Directory > To Source File Location'.
 
 
-if you have done it correctly you should see this script when you type dir()
 
 
 ```
@@ -740,4 +887,5 @@ plotTracks(track.list,from=49547020,to=49548020,
 
 
 ```
+
 

@@ -1,10 +1,37 @@
 bookdown::gitbook:
-  css: css/style.css
-  lib_dir: "book_assets"
   includes:
-    after_body: ga.html
-bookdown::html_chapters:
+    in_header: addons/ga.html
   css: css/style.css
+  split_by: section
+  config:
+    toc:
+      collapse: none
+      before: |
+        <li><a href="./">Computational Genomics with R</a></li>
+      after: |
+        <li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+    download: [pdf]
+    edit: https://github.com/compgenomr/book/edit/master/%s
+    sharing:
+      github: yes
+      facebook: no
+bookdown::html_chapters:
+  css: [css/style.css, css/toc.css]
 bookdown::pdf_book:
+  includes:
+    in_header: latex/preamble.tex
+    before_body: latex/before_body.tex
+    after_body: latex/after_body.tex
   keep_tex: yes
-
+  dev: "pdf"
+  latex_engine: xelatex
+  citation_package: natbib
+  template: null
+  pandoc_args: --top-level-division=chapter
+  toc_depth: 3
+  toc_unnumbered: no
+  toc_appendix: yes
+  fig_width: 5
+  fig_height: 5
+  fig_caption: true
+  quote_footer: ["\\VA{", "}{}"]
