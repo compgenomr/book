@@ -345,7 +345,7 @@ from RleList object and apply summary statistics. Below, we show how to extract
 subsections of RleList object. We are extracting promoter regions from ChIP-seq
 read coverage RleList. Following that, we will plot the one of the promoters associated coverage values.
 ```{r,getViews,fig.cap="Coverage vector extracted from RleList via Views() function is plotted as a line plot."}
-myViews=Views(cov.bw,as(promoter.gr,"RangesList")) # get subsets of coverage
+myViews=Views(cov.bw,as(promoter.gr,"IRangesList")) # get subsets of coverage
 # there is a views object for each chromosome
 myViews
 myViews[[1]]
