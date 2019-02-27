@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>4.1 Operations on Genomic Intervals with GenomicRanges package | Computational Genomics With R</title>
+  <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="4.1 Operations on Genomic Intervals with GenomicRanges package | Computational Genomics With R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://compmgenomr.github.io/book/" />
+  <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
+  <meta property="og:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
+  <meta name="github-repo" content="compgenomr/bookdown" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4.1 Operations on Genomic Intervals with GenomicRanges package | Computational Genomics With R" />
+  
+  <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
+  <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
+
+<meta name="author" content="Altuna Akalin">
+
+
+<meta name="date" content="2019-02-27">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="genomicIntervals.html">
+<link rel="next" href="dealing-with-high-throughput-sequencing-reads.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-83786243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-83786243-1');
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Computational Genomics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html"><i class="fa fa-check"></i>Who is this book for?</a><ul>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html#what-will-you-get-out-of-this"><i class="fa fa-check"></i>What will you get out of this?</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="structure-of-the-book.html"><a href="structure-of-the-book.html"><i class="fa fa-check"></i>Structure of the book</a></li>
+<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html"><i class="fa fa-check"></i>Software information and conventions</a></li>
+<li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="how-to-contribute.html"><a href="how-to-contribute.html"><i class="fa fa-check"></i>How to contribute</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to Genomics</a><ul>
+<li class="chapter" data-level="1.1" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html"><i class="fa fa-check"></i><b>1.1</b> Genes, DNA and central dogma</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-is-a-genome"><i class="fa fa-check"></i><b>1.1.1</b> What is a genome?</a></li>
+<li class="chapter" data-level="1.1.2" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-is-a-gene"><i class="fa fa-check"></i><b>1.1.2</b> What is a gene?</a></li>
+<li class="chapter" data-level="1.1.3" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#how-genes-are-controlled-the-transcriptional-and-the-post-transcriptional-regulation"><i class="fa fa-check"></i><b>1.1.3</b> How genes are controlled ? The transcriptional and the post-transcriptional regulation</a></li>
+<li class="chapter" data-level="1.1.4" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-does-a-gene-look-like"><i class="fa fa-check"></i><b>1.1.4</b> What does a gene look like?</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html"><i class="fa fa-check"></i><b>1.2</b> Elements of gene regulation</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html#transcriptional-regulation"><i class="fa fa-check"></i><b>1.2.1</b> Transcriptional regulation</a></li>
+<li class="chapter" data-level="1.2.2" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html#post-transcriptional-regulation"><i class="fa fa-check"></i><b>1.2.2</b> Post-transcriptional regulation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="shaping-the-genome-dna-mutation.html"><a href="shaping-the-genome-dna-mutation.html"><i class="fa fa-check"></i><b>1.3</b> Shaping the genome: DNA mutation</a></li>
+<li class="chapter" data-level="1.4" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html"><i class="fa fa-check"></i><b>1.4</b> High-throughput experimental methods in genomics</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html#the-general-idea-behind-high-throughput-techniques"><i class="fa fa-check"></i><b>1.4.1</b> The general idea behind high-throughput techniques</a></li>
+<li class="chapter" data-level="1.4.2" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html#high-throughput-sequencing"><i class="fa fa-check"></i><b>1.4.2</b> High-throughput sequencing</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="visualization-and-data-repositories-for-genomics.html"><a href="visualization-and-data-repositories-for-genomics.html"><i class="fa fa-check"></i><b>1.5</b> Visualization and data repositories for genomics</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="Rintro.html"><a href="Rintro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R for genomic data analysis</a><ul>
+<li class="chapter" data-level="2.1" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Steps of (genomic) data analysis</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-collection"><i class="fa fa-check"></i><b>2.1.1</b> Data collection</a></li>
+<li class="chapter" data-level="2.1.2" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-quality-check-and-cleaning"><i class="fa fa-check"></i><b>2.1.2</b> Data quality check and cleaning</a></li>
+<li class="chapter" data-level="2.1.3" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-processing"><i class="fa fa-check"></i><b>2.1.3</b> Data processing</a></li>
+<li class="chapter" data-level="2.1.4" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#exploratory-data-analysis-and-modeling"><i class="fa fa-check"></i><b>2.1.4</b> Exploratory data analysis and modeling</a></li>
+<li class="chapter" data-level="2.1.5" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#visualization-and-reporting"><i class="fa fa-check"></i><b>2.1.5</b> Visualization and reporting</a></li>
+<li class="chapter" data-level="2.1.6" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#why-use-r-for-genomics"><i class="fa fa-check"></i><b>2.1.6</b> Why use R for genomics ?</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html"><i class="fa fa-check"></i><b>2.2</b> Getting started with R</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#installing-packages"><i class="fa fa-check"></i><b>2.2.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.2.2" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#installing-packages-in-custom-locations"><i class="fa fa-check"></i><b>2.2.2</b> Installing packages in custom locations</a></li>
+<li class="chapter" data-level="2.2.3" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#getting-help-on-functions-and-packages"><i class="fa fa-check"></i><b>2.2.3</b> Getting help on functions and packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="computations-in-r.html"><a href="computations-in-r.html"><i class="fa fa-check"></i><b>2.3</b> Computations in R</a></li>
+<li class="chapter" data-level="2.4" data-path="data-structures.html"><a href="data-structures.html"><i class="fa fa-check"></i><b>2.4</b> Data structures</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="data-structures.html"><a href="data-structures.html#vectors"><i class="fa fa-check"></i><b>2.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data-structures.html"><a href="data-structures.html#matrices"><i class="fa fa-check"></i><b>2.4.2</b> Matrices</a></li>
+<li class="chapter" data-level="2.4.3" data-path="data-structures.html"><a href="data-structures.html#data-frames"><i class="fa fa-check"></i><b>2.4.3</b> Data Frames</a></li>
+<li class="chapter" data-level="2.4.4" data-path="data-structures.html"><a href="data-structures.html#lists"><i class="fa fa-check"></i><b>2.4.4</b> Lists</a></li>
+<li class="chapter" data-level="2.4.5" data-path="data-structures.html"><a href="data-structures.html#factors"><i class="fa fa-check"></i><b>2.4.5</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="data-types.html"><a href="data-types.html"><i class="fa fa-check"></i><b>2.5</b> Data types</a></li>
+<li class="chapter" data-level="2.6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>2.6</b> Reading and writing data</a></li>
+<li class="chapter" data-level="2.7" data-path="plotting-in-r.html"><a href="plotting-in-r.html"><i class="fa fa-check"></i><b>2.7</b> Plotting in R</a></li>
+<li class="chapter" data-level="2.8" data-path="saving-plots.html"><a href="saving-plots.html"><i class="fa fa-check"></i><b>2.8</b> Saving plots</a></li>
+<li class="chapter" data-level="2.9" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html"><i class="fa fa-check"></i><b>2.9</b> Functions and control structures (for, if/else etc.)</a><ul>
+<li class="chapter" data-level="2.9.1" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html#user-defined-functions"><i class="fa fa-check"></i><b>2.9.1</b> User defined functions</a></li>
+<li class="chapter" data-level="2.9.2" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html#loops-and-looping-structures-in-r"><i class="fa fa-check"></i><b>2.9.2</b> Loops and looping structures in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>2.10</b> Exercises</a><ul>
+<li class="chapter" data-level="2.10.1" data-path="exercises.html"><a href="exercises.html#computations-in-r-1"><i class="fa fa-check"></i><b>2.10.1</b> Computations in R</a></li>
+<li class="chapter" data-level="2.10.2" data-path="exercises.html"><a href="exercises.html#data-structures-in-r"><i class="fa fa-check"></i><b>2.10.2</b> Data structures in R</a></li>
+<li class="chapter" data-level="2.10.3" data-path="exercises.html"><a href="exercises.html#reading-in-and-writing-data-out-in-r"><i class="fa fa-check"></i><b>2.10.3</b> Reading in and writing data out in R</a></li>
+<li class="chapter" data-level="2.10.4" data-path="exercises.html"><a href="exercises.html#plotting-in-r-1"><i class="fa fa-check"></i><b>2.10.4</b> Plotting in R</a></li>
+<li class="chapter" data-level="2.10.5" data-path="exercises.html"><a href="exercises.html#functions-and-control-structures-for-ifelse-etc.-1"><i class="fa fa-check"></i><b>2.10.5</b> Functions and control structures (for, if/else etc.)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="stats.html"><a href="stats.html"><i class="fa fa-check"></i><b>3</b> Statistics and Exploratory Data Analysis for Genomics</a><ul>
+<li class="chapter" data-level="3.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><i class="fa fa-check"></i><b>3.1</b> How to summarize collection of data points: The idea behind statistical distributions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-central-tendency-mean-and-median"><i class="fa fa-check"></i><b>3.1.1</b> Describing the central tendency: mean and median</a></li>
+<li class="chapter" data-level="3.1.2" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-spread-measurements-of-variation"><i class="fa fa-check"></i><b>3.1.2</b> Describing the spread: measurements of variation</a></li>
+<li class="chapter" data-level="3.1.3" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#precision-of-estimates-confidence-intervals"><i class="fa fa-check"></i><b>3.1.3</b> Precision of estimates: Confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html"><i class="fa fa-check"></i><b>3.2</b> How to test for differences between samples</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#randomization-based-testing-for-difference-of-the-means"><i class="fa fa-check"></i><b>3.2.1</b> randomization based testing for difference of the means</a></li>
+<li class="chapter" data-level="3.2.2" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#using-t-test-for-difference-of-the-means-between-two-samples"><i class="fa fa-check"></i><b>3.2.2</b> Using t-test for difference of the means between two samples</a></li>
+<li class="chapter" data-level="3.2.3" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#multiple-testing-correction"><i class="fa fa-check"></i><b>3.2.3</b> multiple testing correction</a></li>
+<li class="chapter" data-level="3.2.4" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#moderated-t-tests-using-information-from-multiple-comparisons"><i class="fa fa-check"></i><b>3.2.4</b> moderated t-tests: using information from multiple comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html"><i class="fa fa-check"></i><b>3.3</b> Relationship between variables: linear models and correlation</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#how-to-fit-a-line"><i class="fa fa-check"></i><b>3.3.1</b> How to fit a line</a></li>
+<li class="chapter" data-level="3.3.2" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#how-to-estimate-the-error-of-the-coefficients"><i class="fa fa-check"></i><b>3.3.2</b> How to estimate the error of the coefficients</a></li>
+<li class="chapter" data-level="3.3.3" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#accuracy-of-the-model"><i class="fa fa-check"></i><b>3.3.3</b> Accuracy of the model</a></li>
+<li class="chapter" data-level="3.3.4" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-with-categorical-variables"><i class="fa fa-check"></i><b>3.3.4</b> Regression with categorical variables</a></li>
+<li class="chapter" data-level="3.3.5" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-pitfalls"><i class="fa fa-check"></i><b>3.3.5</b> Regression pitfalls</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html"><i class="fa fa-check"></i><b>3.4</b> Clustering: grouping samples based on their similarity</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#distance-metrics"><i class="fa fa-check"></i><b>3.4.1</b> Distance metrics</a></li>
+<li class="chapter" data-level="3.4.2" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#hiearchical-clustering"><i class="fa fa-check"></i><b>3.4.2</b> Hiearchical clustering</a></li>
+<li class="chapter" data-level="3.4.3" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#k-means-clustering"><i class="fa fa-check"></i><b>3.4.3</b> K-means clustering</a></li>
+<li class="chapter" data-level="3.4.4" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#how-to-choose-k-the-number-of-clusters"><i class="fa fa-check"></i><b>3.4.4</b> how to choose “k”, the number of clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><i class="fa fa-check"></i><b>3.5</b> Dimensionality reduction techniques: visualizing complex data sets in 2D</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#principal-component-analysis"><i class="fa fa-check"></i><b>3.5.1</b> Principal component analysis</a></li>
+<li class="chapter" data-level="3.5.2" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#other-dimension-reduction-techniques-using-other-matrix-factorization-methods"><i class="fa fa-check"></i><b>3.5.2</b> Other dimension reduction techniques using other matrix factorization methods</a></li>
+<li class="chapter" data-level="3.5.3" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#multi-dimensional-scaling"><i class="fa fa-check"></i><b>3.5.3</b> Multi-dimensional scaling</a></li>
+<li class="chapter" data-level="3.5.4" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#t-distributed-stochastic-neighbor-embedding-t-sne"><i class="fa fa-check"></i><b>3.5.4</b> t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="exercises-1.html"><a href="exercises-1.html"><i class="fa fa-check"></i><b>3.6</b> Exercises</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="exercises-1.html"><a href="exercises-1.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><i class="fa fa-check"></i><b>3.6.1</b> How to summarize collection of data points: The idea behind statistical distributions</a></li>
+<li class="chapter" data-level="3.6.2" data-path="exercises-1.html"><a href="exercises-1.html#how-to-test-for-differences-in-samples"><i class="fa fa-check"></i><b>3.6.2</b> How to test for differences in samples</a></li>
+<li class="chapter" data-level="3.6.3" data-path="exercises-1.html"><a href="exercises-1.html#relationship-between-variables-linear-models-and-correlation-1"><i class="fa fa-check"></i><b>3.6.3</b> Relationship between variables: linear models and correlation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="genomicIntervals.html"><a href="genomicIntervals.html"><i class="fa fa-check"></i><b>4</b> Operations on Genomic Intervals and Genome Arithmetic</a><ul>
+<li class="chapter" data-level="4.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html"><i class="fa fa-check"></i><b>4.1</b> Operations on Genomic Intervals with GenomicRanges package</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#how-to-create-and-manipulate-a-granges-object"><i class="fa fa-check"></i><b>4.1.1</b> How to create and manipulate a GRanges object</a></li>
+<li class="chapter" data-level="4.1.2" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#getting-genomic-regions-into-r-as-granges-objects"><i class="fa fa-check"></i><b>4.1.2</b> Getting genomic regions into R as GRanges objects</a></li>
+<li class="chapter" data-level="4.1.3" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><i class="fa fa-check"></i><b>4.1.3</b> Finding regions that do/do not overlap with another set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html"><i class="fa fa-check"></i><b>4.2</b> Dealing with high-throughput sequencing reads</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html#quality-check-on-sequencing-reads-and-mapping-reads-to-the-genome"><i class="fa fa-check"></i><b>4.2.1</b> Quality check on sequencing reads and mapping reads to the genome</a></li>
+<li class="chapter" data-level="4.2.2" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html#counting-mapped-reads-for-a-set-of-regions"><i class="fa fa-check"></i><b>4.2.2</b> Counting mapped reads for a set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html"><i class="fa fa-check"></i><b>4.3</b> Dealing with continuous scores over the genome</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html#extracting-subsections-of-rle-and-rlelist-objects"><i class="fa fa-check"></i><b>4.3.1</b> Extracting subsections of Rle and RleList objects</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html"><i class="fa fa-check"></i><b>4.4</b> Genomic intervals with more information: SummarizedExperiment class</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#create-a-summarizedexperiment-object"><i class="fa fa-check"></i><b>4.4.1</b> Create a SummarizedExperiment object</a></li>
+<li class="chapter" data-level="4.4.2" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#subset-and-manipulate-the-summarizedexperiment-object"><i class="fa fa-check"></i><b>4.4.2</b> Subset and manipulate the SummarizedExperiment object</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html"><i class="fa fa-check"></i><b>4.5</b> Visualizing and summarizing genomic intervals</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#visualizing-intervals-on-a-locus-of-interest"><i class="fa fa-check"></i><b>4.5.1</b> Visualizing intervals on a locus of interest</a></li>
+<li class="chapter" data-level="4.5.2" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#summaries-of-genomic-intervals-on-multiple-loci"><i class="fa fa-check"></i><b>4.5.2</b> Summaries of genomic intervals on multiple loci</a></li>
+<li class="chapter" data-level="4.5.3" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#making-karyograms-and-circos-plots"><i class="fa fa-check"></i><b>4.5.3</b> Making karyograms and circos plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="exercises-2.html"><a href="exercises-2.html"><i class="fa fa-check"></i><b>4.6</b> Exercises</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="exercises-2.html"><a href="exercises-2.html#operations-on-genomic-intervals-with-genomicranges-package-1"><i class="fa fa-check"></i><b>4.6.1</b> Operations on Genomic Intervals with GenomicRanges package</a></li>
+<li class="chapter" data-level="4.6.2" data-path="exercises-2.html"><a href="exercises-2.html#dealing-with-mapped-high-throughput-sequencing-reads"><i class="fa fa-check"></i><b>4.6.2</b> Dealing with mapped high-throughput sequencing reads</a></li>
+<li class="chapter" data-level="4.6.3" data-path="exercises-2.html"><a href="exercises-2.html#dealing-with-contiguous-scores-over-the-genome"><i class="fa fa-check"></i><b>4.6.3</b> Dealing with contiguous scores over the genome</a></li>
+<li class="chapter" data-level="4.6.4" data-path="exercises-2.html"><a href="exercises-2.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>4.6.4</b> Visualizing and summarizing genomic intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Genomics With R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="operations-on-genomic-intervals-with-genomicranges-package" class="section level2">
+<h2><span class="header-section-number">4.1</span> Operations on Genomic Intervals with GenomicRanges package</h2>
+<p>The <a href="http://bioconductor.org">Bioconductor</a> project has a dedicated package called <a href="http://www.bioconductor.org/packages/release/bioc/html/GenomicRanges.html"><strong>GenomicRanges</strong></a> to deal with genomic intervals. In this section, we will provide use cases involving operations on genomic intervals. The main reason we will stick to this package is that it provides tools to do overlap operations. However package requires that users operate on specific data types that are conceptually similar to a tabular data structure implemented in a way that makes overlapping and related operations easier. The main object we will be using is called <code>GRanges</code> object and we will also see some other related objects from the <code>GenomicRanges</code> package.</p>
+<div id="how-to-create-and-manipulate-a-granges-object" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> How to create and manipulate a GRanges object</h3>
+<p><code>GRanges</code> (from GenomicRanges package) is the main object that holds the genomic intervals and extra information about those intervals. Here we will show how to create one. Conceptually, it is similar to a data frame and some operations such as using <strong><a href="exercises-2.html#section-21"></a></strong> notation to subset the table will work also on GRanges, but keep in mind that not everything that works for data frames will work on GRanges objects.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(GenomicRanges)
+gr=<span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr2&quot;</span>),
+           <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>,<span class="dv">200</span>),
+                          <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>)),
+           <span class="dt">strand=</span><span class="kw">c</span>(<span class="st">&quot;+&quot;</span>,<span class="st">&quot;-&quot;</span>,<span class="st">&quot;-&quot;</span>)
+)
+gr</code></pre>
+<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1    50-100      +
+##   [2]     chr2   150-200      -
+##   [3]     chr2   200-300      -
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># subset like a data frame</span>
+gr[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,]</code></pre>
+<pre><code>## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1    50-100      +
+##   [2]     chr2   150-200      -
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<p>As you can see it looks a bit like a data frame. Also, note that the peculiar second argument “ranges” which basically contains start and end positions of the genomic intervals. However, you can not just give start and end positions you actually have to provide another object of IRanges. Do not let this confuse you, GRanges actually depends on another object that is very similar to itself called <code>IRanges</code> and you have to provide the “ranges” argument as an IRanges object. In its simplest for, an IRanges object can be constructed by providing start and end positions to IRanges() function. Think of it as something you just have to provide in order to construct the GRanges object.</p>
+<p>GRanges can also contain other information about the genomic interval such as scores, names, etc. You can provide extra information at the time of the construction or you can add it later. Here is how you can do those:</p>
+<pre class="sourceCode r"><code class="sourceCode r">gr=<span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr2&quot;</span>),
+           <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>,<span class="dv">200</span>),
+                          <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>)),
+           <span class="dt">names=</span><span class="kw">c</span>(<span class="st">&quot;id1&quot;</span>,<span class="st">&quot;id3&quot;</span>,<span class="st">&quot;id2&quot;</span>),
+           <span class="dt">scores=</span><span class="kw">c</span>(<span class="dv">100</span>,<span class="dv">90</span>,<span class="dv">50</span>)
+)
+<span class="co"># or add it later (replaces the existing meta data)</span>
+<span class="kw">mcols</span>(gr)=<span class="kw">DataFrame</span>(<span class="dt">name2=</span><span class="kw">c</span>(<span class="st">&quot;pax6&quot;</span>,<span class="st">&quot;meis1&quot;</span>,<span class="st">&quot;zic4&quot;</span>),
+                    <span class="dt">score2=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))
+
+gr=<span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr1&quot;</span>,<span class="st">&quot;chr2&quot;</span>,<span class="st">&quot;chr2&quot;</span>),
+           <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">50</span>,<span class="dv">150</span>,<span class="dv">200</span>),
+                          <span class="dt">end=</span><span class="kw">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>)),
+           <span class="dt">names=</span><span class="kw">c</span>(<span class="st">&quot;id1&quot;</span>,<span class="st">&quot;id3&quot;</span>,<span class="st">&quot;id2&quot;</span>),
+           <span class="dt">scores=</span><span class="kw">c</span>(<span class="dv">100</span>,<span class="dv">90</span>,<span class="dv">50</span>)
+)
+
+<span class="co"># or appends to existing meta data</span>
+<span class="kw">mcols</span>(gr)=<span class="kw">cbind</span>(<span class="kw">mcols</span>(gr),
+                          <span class="kw">DataFrame</span>(<span class="dt">name2=</span><span class="kw">c</span>(<span class="st">&quot;pax6&quot;</span>,<span class="st">&quot;meis1&quot;</span>,<span class="st">&quot;zic4&quot;</span>)) )
+gr</code></pre>
+<pre><code>## GRanges object with 3 ranges and 3 metadata columns:
+##       seqnames    ranges strand |       names
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##   [1]     chr1    50-100      * |         id1
+##   [2]     chr2   150-200      * |         id3
+##   [3]     chr2   200-300      * |         id2
+##          scores       name2
+##       &lt;numeric&gt; &lt;character&gt;
+##   [1]       100        pax6
+##   [2]        90       meis1
+##   [3]        50        zic4
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># elementMetadata() and values() do the same things</span>
+<span class="kw">elementMetadata</span>(gr)</code></pre>
+<pre><code>## DataFrame with 3 rows and 3 columns
+##         names    scores       name2
+##   &lt;character&gt; &lt;numeric&gt; &lt;character&gt;
+## 1         id1       100        pax6
+## 2         id3        90       meis1
+## 3         id2        50        zic4</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">values</span>(gr)</code></pre>
+<pre><code>## DataFrame with 3 rows and 3 columns
+##         names    scores       name2
+##   &lt;character&gt; &lt;numeric&gt; &lt;character&gt;
+## 1         id1       100        pax6
+## 2         id3        90       meis1
+## 3         id2        50        zic4</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># you may also add metadata using the $ operator, as for data frames</span>
+gr<span class="op">$</span>name3 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;C&quot;</span>, <span class="st">&quot;B&quot;</span>)
+gr</code></pre>
+<pre><code>## GRanges object with 3 ranges and 4 metadata columns:
+##       seqnames    ranges strand |       names
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##   [1]     chr1    50-100      * |         id1
+##   [2]     chr2   150-200      * |         id3
+##   [3]     chr2   200-300      * |         id2
+##          scores       name2       name3
+##       &lt;numeric&gt; &lt;character&gt; &lt;character&gt;
+##   [1]       100        pax6           A
+##   [2]        90       meis1           C
+##   [3]        50        zic4           B
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+</div>
+<div id="getting-genomic-regions-into-r-as-granges-objects" class="section level3">
+<h3><span class="header-section-number">4.1.2</span> Getting genomic regions into R as GRanges objects</h3>
+<p>There are multiple ways you can read in your genomic features into R and create a GRanges object. Most genomic interval data comes as a tabular format that has the basic information about the location of the interval and some other information. We already showed how to read BED files as data frame. Now we will show how to convert it to GRanges object. This is one way of doing it, but there are more convenient ways described further in the text.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># read CpGi data set</span>
+filePath=<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,
+                      <span class="st">&quot;cpgi.hg19.chr21.bed&quot;</span>,
+                      <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)
+cpgi.df =<span class="st"> </span><span class="kw">read.table</span>(filePath, <span class="dt">header =</span> <span class="ot">FALSE</span>,
+                     <span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>) 
+<span class="co"># remove chr names with &quot;_&quot;</span>
+cpgi.df =cpgi.df [<span class="kw">grep</span>(<span class="st">&quot;_&quot;</span>,cpgi.df[,<span class="dv">1</span>],<span class="dt">invert=</span><span class="ot">TRUE</span>),]
+
+cpgi.gr=<span class="kw">GRanges</span>(<span class="dt">seqnames=</span>cpgi.df[,<span class="dv">1</span>],
+                <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>cpgi.df[,<span class="dv">2</span>],
+                              <span class="dt">end=</span>cpgi.df[,<span class="dv">3</span>]))</code></pre>
+<p>You may need to do some pre-processing before/after reading in the BED file. Below is an example of getting transcription start sites from BED files containing refseq transcript locations.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># read refseq file</span>
+filePathRefseq=<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,
+                      <span class="st">&quot;refseq.hg19.chr21.bed&quot;</span>,
+                      <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)
+
+
+ref.df =<span class="st"> </span><span class="kw">read.table</span>(filePathRefseq, <span class="dt">header =</span> <span class="ot">FALSE</span>,
+                     <span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>) 
+ref.gr=<span class="kw">GRanges</span>(<span class="dt">seqnames=</span>ref.df[,<span class="dv">1</span>],
+               <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span>ref.df[,<span class="dv">2</span>],
+                              <span class="dt">end=</span>ref.df[,<span class="dv">3</span>]),
+               <span class="dt">strand=</span>ref.df[,<span class="dv">6</span>],<span class="dt">name=</span>ref.df[,<span class="dv">4</span>])
+<span class="co"># get TSS</span>
+tss.gr=ref.gr
+<span class="co"># end of the + strand genes must be equalized to start pos</span>
+<span class="kw">end</span>(tss.gr[<span class="kw">strand</span>(tss.gr)<span class="op">==</span><span class="st">&quot;+&quot;</span>,])  =<span class="kw">start</span>(tss.gr[<span class="kw">strand</span>(tss.gr)<span class="op">==</span><span class="st">&quot;+&quot;</span>,])
+<span class="co"># startof the - strand genes must be equalized to end pos</span>
+<span class="kw">start</span>(tss.gr[<span class="kw">strand</span>(tss.gr)<span class="op">==</span><span class="st">&quot;-&quot;</span>,])=<span class="kw">end</span>(tss.gr[<span class="kw">strand</span>(tss.gr)<span class="op">==</span><span class="st">&quot;-&quot;</span>,])
+<span class="co"># remove duplicated TSSes ie alternative transcripts</span>
+<span class="co"># this keeps the first instance and removes duplicates</span>
+tss.gr=tss.gr[<span class="op">!</span><span class="kw">duplicated</span>(tss.gr),]</code></pre>
+<p>Another way of doing this is from a BED file is to use <code>readTranscriptfeatures()</code>
+function from the <code>genomation</code> package. This function takes care of the steps described in the code chunk above.</p>
+<p>Reading the genomic features as text files and converting to GRanges is not the only way to create GRanges object. With the help of the <a href="http://www.bioconductor.org/packages/release/bioc/html/rtracklayer.html">rtracklayer</a> package we can directly import BED files.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(rtracklayer)
+
+<span class="co"># we are reading a BED file, the path to the file</span>
+<span class="co"># is stored in filePathRefseq variable</span>
+<span class="kw">import.bed</span>(filePathRefseq)</code></pre>
+<p>Next, we will show how to use other methods to automatically obtain the data in GRanges format from online databases. But you will not be able to use these methods for every data set so it is good to now how to read data from flat files as well. We will use rtracklayer package to download data from <a href="http://genome-euro.ucsc.edu/cgi-bin/hgGateway?hgsid=197855328_moRAG0Dqe1qlcOEtNDAt09E1e6ab">UCSC browser</a>. We will download CpG islands as GRanges objects. The <code>rtracklayer</code> workflow we show below works like using the UCSC table browser. You need to select which species you are working with, then you need to select which dataset you need to download and lastly you download the UCSC dataset or track as <code>GRanges</code> object.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(rtracklayer)
+session &lt;-<span class="st"> </span><span class="kw">browserSession</span>(<span class="st">&quot;UCSC&quot;</span>,<span class="dt">url =</span> <span class="st">&#39;http://genome-euro.ucsc.edu/cgi-bin/&#39;</span>)
+<span class="kw">genome</span>(session) &lt;-<span class="st"> &quot;mm9&quot;</span>
+<span class="co">## choose CpG island track on chr12</span>
+query &lt;-<span class="st"> </span><span class="kw">ucscTableQuery</span>(session, <span class="dt">track=</span><span class="st">&quot;CpG Islands&quot;</span>,<span class="dt">table=</span><span class="st">&quot;cpgIslandExt&quot;</span>,
+        <span class="dt">range=</span><span class="kw">GRangesForUCSCGenome</span>(<span class="st">&quot;mm9&quot;</span>, <span class="st">&quot;chr12&quot;</span>))
+<span class="co">## get the GRanges object for the track</span>
+<span class="kw">track</span>(query)</code></pre>
+<p>There is also an interface to Ensembl database called <a href="https://bioconductor.org/packages/release/bioc/html/biomaRt.html">biomaRt</a>.
+This package will enable you to access and import all of the datasets included
+in Ensembl. Another similar package is <a href="https://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a>.
+. This package is an aggregator for different datasets from various sources.
+Using AnnotationHub one can access data sets from UCSC browser, Ensembl browser
+and data sets from genomics consortiums such as ENCODE and RoadmapEpigenomics.
+Although, we do not provide examples, we invite curious readers to read the
+vignettes of the aforementioned annotation packages.</p>
+<div id="frequently-used-file-formats-and-how-to-read-them-into-r-as-a-table" class="section level4">
+<h4><span class="header-section-number">4.1.2.1</span> Frequently used file formats and how to read them into R as a table</h4>
+<p>There are multiple file formats in genomics but some of them you will see more
+frequently than others. We already mentioned some of them. Here is a list of files
+and functions to read them into R as <code>GRanges</code> objects or something coercible to
+GRanges objects.</p>
+<p><strong>BED</strong>: These are used and popularized by UCSC browser, and can hold a variety of
+information including exon/intron structure of transcripts in a single line.</p>
+<ul>
+<li><code>genomation::readBed()</code></li>
+<li><code>genomation::readTranscriptFeatures()</code> good for getting intron/exon/promoters from BED12 files</li>
+<li><code>rtracklayer::import.bed()</code></li>
+</ul>
+<p><strong>GFF</strong>: GFF format is a tabular text format for genomic features similar to BED. However,
+it is a more flexible format than BED, which makes it harder to parse at times. Many gene annotation files are in this format.</p>
+<ul>
+<li><code>genomation::gffToGranges()</code></li>
+<li><code>rtracklayer::impot.gff()</code></li>
+</ul>
+<p><strong>BAM</strong>: BAM format is compressed and indexed tabular file format designed for sequencing
+reads.</p>
+<ul>
+<li><code>GenomicAlignments::readGAlignments</code></li>
+<li><code>Rsamtools::scanBam</code> returns a data frame with columns from SAM/BAM file.</li>
+</ul>
+<p><strong>BigWig</strong>: This is used to for storing scores associated with genomic intervals. It is an indexed format. Similar to BAM, this makes it easier to query and only necessary portions
+of the file could be loaded into memory.</p>
+<ul>
+<li><code>rtracklayer::import.bw()</code></li>
+</ul>
+<p><strong>Generic Text files</strong>: This represents any text file with the minimal information of chromosome, start and end coordinates.</p>
+<ul>
+<li><code>genomation::readGeneric()</code></li>
+</ul>
+<p><strong>Tabix/Bcf</strong>: These are tabular file formats indexed and compressed similar to
+BAM. The following functions return lists rather than tabular data structures. These
+formats are mostly used to store genomic variation data such as SNPs and indels.</p>
+<ul>
+<li><code>Rsamtools::scanTabix</code></li>
+<li><code>Rsamtools::scanBcf</code></li>
+</ul>
+</div>
+</div>
+<div id="finding-regions-that-dodo-not-overlap-with-another-set-of-regions" class="section level3">
+<h3><span class="header-section-number">4.1.3</span> Finding regions that do/do not overlap with another set of regions</h3>
+<p>This is one of the most common tasks in genomics. Usually, you have a set of regions that you are interested in and you want to see if they overlap with another set of regions or see how many of them overlap. A good example is transcription factor binding sites determined by <a href="http://en.wikipedia.org/wiki/ChIP-sequencing">ChIP-seq</a> experiments. In these types of experiments and followed analysis, one usually ends up with genomic regions that are bound by transcription factors. One of the standard next questions would be to annotate binding sites with genomic annotations such as promoter,exon,intron and/or CpG islands. Below is a demonstration of how transcription factor binding sites can be annotated using CpG islands. First, we will get the subset of binding sites that overlap with the CpG islands. In this case, binding sites are ChIP-seq peaks.</p>
+<p>We can find the subset of peaks that overlap with the CpG islands using the <strong>subsetByoverlaps()</strong> function. You will also see another way of converting <strong>data frames</strong> to <strong>GRanges</strong>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(genomation)
+filePathPeaks=<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,             <span class="st">&quot;wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep1.broadPeak.gz&quot;</span>,
+                      <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)
+
+<span class="co"># read the peaks from a bed file</span>
+pk1.gr=<span class="kw">readBroadPeak</span>(filePathPeaks)
+
+<span class="co"># get the peaks that overlap with CpG islands</span>
+<span class="kw">subsetByOverlaps</span>(pk1.gr,cpgi.gr)</code></pre>
+<pre><code>## GRanges object with 44 ranges and 5 metadata columns:
+##        seqnames            ranges strand |        name
+##           &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;
+##    [1]    chr21   9825360-9826582      * |   peak14562
+##    [2]    chr21   9968469-9968984      * |   peak14593
+##    [3]    chr21 15755368-15755956      * |   peak14828
+##    [4]    chr21 19191579-19192525      * |   peak14840
+##    [5]    chr21 26979619-26980048      * |   peak14854
+##    ...      ...               ...    ... .         ...
+##   [40]    chr21 46237464-46237809      * |   peak15034
+##   [41]    chr21 46707702-46708084      * |   peak15037
+##   [42]    chr21 46961552-46961875      * |   peak15039
+##   [43]    chr21 47743587-47744125      * |   peak15050
+##   [44]    chr21 47878412-47878891      * |   peak15052
+##            score signalValue    pvalue    qvalue
+##        &lt;integer&gt;   &lt;numeric&gt; &lt;integer&gt; &lt;integer&gt;
+##    [1]        56      183.11        -1        -1
+##    [2]       947     3064.92        -1        -1
+##    [3]        90       291.9        -1        -1
+##    [4]       290      940.03        -1        -1
+##    [5]        32      104.67        -1        -1
+##    ...       ...         ...       ...       ...
+##   [40]        32      106.36        -1        -1
+##   [41]        67      217.02        -1        -1
+##   [42]        38      124.31        -1        -1
+##   [43]       353     1141.58        -1        -1
+##   [44]       104      338.78        -1        -1
+##   -------
+##   seqinfo: 23 sequences from an unspecified genome; no seqlengths</code></pre>
+<p>For each CpG island, we can count the number of peaks that overlap with a given CpG island with countOverlaps().</p>
+<pre class="sourceCode r"><code class="sourceCode r">counts=<span class="kw">countOverlaps</span>(pk1.gr,cpgi.gr)
+<span class="kw">head</span>(counts)</code></pre>
+<pre><code>## [1] 0 0 0 0 0 0</code></pre>
+<p>The <code>findOverlaps()</code> function can be used to see one-to-one overlaps between peaks and CpG islands. It returns a matrix showing which peak overlaps with which CpGi island.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">findOverlaps</span>(pk1.gr,cpgi.gr)</code></pre>
+<pre><code>## Hits object with 45 hits and 0 metadata columns:
+##        queryHits subjectHits
+##        &lt;integer&gt;   &lt;integer&gt;
+##    [1]     14562           1
+##    [2]     14593           3
+##    [3]     14828           8
+##    [4]     14840          13
+##    [5]     14854          16
+##    ...       ...         ...
+##   [41]     15034         155
+##   [42]     15037         166
+##   [43]     15039         176
+##   [44]     15050         192
+##   [45]     15052         200
+##   -------
+##   queryLength: 26121 / subjectLength: 205</code></pre>
+<p>Another interesting thing would be to look at the distances to nearest CpG islands for each peak. In addition, just finding the nearest CpG island could also be interesting. Often times, you will need to find nearest TSS or gene to your regions of interest, and the code below is handy for doing that.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find nearest CpGi to each TSS</span>
+n.ind=<span class="kw">nearest</span>(pk1.gr,cpgi.gr)
+<span class="co"># get distance to nearest</span>
+dists=<span class="kw">distanceToNearest</span>(pk1.gr,cpgi.gr,<span class="dt">select=</span><span class="st">&quot;arbitrary&quot;</span>)
+dists</code></pre>
+<pre><code>## Hits object with 620 hits and 1 metadata column:
+##         queryHits subjectHits |  distance
+##         &lt;integer&gt;   &lt;integer&gt; | &lt;integer&gt;
+##     [1]     14440           1 |    384188
+##     [2]     14441           1 |    382968
+##     [3]     14442           1 |    381052
+##     [4]     14443           1 |    379311
+##     [5]     14444           1 |    376978
+##     ...       ...         ... .       ...
+##   [616]     15055         205 |     26212
+##   [617]     15056         205 |     27402
+##   [618]     15057         205 |     30468
+##   [619]     15058         205 |     31611
+##   [620]     15059         205 |     34090
+##   -------
+##   queryLength: 26121 / subjectLength: 205</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># histogram of the distances to nearest TSS</span>
+dist2plot=<span class="kw">mcols</span>(dists)[,<span class="dv">1</span>]
+<span class="kw">hist</span>(<span class="kw">log10</span>(dist2plot),<span class="dt">xlab=</span><span class="st">&quot;log10(dist to nearest TSS)&quot;</span>,
+     <span class="dt">main=</span><span class="st">&quot;Distances&quot;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:findNearest"></span>
+<img src="compgenomrReloaded_files/figure-html/findNearest-1.png" alt="histogram of distances" width="672" />
+<p class="caption">
+FIGURE 4.2: histogram of distances
+</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="genomicIntervals.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dealing-with-high-throughput-sequencing-reads.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/compgenomr/book/edit/master/04-genomicIntervals.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["compgenomrReloaded.pdf"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

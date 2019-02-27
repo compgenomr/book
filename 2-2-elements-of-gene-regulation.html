@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Computational Genomics With R" />
+<meta property="og:type" content="book" />
+<meta property="og:url" content="https://compmgenomr.github.io/book/" />
+<meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
+<meta property="og:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
+<meta name="github-repo" content="rstudio/bookdown" />
+
+<meta name="author" content="Altuna Akalin" />
+
+<meta name="date" content="2019-01-22" />
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+
+<meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
+
+<title>Computational Genomics With R</title>
+
+<script src="libs/jquery/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap/shim/respond.min.js"></script>
+<script src="libs/navigation/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li class="has-sub"><a href="index.html#preface">Preface</a><ul>
+<li class="has-sub"><a href="who-is-this-book-for.html#who-is-this-book-for">Who is this book for?</a><ul>
+<li><a href="who-is-this-book-for.html#what-will-you-get-out-of-this">What will you get out of this?</a></li>
+</ul></li>
+<li><a href="structure-of-the-book.html#structure-of-the-book">Structure of the book</a></li>
+<li><a href="software-information-and-conventions.html#software-information-and-conventions">Software information and conventions</a></li>
+<li><a href="acknowledgments.html#acknowledgments">Acknowledgments</a></li>
+</ul></li>
+<li><a href="1-how-to-contribute.html#how-to-contribute"><span class="toc-section-number">1</span> How to contribute</a></li>
+<li><a href="about-the-authors.html#about-the-authors">About the Authors</a></li>
+<li class="has-sub"><a href="2-intro.html#intro"><span class="toc-section-number">2</span> Introduction to Genomics</a><ul>
+<li class="has-sub"><a href="2-1-genes-dna-and-central-dogma.html#genes-dna-and-central-dogma"><span class="toc-section-number">2.1</span> Genes, DNA and central dogma</a><ul>
+<li><a href="2-1-genes-dna-and-central-dogma.html#what-is-a-genome"><span class="toc-section-number">2.1.1</span> What is a genome?</a></li>
+<li><a href="2-1-genes-dna-and-central-dogma.html#what-is-a-gene"><span class="toc-section-number">2.1.2</span> What is a gene?</a></li>
+<li><a href="2-1-genes-dna-and-central-dogma.html#how-genes-are-controlled-the-transcriptional-and-the-post-transcriptional-regulation"><span class="toc-section-number">2.1.3</span> How genes are controlled ? The transcriptional and the post-transcriptional regulation</a></li>
+<li><a href="2-1-genes-dna-and-central-dogma.html#what-does-a-gene-look-like"><span class="toc-section-number">2.1.4</span> What does a gene look like?</a></li>
+</ul></li>
+<li class="has-sub"><a href="2-2-elements-of-gene-regulation.html#elements-of-gene-regulation"><span class="toc-section-number">2.2</span> Elements of gene regulation</a><ul>
+<li><a href="2-2-elements-of-gene-regulation.html#transcriptional-regulation"><span class="toc-section-number">2.2.1</span> Transcriptional regulation</a></li>
+<li><a href="2-2-elements-of-gene-regulation.html#post-transcriptional-regulation"><span class="toc-section-number">2.2.2</span> Post-transcriptional regulation</a></li>
+</ul></li>
+<li><a href="2-3-shaping-the-genome-dna-mutation.html#shaping-the-genome-dna-mutation"><span class="toc-section-number">2.3</span> Shaping the genome: DNA mutation</a></li>
+<li class="has-sub"><a href="2-4-high-throughput-experimental-methods-in-genomics.html#high-throughput-experimental-methods-in-genomics"><span class="toc-section-number">2.4</span> High-throughput experimental methods in genomics</a><ul>
+<li><a href="2-4-high-throughput-experimental-methods-in-genomics.html#the-general-idea-behind-high-throughput-techniques"><span class="toc-section-number">2.4.1</span> The general idea behind high-throughput techniques</a></li>
+<li><a href="2-4-high-throughput-experimental-methods-in-genomics.html#high-throughput-sequencing"><span class="toc-section-number">2.4.2</span> High-throughput sequencing</a></li>
+</ul></li>
+<li><a href="2-5-visualization-and-data-repositories-for-genomics.html#visualization-and-data-repositories-for-genomics"><span class="toc-section-number">2.5</span> Visualization and data repositories for genomics</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-Rintro.html#Rintro"><span class="toc-section-number">3</span> Introduction to R for genomic data analysis</a><ul>
+<li class="has-sub"><a href="3-1-steps-of-genomic-data-analysis.html#steps-of-genomic-data-analysis"><span class="toc-section-number">3.1</span> Steps of (genomic) data analysis</a><ul>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#data-collection"><span class="toc-section-number">3.1.1</span> Data collection</a></li>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#data-quality-check-and-cleaning"><span class="toc-section-number">3.1.2</span> Data quality check and cleaning</a></li>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#data-processing"><span class="toc-section-number">3.1.3</span> Data processing</a></li>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#exploratory-data-analysis-and-modeling"><span class="toc-section-number">3.1.4</span> Exploratory data analysis and modeling</a></li>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#visualization-and-reporting"><span class="toc-section-number">3.1.5</span> Visualization and reporting</a></li>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#why-use-r-for-genomics"><span class="toc-section-number">3.1.6</span> Why use R for genomics ?</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-2-getting-started-with-r.html#getting-started-with-r"><span class="toc-section-number">3.2</span> Getting started with R</a><ul>
+<li><a href="3-2-getting-started-with-r.html#installing-packages"><span class="toc-section-number">3.2.1</span> Installing packages</a></li>
+<li><a href="3-2-getting-started-with-r.html#installing-packages-in-custom-locations"><span class="toc-section-number">3.2.2</span> Installing packages in custom locations</a></li>
+<li><a href="3-2-getting-started-with-r.html#getting-help-on-functions-and-packages"><span class="toc-section-number">3.2.3</span> Getting help on functions and packages</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="4-stats.html#stats"><span class="toc-section-number">4</span> Statistics and Exploratory Data Analysis for Genomics</a><ul>
+<li class="has-sub"><a href="4-1-how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions"><span class="toc-section-number">4.1</span> How to summarize collection of data points: The idea behind statistical distributions</a><ul>
+<li><a href="4-1-how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-central-tendency-mean-and-median"><span class="toc-section-number">4.1.1</span> Describing the central tendency: mean and median</a></li>
+<li><a href="4-1-how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-spread-measurements-of-variation"><span class="toc-section-number">4.1.2</span> Describing the spread: measurements of variation</a></li>
+<li><a href="4-1-how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#precision-of-estimates-confidence-intervals"><span class="toc-section-number">4.1.3</span> Precision of estimates: Confidence intervals</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-2-how-to-test-for-differences-between-samples.html#how-to-test-for-differences-between-samples"><span class="toc-section-number">4.2</span> How to test for differences between samples</a><ul>
+<li><a href="4-2-how-to-test-for-differences-between-samples.html#randomization-based-testing-for-difference-of-the-means"><span class="toc-section-number">4.2.1</span> randomization based testing for difference of the means</a></li>
+<li><a href="4-2-how-to-test-for-differences-between-samples.html#using-t-test-for-difference-of-the-means-between-two-samples"><span class="toc-section-number">4.2.2</span> Using t-test for difference of the means between two samples</a></li>
+<li><a href="4-2-how-to-test-for-differences-between-samples.html#multiple-testing-correction"><span class="toc-section-number">4.2.3</span> multiple testing correction</a></li>
+<li><a href="4-2-how-to-test-for-differences-between-samples.html#moderated-t-tests-using-information-from-multiple-comparisons"><span class="toc-section-number">4.2.4</span> moderated t-tests: using information from multiple comparisons</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#relationship-between-variables-linear-models-and-correlation"><span class="toc-section-number">4.3</span> Relationship between variables: linear models and correlation</a><ul>
+<li><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#how-to-fit-a-line"><span class="toc-section-number">4.3.1</span> How to fit a line</a></li>
+<li><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#how-to-estimate-the-error-of-the-coefficients"><span class="toc-section-number">4.3.2</span> How to estimate the error of the coefficients</a></li>
+<li><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#accuracy-of-the-model"><span class="toc-section-number">4.3.3</span> Accuracy of the model</a></li>
+<li><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#regression-with-categorical-variables"><span class="toc-section-number">4.3.4</span> Regression with categorical variables</a></li>
+<li><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#regression-pitfalls"><span class="toc-section-number">4.3.5</span> Regression pitfalls</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-4-clustering-grouping-samples-based-on-their-similarity.html#clustering-grouping-samples-based-on-their-similarity"><span class="toc-section-number">4.4</span> Clustering: grouping samples based on their similarity</a><ul>
+<li><a href="4-4-clustering-grouping-samples-based-on-their-similarity.html#distance-metrics"><span class="toc-section-number">4.4.1</span> Distance metrics</a></li>
+<li><a href="4-4-clustering-grouping-samples-based-on-their-similarity.html#hiearchical-clustering"><span class="toc-section-number">4.4.2</span> Hiearchical clustering</a></li>
+<li><a href="4-4-clustering-grouping-samples-based-on-their-similarity.html#k-means-clustering"><span class="toc-section-number">4.4.3</span> K-means clustering</a></li>
+<li><a href="4-4-clustering-grouping-samples-based-on-their-similarity.html#how-to-choose-k-the-number-of-clusters"><span class="toc-section-number">4.4.4</span> how to choose “k”, the number of clusters</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d"><span class="toc-section-number">4.5</span> Dimensionality reduction techniques: visualizing complex data sets in 2D</a><ul>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#principal-component-analysis"><span class="toc-section-number">4.5.1</span> Principal component analysis</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#other-dimension-reduction-techniques-using-other-matrix-factorization-methods"><span class="toc-section-number">4.5.2</span> Other dimension reduction techniques using other matrix factorization methods</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#multi-dimensional-scaling"><span class="toc-section-number">4.5.3</span> Multi-dimensional scaling</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#t-distributed-stochastic-neighbor-embedding-t-sne"><span class="toc-section-number">4.5.4</span> t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><span class="toc-section-number">4.5.5</span> How to summarize collection of data points: The idea behind statistical distributions</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#how-to-test-for-differences-in-samples"><span class="toc-section-number">4.5.6</span> How to test for differences in samples</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#relationship-between-variables-linear-models-and-correlation-1"><span class="toc-section-number">4.5.7</span> Relationship between variables: linear models and correlation</a></li>
+</ul></li>
+</ul></li>
+<li><a href="5-genomicIntervals.html#genomicIntervals"><span class="toc-section-number">5</span> Operations on Genomic Intervals and Genome Arithmetic</a></li>
+<li><a href="references.html#references">References</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="elements-of-gene-regulation" class="section level2">
+<h2><span class="header-section-number">2.2</span> Elements of gene regulation</h2>
+<p>The mechanisms regulating gene expression are essential for
+all living organisms as they dictate where and how much of a gene product (may
+it be protein or ncRNA) should be manufactured. This regulation could occur
+at the pre- and co-transcriptional level by controlling how many transcripts should be produced and/or which version of the transcript should be produced by regulating
+splicing. Different versions of the same gene could encode for proteins by
+regulating splicing the process can decide which parts will go into the final
+mRNA that will code for the protein.
+In addition, gene products can be regulated post-transcriptionally where certain
+molecules bind to RNA and mark them for degradation even before they can be used
+in protein production.</p>
+<p>Gene regulation drives cellular differentiation; a
+process during which different tissues and cell types are produced. It also
+helps cells maintain differentiated states of cells/tissues. As a product of
+this process, at the final stage of differentiation, different kinds of cells
+maintain different expression profiles although they contain the same genetic
+material. As mentioned above there are two main types of regulation and next we
+will provide information on those.</p>
+<div id="transcriptional-regulation" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Transcriptional regulation</h3>
+<p>The rate of transcription initiation is the primary regulatory element in gene
+expression regulation. The rate is controlled by core promoter elements as well as
+distant-acting regulatory elements such as enhancers. On top of that, processes
+like histone modifications and/or DNA methylation have a crucial regulatory
+impact on transcription. If a region is not accessible for the transcriptional
+machinery, e.g. in the case when chromatin structure is compacted due to the
+presence of specific histone modifications, or if the promoter DNA is
+methylated, transcription may not start at all. Last but the not least, gene
+activity is also controlled post-transcriptionally by ncRNAs such as microRNAs
+(miRNAs), as well as by cell signaling resulting in protein modification or
+altered protein-protein interactions.</p>
+<div id="regulation-by-transcription-factors-through-regulatory-regions" class="section level4">
+<h4><span class="header-section-number">2.2.1.1</span> Regulation by transcription factors through regulatory regions</h4>
+<p>Transcripton factors are proteins that
+recognize a specific DNA motif to bind on a regulatory region and regulate the transcription rate of
+the gene associated with that regulatory region (See Figure <a href="2-2-elements-of-gene-regulation.html#fig:regSummary">2.5</a>)`
+for an illustration). These factors bind to a variety of regulatory regions summarized in
+Figure <a href="2-2-elements-of-gene-regulation.html#fig:regSummary">2.5</a>, and their concerted action
+controls the transcription rate. Apart from their binding preference, their
+concentration, the availability of synergistic or competing transcription
+factors will also affect the transcription rate.</p>
+<div class="figure" style="text-align: center"><span id="fig:regSummary"></span>
+<img src="images/regulationSummary.png" alt="Representation of regulatory regions in animal genomes" width="60%" />
+<p class="caption">
+FIGURE 2.5: Representation of regulatory regions in animal genomes
+</p>
+</div>
+<div id="core-and-proximal-promoters" class="section level5">
+<h5><span class="header-section-number">2.2.1.1.1</span> Core and proximal promoters</h5>
+<p>Core promoters are the immediate neighboring regions around
+the transcription start site (TSS) that serves as a docking site for the
+transcriptional machinery and pre-initiation complex (PIC) assembly. The
+textbook model for transcription initiation is as follows: The core promoter has
+a TATA motif (referred as TATA-box) 30 bp upstream of an initiator sequence
+(Inr), which also contains TSS. Firstly, transcription factor TFIID binds to the
+TATA-box. Next, general transcription factors are recruited and transcription is
+initiated on the initiator sequence. Apart from the
+TATA-box and Inr, there are a number of sequence elements on the animal core
+promoters that are associated with transcription initiation and PIC assembly,
+such as downstream promoter elements (DPEs), the BRE elements and CpG islands.
+DPEs are found 28-32 bp downstream of the TSS in TATA-less promoters of
+Drosophila melanogaster, it generally co-occurs with the Inr element, and is
+thought to have a similar function to the TATA-box. The BRE element is
+recognized by TFIIB protein and lies upstream of the TATA-box. CpG islands
+are CG dinucleotide-enriched segments of vertebrate genomes, despite the general
+depletion of CG dinucleotides in those genomes. 50-70% of promoters in
+human genome are associated with CpG islands.</p>
+<p>Proximal promoter elements are typically right upstream
+of the core promoters and usually contain binding sites for activator
+transcription factors and they
+provide additional control over gene expression.</p>
+</div>
+<div id="enhancers" class="section level5">
+<h5><span class="header-section-number">2.2.1.1.2</span> Enhancers:</h5>
+<p>Proximal regulation is not the only, nor the most important mode
+of gene regulation. Most of the transcription factor binding sites in
+the human genome are found in intergenic regions or in introns .
+This indicates the widespread usage of distal regulatory elements in animal
+genomes. On a molecular
+function level, enhancers are similar to proximal promoters; they contain binding
+sites for the same transcriptional activators and they basically enhance the
+gene expression. However, they are often highly modular and several of them
+can affect the same promoter at the same time or in different time-points or
+tissues. In addition, their activity is independent of their
+orientation and their distance to the promoter they interact with. A
+number of studies showed that enhancers can act upon their target genes over
+several kilobases away. According to a popular
+model, enhancers achieve this by looping the DNA and coming to contact with
+their target genes.</p>
+</div>
+<div id="silencers" class="section level5">
+<h5><span class="header-section-number">2.2.1.1.3</span> Silencers:</h5>
+<p>Silencers are similar to enhancers; however their effect is
+opposite of enhancers on the transcription of the target gene, and results in
+decreasing their level of transcription. They contain binding sites for
+repressive transcription factors. Repressor transcription factors can either
+block the binding of an activator , directly compete for the same binding site,
+or induce a repressive chromatin state in which no activator binding is
+possible. Silencer effects, similar to those of enhancers, are independent of
+orientation and distance to target genes. In contradiction to this general view,
+in Drosophila there are two types of silencers, long-range and short-range.
+Short-range silencers are close to promoters and long-range silencers can
+silence multiple promoters or enhancers over kilobases away. Like
+enhancers, silencers bound by repressors may also induce changes in DNA
+structure by looping and creating higher order structures. One class of
+such repressor proteins, which is thought to initiate higher-order structures by
+looping, is Polycomb group proteins (PcGs).</p>
+</div>
+<div id="insulators" class="section level5">
+<h5><span class="header-section-number">2.2.1.1.4</span> Insulators:</h5>
+<p>Insulator regions limit the effect of other regulatory elements
+to certain chromosomal boundaries; in other words, they create regulatory
+domains untainted by the regulatory elements in regions outside that domain.
+Insulators can block enhancer-promoter communication and/or prevent spreading of
+repressive chromatin domains. In vertebrates and insects, some of the
+well-studied insulators are bound by CTCF (CCCTC-binding factor).
+Genome-wide studies from different mammalian tissues confirm that CTCF binding
+is largely invariant of cell type, and CTCF motif locations are conserved in
+vertebrates. At present, there are two models of explaining the insulator
+function; the most prevalent model claims insulators create physically separate
+domains by modifying chromosome structure. This is thought to be achieved by
+CTCF-driven chromatin looping and recent evidence shows that CTCF can induce a
+higher-order chromosome structure through creating loops of chromatins.
+According to the second model, an insulator-bound activator cannot bind an
+enhancer; thus enhancer-blocking activity is achieved and insulators can also
+recruit active histone domain, creating an active domain for enhancers to
+function.</p>
+</div>
+<div id="locus-control-regions" class="section level5">
+<h5><span class="header-section-number">2.2.1.1.5</span> Locus control regions:</h5>
+<p>Locus control regions (LCRs) are clusters of
+different regulatory elements that control entire set of genes on a locus. LCRs
+help genes achieve their temporal and/or tissue-specific expression programs.
+LCRs may be composed of multiple cis-regulatory elements, such as insulators,
+enhancers and they act upon their targets even from long distances. However
+LCRs function with an orientation dependent manner, for example the activity of
+beta-globin LCR is lost if inverted. The mechanism of LCR function otherwise
+seems similar to other long-range regulators described above. The evidence is
+mounting in the direction of a model where DNA-looping creates a chromosomal
+structure in which target genes are clustered together, which seems to be
+essential for maintaining open chromatin domain.</p>
+</div>
+</div>
+<div id="epigenetic-regulation" class="section level4">
+<h4><span class="header-section-number">2.2.1.2</span> Epigenetic regulation</h4>
+<p>Epigenetics in biology usually refers to
+constructions (chromatin structure, DNA methylation etc.) other than DNA
+sequence that influence gene regulation. In essence, epigenetic regulation is
+the regulation of DNA packing and structure, the consequence of which is gene
+expression regulation. A typical example is that DNA packing inside the nucleus can
+directly influence gene expression by creating accessible regions for transcription
+factors to bind.
+There are two main mechanisms in
+epigenetic regulation: i) DNA modifications ii) histone modifications. Below,
+we will introduce these two mechanisms.</p>
+<div id="dna-modifications-such-as-methylation" class="section level5">
+<h5><span class="header-section-number">2.2.1.2.1</span> DNA modifications such as methylation:</h5>
+<p>DNA methylation is usually associated with gene silencing.
+DNA methyltransferase enzyme catalyzes the addition of a methyl group to cytosine of
+CpG dinucleotides (while in mammals the addition of methyl group is largely
+restricted to CpG dinucleotides, methylation can occur in other bases as well)
+. This covalent modification either interferes with transcription factor
+binding on the region, or methyl-CpG binding proteins induce the spread of
+repressive chromatin domains, thus the gene is silenced if its promoter has
+methylated CG dinucleotides. DNA methylation usually occurs in repeat
+sequences to repress transposable elements, these elements when active can
+jump around and insert them to random parts of the genome, potentially distrupting
+the genomic functions.</p>
+<p>.DNA methylation is also related to a
+key core and proximal promoter element: CpG islands. CpG islands are usually
+unmethylated, however for some genes CpG island methylation accompanies their
+silenced expression. For example, during X-chromosome inactivation many CpG
+islands are heavily methylated and the associated genes are silenced. In
+addition, in embryonic stem cell differentiation pluripotency-associated genes
+are silenced due to DNA methylation. Apart from methylation, there are other
+kinds of DNA modifications present in mamalian genomes, such as hydroxy-methylation and
+formylcytosine. These are other modifications under current research that are either
+intermediate or stable modifications with distinct functional associations. There
+are as many as 12 distinct DNA modifications observed when we look accross
+all studied species.</p>
+</div>
+<div id="histone-modifications" class="section level5">
+<h5><span class="header-section-number">2.2.1.2.2</span> Histone Modifications:</h5>
+<p>Histones are proteins that constitute nucleosome. In
+eukaryotes, eight histones nucleosomes are wrapped around by DNA and build
+nucleosome. They help super-coiling of DNA and inducing high-order structure
+called chromatin. In chromatin, DNA is either densely packed (called
+heterochromatin or closed chromatin), or it is loosely packed (called
+euchromatin or open chromatin) [60, 61]. Heterochromatin is thought to harbor
+inactive genes since DNA is densely packed and transcriptional machinery cannot
+access it. On the other hand, euchromatin is more accessible for transcriptional
+machinery and might therefore harbor active genes. Histones have long and
+unstructured N-terminal tails which can be covalently modified. The most studied
+modifications include acetylation, methylation and phosphorylation [60]. Using
+their tails, histones interact with neighboring nucleosomes and the
+modifications on the tail affect the nucleosomes affinity to bind DNA and
+therefore influence DNA packaging around nucleosomes. Different modifications on
+histones are used in different combinations to program the activity of the genes
+during differentiation. Histone modifications have a distinct nomenclature, for
+example: H3K4me3 means the lysine (K) on the 4th position of histone H3 is
+tri-methylated.</p>
+<table>
+<caption>Table 1 Histone modifications and their effects. If more than one histone modification has the same effect, they are separated by commas.</caption>
+<thead>
+<tr class="header">
+<th>Modifications</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>H3K9ac</td>
+<td>Active promoters and enhancers</td>
+</tr>
+<tr class="even">
+<td>H3K14ac</td>
+<td>Active transcription</td>
+</tr>
+<tr class="odd">
+<td>H3K4me3/me2/me1 Active p</td>
+<td>romoters and enhancers, H3K4me1 and H3K27ac is enhancer-specific</td>
+</tr>
+<tr class="even">
+<td>H3K27ac</td>
+<td>H3K27ac is enhancer-specific</td>
+</tr>
+<tr class="odd">
+<td>H3K36me3</td>
+<td>Active transcribed regions</td>
+</tr>
+<tr class="even">
+<td>H3K27me3/me2/me1</td>
+<td>Silent promoters</td>
+</tr>
+<tr class="odd">
+<td>H3K9me3/me2/me1</td>
+<td>Silent promoters</td>
+</tr>
+</tbody>
+</table>
+<p>Histone modifications are associated with a number of different
+transcription-related conditions; some of them are summarized in Table 1.
+Histone modifications can indicate where the regulatory regions are and they can
+also indicate activity of the genes. From a gene regulatory perspective, maybe
+the most important modifications are the ones associated with enhancers and
+promoters. Certain genes in mouse embryonic stem cells have both active H3K4me3
+and inactive H3K27me3 modifications in their promoters. Surprisingly, most of
+these genes have high CpG content, are important for development and are shown
+to have paused RNA polymerase II [66, 67]. In addition, Heintzman et al. showed
+that H3K4me1 could predict tissue-specific active enhancers in human cells [68,
+69]. The examples above demonstrate the capability of histone modifications in
+predicting regulatory potential.</p>
+<p>Furthermore, certain proteins can influence chromatin structure by interacting
+with histones. Some of these proteins, like those of the Polycomb Group (PcG)
+and CTCF, are discussed above in the insulators and silencer sections. In
+vertebrates and insects, PcGs are responsible for maintaining the silent state
+of developmental genes, and trithorax group proteins (trxG) for maintaining
+their active state [70, 71]. PcGs and trxGs induce repressed or active states by
+catalyzing histone modifications or DNA methylation. Both the proteins bind PREs
+that can be on promoters or several kilobases away [30, 31, 71]. Another protein
+that induces histone modifications is CTCF. In b-globin locus, CTCF binding is
+shown to be associated with repressive H3K9/K27me2 modifications [72].</p>
+
+<div class="rmdtip">
+<p><strong>Want to know more ?</strong></p>
+<ul>
+<li><p>Transcriptional regulatory elements in the human genome: <a href="http://www.ncbi.nlm.nih.gov/pubmed/16719718" class="uri">http://www.ncbi.nlm.nih.gov/pubmed/16719718</a></p></li>
+<li><p>On metazoan promoters: types and transcriptional properties:
+<a href="http://www.ncbi.nlm.nih.gov/pubmed/22392219" class="uri">http://www.ncbi.nlm.nih.gov/pubmed/22392219</a></p></li>
+<li><p>General principles of regulatory sequence function
+<a href="http://www.nature.com/nrg/journal/v15/n7/abs/nrg3684.html" class="uri">http://www.nature.com/nrg/journal/v15/n7/abs/nrg3684.html</a></p></li>
+<li><p>DNA methylation: roles in mammalian development
+<a href="http://www.nature.com/doifinder/10.1038/nrg3354" class="uri">http://www.nature.com/doifinder/10.1038/nrg3354</a></p></li>
+<li><p>Histone modifications and organization of the genome
+<a href="http://www.nature.com/nrg/journal/v12/n1/full/nrg2905.html" class="uri">http://www.nature.com/nrg/journal/v12/n1/full/nrg2905.html</a></p></li>
+<li>DNA methylation and histone modifications are linked
+<a href="http://www.nature.com/nrg/journal/v10/n5/abs/nrg2540.html" class="uri">http://www.nature.com/nrg/journal/v10/n5/abs/nrg2540.html</a></li>
+</ul>
+</div>
+
+</div>
+</div>
+</div>
+<div id="post-transcriptional-regulation" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Post-transcriptional regulation</h3>
+<div id="regulation-by-non-coding-rnas" class="section level4">
+<h4><span class="header-section-number">2.2.2.1</span> Regulation by non-coding RNAs</h4>
+<p>Recent years have witnessed an explosion in noncoding
+RNA (ncRNA)-related research. Many publications implicated ncRNAs as important
+regulatory elements. Plants and animals produce many
+different types of ncRNAs such as long non-coding RNAs (lncRNAs),
+small-interferring RNAs (siRNAs), microRNAs (miRNAs), promoter-associated RNAs
+(PARs) and small nucleolar RNAs (snoRNAs). lncRNAs are typically &gt;200 bp long,
+they are involved in epigenetic regulation by interacting with chromatin
+remodeling factors and they function in gene regulation. siRNAs are short
+double-stranded RNAs which are involved in gene-regulation and transposon
+control, they silence their target genes by cooperating with Argonaute proteins
+. miRNAs are short single-stranded RNA molecules that interact with their
+target genes by using their complementary sequence and mark them for quicker
+degradation. PARs may regulate gene expression as well: they are ~18-200bp
+long ncRNAs originating from promoters of coding genes. snoRNAs also shown
+to play roles in gene regulation, although they are mostly believed to guide
+ribosomal RNA modifications.</p>
+</div>
+<div id="splicing-regulation" class="section level4">
+<h4><span class="header-section-number">2.2.2.2</span> Splicing regulation</h4>
+<p>Splicing is regulated by regulatory elements on the pre-mRNA and proteins
+binding to those elements . Regulatory elements are categorized
+as splicing
+enhancers and repressors. They can be located either in exons
+or introns. Depending of their activity and their locations there are four types of regulatory elements:
+- exonic splicing enhancers (ESEs)
+- exonic splicing silencers (ESSs)
+- intronic splicing enhancers (ISEs)
+- intronic splicing silencers (ISSs).</p>
+<p>The majority of splicing repressors are heterogeneous nuclear ribonucleoproteins (hnRNPs). If splicing repressor protein bind
+silencer elements they reduce the change of nearby site to be
+used as splice junction. On the contrary, splicing enhancers are sites to which splicing activator proteins bind and binding
+on that region increases the probability that a nearby site will be used as a splice junction. Most of the activator proteins that bind to splicing enhancers are members of the SR protein family. Such proteins can recognize specific RNA recognition motifs. By regulating splicing exons can be skipped or included
+which creates protein diversity.</p>
+
+<div class="rmdtip">
+<p><strong>Want to know more ?</strong></p>
+<ul>
+<li><p>On miRNAs: Their genesis and modes of regulation
+<a href="http://www.sciencedirect.com/science/article/pii/S0092867404000455" class="uri">http://www.sciencedirect.com/science/article/pii/S0092867404000455</a></p></li>
+<li><p>Functions of small RNAs
+<a href="http://www.nature.com/nrg/journal/v15/n9/abs/nrg3765.html" class="uri">http://www.nature.com/nrg/journal/v15/n9/abs/nrg3765.html</a></p></li>
+<li><p>Functions of non coding RNAs
+<a href="http://www.nature.com/nrg/journal/v15/n6/abs/nrg3722.html" class="uri">http://www.nature.com/nrg/journal/v15/n6/abs/nrg3722.html</a></p></li>
+<li>on splicing: Wang, Zefeng; Christopher B. Burge (May 2008). “Splicing regulation: From a parts list of regulatory elements to an integrated splicing code”. RNA 14 (5): 802–813. <a href="doi:10.1261/rna.876308" class="uri">doi:10.1261/rna.876308</a>. ISSN 1355-8382. PMC 2327353. PMID 18369186. Retrieved 2013-08-15.</li>
+</ul>
+</div>
+
+</div>
+</div>
+</div>
+<p style="text-align: center;">
+<a href="2-1-genes-dna-and-central-dogma.html"><button class="btn btn-default">Previous</button></a>
+<a href="2-3-shaping-the-genome-dna-mutation.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

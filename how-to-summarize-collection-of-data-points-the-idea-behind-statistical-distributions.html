@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>3.1 How to summarize collection of data points: The idea behind statistical distributions | Computational Genomics With R</title>
+  <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="3.1 How to summarize collection of data points: The idea behind statistical distributions | Computational Genomics With R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://compmgenomr.github.io/book/" />
+  <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
+  <meta property="og:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
+  <meta name="github-repo" content="compgenomr/bookdown" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.1 How to summarize collection of data points: The idea behind statistical distributions | Computational Genomics With R" />
+  
+  <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
+  <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
+
+<meta name="author" content="Altuna Akalin">
+
+
+<meta name="date" content="2019-02-27">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="stats.html">
+<link rel="next" href="how-to-test-for-differences-between-samples.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-83786243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-83786243-1');
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Computational Genomics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html"><i class="fa fa-check"></i>Who is this book for?</a><ul>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html#what-will-you-get-out-of-this"><i class="fa fa-check"></i>What will you get out of this?</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="structure-of-the-book.html"><a href="structure-of-the-book.html"><i class="fa fa-check"></i>Structure of the book</a></li>
+<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html"><i class="fa fa-check"></i>Software information and conventions</a></li>
+<li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="how-to-contribute.html"><a href="how-to-contribute.html"><i class="fa fa-check"></i>How to contribute</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to Genomics</a><ul>
+<li class="chapter" data-level="1.1" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html"><i class="fa fa-check"></i><b>1.1</b> Genes, DNA and central dogma</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-is-a-genome"><i class="fa fa-check"></i><b>1.1.1</b> What is a genome?</a></li>
+<li class="chapter" data-level="1.1.2" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-is-a-gene"><i class="fa fa-check"></i><b>1.1.2</b> What is a gene?</a></li>
+<li class="chapter" data-level="1.1.3" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#how-genes-are-controlled-the-transcriptional-and-the-post-transcriptional-regulation"><i class="fa fa-check"></i><b>1.1.3</b> How genes are controlled ? The transcriptional and the post-transcriptional regulation</a></li>
+<li class="chapter" data-level="1.1.4" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-does-a-gene-look-like"><i class="fa fa-check"></i><b>1.1.4</b> What does a gene look like?</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html"><i class="fa fa-check"></i><b>1.2</b> Elements of gene regulation</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html#transcriptional-regulation"><i class="fa fa-check"></i><b>1.2.1</b> Transcriptional regulation</a></li>
+<li class="chapter" data-level="1.2.2" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html#post-transcriptional-regulation"><i class="fa fa-check"></i><b>1.2.2</b> Post-transcriptional regulation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="shaping-the-genome-dna-mutation.html"><a href="shaping-the-genome-dna-mutation.html"><i class="fa fa-check"></i><b>1.3</b> Shaping the genome: DNA mutation</a></li>
+<li class="chapter" data-level="1.4" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html"><i class="fa fa-check"></i><b>1.4</b> High-throughput experimental methods in genomics</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html#the-general-idea-behind-high-throughput-techniques"><i class="fa fa-check"></i><b>1.4.1</b> The general idea behind high-throughput techniques</a></li>
+<li class="chapter" data-level="1.4.2" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html#high-throughput-sequencing"><i class="fa fa-check"></i><b>1.4.2</b> High-throughput sequencing</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="visualization-and-data-repositories-for-genomics.html"><a href="visualization-and-data-repositories-for-genomics.html"><i class="fa fa-check"></i><b>1.5</b> Visualization and data repositories for genomics</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="Rintro.html"><a href="Rintro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R for genomic data analysis</a><ul>
+<li class="chapter" data-level="2.1" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Steps of (genomic) data analysis</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-collection"><i class="fa fa-check"></i><b>2.1.1</b> Data collection</a></li>
+<li class="chapter" data-level="2.1.2" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-quality-check-and-cleaning"><i class="fa fa-check"></i><b>2.1.2</b> Data quality check and cleaning</a></li>
+<li class="chapter" data-level="2.1.3" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-processing"><i class="fa fa-check"></i><b>2.1.3</b> Data processing</a></li>
+<li class="chapter" data-level="2.1.4" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#exploratory-data-analysis-and-modeling"><i class="fa fa-check"></i><b>2.1.4</b> Exploratory data analysis and modeling</a></li>
+<li class="chapter" data-level="2.1.5" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#visualization-and-reporting"><i class="fa fa-check"></i><b>2.1.5</b> Visualization and reporting</a></li>
+<li class="chapter" data-level="2.1.6" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#why-use-r-for-genomics"><i class="fa fa-check"></i><b>2.1.6</b> Why use R for genomics ?</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html"><i class="fa fa-check"></i><b>2.2</b> Getting started with R</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#installing-packages"><i class="fa fa-check"></i><b>2.2.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.2.2" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#installing-packages-in-custom-locations"><i class="fa fa-check"></i><b>2.2.2</b> Installing packages in custom locations</a></li>
+<li class="chapter" data-level="2.2.3" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#getting-help-on-functions-and-packages"><i class="fa fa-check"></i><b>2.2.3</b> Getting help on functions and packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="computations-in-r.html"><a href="computations-in-r.html"><i class="fa fa-check"></i><b>2.3</b> Computations in R</a></li>
+<li class="chapter" data-level="2.4" data-path="data-structures.html"><a href="data-structures.html"><i class="fa fa-check"></i><b>2.4</b> Data structures</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="data-structures.html"><a href="data-structures.html#vectors"><i class="fa fa-check"></i><b>2.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data-structures.html"><a href="data-structures.html#matrices"><i class="fa fa-check"></i><b>2.4.2</b> Matrices</a></li>
+<li class="chapter" data-level="2.4.3" data-path="data-structures.html"><a href="data-structures.html#data-frames"><i class="fa fa-check"></i><b>2.4.3</b> Data Frames</a></li>
+<li class="chapter" data-level="2.4.4" data-path="data-structures.html"><a href="data-structures.html#lists"><i class="fa fa-check"></i><b>2.4.4</b> Lists</a></li>
+<li class="chapter" data-level="2.4.5" data-path="data-structures.html"><a href="data-structures.html#factors"><i class="fa fa-check"></i><b>2.4.5</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="data-types.html"><a href="data-types.html"><i class="fa fa-check"></i><b>2.5</b> Data types</a></li>
+<li class="chapter" data-level="2.6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>2.6</b> Reading and writing data</a></li>
+<li class="chapter" data-level="2.7" data-path="plotting-in-r.html"><a href="plotting-in-r.html"><i class="fa fa-check"></i><b>2.7</b> Plotting in R</a></li>
+<li class="chapter" data-level="2.8" data-path="saving-plots.html"><a href="saving-plots.html"><i class="fa fa-check"></i><b>2.8</b> Saving plots</a></li>
+<li class="chapter" data-level="2.9" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html"><i class="fa fa-check"></i><b>2.9</b> Functions and control structures (for, if/else etc.)</a><ul>
+<li class="chapter" data-level="2.9.1" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html#user-defined-functions"><i class="fa fa-check"></i><b>2.9.1</b> User defined functions</a></li>
+<li class="chapter" data-level="2.9.2" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html#loops-and-looping-structures-in-r"><i class="fa fa-check"></i><b>2.9.2</b> Loops and looping structures in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>2.10</b> Exercises</a><ul>
+<li class="chapter" data-level="2.10.1" data-path="exercises.html"><a href="exercises.html#computations-in-r-1"><i class="fa fa-check"></i><b>2.10.1</b> Computations in R</a></li>
+<li class="chapter" data-level="2.10.2" data-path="exercises.html"><a href="exercises.html#data-structures-in-r"><i class="fa fa-check"></i><b>2.10.2</b> Data structures in R</a></li>
+<li class="chapter" data-level="2.10.3" data-path="exercises.html"><a href="exercises.html#reading-in-and-writing-data-out-in-r"><i class="fa fa-check"></i><b>2.10.3</b> Reading in and writing data out in R</a></li>
+<li class="chapter" data-level="2.10.4" data-path="exercises.html"><a href="exercises.html#plotting-in-r-1"><i class="fa fa-check"></i><b>2.10.4</b> Plotting in R</a></li>
+<li class="chapter" data-level="2.10.5" data-path="exercises.html"><a href="exercises.html#functions-and-control-structures-for-ifelse-etc.-1"><i class="fa fa-check"></i><b>2.10.5</b> Functions and control structures (for, if/else etc.)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="stats.html"><a href="stats.html"><i class="fa fa-check"></i><b>3</b> Statistics and Exploratory Data Analysis for Genomics</a><ul>
+<li class="chapter" data-level="3.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><i class="fa fa-check"></i><b>3.1</b> How to summarize collection of data points: The idea behind statistical distributions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-central-tendency-mean-and-median"><i class="fa fa-check"></i><b>3.1.1</b> Describing the central tendency: mean and median</a></li>
+<li class="chapter" data-level="3.1.2" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-spread-measurements-of-variation"><i class="fa fa-check"></i><b>3.1.2</b> Describing the spread: measurements of variation</a></li>
+<li class="chapter" data-level="3.1.3" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#precision-of-estimates-confidence-intervals"><i class="fa fa-check"></i><b>3.1.3</b> Precision of estimates: Confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html"><i class="fa fa-check"></i><b>3.2</b> How to test for differences between samples</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#randomization-based-testing-for-difference-of-the-means"><i class="fa fa-check"></i><b>3.2.1</b> randomization based testing for difference of the means</a></li>
+<li class="chapter" data-level="3.2.2" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#using-t-test-for-difference-of-the-means-between-two-samples"><i class="fa fa-check"></i><b>3.2.2</b> Using t-test for difference of the means between two samples</a></li>
+<li class="chapter" data-level="3.2.3" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#multiple-testing-correction"><i class="fa fa-check"></i><b>3.2.3</b> multiple testing correction</a></li>
+<li class="chapter" data-level="3.2.4" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#moderated-t-tests-using-information-from-multiple-comparisons"><i class="fa fa-check"></i><b>3.2.4</b> moderated t-tests: using information from multiple comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html"><i class="fa fa-check"></i><b>3.3</b> Relationship between variables: linear models and correlation</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#how-to-fit-a-line"><i class="fa fa-check"></i><b>3.3.1</b> How to fit a line</a></li>
+<li class="chapter" data-level="3.3.2" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#how-to-estimate-the-error-of-the-coefficients"><i class="fa fa-check"></i><b>3.3.2</b> How to estimate the error of the coefficients</a></li>
+<li class="chapter" data-level="3.3.3" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#accuracy-of-the-model"><i class="fa fa-check"></i><b>3.3.3</b> Accuracy of the model</a></li>
+<li class="chapter" data-level="3.3.4" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-with-categorical-variables"><i class="fa fa-check"></i><b>3.3.4</b> Regression with categorical variables</a></li>
+<li class="chapter" data-level="3.3.5" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-pitfalls"><i class="fa fa-check"></i><b>3.3.5</b> Regression pitfalls</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html"><i class="fa fa-check"></i><b>3.4</b> Clustering: grouping samples based on their similarity</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#distance-metrics"><i class="fa fa-check"></i><b>3.4.1</b> Distance metrics</a></li>
+<li class="chapter" data-level="3.4.2" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#hiearchical-clustering"><i class="fa fa-check"></i><b>3.4.2</b> Hiearchical clustering</a></li>
+<li class="chapter" data-level="3.4.3" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#k-means-clustering"><i class="fa fa-check"></i><b>3.4.3</b> K-means clustering</a></li>
+<li class="chapter" data-level="3.4.4" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#how-to-choose-k-the-number-of-clusters"><i class="fa fa-check"></i><b>3.4.4</b> how to choose “k”, the number of clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><i class="fa fa-check"></i><b>3.5</b> Dimensionality reduction techniques: visualizing complex data sets in 2D</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#principal-component-analysis"><i class="fa fa-check"></i><b>3.5.1</b> Principal component analysis</a></li>
+<li class="chapter" data-level="3.5.2" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#other-dimension-reduction-techniques-using-other-matrix-factorization-methods"><i class="fa fa-check"></i><b>3.5.2</b> Other dimension reduction techniques using other matrix factorization methods</a></li>
+<li class="chapter" data-level="3.5.3" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#multi-dimensional-scaling"><i class="fa fa-check"></i><b>3.5.3</b> Multi-dimensional scaling</a></li>
+<li class="chapter" data-level="3.5.4" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#t-distributed-stochastic-neighbor-embedding-t-sne"><i class="fa fa-check"></i><b>3.5.4</b> t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="exercises-1.html"><a href="exercises-1.html"><i class="fa fa-check"></i><b>3.6</b> Exercises</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="exercises-1.html"><a href="exercises-1.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><i class="fa fa-check"></i><b>3.6.1</b> How to summarize collection of data points: The idea behind statistical distributions</a></li>
+<li class="chapter" data-level="3.6.2" data-path="exercises-1.html"><a href="exercises-1.html#how-to-test-for-differences-in-samples"><i class="fa fa-check"></i><b>3.6.2</b> How to test for differences in samples</a></li>
+<li class="chapter" data-level="3.6.3" data-path="exercises-1.html"><a href="exercises-1.html#relationship-between-variables-linear-models-and-correlation-1"><i class="fa fa-check"></i><b>3.6.3</b> Relationship between variables: linear models and correlation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="genomicIntervals.html"><a href="genomicIntervals.html"><i class="fa fa-check"></i><b>4</b> Operations on Genomic Intervals and Genome Arithmetic</a><ul>
+<li class="chapter" data-level="4.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html"><i class="fa fa-check"></i><b>4.1</b> Operations on Genomic Intervals with GenomicRanges package</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#how-to-create-and-manipulate-a-granges-object"><i class="fa fa-check"></i><b>4.1.1</b> How to create and manipulate a GRanges object</a></li>
+<li class="chapter" data-level="4.1.2" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#getting-genomic-regions-into-r-as-granges-objects"><i class="fa fa-check"></i><b>4.1.2</b> Getting genomic regions into R as GRanges objects</a></li>
+<li class="chapter" data-level="4.1.3" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><i class="fa fa-check"></i><b>4.1.3</b> Finding regions that do/do not overlap with another set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html"><i class="fa fa-check"></i><b>4.2</b> Dealing with high-throughput sequencing reads</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html#quality-check-on-sequencing-reads-and-mapping-reads-to-the-genome"><i class="fa fa-check"></i><b>4.2.1</b> Quality check on sequencing reads and mapping reads to the genome</a></li>
+<li class="chapter" data-level="4.2.2" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html#counting-mapped-reads-for-a-set-of-regions"><i class="fa fa-check"></i><b>4.2.2</b> Counting mapped reads for a set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html"><i class="fa fa-check"></i><b>4.3</b> Dealing with continuous scores over the genome</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html#extracting-subsections-of-rle-and-rlelist-objects"><i class="fa fa-check"></i><b>4.3.1</b> Extracting subsections of Rle and RleList objects</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html"><i class="fa fa-check"></i><b>4.4</b> Genomic intervals with more information: SummarizedExperiment class</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#create-a-summarizedexperiment-object"><i class="fa fa-check"></i><b>4.4.1</b> Create a SummarizedExperiment object</a></li>
+<li class="chapter" data-level="4.4.2" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#subset-and-manipulate-the-summarizedexperiment-object"><i class="fa fa-check"></i><b>4.4.2</b> Subset and manipulate the SummarizedExperiment object</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html"><i class="fa fa-check"></i><b>4.5</b> Visualizing and summarizing genomic intervals</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#visualizing-intervals-on-a-locus-of-interest"><i class="fa fa-check"></i><b>4.5.1</b> Visualizing intervals on a locus of interest</a></li>
+<li class="chapter" data-level="4.5.2" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#summaries-of-genomic-intervals-on-multiple-loci"><i class="fa fa-check"></i><b>4.5.2</b> Summaries of genomic intervals on multiple loci</a></li>
+<li class="chapter" data-level="4.5.3" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#making-karyograms-and-circos-plots"><i class="fa fa-check"></i><b>4.5.3</b> Making karyograms and circos plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="exercises-2.html"><a href="exercises-2.html"><i class="fa fa-check"></i><b>4.6</b> Exercises</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="exercises-2.html"><a href="exercises-2.html#operations-on-genomic-intervals-with-genomicranges-package-1"><i class="fa fa-check"></i><b>4.6.1</b> Operations on Genomic Intervals with GenomicRanges package</a></li>
+<li class="chapter" data-level="4.6.2" data-path="exercises-2.html"><a href="exercises-2.html#dealing-with-mapped-high-throughput-sequencing-reads"><i class="fa fa-check"></i><b>4.6.2</b> Dealing with mapped high-throughput sequencing reads</a></li>
+<li class="chapter" data-level="4.6.3" data-path="exercises-2.html"><a href="exercises-2.html#dealing-with-contiguous-scores-over-the-genome"><i class="fa fa-check"></i><b>4.6.3</b> Dealing with contiguous scores over the genome</a></li>
+<li class="chapter" data-level="4.6.4" data-path="exercises-2.html"><a href="exercises-2.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>4.6.4</b> Visualizing and summarizing genomic intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Genomics With R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions" class="section level2">
+<h2><span class="header-section-number">3.1</span> How to summarize collection of data points: The idea behind statistical distributions</h2>
+<p>In biology and many other fields data is collected via experimentation.
+The nature of the experiments and natural variation in biology makes
+it impossible to get the same exact measurements every time you measure something.
+For example, if you are measuring gene expression values for
+a certain gene, say PAX6, and let’s assume you are measuring expression
+per sample and cell with any method( microarrays, rt-qPCR, etc.). You will not
+get the same expression value even if your samples are homogeneous. Due
+to technical bias in experiments or natural variation in the samples. Instead,
+we would like to describe this collection of data some other way
+that represents the general properties of the data. The figure shows a sample of
+20 expression values from PAX6 gene.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-128"></span>
+<img src="compgenomrReloaded_files/figure-html/unnamed-chunk-128-1.png" alt="Expression of PAX6 gene in 20 replicate experiments" width="60%" />
+<p class="caption">
+FIGURE 3.1: Expression of PAX6 gene in 20 replicate experiments
+</p>
+</div>
+<div id="describing-the-central-tendency-mean-and-median" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Describing the central tendency: mean and median</h3>
+<p>As seen in the figure above, the points from this sample are distributed around
+a central value and the histogram below the dot plot shows number of points in
+each bin. Another observation is that there are some bins that have more points than others. If we want to summarize what we observe, we can try
+to represent the collection of data points
+with an expression value that is typical to get, something that represents the
+general tendency we observe on the dot plot and the histogram. This value is
+sometimes called central
+value or central tendency, and there are different ways to calculate such a value.
+In the figure above, we see that all the values are spread around 6.13 (red line),
+and that is indeed what we call mean value of this sample of expression values.
+It can be calculated with the following formula <span class="math inline">\(\overline{X}=\sum_{i=1}^n x_i/n\)</span>,
+where <span class="math inline">\(x_i\)</span> is the expression value of an experiment and <span class="math inline">\(n\)</span> is the number of
+expression value obtained from the experiments. In R, <code>mean()</code> function will calculate the
+mean of a provided vector of numbers. This is called a “sample mean”. In reality
+the possible values of PAX6 expression for all cells (provided each cell is of the
+identical cell type and is in identical conditions) are much much more than 20.
+If we had the time and the funding to sample all cells and measure PAX6 expression we would
+get a collection values that would be called, in statistics, a “population”. In
+our case the population will look like the left hand side of the figure below. What we have done with
+our 20 data points is that we took a sample of PAX6 expression values from this
+population, and calculated the sample mean.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-129"></span>
+<img src="compgenomrReloaded_files/figure-html/unnamed-chunk-129-1.png" alt="Expression of all possible PAX6 gene expressions measures on all available biological samples (left). Expression of PAX6 gene from statistical sample, a random subset, from the population of biological samples (Right). " width="75%" />
+<p class="caption">
+FIGURE 3.2: Expression of all possible PAX6 gene expressions measures on all available biological samples (left). Expression of PAX6 gene from statistical sample, a random subset, from the population of biological samples (Right).
+</p>
+</div>
+<p>The mean of the population is calculated the same way but traditionally
+Greek letter <span class="math inline">\(\mu\)</span> is used to denote the population mean. Normally, we would not
+have access to the population and we will use sample mean and other quantities
+derived from the sample to estimate the population properties. This is the basic
+idea behind statistical inference which we will see this in action in later
+sections as well. We
+estimate the population parameters from the sample parameters and there is some
+uncertainty associated with those estimates. We will be trying to assess those
+uncertainties and make decisions in the presence of those uncertainties.</p>
+<p>We are not yet done with measuring central tendency.
+There are other ways to describe it, such as the median value.
+Mean can be affected by outliers easily.
+If certain values are very high or low from the
+bulk of the sample this will shift mean towards those outliers. However, median
+is not affected by outliers. It is simply the value in a distribution where half
+of the values are above and the other half is below. In R, <code>median()</code> function
+will calculate the mean of a provided vector of numbers.</p>
+<p>Let’s create a set of random numbers and calculate their mean and median using
+R.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#create 10 random numbers from uniform distribution </span>
+x=<span class="kw">runif</span>(<span class="dv">10</span>)
+<span class="co"># calculate mean</span>
+<span class="kw">mean</span>(x)</code></pre>
+<pre><code>## [1] 0.3739</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate median</span>
+<span class="kw">median</span>(x)</code></pre>
+<pre><code>## [1] 0.3278</code></pre>
+</div>
+<div id="describing-the-spread-measurements-of-variation" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Describing the spread: measurements of variation</h3>
+<p>Another useful way to summarize a collection of data points is to measure
+how variable the values are. You can simply describe the range of the values
+, such as minimum and maximum values. You can easily do that in R with <code>range()</code>
+function. A more common way to calculate variation is by calculating something
+called “standard deviation” or the related quantity called “variance”. This is a
+quantity that shows how variable the values are, a value around zero indicates
+there is not much variation in the values of the data points, and a high value
+indicates high variation in the values. The variance is the squared distance of
+data points from the mean. Population variance is again a quantity we usually
+do not have access to and is simply calculate as follows <span class="math inline">\(\sigma^2=\sum_{i=1}^n \frac{(x_i-\mu)^2}{n}\)</span>, where <span class="math inline">\(\mu\)</span> is the population mean, <span class="math inline">\(x_i\)</span> is the ith
+data point in the population and <span class="math inline">\(n\)</span> is the population size. However, when the
+we have only access to a sample this formulation is biased. It means that it
+underestimates the population variance, so we make a small adjustment when we
+calculate the sample variance, denoted as <span class="math inline">\(s^2\)</span>:
+<span class="math display">\[
+\begin{aligned}
+s^2=\sum_{i=1}^n \frac{(x_i-\overline{X})^2}{n-1} &amp;&amp; \text{ where $x_i$ is the ith data point and
+$\overline{X}$ is the sample mean.}
+\end{aligned}
+\]</span></p>
+<p>The sample standard deviation is simply the square-root of the sample variance.
+The good thing about standard deviation is that it has the same unit as the mean
+so it is more intuitive.<br />
+<span class="math display">\[s=\sqrt{\sum_{i=1}^n \frac{(x_i-\overline{X})^2}{n-1}}\]</span></p>
+<p>We can calculate sample standard deviation and variation with <code>sd()</code> and <code>var()</code>
+functions in R. These functions take vector of numeric values as input and
+calculate the desired quantities. Below we use those functions on a randomly
+generated vector of numbers.</p>
+<pre class="sourceCode r"><code class="sourceCode r">x=<span class="kw">rnorm</span>(<span class="dv">20</span>,<span class="dt">mean=</span><span class="dv">6</span>,<span class="dt">sd=</span><span class="fl">0.7</span>)
+<span class="kw">var</span>(x)</code></pre>
+<pre><code>## [1] 0.2531</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sd</span>(x)</code></pre>
+<pre><code>## [1] 0.5031</code></pre>
+<p>One potential problem with the variance is that it could be affected by
+outliers. The points that are too far away from the mean will have a large
+affect on the variance even though there might be few of them.
+A way to measure variance that could be less affected by outliers is
+looking at where bulk of the distribution is. How do we define where the bulk is?
+One common way is to look at the the difference between 75th percentile and 25th
+percentile, this effectively removes a lot of potential outliers which will be
+towards the edges of the range of values.
+This is called interquartile range , and
+can be easily calculated using R via <code>IQR()</code> function and the quantiles of a vector
+is calculated with <code>quantile()</code> function.</p>
+<p>Let us plot the boxplot for a random vector and also calculate IQR using R.
+In the boxplot below, 25th and 75th percentiles are the edges of the box, and
+the median is marked with a thick line going through roughly middle the box.</p>
+<pre class="sourceCode r"><code class="sourceCode r">x=<span class="kw">rnorm</span>(<span class="dv">20</span>,<span class="dt">mean=</span><span class="dv">6</span>,<span class="dt">sd=</span><span class="fl">0.7</span>)
+<span class="kw">IQR</span>(x)</code></pre>
+<pre><code>## [1] 0.5011</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">quantile</span>(x)</code></pre>
+<pre><code>##    0%   25%   50%   75%  100% 
+## 5.437 5.743 5.860 6.244 6.558</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">boxplot</span>(x,<span class="dt">horizontal =</span> T)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-134"></span>
+<img src="compgenomrReloaded_files/figure-html/unnamed-chunk-134-1.png" alt="Boxplot showing 25th percentile and 75th percentile and median for a set of points sample from a normal distribution with mean=6 and standard deviation=0.7" width="60%" />
+<p class="caption">
+FIGURE 3.3: Boxplot showing 25th percentile and 75th percentile and median for a set of points sample from a normal distribution with mean=6 and standard deviation=0.7
+</p>
+</div>
+<div id="frequently-used-statistical-distributions" class="section level4">
+<h4><span class="header-section-number">3.1.2.1</span> Frequently used statistical distributions</h4>
+<p>The distributions have parameters (such as mean and variance) that
+summarizes them but also they are functions that assigns each outcome of a
+statistical experiment to its probability of occurrence.
+One distribution that you
+will frequently encounter is the normal distribution or Gaussian distribution.
+The normal distribution has a typical “bell-curve” shape
+and, characterized by mean and standard deviation. A set of data points
+that
+follow normal distribution mostly will be close to the mean
+but spread around it controlled by the standard deviation parameter. That
+means if we sample data points from a normal distribution we are more
+likely to sample nearby the mean and sometimes away from the mean.
+Probability of an event occurring is higher if it is nearby the mean.
+The effect
+of the parameters for normal distribution can be observed in the following
+plot.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-135"></span>
+<img src="compgenomrReloaded_files/figure-html/unnamed-chunk-135-1.png" alt="Different parameters for normal distribution and effect of those on the shape of the distribution" width="60%" />
+<p class="caption">
+FIGURE 3.4: Different parameters for normal distribution and effect of those on the shape of the distribution
+</p>
+</div>
+<p>The normal distribution is often denoted by <span class="math inline">\(\mathcal{N}(\mu,\,\sigma^2)\)</span> When a random variable <span class="math inline">\(X\)</span> is distributed normally with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, we write:</p>
+<p><span class="math display">\[X\ \sim\ \mathcal{N}(\mu,\,\sigma^2).\]</span></p>
+<p>The probability
+density function of Normal distribution with mean <span class="math inline">\(\mu\)</span> and standard deviation
+<span class="math inline">\(\sigma\)</span> is as follows</p>
+<p><span class="math display">\[P(x)=\frac{1}{\sigma\sqrt{2\pi} } \; e^{ -\frac{(x-\mu)^2}{2\sigma^2} } \]</span></p>
+<p>The probability density function gives the probability of observing a value
+on a normal distribution defined by <span class="math inline">\(\mu\)</span> and
+<span class="math inline">\(\sigma\)</span> parameters.</p>
+<p>Often times, we do not need the exact probability of a value but we need the
+probability of observing a value larger or smaller than a critical value or reference
+point. For example, we might want to know the probability of <span class="math inline">\(X\)</span> being smaller than or
+equal to -2 for a normal distribution with mean 0 and standard deviation 2.
+,<span class="math inline">\(P(X &lt;= -2 \; | \; \mu=0,\sigma=2)\)</span>. In this case, what we want is the are under the
+curve shaded in blue. To be able to that we need to integrate the probability
+density function but we will usually let software do that. Traditionally,
+one calculates a Z-score which is simply <span class="math inline">\((X-\mu)/\sigma=(-2-0)/2= -1\)</span>, and
+corresponds to how many standard deviations you are away from the mean.
+This is also called “standardization”, the corresponding value is distributed in “standard normal distribution” where <span class="math inline">\(\mathcal{N}(0,\,1)\)</span>.</p>
+<p>After calculating the Z-score,
+we can go look up in a table, that contains the area under the curve for
+the left and right side of the Z-score, but again we use software for that
+tables are outdated.</p>
+<p>Below we are showing the Z-score and the associated probabilities derived
+from the calculation above for <span class="math inline">\(P(X &lt;= -2 \; | \; \mu=0,\sigma=2)\)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:zscore"></span>
+<img src="compgenomrReloaded_files/figure-html/zscore-1.png" alt="Z-score and associated probabilities for Z= -1" width="60%" />
+<p class="caption">
+FIGURE 3.5: Z-score and associated probabilities for Z= -1
+</p>
+</div>
+<p>In R, family of <code>*norm</code> functions (<code>rnorm</code>,<code>dnorm</code>,<code>qnorm</code> and <code>pnorm</code>) can
+be used to
+operate with normal distribution, such as calculating probabilities and
+generating random numbers drawn from normal distribution.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the value of probability density function when X= -2,</span>
+<span class="co"># where mean=0 and sd=2</span>
+<span class="kw">dnorm</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dt">mean=</span><span class="dv">0</span>, <span class="dt">sd=</span><span class="dv">2</span>)</code></pre>
+<pre><code>## [1] 0.121</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the probability of P(X =&lt; -2) where mean=0 and sd=2</span>
+<span class="kw">pnorm</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dt">mean=</span><span class="dv">0</span>, <span class="dt">sd=</span><span class="dv">2</span>)</code></pre>
+<pre><code>## [1] 0.1587</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the probability of P(X &gt; -2) where mean=0 and sd=2</span>
+<span class="kw">pnorm</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dt">mean=</span><span class="dv">0</span>, <span class="dt">sd=</span><span class="dv">2</span>,<span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</code></pre>
+<pre><code>## [1] 0.8413</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get 5 random numbers from normal dist with  mean=0 and sd=2</span>
+<span class="kw">rnorm</span>(<span class="dv">5</span>, <span class="dt">mean=</span><span class="dv">0</span> , <span class="dt">sd=</span><span class="dv">2</span>)</code></pre>
+<pre><code>## [1] -1.8109 -1.9221 -0.5147  0.8217 -0.7901</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get y value corresponding to P(X &gt; y) = 0.15 with  mean=0 and sd=2</span>
+<span class="kw">qnorm</span>( <span class="fl">0.15</span>, <span class="dt">mean=</span><span class="dv">0</span> , <span class="dt">sd=</span><span class="dv">2</span>)</code></pre>
+<pre><code>## [1] -2.073</code></pre>
+<p>There are many other distribution functions in R that can be used the same
+way. You have to enter the distribution specific parameters along
+with your critical value, quantiles or number of random numbers depending
+on which function you are using in the family.We will list some of those functions below.</p>
+<ul>
+<li><p><code>dbinom</code> is for binomial distribution. This distribution is usually used
+to model fractional data and binary data. Examples from genomics includes
+methylation data.</p></li>
+<li><p><code>dpois</code> is used for Poisson distribution and <code>dnbinom</code> is used for
+negative binomial distribution. These distributions are used to model count
+data such as sequencing read counts.</p></li>
+<li><p><code>df</code> (F distribution) and <code>dchisq</code> (Chi-Squared distribution) are used
+in relation to distribution of variation. F distribution is used to model
+ratios of variation and Chi-Squared distribution is used to model
+distribution of variations. You will frequently encounter these in linear models and generalized linear models.</p></li>
+</ul>
+</div>
+</div>
+<div id="precision-of-estimates-confidence-intervals" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> Precision of estimates: Confidence intervals</h3>
+<p>When we take a random sample from a population and compute a statistic, such as
+the mean, we are trying to approximate the mean of the population. How well this
+sample statistic estimates the population value will always be a
+concern. A confidence interval addresses this concern because it provides a
+range of values which is plausible to contain the population parameter of interest.
+Normally, we would not have access to a population. If we did, we would not have to estimate the population parameters and its precision.</p>
+<p>When we do not have access
+to the population, one way to estimate intervals is to repeatedly take samples from the
+original sample with replacement, that is we take a data point from the sample
+we replace, and we take another data point until we have sample size of the
+original sample. Then, we calculate the parameter of interest, in this case mean, and
+repeat this step a large number of times, such as 1000. At this point, we would have a distribution of re-sampled
+means, we can then calculate the 2.5th and 97.5th percentiles and these will
+be our so-called 95% confidence interval. This procedure, resampling with replacement to
+estimate the precision of population parameter estimates, is known as the <strong>bootstrap</strong>.</p>
+<p>Let’s see how we can do this in practice. We simulate a sample
+coming from a normal distribution (but we pretend we don’t know the
+population parameters). We will try to estimate the precision
+of the mean of the sample using bootstrap to build confidence intervals.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">21</span>)
+sample1=<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">50</span>,<span class="dv">20</span>,<span class="dv">5</span>) <span class="co"># simulate a sample</span>
+
+<span class="co"># do bootstrap resampling, sampling with replacement</span>
+boot.means=<span class="kw">do</span>(<span class="dv">1000</span>) <span class="op">*</span><span class="st"> </span><span class="kw">mean</span>(<span class="kw">resample</span>(sample1))
+
+<span class="co"># get percentiles from the bootstrap means</span>
+q=<span class="kw">quantile</span>(boot.means[,<span class="dv">1</span>],<span class="dt">p=</span><span class="kw">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))
+
+<span class="co"># plot the histogram</span>
+<span class="kw">hist</span>(boot.means[,<span class="dv">1</span>],<span class="dt">col=</span><span class="st">&quot;cornflowerblue&quot;</span>,<span class="dt">border=</span><span class="st">&quot;white&quot;</span>,
+                    <span class="dt">xlab=</span><span class="st">&quot;sample means&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">c</span>(q[<span class="dv">1</span>], q[<span class="dv">2</span>] ),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
+<span class="kw">text</span>(<span class="dt">x=</span>q[<span class="dv">1</span>],<span class="dt">y=</span><span class="dv">200</span>,<span class="kw">round</span>(q[<span class="dv">1</span>],<span class="dv">3</span>),<span class="dt">adj=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))
+<span class="kw">text</span>(<span class="dt">x=</span>q[<span class="dv">2</span>],<span class="dt">y=</span><span class="dv">200</span>,<span class="kw">round</span>(q[<span class="dv">2</span>],<span class="dv">3</span>),<span class="dt">adj=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-137"></span>
+<img src="compgenomrReloaded_files/figure-html/unnamed-chunk-137-1.png" alt="Precision estimate of the sample mean using 1000 bootstrap samples. Confidence intervals derived from the bootstrap samples are shown with red lines." width="70%" />
+<p class="caption">
+FIGURE 3.6: Precision estimate of the sample mean using 1000 bootstrap samples. Confidence intervals derived from the bootstrap samples are shown with red lines.
+</p>
+</div>
+<p>If we had a convenient mathematical method to calculate confidence interval
+we could also do without resampling methods. It turns out that if we take
+repeated
+samples from a population of with sample size <span class="math inline">\(n\)</span>, the distribution of means
+( <span class="math inline">\(\overline{X}\)</span>) of those samples
+will be approximately normal with mean <span class="math inline">\(\mu\)</span> and standard deviation
+<span class="math inline">\(\sigma/\sqrt{n}\)</span>. This is also known as <strong>Central Limit Theorem(CLT)</strong> and
+is one of the most important theorems in statistics. This also means that
+<span class="math inline">\(\frac{\overline{X}-\mu}{\sigma\sqrt{n}}\)</span> has a standard normal
+distribution and we can calculate the Z-score and then we can get
+the percentiles associated with the Z-score. Below, we are showing the
+Z-score
+calculation for the distribution of <span class="math inline">\(\overline{X}\)</span>, and then
+we are deriving the confidence intervals starting with the fact that
+probability of Z being between -1.96 and 1.96 is 0.95. We then use algebra
+to show that the probability that unknown <span class="math inline">\(\mu\)</span> is captured between
+<span class="math inline">\(\overline{X}-1.96\sigma/\sqrt{n}\)</span> and <span class="math inline">\(\overline{X}+1.96\sigma/\sqrt{n}\)</span> is 0.95, which is commonly known as 95% confidence interval.</p>
+<p><span class="math display">\[\begin{array}{ccc}
+Z=\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\\
+P(-1.96 &lt; Z &lt; 1.96)=0.95 \\
+P(-1.96 &lt; \frac{\overline{X}-\mu}{\sigma/\sqrt{n}} &lt; 1.96)=0.95\\
+P(\mu-1.96\sigma/\sqrt{n} &lt; \overline{X} &lt; \mu+1.96\sigma/\sqrt{n})=0.95\\
+P(\overline{X}-1.96\sigma/\sqrt{n} &lt; \mu &lt; \overline{X}+1.96\sigma/\sqrt{n})=0.95\\
+confint=[\overline{X}-1.96\sigma/\sqrt{n},\overline{X}+1.96\sigma/\sqrt{n}]
+\end{array}\]</span></p>
+<p>A 95% confidence interval for population mean is the most common
+common interval to use, and would
+mean that we would expect 95% of the interval estimates to include the
+population parameter, in this case the mean. However, we can pick any value
+such as 99% or 90%. We can generalize the confidence interval for
+<span class="math inline">\(100(1-\alpha)\)</span> as follows:</p>
+<p><span class="math display">\[\overline{X} \pm Z_{\alpha/2}\sigma/\sqrt{n}\]</span></p>
+<p>In R, we can do this using <code>qnorm()</code> function to get Z-scores associated
+with <span class="math inline">\({\alpha/2}\)</span> and <span class="math inline">\({1-\alpha/2}\)</span>. As you can see, the confidence intervals we calculated using CLT are very
+similar to the ones we got from bootstrap for the same sample. For bootstrap we got <span class="math inline">\([19.21, 21.989]\)</span> and for the CLT based estimate we got <span class="math inline">\([19.23638, 22.00819]\)</span>.</p>
+<pre class="sourceCode r"><code class="sourceCode r">alpha=<span class="fl">0.05</span>
+sd=<span class="dv">5</span>
+n=<span class="dv">50</span>
+<span class="kw">mean</span>(sample1)<span class="op">+</span><span class="kw">qnorm</span>(<span class="kw">c</span>(alpha<span class="op">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="op">-</span>alpha<span class="op">/</span><span class="dv">2</span>))<span class="op">*</span>sd<span class="op">/</span><span class="kw">sqrt</span>(n)</code></pre>
+<pre><code>## [1] 19.24 22.01</code></pre>
+<p>The good thing about CLT as long as the sample size is large regardless of
+the population distribution, the distribution of sample means drawn from
+that population will always be normal. Here we are repeatedly
+drawing samples 1000 times with sample size <span class="math inline">\(n\)</span>=10,30, and 100 from a bimodal,
+exponential and a uniform distribution and we are getting sample mean distributions
+following normal distribution.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-139"></span>
+<img src="compgenomrReloaded_files/figure-html/unnamed-chunk-139-1.png" alt="Sample means are normally distributed regardless of the population distribution they are drawn from." width="672" />
+<p class="caption">
+FIGURE 3.7: Sample means are normally distributed regardless of the population distribution they are drawn from.
+</p>
+</div>
+<p>However, we should note that how we constructed the confidence interval
+using standard normal distribution, <span class="math inline">\(N(0,1)\)</span>, only works when the when we know the
+population standard deviation. In reality, we usually have only access
+to a sample and have no idea about the population standard deviation. If
+this is the case we should use estimate the standard deviation using
+sample standard deviation and use something called <em>t distribution</em> instead
+of standard normal distribution in our interval calculation. Our confidence interval becomes
+<span class="math inline">\(\overline{X} \pm t_{\alpha/2}s/\sqrt{n}\)</span>, with t distribution
+parameter <span class="math inline">\(d.f=n-1\)</span>, since now the following quantity is t distributed <span class="math inline">\(\frac{\overline{X}-\mu}{s/\sqrt{n}}\)</span> instead of standard normal distribution.</p>
+The t distribution is similar to standard normal distribution has mean 0 but its spread is larger than the normal distribution
+especially when sample size is small, and has one parameter <span class="math inline">\(v\)</span> for
+the degrees of freedom, which is <span class="math inline">\(n-1\)</span> in this case. Degrees of freedom
+is simply number of data points minus number of parameters estimated. Here
+we are estimating the mean from the data and the distribution is for the means, therefore degrees of freedom is <span class="math inline">\(n-1\)</span>.
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-140"></span>
+<img src="compgenomrReloaded_files/figure-html/unnamed-chunk-140-1.png" alt="Normal distribution and t distribution with different degrees of freedom. With increasing degrees of freedom, t distribution approximates the normal distribution better." width="60%" />
+<p class="caption">
+FIGURE 3.8: Normal distribution and t distribution with different degrees of freedom. With increasing degrees of freedom, t distribution approximates the normal distribution better.
+</p>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="stats.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="how-to-test-for-differences-between-samples.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/compgenomr/book/edit/master/03-statsForGenomics.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["compgenomrReloaded.pdf"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

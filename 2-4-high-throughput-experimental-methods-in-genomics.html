@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Computational Genomics With R" />
+<meta property="og:type" content="book" />
+<meta property="og:url" content="https://compmgenomr.github.io/book/" />
+<meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
+<meta property="og:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
+<meta name="github-repo" content="rstudio/bookdown" />
+
+<meta name="author" content="Altuna Akalin" />
+
+<meta name="date" content="2019-01-22" />
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+
+<meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
+
+<title>Computational Genomics With R</title>
+
+<script src="libs/jquery/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap/shim/respond.min.js"></script>
+<script src="libs/navigation/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li class="has-sub"><a href="index.html#preface">Preface</a><ul>
+<li class="has-sub"><a href="who-is-this-book-for.html#who-is-this-book-for">Who is this book for?</a><ul>
+<li><a href="who-is-this-book-for.html#what-will-you-get-out-of-this">What will you get out of this?</a></li>
+</ul></li>
+<li><a href="structure-of-the-book.html#structure-of-the-book">Structure of the book</a></li>
+<li><a href="software-information-and-conventions.html#software-information-and-conventions">Software information and conventions</a></li>
+<li><a href="acknowledgments.html#acknowledgments">Acknowledgments</a></li>
+</ul></li>
+<li><a href="1-how-to-contribute.html#how-to-contribute"><span class="toc-section-number">1</span> How to contribute</a></li>
+<li><a href="about-the-authors.html#about-the-authors">About the Authors</a></li>
+<li class="has-sub"><a href="2-intro.html#intro"><span class="toc-section-number">2</span> Introduction to Genomics</a><ul>
+<li class="has-sub"><a href="2-1-genes-dna-and-central-dogma.html#genes-dna-and-central-dogma"><span class="toc-section-number">2.1</span> Genes, DNA and central dogma</a><ul>
+<li><a href="2-1-genes-dna-and-central-dogma.html#what-is-a-genome"><span class="toc-section-number">2.1.1</span> What is a genome?</a></li>
+<li><a href="2-1-genes-dna-and-central-dogma.html#what-is-a-gene"><span class="toc-section-number">2.1.2</span> What is a gene?</a></li>
+<li><a href="2-1-genes-dna-and-central-dogma.html#how-genes-are-controlled-the-transcriptional-and-the-post-transcriptional-regulation"><span class="toc-section-number">2.1.3</span> How genes are controlled ? The transcriptional and the post-transcriptional regulation</a></li>
+<li><a href="2-1-genes-dna-and-central-dogma.html#what-does-a-gene-look-like"><span class="toc-section-number">2.1.4</span> What does a gene look like?</a></li>
+</ul></li>
+<li class="has-sub"><a href="2-2-elements-of-gene-regulation.html#elements-of-gene-regulation"><span class="toc-section-number">2.2</span> Elements of gene regulation</a><ul>
+<li><a href="2-2-elements-of-gene-regulation.html#transcriptional-regulation"><span class="toc-section-number">2.2.1</span> Transcriptional regulation</a></li>
+<li><a href="2-2-elements-of-gene-regulation.html#post-transcriptional-regulation"><span class="toc-section-number">2.2.2</span> Post-transcriptional regulation</a></li>
+</ul></li>
+<li><a href="2-3-shaping-the-genome-dna-mutation.html#shaping-the-genome-dna-mutation"><span class="toc-section-number">2.3</span> Shaping the genome: DNA mutation</a></li>
+<li class="has-sub"><a href="2-4-high-throughput-experimental-methods-in-genomics.html#high-throughput-experimental-methods-in-genomics"><span class="toc-section-number">2.4</span> High-throughput experimental methods in genomics</a><ul>
+<li><a href="2-4-high-throughput-experimental-methods-in-genomics.html#the-general-idea-behind-high-throughput-techniques"><span class="toc-section-number">2.4.1</span> The general idea behind high-throughput techniques</a></li>
+<li><a href="2-4-high-throughput-experimental-methods-in-genomics.html#high-throughput-sequencing"><span class="toc-section-number">2.4.2</span> High-throughput sequencing</a></li>
+</ul></li>
+<li><a href="2-5-visualization-and-data-repositories-for-genomics.html#visualization-and-data-repositories-for-genomics"><span class="toc-section-number">2.5</span> Visualization and data repositories for genomics</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-Rintro.html#Rintro"><span class="toc-section-number">3</span> Introduction to R for genomic data analysis</a><ul>
+<li class="has-sub"><a href="3-1-steps-of-genomic-data-analysis.html#steps-of-genomic-data-analysis"><span class="toc-section-number">3.1</span> Steps of (genomic) data analysis</a><ul>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#data-collection"><span class="toc-section-number">3.1.1</span> Data collection</a></li>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#data-quality-check-and-cleaning"><span class="toc-section-number">3.1.2</span> Data quality check and cleaning</a></li>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#data-processing"><span class="toc-section-number">3.1.3</span> Data processing</a></li>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#exploratory-data-analysis-and-modeling"><span class="toc-section-number">3.1.4</span> Exploratory data analysis and modeling</a></li>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#visualization-and-reporting"><span class="toc-section-number">3.1.5</span> Visualization and reporting</a></li>
+<li><a href="3-1-steps-of-genomic-data-analysis.html#why-use-r-for-genomics"><span class="toc-section-number">3.1.6</span> Why use R for genomics ?</a></li>
+</ul></li>
+<li class="has-sub"><a href="3-2-getting-started-with-r.html#getting-started-with-r"><span class="toc-section-number">3.2</span> Getting started with R</a><ul>
+<li><a href="3-2-getting-started-with-r.html#installing-packages"><span class="toc-section-number">3.2.1</span> Installing packages</a></li>
+<li><a href="3-2-getting-started-with-r.html#installing-packages-in-custom-locations"><span class="toc-section-number">3.2.2</span> Installing packages in custom locations</a></li>
+<li><a href="3-2-getting-started-with-r.html#getting-help-on-functions-and-packages"><span class="toc-section-number">3.2.3</span> Getting help on functions and packages</a></li>
+</ul></li>
+</ul></li>
+<li class="has-sub"><a href="4-stats.html#stats"><span class="toc-section-number">4</span> Statistics and Exploratory Data Analysis for Genomics</a><ul>
+<li class="has-sub"><a href="4-1-how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions"><span class="toc-section-number">4.1</span> How to summarize collection of data points: The idea behind statistical distributions</a><ul>
+<li><a href="4-1-how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-central-tendency-mean-and-median"><span class="toc-section-number">4.1.1</span> Describing the central tendency: mean and median</a></li>
+<li><a href="4-1-how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-spread-measurements-of-variation"><span class="toc-section-number">4.1.2</span> Describing the spread: measurements of variation</a></li>
+<li><a href="4-1-how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#precision-of-estimates-confidence-intervals"><span class="toc-section-number">4.1.3</span> Precision of estimates: Confidence intervals</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-2-how-to-test-for-differences-between-samples.html#how-to-test-for-differences-between-samples"><span class="toc-section-number">4.2</span> How to test for differences between samples</a><ul>
+<li><a href="4-2-how-to-test-for-differences-between-samples.html#randomization-based-testing-for-difference-of-the-means"><span class="toc-section-number">4.2.1</span> randomization based testing for difference of the means</a></li>
+<li><a href="4-2-how-to-test-for-differences-between-samples.html#using-t-test-for-difference-of-the-means-between-two-samples"><span class="toc-section-number">4.2.2</span> Using t-test for difference of the means between two samples</a></li>
+<li><a href="4-2-how-to-test-for-differences-between-samples.html#multiple-testing-correction"><span class="toc-section-number">4.2.3</span> multiple testing correction</a></li>
+<li><a href="4-2-how-to-test-for-differences-between-samples.html#moderated-t-tests-using-information-from-multiple-comparisons"><span class="toc-section-number">4.2.4</span> moderated t-tests: using information from multiple comparisons</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#relationship-between-variables-linear-models-and-correlation"><span class="toc-section-number">4.3</span> Relationship between variables: linear models and correlation</a><ul>
+<li><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#how-to-fit-a-line"><span class="toc-section-number">4.3.1</span> How to fit a line</a></li>
+<li><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#how-to-estimate-the-error-of-the-coefficients"><span class="toc-section-number">4.3.2</span> How to estimate the error of the coefficients</a></li>
+<li><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#accuracy-of-the-model"><span class="toc-section-number">4.3.3</span> Accuracy of the model</a></li>
+<li><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#regression-with-categorical-variables"><span class="toc-section-number">4.3.4</span> Regression with categorical variables</a></li>
+<li><a href="4-3-relationship-between-variables-linear-models-and-correlation.html#regression-pitfalls"><span class="toc-section-number">4.3.5</span> Regression pitfalls</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-4-clustering-grouping-samples-based-on-their-similarity.html#clustering-grouping-samples-based-on-their-similarity"><span class="toc-section-number">4.4</span> Clustering: grouping samples based on their similarity</a><ul>
+<li><a href="4-4-clustering-grouping-samples-based-on-their-similarity.html#distance-metrics"><span class="toc-section-number">4.4.1</span> Distance metrics</a></li>
+<li><a href="4-4-clustering-grouping-samples-based-on-their-similarity.html#hiearchical-clustering"><span class="toc-section-number">4.4.2</span> Hiearchical clustering</a></li>
+<li><a href="4-4-clustering-grouping-samples-based-on-their-similarity.html#k-means-clustering"><span class="toc-section-number">4.4.3</span> K-means clustering</a></li>
+<li><a href="4-4-clustering-grouping-samples-based-on-their-similarity.html#how-to-choose-k-the-number-of-clusters"><span class="toc-section-number">4.4.4</span> how to choose “k”, the number of clusters</a></li>
+</ul></li>
+<li class="has-sub"><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d"><span class="toc-section-number">4.5</span> Dimensionality reduction techniques: visualizing complex data sets in 2D</a><ul>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#principal-component-analysis"><span class="toc-section-number">4.5.1</span> Principal component analysis</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#other-dimension-reduction-techniques-using-other-matrix-factorization-methods"><span class="toc-section-number">4.5.2</span> Other dimension reduction techniques using other matrix factorization methods</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#multi-dimensional-scaling"><span class="toc-section-number">4.5.3</span> Multi-dimensional scaling</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#t-distributed-stochastic-neighbor-embedding-t-sne"><span class="toc-section-number">4.5.4</span> t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><span class="toc-section-number">4.5.5</span> How to summarize collection of data points: The idea behind statistical distributions</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#how-to-test-for-differences-in-samples"><span class="toc-section-number">4.5.6</span> How to test for differences in samples</a></li>
+<li><a href="4-5-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#relationship-between-variables-linear-models-and-correlation-1"><span class="toc-section-number">4.5.7</span> Relationship between variables: linear models and correlation</a></li>
+</ul></li>
+</ul></li>
+<li><a href="5-genomicIntervals.html#genomicIntervals"><span class="toc-section-number">5</span> Operations on Genomic Intervals and Genome Arithmetic</a></li>
+<li><a href="references.html#references">References</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="high-throughput-experimental-methods-in-genomics" class="section level2">
+<h2><span class="header-section-number">2.4</span> High-throughput experimental methods in genomics</h2>
+<p>Most of the biological phenomena described above relating to transcription
+, gene regulation or DNA mutation can be measured over the entire genome using
+high-throughput experimental techniques, which are quickly becoming
+the standard for studying genome biology. In addition, their
+applications in the clinic are also gaining momemntum: there are already diagnostic
+tests that are based on these techniques.</p>
+<p>Some of the things that can be measured by high-throughput assays are as follows:</p>
+<ul>
+<li><em>Which genes are expressed and how much ?</em></li>
+<li><em>Where does a transcription factor bind ?</em></li>
+<li><em>Which bases are methylated in the genome ?</em></li>
+<li><em>Which transcripts are translated ?</em></li>
+<li><em>Where does RNA-binding proteins bind ?</em></li>
+<li><em>Which microRNAs are expressed ?</em></li>
+<li><em>Which parts of the genome are in contact with each other ?</em></li>
+<li><em>Where are the mutations in the genome located ?</em></li>
+<li><em>Which parts of the genome are nucleosome-free ?</em></li>
+</ul>
+<p>There are many more questions one can answer using modern genome-wide techniques
+and every other day a new variant of the existing techniques comes along
+to answer a new question.
+However, One has to keep in mind that these methods are at varying degrees
+of maturity and they all come with technical limitations
+and are not noise-free. Despite this, they are extremely useful for research and clinical
+purposes. And, thanks to these methods we are able to sequence and annotate
+genomes at a massive scale.</p>
+<div id="the-general-idea-behind-high-throughput-techniques" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> The general idea behind high-throughput techniques</h3>
+<p>High-throughput methods aim to quantify or locate all or most of the genome that harbours
+the biological feature (expressed genes, binding sites, etc.) of interest.
+Most of the methods rely on some sort of enrichment of the the targeted
+biological feature. For example, if you want to measure expression of protein coding
+genes you need to be able to extract mRNA molecules with special post-transcriptional
+alterations that protein-coding genes acquire. If you are looking for transcription factor
+binding, you need to enrich
+for the DNA fragments that are bound by the protein if interest.This parts
+depends on available molecular biology and chemistry technques, and the final
+product of this part is RNA or DNA fragments.</p>
+<p>Next, you need to be able to
+tell where these fragments are coming from in the genome and how many of them
+are there. Microarrays were the standard tool for the quantification step
+until spread of sequencing techniques. In microarrays, one had to design complementary bases
+,called “oligos” or “probes”, to the genetic material enriched via the experimental protocol.
+If the enriched material is complementary to the genetic material,
+a light signal will
+be produced and the intensity of the signal will be proportional to the amount of the
+genetic material pairing with that oligo. There will be more probes available for
+hybrdization (process of complementary bases forming bonds ), so the more fragments
+available stronger the signal. For this to be able to work, you need to know
+at least part of your genome sequence, and design probes. If you want to measure
+gene expression, your probes should overlap with genes and should be unique
+enough to not to bind sequences from other genes. This technology is now being
+replaced with sequencing technology, where you directly sequence your genetic
+material. If you have the sequence of your fragments, you can align them back
+to genome, see where they are coming from and count them. This is a better
+technology where the quantification is based on the real identiy of fragments
+rather than based on hybridization to designed probes.</p>
+<p>In summary HT techniques has the following steps, and this also summarized in
+Figure <a href="2-4-high-throughput-experimental-methods-in-genomics.html#fig:HTassays">2.6</a>:</p>
+<ul>
+<li>Extraction: This is the step where you extract the genetic
+material of interest, RNA or DNA.
+and nrichment</li>
+<li>Enrichment: In this step, you enrich for the event you are interested
+in. For example, protein binding sites. In some cases such as whole-genome DNA
+sequencing there is no need for enrichment step. You just get fragments of
+genomic DNA and sequence them.</li>
+<li>Quantification: This is where you quantify your enriched material. Depending
+on the protocol you may need to quantify a control set as well, where you
+should see no enrichment or only background enrichment.</li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:HTassays"></span>
+<img src="images/HTassays.png" alt="Common steps of High-throughput assays in genome biology" width="60%" />
+<p class="caption">
+FIGURE 2.6: Common steps of High-throughput assays in genome biology
+</p>
+</div>
+</div>
+<div id="high-throughput-sequencing" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> High-throughput sequencing</h3>
+<p>High-throughput sequencing, or massively parallel sequencing, is a
+collection of methods and technologies that can sequence DNA thousands/millons
+of fragments at a time. This is in contrast to older technologies that can
+produce a limited
+number of fragments at a time. Here, throughput refers to number
+of sequenced bases per hour. The older low-throughput sequencing methods have
+~ 100 times less throughput compared to modern high-throughput methods. The
+increased throughput gives the ability to measure biological features on a
+genome-wide scale in a shorter time frame.</p>
+<p>Similar to other high-throughput methods, sequencing based methods also require
+an enrichment step. This step enriches for the features we are interested in.
+The main difference of the sequencing based methods is the quantification step.
+In high-throughput sequencing,
+enriched fragments are put through the sequencer which outputs the sequences
+for the fragments. Due to limitations in current leading technologies, only
+limited number of bases can be sequenced using from the input fragments. However,
+the length is usually enough to uniquely map the reads to the genome and quantify
+the input fragments.</p>
+<div id="high-throughput-sequencing-data" class="section level4">
+<h4><span class="header-section-number">2.4.2.1</span> High-throughput sequencing data</h4>
+<p>If there is a genome available, the reads are aligned to the genome and based
+on the sequencing protocol different strategies are applied for analysis.
+Some of the potential analysis strategies and processed output of read alignments
+are depicted in Figure <a href="2-4-high-throughput-experimental-methods-in-genomics.html#fig:HTseq">2.7</a>.
+For example, we maybe interested to quantify the gene expression.
+The experimental protocol, called RNA sequencing-
+RNA-seq, enriches for fragments of RNA that are coming from protein coding genes.
+Upon alignment, we can calculate the coverage profile which gives us a read count
+per base along the genome. This information can be stored in a text file or
+specialized file formats to be used in subsequent analysis or visualization.
+We can also just count how many reads overlap with exons of each gene and record
+read counts per gene for further analysis. This essentially produces a table
+with gene names and read counts for different samples. As we will see in later
+chapters, this is an essential information for statistical models that model
+RNA-seq data. Furthermore, we can stack up the reads and count how many times
+we see a base position in a read mismatches the base in the genome. Read aligners
+allow for mismatches, and for this reason we can see reads with mismatches.
+This information can be used to identify SNPs, and can be stored again in
+a tabular format with the information of position and mismatch type and
+number of reads supporting the mismatch. The original algorithms are a bit
+more complicated than just counting mismatches but the general idea is the
+same, what they are doing differently is trying to minimize false positive
+rates by using filters, so that not every mismatch is recorded as SNP.</p>
+<div class="figure" style="text-align: center"><span id="fig:HTseq"></span>
+<img src="images/HTseq.png" alt="High-throughput sequencing summary" width="70%" />
+<p class="caption">
+FIGURE 2.7: High-throughput sequencing summary
+</p>
+</div>
+</div>
+<div id="future-of-high-throughput-sequencing" class="section level4">
+<h4><span class="header-section-number">2.4.2.2</span> Future of high-throughput sequencing</h4>
+<p>The sequencing tech is still evolving. Next frontier is the obtaining
+longer single-molecule reads and preferably being able to call base modifications
+on the fly.
+With longer reads, the genome asssembly will be easier for the regions
+that have high repeat content. With single-molecule sequencing, we will be able
+tell how many transcripts are present in a given cell population without
+relying on fragment amplification methods which can introduce biases.</p>
+<p>Another recent development is single-cell sequencing. Current technologies usually
+work on genetic material from thousands to millions of cells. This means that the
+results you receive represents the population of cells that were used in the
+experiment. However, there is a lot variation between the same type of cells,
+this variation is not observed at all. Newer sequecing techniques can work
+on single cells and give quantititave information on each cell.</p>
+
+<div class="rmdtip">
+<p><strong>Want to know more ?</strong></p>
+<ul>
+<li><p>Current and the future high-throughput sequencing technologies <a href="http://www.sciencedirect.com/science/article/pii/S1097276515003408" class="uri">http://www.sciencedirect.com/science/article/pii/S1097276515003408</a></p></li>
+<li><p>Illumina repository for different library preperation protocols for sequencing <a href="http://www.illumina.com/techniques/sequencing/ngs-library-prep/library-prep-methods.html" class="uri">http://www.illumina.com/techniques/sequencing/ngs-library-prep/library-prep-methods.html</a></p></li>
+</ul>
+</div>
+
+</div>
+</div>
+</div>
+<p style="text-align: center;">
+<a href="2-3-shaping-the-genome-dna-mutation.html"><button class="btn btn-default">Previous</button></a>
+<a href="2-5-visualization-and-data-repositories-for-genomics.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>
