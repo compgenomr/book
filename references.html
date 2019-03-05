@@ -25,14 +25,14 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-02-27">
+<meta name="date" content="2019-03-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="exercises-2.html">
+<link rel="prev" href="reproducibility.html">
 
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
@@ -60,67 +60,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -271,6 +245,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.6.4" data-path="exercises-2.html"><a href="exercises-2.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>4.6.4</b> Visualizing and summarizing genomic intervals</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="rna-seq-analysis-overview.html"><a href="rna-seq-analysis-overview.html"><i class="fa fa-check"></i><b>5</b> RNA-seq analysis overview</a><ul>
+<li class="chapter" data-level="5.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>5.1</b> What is gene expression?</a></li>
+<li class="chapter" data-level="5.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>5.2</b> Methods to detect gene expression</a></li>
+<li class="chapter" data-level="5.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>5.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>5.3.1</b> Processing raw data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>5.3.2</b> Alignment</a></li>
+<li class="chapter" data-level="5.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>5.3.3</b> Quantification</a></li>
+<li class="chapter" data-level="5.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#normalization-of-read-counts"><i class="fa fa-check"></i><b>5.3.4</b> Normalization of read counts</a></li>
+<li class="chapter" data-level="5.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#demonstration-in-r"><i class="fa fa-check"></i><b>5.3.5</b> Demonstration in R</a></li>
+<li class="chapter" data-level="5.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>5.3.6</b> Exploratory analysis of the read count table</a></li>
+<li class="chapter" data-level="5.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>5.3.7</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="5.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>5.3.8</b> Functional Enrichment Analysis</a></li>
+<li class="chapter" data-level="5.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>5.3.9</b> Accounting for additional sources of variation</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>5.4</b> Other applications of RNA-seq</a></li>
+<li class="chapter" data-level="5.5" data-path="reproducibility.html"><a href="reproducibility.html"><i class="fa fa-check"></i><b>5.5</b> Reproducibility</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
@@ -295,13 +286,135 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>
 
+<div id="refs" class="references">
+<div>
+<p>Anders, Simon, Alejandro Reyes, and Wolfgang Huber. 2012. “Detecting Differential Usage of Exons from RNA-Seq Data.” <em>Genome Research</em> 22 (10): 2008–17. doi:<a href="https://doi.org/10.1101/gr.133744.111">10.1101/gr.133744.111</a>.</p>
+</div>
+<div>
+<p>“Babraham Bioinformatics - FastQC A Quality Control Tool for High Throughput Sequence Data.” 2018. Accessed July 16. <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/" class="uri">https://www.bioinformatics.babraham.ac.uk/projects/fastqc/</a>.</p>
+</div>
+<div>
+<p>“Babraham Bioinformatics - Trim Galore!” 2018. Accessed July 16. <a href="https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/" class="uri">https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/</a>.</p>
+</div>
+<div>
+<p>Backman, Tyler W. H., and Thomas Girke. 2016. “systemPipeR: NGS Workflow and Report Generation Environment.” <em>BMC Bioinformatics</em> 17 (1). doi:<a href="https://doi.org/10.1186/s12859-016-1241-0">10.1186/s12859-016-1241-0</a>.</p>
+</div>
+<div>
+<p>Barr, Cory, Thomas Wu, and Michael Lawrence. 2019. <em>GmapR: An R Interface to the Gmap/Gsnap/Gstruct Suite</em>.</p>
+</div>
+<div>
+<p>Bolger, Anthony M., Marc Lohse, and Bjoern Usadel. 2014. “Trimmomatic: A Flexible Trimmer for Illumina Sequence Data.” <em>Bioinformatics</em> 30 (15): 2114–20. doi:<a href="https://doi.org/10.1093/bioinformatics/btu170">10.1093/bioinformatics/btu170</a>.</p>
+</div>
+<div>
+<p>Bray, Nicolas L., Harold Pimentel, Páll Melsted, and Lior Pachter. 2016. “Near-Optimal Probabilistic RNA-Seq Quantification.” <em>Nature Biotechnology</em> 34 (5): 525–27. doi:<a href="https://doi.org/10.1038/nbt.3519">10.1038/nbt.3519</a>.</p>
+</div>
+<div>
+<p>Conesa, Ana, Pedro Madrigal, Sonia Tarazona, David Gomez-Cabrero, Alejandra Cervera, Andrew McPherson, Michał Wojciech Szcześniak, et al. 2016. “A Survey of Best Practices for RNA-Seq Data Analysis.” <em>Genome Biology</em> 17 (January): 13. doi:<a href="https://doi.org/10.1186/s13059-016-0881-8">10.1186/s13059-016-0881-8</a>.</p>
+</div>
+<div>
+<p>de Souza, Welliton, Benilton S Carvalho, and Iscia Lopes-Cendes. 2018. “Rqc: A Bioconductor Package for Quality Control of High-Throughput Sequencing Data.” <em>Journal of Statistical Software, Code Snippets</em> 87 (2): 1–14. doi:<a href="https://doi.org/10.18637/jss.v087.c02">10.18637/jss.v087.c02</a>.</p>
+</div>
+<div>
+<p>Dobin, Alexander, Carrie A. Davis, Felix Schlesinger, Jorg Drenkow, Chris Zaleski, Sonali Jha, Philippe Batut, Mark Chaisson, and Thomas R. Gingeras. 2013. “STAR: Ultrafast Universal RNA-Seq Aligner.” <em>Bioinformatics</em> 29 (1): 15–21. doi:<a href="https://doi.org/10.1093/bioinformatics/bts635">10.1093/bioinformatics/bts635</a>.</p>
+</div>
+<div>
+<p>Fabregat, Antonio, Steven Jupe, Lisa Matthews, Konstantinos Sidiropoulos, Marc Gillespie, Phani Garapati, Robin Haw, et al. 2018. “The Reactome Pathway Knowledgebase.” <em>Nucleic Acids Research</em> 46 (D1): D649–D655. doi:<a href="https://doi.org/10.1093/nar/gkx1132">10.1093/nar/gkx1132</a>.</p>
+</div>
+<div>
+<p>Gaidatzis, Dimos, Anita Lerch, Florian Hahne, and Michael B. Stadler. 2015. “QuasR: Quantification and Annotation of Short Reads in R.” <em>Bioinformatics</em> 31 (7): 1130–2. doi:<a href="https://doi.org/10.1093/bioinformatics/btu781">10.1093/bioinformatics/btu781</a>.</p>
+</div>
+<div>
+<p>Gandolfo, Luke C., and Terence P. Speed. 2018. “RLE Plots: Visualizing Unwanted Variation in High Dimensional Data.” <em>PloS One</em> 13 (2): e0191629. doi:<a href="https://doi.org/10.1371/journal.pone.0191629">10.1371/journal.pone.0191629</a>.</p>
+</div>
+<div>
+<p>Gu, Zuguang, Roland Eils, and Matthias Schlesner. 2016. “Complex Heatmaps Reveal Patterns and Correlations in Multidimensional Genomic Data.” <em>Bioinformatics (Oxford, England)</em> 32 (18): 2847–9. doi:<a href="https://doi.org/10.1093/bioinformatics/btw313">10.1093/bioinformatics/btw313</a>.</p>
+</div>
+<div>
+<p>Haas, Brian J., Alexie Papanicolaou, Moran Yassour, Manfred Grabherr, Philip D. Blood, Joshua Bowden, Matthew Brian Couger, et al. 2013. “De Novo Transcript Sequence Reconstruction from RNA-Seq: Reference Generation and Analysis with Trinity.” <em>Nature Protocols</em> 8 (8). doi:<a href="https://doi.org/10.1038/nprot.2013.084">10.1038/nprot.2013.084</a>.</p>
+</div>
+<div>
+<p>Jiang, Lichun, Felix Schlesinger, Carrie A. Davis, Yu Zhang, Renhua Li, Marc Salit, Thomas R. Gingeras, and Brian Oliver. 2011. “Synthetic Spike-in Standards for RNA-Seq Experiments.” <em>Genome Research</em> 21 (9): 1543–51. doi:<a href="https://doi.org/10.1101/gr.121095.111">10.1101/gr.121095.111</a>.</p>
+</div>
+<div>
+<p>Kanehisa, Minoru, Yoko Sato, Masayuki Kawashima, Miho Furumichi, and Mao Tanabe. 2016. “KEGG as a Reference Resource for Gene and Protein Annotation.” <em>Nucleic Acids Research</em> 44 (Database issue): D457–D462. doi:<a href="https://doi.org/10.1093/nar/gkv1070">10.1093/nar/gkv1070</a>.</p>
+</div>
+<div>
+<p>Kim, Daehwan, Ben Langmead, and Steven L Salzberg. 2015. “HISAT: A Fast Spliced Aligner with Low Memory Requirements.” <em>Nature Methods</em> 12 (4): 357–60. doi:<a href="https://doi.org/10.1038/nmeth.3317">10.1038/nmeth.3317</a>.</p>
+</div>
+<div>
+<p>Kim, Daehwan, Geo Pertea, Cole Trapnell, Harold Pimentel, Ryan Kelley, and Steven L. Salzberg. 2013. “TopHat2: Accurate Alignment of Transcriptomes in the Presence of Insertions, Deletions and Gene Fusions.” <em>Genome Biology</em> 14 (4): R36. doi:<a href="https://doi.org/10.1186/gb-2013-14-4-r36">10.1186/gb-2013-14-4-r36</a>.</p>
+</div>
+<div>
+<p>Kolde, Raivo. 2019. <em>Pheatmap: Pretty Heatmaps</em>. <a href="https://CRAN.R-project.org/package=pheatmap" class="uri">https://CRAN.R-project.org/package=pheatmap</a>.</p>
+</div>
+<div>
+<p>Leek, Jeffrey T., W. Evan Johnson, Hilary S. Parker, Andrew E. Jaffe, and John D. Storey. 2012. “The Sva Package for Removing Batch Effects and Other Unwanted Variation in High-Throughput Experiments.” <em>Bioinformatics</em> 28 (6): 882–83. doi:<a href="https://doi.org/10.1093/bioinformatics/bts034">10.1093/bioinformatics/bts034</a>.</p>
+</div>
+<div>
+<p>Liao, Yang, Gordon K. Smyth, and Wei Shi. 2013. “The Subread Aligner: Fast, Accurate and Scalable Read Mapping by Seed-and-Vote.” <em>Nucleic Acids Research</em> 41 (10): e108–e108. doi:<a href="https://doi.org/10.1093/nar/gkt214">10.1093/nar/gkt214</a>.</p>
+</div>
+<div>
+<p>Love, Michael I, Wolfgang Huber, and Simon Anders. 2014. “Moderated Estimation of Fold Change and Dispersion for RNA-Seq Data with DESeq2.” <em>Genome Biology</em> 15 (12). doi:<a href="https://doi.org/10.1186/s13059-014-0550-8">10.1186/s13059-014-0550-8</a>.</p>
+</div>
+<div>
+<p>Luo, Weijun, Michael S Friedman, Kerby Shedden, Kurt D Hankenson, and Peter J Woolf. 2009. “GAGE: Generally Applicable Gene Set Enrichment for Pathway Analysis.” <em>BMC Bioinformatics</em> 10 (1): 161. doi:<a href="https://doi.org/10.1186/1471-2105-10-161">10.1186/1471-2105-10-161</a>.</p>
+</div>
+<div>
+<p>Maza, Elie, Pierre Frasse, Pavel Senin, Mondher Bouzayen, and Mohamed Zouine. 2013. “Comparison of Normalization Methods for Differential Gene Expression Analysis in RNA-Seq Experiments: A Matter of Relative Size of Studied Transcriptomes.” <em>Communicative &amp; Integrative Biology</em> 6 (6): e25849. doi:<a href="https://doi.org/10.4161/cib.25849">10.4161/cib.25849</a>.</p>
+</div>
+<div>
+<p>McKenna, Aaron, Matthew Hanna, Eric Banks, Andrey Sivachenko, Kristian Cibulskis, Andrew Kernytsky, Kiran Garimella, et al. 2010. “The Genome Analysis Toolkit: A MapReduce Framework for Analyzing Next-Generation DNA Sequencing Data.” <em>Genome Research</em> 20 (9): 1297–1303. doi:<a href="https://doi.org/10.1101/gr.107524.110">10.1101/gr.107524.110</a>.</p>
+</div>
+<div>
+<p>McPherson, Andrew, Fereydoun Hormozdiari, Abdalnasser Zayed, Ryan Giuliany, Gavin Ha, Mark G. F. Sun, Malachi Griffith, et al. 2011. “deFuse: An Algorithm for Gene Fusion Discovery in Tumor RNA-Seq Data.” <em>PLOS Computational Biology</em> 7 (5): e1001138. doi:<a href="https://doi.org/10.1371/journal.pcbi.1001138">10.1371/journal.pcbi.1001138</a>.</p>
+</div>
+<div>
+<p>Morgan, Martin, Simon Anders, Michael Lawrence, Patrick Aboyoun, Hervé Pagès, and Robert Gentleman. 2009. “ShortRead: A Bioconductor Package for Input, Quality Assessment and Exploration of High-Throughput Sequence Data.” <em>Bioinformatics</em> 25 (19): 2607–8. doi:<a href="https://doi.org/10.1093/bioinformatics/btp450">10.1093/bioinformatics/btp450</a>.</p>
+</div>
+<div>
+<p>Mortazavi, Ali, Brian A. Williams, Kenneth McCue, Lorian Schaeffer, and Barbara Wold. 2008. “Mapping and Quantifying Mammalian Transcriptomes by RNA-Seq.” <em>Nature Methods</em> 5 (7): 621–28. doi:<a href="https://doi.org/10.1038/nmeth.1226">10.1038/nmeth.1226</a>.</p>
+</div>
+<div>
+<p>Patro, Rob, Geet Duggal, Michael I Love, Rafael A Irizarry, and Carl Kingsford. 2017. “Salmon: Fast and Bias-Aware Quantification of Transcript Expression Using Dual-Phase Inference.” <em>Nature Methods</em> 14 (4): 417–19. doi:<a href="https://doi.org/10.1038/nmeth.4197">10.1038/nmeth.4197</a>.</p>
+</div>
+<div>
+<p>Patro, Rob, Stephen M. Mount, and Carl Kingsford. 2014. “Sailfish Enables Alignment-Free Isoform Quantification from RNA-Seq Reads Using Lightweight Algorithms.” <em>Nature Biotechnology</em> 32 (5): 462–64. doi:<a href="https://doi.org/10.1038/nbt.2862">10.1038/nbt.2862</a>.</p>
+</div>
+<div>
+<p>Risso, Davide, John Ngai, Terence P. Speed, and Sandrine Dudoit. 2014. “Normalization of RNA-Seq Data Using Factor Analysis of Control Genes or Samples.” <em>Nature Biotechnology</em> 32 (9): 896–902. doi:<a href="https://doi.org/10.1038/nbt.2931">10.1038/nbt.2931</a>.</p>
+</div>
+<div>
+<p>Risso, Davide, Katja Schwartz, Gavin Sherlock, and Sandrine Dudoit. 2011. “GC-Content Normalization for RNA-Seq Data.” <em>BMC Bioinformatics</em> 12 (December): 480. doi:<a href="https://doi.org/10.1186/1471-2105-12-480">10.1186/1471-2105-12-480</a>.</p>
+</div>
+<div>
+<p>Robertson, Gordon, Jacqueline Schein, Readman Chiu, Richard Corbett, Matthew Field, Shaun D. Jackman, Karen Mungall, et al. 2010. “<em>De Novo</em> Assembly and Analysis of RNA-Seq Data.” <em>Nature Methods</em> 7 (11): 909–12. doi:<a href="https://doi.org/10.1038/nmeth.1517">10.1038/nmeth.1517</a>.</p>
+</div>
+<div>
+<p>Robinson, Mark D., Davis J. McCarthy, and Gordon K. Smyth. 2010. “edgeR: A Bioconductor Package for Differential Expression Analysis of Digital Gene Expression Data.” <em>Bioinformatics (Oxford, England)</em> 26 (1): 139–40. doi:<a href="https://doi.org/10.1093/bioinformatics/btp616">10.1093/bioinformatics/btp616</a>.</p>
+</div>
+<div>
+<p>Stanke, Mario, and Burkhard Morgenstern. 2005. “AUGUSTUS: A Web Server for Gene Prediction in Eukaryotes That Allows User-Defined Constraints.” <em>Nucleic Acids Research</em> 33 (Web Server issue): W465–W467. doi:<a href="https://doi.org/10.1093/nar/gki458">10.1093/nar/gki458</a>.</p>
+</div>
+<div>
+<p>Subramanian, Aravind, Pablo Tamayo, Vamsi K. Mootha, Sayan Mukherjee, Benjamin L. Ebert, Michael A. Gillette, Amanda Paulovich, et al. 2005. “Gene Set Enrichment Analysis: A Knowledge-Based Approach for Interpreting Genome-Wide Expression Profiles.” <em>Proceedings of the National Academy of Sciences</em> 102 (43): 15545–50. doi:<a href="https://doi.org/10.1073/pnas.0506580102">10.1073/pnas.0506580102</a>.</p>
+</div>
+<div>
+<p>Trapnell, Cole, Brian A. Williams, Geo Pertea, Ali Mortazavi, Gordon Kwan, Marijke J. van Baren, Steven L. Salzberg, Barbara J. Wold, and Lior Pachter. 2010. “Transcript Assembly and Quantification by RNA-Seq Reveals Unannotated Transcripts and Isoform Switching During Cell Differentiation.” <em>Nature Biotechnology</em> 28 (5): 511–15. doi:<a href="https://doi.org/10.1038/nbt.1621">10.1038/nbt.1621</a>.</p>
+</div>
+<div>
+<p>Wang, Zhong, Mark Gerstein, and Michael Snyder. 2009. “RNA-Seq: A Revolutionary Tool for Transcriptomics.” <em>Nature Reviews Genetics</em> 10 (1): 57–63. doi:<a href="https://doi.org/10.1038/nrg2484">10.1038/nrg2484</a>.</p>
+</div>
+<div>
+<p>Wu, Thomas D., Jens Reeder, Michael Lawrence, Gabe Becker, and Matthew J. Brauer. 2016. “GMAP and GSNAP for Genomic Sequence Alignment: Enhancements to Speed, Accuracy, and Functionality.” <em>Methods in Molecular Biology (Clifton, N.J.)</em> 1418: 283–334. doi:<a href="https://doi.org/10.1007/978-1-4939-3578-9_15">10.1007/978-1-4939-3578-9_15</a>.</p>
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="exercises-2.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="reproducibility.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
@@ -352,7 +465,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

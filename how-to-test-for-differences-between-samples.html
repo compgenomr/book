@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-02-27">
+<meta name="date" content="2019-03-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -60,67 +60,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -271,6 +245,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.6.4" data-path="exercises-2.html"><a href="exercises-2.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>4.6.4</b> Visualizing and summarizing genomic intervals</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="rna-seq-analysis-overview.html"><a href="rna-seq-analysis-overview.html"><i class="fa fa-check"></i><b>5</b> RNA-seq analysis overview</a><ul>
+<li class="chapter" data-level="5.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>5.1</b> What is gene expression?</a></li>
+<li class="chapter" data-level="5.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>5.2</b> Methods to detect gene expression</a></li>
+<li class="chapter" data-level="5.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>5.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>5.3.1</b> Processing raw data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>5.3.2</b> Alignment</a></li>
+<li class="chapter" data-level="5.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>5.3.3</b> Quantification</a></li>
+<li class="chapter" data-level="5.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#normalization-of-read-counts"><i class="fa fa-check"></i><b>5.3.4</b> Normalization of read counts</a></li>
+<li class="chapter" data-level="5.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#demonstration-in-r"><i class="fa fa-check"></i><b>5.3.5</b> Demonstration in R</a></li>
+<li class="chapter" data-level="5.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>5.3.6</b> Exploratory analysis of the read count table</a></li>
+<li class="chapter" data-level="5.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>5.3.7</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="5.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>5.3.8</b> Functional Enrichment Analysis</a></li>
+<li class="chapter" data-level="5.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>5.3.9</b> Accounting for additional sources of variation</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>5.4</b> Other applications of RNA-seq</a></li>
+<li class="chapter" data-level="5.5" data-path="reproducibility.html"><a href="reproducibility.html"><i class="fa fa-check"></i><b>5.5</b> Reproducibility</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
@@ -294,52 +285,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="how-to-test-for-differences-between-samples" class="section level2">
 <h2><span class="header-section-number">3.2</span> How to test for differences between samples</h2>
-<p>Often times we would want to compare sets of samples. Such comparisons include
-if wild-type samples have different expression compared to mutants or if healthy
-samples are different from disease samples in some measurable feature (blood count,
-gene expression, methylation of certain loci). Since there is variability in our
-measurements, we need to take that into account when comparing the sets of samples.
-We can simply subtract the means of two samples, but given the variability
-of sampling, at the very least we need to decide a cutoff value for differences
-of means, small differences of means can be explained by random chance due to
-sampling. That means we need to compare the difference we get to a value that
-is typical to get if the difference between two group means were only due to
-sampling. If you followed the logic above, here we actually introduced two core
-ideas of something called “hypothesis testing”, this is simply using
-statistics to
-determine the probability that a given hypothesis (if two sample sets
-are from the same population or not) is true. Formally, those two core
-ideas are as follows:</p>
+<p>Often times we would want to compare sets of samples. Such comparisons include if wild-type samples have different expression compared to mutants or if healthy samples are different from disease samples in some measurable feature (blood count, gene expression, methylation of certain loci). Since there is variability in our measurements, we need to take that into account when comparing the sets of samples. We can simply subtract the means of two samples, but given the variability of sampling, at the very least we need to decide a cutoff value for differences of means, small differences of means can be explained by random chance due to sampling. That means we need to compare the difference we get to a value that is typical to get if the difference between two group means were only due to sampling. If you followed the logic above, here we actually introduced two core ideas of something called “hypothesis testing”, this is simply using statistics to determine the probability that a given hypothesis (if two sample sets are from the same population or not) is true. Formally, those two core ideas are as follows:</p>
 <ol style="list-style-type: decimal">
-<li>Decide on a hypothesis to test, often called “null hypothesis” (<span class="math inline">\(H_0\)</span>). In our
-case, the hypothesis is there is no difference between sets of samples. An the “Alternative hypothesis” (<span class="math inline">\(H_1\)</span>) is there is a difference between the
-samples.</li>
+<li>Decide on a hypothesis to test, often called “null hypothesis” (<span class="math inline">\(H_0\)</span>). In our case, the hypothesis is there is no difference between sets of samples. An the “Alternative hypothesis” (<span class="math inline">\(H_1\)</span>) is there is a difference between the samples.</li>
 <li>Decide on a statistic to test the truth of the null hypothesis.</li>
 <li>Calculate the statistic</li>
 <li>Compare it to a reference value to establish significance, the P-value. Based on that either reject or not reject the null hypothesis, <span class="math inline">\(H_0\)</span></li>
 </ol>
 <div id="randomization-based-testing-for-difference-of-the-means" class="section level3">
 <h3><span class="header-section-number">3.2.1</span> randomization based testing for difference of the means</h3>
-<p>There is one intuitive way to go about this. If we believe there are no
-differences between samples that means the sample labels (test-control or
-healthy-disease) has no meaning. So, if we randomly assign labels to the
-samples
-that and calculate the difference of the mean, this creates a null
-distribution for the <span class="math inline">\(H_0\)</span> where we can compare the real difference and
-measure how unlikely it is to get such a value under the expectation of the
-null hypothesis. We can calculate all possible permutations to calculate
-the null distribution. However, sometimes that is not very feasible and
-equivalent approach would be generating the null distribution by taking a
-smaller number of random samples with shuffled group membership.</p>
-<p>Below, we are doing this process in R. We are first simulating two samples
-from two different distributions.
-These would be equivalent to gene expression measurements obtained under
-different conditions. Then, we calculate the differences in the means
-and do the randomization procedure to get a null distribution when we
-assume there is no difference between samples, <span class="math inline">\(H_0\)</span>. We then calculate how
-often we would get the original difference we calculated under the
-assumption that <span class="math inline">\(H_0\)</span> is true.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">100</span>)
+<p>There is one intuitive way to go about this. If we believe there are no differences between samples that means the sample labels (test-control or healthy-disease) has no meaning. So, if we randomly assign labels to the samples that and calculate the difference of the mean, this creates a null distribution for the <span class="math inline">\(H_0\)</span> where we can compare the real difference and measure how unlikely it is to get such a value under the expectation of the null hypothesis. We can calculate all possible permutations to calculate the null distribution. However, sometimes that is not very feasible and equivalent approach would be generating the null distribution by taking a smaller number of random samples with shuffled group membership.</p>
+<p>Below, we are doing this process in R. We are first simulating two samples from two different distributions. These would be equivalent to gene expression measurements obtained under different conditions. Then, we calculate the differences in the means and do the randomization procedure to get a null distribution when we assume there is no difference between samples, <span class="math inline">\(H_0\)</span>. We then calculate how often we would get the original difference we calculated under the assumption that <span class="math inline">\(H_0\)</span> is true.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">100</span>)
 gene1=<span class="kw">rnorm</span>(<span class="dv">30</span>,<span class="dt">mean=</span><span class="dv">4</span>,<span class="dt">sd=</span><span class="dv">2</span>)
 gene2=<span class="kw">rnorm</span>(<span class="dv">30</span>,<span class="dt">mean=</span><span class="dv">2</span>,<span class="dt">sd=</span><span class="dv">2</span>)
 org.diff=<span class="kw">mean</span>(gene1)<span class="op">-</span><span class="kw">mean</span>(gene2)
@@ -354,47 +311,28 @@ exp.null &lt;-<span class="st"> </span><span class="kw">do</span>(<span class="d
 <span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">quantile</span>(exp.null[,<span class="dv">1</span>],<span class="fl">0.95</span>),<span class="dt">col=</span><span class="st">&quot;red&quot;</span> )
 <span class="kw">abline</span>(<span class="dt">v=</span>org.diff,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span> )
 <span class="kw">text</span>(<span class="dt">x=</span><span class="kw">quantile</span>(exp.null[,<span class="dv">1</span>],<span class="fl">0.95</span>),<span class="dt">y=</span><span class="dv">200</span>,<span class="st">&quot;0.05&quot;</span>,<span class="dt">adj=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
-<span class="kw">text</span>(<span class="dt">x=</span>org.diff,<span class="dt">y=</span><span class="dv">200</span>,<span class="st">&quot;org. diff.&quot;</span>,<span class="dt">adj=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</code></pre>
+<span class="kw">text</span>(<span class="dt">x=</span>org.diff,<span class="dt">y=</span><span class="dv">200</span>,<span class="st">&quot;org. diff.&quot;</span>,<span class="dt">adj=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-141"></span>
 <img src="compgenomrReloaded_files/figure-html/unnamed-chunk-141-1.png" alt="The null distribution for differences of means obtained via randomization. The original difference is marked via blue line. The red line marks the value that corresponds to P-value of 0.05" width="60%" />
 <p class="caption">
 FIGURE 3.9: The null distribution for differences of means obtained via randomization. The original difference is marked via blue line. The red line marks the value that corresponds to P-value of 0.05
 </p>
 </div>
-<pre class="sourceCode r"><code class="sourceCode r">p.val=<span class="kw">sum</span>(exp.null[,<span class="dv">1</span>]<span class="op">&gt;</span>org.diff)<span class="op">/</span><span class="kw">length</span>(exp.null[,<span class="dv">1</span>])
-p.val</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p.val=<span class="kw">sum</span>(exp.null[,<span class="dv">1</span>]<span class="op">&gt;</span>org.diff)<span class="op">/</span><span class="kw">length</span>(exp.null[,<span class="dv">1</span>])
+p.val</code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<p>After doing random permutations and getting a null distribution, it is possible to get a confidence interval for the distribution of difference in means.
-This is simply the 2.5th and 97.5th percentiles of the null distribution, and
-directly related to the P-value calculation above.</p>
+<p>After doing random permutations and getting a null distribution, it is possible to get a confidence interval for the distribution of difference in means. This is simply the 2.5th and 97.5th percentiles of the null distribution, and directly related to the P-value calculation above.</p>
 </div>
 <div id="using-t-test-for-difference-of-the-means-between-two-samples" class="section level3">
 <h3><span class="header-section-number">3.2.2</span> Using t-test for difference of the means between two samples</h3>
-<p>We can also calculate the difference between means using a t-test. Sometimes we will have too few data points in a sample to do meaningful
-randomization test, also randomization takes more time than doing a t-test.
-This is a test that depends on the t distribution. The line of thought follows
-from the CLT and we can show differences in means are t distributed.
-There are couple of variants of the t-test for this purpose. If we assume
-the variances are equal we can use the following version</p>
-<p><span class="math display">\[t = \frac{\bar {X}_1 - \bar{X}_2}{s_{X_1X_2} \cdot \sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}\]</span>
-where
-<span class="math display">\[s_{X_1X_2} = \sqrt{\frac{(n_1-1)s_{X_1}^2+(n_2-1)s_{X_2}^2}{n_1+n_2-2}}\]</span>
-In the first equation above the quantity is t distributed with <span class="math inline">\(n_1+n_2-2\)</span> degrees of freedom. We can calculate the quantity then use software
-to look for the percentile of that value in that t distribution, which is our P-value. When we can not assume equal variances we use “Welch’s t-test”
-which is the default t-test in R and also works well when variances and
-the sample sizes are the same. For this test we calculate the following
-quantity:</p>
-<p><span class="math display">\[t = {\overline{X}_1 - \overline{X}_2 \over s_{\overline{X}_1 - \overline{X}_2}}\]</span>
-where
-<span class="math display">\[s_{\overline{X}_1 - \overline{X}_2} = \sqrt{{s_1^2 \over n_1} + {s_2^2  \over n_2}}
-\]</span>
-and the degrees of freedom equals to:
-<span class="math display">\[\mathrm{d.f.} = \frac{(s_1^2/n_1 + s_2^2/n_2)^2}{(s_1^2/n_1)^2/(n_1-1) + (s_2^2/n_2)^2/(n_2-1)}
+<p>We can also calculate the difference between means using a t-test. Sometimes we will have too few data points in a sample to do meaningful randomization test, also randomization takes more time than doing a t-test. This is a test that depends on the t distribution. The line of thought follows from the CLT and we can show differences in means are t distributed. There are couple of variants of the t-test for this purpose. If we assume the variances are equal we can use the following version</p>
+<p><span class="math display">\[t = \frac{\bar {X}_1 - \bar{X}_2}{s_{X_1X_2} \cdot \sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}\]</span> where <span class="math display">\[s_{X_1X_2} = \sqrt{\frac{(n_1-1)s_{X_1}^2+(n_2-1)s_{X_2}^2}{n_1+n_2-2}}\]</span> In the first equation above the quantity is t distributed with <span class="math inline">\(n_1+n_2-2\)</span> degrees of freedom. We can calculate the quantity then use software to look for the percentile of that value in that t distribution, which is our P-value. When we can not assume equal variances we use “Welch’s t-test” which is the default t-test in R and also works well when variances and the sample sizes are the same. For this test we calculate the following quantity:</p>
+<p><span class="math display">\[t = {\overline{X}_1 - \overline{X}_2 \over s_{\overline{X}_1 - \overline{X}_2}}\]</span> where <span class="math display">\[s_{\overline{X}_1 - \overline{X}_2} = \sqrt{{s_1^2 \over n_1} + {s_2^2  \over n_2}}
+\]</span> and the degrees of freedom equals to: <span class="math display">\[\mathrm{d.f.} = \frac{(s_1^2/n_1 + s_2^2/n_2)^2}{(s_1^2/n_1)^2/(n_1-1) + (s_2^2/n_2)^2/(n_2-1)}
 \]</span></p>
-<p>Luckily, R does all those calculations for us. Below we will show the use of <code>t.test()</code> function in R. We will use it on the samples we simulated
-above.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Welch&#39;s t-test</span>
-stats<span class="op">::</span><span class="kw">t.test</span>(gene1,gene2)</code></pre>
+<p>Luckily, R does all those calculations for us. Below we will show the use of <code>t.test()</code> function in R. We will use it on the samples we simulated above.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Welch&#39;s t-test</span>
+stats<span class="op">::</span><span class="kw">t.test</span>(gene1,gene2)</code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -406,8 +344,8 @@ stats<span class="op">::</span><span class="kw">t.test</span>(gene1,gene2)</code
 ## sample estimates:
 ## mean of x mean of y 
 ##     4.058     2.185</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># t-test with equal varience assumption</span>
-stats<span class="op">::</span><span class="kw">t.test</span>(gene1,gene2,<span class="dt">var.equal=</span><span class="ot">TRUE</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># t-test with equal varience assumption</span>
+stats<span class="op">::</span><span class="kw">t.test</span>(gene1,gene2,<span class="dt">var.equal=</span><span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
@@ -419,36 +357,13 @@ stats<span class="op">::</span><span class="kw">t.test</span>(gene1,gene2,<span 
 ## sample estimates:
 ## mean of x mean of y 
 ##     4.058     2.185</code></pre>
-<p>A final word on t-tests: they generally assume population where samples coming
-from have normal
-distribution, however it is been shown t-test can tolerate deviations from
-normality. Especially, when two distributions are moderately skewed in the
-same direction. This is due to central limit theorem which says means of
-samples will be distributed normally no matter the population distribution
-if sample sizes are large.</p>
+<p>A final word on t-tests: they generally assume population where samples coming from have normal distribution, however it is been shown t-test can tolerate deviations from normality. Especially, when two distributions are moderately skewed in the same direction. This is due to central limit theorem which says means of samples will be distributed normally no matter the population distribution if sample sizes are large.</p>
 </div>
 <div id="multiple-testing-correction" class="section level3">
 <h3><span class="header-section-number">3.2.3</span> multiple testing correction</h3>
-<p>We should think of hypothesis testing as a non-error-free method of making
-decisions. There will be times when we declare something significant and accept
-<span class="math inline">\(H_1\)</span> but we will be wrong.
-These decisions are also called “false positives” or “false discoveries”, this
-is also known as “type I error”. Similarly, we can fail to reject a hypothesis
-when we actually should. These cases are known as “false negatives”, also known
-as “type II error”.</p>
-<p>The ratio of true negatives to the sum of
-true negatives and false positives (<span class="math inline">\(\frac{TN}{FP+TN}\)</span>) is known as specificity.
-And we usually want to decrease the FP and get higher specificity.
-The ratio of true positives to the sum of
-true positives and false negatives (<span class="math inline">\(\frac{TP}{TP+FN}\)</span>) is known as sensitivity.
-And, again we usually want to decrease the FN and get higher sensitivity.
-Sensitivity is also known as “power of a test” in the context of hypothesis
-testing. More powerful tests will be highly sensitive and will do less type
-II errors. For the t-test the power is positively associated with sample size
-and the effect size. Higher the sample size, smaller the standard error and
-looking for the larger effect sizes will similarly increase the power.</p>
-<p>The general summary of these the different combination of the decisions are
-included in the table below.</p>
+<p>We should think of hypothesis testing as a non-error-free method of making decisions. There will be times when we declare something significant and accept <span class="math inline">\(H_1\)</span> but we will be wrong. These decisions are also called “false positives” or “false discoveries”, this is also known as “type I error”. Similarly, we can fail to reject a hypothesis when we actually should. These cases are known as “false negatives”, also known as “type II error”.</p>
+<p>The ratio of true negatives to the sum of true negatives and false positives (<span class="math inline">\(\frac{TN}{FP+TN}\)</span>) is known as specificity. And we usually want to decrease the FP and get higher specificity. The ratio of true positives to the sum of true positives and false negatives (<span class="math inline">\(\frac{TP}{TP+FN}\)</span>) is known as sensitivity. And, again we usually want to decrease the FN and get higher sensitivity. Sensitivity is also known as “power of a test” in the context of hypothesis testing. More powerful tests will be highly sensitive and will do less type II errors. For the t-test the power is positively associated with sample size and the effect size. Higher the sample size, smaller the standard error and looking for the larger effect sizes will similarly increase the power.</p>
+<p>The general summary of these the different combination of the decisions are included in the table below.</p>
 <table>
 <colgroup>
 <col width="19%" />
@@ -459,84 +374,30 @@ included in the table below.</p>
 <thead>
 <tr class="header">
 <th></th>
-<th align="center"><span class="math inline">\(H_0\)</span> is
-TRUE,
-[Gene is NOT
-differentially
-expressed]</th>
-<th align="center"><span class="math inline">\(H_1\)</span> is
-TRUE,
-[Gene is
-differentially
-expressed]</th>
+<th align="center"><span class="math inline">\(H_0\)</span> is TRUE, [Gene is NOT differentially expressed]</th>
+<th align="center"><span class="math inline">\(H_1\)</span> is TRUE, [Gene is differentially expressed]</th>
 <th></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Accept <span class="math inline">\(H_0\)</span>
-(claim that
-the gene is not
-differentially
-expressed)</td>
+<td>Accept <span class="math inline">\(H_0\)</span> (claim that the gene is not differentially expressed)</td>
 <td align="center">True Negatives (TN)</td>
-<td align="center">False Negatives (FN)
-,type II error</td>
-<td><span class="math inline">\(m_0\)</span>: number of truly
-null hypotheses</td>
+<td align="center">False Negatives (FN) ,type II error</td>
+<td><span class="math inline">\(m_0\)</span>: number of truly null hypotheses</td>
 </tr>
 <tr class="even">
-<td>reject <span class="math inline">\(H_0\)</span>
-(claim that
-the gene is
-differentially
-expressed)</td>
-<td align="center">False Positives (FP)
-,type I error</td>
+<td>reject <span class="math inline">\(H_0\)</span> (claim that the gene is differentially expressed)</td>
+<td align="center">False Positives (FP) ,type I error</td>
 <td align="center">True Positives (TP)</td>
-<td><span class="math inline">\(m-m_0\)</span>: number of
-truly alternative
-hypotheses</td>
+<td><span class="math inline">\(m-m_0\)</span>: number of truly alternative hypotheses</td>
 </tr>
 </tbody>
 </table>
-<p>We expect to make more type I errors as the number of tests increase, that
-means we will reject the null hypothesis by mistake. For example, if we
-perform a test the 5% significance level, there is a 5% chance of
-incorrectly rejecting the null hypothesis if the null hypothesis is true.
-However, if we make 1000 tests where all null hypotheses are true for
-each of them, the average number of incorrect rejections is 50. And if we
-apply the rules of probability, there are is almost a 100% chance that
-we will have at least one incorrect rejection.
-There are multiple statistical techniques to prevent this from happening.
-These techniques generally shrink the P-values obtained from multiple
-tests to higher values, if the individual P-value is low enough it survives
-this process. The most simple method is just to multiply the individual,
-P-value (<span class="math inline">\(p_i\)</span>) with the number of tests (<span class="math inline">\(m\)</span>): <span class="math inline">\(m \cdot p_i\)</span>, this is
-called “Bonferroni correction”. However, this is too harsh if you have thousands
-of tests. Other methods are developed to remedy this. Those methods
-rely on ranking the P-values and dividing <span class="math inline">\(m \cdot p_i\)</span> by the
-rank,<span class="math inline">\(i\)</span>, :<span class="math inline">\(\frac{m \cdot p_i }{i}\)</span>, this is derived from Benjamini–Hochberg
-procedure. This procedure is developed to control for “False Discovery Rate (FDR)”
-, which is proportion of false positives among all significant tests. And in
-practical terms, we get the “FDR adjusted P-value” from the procedure described
-above. This gives us an estimate of proportion of false discoveries for a given
-test. To elaborate, p-value of 0.05 implies that 5% of all tests will be false positives. An FDR adjusted p-value of 0.05 implies that 5% of significant tests will be false positives. The FDR adjusted P-values will result in a lower number of false positives.</p>
-<p>One final method that is also popular is called the “q-value”
-method and related to the method above. This procedure relies on estimating the proportion of true null
-hypotheses from the distribution of raw p-values and using that quantity
-to come up with what is called a “q-value”, which is also an FDR adjusted P-value . That can be practically defined
-as “the proportion of significant features that turn out to be false
-leads.” A q-value 0.01 would mean 1% of the tests called significant at this
-level will be truly null on average. Within the genomics community
-q-value and FDR adjusted P-value are synonymous although they can be
-calculated differently.</p>
-<p>In R, the base function <code>p.adjust()</code> implements most of the p-value correction
-methods described above. For the q-value, we can use the <code>qvalue</code> package from
-Bioconductor. Below we are demonstrating how to use them on a set of simulated
-p-values.The plot shows that Bonferroni correction does a terrible job. FDR(BH) and q-value
-approach are better but q-value approach is more permissive than FDR(BH).</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(qvalue)
+<p>We expect to make more type I errors as the number of tests increase, that means we will reject the null hypothesis by mistake. For example, if we perform a test the 5% significance level, there is a 5% chance of incorrectly rejecting the null hypothesis if the null hypothesis is true. However, if we make 1000 tests where all null hypotheses are true for each of them, the average number of incorrect rejections is 50. And if we apply the rules of probability, there are is almost a 100% chance that we will have at least one incorrect rejection. There are multiple statistical techniques to prevent this from happening. These techniques generally shrink the P-values obtained from multiple tests to higher values, if the individual P-value is low enough it survives this process. The most simple method is just to multiply the individual, P-value (<span class="math inline">\(p_i\)</span>) with the number of tests (<span class="math inline">\(m\)</span>): <span class="math inline">\(m \cdot p_i\)</span>, this is called “Bonferroni correction”. However, this is too harsh if you have thousands of tests. Other methods are developed to remedy this. Those methods rely on ranking the P-values and dividing <span class="math inline">\(m \cdot p_i\)</span> by the rank,<span class="math inline">\(i\)</span>, :<span class="math inline">\(\frac{m \cdot p_i }{i}\)</span>, this is derived from Benjamini–Hochberg procedure. This procedure is developed to control for “False Discovery Rate (FDR)” , which is proportion of false positives among all significant tests. And in practical terms, we get the “FDR adjusted P-value” from the procedure described above. This gives us an estimate of proportion of false discoveries for a given test. To elaborate, p-value of 0.05 implies that 5% of all tests will be false positives. An FDR adjusted p-value of 0.05 implies that 5% of significant tests will be false positives. The FDR adjusted P-values will result in a lower number of false positives.</p>
+<p>One final method that is also popular is called the “q-value” method and related to the method above. This procedure relies on estimating the proportion of true null hypotheses from the distribution of raw p-values and using that quantity to come up with what is called a “q-value”, which is also an FDR adjusted P-value . That can be practically defined as “the proportion of significant features that turn out to be false leads.” A q-value 0.01 would mean 1% of the tests called significant at this level will be truly null on average. Within the genomics community q-value and FDR adjusted P-value are synonymous although they can be calculated differently.</p>
+<p>In R, the base function <code>p.adjust()</code> implements most of the p-value correction methods described above. For the q-value, we can use the <code>qvalue</code> package from Bioconductor. Below we are demonstrating how to use them on a set of simulated p-values.The plot shows that Bonferroni correction does a terrible job. FDR(BH) and q-value approach are better but q-value approach is more permissive than FDR(BH).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(qvalue)
 <span class="kw">data</span>(hedenfalk)
 
 qvalues &lt;-<span class="st"> </span><span class="kw">qvalue</span>(hedenfalk<span class="op">$</span>p)<span class="op">$</span>q
@@ -548,7 +409,7 @@ fdr.adj.pval=<span class="kw">p.adjust</span>(hedenfalk<span class="op">$</span>
 <span class="kw">points</span>(hedenfalk<span class="op">$</span>p,bonf.pval,<span class="dt">pch=</span><span class="dv">19</span>,<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
 <span class="kw">points</span>(hedenfalk<span class="op">$</span>p,fdr.adj.pval,<span class="dt">pch=</span><span class="dv">19</span>,<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)
 <span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>,<span class="dt">legend=</span><span class="kw">c</span>(<span class="st">&quot;q-value&quot;</span>,<span class="st">&quot;FDR (BH)&quot;</span>,<span class="st">&quot;Bonferroni&quot;</span>),
-       <span class="dt">fill=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;red&quot;</span>))</code></pre>
+       <span class="dt">fill=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;red&quot;</span>))</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:multtest"></span>
 <img src="compgenomrReloaded_files/figure-html/multtest-1.png" alt="Adjusted P-values via different methods and their relationship to raw P-values" width="60%" />
 <p class="caption">
@@ -558,36 +419,12 @@ FIGURE 3.10: Adjusted P-values via different methods and their relationship to r
 </div>
 <div id="moderated-t-tests-using-information-from-multiple-comparisons" class="section level3">
 <h3><span class="header-section-number">3.2.4</span> moderated t-tests: using information from multiple comparisons</h3>
-<p>In genomics, we usually do not do one test but many, as described above. That means we
-may be able to use the information from the parameters obtained from all
-comparisons to influence the individual parameters. For example, if you have many variances
-calculated for thousands of genes across samples, you can force individual
-variance estimates to shrunk towards the mean or the median of the distribution
-of variances. This usually creates better performance in individual variance
-estimates and therefore better performance in significance testing which
-depends on variance estimates. How much the values be shrunk towards a common
-value comes in many flavors. These tests in general are called moderated
-t-tests or shrinkage t-tests. One approach popularized by Limma software is
-to use so-called “Empirical Bayesian methods”. The main formulation in these
-methods is <span class="math inline">\(\hat{V_g} = aV_0 + bV_g\)</span>, where <span class="math inline">\(V_0\)</span> is the background variability<br />
-and <span class="math inline">\(V_g\)</span> is the individual variability. Then, these methods estimate <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>
-in various ways to come up with shrunk version of variability, <span class="math inline">\(\hat{V_g}\)</span>. In a Bayesian viewpoint,
-the prior knowledge is used to calculate the variability of an individual gene. In this
-case, <span class="math inline">\(V_0\)</span> would be the prior knowledge we have on variability of
-the genes and we
-use that knowledge to influence our estimate for the individual genes.</p>
-<p>Below we are simulating a gene expression matrix with 1000 genes, and 3 test
-and 3 control groups. Each row is a gene and in normal circumstances we would
-like to find out differentially expressed genes. In this case, we are simulating
-them from the same distribution so in reality we do not expect any differences.
-We then use the adjusted standard error estimates in empirical Bayesian spirit but
-in a very crude way. We just shrink the gene-wise standard error estimates towards the median with equal <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> weights. That is to say, we add individual estimate to the
-median of standard error distribution from all genes and divide that quantity by 2.
-So if we plug that in the to the above formula what we do is:</p>
+<p>In genomics, we usually do not do one test but many, as described above. That means we may be able to use the information from the parameters obtained from all comparisons to influence the individual parameters. For example, if you have many variances calculated for thousands of genes across samples, you can force individual variance estimates to shrunk towards the mean or the median of the distribution of variances. This usually creates better performance in individual variance estimates and therefore better performance in significance testing which depends on variance estimates. How much the values be shrunk towards a common value comes in many flavors. These tests in general are called moderated t-tests or shrinkage t-tests. One approach popularized by Limma software is to use so-called “Empirical Bayesian methods”. The main formulation in these methods is <span class="math inline">\(\hat{V_g} = aV_0 + bV_g\)</span>, where <span class="math inline">\(V_0\)</span> is the background variability<br />
+and <span class="math inline">\(V_g\)</span> is the individual variability. Then, these methods estimate <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> in various ways to come up with shrunk version of variability, <span class="math inline">\(\hat{V_g}\)</span>. In a Bayesian viewpoint, the prior knowledge is used to calculate the variability of an individual gene. In this case, <span class="math inline">\(V_0\)</span> would be the prior knowledge we have on variability of the genes and we use that knowledge to influence our estimate for the individual genes.</p>
+<p>Below we are simulating a gene expression matrix with 1000 genes, and 3 test and 3 control groups. Each row is a gene and in normal circumstances we would like to find out differentially expressed genes. In this case, we are simulating them from the same distribution so in reality we do not expect any differences. We then use the adjusted standard error estimates in empirical Bayesian spirit but in a very crude way. We just shrink the gene-wise standard error estimates towards the median with equal <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> weights. That is to say, we add individual estimate to the median of standard error distribution from all genes and divide that quantity by 2. So if we plug that in the to the above formula what we do is:</p>
 <p><span class="math display">\[ \hat{V_g} = (V_0 + V_g)/2 \]</span></p>
-<p>In the code below, we are avoiding for loops or apply family functions
-by using vectorized operations.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">100</span>)
+<p>In the code below, we are avoiding for loops or apply family functions by using vectorized operations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">100</span>)
 
 <span class="co">#sample data matrix from normal distribution</span>
 
@@ -604,7 +441,7 @@ dx=<span class="kw">rowMeans</span>(data[,group1])<span class="op">-</span><span
 <span class="kw">require</span>(matrixStats)
 
 <span class="co"># get the esimate of pooled variance </span>
-stderr &lt;-<span class="st"> </span><span class="kw">sqrt</span>( (<span class="kw">rowVars</span>(data[,group1])<span class="op">*</span>(n1<span class="dv">-1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">rowVars</span>(data[,group2])<span class="op">*</span>(n2<span class="dv">-1</span>)) <span class="op">/</span><span class="st"> </span>(n1<span class="op">+</span>n2<span class="dv">-2</span>) <span class="op">*</span><span class="st"> </span>( <span class="dv">1</span><span class="op">/</span>n1 <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>n2 ))
+stderr &lt;-<span class="st"> </span><span class="kw">sqrt</span>( (<span class="kw">rowVars</span>(data[,group1])<span class="op">*</span>(n1<span class="op">-</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="kw">rowVars</span>(data[,group2])<span class="op">*</span>(n2<span class="op">-</span><span class="dv">1</span>)) <span class="op">/</span><span class="st"> </span>(n1<span class="op">+</span>n2<span class="op">-</span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span>( <span class="dv">1</span><span class="op">/</span>n1 <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>n2 ))
 
 <span class="co"># do the shrinking towards median</span>
 mod.stderr &lt;-<span class="st"> </span>(stderr <span class="op">+</span><span class="st"> </span><span class="kw">median</span>(stderr)) <span class="op">/</span><span class="st"> </span><span class="dv">2</span> <span class="co"># moderation in variation</span>
@@ -613,19 +450,19 @@ mod.stderr &lt;-<span class="st"> </span>(stderr <span class="op">+</span><span 
 t.mod =<span class="st"> </span>dx <span class="op">/</span><span class="st"> </span>mod.stderr
 
 <span class="co"># calculate P-value of rejecting null </span>
-p.mod =<span class="st"> </span><span class="dv">2</span><span class="op">*</span><span class="kw">pt</span>( <span class="op">-</span><span class="kw">abs</span>(t.mod), n1<span class="op">+</span>n2<span class="dv">-2</span> )
+p.mod =<span class="st"> </span><span class="dv">2</span><span class="op">*</span><span class="kw">pt</span>( <span class="op">-</span><span class="kw">abs</span>(t.mod), n1<span class="op">+</span>n2<span class="op">-</span><span class="dv">2</span> )
 
 <span class="co"># esimate t statistic without moderated variance</span>
 t =<span class="st"> </span>dx <span class="op">/</span><span class="st"> </span>stderr
 
 <span class="co"># calculate P-value of rejecting null </span>
-p =<span class="st"> </span><span class="dv">2</span><span class="op">*</span><span class="kw">pt</span>( <span class="op">-</span><span class="kw">abs</span>(t), n1<span class="op">+</span>n2<span class="dv">-2</span> )
+p =<span class="st"> </span><span class="dv">2</span><span class="op">*</span><span class="kw">pt</span>( <span class="op">-</span><span class="kw">abs</span>(t), n1<span class="op">+</span>n2<span class="op">-</span><span class="dv">2</span> )
 
 <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 <span class="kw">hist</span>(p,<span class="dt">col=</span><span class="st">&quot;cornflowerblue&quot;</span>,<span class="dt">border=</span><span class="st">&quot;white&quot;</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;P-values t-test&quot;</span>)
 <span class="kw">mtext</span>(<span class="kw">paste</span>(<span class="st">&quot;signifcant tests:&quot;</span>,<span class="kw">sum</span>(p<span class="op">&lt;</span><span class="fl">0.05</span>))  )
 <span class="kw">hist</span>(p.mod,<span class="dt">col=</span><span class="st">&quot;cornflowerblue&quot;</span>,<span class="dt">border=</span><span class="st">&quot;white&quot;</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;P-values mod. t-test&quot;</span>)
-<span class="kw">mtext</span>(<span class="kw">paste</span>(<span class="st">&quot;signifcant tests:&quot;</span>,<span class="kw">sum</span>(p.mod<span class="op">&lt;</span><span class="fl">0.05</span>))  )</code></pre>
+<span class="kw">mtext</span>(<span class="kw">paste</span>(<span class="st">&quot;signifcant tests:&quot;</span>,<span class="kw">sum</span>(p.mod<span class="op">&lt;</span><span class="fl">0.05</span>))  )</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-142"></span>
 <img src="compgenomrReloaded_files/figure-html/unnamed-chunk-142-1.png" alt="The distributions of P-values obtained by t-tests and moderated t-tests" width="60%" />
 <p class="caption">
@@ -639,7 +476,7 @@ FIGURE 3.11: The distributions of P-values obtained by t-tests and moderated t-t
 <li>basic statistical concepts
 <ul>
 <li>“Cartoon guide to statistics” by Gonick &amp; Smith</li>
-<li>“Introduction to statistics” by Mine Rundel, et al. (Free e-book)</li>
+<li>“Introduction to statistics” by Mine Rundel, et al. (Free e-book)</li>
 </ul></li>
 <li>Hands-on statistics recipes with R
 <ul>
@@ -648,7 +485,7 @@ FIGURE 3.11: The distributions of P-values obtained by t-tests and moderated t-t
 <li>moderated tests
 <ul>
 <li>comparison of moderated tests for differential expression <a href="http://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-17" class="uri">http://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-17</a></li>
-<li>limma method: Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments. Statistical Applications in Genetics and Molecular Biology, 3, No. 1, Article 3. <a href="http://www.statsci.org/smyth/pubs/ebayes.pdf" class="uri">http://www.statsci.org/smyth/pubs/ebayes.pdf</a></li>
+<li>limma method: Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments. Statistical Applications in Genetics and Molecular Biology, 3, No. 1, Article 3. <a href="http://www.statsci.org/smyth/pubs/ebayes.pdf" class="uri">http://www.statsci.org/smyth/pubs/ebayes.pdf</a></li>
 </ul></li>
 </ul>
 </div>
@@ -691,7 +528,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/compgenomr/book/edit/master/03-statsForGenomics.Rmd",
+"link": "https://github.com/compgenomr/book/edit/master/03-StatsForGenomics.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -711,7 +548,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

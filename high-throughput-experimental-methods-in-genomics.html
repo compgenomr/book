@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-02-27">
+<meta name="date" content="2019-03-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -60,67 +60,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -271,6 +245,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.6.4" data-path="exercises-2.html"><a href="exercises-2.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>4.6.4</b> Visualizing and summarizing genomic intervals</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="rna-seq-analysis-overview.html"><a href="rna-seq-analysis-overview.html"><i class="fa fa-check"></i><b>5</b> RNA-seq analysis overview</a><ul>
+<li class="chapter" data-level="5.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>5.1</b> What is gene expression?</a></li>
+<li class="chapter" data-level="5.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>5.2</b> Methods to detect gene expression</a></li>
+<li class="chapter" data-level="5.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>5.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>5.3.1</b> Processing raw data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>5.3.2</b> Alignment</a></li>
+<li class="chapter" data-level="5.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>5.3.3</b> Quantification</a></li>
+<li class="chapter" data-level="5.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#normalization-of-read-counts"><i class="fa fa-check"></i><b>5.3.4</b> Normalization of read counts</a></li>
+<li class="chapter" data-level="5.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#demonstration-in-r"><i class="fa fa-check"></i><b>5.3.5</b> Demonstration in R</a></li>
+<li class="chapter" data-level="5.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>5.3.6</b> Exploratory analysis of the read count table</a></li>
+<li class="chapter" data-level="5.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>5.3.7</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="5.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>5.3.8</b> Functional Enrichment Analysis</a></li>
+<li class="chapter" data-level="5.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>5.3.9</b> Accounting for additional sources of variation</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>5.4</b> Other applications of RNA-seq</a></li>
+<li class="chapter" data-level="5.5" data-path="reproducibility.html"><a href="reproducibility.html"><i class="fa fa-check"></i><b>5.5</b> Reproducibility</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
@@ -294,12 +285,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="high-throughput-experimental-methods-in-genomics" class="section level2">
 <h2><span class="header-section-number">1.4</span> High-throughput experimental methods in genomics</h2>
-<p>Most of the biological phenomena described above relating to transcription
-, gene regulation or DNA mutation can be measured over the entire genome using
-high-throughput experimental techniques, which are quickly becoming
-the standard for studying genome biology. In addition, their
-applications in the clinic are also gaining momemntum: there are already diagnostic
-tests that are based on these techniques.</p>
+<p>Most of the biological phenomena described above relating to transcription , gene regulation or DNA mutation can be measured over the entire genome using high-throughput experimental techniques, which are quickly becoming the standard for studying genome biology. In addition, their applications in the clinic are also gaining momemntum: there are already diagnostic tests that are based on these techniques.</p>
 <p>Some of the things that can be measured by high-throughput assays are as follows:</p>
 <ul>
 <li><em>Which genes are expressed and how much ?</em></li>
@@ -312,58 +298,16 @@ tests that are based on these techniques.</p>
 <li><em>Where are the mutations in the genome located ?</em></li>
 <li><em>Which parts of the genome are nucleosome-free ?</em></li>
 </ul>
-<p>There are many more questions one can answer using modern genome-wide techniques
-and every other day a new variant of the existing techniques comes along
-to answer a new question.
-However, One has to keep in mind that these methods are at varying degrees
-of maturity and they all come with technical limitations
-and are not noise-free. Despite this, they are extremely useful for research and clinical
-purposes. And, thanks to these methods we are able to sequence and annotate
-genomes at a massive scale.</p>
+<p>There are many more questions one can answer using modern genome-wide techniques and every other day a new variant of the existing techniques comes along to answer a new question. However, One has to keep in mind that these methods are at varying degrees of maturity and they all come with technical limitations and are not noise-free. Despite this, they are extremely useful for research and clinical purposes. And, thanks to these methods we are able to sequence and annotate genomes at a massive scale.</p>
 <div id="the-general-idea-behind-high-throughput-techniques" class="section level3">
 <h3><span class="header-section-number">1.4.1</span> The general idea behind high-throughput techniques</h3>
-<p>High-throughput methods aim to quantify or locate all or most of the genome that harbours
-the biological feature (expressed genes, binding sites, etc.) of interest.
-Most of the methods rely on some sort of enrichment of the the targeted
-biological feature. For example, if you want to measure expression of protein coding
-genes you need to be able to extract mRNA molecules with special post-transcriptional
-alterations that protein-coding genes acquire. If you are looking for transcription factor
-binding, you need to enrich
-for the DNA fragments that are bound by the protein if interest.This parts
-depends on available molecular biology and chemistry technques, and the final
-product of this part is RNA or DNA fragments.</p>
-<p>Next, you need to be able to
-tell where these fragments are coming from in the genome and how many of them
-are there. Microarrays were the standard tool for the quantification step
-until spread of sequencing techniques. In microarrays, one had to design complementary bases
-,called “oligos” or “probes”, to the genetic material enriched via the experimental protocol.
-If the enriched material is complementary to the genetic material,
-a light signal will
-be produced and the intensity of the signal will be proportional to the amount of the
-genetic material pairing with that oligo. There will be more probes available for
-hybrdization (process of complementary bases forming bonds ), so the more fragments
-available stronger the signal. For this to be able to work, you need to know
-at least part of your genome sequence, and design probes. If you want to measure
-gene expression, your probes should overlap with genes and should be unique
-enough to not to bind sequences from other genes. This technology is now being
-replaced with sequencing technology, where you directly sequence your genetic
-material. If you have the sequence of your fragments, you can align them back
-to genome, see where they are coming from and count them. This is a better
-technology where the quantification is based on the real identiy of fragments
-rather than based on hybridization to designed probes.</p>
-<p>In summary HT techniques has the following steps, and this also summarized in
-Figure <a href="high-throughput-experimental-methods-in-genomics.html#fig:HTassays">1.6</a>:</p>
+<p>High-throughput methods aim to quantify or locate all or most of the genome that harbours the biological feature (expressed genes, binding sites, etc.) of interest. Most of the methods rely on some sort of enrichment of the the targeted biological feature. For example, if you want to measure expression of protein coding genes you need to be able to extract mRNA molecules with special post-transcriptional alterations that protein-coding genes acquire. If you are looking for transcription factor binding, you need to enrich for the DNA fragments that are bound by the protein if interest.This parts depends on available molecular biology and chemistry technques, and the final product of this part is RNA or DNA fragments.</p>
+<p>Next, you need to be able to tell where these fragments are coming from in the genome and how many of them are there. Microarrays were the standard tool for the quantification step until spread of sequencing techniques. In microarrays, one had to design complementary bases ,called “oligos” or “probes”, to the genetic material enriched via the experimental protocol. If the enriched material is complementary to the genetic material, a light signal will be produced and the intensity of the signal will be proportional to the amount of the genetic material pairing with that oligo. There will be more probes available for hybrdization (process of complementary bases forming bonds ), so the more fragments available stronger the signal. For this to be able to work, you need to know at least part of your genome sequence, and design probes. If you want to measure gene expression, your probes should overlap with genes and should be unique enough to not to bind sequences from other genes. This technology is now being replaced with sequencing technology, where you directly sequence your genetic material. If you have the sequence of your fragments, you can align them back to genome, see where they are coming from and count them. This is a better technology where the quantification is based on the real identiy of fragments rather than based on hybridization to designed probes.</p>
+<p>In summary HT techniques has the following steps, and this also summarized in Figure <a href="high-throughput-experimental-methods-in-genomics.html#fig:HTassays">1.6</a>:</p>
 <ul>
-<li>Extraction: This is the step where you extract the genetic
-material of interest, RNA or DNA.
-and nrichment</li>
-<li>Enrichment: In this step, you enrich for the event you are interested
-in. For example, protein binding sites. In some cases such as whole-genome DNA
-sequencing there is no need for enrichment step. You just get fragments of
-genomic DNA and sequence them.</li>
-<li>Quantification: This is where you quantify your enriched material. Depending
-on the protocol you may need to quantify a control set as well, where you
-should see no enrichment or only background enrichment.</li>
+<li>Extraction: This is the step where you extract the genetic material of interest, RNA or DNA. and nrichment</li>
+<li>Enrichment: In this step, you enrich for the event you are interested in. For example, protein binding sites. In some cases such as whole-genome DNA sequencing there is no need for enrichment step. You just get fragments of genomic DNA and sequence them.</li>
+<li>Quantification: This is where you quantify your enriched material. Depending on the protocol you may need to quantify a control set as well, where you should see no enrichment or only background enrichment.</li>
 </ul>
 <div class="figure" style="text-align: center"><span id="fig:HTassays"></span>
 <img src="images/HTassays.png" alt="Common steps of High-throughput assays in genome biology" width="60%" />
@@ -374,49 +318,11 @@ FIGURE 1.6: Common steps of High-throughput assays in genome biology
 </div>
 <div id="high-throughput-sequencing" class="section level3">
 <h3><span class="header-section-number">1.4.2</span> High-throughput sequencing</h3>
-<p>High-throughput sequencing, or massively parallel sequencing, is a
-collection of methods and technologies that can sequence DNA thousands/millons
-of fragments at a time. This is in contrast to older technologies that can
-produce a limited
-number of fragments at a time. Here, throughput refers to number
-of sequenced bases per hour. The older low-throughput sequencing methods have
-~ 100 times less throughput compared to modern high-throughput methods. The
-increased throughput gives the ability to measure biological features on a
-genome-wide scale in a shorter time frame.</p>
-<p>Similar to other high-throughput methods, sequencing based methods also require
-an enrichment step. This step enriches for the features we are interested in.
-The main difference of the sequencing based methods is the quantification step.
-In high-throughput sequencing,
-enriched fragments are put through the sequencer which outputs the sequences
-for the fragments. Due to limitations in current leading technologies, only
-limited number of bases can be sequenced using from the input fragments. However,
-the length is usually enough to uniquely map the reads to the genome and quantify
-the input fragments.</p>
+<p>High-throughput sequencing, or massively parallel sequencing, is a collection of methods and technologies that can sequence DNA thousands/millons of fragments at a time. This is in contrast to older technologies that can produce a limited number of fragments at a time. Here, throughput refers to number of sequenced bases per hour. The older low-throughput sequencing methods have ~ 100 times less throughput compared to modern high-throughput methods. The increased throughput gives the ability to measure biological features on a genome-wide scale in a shorter time frame.</p>
+<p>Similar to other high-throughput methods, sequencing based methods also require an enrichment step. This step enriches for the features we are interested in. The main difference of the sequencing based methods is the quantification step. In high-throughput sequencing, enriched fragments are put through the sequencer which outputs the sequences for the fragments. Due to limitations in current leading technologies, only limited number of bases can be sequenced using from the input fragments. However, the length is usually enough to uniquely map the reads to the genome and quantify the input fragments.</p>
 <div id="high-throughput-sequencing-data" class="section level4">
 <h4><span class="header-section-number">1.4.2.1</span> High-throughput sequencing data</h4>
-<p>If there is a genome available, the reads are aligned to the genome and based
-on the sequencing protocol different strategies are applied for analysis.
-Some of the potential analysis strategies and processed output of read alignments
-are depicted in Figure <a href="high-throughput-experimental-methods-in-genomics.html#fig:HTseq">1.7</a>.
-For example, we maybe interested to quantify the gene expression.
-The experimental protocol, called RNA sequencing-
-RNA-seq, enriches for fragments of RNA that are coming from protein coding genes.
-Upon alignment, we can calculate the coverage profile which gives us a read count
-per base along the genome. This information can be stored in a text file or
-specialized file formats to be used in subsequent analysis or visualization.
-We can also just count how many reads overlap with exons of each gene and record
-read counts per gene for further analysis. This essentially produces a table
-with gene names and read counts for different samples. As we will see in later
-chapters, this is an essential information for statistical models that model
-RNA-seq data. Furthermore, we can stack up the reads and count how many times
-we see a base position in a read mismatches the base in the genome. Read aligners
-allow for mismatches, and for this reason we can see reads with mismatches.
-This information can be used to identify SNPs, and can be stored again in
-a tabular format with the information of position and mismatch type and
-number of reads supporting the mismatch. The original algorithms are a bit
-more complicated than just counting mismatches but the general idea is the
-same, what they are doing differently is trying to minimize false positive
-rates by using filters, so that not every mismatch is recorded as SNP.</p>
+<p>If there is a genome available, the reads are aligned to the genome and based on the sequencing protocol different strategies are applied for analysis. Some of the potential analysis strategies and processed output of read alignments are depicted in Figure <a href="high-throughput-experimental-methods-in-genomics.html#fig:HTseq">1.7</a>. For example, we maybe interested to quantify the gene expression. The experimental protocol, called RNA sequencing- RNA-seq, enriches for fragments of RNA that are coming from protein coding genes. Upon alignment, we can calculate the coverage profile which gives us a read count per base along the genome. This information can be stored in a text file or specialized file formats to be used in subsequent analysis or visualization. We can also just count how many reads overlap with exons of each gene and record read counts per gene for further analysis. This essentially produces a table with gene names and read counts for different samples. As we will see in later chapters, this is an essential information for statistical models that model RNA-seq data. Furthermore, we can stack up the reads and count how many times we see a base position in a read mismatches the base in the genome. Read aligners allow for mismatches, and for this reason we can see reads with mismatches. This information can be used to identify SNPs, and can be stored again in a tabular format with the information of position and mismatch type and number of reads supporting the mismatch. The original algorithms are a bit more complicated than just counting mismatches but the general idea is the same, what they are doing differently is trying to minimize false positive rates by using filters, so that not every mismatch is recorded as SNP.</p>
 <div class="figure" style="text-align: center"><span id="fig:HTseq"></span>
 <img src="images/HTseq.png" alt="High-throughput sequencing summary" width="70%" />
 <p class="caption">
@@ -426,19 +332,8 @@ FIGURE 1.7: High-throughput sequencing summary
 </div>
 <div id="future-of-high-throughput-sequencing" class="section level4">
 <h4><span class="header-section-number">1.4.2.2</span> Future of high-throughput sequencing</h4>
-<p>The sequencing tech is still evolving. Next frontier is the obtaining
-longer single-molecule reads and preferably being able to call base modifications
-on the fly.
-With longer reads, the genome asssembly will be easier for the regions
-that have high repeat content. With single-molecule sequencing, we will be able
-tell how many transcripts are present in a given cell population without
-relying on fragment amplification methods which can introduce biases.</p>
-<p>Another recent development is single-cell sequencing. Current technologies usually
-work on genetic material from thousands to millions of cells. This means that the
-results you receive represents the population of cells that were used in the
-experiment. However, there is a lot variation between the same type of cells,
-this variation is not observed at all. Newer sequecing techniques can work
-on single cells and give quantititave information on each cell.</p>
+<p>The sequencing tech is still evolving. Next frontier is the obtaining longer single-molecule reads and preferably being able to call base modifications on the fly. With longer reads, the genome asssembly will be easier for the regions that have high repeat content. With single-molecule sequencing, we will be able tell how many transcripts are present in a given cell population without relying on fragment amplification methods which can introduce biases.</p>
+<p>Another recent development is single-cell sequencing. Current technologies usually work on genetic material from thousands to millions of cells. This means that the results you receive represents the population of cells that were used in the experiment. However, there is a lot variation between the same type of cells, this variation is not observed at all. Newer sequecing techniques can work on single cells and give quantititave information on each cell.</p>
 
 <div class="rmdtip">
 <p><strong>Want to know more ?</strong></p>
@@ -507,7 +402,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

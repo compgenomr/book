@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-02-27">
+<meta name="date" content="2019-03-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="visualizing-and-summarizing-genomic-intervals.html">
-<link rel="next" href="references.html">
+<link rel="next" href="rna-seq-analysis-overview.html">
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -60,67 +60,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -271,6 +245,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.6.4" data-path="exercises-2.html"><a href="exercises-2.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>4.6.4</b> Visualizing and summarizing genomic intervals</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="rna-seq-analysis-overview.html"><a href="rna-seq-analysis-overview.html"><i class="fa fa-check"></i><b>5</b> RNA-seq analysis overview</a><ul>
+<li class="chapter" data-level="5.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>5.1</b> What is gene expression?</a></li>
+<li class="chapter" data-level="5.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>5.2</b> Methods to detect gene expression</a></li>
+<li class="chapter" data-level="5.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>5.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>5.3.1</b> Processing raw data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>5.3.2</b> Alignment</a></li>
+<li class="chapter" data-level="5.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>5.3.3</b> Quantification</a></li>
+<li class="chapter" data-level="5.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#normalization-of-read-counts"><i class="fa fa-check"></i><b>5.3.4</b> Normalization of read counts</a></li>
+<li class="chapter" data-level="5.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#demonstration-in-r"><i class="fa fa-check"></i><b>5.3.5</b> Demonstration in R</a></li>
+<li class="chapter" data-level="5.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>5.3.6</b> Exploratory analysis of the read count table</a></li>
+<li class="chapter" data-level="5.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>5.3.7</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="5.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>5.3.8</b> Functional Enrichment Analysis</a></li>
+<li class="chapter" data-level="5.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>5.3.9</b> Accounting for additional sources of variation</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>5.4</b> Other applications of RNA-seq</a></li>
+<li class="chapter" data-level="5.5" data-path="reproducibility.html"><a href="reproducibility.html"><i class="fa fa-check"></i><b>5.5</b> Reproducibility</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
@@ -341,9 +332,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="section-10" class="section level4">
 <h4><span class="header-section-number">4.6.1.2</span> </h4>
-<p>use <code>start()</code>, <code>end()</code>, <code>strand()</code>,<code>seqnames()</code> and <code>width()</code> functions on the GRanges
-object you created. Figure out what they are doing. Can you get a subset of GRanges object for intervals that are only on + strand? If you can do that, try getting intervals that are on chr1. <em>HINT:</em> GRanges objects can be subset using <a href="exercises-2.html#section-21"></a> operator similar to data.frames but you may need
-to use <code>start()</code>, <code>end()</code> and <code>strand()</code>,<code>seqnames()</code> within the <a href="exercises-2.html#section-21"></a>.</p>
+<p>use <code>start()</code>, <code>end()</code>, <code>strand()</code>,<code>seqnames()</code> and <code>width()</code> functions on the GRanges object you created. Figure out what they are doing. Can you get a subset of GRanges object for intervals that are only on + strand? If you can do that, try getting intervals that are on chr1. <em>HINT:</em> GRanges objects can be subset using <a href="exercises-2.html#section-21"></a> operator similar to data.frames but you may need to use <code>start()</code>, <code>end()</code> and <code>strand()</code>,<code>seqnames()</code> within the <a href="exercises-2.html#section-21"></a>.</p>
 </div>
 <div id="section-11" class="section level4">
 <h4><span class="header-section-number">4.6.1.3</span> </h4>
@@ -355,24 +344,21 @@ to use <code>start()</code>, <code>end()</code> and <code>strand()</code>,<code>
 </div>
 <div id="section-13" class="section level4">
 <h4><span class="header-section-number">4.6.1.5</span> </h4>
-<p>Plot the distribution of CpG island lengths for CpG islands that overlap with the
-promoters.</p>
+<p>Plot the distribution of CpG island lengths for CpG islands that overlap with the promoters.</p>
 </div>
 <div id="section-14" class="section level4">
 <h4><span class="header-section-number">4.6.1.6</span> </h4>
-<p>Get canonical peaks for SP1 (peaks that are in both replicates) on chr21. Peaks for each replicate are located in <code>GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep1.broadPeak.gz</code> and <code>GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep2.broadPeak.gz</code> files. HINT: You need to use <code>findOverlaps()</code> or <code>subsetByOverlaps()</code> to get the subset of peaks that occur in both replicates. You can try to read *broadPeak.gz files using genomation function <code>readBroadPeak</code>, broadPeak is just an extended BED format.
-EXTRA credit: Try use <code>coverage()</code> and slice<code>()</code> functions to get canonical peaks.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(genomation)
+<p>Get canonical peaks for SP1 (peaks that are in both replicates) on chr21. Peaks for each replicate are located in <code>GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep1.broadPeak.gz</code> and <code>GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep2.broadPeak.gz</code> files. HINT: You need to use <code>findOverlaps()</code> or <code>subsetByOverlaps()</code> to get the subset of peaks that occur in both replicates. You can try to read *broadPeak.gz files using genomation function <code>readBroadPeak</code>, broadPeak is just an extended BED format. EXTRA credit: Try use <code>coverage()</code> and slice<code>()</code> functions to get canonical peaks.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(genomation)
 rep1=<span class="kw">readBroadPeak</span>(<span class="st">&quot;GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep1.broadPeak.gz&quot;</span>)
-rep2=<span class="kw">readBroadPeak</span>(<span class="st">&quot;GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep2.broadPeak.gz&quot;</span>)</code></pre>
+rep2=<span class="kw">readBroadPeak</span>(<span class="st">&quot;GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep2.broadPeak.gz&quot;</span>)</code></pre></div>
 </div>
 </div>
 <div id="dealing-with-mapped-high-throughput-sequencing-reads" class="section level3">
 <h3><span class="header-section-number">4.6.2</span> Dealing with mapped high-throughput sequencing reads</h3>
 <div id="section-15" class="section level4">
 <h4><span class="header-section-number">4.6.2.1</span> </h4>
-<p>Count the reads overlapping with canonical Sp1 peaks using the BAM file for one of the replicates: <code>GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam</code>. <strong>HINT</strong>:
-Use functions from <code>GenomicAlignments</code>, see <a href="GenomicIntervals_data/lectures/genomicIntervalsTutorial.html">lecture notes</a>.</p>
+<p>Count the reads overlapping with canonical Sp1 peaks using the BAM file for one of the replicates: <code>GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam</code>. <strong>HINT</strong>: Use functions from <code>GenomicAlignments</code>, see <a href="GenomicIntervals_data/lectures/genomicIntervalsTutorial.html">lecture notes</a>.</p>
 </div>
 </div>
 <div id="dealing-with-contiguous-scores-over-the-genome" class="section level3">
@@ -394,9 +380,7 @@ Use functions from <code>GenomicAlignments</code>, see <a href="GenomicIntervals
 <h3><span class="header-section-number">4.6.4</span> Visualizing and summarizing genomic intervals</h3>
 <div id="section-19" class="section level4">
 <h4><span class="header-section-number">4.6.4.1</span> </h4>
-<p>Extract -500,+500 bp regions around TSSes on chr21, there are refseq files in the <code>GenomicIntervals_data/data</code> folder or you can
-pull the data out of UCSC browser. Use SP1 ChIP-seq data
-(<code>GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam</code> ) to create an average profile of read coverage around TSSes. Following that, visualize the read coverage with a heatmap. <strong>HINT</strong>: All of these possible using <code>genomation</code> package functions.</p>
+<p>Extract -500,+500 bp regions around TSSes on chr21, there are refseq files in the <code>GenomicIntervals_data/data</code> folder or you can pull the data out of UCSC browser. Use SP1 ChIP-seq data (<code>GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam</code> ) to create an average profile of read coverage around TSSes. Following that, visualize the read coverage with a heatmap. <strong>HINT</strong>: All of these possible using <code>genomation</code> package functions.</p>
 </div>
 <div id="section-20" class="section level4">
 <h4><span class="header-section-number">4.6.4.2</span> </h4>
@@ -416,7 +400,7 @@ pull the data out of UCSC browser. Use SP1 ChIP-seq data
         </div>
       </div>
 <a href="visualizing-and-summarizing-genomic-intervals.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="rna-seq-analysis-overview.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
@@ -466,7 +450,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

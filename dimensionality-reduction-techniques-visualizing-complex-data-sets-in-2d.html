@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-02-27">
+<meta name="date" content="2019-03-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -60,67 +60,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -271,6 +245,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.6.4" data-path="exercises-2.html"><a href="exercises-2.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>4.6.4</b> Visualizing and summarizing genomic intervals</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="rna-seq-analysis-overview.html"><a href="rna-seq-analysis-overview.html"><i class="fa fa-check"></i><b>5</b> RNA-seq analysis overview</a><ul>
+<li class="chapter" data-level="5.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>5.1</b> What is gene expression?</a></li>
+<li class="chapter" data-level="5.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>5.2</b> Methods to detect gene expression</a></li>
+<li class="chapter" data-level="5.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>5.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>5.3.1</b> Processing raw data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>5.3.2</b> Alignment</a></li>
+<li class="chapter" data-level="5.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>5.3.3</b> Quantification</a></li>
+<li class="chapter" data-level="5.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#normalization-of-read-counts"><i class="fa fa-check"></i><b>5.3.4</b> Normalization of read counts</a></li>
+<li class="chapter" data-level="5.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#demonstration-in-r"><i class="fa fa-check"></i><b>5.3.5</b> Demonstration in R</a></li>
+<li class="chapter" data-level="5.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>5.3.6</b> Exploratory analysis of the read count table</a></li>
+<li class="chapter" data-level="5.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>5.3.7</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="5.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>5.3.8</b> Functional Enrichment Analysis</a></li>
+<li class="chapter" data-level="5.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>5.3.9</b> Accounting for additional sources of variation</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>5.4</b> Other applications of RNA-seq</a></li>
+<li class="chapter" data-level="5.5" data-path="reproducibility.html"><a href="reproducibility.html"><i class="fa fa-check"></i><b>5.5</b> Reproducibility</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
@@ -298,13 +289,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="principal-component-analysis" class="section level3">
 <h3><span class="header-section-number">3.5.1</span> Principal component analysis</h3>
 <p>Principal component analysis (PCA) is maybe the most popular technique to examine high-dimensional data. There are multiple interpretations of how PCA reduces dimensionality. We will first focus on geometrical interpretation, where this operation can be interpreted as rotating the orignal dimensions of the data. For this, we go back to our example gene expression data set. In this example, we will represent our patients with expression profiles of just two genes, CD33 (ENSG00000105383) and PYGL (ENSG00000100504) genes. This way we can visualize them in a scatterplot.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(mat[<span class="kw">rownames</span>(mat)<span class="op">==</span><span class="st">&quot;ENSG00000100504&quot;</span>,],
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(mat[<span class="kw">rownames</span>(mat)<span class="op">==</span><span class="st">&quot;ENSG00000100504&quot;</span>,],
      mat[<span class="kw">rownames</span>(mat)<span class="op">==</span><span class="st">&quot;ENSG00000105383&quot;</span>,],<span class="dt">pch=</span><span class="dv">19</span>,
      <span class="dt">ylab=</span><span class="st">&quot;CD33 (ENSG00000105383)&quot;</span>,
-     <span class="dt">xlab=</span><span class="st">&quot;PYGL (ENSG00000100504)&quot;</span>)</code></pre>
-<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-155-1.png" width="60%" style="display: block; margin: auto;" />
-PCA rotates the original data space such that the axes of the new coordinate system point into the directions of highest variance of the data. The axes or new variables are termed principal components (PCs) and are ordered by variance: The first component, PC 1, represents the direction of the highest variance of the data. The direction of the second component, PC 2, represents the highest of the remaining variance orthogonal to the first component. This can be naturally extended to obtain the required number of components which together span a component space covering the desired amount of variance. In our toy example with only two genes, the principal componets are drawn over the original scatter plot and in the next plot we show the new coordinate system based on the pricinpal components. We will calculate the PCA with the <code>princomp()</code> function, this function returns the new coordinates as well. These new coordinates are simply a projection of data over the new coordinates. We will decorate the scatter plots with eigenvectors showing the direction of greatest variation. Then, we will plot the new coordinates. These are automatically calculated by <code>princomp()</code> function. Notice that we are using the <code>scale()</code> function when plotting coordinates and also before calculating PCA. This function centers the data, meaning substracts the mean of the each column vector from the elements in the vector. This essentially gives the columns a zero mean. It also divides the data by the standard deviation of the centered columns. These two operations helps bring the data to a common scale which is important for PCA not to be affected by different scales in the data.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+     <span class="dt">xlab=</span><span class="st">&quot;PYGL (ENSG00000100504)&quot;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-155-1.png" width="60%" style="display: block; margin: auto;" /> PCA rotates the original data space such that the axes of the new coordinate system point into the directions of highest variance of the data. The axes or new variables are termed principal components (PCs) and are ordered by variance: The first component, PC 1, represents the direction of the highest variance of the data. The direction of the second component, PC 2, represents the highest of the remaining variance orthogonal to the first component. This can be naturally extended to obtain the required number of components which together span a component space covering the desired amount of variance. In our toy example with only two genes, the principal componets are drawn over the original scatter plot and in the next plot we show the new coordinate system based on the pricinpal components. We will calculate the PCA with the <code>princomp()</code> function, this function returns the new coordinates as well. These new coordinates are simply a projection of data over the new coordinates. We will decorate the scatter plots with eigenvectors showing the direction of greatest variation. Then, we will plot the new coordinates. These are automatically calculated by <code>princomp()</code> function. Notice that we are using the <code>scale()</code> function when plotting coordinates and also before calculating PCA. This function centers the data, meaning substracts the mean of the each column vector from the elements in the vector. This essentially gives the columns a zero mean. It also divides the data by the standard deviation of the centered columns. These two operations helps bring the data to a common scale which is important for PCA not to be affected by different scales in the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 
 <span class="co"># create the subset of the data with two genes only</span>
 <span class="co"># notice that we transpose the matrix so samples are </span>
@@ -347,7 +337,7 @@ pr=<span class="kw">princomp</span>(<span class="kw">scale</span>(sub.mat))
 <span class="kw">arrows</span>(<span class="dt">x0=</span><span class="dv">0</span>, <span class="dt">y0=</span><span class="dv">0</span>, <span class="dt">x1 =</span><span class="op">-</span><span class="dv">2</span>, 
          <span class="dt">y1 =</span> <span class="dv">0</span>,<span class="dt">col=</span><span class="st">&quot;pink&quot;</span>,<span class="dt">lwd=</span><span class="dv">3</span>)
 <span class="kw">arrows</span>(<span class="dt">x0=</span><span class="dv">0</span>, <span class="dt">y0=</span><span class="dv">0</span>, <span class="dt">x1 =</span> <span class="dv">0</span>, 
-         <span class="dt">y1 =</span> <span class="dv">-1</span>,<span class="dt">col=</span><span class="st">&quot;gray&quot;</span>,<span class="dt">lwd=</span><span class="dv">3</span>)</code></pre>
+         <span class="dt">y1 =</span> <span class="op">-</span><span class="dv">1</span>,<span class="dt">col=</span><span class="st">&quot;gray&quot;</span>,<span class="dt">lwd=</span><span class="dv">3</span>)</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:pcaRot"></span>
 <img src="compgenomrReloaded_files/figure-html/pcaRot-1.png" alt="Geometric interpretation of PCA finding eigenvectors that point to direction of highest variance. Eigenvectors can be used as a new coordinate system." width="60%" />
 <p class="caption">
@@ -356,9 +346,9 @@ FIGURE 3.21: Geometric interpretation of PCA finding eigenvectors that point to 
 </div>
 <p>As you can see, the new coordinate system is useful by itself.The X-axis which represents the first component separates the data along the lympoblastic and myeloid leukemias.</p>
 <p>PCA in this case is obtained by calculating eigenvectors of the covariance matrix via an operation called eigen decomposition. Covariance matrix is obtained by covariance of pairwise variables of our expression matrix, which is simply <span class="math inline">\({ \operatorname{cov} (X,Y)={\frac {1}{n}}\sum _{i=1}^{n}(x_{i}-\mu_X)(y_{i}-\mu_Y)}\)</span>, where <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> expression values of genes in a sample in our example. This is a measure of how things vary together, if high expressed genes in sample A are also highly expressed in sample B and lowly expressed in sample A are also lowly expressed in sample B, then sample A and B will have positive covariance. If the opposite is true then they will have negative covariance. This quantity is related to correlation and in fact correlation is standardized covariance. Covariance of variables can be obtained with <code>cov()</code> function, and eigen decomposition of such a matrix will produce a set of ortahogonal vectors that span the directions of highest variation. In 2D, you can think of this operation as rotating two perpendicular lines together until they point to the directions where most of the variation in the data lies on, similar to the figure <a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#fig:pcaRot">3.21</a>. An important intuition is that, after the rotation prescribed by eigenvectors is complete the covariance between variables in this rotated dataset will be zero. There is a proper mathematical relationship between covariances of the rotated dataset and the original dataset. That’s why operating on covariance matrix is related to the rotation of the original dataset.</p>
-<pre class="sourceCode r"><code class="sourceCode r">cov.mat=<span class="kw">cov</span>(sub.mat) <span class="co"># calculate covariance matrix</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cov.mat=<span class="kw">cov</span>(sub.mat) <span class="co"># calculate covariance matrix</span>
 cov.mat
-<span class="kw">eigen</span>(cov.mat) <span class="co"># obtain eigen decomposition for eigen values and vectors</span></code></pre>
+<span class="kw">eigen</span>(cov.mat) <span class="co"># obtain eigen decomposition for eigen values and vectors</span></code></pre></div>
 <p>Eigenvectors and eigenvalues of the covariance matrix indicates the direction and the magnitute of variation of the data. In our visual example the eigenvectors are so-called principal components. The eigenvector indicates the direction and the eigen values indicate the variation in that direction. Eigenvectors and values exist in pairs: every eigenvector has a corresponding eigenvalue and the eigenvectors are linearly independent from each other, this means they are orthogonal or uncorrelated in the our working example above. The eigenvectors are ranked by their corresponding eigen value, the higher the eigen value the more important the eigenvector is, because it explains more of the variation compared to the other eigenvectors. This feature of PCA makes the dimension reduction possible. We can sometimes display data sets that have many variables only in 2D or 3D because the these top eigenvectors are sometimes enough to capture most of variation in the data.</p>
 <div id="singular-value-decomposition-and-principal-component-analysis" class="section level4">
 <h4><span class="header-section-number">3.5.1.1</span> Singular value decomposition and principal component analysis</h4>
@@ -371,7 +361,7 @@ FIGURE 3.22: Singular Value Decomposition (SVD) explained in a diagram.
 </div>
 <p>One thing that is new in the figure <a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#fig:SVDcartoon">3.22</a> is the concept of eigenarrays. The eigenarrays or sometimes called eigenassays reprensent the sample space and can be used to plot the relationship between samples rather than genes. In this way, SVD offers additional information than the PCA using the covariance matrix. It offers us a way to summarize both genes and samples. As we can project the gene expression profiles over the top two eigengenes and get a 2D representation of genes, but with SVD we can also project the samples over the the top two eigenarrays and get a representation of samples in 2D scatterplot. Eigenvector could represent independent expression programs across samples, such as cell-cycle if we had time-based expression profiles. However, there is no guarantee that each eigenvector will be biologically meaningful. Similarly each eigenarray represent samples with specific expression characteristics. For example, the samples that have a particular pathway activated might be corrolated to an eigenarray returned by SVD.</p>
 <p>Previously, in order to map samples to the reduced 2D space we had to transpose the genes-by-samples matrix when using <code>princomp()</code> function. We will now first use SVD on genes-by-samples matrix to get eigenarrays and use that to plot samples on the reduced dimensions. We will project the columns in our original expression data on eigenarrays and use the first two dimensions in the scatter plot. If you look at the code you will see that for the projection we use <span class="math inline">\(U^T X\)</span> operation, which is just <span class="math inline">\(V^T\)</span> if you follow the linear algebra. We will also perform the PCA this time with <code>prcomp()</code> function on the transposed genes-by-samples matrix to get a similar information, and plot the samples on the reduced coordinates.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 d=<span class="kw">svd</span>(<span class="kw">scale</span>(mat)) <span class="co"># apply SVD</span>
 assays=<span class="kw">t</span>(d<span class="op">$</span>u) <span class="op">%*%</span><span class="st"> </span><span class="kw">scale</span>(mat) <span class="co"># projection on eigenassays</span>
 <span class="kw">plot</span>(assays[<span class="dv">1</span>,],assays[<span class="dv">2</span>,],<span class="dt">pch=</span><span class="dv">19</span>,
@@ -382,7 +372,7 @@ pr=<span class="kw">prcomp</span>(<span class="kw">t</span>(mat),<span class="dt
 
 <span class="co"># plot new coordinates from PCA, projections on eigenvectors</span>
 <span class="co"># since the matrix is transposed eigenvectors represent </span>
-<span class="kw">plot</span>(pr<span class="op">$</span>x[,<span class="dv">1</span>],pr<span class="op">$</span>x[,<span class="dv">2</span>],<span class="dt">col=</span>annotation_col<span class="op">$</span>LeukemiaType)</code></pre>
+<span class="kw">plot</span>(pr<span class="op">$</span>x[,<span class="dv">1</span>],pr<span class="op">$</span>x[,<span class="dv">2</span>],<span class="dt">col=</span>annotation_col<span class="op">$</span>LeukemiaType)</code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:svd"></span>
 <img src="compgenomrReloaded_files/figure-html/svd-1.png" alt="SVD on matrix and its transpose" width="65%" />
 <p class="caption">
@@ -406,8 +396,7 @@ This simple transformation now makes it clear that indeed if eigenvectors are re
 FIGURE 3.25: Gene expression of a gene can be thought as linear combination of eigenvectors.
 </p>
 </div>
-<p>However, SVD does not care about biology. The eigenvectors are just obtained from the data with constraints of ortagonality and the direction of variation. There are examples of eigenvectors representing
-real expression programs but that does not mean eigenvectors will always be biologically meaningful. Sometimes combination of them might make more sense in biology than single eigenvectors. This is also the same for the other matrix factorization techniques we describe below.</p>
+<p>However, SVD does not care about biology. The eigenvectors are just obtained from the data with constraints of ortagonality and the direction of variation. There are examples of eigenvectors representing real expression programs but that does not mean eigenvectors will always be biologically meaningful. Sometimes combination of them might make more sense in biology than single eigenvectors. This is also the same for the other matrix factorization techniques we describe below.</p>
 </div>
 </div>
 </div>
@@ -424,11 +413,11 @@ FIGURE 3.26: Independent Component Analysis (ICA)
 </p>
 </div>
 <p>ICA requires that the columns of <span class="math inline">\(S\)</span> matrix, the “metagenes” in our example above to be statistical independent. This is a stronger constraint than uncorrelatedness. In this case, there should be no relationship between non-linear transformation of the data either. There are different ways of ensuring this statistical indepedence and this is the main constraint when finding the optimal <span class="math inline">\(A\)</span> and <span class="math inline">\(S\)</span> matrices. The various ICA algorithms use different proxies for statistical independence, and the definition of that proxy is the main difference between many ICA algorithms. The algorithm we are going to use requires that metagenes or sources in the <span class="math inline">\(S\)</span> matrix are non-gaussian as possible. Non-gaussianity is shown to be related to statistical independence [REF]. Below, we are using <code>fastICA::fastICA()</code> function to extract 2 components and plot the rows of matrix <span class="math inline">\(A\)</span> which represents metagenes. This way, we can visualize samples in a 2D plot. If we wanted to plot the relationship between genes we would use the the columns of matrix <span class="math inline">\(S\)</span>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fastICA)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fastICA)
 ica.res=<span class="kw">fastICA</span>(<span class="kw">t</span>(mat),<span class="dt">n.comp=</span><span class="dv">2</span>) <span class="co"># apply ICA</span>
 
 <span class="co"># plot reduced dimensions</span>
-<span class="kw">plot</span>(ica.res<span class="op">$</span>S[,<span class="dv">1</span>],ica.res<span class="op">$</span>S[,<span class="dv">2</span>],<span class="dt">col=</span>annotation_col<span class="op">$</span>LeukemiaType)</code></pre>
+<span class="kw">plot</span>(ica.res<span class="op">$</span>S[,<span class="dv">1</span>],ica.res<span class="op">$</span>S[,<span class="dv">2</span>],<span class="dt">col=</span>annotation_col<span class="op">$</span>LeukemiaType)</code></pre></div>
 <p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-157-1.png" width="60%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="non-negative-matrix-factorization-nmf" class="section level4">
@@ -440,16 +429,15 @@ ica.res=<span class="kw">fastICA</span>(<span class="kw">t</span>(mat),<span cla
 FIGURE 3.27: Non-negative matrix factorization
 </p>
 </div>
-<p>The algorithms that compute NMF tries to minimize the cost function <span class="math inline">\(D(X,WH)\)</span>, which is the distance between <span class="math inline">\(X\)</span> and <span class="math inline">\(WH\)</span>. The early algorithms just use the euclidean distance which translates to <span class="math inline">\(\sum(X-WH)^2\)</span>, this is also known as Frobenious norm and you will see in the literature it is written as :<span class="math inline">\(\||V-WH||_{F}\)</span>
-However this is not the only distance metric, other distance metrics are also used in NMF algorithms. In addition, there could be other parameters to optimize that relates to sparseness of the <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span> matrices. With sparse <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span>, each entry in the <span class="math inline">\(X\)</span> matrix is expressed as the sum of a small number of components. This makes the interpretation easier, if the weights are 0 than there is not contribution from the corresponding factors.</p>
+<p>The algorithms that compute NMF tries to minimize the cost function <span class="math inline">\(D(X,WH)\)</span>, which is the distance between <span class="math inline">\(X\)</span> and <span class="math inline">\(WH\)</span>. The early algorithms just use the euclidean distance which translates to <span class="math inline">\(\sum(X-WH)^2\)</span>, this is also known as Frobenious norm and you will see in the literature it is written as :<span class="math inline">\(\||V-WH||_{F}\)</span> However this is not the only distance metric, other distance metrics are also used in NMF algorithms. In addition, there could be other parameters to optimize that relates to sparseness of the <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span> matrices. With sparse <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span>, each entry in the <span class="math inline">\(X\)</span> matrix is expressed as the sum of a small number of components. This makes the interpretation easier, if the weights are 0 than there is not contribution from the corresponding factors.</p>
 <p>Below, we are plotting the values of metagenes (rows of <span class="math inline">\(H\)</span>) for component 1 and 3. In this context, these values can also be interpreted as relationship between samples. If we wanted to plot the relationship between genes we would plot the columns of <span class="math inline">\(W\)</span> matrix.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(NMF)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(NMF)
 res=<span class="kw">nmf</span>(mat,<span class="dt">rank=</span><span class="dv">3</span>,<span class="dt">seed=</span><span class="dv">123</span>) <span class="co"># nmf with 3 components/factors</span>
 w &lt;-<span class="st"> </span><span class="kw">basis</span>(res) <span class="co"># get W</span>
 h &lt;-<span class="st"> </span><span class="kw">coef</span>(res)  <span class="co"># get H</span>
 
 <span class="co"># plot 1st factor against 3rd factor</span>
-<span class="kw">plot</span>(h[<span class="dv">1</span>,],h[<span class="dv">3</span>,],<span class="dt">col=</span>annotation_col<span class="op">$</span>LeukemiaType,<span class="dt">pch=</span><span class="dv">19</span>)</code></pre>
+<span class="kw">plot</span>(h[<span class="dv">1</span>,],h[<span class="dv">3</span>,],<span class="dt">col=</span>annotation_col<span class="op">$</span>LeukemiaType,<span class="dt">pch=</span><span class="dv">19</span>)</code></pre></div>
 <p><img src="compgenomrReloaded_files/figure-html/nmfCode-1.png" width="60%" style="display: block; margin: auto;" /></p>
 <p>We should add the note that due to random starting points of the optimization algorithm, NMF is usually run multiple times and a consensus clustering approach is used when clustering samples. This simply means that samples are clustered together if they cluster together in multiple runs of the NMF. The NMF package we used above has built-in ways to achieve this. In addition, NMF is a family of algorithms the choice of cost function to optimize the difference between <span class="math inline">\(X\)</span> and <span class="math inline">\(WH\)</span> and the methods used for optimization creates multiple variants of NMF. The “method” parameter in the above <code>nmf()</code> function controls the which algorithm for NMF.</p>
 </div>
@@ -471,26 +459,20 @@ h &lt;-<span class="st"> </span><span class="kw">coef</span>(res)  <span class="
 <p><span class="math inline">\({\displaystyle Stress_{D}(z_{1},z_{2},...,z_{N})={\Biggl (}{\frac {\sum _{i,j}{\bigl (}d_{ij}-\|z_{i}-z_{j}\|{\bigr )}^{2}}{\sum _{i,j}d_{ij}^{2}}}{\Biggr )}^{1/2}}\)</span></p>
 <p>Here the function compares the new data points on lower dimension <span class="math inline">\((z_{1},z_{2},...,z_{N})\)</span> to the input distances between data points or distance between samples in our gene expression example. It turns out, this problem can be efficiently solved with SVD/PCA on the scaled distance matrix, the projection on eigenvectors will be the most optimal solution for the equation above. Therefore, classical MDS is sometimes called Principal Coordinates Analysis in the litereuature. However, later variants improve on classical MDS this by using this as a starting point and optimize a slightly different cost function that again measures how well the low-dimensional distances correspond to high-dimensional distances. This variant is called non-metric MDS and due to the nature of the cost function, it assumes a less stringent relationship between the low-dimensional distances $|z_{i}-z_{j}| and input distances <span class="math inline">\(d_{ij}\)</span>. Formally, this procedure tries to optimize the following function.</p>
 <p><span class="math inline">\({\displaystyle Stress_{D}(z_{1},z_{2},...,z_{N})={\Biggl (}{\frac {\sum _{i,j}{\bigl (}\|z_{i}-z_{j}\|-\theta(d_{ij}){\bigr )}^{2}}{\sum _{i,j}\|z_{i}-z_{j}\|^{2}}}{\Biggr )}^{1/2}}\)</span></p>
-<p>The core of a non-metric MDS algorithm is a twofold optimization process. First the optimal monotonic transformation of the distances has to be found, this is shown in the above formula as <span class="math inline">\(\theta(d_{ij})\)</span>. Secondly, the points on a low dimension configuration have to be optimally arranged, so that their distances match the scaled distances as closely as possible. This two steps are repeated until some convergence criteria is reached. This usually means that the cost function does not improve much after certain number of iterations. The basic steps in a non-metric MDS algorithm are:
-1. Find a random low dimensional configuration of points, or in the variant we will be using below we start with the configuration returned by classical MDS
-2. Calculate the distances between the points in the low dimension $|z_{i}-z_{j}|, <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span> are vector of positions for sample <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>.
-3. Find the optimal monotonic transformation of the input distance, <span class="math inline">\({\textstyle \theta(d_{ij})}\)</span>, to approximate input distances to low-dimensional distances. This is achieved by isotonic regression, where a monotonically increasing free-form function is fit. This step practically ensures that ranking of low-dimensional distances are similar to rankings of input distances.
-4. Minimize the stress function by re-configuring low-dimensional space and keeping <span class="math inline">\(\theta\)</span> function constant.
-5. repeat from step 2 until convergence.</p>
+<p>The core of a non-metric MDS algorithm is a twofold optimization process. First the optimal monotonic transformation of the distances has to be found, this is shown in the above formula as <span class="math inline">\(\theta(d_{ij})\)</span>. Secondly, the points on a low dimension configuration have to be optimally arranged, so that their distances match the scaled distances as closely as possible. This two steps are repeated until some convergence criteria is reached. This usually means that the cost function does not improve much after certain number of iterations. The basic steps in a non-metric MDS algorithm are: 1. Find a random low dimensional configuration of points, or in the variant we will be using below we start with the configuration returned by classical MDS 2. Calculate the distances between the points in the low dimension $|z_{i}-z_{j}|, <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span> are vector of positions for sample <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>. 3. Find the optimal monotonic transformation of the input distance, <span class="math inline">\({\textstyle \theta(d_{ij})}\)</span>, to approximate input distances to low-dimensional distances. This is achieved by isotonic regression, where a monotonically increasing free-form function is fit. This step practically ensures that ranking of low-dimensional distances are similar to rankings of input distances. 4. Minimize the stress function by re-configuring low-dimensional space and keeping <span class="math inline">\(\theta\)</span> function constant. 5. repeat from step 2 until convergence.</p>
 <p>We will now demonstrate both classical MDS and Kruskal’s isometric MDS.</p>
-<pre class="sourceCode r"><code class="sourceCode r">mds=<span class="kw">cmdscale</span>(<span class="kw">dist</span>(<span class="kw">t</span>(mat)))
-isomds=MASS<span class="op">::</span><span class="kw">isoMDS</span>(<span class="kw">dist</span>(<span class="kw">t</span>(mat)))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mds=<span class="kw">cmdscale</span>(<span class="kw">dist</span>(<span class="kw">t</span>(mat)))
+isomds=MASS<span class="op">::</span><span class="kw">isoMDS</span>(<span class="kw">dist</span>(<span class="kw">t</span>(mat)))</code></pre></div>
 <pre><code>## initial  value 15.907414 
 ## final  value 13.462986 
 ## converged</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot the patients in the 2D space</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot the patients in the 2D space</span>
 <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(mds,<span class="dt">pch=</span><span class="dv">19</span>,<span class="dt">col=</span>annotation_col<span class="op">$</span>LeukemiaType,
      <span class="dt">main=</span><span class="st">&quot;classical MDS&quot;</span>)
 <span class="kw">plot</span>(isomds<span class="op">$</span>points,<span class="dt">pch=</span><span class="dv">19</span>,<span class="dt">col=</span>annotation_col<span class="op">$</span>LeukemiaType,
-     <span class="dt">main=</span><span class="st">&quot;isotonic MDS&quot;</span>)</code></pre>
-<p><img src="compgenomrReloaded_files/figure-html/mds2-1.png" width="60%" style="display: block; margin: auto;" />
-In this example, there is not much difference between isotonic MDS and classical MDS. However, there might be cases where different MDS methods provides visiable changes in the scatter plots.</p>
+     <span class="dt">main=</span><span class="st">&quot;isotonic MDS&quot;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/mds2-1.png" width="60%" style="display: block; margin: auto;" /> In this example, there is not much difference between isotonic MDS and classical MDS. However, there might be cases where different MDS methods provides visiable changes in the scatter plots.</p>
 </div>
 <div id="t-distributed-stochastic-neighbor-embedding-t-sne" class="section level3">
 <h3><span class="header-section-number">3.5.4</span> t-Distributed Stochastic Neighbor Embedding (t-SNE)</h3>
@@ -506,10 +488,9 @@ q_{i j} = \frac{(1+ \| y_i-y_j\|^2)^{-1}}{(∑_{k \neq l} 1+ \| y_k-y_l\|^2)^{-1
 <p>As most of the algorithms we have seen in this section, t-SNE is an optimization process in essence. In every iteration the points along lower dimensions are re-arranged to minimize the formulated difference between the the observed joint probabilities (<span class="math inline">\(p_{i j}\)</span>) and low-dimensional joint probabilities (<span class="math inline">\(q_{i j}\)</span>). Here we are trying to compare probability distributions. In this case, this is done using a method called Kullback-Leibler divergence, or KL-divergence. In the formula below, since the <span class="math inline">\(p_{i j}\)</span> is pre-defined using original distances, only way to optimize is to play with <span class="math inline">\(q_{i j}\)</span>) because it depends on the configuration of points in the lower dimensional space. This configuration is optimized to minimize the KL-divergence between <span class="math inline">\(p_{i j}\)</span> and <span class="math inline">\(q_{i j}\)</span>.</p>
 <p><span class="math display">\[
 KL(P||Q) = \sum_{i, j} p_{ij} \, \log \frac{p_{ij}}{q_{ij}}.
-\]</span>
-Strictly speaking, KL-divergence measures how well the distribution <span class="math inline">\(P\)</span> which is observed using the original data points can be aproximated by distribution <span class="math inline">\(Q\)</span>, which is modeled using points on the lower dimension. If the distributions are identical KL-divergence would be 0. Naturally, the more divergent the distributions are the higher the KL-divergence will be.</p>
+\]</span> Strictly speaking, KL-divergence measures how well the distribution <span class="math inline">\(P\)</span> which is observed using the original data points can be aproximated by distribution <span class="math inline">\(Q\)</span>, which is modeled using points on the lower dimension. If the distributions are identical KL-divergence would be 0. Naturally, the more divergent the distributions are the higher the KL-divergence will be.</p>
 <p>We will now show how to use t-SNE on our gene expression data set. We are setting the random seed because again t-SNE optimization algorithm have random starting points and this might create non-identical results in every run. After calculating the t-SNE lower dimension embeddings we will plot the points in a 2D scatter plot.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;Rtsne&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;Rtsne&quot;</span>)
 <span class="kw">set.seed</span>(<span class="dv">42</span>) <span class="co"># Set a seed if you want reproducible results</span>
 tsne_out &lt;-<span class="st"> </span><span class="kw">Rtsne</span>(<span class="kw">t</span>(mat),<span class="dt">perplexity =</span> <span class="dv">10</span>) <span class="co"># Run TSNE</span>
  <span class="co">#image(t(as.matrix(dist(tsne_out$Y))))</span>
@@ -521,9 +502,8 @@ tsne_out &lt;-<span class="st"> </span><span class="kw">Rtsne</span>(<span class
 <span class="kw">legend</span>(<span class="st">&quot;bottomleft&quot;</span>,
        <span class="dt">legend=</span><span class="kw">unique</span>(annotation_col<span class="op">$</span>LeukemiaType),
        <span class="dt">fill =</span><span class="kw">palette</span>(<span class="st">&quot;default&quot;</span>),
-       <span class="dt">border=</span><span class="ot">NA</span>,<span class="dt">box.col=</span><span class="ot">NA</span>)</code></pre>
-<p><img src="compgenomrReloaded_files/figure-html/tsne-1.png" width="60%" style="display: block; margin: auto;" />
-As you might have noticed, we set again a random seed with <code>set.seed()</code> function. The optimization algorithm starts with random configuration of points in the lower dimension space, and each iteration it tries to improve on the previous lower dimension confugration, that is why starting points can result in different final outcomes.</p>
+       <span class="dt">border=</span><span class="ot">NA</span>,<span class="dt">box.col=</span><span class="ot">NA</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/tsne-1.png" width="60%" style="display: block; margin: auto;" /> As you might have noticed, we set again a random seed with <code>set.seed()</code> function. The optimization algorithm starts with random configuration of points in the lower dimension space, and each iteration it tries to improve on the previous lower dimension confugration, that is why starting points can result in different final outcomes.</p>
 
 <div class="rmdtip">
 <p><strong>Want to know more ?</strong></p>
@@ -572,7 +552,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/compgenomr/book/edit/master/03-statsForGenomics.Rmd",
+"link": "https://github.com/compgenomr/book/edit/master/03-StatsForGenomics.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -592,7 +572,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "true";
+    var src = "";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');

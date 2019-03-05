@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>5.3 Gene Expression Analysis Using High-throughput Sequencing Technologies | Computational Genomics With R</title>
+  <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="5.3 Gene Expression Analysis Using High-throughput Sequencing Technologies | Computational Genomics With R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://compmgenomr.github.io/book/" />
+  <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
+  <meta property="og:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
+  <meta name="github-repo" content="compgenomr/bookdown" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5.3 Gene Expression Analysis Using High-throughput Sequencing Technologies | Computational Genomics With R" />
+  
+  <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
+  <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
+
+<meta name="author" content="Altuna Akalin">
+
+
+<meta name="date" content="2019-03-05">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="methods-to-detect-gene-expression.html">
+<link rel="next" href="other-applications-of-rna-seq.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-83786243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-83786243-1');
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Computational Genomics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html"><i class="fa fa-check"></i>Who is this book for?</a><ul>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html#what-will-you-get-out-of-this"><i class="fa fa-check"></i>What will you get out of this?</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="structure-of-the-book.html"><a href="structure-of-the-book.html"><i class="fa fa-check"></i>Structure of the book</a></li>
+<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html"><i class="fa fa-check"></i>Software information and conventions</a></li>
+<li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="how-to-contribute.html"><a href="how-to-contribute.html"><i class="fa fa-check"></i>How to contribute</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to Genomics</a><ul>
+<li class="chapter" data-level="1.1" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html"><i class="fa fa-check"></i><b>1.1</b> Genes, DNA and central dogma</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-is-a-genome"><i class="fa fa-check"></i><b>1.1.1</b> What is a genome?</a></li>
+<li class="chapter" data-level="1.1.2" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-is-a-gene"><i class="fa fa-check"></i><b>1.1.2</b> What is a gene?</a></li>
+<li class="chapter" data-level="1.1.3" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#how-genes-are-controlled-the-transcriptional-and-the-post-transcriptional-regulation"><i class="fa fa-check"></i><b>1.1.3</b> How genes are controlled ? The transcriptional and the post-transcriptional regulation</a></li>
+<li class="chapter" data-level="1.1.4" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-does-a-gene-look-like"><i class="fa fa-check"></i><b>1.1.4</b> What does a gene look like?</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html"><i class="fa fa-check"></i><b>1.2</b> Elements of gene regulation</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html#transcriptional-regulation"><i class="fa fa-check"></i><b>1.2.1</b> Transcriptional regulation</a></li>
+<li class="chapter" data-level="1.2.2" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html#post-transcriptional-regulation"><i class="fa fa-check"></i><b>1.2.2</b> Post-transcriptional regulation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="shaping-the-genome-dna-mutation.html"><a href="shaping-the-genome-dna-mutation.html"><i class="fa fa-check"></i><b>1.3</b> Shaping the genome: DNA mutation</a></li>
+<li class="chapter" data-level="1.4" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html"><i class="fa fa-check"></i><b>1.4</b> High-throughput experimental methods in genomics</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html#the-general-idea-behind-high-throughput-techniques"><i class="fa fa-check"></i><b>1.4.1</b> The general idea behind high-throughput techniques</a></li>
+<li class="chapter" data-level="1.4.2" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html#high-throughput-sequencing"><i class="fa fa-check"></i><b>1.4.2</b> High-throughput sequencing</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="visualization-and-data-repositories-for-genomics.html"><a href="visualization-and-data-repositories-for-genomics.html"><i class="fa fa-check"></i><b>1.5</b> Visualization and data repositories for genomics</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="Rintro.html"><a href="Rintro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R for genomic data analysis</a><ul>
+<li class="chapter" data-level="2.1" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Steps of (genomic) data analysis</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-collection"><i class="fa fa-check"></i><b>2.1.1</b> Data collection</a></li>
+<li class="chapter" data-level="2.1.2" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-quality-check-and-cleaning"><i class="fa fa-check"></i><b>2.1.2</b> Data quality check and cleaning</a></li>
+<li class="chapter" data-level="2.1.3" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-processing"><i class="fa fa-check"></i><b>2.1.3</b> Data processing</a></li>
+<li class="chapter" data-level="2.1.4" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#exploratory-data-analysis-and-modeling"><i class="fa fa-check"></i><b>2.1.4</b> Exploratory data analysis and modeling</a></li>
+<li class="chapter" data-level="2.1.5" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#visualization-and-reporting"><i class="fa fa-check"></i><b>2.1.5</b> Visualization and reporting</a></li>
+<li class="chapter" data-level="2.1.6" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#why-use-r-for-genomics"><i class="fa fa-check"></i><b>2.1.6</b> Why use R for genomics ?</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html"><i class="fa fa-check"></i><b>2.2</b> Getting started with R</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#installing-packages"><i class="fa fa-check"></i><b>2.2.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.2.2" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#installing-packages-in-custom-locations"><i class="fa fa-check"></i><b>2.2.2</b> Installing packages in custom locations</a></li>
+<li class="chapter" data-level="2.2.3" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#getting-help-on-functions-and-packages"><i class="fa fa-check"></i><b>2.2.3</b> Getting help on functions and packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="computations-in-r.html"><a href="computations-in-r.html"><i class="fa fa-check"></i><b>2.3</b> Computations in R</a></li>
+<li class="chapter" data-level="2.4" data-path="data-structures.html"><a href="data-structures.html"><i class="fa fa-check"></i><b>2.4</b> Data structures</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="data-structures.html"><a href="data-structures.html#vectors"><i class="fa fa-check"></i><b>2.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data-structures.html"><a href="data-structures.html#matrices"><i class="fa fa-check"></i><b>2.4.2</b> Matrices</a></li>
+<li class="chapter" data-level="2.4.3" data-path="data-structures.html"><a href="data-structures.html#data-frames"><i class="fa fa-check"></i><b>2.4.3</b> Data Frames</a></li>
+<li class="chapter" data-level="2.4.4" data-path="data-structures.html"><a href="data-structures.html#lists"><i class="fa fa-check"></i><b>2.4.4</b> Lists</a></li>
+<li class="chapter" data-level="2.4.5" data-path="data-structures.html"><a href="data-structures.html#factors"><i class="fa fa-check"></i><b>2.4.5</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="data-types.html"><a href="data-types.html"><i class="fa fa-check"></i><b>2.5</b> Data types</a></li>
+<li class="chapter" data-level="2.6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>2.6</b> Reading and writing data</a></li>
+<li class="chapter" data-level="2.7" data-path="plotting-in-r.html"><a href="plotting-in-r.html"><i class="fa fa-check"></i><b>2.7</b> Plotting in R</a></li>
+<li class="chapter" data-level="2.8" data-path="saving-plots.html"><a href="saving-plots.html"><i class="fa fa-check"></i><b>2.8</b> Saving plots</a></li>
+<li class="chapter" data-level="2.9" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html"><i class="fa fa-check"></i><b>2.9</b> Functions and control structures (for, if/else etc.)</a><ul>
+<li class="chapter" data-level="2.9.1" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html#user-defined-functions"><i class="fa fa-check"></i><b>2.9.1</b> User defined functions</a></li>
+<li class="chapter" data-level="2.9.2" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html#loops-and-looping-structures-in-r"><i class="fa fa-check"></i><b>2.9.2</b> Loops and looping structures in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>2.10</b> Exercises</a><ul>
+<li class="chapter" data-level="2.10.1" data-path="exercises.html"><a href="exercises.html#computations-in-r-1"><i class="fa fa-check"></i><b>2.10.1</b> Computations in R</a></li>
+<li class="chapter" data-level="2.10.2" data-path="exercises.html"><a href="exercises.html#data-structures-in-r"><i class="fa fa-check"></i><b>2.10.2</b> Data structures in R</a></li>
+<li class="chapter" data-level="2.10.3" data-path="exercises.html"><a href="exercises.html#reading-in-and-writing-data-out-in-r"><i class="fa fa-check"></i><b>2.10.3</b> Reading in and writing data out in R</a></li>
+<li class="chapter" data-level="2.10.4" data-path="exercises.html"><a href="exercises.html#plotting-in-r-1"><i class="fa fa-check"></i><b>2.10.4</b> Plotting in R</a></li>
+<li class="chapter" data-level="2.10.5" data-path="exercises.html"><a href="exercises.html#functions-and-control-structures-for-ifelse-etc.-1"><i class="fa fa-check"></i><b>2.10.5</b> Functions and control structures (for, if/else etc.)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="stats.html"><a href="stats.html"><i class="fa fa-check"></i><b>3</b> Statistics and Exploratory Data Analysis for Genomics</a><ul>
+<li class="chapter" data-level="3.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><i class="fa fa-check"></i><b>3.1</b> How to summarize collection of data points: The idea behind statistical distributions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-central-tendency-mean-and-median"><i class="fa fa-check"></i><b>3.1.1</b> Describing the central tendency: mean and median</a></li>
+<li class="chapter" data-level="3.1.2" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-spread-measurements-of-variation"><i class="fa fa-check"></i><b>3.1.2</b> Describing the spread: measurements of variation</a></li>
+<li class="chapter" data-level="3.1.3" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#precision-of-estimates-confidence-intervals"><i class="fa fa-check"></i><b>3.1.3</b> Precision of estimates: Confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html"><i class="fa fa-check"></i><b>3.2</b> How to test for differences between samples</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#randomization-based-testing-for-difference-of-the-means"><i class="fa fa-check"></i><b>3.2.1</b> randomization based testing for difference of the means</a></li>
+<li class="chapter" data-level="3.2.2" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#using-t-test-for-difference-of-the-means-between-two-samples"><i class="fa fa-check"></i><b>3.2.2</b> Using t-test for difference of the means between two samples</a></li>
+<li class="chapter" data-level="3.2.3" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#multiple-testing-correction"><i class="fa fa-check"></i><b>3.2.3</b> multiple testing correction</a></li>
+<li class="chapter" data-level="3.2.4" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#moderated-t-tests-using-information-from-multiple-comparisons"><i class="fa fa-check"></i><b>3.2.4</b> moderated t-tests: using information from multiple comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html"><i class="fa fa-check"></i><b>3.3</b> Relationship between variables: linear models and correlation</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#how-to-fit-a-line"><i class="fa fa-check"></i><b>3.3.1</b> How to fit a line</a></li>
+<li class="chapter" data-level="3.3.2" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#how-to-estimate-the-error-of-the-coefficients"><i class="fa fa-check"></i><b>3.3.2</b> How to estimate the error of the coefficients</a></li>
+<li class="chapter" data-level="3.3.3" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#accuracy-of-the-model"><i class="fa fa-check"></i><b>3.3.3</b> Accuracy of the model</a></li>
+<li class="chapter" data-level="3.3.4" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-with-categorical-variables"><i class="fa fa-check"></i><b>3.3.4</b> Regression with categorical variables</a></li>
+<li class="chapter" data-level="3.3.5" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-pitfalls"><i class="fa fa-check"></i><b>3.3.5</b> Regression pitfalls</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html"><i class="fa fa-check"></i><b>3.4</b> Clustering: grouping samples based on their similarity</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#distance-metrics"><i class="fa fa-check"></i><b>3.4.1</b> Distance metrics</a></li>
+<li class="chapter" data-level="3.4.2" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#hiearchical-clustering"><i class="fa fa-check"></i><b>3.4.2</b> Hiearchical clustering</a></li>
+<li class="chapter" data-level="3.4.3" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#k-means-clustering"><i class="fa fa-check"></i><b>3.4.3</b> K-means clustering</a></li>
+<li class="chapter" data-level="3.4.4" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#how-to-choose-k-the-number-of-clusters"><i class="fa fa-check"></i><b>3.4.4</b> how to choose “k”, the number of clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><i class="fa fa-check"></i><b>3.5</b> Dimensionality reduction techniques: visualizing complex data sets in 2D</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#principal-component-analysis"><i class="fa fa-check"></i><b>3.5.1</b> Principal component analysis</a></li>
+<li class="chapter" data-level="3.5.2" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#other-dimension-reduction-techniques-using-other-matrix-factorization-methods"><i class="fa fa-check"></i><b>3.5.2</b> Other dimension reduction techniques using other matrix factorization methods</a></li>
+<li class="chapter" data-level="3.5.3" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#multi-dimensional-scaling"><i class="fa fa-check"></i><b>3.5.3</b> Multi-dimensional scaling</a></li>
+<li class="chapter" data-level="3.5.4" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#t-distributed-stochastic-neighbor-embedding-t-sne"><i class="fa fa-check"></i><b>3.5.4</b> t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
+</ul></li>
+<li class="chapter" data-level="3.6" data-path="exercises-1.html"><a href="exercises-1.html"><i class="fa fa-check"></i><b>3.6</b> Exercises</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="exercises-1.html"><a href="exercises-1.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><i class="fa fa-check"></i><b>3.6.1</b> How to summarize collection of data points: The idea behind statistical distributions</a></li>
+<li class="chapter" data-level="3.6.2" data-path="exercises-1.html"><a href="exercises-1.html#how-to-test-for-differences-in-samples"><i class="fa fa-check"></i><b>3.6.2</b> How to test for differences in samples</a></li>
+<li class="chapter" data-level="3.6.3" data-path="exercises-1.html"><a href="exercises-1.html#relationship-between-variables-linear-models-and-correlation-1"><i class="fa fa-check"></i><b>3.6.3</b> Relationship between variables: linear models and correlation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="genomicIntervals.html"><a href="genomicIntervals.html"><i class="fa fa-check"></i><b>4</b> Operations on Genomic Intervals and Genome Arithmetic</a><ul>
+<li class="chapter" data-level="4.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html"><i class="fa fa-check"></i><b>4.1</b> Operations on Genomic Intervals with GenomicRanges package</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#how-to-create-and-manipulate-a-granges-object"><i class="fa fa-check"></i><b>4.1.1</b> How to create and manipulate a GRanges object</a></li>
+<li class="chapter" data-level="4.1.2" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#getting-genomic-regions-into-r-as-granges-objects"><i class="fa fa-check"></i><b>4.1.2</b> Getting genomic regions into R as GRanges objects</a></li>
+<li class="chapter" data-level="4.1.3" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><i class="fa fa-check"></i><b>4.1.3</b> Finding regions that do/do not overlap with another set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html"><i class="fa fa-check"></i><b>4.2</b> Dealing with high-throughput sequencing reads</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html#quality-check-on-sequencing-reads-and-mapping-reads-to-the-genome"><i class="fa fa-check"></i><b>4.2.1</b> Quality check on sequencing reads and mapping reads to the genome</a></li>
+<li class="chapter" data-level="4.2.2" data-path="dealing-with-high-throughput-sequencing-reads.html"><a href="dealing-with-high-throughput-sequencing-reads.html#counting-mapped-reads-for-a-set-of-regions"><i class="fa fa-check"></i><b>4.2.2</b> Counting mapped reads for a set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html"><i class="fa fa-check"></i><b>4.3</b> Dealing with continuous scores over the genome</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html#extracting-subsections-of-rle-and-rlelist-objects"><i class="fa fa-check"></i><b>4.3.1</b> Extracting subsections of Rle and RleList objects</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html"><i class="fa fa-check"></i><b>4.4</b> Genomic intervals with more information: SummarizedExperiment class</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#create-a-summarizedexperiment-object"><i class="fa fa-check"></i><b>4.4.1</b> Create a SummarizedExperiment object</a></li>
+<li class="chapter" data-level="4.4.2" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#subset-and-manipulate-the-summarizedexperiment-object"><i class="fa fa-check"></i><b>4.4.2</b> Subset and manipulate the SummarizedExperiment object</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html"><i class="fa fa-check"></i><b>4.5</b> Visualizing and summarizing genomic intervals</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#visualizing-intervals-on-a-locus-of-interest"><i class="fa fa-check"></i><b>4.5.1</b> Visualizing intervals on a locus of interest</a></li>
+<li class="chapter" data-level="4.5.2" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#summaries-of-genomic-intervals-on-multiple-loci"><i class="fa fa-check"></i><b>4.5.2</b> Summaries of genomic intervals on multiple loci</a></li>
+<li class="chapter" data-level="4.5.3" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#making-karyograms-and-circos-plots"><i class="fa fa-check"></i><b>4.5.3</b> Making karyograms and circos plots</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="exercises-2.html"><a href="exercises-2.html"><i class="fa fa-check"></i><b>4.6</b> Exercises</a><ul>
+<li class="chapter" data-level="4.6.1" data-path="exercises-2.html"><a href="exercises-2.html#operations-on-genomic-intervals-with-genomicranges-package-1"><i class="fa fa-check"></i><b>4.6.1</b> Operations on Genomic Intervals with GenomicRanges package</a></li>
+<li class="chapter" data-level="4.6.2" data-path="exercises-2.html"><a href="exercises-2.html#dealing-with-mapped-high-throughput-sequencing-reads"><i class="fa fa-check"></i><b>4.6.2</b> Dealing with mapped high-throughput sequencing reads</a></li>
+<li class="chapter" data-level="4.6.3" data-path="exercises-2.html"><a href="exercises-2.html#dealing-with-contiguous-scores-over-the-genome"><i class="fa fa-check"></i><b>4.6.3</b> Dealing with contiguous scores over the genome</a></li>
+<li class="chapter" data-level="4.6.4" data-path="exercises-2.html"><a href="exercises-2.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>4.6.4</b> Visualizing and summarizing genomic intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="rna-seq-analysis-overview.html"><a href="rna-seq-analysis-overview.html"><i class="fa fa-check"></i><b>5</b> RNA-seq analysis overview</a><ul>
+<li class="chapter" data-level="5.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>5.1</b> What is gene expression?</a></li>
+<li class="chapter" data-level="5.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>5.2</b> Methods to detect gene expression</a></li>
+<li class="chapter" data-level="5.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>5.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>5.3.1</b> Processing raw data</a></li>
+<li class="chapter" data-level="5.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>5.3.2</b> Alignment</a></li>
+<li class="chapter" data-level="5.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>5.3.3</b> Quantification</a></li>
+<li class="chapter" data-level="5.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#normalization-of-read-counts"><i class="fa fa-check"></i><b>5.3.4</b> Normalization of read counts</a></li>
+<li class="chapter" data-level="5.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#demonstration-in-r"><i class="fa fa-check"></i><b>5.3.5</b> Demonstration in R</a></li>
+<li class="chapter" data-level="5.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>5.3.6</b> Exploratory analysis of the read count table</a></li>
+<li class="chapter" data-level="5.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>5.3.7</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="5.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>5.3.8</b> Functional Enrichment Analysis</a></li>
+<li class="chapter" data-level="5.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>5.3.9</b> Accounting for additional sources of variation</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>5.4</b> Other applications of RNA-seq</a></li>
+<li class="chapter" data-level="5.5" data-path="reproducibility.html"><a href="reproducibility.html"><i class="fa fa-check"></i><b>5.5</b> Reproducibility</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Genomics With R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="gene-expression-analysis-using-high-throughput-sequencing-technologies" class="section level2">
+<h2><span class="header-section-number">5.3</span> Gene Expression Analysis Using High-throughput Sequencing Technologies</h2>
+<p>With the advent of the second-generation (a.k.a next-generation or high-throughput) sequencing technologies, the number of genes that can be profiled for expression levels with a single experiment has increased to the order of tens of thousands of genes. Therefore, the bottleneck in this process has become the data analysis rather than the data generation. Many statistical methods and computational tools are required for getting meaningful results from the data, which comes with a lot of valuable information along with a lot of sources of noise. Fortunately, most of the steps of RNA-seq analysis have become quite mature over the years. Below we will first describe how to reach a read count table from raw fastq reads obtained from an Illumina sequencing run. We will then demonstrate in R how to process the count table, make a case-control differential expression analysis, and do some downstream functional enrichment analysis.</p>
+<div id="processing-raw-data" class="section level3">
+<h3><span class="header-section-number">5.3.1</span> Processing raw data</h3>
+<div id="quality-check" class="section level4">
+<h4><span class="header-section-number">5.3.1.1</span> Quality check</h4>
+<p>The first step in any experiment that involves high-throughput short-read sequencing should be to check the sequencing quality of the reads before starting to do any downstream analysis. The quality of the input sequences holds fundamental importance in the confidence for the biological conclusions drawn from the experiment.</p>
+<p>Probably the most popular tool for sequencing quality control is the fastQC tool <span class="citation">(“Babraham Bioinformatics - FastQC A Quality Control Tool for High Throughput Sequence Data” <a href="#ref-noauthor_babraham_nodate">2018</a>)</span>, which is written in Java. It produces plots and tables that summarize the quality of the sequencing data with respect to a variety of metrics such as per base sequencing quality scores and over-represented sequences that might suggest adapter sequence contamination or amplification biases. There are also similar libraries available in R to do sequencing quality assessments. For instance, the bioconductor packages Rqc <span class="citation">(de Souza, Carvalho, and Lopes-Cendes <a href="#ref-Rqc">2018</a>)</span> (see <code>Rqc::rqcReport</code> function), QuasR <span class="citation">(Gaidatzis et al. <a href="#ref-gaidatzis_quasr:_2015">2015</a>)</span> (see <code>QuasR::qQCReport</code> function), systemPipeR <span class="citation">(Backman and Girke <a href="#ref-backman_systempiper:_2016">2016</a>)</span> (see <code>systemPipeR::seeFastq</code> function), and ShortRead <span class="citation">(Morgan et al. <a href="#ref-morgan_shortread:_2009">2009</a>)</span> (see <code>ShortRead::report</code> function) packages can all generate quality reports in a similar fashion to fastQC.</p>
+</div>
+<div id="improving-the-quality" class="section level4">
+<h4><span class="header-section-number">5.3.1.2</span> Improving the quality</h4>
+<p>The second step in the RNA-seq analysis workflow is to improve the quality of the input reads. This step could be regarded as an optional step when the sequencing quality is very good. However, even with the highest quality sequencing datasets, this step may still improve the quality of the input sequences. The most common technical artifacts that can be filtered out are the adapter sequences that contaminate the sequenced reads, and the low quality bases that are usually found at the ends of the sequences. Commonly used tools in the field (trimmomatic <span class="citation">(Bolger, Lohse, and Usadel <a href="#ref-bolger_trimmomatic:_2014">2014</a>)</span>, trimGalore <span class="citation">(“Babraham Bioinformatics - Trim Galore!” <a href="#ref-noauthor_babraham_nodate-1">2018</a>)</span>) are again not written in R, however there are alternative R libraries for carrying out the same functionality, for instance, QuasR <span class="citation">(Gaidatzis et al. <a href="#ref-gaidatzis_quasr:_2015">2015</a>)</span> (see <code>QuasR::preprocessReads</code> function) and ShortRead <span class="citation">(Morgan et al. <a href="#ref-morgan_shortread:_2009">2009</a>)</span> (see <code>ShortRead::filterFastq</code> function).</p>
+<p>The sequencing quality control and read pre-processing steps can be visited multiple times until achieving a satisfactory level of quality in the sequence data before moving onto the dowstream analysis steps.</p>
+</div>
+</div>
+<div id="alignment" class="section level3">
+<h3><span class="header-section-number">5.3.2</span> Alignment</h3>
+<p>Once a decent level of quality in the sequences is reached, the expression level of the genes can be quantified by first mapping the sequences to a reference genome, and secondly matching the aligned reads to the gene annotations, in order to count the number of reads mapping to each gene. If the species under study has a well annotated transcriptome, the reads can be aligned to the transcript sequences instead of the reference genome. In cases where there is no good quality reference genome or transcriptome, it is possible to de novo assemble the transcriptome from the sequences and then quantify the expression levels of genes/transcripts.</p>
+<p>For RNA-seq read alignments, apart from the availability of reference genomes and annotations, probably the most important factor to consider when choosing an alignment tool is whether the alignment method considers the absence of intronic regions in the sequenced reads, while the target genome may contain introns. Therefore, it is important to choose alignment tools that take into account alternative splicing. In the basic setting where a read, which originates from a cDNA sequence corresponding to an exon-exon junction, needs to be split into two parts when aligned against the genome. There are various tools that consider this factor such as STAR <span class="citation">(Dobin et al. <a href="#ref-dobin_star:_2013">2013</a>)</span>, Tophat2 <span class="citation">(Kim et al. <a href="#ref-kim_tophat2:_2013">2013</a>)</span>, Hisat2 <span class="citation">(Kim, Langmead, and Salzberg <a href="#ref-kim_hisat:_2015">2015</a>)</span>, GSNAP <span class="citation">(T. D. Wu et al. <a href="#ref-wu_gmap_2016">2016</a>)</span>. Most alignment tools are written in C/C++ languages because of performance concerns. There are also R libraries that can do short read alignments, however, they would still require the existence of one of the alignment tools in the execution environment. Examples of R libraries that can run short-read alignments using one of these tools are <code>gmapR</code> <span class="citation">(Barr, Wu, and Lawrence <a href="#ref-gmapR">2019</a>)</span>, <code>QuasR</code> <span class="citation">(Gaidatzis et al. <a href="#ref-gaidatzis_quasr:_2015">2015</a>)</span>, <code>Rsubread</code> <span class="citation">(Liao, Smyth, and Shi <a href="#ref-liao_subread_2013">2013</a>)</span>, and <code>systemPipeR</code> <span class="citation">(Backman and Girke <a href="#ref-backman_systempiper:_2016">2016</a>)</span>.</p>
+</div>
+<div id="quantification" class="section level3">
+<h3><span class="header-section-number">5.3.3</span> Quantification</h3>
+<p>After the reads are aligned to the target, a SAM/BAM file sorted by coordinates should have been obtained. The BAM file contains all alignment related information of all the reads that have been attempted to be aligned to the target sequence. This information consists of - most basically - the genomic coordinates (chromosome, start, end, strand) of where a sequence was matched (if at all) in the target, specific insertions/deletions/mismatches that describes the differences between the input and target sequences. These pieces of information are used along with the genomic coordinates of genome annotations such as gene/transcript models in order to count how many reads have been sequenced from a gene/transcript. As simple as it may sound, it is not a trivial task to assign reads to a gene/transcript just by comparing the genomic coordinates of the annotations and the sequences, because of the confounding factors such as overlapping gene annotations, overlapping exon annotations from different transcript isoforms of a gene, overlapping annotations from opposite DNA strands in the absence of a strand-specific sequencing protocol. Therefore, for read counting, it is important to consider:</p>
+<ol style="list-style-type: decimal">
+<li>Strand specificity of the sequencing protocol: are the reads expected to originate from the forward strand, reverse strand, or unspecific?</li>
+<li>Counting mode:
+<ul>
+<li>when counting at the gene-level: when there are overlapping annotations, which features should the read be assigned to? Tools usually have a parameter that lets the user to select a counting mode.</li>
+<li>when counting at the transcript-level: when there are multiple isoforms of a gene, which isoform should the read be assigned to? This consideration is usually an algorithmic consideration that is not modifiable by the end-user.</li>
+</ul></li>
+</ol>
+<p>Some tools can couple alignment to quantification (e.g. STAR), while some assume the alignments are already calculated and require BAM files as input. On the other hand, in the presence of good transcriptome annotations, alignment-free methods (Salmon <span class="citation">(Patro et al. <a href="#ref-patro_salmon:_2017">2017</a>)</span>, Kallisto <span class="citation">(Bray et al. <a href="#ref-bray_near-optimal_2016">2016</a>)</span>, Sailfish <span class="citation">(Patro, Mount, and Kingsford <a href="#ref-patro_sailfish_2014">2014</a>)</span>) can also be used to estimate the expression levels of transcripts/genes. There are also reference-free quantification methods that can first de novo assemble the transcriptome and estimate the expression levels based on this assembly. Such a strategy can be useful in discovering novel transcripts or may be required in cases when a good reference does not exist. If a reference transcriptome exists but of low quality, a reference-based transcriptome assembler such as Cufflinks <span class="citation">(Trapnell et al. <a href="#ref-trapnell_transcript_2010">2010</a>)</span> can be used to improve the transcriptome. In case there is no available transcriptome annotation, a de novo assembler such as Trinity <span class="citation">(Haas et al. <a href="#ref-haas_novo_2013">2013</a>)</span> or Trans-ABySS <span class="citation">(Robertson et al. <a href="#ref-robertson_novo_2010">2010</a>)</span> can be used to assemble the transcriptome from scratch.</p>
+<p>Within R, quantification can be done using</p>
+<ul>
+<li><code>Rsubread::featureCounts</code></li>
+<li><code>QuasR::qCount</code></li>
+<li><code>GenomicAlignments::summarizeOverlaps</code></li>
+</ul>
+</div>
+<div id="normalization-of-read-counts" class="section level3">
+<h3><span class="header-section-number">5.3.4</span> Normalization of read counts</h3>
+<p>The most common application after a gene’s expression is quantified (as the number of reads aligned to the gene), is to compare the gene’s expression in different conditions, for instance, in a case-control setting (e.g. disease versus normal) or in a time-series (e.g. along different developmental stages). Making such comparisons help identify the genes that might be responsible for a disease or an impaired developmental trajectory. However, there are multiple caveats that needs to be addressed before making a comparison between the read counts of a gene in different conditions <span class="citation">(Maza et al. <a href="#ref-maza_comparison_2013">2013</a>)</span></p>
+<ul>
+<li>Library size (i.e. sequencing depth) varies between samples coming from different lanes of the flow cell of the sequencing machine.</li>
+<li>Longer genes will have higher number of reads.<br />
+</li>
+<li>Library composition (i.e. relative size of the studied transcriptome) can be different in two different biological conditions.</li>
+<li>GC content biases across different samples may lead to a biased sampling of genes <span class="citation">(Risso et al. <a href="#ref-risso_gc-content_2011">2011</a>)</span>.</li>
+<li>Read coverage of a transcript can be biased and non-uniformly distributed along the transcript <span class="citation">(Mortazavi et al. <a href="#ref-mortazavi_mapping_2008">2008</a>)</span>.</li>
+</ul>
+<p>Therefore these factors need to be taken into account before making comparisons.</p>
+<p>The most basic normalization approaches address the sequencing depth bias. Such procedures normalize the read counts per gene by dividing each gene’s read count by a certain value and multiplying it by 10^6. These normalized values are usually referred to as CPM (counts per million reads):</p>
+<ul>
+<li>Total Counts Normalization (divide counts by the <strong>sum</strong> of all counts)</li>
+<li>Upper Quartile Normalization (divide counts by the <strong>upper quartile</strong> value of the counts)</li>
+<li>Median Normalization (divide counts by the <strong>median</strong> of all counts)</li>
+</ul>
+<p>Popular metrics that improve upon CPM are RPKM/FPKM (reads/fragments per kilobase of million reads) and TPM (transcripts per million). RPKM is obtained by dividing the CPM value by another factor, which is the length of the gene per kilobases. FPKM is the same as RPKM, but is used for paired-end reads. Thus, RPKM/FPKM methods account for, firstly the <strong>library size</strong>, and secondly the <strong>gene lengths</strong>.</p>
+<p>TPM also controls for both the library size and the gene lengths, however, with the TPM method, the read counts are first normalized by the gene length (per kilobase), and then gene-length normalized values are divided by the sum of the gene-length normalized values and multiplied by 10^6. Thus, the sum of normalized values for TPM will always be equal to 10^6 for each library, while the sum of RPKM/FPKM values do not sum to 10^6. Therefore, it is easier to interpret TPM values than RPKM/FPKM values.</p>
+</div>
+<div id="demonstration-in-r" class="section level3">
+<h3><span class="header-section-number">5.3.5</span> Demonstration in R</h3>
+<p>Here we will assume that there is an RNA-seq count table comprising of raw-counts, meaning the number of reads counted for each gene has not been exposed to any kind of normalization and consists of integers. The rows of the count table correspond to the genes and the columns represent different samples. Here we will use a subset of the RNA-seq count table from a colorectal cancer study. We have filtered the original count table for only protein-coding genes (to improve the speed of calculation) and also selected only five metastasized colorectal cancer samples along with five normal colon samples. There is an additional column <code>width</code> that contains the length of the corresponding gene in the unit of base pairs. The length of the genes are important to compute RPKM and TPM values. The original count tables can be found from the recount2 database [REF] using the SRA project code <code>SRP029880</code> and the experimental setup along with other accessory information can be found from the NCBI Trace archive using the SRA project code <code>SRP029880</code> <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP029880">here</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#colorectal cancer</span>
+counts_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/rna-seq/SRP029880.raw_counts.tsv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;compGenomRData&quot;</span>)
+coldata_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata/rna-seq/SRP029880.colData.tsv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;compGenomRData&quot;</span>)
+
+counts &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">read.table</span>(counts_file, <span class="dt">header =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>))</code></pre></div>
+<div id="computing-cpm" class="section level4">
+<h4><span class="header-section-number">5.3.5.1</span> Computing CPM</h4>
+<p>Let’s do a summary of the counts table:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(counts)</code></pre></div>
+<pre><code>##      CASE_1             CASE_2        
+##  Min.   :0.00e+00   Min.   :0.00e+00  
+##  1st Qu.:5.16e+03   1st Qu.:6.46e+03  
+##  Median :8.00e+04   Median :8.51e+04  
+##  Mean   :2.96e+05   Mean   :2.73e+05  
+##  3rd Qu.:2.52e+05   3rd Qu.:2.45e+05  
+##  Max.   :2.05e+08   Max.   :1.05e+08  
+##      CASE_3             CASE_4        
+##  Min.   :0.00e+00   Min.   :0.00e+00  
+##  1st Qu.:3.97e+03   1st Qu.:7.09e+03  
+##  Median :6.41e+04   Median :9.91e+04  
+##  Mean   :2.63e+05   Mean   :3.65e+05  
+##  3rd Qu.:2.11e+05   3rd Qu.:3.03e+05  
+##  Max.   :2.23e+08   Max.   :1.62e+08  
+##      CASE_5             CTRL_1        
+##  Min.   :0.00e+00   Min.   :0.00e+00  
+##  1st Qu.:5.74e+03   1st Qu.:6.90e+03  
+##  Median :8.55e+04   Median :8.68e+04  
+##  Mean   :3.46e+05   Mean   :3.39e+05  
+##  3rd Qu.:2.74e+05   3rd Qu.:2.86e+05  
+##  Max.   :1.27e+08   Max.   :2.73e+08  
+##      CTRL_2             CTRL_3        
+##  Min.   :0.00e+00   Min.   :0.00e+00  
+##  1st Qu.:4.75e+03   1st Qu.:4.76e+03  
+##  Median :6.31e+04   Median :6.15e+04  
+##  Mean   :2.73e+05   Mean   :2.64e+05  
+##  3rd Qu.:2.15e+05   3rd Qu.:2.12e+05  
+##  Max.   :3.99e+08   Max.   :2.82e+08  
+##      CTRL_4             CTRL_5        
+##  Min.   :0.00e+00   Min.   :0.00e+00  
+##  1st Qu.:2.72e+03   1st Qu.:4.56e+03  
+##  Median :3.72e+04   Median :6.23e+04  
+##  Mean   :1.83e+05   Mean   :2.76e+05  
+##  3rd Qu.:1.34e+05   3rd Qu.:2.19e+05  
+##  Max.   :2.63e+08   Max.   :2.92e+08  
+##      width        
+##  Min.   :    117  
+##  1st Qu.:   9668  
+##  Median :  27090  
+##  Mean   :  67685  
+##  3rd Qu.:  70374  
+##  Max.   :2473537</code></pre>
+<p>To compute the CPM values for each sample (excluding the <code>width</code> column):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cpm &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">subset</span>(counts, <span class="dt">select =</span> <span class="kw">c</span>(<span class="op">-</span>width)), <span class="dv">2</span>, <span class="cf">function</span>(x) x<span class="op">/</span><span class="kw">sum</span>(<span class="kw">as.numeric</span>(x)) <span class="op">*</span><span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">6</span>)
+<span class="kw">head</span>(cpm)</code></pre></div>
+<pre><code>##            CASE_1  CASE_2   CASE_3   CASE_4  CASE_5
+## TSPAN6   133.0525 69.0267 118.0347 63.45320 75.1706
+## TNMD       0.2541  0.1497   0.5774  0.04131  0.1603
+## DPM1      62.5345 50.9434  47.9547 51.61492 47.6836
+## SCYL3     17.7536 18.1283  18.9681 16.32642 14.9281
+## C1ORF112  15.5608 10.9995  11.8489 15.14763  6.5660
+## FGR        9.7817 27.0412   5.1668 23.44216 23.2660
+##           CTRL_1  CTRL_2  CTRL_3  CTRL_4   CTRL_5
+## TSPAN6   83.6818 90.8358 63.7171 66.1201 116.5649
+## TNMD      0.6926  0.3495  0.8603  0.5436   0.7309
+## DPM1     31.5817 22.8556 21.7976 18.6671  36.4578
+## SCYL3    24.0552 19.8292 20.5182 17.9990  18.6608
+## C1ORF112  7.8228  6.3511  7.3078  5.1346  10.6632
+## FGR       8.9318  4.5419  4.1459  5.1712   4.3533</code></pre>
+<p>Check that the sum of each column after normalization equals to 10^6 (except the width column).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colSums</span>(cpm)</code></pre></div>
+<pre><code>## CASE_1 CASE_2 CASE_3 CASE_4 CASE_5 CTRL_1 CTRL_2 
+##  1e+06  1e+06  1e+06  1e+06  1e+06  1e+06  1e+06 
+## CTRL_3 CTRL_4 CTRL_5 
+##  1e+06  1e+06  1e+06</code></pre>
+</div>
+<div id="computing-rpkm" class="section level4">
+<h4><span class="header-section-number">5.3.5.2</span> Computing RPKM</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create a vector of gene lengths </span>
+geneLengths &lt;-<span class="st"> </span><span class="kw">as.vector</span>(<span class="kw">subset</span>(counts, <span class="dt">select =</span> <span class="kw">c</span>(width)))
+
+<span class="co"># compute rpkm </span>
+rpkm &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="dt">X =</span> <span class="kw">subset</span>(counts, <span class="dt">select =</span> <span class="kw">c</span>(<span class="op">-</span>width)), 
+                         <span class="dt">MARGIN =</span> <span class="dv">2</span>, 
+                         <span class="dt">FUN =</span> <span class="cf">function</span>(x) <span class="dv">10</span><span class="op">^</span><span class="dv">9</span> <span class="op">*</span><span class="st"> </span>x <span class="op">/</span><span class="st"> </span>geneLengths <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">as.numeric</span>(x)))
+<span class="kw">head</span>(rpkm)</code></pre></div>
+<pre><code>##            CASE_1   CASE_2  CASE_3   CASE_4  CASE_5
+## TSPAN6   10.32776 5.357969 9.16205 4.925343 5.83487
+## TNMD      0.01685 0.009922 0.03828 0.002739 0.01063
+## DPM1      2.63981 2.150508 2.02434 2.178856 2.01290
+## SCYL3     0.39773 0.406127 0.42494 0.365760 0.33443
+## C1ORF112  0.08101 0.057267 0.06169 0.078864 0.03418
+## FGR       0.42137 1.164864 0.22257 1.009828 1.00224
+##           CTRL_1  CTRL_2  CTRL_3  CTRL_4  CTRL_5
+## TSPAN6   6.49552 7.05083 4.94583 5.13235 9.04796
+## TNMD     0.04592 0.02317 0.05704 0.03604 0.04845
+## DPM1     1.33318 0.96482 0.92016 0.78801 1.53902
+## SCYL3    0.53891 0.44423 0.45967 0.40323 0.41806
+## C1ORF112 0.04073 0.03307 0.03805 0.02673 0.05552
+## FGR      0.38476 0.19565 0.17860 0.22276 0.18753</code></pre>
+<p>Check the sample sizes of RPKM. Notice that the sums of samples are all different</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colSums</span>(rpkm)</code></pre></div>
+<pre><code>## CASE_1 CASE_2 CASE_3 CASE_4 CASE_5 CTRL_1 CTRL_2 
+## 158291 153324 161775 173047 172761 210033 301764 
+## CTRL_3 CTRL_4 CTRL_5 
+## 241418 291675 252006</code></pre>
+</div>
+<div id="computing-tpm" class="section level4">
+<h4><span class="header-section-number">5.3.5.3</span> Computing TPM</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#find gene length normalized values </span>
+rpk &lt;-<span class="st"> </span><span class="kw">apply</span>( <span class="kw">subset</span>(counts, <span class="dt">select =</span> <span class="kw">c</span>(<span class="op">-</span>width)), <span class="dv">2</span>, 
+              <span class="cf">function</span>(x) x<span class="op">/</span>(geneLengths<span class="op">/</span><span class="dv">1000</span>))
+<span class="co">#normalize by the sample size using rpk values</span>
+tpm &lt;-<span class="st"> </span><span class="kw">apply</span>(rpk, <span class="dv">2</span>, <span class="cf">function</span>(x) x <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">as.numeric</span>(x)) <span class="op">*</span><span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">6</span>)
+<span class="kw">head</span>(tpm)</code></pre></div>
+<pre><code>##           CASE_1   CASE_2  CASE_3   CASE_4   CASE_5
+## TSPAN6   65.2454 34.94535 56.6344 28.46239 33.77413
+## TNMD      0.1064  0.06471  0.2366  0.01583  0.06153
+## DPM1     16.6770 14.02588 12.5133 12.59109 11.65132
+## SCYL3     2.5127  2.64881  2.6267  2.11364  1.93581
+## C1ORF112  0.5118  0.37350  0.3813  0.45573  0.19787
+## FGR       2.6620  7.59739  1.3758  5.83556  5.80130
+##           CTRL_1   CTRL_2  CTRL_3   CTRL_4  CTRL_5
+## TSPAN6   30.9263 23.36535 20.4865 17.59617 35.9038
+## TNMD      0.2186  0.07678  0.2363  0.12356  0.1923
+## DPM1      6.3475  3.19727  3.8115  2.70166  6.1071
+## SCYL3     2.5658  1.47212  1.9040  1.38247  1.6589
+## C1ORF112  0.1939  0.10958  0.1576  0.09165  0.2203
+## FGR       1.8319  0.64836  0.7398  0.76373  0.7441</code></pre>
+<p>Check the sample sizes of <code>tpm</code>. Notice that the sums of samples are all equal to 10^6.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colSums</span>(tpm)</code></pre></div>
+<pre><code>## CASE_1 CASE_2 CASE_3 CASE_4 CASE_5 CTRL_1 CTRL_2 
+##  1e+06  1e+06  1e+06  1e+06  1e+06  1e+06  1e+06 
+## CTRL_3 CTRL_4 CTRL_5 
+##  1e+06  1e+06  1e+06</code></pre>
+<p>None of these metrics (CPM, RPKM/FPKM, TPM) account for the other important confounding factor when comparing expression levels of genes across samples: the <strong>library composition</strong>, which may also be referred to as the <strong>relative size of the compared transcriptomes</strong>. This factor is not dependent on the sequencing technology, it is rather biological. For instance, when comparing transcriptomes of different tissues, there can be sets of genes in one tissue that consume a big chunk of the reads, while in the other tissue not expressed at all. This kind of imbalances in the composition of compared transcriptomes can lead to wrong conclusions about which genes are actually differentially expressed. This consideration is addressed in two popular R packages: DESeq2 <span class="citation">(Love, Huber, and Anders <a href="#ref-love_moderated_2014">2014</a>)</span> and edgeR <span class="citation">(Robinson, McCarthy, and Smyth <a href="#ref-robinson_edger:_2010">2010</a>)</span> each with a different algorithm. edgeR uses a normalization procecure called Trimmed Mean of M-values (TMM). DESeq2 implements a normalization procedure using Median of Ratios, which is obtained by finding the ratio of log-transformed count of a gene divided by the average of log-transformed values of the gene in all samples (geometric mean), and then taking the median of these values for all genes. The raw read count of the gene is finally divided by this value (median of ratios) to obtain the normalized counts of genes. In order to see a demonstration of DESeq2’s normalization method, see <code>insert section id</code> about differential expression analysis.</p>
+</div>
+</div>
+<div id="exploratory-analysis-of-the-read-count-table" class="section level3">
+<h3><span class="header-section-number">5.3.6</span> Exploratory analysis of the read count table</h3>
+<p>A typical quality control, in this case interrogating the RNA-seq experiment design, is to measure the similariy of the samples with each other in terms of the quantified expression level profiles accross a set of genes. One important observation to make is to see, whether the most similar samples to any given sample are the biological replicates of that sample. This can be computed using unsupervised clustering techniques such as hierarchical clustering and visualized as a heatmap with dendrograms. Another most commonly applied technique is a dimensionality reduction technique called Principal Component Analysis (PCA) and visualized as a two-dimensional (or in some cases three-dimensional) scatter plot. In order to find out more about the clustering methods and PCA, please refer to sections <code>insert section</code> and <code>insert section</code>, respectively.</p>
+<div id="clustering" class="section level4">
+<h4><span class="header-section-number">5.3.6.1</span> Clustering</h4>
+<p>We can combine clustering and visualization of the clustering results by using heatmap functions that are available in a variety of R libraries. The basic R installation comes with the <code>stats::heatmap</code> function. However, there are other libraries available in CRAN (e.g. pheatmap <span class="citation">(Kolde <a href="#ref-pheatmap">2019</a>)</span>) or Bioconductor (e.g. ComplexHeatmap <span class="citation">(Gu, Eils, and Schlesner <a href="#ref-gu_complex_2016">2016</a>)</span>) that come with more flexibility and more appealing visualisations.</p>
+<p>Here we demonstrate a heatmap using <code>pheatmap</code> package and the previously calculated <code>tpm</code> matrix. As these matrices can be quite large, both computing the clustering and rendering the heatmaps can take a lot of resources and time. Therefore, a quick and informative way to compare samples is to select a subset of genes that are, for instance, most variable across samples, and use that subset to do the clustering and visualization.</p>
+<p>Let’s select top 100 most variable genes among the samples.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#compute the variance of each gene across samples</span>
+V &lt;-<span class="st"> </span><span class="kw">apply</span>(tpm, <span class="dv">1</span>, var)
+<span class="co">#sort the results by variance in decreasing order and select the top 100 genes </span>
+selectedGenes &lt;-<span class="st"> </span><span class="kw">names</span>(V[<span class="kw">order</span>(V, <span class="dt">decreasing =</span> T)][<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>])</code></pre></div>
+<p>Now we can quickly produce a heatmap where samples and genes are clustered</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(tpm[selectedGenes,], <span class="dt">scale =</span> <span class="st">&#39;row&#39;</span>, <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-189-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>We can also overlay some annotation tracks to observe the clusters. Here it is important to observe whether the replicates of the same sample cluster most closely with each other, or not. Overlaying the heatmap with such annotation and displaying sample groups with distinct colors helps quickly see if there are samples that don’t cluster as expected.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colData &lt;-<span class="st"> </span><span class="kw">read.table</span>(coldata_file, <span class="dt">header =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">TRUE</span>)
+pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(tpm[selectedGenes,], <span class="dt">scale =</span> <span class="st">&#39;row&#39;</span>, 
+                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>, 
+                   <span class="dt">annotation_col =</span> colData)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-190-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="pca" class="section level4">
+<h4><span class="header-section-number">5.3.6.2</span> PCA</h4>
+<p>Let’s make a PCA plot to see the clustering of replicates as a scatter plot in two dimensions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#transpose the matrix </span>
+M &lt;-<span class="st"> </span><span class="kw">t</span>(tpm[selectedGenes,])
+<span class="co"># transform the counts to log2 scale </span>
+M &lt;-<span class="st"> </span><span class="kw">log2</span>(M <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)
+<span class="co">#compute PCA </span>
+pcaResults &lt;-<span class="st"> </span>stats<span class="op">::</span><span class="kw">prcomp</span>(M)
+
+<span class="co">#plot PCA results making use of ggplot2&#39;s autoplot function</span>
+<span class="co">#ggfortify is needed to let ggplot2 know about PCA data structure. </span>
+ggplot2<span class="op">::</span><span class="kw">autoplot</span>(pcaResults, <span class="dt">data =</span> colData, <span class="dt">colour =</span> <span class="st">&#39;group&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-191-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>We should observe here whether the samples from the case group (CASE) and samples from the control group (CTRL) can be split into two distinct clusters on the scatter plot of the first two largest principal components.</p>
+<p>We can use the <code>summary</code> function to summarize the PCA results to observe the contribution of the principal components in the explained variation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(pcaResults)</code></pre></div>
+<pre><code>## Importance of components:
+##                           PC1    PC2     PC3     PC4
+## Standard deviation     24.396 2.5051 2.39327 1.93841
+## Proportion of Variance  0.957 0.0101 0.00921 0.00604
+## Cumulative Proportion   0.957 0.9671 0.97627 0.98231
+##                            PC5    PC6     PC7     PC8
+## Standard deviation     1.79193 1.6357 1.46059 1.30902
+## Proportion of Variance 0.00516 0.0043 0.00343 0.00276
+## Cumulative Proportion  0.98747 0.9918 0.99520 0.99796
+##                            PC9     PC10
+## Standard deviation     1.12657 4.41e-15
+## Proportion of Variance 0.00204 0.00e+00
+## Cumulative Proportion  1.00000 1.00e+00</code></pre>
+</div>
+<div id="correlation-plots" class="section level4">
+<h4><span class="header-section-number">5.3.6.3</span> Correlation plots</h4>
+<p>Another complementary approach to see the reproducibility of the experiments is to compute the correlation scores between each pair of samples and draw a correlation plot.</p>
+<p>Let’s first compute pairwise correlation scores between every pair of samples.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">correlationMatrix &lt;-<span class="st"> </span>stats<span class="op">::</span><span class="kw">cor</span>(tpm)</code></pre></div>
+<p>Let’s have a look at how the correlation matrix looks:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(correlationMatrix)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">CASE_1</th>
+<th align="right">CASE_2</th>
+<th align="right">CASE_3</th>
+<th align="right">CASE_4</th>
+<th align="right">CASE_5</th>
+<th align="right">CTRL_1</th>
+<th align="right">CTRL_2</th>
+<th align="right">CTRL_3</th>
+<th align="right">CTRL_4</th>
+<th align="right">CTRL_5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CASE_1</td>
+<td align="right">1.0000</td>
+<td align="right">0.9925</td>
+<td align="right">0.9959</td>
+<td align="right">0.9934</td>
+<td align="right">0.9902</td>
+<td align="right">0.9594</td>
+<td align="right">0.9636</td>
+<td align="right">0.9550</td>
+<td align="right">0.9549</td>
+<td align="right">0.9303</td>
+</tr>
+<tr class="even">
+<td>CASE_2</td>
+<td align="right">0.9925</td>
+<td align="right">1.0000</td>
+<td align="right">0.9887</td>
+<td align="right">0.9936</td>
+<td align="right">0.9898</td>
+<td align="right">0.9726</td>
+<td align="right">0.9794</td>
+<td align="right">0.9675</td>
+<td align="right">0.9739</td>
+<td align="right">0.9448</td>
+</tr>
+<tr class="odd">
+<td>CASE_3</td>
+<td align="right">0.9959</td>
+<td align="right">0.9887</td>
+<td align="right">1.0000</td>
+<td align="right">0.9951</td>
+<td align="right">0.9929</td>
+<td align="right">0.9649</td>
+<td align="right">0.9618</td>
+<td align="right">0.9556</td>
+<td align="right">0.9552</td>
+<td align="right">0.9401</td>
+</tr>
+<tr class="even">
+<td>CASE_4</td>
+<td align="right">0.9934</td>
+<td align="right">0.9936</td>
+<td align="right">0.9951</td>
+<td align="right">1.0000</td>
+<td align="right">0.9923</td>
+<td align="right">0.9740</td>
+<td align="right">0.9749</td>
+<td align="right">0.9643</td>
+<td align="right">0.9710</td>
+<td align="right">0.9511</td>
+</tr>
+<tr class="odd">
+<td>CASE_5</td>
+<td align="right">0.9902</td>
+<td align="right">0.9898</td>
+<td align="right">0.9929</td>
+<td align="right">0.9923</td>
+<td align="right">1.0000</td>
+<td align="right">0.9632</td>
+<td align="right">0.9661</td>
+<td align="right">0.9502</td>
+<td align="right">0.9587</td>
+<td align="right">0.9313</td>
+</tr>
+<tr class="even">
+<td>CTRL_1</td>
+<td align="right">0.9594</td>
+<td align="right">0.9726</td>
+<td align="right">0.9649</td>
+<td align="right">0.9740</td>
+<td align="right">0.9632</td>
+<td align="right">1.0000</td>
+<td align="right">0.9880</td>
+<td align="right">0.9902</td>
+<td align="right">0.9874</td>
+<td align="right">0.9864</td>
+</tr>
+<tr class="odd">
+<td>CTRL_2</td>
+<td align="right">0.9636</td>
+<td align="right">0.9794</td>
+<td align="right">0.9618</td>
+<td align="right">0.9749</td>
+<td align="right">0.9661</td>
+<td align="right">0.9880</td>
+<td align="right">1.0000</td>
+<td align="right">0.9820</td>
+<td align="right">0.9970</td>
+<td align="right">0.9642</td>
+</tr>
+<tr class="even">
+<td>CTRL_3</td>
+<td align="right">0.9550</td>
+<td align="right">0.9675</td>
+<td align="right">0.9556</td>
+<td align="right">0.9643</td>
+<td align="right">0.9502</td>
+<td align="right">0.9902</td>
+<td align="right">0.9820</td>
+<td align="right">1.0000</td>
+<td align="right">0.9851</td>
+<td align="right">0.9903</td>
+</tr>
+<tr class="odd">
+<td>CTRL_4</td>
+<td align="right">0.9549</td>
+<td align="right">0.9739</td>
+<td align="right">0.9552</td>
+<td align="right">0.9710</td>
+<td align="right">0.9587</td>
+<td align="right">0.9874</td>
+<td align="right">0.9970</td>
+<td align="right">0.9851</td>
+<td align="right">1.0000</td>
+<td align="right">0.9739</td>
+</tr>
+<tr class="even">
+<td>CTRL_5</td>
+<td align="right">0.9303</td>
+<td align="right">0.9448</td>
+<td align="right">0.9401</td>
+<td align="right">0.9511</td>
+<td align="right">0.9313</td>
+<td align="right">0.9864</td>
+<td align="right">0.9642</td>
+<td align="right">0.9903</td>
+<td align="right">0.9739</td>
+<td align="right">1.0000</td>
+</tr>
+</tbody>
+</table>
+<p>We can also draw more visually appealing correlation plots using the <code>corrplot</code> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The correlation plot order by the results of the hierarchical clustering </span>
+corrplot<span class="op">::</span><span class="kw">corrplot</span>(correlationMatrix, <span class="dt">order =</span> <span class="st">&#39;hclust&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-195-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># The clusters are split into 2 groups by adding rectangles around the computed clusters. </span>
+corrplot<span class="op">::</span><span class="kw">corrplot</span>(correlationMatrix, <span class="dt">order =</span> <span class="st">&#39;hclust&#39;</span>, <span class="dt">addrect =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-195-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We can add the pairwise correlation scores on the plot</span>
+corrplot<span class="op">::</span><span class="kw">corrplot</span>(correlationMatrix, <span class="dt">order =</span> <span class="st">&#39;hclust&#39;</span>, <span class="dt">addrect =</span> <span class="dv">2</span>, <span class="dt">addCoef.col =</span> <span class="st">&#39;white&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-195-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here pairwise correlation levels are visualized as colored circles. <code>Blue</code> indicates positive correlation, while <code>Red</code> indicates negative correlation.</p>
+<p>We could also plot this correlation matrix as a heatmap:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># basic correlation heatmap</span>
+pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(correlationMatrix)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-196-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># add annotations on the columns</span>
+pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(correlationMatrix, <span class="dt">annotation_col =</span> colData)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-196-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># split the clusters into two based on the clustering similarity </span>
+pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(correlationMatrix,  <span class="dt">annotation_col =</span> colData, <span class="dt">cutree_cols =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-196-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="exercises-3" class="section level4">
+<h4><span class="header-section-number">5.3.6.4</span> Exercises</h4>
+<ol style="list-style-type: decimal">
+<li>Basic:</li>
+</ol>
+<ul>
+<li>Re-do the heatmaps using top 500 most variable genes. Compare with the heatmap obtained using 100 most variable genes.</li>
+<li>Re-do the heatmaps setting <code>scale</code> argument to <code>none</code>, and <code>column</code>. Compare the results with <code>scale = 'row'</code>.</li>
+<li>Draw a correlation plot for the samples depicting the sample differences as ‘ellipses’, drawing only the upper end of the matrix, order samples by hierarchical clustering results based on <code>average</code> linkage clustering method.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Intermediate:</li>
+</ol>
+<ul>
+<li>How else could the count matrix be subsetted to obtain quick and accurate clusters? Try selecting top 100 genes that have the highest total expression in all samples and re-draw the cluster heatmaps and PCA plots.</li>
+<li>Add an additional column to the annotation data.frame object to annotate the samples and use the updated annotation data.frame to plot the heatmaps. (Hint: assign different batch values to CASE and CTRL samples). Make a PCA plot and color samples by the added variable (e.g. batch).</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Advanced:</li>
+</ol>
+<ul>
+<li>Try making the heatmaps using all the genes in the count table, rather than sub-selecting.</li>
+<li>Use <a href="https://cran.r-project.org/web/packages/tsne/tsne.pdf">tsne package</a> [REF] to draw a t-SNE plot of the expression values. Color the points by sample group. Compare the results with the PCA plots.</li>
+</ul>
+</div>
+</div>
+<div id="differential-expression-analysis" class="section level3">
+<h3><span class="header-section-number">5.3.7</span> Differential expression analysis</h3>
+<p>Differential expression analysis allows to test tens of thousands of hypotheses (one test for each gene) against the null hypothesis that the activity of the gene stays the same in two different conditions. There are multiple limiting factors that influence the power of detecting genes that have real changes between two biological conditions. Among these are the limited number of biological replicates, non-normality of the distribution of the read counts, and higher uncertainty of measurements for lowly expressed genes than highly expressed genes <span class="citation">(Love, Huber, and Anders <a href="#ref-love_moderated_2014">2014</a>)</span>. Tools such as edgeR and DESeq2 address these limitations using sophisticated statistical models in order to maximize the amount of knowledge that can be extracted from such noisy datasets.<br />
+DESeq2:</p>
+<ol style="list-style-type: decimal">
+<li>Normalizes the read counts by computing size factors, which addresses the differences not only in the library sizes, but also the library compositions.</li>
+<li>For each gene, estimates the dispersion value of the gene among the biological replicates. The dispersion value computed by DESeq2 is equal to the squared coefficient of variation (variation divided by the mean).<br />
+</li>
+<li>A line is fitted across the dispersion estimates of all genes computed in 2) versus the mean normalized counts of the genes.</li>
+<li>Dispersion values of each gene is shrunken towards the fitted line in 3).</li>
+<li>A Generalized Linear Model is fitted which considers additional confounding variables related to the experimental design such as sequencing batches, treatment, temperature, patient’s age, sequencing technology etc.</li>
+<li>For a given contrast (e.g. treatment type: drug-A versus untreated), a test for differential expression is carried out against the null hypothesis that the log fold change of the normalized counts of the gene in the given pair of groups is exactly zero.</li>
+<li>Adjusts p-values for multiple-testing.</li>
+</ol>
+<p>In order to carry out a differential expression analysis using <code>DESeq2</code>, three kinds of inputs are necessary:</p>
+<ol style="list-style-type: decimal">
+<li>The <strong>read count table</strong>: must be raw read counts as integers that are not processed in any form by a normalization technique. The rows represent features (e.g. genes, transcripts, genomic intervals) and columns represent samples.</li>
+<li>A <strong>colData</strong> table: this table describes the experimental design.</li>
+<li>A <strong>design formula</strong>: this formula is needed to describe the variable of interest in the analysis (e.g. treatment status) along with (optionally) other covariates (e.g. batch, temperature, sequencing technology).</li>
+</ol>
+<p>Let’s define these inputs:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#remove the &#39;width&#39; column</span>
+countData &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">subset</span>(counts, <span class="dt">select =</span> <span class="kw">c</span>(<span class="op">-</span>width)))
+<span class="co">#define the experimental setup </span>
+colData &lt;-<span class="st"> </span><span class="kw">read.table</span>(coldata_file, <span class="dt">header =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">TRUE</span>)
+<span class="co">#define the design formula</span>
+designFormula &lt;-<span class="st"> &quot;~ group&quot;</span></code></pre></div>
+<p>Now, we are ready to run DESeq2.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#create a DESeq dataset object from the count matrix and the colData </span>
+dds &lt;-<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">DESeqDataSetFromMatrix</span>(<span class="dt">countData =</span> countData, 
+                                      <span class="dt">colData =</span> colData, 
+                                      <span class="dt">design =</span> stats<span class="op">::</span><span class="kw">as.formula</span>(designFormula))
+<span class="co">#print dds object to see the contents</span>
+<span class="kw">print</span>(dds)</code></pre></div>
+<pre><code>## class: DESeqDataSet 
+## dim: 19719 10 
+## metadata(1): version
+## assays(1): counts
+## rownames(19719): TSPAN6 TNMD ... MYOCOS HSFX3
+## rowData names(0):
+## colnames(10): CASE_1 CASE_2 ... CTRL_4 CTRL_5
+## colData names(2): source_name group</code></pre>
+<p>The <code>DESeqDataSet</code> object contains all the information about the experimental setup, the read counts, and the design formulas. Certain functions can be used to access these information separately: <code>rownames(dds)</code> shows which features are used in the study (e.g. genes), <code>colnames(dds)</code> displays the studied samples, <code>counts(dds)</code> displays the count table, <code>colData(dds)</code> displays the experimental setup.</p>
+<p>Remove genes that have almost no information in any of the given samples.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#For each gene, we count the total number of reads for that gene in all samples </span>
+<span class="co">#and remove those that don&#39;t have at least 1 read. </span>
+dds &lt;-<span class="st"> </span>dds[ <span class="kw">rowSums</span>(<span class="kw">counts</span>(dds)) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>, ]</code></pre></div>
+<p>Now, we can use the <code>DESeq</code> function of <code>DESeq2</code>, which is a wrapper function that implements estimation of size factors to normalize the counts, estimation of dispersion values, and computing a GLM model based on the experimental design formula. This function returns a <code>DESeqDataSet</code> object, which is an updated version of the <code>dds</code> variable that we pass to the function as input.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dds &lt;-<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">DESeq</span>(dds)</code></pre></div>
+<p>Now, we can compare and contrast the samples based on different variables of interest. In this case, we currently have only one variable, which is the <code>group</code> variable that determines if a sample belongs to the CASE group or the CTRL group.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#compute the contrast for the &#39;group&#39; variable where &#39;CTRL&#39; samples are used as the control group. </span>
+DEresults =<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">results</span>(dds, <span class="dt">contrast =</span> <span class="kw">c</span>(<span class="st">&quot;group&quot;</span>, <span class="st">&#39;CASE&#39;</span>, <span class="st">&#39;CTRL&#39;</span>))
+<span class="co">#sort results by increasing p-value</span>
+DEresults &lt;-<span class="st"> </span>DEresults[<span class="kw">order</span>(DEresults<span class="op">$</span>pvalue),]</code></pre></div>
+<p>Thus we have obtained a table containing the differential expression status of case samples compared to the control samples.</p>
+<p>It is important to note that the sequence of the elements provided in the <code>contrast</code> argument determines which group of samples are to be used as <code>control</code>. This impacts the way the results are interpreted, for instance, if a gene is found up-regulated (has a positive log2 fold change), the up-regulation status is only relative to the factor that is provided as <code>control</code>. In this case, we used samples from the <code>CTRL</code> group as <code>control</code> and contrasted the samples from the <code>CASE</code> group with respect to the <code>CTRL</code> samples. Thus genes with a positive log2 fold change are called up-regulated in the case samples with respect to the control, while genes with a negative log2 fold change are down-regulated in the case samples. Whether the deregulation is significant or not, warrants assessment of the adjusted p-values.</p>
+<p>Let’s have a look into the contents of the <code>DEresults</code> table.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#shows a summary of the results</span>
+<span class="kw">print</span>(DEresults)</code></pre></div>
+<pre><code>## log2 fold change (MLE): group CASE vs CTRL 
+## Wald test p-value: group CASE vs CTRL 
+## DataFrame with 19097 rows and 6 columns
+##                    baseMean     log2FoldChange
+##                   &lt;numeric&gt;          &lt;numeric&gt;
+## CYP2E1     4829888.92231712   9.36024435305687
+## FCGBP      10349993.1789843  -7.57578665890778
+## ASGR2      426421.665773775   8.01830102661517
+## GCKR       100182.667004114   7.82841275978615
+## APOA5      438053.955454865   10.2024847632603
+## ...                     ...                ...
+## CCDC195    20.4981398045639 -0.215606612258398
+## SPEM3      23.6369514506586  -22.1547650648436
+## AC022167.5 21.8450828694606  -2.05624008484309
+## BX276092.9  29.963634159758  0.407325618882749
+## ETDC       22.5674885843896  -1.79527360789704
+##                        lfcSE                stat
+##                    &lt;numeric&gt;           &lt;numeric&gt;
+## CYP2E1     0.215223173019895    43.4908761065038
+## FCGBP       0.18643292339242   -40.6354549456998
+## ASGR2      0.216206795652736    37.0862581002954
+## GCKR       0.233376221798576    33.5441747212052
+## APOA5      0.312502755796718    32.6476633373977
+## ...                      ...                 ...
+## CCDC195      2.8925516729234 -0.0745385516451266
+## SPEM3       3.02784692796743     -7.317003003093
+## AC022167.5  2.89545307238825  -0.710161772073565
+## BX276092.9   2.8904762978251   0.140919895862573
+## ETDC        2.89421003612133  -0.620298314735642
+##                           pvalue                  padj
+##                        &lt;numeric&gt;             &lt;numeric&gt;
+## CYP2E1                         0                     0
+## FCGBP                          0                     0
+## ASGR2       4.6789767784482e-301 2.87741475285303e-297
+## GCKR       1.09479013375331e-246 5.04944579440372e-243
+## APOA5      8.64905801850778e-234   3.191329427669e-230
+## ...                          ...                   ...
+## CCDC195                       NA                    NA
+## SPEM3                         NA                    NA
+## AC022167.5                    NA                    NA
+## BX276092.9                    NA                    NA
+## ETDC                          NA                    NA</code></pre>
+<p>The first three lines in this output shows the contrast and the statistical test that were used to compute these results, along with the dimensions of the resulting table (number of columns and rows). Below these lines is the actual table with 6 columns: <code>baseMean</code> represents the average normalized expression of the gene across all considered samples. <code>log2FoldChange</code> represents the base-2 logarithm of the fold change of the normalized expression of the gene in the given contrast. <code>lfcSE</code> represents the standard error of log2 fold change estimate, and <code>stat</code> is the statistic calculated in the contrast which is translated into a <code>pvalue</code> and adjusted for multiple testing in the <code>padj</code> column. To find out about the importance of adjusting for <code>multiple testing</code>, refer to section <code>insert section for multiple testing</code>.</p>
+<div id="diagnostic-plots" class="section level4">
+<h4><span class="header-section-number">5.3.7.1</span> Diagnostic plots</h4>
+<p>At this point, before proceeding to do any downstream analysis and jumping to conclusions about the biological insights that are reachable with the experimental data at hand, it is important to do some more diagnostic tests to improve our confidence about the quality of the data and the experimental setup.</p>
+<p>An MA plot is useful to observe if the data normalisation worked well. MA plot is a scatterplot where x axis denotes the average of normalized counts across samples and the y axis denotes the log fold change in the given contrast. Most points are expected to be on the horizontal 0 line (most genes are expected to be not differentially expressed).</p>
+<div id="ma-plot" class="section level5">
+<h5><span class="header-section-number">5.3.7.1.1</span> MA plot</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DESeq2<span class="op">::</span><span class="kw">plotMA</span>(<span class="dt">object =</span> dds, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>))</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-203-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>It is also important to observe the distribution of raw p-values. We expect to see a peak around low p-values and a uniform distribution at p-values above 0.1. Otherwise, adjustment for multiple testing does not work and the results are not meaningful.</p>
+</div>
+<div id="p-value-distribution" class="section level5">
+<h5><span class="header-section-number">5.3.7.1.2</span> p-value distribution</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">as.data.frame</span>(DEresults), <span class="kw">aes</span>(<span class="dt">x =</span> pvalue)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">100</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-204-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>A final diagnosis is to check the biological reproducibility of the sample replicates in a PCA plot or a heatmap. To plot the PCA results, we need to extract the normalized counts from the DESeqDataSet object. It is possible to color the points in the scatterplot by the variable of interest, which helps to see if the replicates cluster well.</p>
+</div>
+<div id="pca-plot" class="section level5">
+<h5><span class="header-section-number">5.3.7.1.3</span> PCA plot</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extract normalized counts from the DESeqDataSet object</span>
+countsNormalized &lt;-<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">counts</span>(dds, <span class="dt">normalized =</span> <span class="ot">TRUE</span>)
+
+<span class="co"># select top 500 most variable genes</span>
+selectedGenes &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">apply</span>(countsNormalized, <span class="dv">1</span>, var), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">500</span>])
+
+<span class="kw">plotPCA</span>(countsNormalized[selectedGenes,], <span class="dt">col =</span> <span class="kw">as.numeric</span>(colData<span class="op">$</span>group))</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-205-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Alternatively, the normalized counts can be transformed using <code>DESeq2::rlog</code> function and <code>DESeq2::plotPCA</code> can be readily used to plot the PCA results.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rld &lt;-<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">rlog</span>(dds)
+DESeq2<span class="op">::</span><span class="kw">plotPCA</span>(rld, <span class="dt">ntop =</span> <span class="dv">500</span>, <span class="dt">intgroup =</span> <span class="st">&#39;group&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-206-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="relative-log-expression-rle-plot" class="section level5">
+<h5><span class="header-section-number">5.3.7.1.4</span> Relative Log Expression (RLE) plot</h5>
+<p>A similar plot to the MA plot is the RLE (Relative Log Expression) plot that is useful in finding out if the data at hand needs normalization <span class="citation">(Gandolfo and Speed <a href="#ref-gandolfo_rle_2018">2018</a>)</span>. Sometimes, even the datasets normalized using the explained methods above may need further normalization due to unforeseen sources of variation that might stem from the library preparation, the person who carries out the experiment, the date of sequencing, the temperature changes in the laboratory at the time of library preparation, and so on and sofort. RLE plot is a quick diagnostic that can be applied on the raw or normalized count matrices to see if further processing is required.</p>
+<p>Let’s do RLE plots on the raw counts and normalized counts using the <code>EDASeq</code> package <span class="citation">(Risso et al. <a href="#ref-risso_gc-content_2011">2011</a>)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">plotRLE</span>(countData, <span class="dt">outline=</span><span class="ot">FALSE</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">main =</span> <span class="st">&#39;Raw Counts&#39;</span>)
+<span class="kw">plotRLE</span>(<span class="kw">counts</span>(dds, <span class="dt">normalized =</span> <span class="ot">TRUE</span>), <span class="dt">outline=</span><span class="ot">FALSE</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">col =</span> <span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>,<span class="dv">4</span>), <span class="dt">main =</span> <span class="st">&#39;Normalized Counts&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-207-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here the RLE plot is comprised of box plots, where each box-plot represents the distribution of the relative log expression of the genes expressed in the corresponding sample. Each gene’s expression is divided by the median expression value of that gene across all samples. Then this is transformed to log scale, which gives the relative log expression value for a single gene. The RLE values for all the genes from a sample is visualized as a boxplot.</p>
+<p>Ideally the boxplots are centered around the horizontal zero line and are as tightly distributed as possible <span class="citation">(Risso et al. <a href="#ref-risso_normalization_2014">2014</a>)</span>. From the plots that we have made for the raw and normalized count data, we can observe how the normalized dataset has improved upon the raw count data for all the samples. However, in some cases, it is important to visualize RLE plots in combination with other diagnostic plots such as PCA plots, heatmaps, and correlation plots to see if there is more unwanted variation in the data, which can be further accounted for using packages such as <code>RUVseq</code> <span class="citation">(Risso et al. <a href="#ref-risso_normalization_2014">2014</a>)</span> and <code>sva</code> <span class="citation">(Leek et al. <a href="#ref-leek_sva_2012">2012</a>)</span>. See <insert section reference> about how to use RUVSeq package to account for unwanted sources of noise in the count tables.</p>
+</div>
+</div>
+<div id="exercises-4" class="section level4">
+<h4><span class="header-section-number">5.3.7.2</span> Exercises</h4>
+<ol style="list-style-type: decimal">
+<li>Basic</li>
+</ol>
+<ul>
+<li>Make a volcano plot using the differential expression analysis results. (Hint: x axis denotes the log2FoldChange and the y-axis represents the -log10(pvalue)).<br />
+</li>
+<li>Use DESeq2::plotDispEsts to make a dispersion plot and find out the meaning of this plot. (Hint: type ?DESeq2::plotDispEsts)</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Intermediate</li>
+</ol>
+<ul>
+<li>Re-do the differential expression analysis using edgeR package. Find out how much DESeq2 and edgeR agree on the list of differentially expressed genes.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Advanced</li>
+</ol>
+<ul>
+<li>Use <code>compcodeR</code> package to run the differential expression analysis using at least three different tools and compare and contrast the results following the compcodeR vignette.</li>
+</ul>
+</div>
+</div>
+<div id="functional-enrichment-analysis" class="section level3">
+<h3><span class="header-section-number">5.3.8</span> Functional Enrichment Analysis</h3>
+<div id="go-term-analysis" class="section level4">
+<h4><span class="header-section-number">5.3.8.1</span> GO term analysis</h4>
+<p>In a typical differential expression analysis, thousands of genes are found differentially expressed between two groups of samples. While prior knowledge of the functions of individual genes can give some clues about what kind of cellular processes have been affected, e.g. by a drug treatment, manually going through the whole list of thousands of genes would be very cumbersome and not be very informative in the end. Therefore a commonly used tool to address this problem is to do enrichment analyses of functional terms that appear associated to the given set of differentially expressed genes more often than expected by chance. The functional terms usually are associated to multiple genes. Thus, genes can be grouped into sets by shared functional terms. However, it is important to have an agreed upon controlled vocabulary on the list of terms used to describe the functions of genes. Otherwise, it would be impossible to exchange scientific results globally. That’s why initiatives such as Gene Ontology Consortium have collated a list of Gene Ontology (GO) terms for each gene. GO term enrichment analysis is probably the most common analysis applied after a differential expression analysis. GO term analysis helps quickly find out systematic changes that can describe differences between groups of samples.</p>
+<p>In R, the simplest way to do enrichment analysis is via the <code>gProfileR</code> package.</p>
+<p>Let’s select the genes that are significantly differentially expressed between the case and control samples. Let’s remove genes that have an adjusted p-value below 0.1 and that show a 2-fold change (either negative or positive) in the case compared to control.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extract differential expression results</span>
+DEresults &lt;-<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">results</span>(dds, <span class="dt">contrast =</span> <span class="kw">c</span>(<span class="st">&#39;group&#39;</span>, <span class="st">&#39;CASE&#39;</span>, <span class="st">&#39;CTRL&#39;</span>))
+
+<span class="co">#remove genes with NA values </span>
+DE &lt;-<span class="st"> </span>DEresults[<span class="op">!</span><span class="kw">is.na</span>(DEresults<span class="op">$</span>padj),]
+<span class="co">#select genes with adjusted p-values below 0.1</span>
+DE &lt;-<span class="st"> </span>DE[DE<span class="op">$</span>padj <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>,]
+<span class="co">#select genes with absolute log2 fold change above 1 (two-fold change)</span>
+DE &lt;-<span class="st"> </span>DE[<span class="kw">abs</span>(DE<span class="op">$</span>log2FoldChange) <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>,]
+
+<span class="co">#get the list of genes of interest</span>
+genesOfInterest &lt;-<span class="st"> </span><span class="kw">rownames</span>(DE)
+
+<span class="co">#calculate enriched GO terms</span>
+goResults &lt;-<span class="st"> </span>gProfileR<span class="op">::</span><span class="kw">gprofiler</span>(<span class="dt">query =</span> genesOfInterest, 
+                     <span class="dt">organism =</span> <span class="st">&#39;hsapiens&#39;</span>, 
+                     <span class="dt">src_filter =</span> <span class="st">&#39;GO&#39;</span>, 
+                     <span class="dt">hier_filtering =</span> <span class="st">&#39;moderate&#39;</span>)
+<span class="co"># sort the enriched GO terms by pvalue and print the top 10 terms </span>
+<span class="co">#  for the selected columns from the go results</span>
+knitr<span class="op">::</span><span class="kw">kable</span>(goResults[<span class="kw">order</span>(goResults<span class="op">$</span>p.value), <span class="kw">c</span>(<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">12</span>)][<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,])</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">p.value</th>
+<th align="right">term.size</th>
+<th align="right">precision</th>
+<th align="left">domain</th>
+<th align="left">term.name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>53</td>
+<td align="right">0</td>
+<td align="right">2740</td>
+<td align="right">0.223</td>
+<td align="left">CC</td>
+<td align="left">plasma membrane part</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td align="right">0</td>
+<td align="right">1609</td>
+<td align="right">0.136</td>
+<td align="left">BP</td>
+<td align="left">ion transport</td>
+</tr>
+<tr class="odd">
+<td>42</td>
+<td align="right">0</td>
+<td align="right">3656</td>
+<td align="right">0.258</td>
+<td align="left">BP</td>
+<td align="left">regulation of biological quality</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td align="right">0</td>
+<td align="right">385</td>
+<td align="right">0.042</td>
+<td align="left">BP</td>
+<td align="left">extracellular structure organization</td>
+</tr>
+<tr class="odd">
+<td>32</td>
+<td align="right">0</td>
+<td align="right">7414</td>
+<td align="right">0.452</td>
+<td align="left">BP</td>
+<td align="left">multicellular organismal process</td>
+</tr>
+<tr class="even">
+<td>91</td>
+<td align="right">0</td>
+<td align="right">1069</td>
+<td align="right">0.090</td>
+<td align="left">MF</td>
+<td align="left">transmembrane transporter activity</td>
+</tr>
+<tr class="odd">
+<td>48</td>
+<td align="right">0</td>
+<td align="right">1073</td>
+<td align="right">0.090</td>
+<td align="left">BP</td>
+<td align="left">organic acid metabolic process</td>
+</tr>
+<tr class="even">
+<td>50</td>
+<td align="right">0</td>
+<td align="right">975</td>
+<td align="right">0.083</td>
+<td align="left">BP</td>
+<td align="left">response to drug</td>
+</tr>
+<tr class="odd">
+<td>39</td>
+<td align="right">0</td>
+<td align="right">1351</td>
+<td align="right">0.107</td>
+<td align="left">BP</td>
+<td align="left">biological adhesion</td>
+</tr>
+<tr class="even">
+<td>45</td>
+<td align="right">0</td>
+<td align="right">4760</td>
+<td align="right">0.302</td>
+<td align="left">BP</td>
+<td align="left">system development</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="gene-set-enrichment-analysis" class="section level4">
+<h4><span class="header-section-number">5.3.8.2</span> Gene set enrichment analysis</h4>
+<p>A gene set is a collection of genes with some common property. This shared property among a set of genes could be a GO term, a common biological pathway, a shared interaction partner, or any biologically relevant commonality that is meaningful in the context of the pursued experiment. Gene set enrichment analysis (GSEA) is a valuable exploratory analysis tool that can associate systematic changes to a high-level function rather than individual genes. Analysis of coordinated changes of expression levels of gene sets can provide complementary benefits on top of per-gene based differential expression analyses. For instance, consider a gene set belonging to a biological pathway where each member of the pathway displays a slight deregulation in a disease sample compared to a normal sample. In such a case individual genes might not be picked up by the per-gene based differential expression analysis. Thus, the GO/Pathway enrichment on the differentially expressed list of genes would not show an enrichment of this pathway. However, the additive effect of slight changes of the genes could amount to a large effect at the level of the gene set, thus the pathway could be detected as a significant pathway that could explain the mechanistic problems in the disease sample.</p>
+<p>We use the bioconductor package <code>gage</code> <span class="citation">(Luo et al. <a href="#ref-luo_gage:_2009">2009</a>)</span> to demonstrate how to do GSEA using normalized expression data of the samples as input. Here we are using only two gene sets: one from the top GO term discovered from the previous GO analysis, one that we compile by randomly selecting a list of genes. However, annotated gene sets can be used from databases such as MSIGDB <span class="citation">(Subramanian et al. <a href="#ref-subramanian_gene_2005">2005</a>)</span>, which compile gene sets from a variety of resources such as KEGG <span class="citation">(Kanehisa et al. <a href="#ref-kanehisa_kegg_2016">2016</a>)</span> and REACTOME <span class="citation">(Fabregat et al. <a href="#ref-fabregat_reactome_2018">2018</a>)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Let&#39;s define the first gene set as the list of genes from one of the significant GO terms  </span>
+<span class="co"># found in the GO analysis. </span>
+<span class="co"># order go results by pvalue</span>
+goResults &lt;-<span class="st"> </span>goResults[<span class="kw">order</span>(goResults<span class="op">$</span>p.value),]
+<span class="co">#restrict the terms that have at most 100 genes overlapping with the query</span>
+go &lt;-<span class="st"> </span>goResults[goResults<span class="op">$</span>overlap.size <span class="op">&lt;</span><span class="st"> </span><span class="dv">100</span>,]
+<span class="co"># use the top term from this table to create a gene set </span>
+geneSet1 &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">strsplit</span>(go[<span class="dv">1</span>,]<span class="op">$</span>intersection, <span class="st">&#39;,&#39;</span>))
+
+<span class="co">#Define another gene set by just randomly selecting 25 genes from the counts table</span>
+<span class="co">#get normalized counts from DESeq2 results</span>
+normalizedCounts &lt;-<span class="st"> </span><span class="kw">counts</span>(dds, <span class="dt">normalized =</span> <span class="ot">TRUE</span>)
+geneSet2 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">rownames</span>(normalizedCounts), <span class="dv">25</span>)
+
+geneSets &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&#39;top_GO_term&#39;</span> =<span class="st"> </span>geneSet1,
+                 <span class="st">&#39;random_set&#39;</span> =<span class="st"> </span>geneSet2)</code></pre></div>
+<p>Using the defined gene sets, we’d like to do a group comparison between the case samples with respect to the control samples.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#use the normalized counts to carry out a GSEA. </span>
+gseaResults &lt;-<span class="st"> </span>gage<span class="op">::</span><span class="kw">gage</span>(<span class="dt">exprs =</span> <span class="kw">log2</span>(normalizedCounts<span class="op">+</span><span class="dv">1</span>), 
+           <span class="dt">ref =</span> <span class="kw">match</span>(<span class="kw">rownames</span>(colData[colData<span class="op">$</span>group <span class="op">==</span><span class="st"> &#39;CTRL&#39;</span>,]), <span class="kw">colnames</span>(normalizedCounts)), 
+           <span class="dt">samp =</span> <span class="kw">match</span>(<span class="kw">rownames</span>(colData[colData<span class="op">$</span>group <span class="op">==</span><span class="st"> &#39;CASE&#39;</span>,]), <span class="kw">colnames</span>(normalizedCounts)),
+           <span class="dt">gsets =</span> geneSets, <span class="dt">compare =</span> <span class="st">&#39;as.group&#39;</span>)</code></pre></div>
+<p>We can observe if there is a significant upregulation or downregulation of the gene set in the case group compared to the controls by accessing <code>gseaResults$greater</code> or <code>gseaResults$less</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(gseaResults<span class="op">$</span>greater, <span class="dt">caption =</span> <span class="st">&#39;Up-regulation statistics&#39;</span>)</code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-211">TABLE 5.1: </span>Up-regulation statistics</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">p.geomean</th>
+<th align="right">stat.mean</th>
+<th align="right">p.val</th>
+<th align="right">q.val</th>
+<th align="right">set.size</th>
+<th align="right">exp1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>top_GO_term</td>
+<td align="right">0.0000</td>
+<td align="right">7.1994</td>
+<td align="right">0.0000</td>
+<td align="right">0.0000</td>
+<td align="right">32</td>
+<td align="right">0.0000</td>
+</tr>
+<tr class="even">
+<td>random_set</td>
+<td align="right">0.6542</td>
+<td align="right">-0.3991</td>
+<td align="right">0.6542</td>
+<td align="right">0.6542</td>
+<td align="right">25</td>
+<td align="right">0.6542</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(gseaResults<span class="op">$</span>less, <span class="dt">caption =</span> <span class="st">&#39;Down-regulation statistics&#39;</span>)</code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-212">TABLE 5.2: </span>Down-regulation statistics</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">p.geomean</th>
+<th align="right">stat.mean</th>
+<th align="right">p.val</th>
+<th align="right">q.val</th>
+<th align="right">set.size</th>
+<th align="right">exp1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>random_set</td>
+<td align="right">0.3458</td>
+<td align="right">-0.3991</td>
+<td align="right">0.3458</td>
+<td align="right">0.6916</td>
+<td align="right">25</td>
+<td align="right">0.3458</td>
+</tr>
+<tr class="even">
+<td>top_GO_term</td>
+<td align="right">1.0000</td>
+<td align="right">7.1994</td>
+<td align="right">1.0000</td>
+<td align="right">1.0000</td>
+<td align="right">32</td>
+<td align="right">1.0000</td>
+</tr>
+</tbody>
+</table>
+<p>We can see that the random gene set shows no significant up or down-regulation, while the gene set we defined using the top GO term shows a significant down-regulation (adjusted p-value &lt; 0.0007). It is worthwhile to visualize these systematic changes in a heatmap:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the expression data for the gene set of interest</span>
+M &lt;-<span class="st"> </span>normalizedCounts[<span class="kw">rownames</span>(normalizedCounts) <span class="op">%in%</span><span class="st"> </span>geneSet1, ]
+<span class="co"># log transform the counts for visualization </span>
+<span class="co"># scaling by row helps visualizing relative change of expression of a gene in multiple conditions</span>
+pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(<span class="kw">log2</span>(M<span class="op">+</span><span class="dv">1</span>), 
+                   <span class="dt">annotation_col =</span> colData, 
+                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>, 
+                   <span class="dt">scale =</span> <span class="st">&#39;row&#39;</span>, 
+                   <span class="dt">cutree_cols =</span> <span class="dv">2</span>, 
+                   <span class="dt">cutree_rows =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-213-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>We can see that about two thirds of the genes from this gene set have been up-regulated in the case samples compared to the controls.</p>
+</div>
+<div id="exercises-5" class="section level4">
+<h4><span class="header-section-number">5.3.8.3</span> Exercises</h4>
+<ol style="list-style-type: decimal">
+<li>Basic:</li>
+</ol>
+<ul>
+<li><p>Re-run gProfileR, this time using pathway annotations such as KEGG, REACTOME, and protein complex databases such as CORUM, in addition to the GO terms. Sort the resulting tables by columns <code>precision</code> and/or <code>recall</code>. How do the top GO terms change when sorted for <code>precision</code>, <code>recall</code>, or <code>p.value</code>?</p></li>
+<li><p>Repeat the gene set enrichment analysis by trying different options for the <code>compare</code> argument of <code>GAGE:gage</code> function. How do the results differ?</p></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Intermediate:</li>
+</ol>
+<ul>
+<li><p>Make a scatter plot of GO term sizes and obtained p-values by setting the <code>gProfiler::gprofiler</code> argument <code>significant = FALSE</code>. Is there a correlation of term sizes and p-values? (Hint: take -log10 of p-values). If so, how can this bias be mitigated?</p></li>
+<li>Do a gene-set enrichment analysis using gene sets from top 10 GO terms.</li>
+<li><p>What are the other available R packages that can carry out gene set enrichment analysis for RNA-seq datasets?</p></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Advanced:</li>
+</ol>
+<ul>
+<li>Use the topGO package (<a href="https://bioconductor.org/packages/release/bioc/html/topGO.html" class="uri">https://bioconductor.org/packages/release/bioc/html/topGO.html</a>) to re-do the GO term analysis. Compare and contrast the results with what has been obtained using gProfileR package. Which tool is faster? gProfileR or topGO? Why?</li>
+<li>Given a gene set annotated for human, how can it be utilized to work on C. elegans data? (Hint: see <code>biomaRt::getLDS</code> [REF] function or <code>RCAS::retrieveOrthologs</code> [REF] function).</li>
+<li>Import curated pathway gene sets with Entrez identifiers from the <a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp">MSIGDB database</a> and re-do the GSEA for all curated gene sets.</li>
+</ul>
+</div>
+</div>
+<div id="accounting-for-additional-sources-of-variation" class="section level3">
+<h3><span class="header-section-number">5.3.9</span> Accounting for additional sources of variation</h3>
+<p>When doing a differential expression analysis in a case-control setting, the variable of interest, i.e. the variable that explains the separation of the case samples from the control is usually the treatment, genotypic differences, a certain phenotype so on and sofort. However, in reality, depending on how the experiment and the sequencing was designed, there may be additional factors that might contribute to the variation between the compared samples. Sometimes, such variables are known, for instance, the date of the sequencing for each sample (batch information), the temperature under which samples were kept, etc. Such variables are not necessarily biological but rather technical, however, they still impact the measurements obtained from an RNA-seq experiment. Such variables can introduces systematic shifts in the obtained measurements. Here, we will demonstrate: firstly how to account for such variables using DESeq2, when the possibles sources of variation are actually known; secondly, how to account for such variables when all we have is just a count table but we observe that the variable of interest only explains a small proportion of the differences between case and control samples.</p>
+<div id="accounting-for-covariates-using-deseq2" class="section level4">
+<h4><span class="header-section-number">5.3.9.1</span> Accounting for covariates using DESeq2</h4>
+<p>For demonstration purposes, we will use a subset of the count table obtained for a heart disease study, where there are RNA-seq samples from subjects with normal and failing hearts. We again use a subset of the samples, focusing on 6 case and 6 control samples and we only consider protein-coding genes (for speed concerns).</p>
+<p>Let’s import count and colData for this experiment.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">counts_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&#39;extdata/rna-seq/SRP021193.raw_counts.tsv&#39;</span>, <span class="dt">package =</span> <span class="st">&#39;compGenomRData&#39;</span>)
+colData_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&#39;extdata/rna-seq/SRP021193.colData.tsv&#39;</span>, <span class="dt">package =</span> <span class="st">&#39;compGenomRData&#39;</span>)
+
+counts &lt;-<span class="st"> </span><span class="kw">read.table</span>(counts_file)
+colData &lt;-<span class="st"> </span><span class="kw">read.table</span>(colData_file, <span class="dt">header =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Let’s take a look at how the samples cluster by calculating the TPM counts.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#find gene length normalized values </span>
+geneLengths &lt;-<span class="st"> </span>counts<span class="op">$</span>width
+rpk &lt;-<span class="st"> </span><span class="kw">apply</span>( <span class="kw">subset</span>(counts, <span class="dt">select =</span> <span class="kw">c</span>(<span class="op">-</span>width)), <span class="dv">2</span>, 
+              <span class="cf">function</span>(x) x<span class="op">/</span>(geneLengths<span class="op">/</span><span class="dv">1000</span>))
+<span class="co">#normalize by the sample size using rpk values</span>
+tpm &lt;-<span class="st"> </span><span class="kw">apply</span>(rpk, <span class="dv">2</span>, <span class="cf">function</span>(x) x <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">as.numeric</span>(x)) <span class="op">*</span><span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">6</span>)
+
+selectedGenes &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">apply</span>(tpm, <span class="dv">1</span>, var), <span class="dt">decreasing =</span> T)[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>])
+pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(tpm[selectedGenes,], 
+                   <span class="dt">scale =</span> <span class="st">&#39;row&#39;</span>,
+                   <span class="dt">annotation_col =</span> colData, 
+                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-215-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here we can see from the clusters that the dominating variable is the ‘Library Selection’ variable rather than the ‘diagnosis’ variable that determines the state of the organ from which the sample was taken. Case and control samples are all mixed in both two major clusters. However, ideally, we’d like to see a separation of the case and control samples regardless of the additional covariates. Luckily, DESeq2 can account for such confounding variables. Below is a demonstration of how we instruct DESeq2 to account for the ‘library selection’ variable:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># remove the &#39;width&#39; column from the counts matrix</span>
+countData &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">subset</span>(counts, <span class="dt">select =</span> <span class="kw">c</span>(<span class="op">-</span>width)))
+<span class="co"># set up a DESeqDataSet object</span>
+dds &lt;-<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">DESeqDataSetFromMatrix</span>(<span class="dt">countData =</span> countData, 
+                                      <span class="dt">colData =</span> colData, 
+                                      <span class="dt">design =</span> <span class="op">~</span><span class="st"> </span>LibrarySelection <span class="op">+</span><span class="st"> </span>group)</code></pre></div>
+<p>When constructing the design formula, it is very important to pay attention to the sequence of variables. We leave the variable of interest to the last and we can add as many covariates as we want to the beginning of the design formula. Please refer to the DESeq2 vignette if you’d like to learn more about how to construct design formulas.</p>
+<p>Now, we can run the differential expression analysis as has been demonstrated previously.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># run DESeq</span>
+dds &lt;-<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">DESeq</span>(dds)
+<span class="co"># extract results</span>
+DEresults &lt;-<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">results</span>(dds, <span class="dt">contrast =</span> <span class="kw">c</span>(<span class="st">&#39;group&#39;</span>, <span class="st">&#39;CASE&#39;</span>, <span class="st">&#39;CTRL&#39;</span>))</code></pre></div>
+</div>
+<div id="accounting-for-estimated-covariates-using-ruvseq" class="section level4">
+<h4><span class="header-section-number">5.3.9.2</span> Accounting for estimated covariates using RUVSeq</h4>
+<p>In cases when the sources of potential variation are not known, it is worthwhile to use tools such as <code>RUVSeq</code> or <code>sva</code> that can estimate potential sources of variation and clean up the counts table from those sources of variation. Later on, the estimated covariates can be integrated into DESeq2’s design formula.</p>
+<p>Let’s see how to utilize RUVseq package to first diagnose the problem and then solve it. Here, for demonstration purposes, we’ll use a count table from a lung carcinoma study in which a transcription factor (Ets homologous factor - EHF) is overexpressed and compared to the control samples with baseline EHF expression. Again, we only consider protein coding genes and use only five case and five control samples. The original data can be found on the <code>recount2</code> database with the accession ‘SRP049988’.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">counts_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&#39;extdata/rna-seq/SRP049988.raw_counts.tsv&#39;</span>, <span class="dt">package =</span> <span class="st">&#39;compGenomRData&#39;</span>)
+colData_file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&#39;extdata/rna-seq/SRP049988.colData.tsv&#39;</span>, <span class="dt">package =</span> <span class="st">&#39;compGenomRData&#39;</span>)
+
+counts &lt;-<span class="st"> </span><span class="kw">read.table</span>(counts_file)
+colData &lt;-<span class="st"> </span><span class="kw">read.table</span>(colData_file, <span class="dt">header =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Let’s start by making heatmaps of the samples using TPM counts</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#find gene length normalized values </span>
+geneLengths &lt;-<span class="st"> </span>counts<span class="op">$</span>width
+rpk &lt;-<span class="st"> </span><span class="kw">apply</span>( <span class="kw">subset</span>(counts, <span class="dt">select =</span> <span class="kw">c</span>(<span class="op">-</span>width)), <span class="dv">2</span>, 
+              <span class="cf">function</span>(x) x<span class="op">/</span>(geneLengths<span class="op">/</span><span class="dv">1000</span>))
+<span class="co">#normalize by the sample size using rpk values</span>
+tpm &lt;-<span class="st"> </span><span class="kw">apply</span>(rpk, <span class="dv">2</span>, <span class="cf">function</span>(x) x <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">as.numeric</span>(x)) <span class="op">*</span><span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="dv">6</span>)
+selectedGenes &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">apply</span>(tpm, <span class="dv">1</span>, var), <span class="dt">decreasing =</span> T)[<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>])
+pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(tpm[selectedGenes,], 
+                   <span class="dt">scale =</span> <span class="st">&#39;row&#39;</span>,
+                   <span class="dt">annotation_col =</span> colData, 
+                   <span class="dt">cutree_cols =</span> <span class="dv">2</span>, 
+                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-219-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>We can see that the overal clusters look fine except for one of the case samples (CASE_5) clusters more closely with the control samples than the other case samples. This mis-clustering could be a result of some batch effect, or any other technical preparation steps. However, the <code>colData</code> object doesn’t contain any variables that we can directly distinguish this sample from others. So, let’s use RUVSeq to estimate potential covariates to see if the clustering results can be improved.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># remove &#39;width&#39; column from counts</span>
+countData &lt;-<span class="st"> </span><span class="kw">as.matrix</span>(<span class="kw">subset</span>(counts, <span class="dt">select =</span> <span class="kw">c</span>(<span class="op">-</span>width)))
+<span class="co"># create a seqExpressionSet object using EDASeq package </span>
+set &lt;-<span class="st"> </span>EDASeq<span class="op">::</span><span class="kw">newSeqExpressionSet</span>(<span class="dt">counts =</span> countData,
+                           <span class="dt">phenoData =</span> colData)
+
+<span class="co"># make an RLE plot and a PCA plot on raw count data and color samples by group </span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plotRLE</span>(set, <span class="dt">outline=</span><span class="ot">FALSE</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group))
+<span class="kw">plotPCA</span>(set, <span class="dt">col =</span> <span class="kw">as.numeric</span>(colData<span class="op">$</span>group))</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-220-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## make RLE and PCA plots on TPM matrix 
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plotRLE</span>(tpm, <span class="dt">outline=</span><span class="ot">FALSE</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group))
+<span class="kw">plotPCA</span>(tpm, <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">cex=</span><span class="fl">1.2</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-220-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Both RLE and PCA plots look better on normalized data compared to raw data, but still suggest the necessity of further improvement, because the the CASE_5 sample still clusters with the control samples. We haven’t yet accounted for the source of unwanted variation.</p>
+</div>
+<div id="removing-unwanted-variation-from-the-data" class="section level4">
+<h4><span class="header-section-number">5.3.9.3</span> Removing unwanted variation from the data</h4>
+<p>RUVSeq has three main functions for removing unwanted variation: <code>RUVg</code>, <code>RUVs</code>, and <code>RUVr</code>. Here, we will demonstrate how to use <code>RUVg</code> and <code>RUVs</code>. <code>RUVr</code> will be left as an exercise for the reader.</p>
+<div id="using-ruvg" class="section level5">
+<h5><span class="header-section-number">5.3.9.3.1</span> Using RUVg</h5>
+<p>One way of removing unwanted variation is dependent on using a set of reference genes that are not expected to change by the sources of technical variation. One strategy along this line is to use spike-in genes, which are artifically introduced into the sequencing run <span class="citation">(Jiang et al. <a href="#ref-jiang_synthetic_2011">2011</a>)</span>. However, there are many sequencing datasets that don’t have this spike-in data available. In such cases, an emprical set of genes can be collected from the expression data by doing a differential expression analysis and discovering genes that are unchanged in the given conditions. These unchanged genes are used to center the complete expression data to clean up the data from systematic shifts in expression due to the unwanted sources of variation. Another stragety could be to use a set of house-keeping genes as negative controls, and use them as a reference to correct the systematic biases in the data. Let’s use a list of ~500 house-keeping genes compiled here: <a href="http://www.stat.berkeley.edu/~johann/ruv/resources/hk.txt" class="uri">http://www.stat.berkeley.edu/~johann/ruv/resources/hk.txt</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#source for house-keeping genes collection: https://m.tau.ac.il/~elieis/HKG/HK_genes.txt</span>
+house_keeping_genes &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">file =</span> <span class="kw">system.file</span>(<span class="st">&quot;extdata/rna-seq/HK_genes.txt&quot;</span>, 
+                                                     <span class="dt">package =</span> <span class="st">&#39;compGenomRData&#39;</span>), 
+                                  <span class="dt">header =</span> <span class="ot">FALSE</span>)
+<span class="co"># let&#39;s take an intersection of the house-keeping genes with the genes available in the count table </span>
+house_keeping_genes &lt;-<span class="st"> </span><span class="kw">intersect</span>(<span class="kw">rownames</span>(set), house_keeping_genes<span class="op">$</span>V1)
+
+<span class="co"># now, we use these genes as the emprical set of genes as input to RUVg.</span>
+<span class="co"># we try different values of k and see how the PCA plots look </span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))
+<span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>) {
+  set_g &lt;-<span class="st"> </span><span class="kw">RUVg</span>(<span class="dt">x =</span> set, <span class="dt">cIdx =</span> house_keeping_genes, <span class="dt">k =</span> k)
+  <span class="kw">plotPCA</span>(set_g, <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">cex=</span><span class="fl">1.2</span>, <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&#39;with RUVg, k = &#39;</span>,k))
+}</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-221-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># choose k = 1</span>
+set_g &lt;-<span class="st"> </span><span class="kw">RUVg</span>(<span class="dt">x =</span> set, <span class="dt">cIdx =</span> house_keeping_genes, <span class="dt">k =</span> <span class="dv">1</span>)
+
+<span class="co"># now let&#39;s do diagnostics: compare the count matrices with or without RUVg processing</span>
+<span class="co"># RLE plots</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plotRLE</span>(set, <span class="dt">outline=</span><span class="ot">FALSE</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">main =</span> <span class="st">&#39;without RUVg&#39;</span>)
+<span class="kw">plotRLE</span>(set_g, <span class="dt">outline=</span><span class="ot">FALSE</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">main =</span> <span class="st">&#39;with RUVg&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-221-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># PCA plots</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plotPCA</span>(set, <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">cex=</span><span class="fl">1.2</span>,  <span class="dt">main =</span> <span class="st">&#39;without RUVg&#39;</span>)
+<span class="kw">plotPCA</span>(set_g, <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">cex=</span><span class="fl">1.2</span>, <span class="dt">main =</span> <span class="st">&#39;with RUVg&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-221-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>We can observe that using RUVg using house-keeping genes as reference has improved the clusters, however not ideal. There is another strategy of RUVSeq that works better in the presence of replicates without a confounded design, which is the <code>RUVs</code> function. Let’s see how that performs with this data. This time we don’t use the house-keeping genes. We rather use all genes as input to RUVs.</p>
+</div>
+<div id="using-ruvs" class="section level5">
+<h5><span class="header-section-number">5.3.9.3.2</span> Using RUVs</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># make a table of sample groups from colData </span>
+differences &lt;-<span class="st"> </span><span class="kw">makeGroups</span>(colData<span class="op">$</span>group)
+## looking for two different sources of unwanted variation (k = 2)
+## use information from all genes in the expression object
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">2</span>))
+<span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>) {
+  set_s &lt;-<span class="st"> </span><span class="kw">RUVs</span>(set, <span class="kw">unique</span>(<span class="kw">rownames</span>(set)), <span class="dt">k=</span>k, differences) <span class="co">#all genes</span>
+  <span class="kw">plotPCA</span>(set_s, <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">cex=</span><span class="fl">1.2</span>, <span class="dt">main =</span> <span class="kw">paste0</span>(<span class="st">&#39;with RUVs, k = &#39;</span>,k))
+}</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-222-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># choose k = 3</span>
+set_s &lt;-<span class="st"> </span><span class="kw">RUVs</span>(set, <span class="kw">unique</span>(<span class="kw">rownames</span>(set)), <span class="dt">k=</span><span class="dv">3</span>, differences) <span class="co">#</span>
+
+<span class="co"># repeat the RLE and PCA plots </span>
+## compare the initial and processed objects
+## RLE plots
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plotRLE</span>(set, <span class="dt">outline=</span><span class="ot">FALSE</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">main =</span> <span class="st">&#39;without RUVs&#39;</span>)
+<span class="kw">plotRLE</span>(set_s, <span class="dt">outline=</span><span class="ot">FALSE</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>), <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">main =</span> <span class="st">&#39;with RUVs&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-222-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## PCA plots
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">plotPCA</span>(set, <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">cex=</span><span class="fl">1.2</span>,  <span class="dt">main =</span> <span class="st">&#39;without RUVs&#39;</span>)
+<span class="kw">plotPCA</span>(set_s, <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">cex=</span><span class="fl">1.2</span>, <span class="dt">main =</span> <span class="st">&#39;with RUVs&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-222-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Let’s compare PCA results from RUVs and RUVg with the initial raw counts matrix:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))
+<span class="kw">plotPCA</span>(countData, <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">main =</span> <span class="st">&#39;without RUV - raw counts&#39;</span>)
+<span class="kw">plotPCA</span>(set_g, <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">main =</span> <span class="st">&#39;with RUVg&#39;</span>)
+<span class="kw">plotPCA</span>(set_s, <span class="dt">col=</span><span class="kw">as.numeric</span>(colData<span class="op">$</span>group), <span class="dt">main =</span> <span class="st">&#39;with RUVs&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-223-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>It looks like RUVs has performed better than RUVg in this case. So, let’s use count data that is processed by RUVs to re-do the initial heatmap.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extract normalized counts that are cleared from unwanted variation using RUVs</span>
+normCountData &lt;-<span class="st"> </span>EDASeq<span class="op">::</span><span class="kw">normCounts</span>(set_s)
+selectedGenes &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">apply</span>(normCountData, <span class="dv">1</span>, var), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>))[<span class="dv">1</span><span class="op">:</span><span class="dv">500</span>]
+pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(normCountData[selectedGenes,], 
+                   <span class="dt">annotation_col =</span> colData, 
+                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>, 
+                   <span class="dt">cutree_cols =</span> <span class="dv">2</span>,
+                   <span class="dt">scale =</span> <span class="st">&#39;row&#39;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-224-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>As can be observed the replicates from different groups cluster much better with each other after processing with <code>RUVs</code>. It is important to note that RUVs uses information from replicates to shift the expression data and it would not work in a confounding design where the replicates of case samples and replicates of the control samples are sequenced in different batches.</p>
+</div>
+</div>
+<div id="re-run-deseq2-with-the-computed-covariates" class="section level4">
+<h4><span class="header-section-number">5.3.9.4</span> Re-run DESeq2 with the computed covariates</h4>
+<p>Having computed the sources of variation using RUVs, we can actually integrate these variables with DESeq2 to re-do the differential expression analysis.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#set up DESeqDataSet object</span>
+dds &lt;-<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">DESeqDataSetFromMatrix</span>(<span class="dt">countData =</span> countData,
+                                      <span class="dt">colData =</span> colData, 
+                                      <span class="dt">design =</span> <span class="op">~</span><span class="st"> </span>group)
+<span class="co"># filter for low count genes</span>
+dds &lt;-<span class="st"> </span>dds[<span class="kw">rowSums</span>(<span class="kw">counts</span>(dds)) <span class="op">&gt;</span><span class="st"> </span><span class="dv">10</span>]
+
+<span class="co"># insert the covariates computed using RUVs into DESeqDataSet object</span>
+<span class="kw">colData</span>(dds) &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">colData</span>(dds), <span class="kw">pData</span>(set_s)[<span class="kw">rownames</span>(<span class="kw">colData</span>(dds)), <span class="kw">grep</span>(<span class="st">&#39;W_[0-9]&#39;</span>, <span class="kw">colnames</span>(<span class="kw">pData</span>(set_s)))])
+
+<span class="co"># update the design formula for the DESeq analysis (save the variable of interest to the last!)</span>
+<span class="kw">design</span>(dds) &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>W_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>W_<span class="dv">2</span> <span class="op">+</span><span class="st"> </span>W_<span class="dv">3</span> <span class="op">+</span><span class="st"> </span>group 
+<span class="co"># repeat the analysis </span>
+dds &lt;-<span class="st"> </span><span class="kw">DESeq</span>(dds)
+<span class="co"># extract deseq results </span>
+res &lt;-<span class="st"> </span>DESeq2<span class="op">::</span><span class="kw">results</span>(dds, <span class="dt">contrast =</span> <span class="kw">c</span>(<span class="st">&#39;group&#39;</span>, <span class="st">&#39;CASE&#39;</span>, <span class="st">&#39;CTRL&#39;</span>))
+res &lt;-<span class="st"> </span>res[<span class="kw">order</span>(res<span class="op">$</span>padj),]</code></pre></div>
+</div>
+<div id="exercises-6" class="section level4">
+<h4><span class="header-section-number">5.3.9.5</span> Exercises</h4>
+<ol style="list-style-type: decimal">
+<li>Basic:</li>
+</ol>
+<ul>
+<li>Run RUVSeq using multiple values of <code>k</code> from 1 to 10 and compare and contrast the PCA plots obtained from the normalized counts of each RUVSeq run.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Intermediate:</li>
+</ol>
+<ul>
+<li><p>Re-run RUVSeq using the <code>RUVr</code> function. Compare PCA plots from <code>RUVs</code>, <code>RUVg</code> and <code>RUVr</code> using the same <code>k</code> values and find out which one performs the best.</p></li>
+<li><p>Do the necessary diagnostic plots using the differential expression results from the EHF count table.</p></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Advanced:</li>
+</ol>
+<ul>
+<li>Use the <code>sva package</code> to discover sources of unwanted variation and re-do the differential expression analysis using variables from the output of <code>sva</code> and compare the results with DESeq2 results using RUVSeq corrected normalization counts.</li>
+</ul>
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-noauthor_babraham_nodate">
+<p>“Babraham Bioinformatics - FastQC A Quality Control Tool for High Throughput Sequence Data.” 2018. Accessed July 16. <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/" class="uri">https://www.bioinformatics.babraham.ac.uk/projects/fastqc/</a>.</p>
+</div>
+<div id="ref-Rqc">
+<p>de Souza, Welliton, Benilton S Carvalho, and Iscia Lopes-Cendes. 2018. “Rqc: A Bioconductor Package for Quality Control of High-Throughput Sequencing Data.” <em>Journal of Statistical Software, Code Snippets</em> 87 (2): 1–14. doi:<a href="https://doi.org/10.18637/jss.v087.c02">10.18637/jss.v087.c02</a>.</p>
+</div>
+<div id="ref-gaidatzis_quasr:_2015">
+<p>Gaidatzis, Dimos, Anita Lerch, Florian Hahne, and Michael B. Stadler. 2015. “QuasR: Quantification and Annotation of Short Reads in R.” <em>Bioinformatics</em> 31 (7): 1130–2. doi:<a href="https://doi.org/10.1093/bioinformatics/btu781">10.1093/bioinformatics/btu781</a>.</p>
+</div>
+<div id="ref-backman_systempiper:_2016">
+<p>Backman, Tyler W. H., and Thomas Girke. 2016. “systemPipeR: NGS Workflow and Report Generation Environment.” <em>BMC Bioinformatics</em> 17 (1). doi:<a href="https://doi.org/10.1186/s12859-016-1241-0">10.1186/s12859-016-1241-0</a>.</p>
+</div>
+<div id="ref-morgan_shortread:_2009">
+<p>Morgan, Martin, Simon Anders, Michael Lawrence, Patrick Aboyoun, Hervé Pagès, and Robert Gentleman. 2009. “ShortRead: A Bioconductor Package for Input, Quality Assessment and Exploration of High-Throughput Sequence Data.” <em>Bioinformatics</em> 25 (19): 2607–8. doi:<a href="https://doi.org/10.1093/bioinformatics/btp450">10.1093/bioinformatics/btp450</a>.</p>
+</div>
+<div id="ref-bolger_trimmomatic:_2014">
+<p>Bolger, Anthony M., Marc Lohse, and Bjoern Usadel. 2014. “Trimmomatic: A Flexible Trimmer for Illumina Sequence Data.” <em>Bioinformatics</em> 30 (15): 2114–20. doi:<a href="https://doi.org/10.1093/bioinformatics/btu170">10.1093/bioinformatics/btu170</a>.</p>
+</div>
+<div id="ref-noauthor_babraham_nodate-1">
+<p>“Babraham Bioinformatics - Trim Galore!” 2018. Accessed July 16. <a href="https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/" class="uri">https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/</a>.</p>
+</div>
+<div id="ref-dobin_star:_2013">
+<p>Dobin, Alexander, Carrie A. Davis, Felix Schlesinger, Jorg Drenkow, Chris Zaleski, Sonali Jha, Philippe Batut, Mark Chaisson, and Thomas R. Gingeras. 2013. “STAR: Ultrafast Universal RNA-Seq Aligner.” <em>Bioinformatics</em> 29 (1): 15–21. doi:<a href="https://doi.org/10.1093/bioinformatics/bts635">10.1093/bioinformatics/bts635</a>.</p>
+</div>
+<div id="ref-kim_tophat2:_2013">
+<p>Kim, Daehwan, Geo Pertea, Cole Trapnell, Harold Pimentel, Ryan Kelley, and Steven L. Salzberg. 2013. “TopHat2: Accurate Alignment of Transcriptomes in the Presence of Insertions, Deletions and Gene Fusions.” <em>Genome Biology</em> 14 (4): R36. doi:<a href="https://doi.org/10.1186/gb-2013-14-4-r36">10.1186/gb-2013-14-4-r36</a>.</p>
+</div>
+<div id="ref-kim_hisat:_2015">
+<p>Kim, Daehwan, Ben Langmead, and Steven L Salzberg. 2015. “HISAT: A Fast Spliced Aligner with Low Memory Requirements.” <em>Nature Methods</em> 12 (4): 357–60. doi:<a href="https://doi.org/10.1038/nmeth.3317">10.1038/nmeth.3317</a>.</p>
+</div>
+<div id="ref-wu_gmap_2016">
+<p>Wu, Thomas D., Jens Reeder, Michael Lawrence, Gabe Becker, and Matthew J. Brauer. 2016. “GMAP and GSNAP for Genomic Sequence Alignment: Enhancements to Speed, Accuracy, and Functionality.” <em>Methods in Molecular Biology (Clifton, N.J.)</em> 1418: 283–334. doi:<a href="https://doi.org/10.1007/978-1-4939-3578-9_15">10.1007/978-1-4939-3578-9_15</a>.</p>
+</div>
+<div id="ref-gmapR">
+<p>Barr, Cory, Thomas Wu, and Michael Lawrence. 2019. <em>GmapR: An R Interface to the Gmap/Gsnap/Gstruct Suite</em>.</p>
+</div>
+<div id="ref-liao_subread_2013">
+<p>Liao, Yang, Gordon K. Smyth, and Wei Shi. 2013. “The Subread Aligner: Fast, Accurate and Scalable Read Mapping by Seed-and-Vote.” <em>Nucleic Acids Research</em> 41 (10): e108–e108. doi:<a href="https://doi.org/10.1093/nar/gkt214">10.1093/nar/gkt214</a>.</p>
+</div>
+<div id="ref-patro_salmon:_2017">
+<p>Patro, Rob, Geet Duggal, Michael I Love, Rafael A Irizarry, and Carl Kingsford. 2017. “Salmon: Fast and Bias-Aware Quantification of Transcript Expression Using Dual-Phase Inference.” <em>Nature Methods</em> 14 (4): 417–19. doi:<a href="https://doi.org/10.1038/nmeth.4197">10.1038/nmeth.4197</a>.</p>
+</div>
+<div id="ref-bray_near-optimal_2016">
+<p>Bray, Nicolas L., Harold Pimentel, Páll Melsted, and Lior Pachter. 2016. “Near-Optimal Probabilistic RNA-Seq Quantification.” <em>Nature Biotechnology</em> 34 (5): 525–27. doi:<a href="https://doi.org/10.1038/nbt.3519">10.1038/nbt.3519</a>.</p>
+</div>
+<div id="ref-patro_sailfish_2014">
+<p>Patro, Rob, Stephen M. Mount, and Carl Kingsford. 2014. “Sailfish Enables Alignment-Free Isoform Quantification from RNA-Seq Reads Using Lightweight Algorithms.” <em>Nature Biotechnology</em> 32 (5): 462–64. doi:<a href="https://doi.org/10.1038/nbt.2862">10.1038/nbt.2862</a>.</p>
+</div>
+<div id="ref-trapnell_transcript_2010">
+<p>Trapnell, Cole, Brian A. Williams, Geo Pertea, Ali Mortazavi, Gordon Kwan, Marijke J. van Baren, Steven L. Salzberg, Barbara J. Wold, and Lior Pachter. 2010. “Transcript Assembly and Quantification by RNA-Seq Reveals Unannotated Transcripts and Isoform Switching During Cell Differentiation.” <em>Nature Biotechnology</em> 28 (5): 511–15. doi:<a href="https://doi.org/10.1038/nbt.1621">10.1038/nbt.1621</a>.</p>
+</div>
+<div id="ref-haas_novo_2013">
+<p>Haas, Brian J., Alexie Papanicolaou, Moran Yassour, Manfred Grabherr, Philip D. Blood, Joshua Bowden, Matthew Brian Couger, et al. 2013. “De Novo Transcript Sequence Reconstruction from RNA-Seq: Reference Generation and Analysis with Trinity.” <em>Nature Protocols</em> 8 (8). doi:<a href="https://doi.org/10.1038/nprot.2013.084">10.1038/nprot.2013.084</a>.</p>
+</div>
+<div id="ref-robertson_novo_2010">
+<p>Robertson, Gordon, Jacqueline Schein, Readman Chiu, Richard Corbett, Matthew Field, Shaun D. Jackman, Karen Mungall, et al. 2010. “<em>De Novo</em> Assembly and Analysis of RNA-Seq Data.” <em>Nature Methods</em> 7 (11): 909–12. doi:<a href="https://doi.org/10.1038/nmeth.1517">10.1038/nmeth.1517</a>.</p>
+</div>
+<div id="ref-maza_comparison_2013">
+<p>Maza, Elie, Pierre Frasse, Pavel Senin, Mondher Bouzayen, and Mohamed Zouine. 2013. “Comparison of Normalization Methods for Differential Gene Expression Analysis in RNA-Seq Experiments: A Matter of Relative Size of Studied Transcriptomes.” <em>Communicative &amp; Integrative Biology</em> 6 (6): e25849. doi:<a href="https://doi.org/10.4161/cib.25849">10.4161/cib.25849</a>.</p>
+</div>
+<div id="ref-risso_gc-content_2011">
+<p>Risso, Davide, Katja Schwartz, Gavin Sherlock, and Sandrine Dudoit. 2011. “GC-Content Normalization for RNA-Seq Data.” <em>BMC Bioinformatics</em> 12 (December): 480. doi:<a href="https://doi.org/10.1186/1471-2105-12-480">10.1186/1471-2105-12-480</a>.</p>
+</div>
+<div id="ref-mortazavi_mapping_2008">
+<p>Mortazavi, Ali, Brian A. Williams, Kenneth McCue, Lorian Schaeffer, and Barbara Wold. 2008. “Mapping and Quantifying Mammalian Transcriptomes by RNA-Seq.” <em>Nature Methods</em> 5 (7): 621–28. doi:<a href="https://doi.org/10.1038/nmeth.1226">10.1038/nmeth.1226</a>.</p>
+</div>
+<div id="ref-love_moderated_2014">
+<p>Love, Michael I, Wolfgang Huber, and Simon Anders. 2014. “Moderated Estimation of Fold Change and Dispersion for RNA-Seq Data with DESeq2.” <em>Genome Biology</em> 15 (12). doi:<a href="https://doi.org/10.1186/s13059-014-0550-8">10.1186/s13059-014-0550-8</a>.</p>
+</div>
+<div id="ref-robinson_edger:_2010">
+<p>Robinson, Mark D., Davis J. McCarthy, and Gordon K. Smyth. 2010. “edgeR: A Bioconductor Package for Differential Expression Analysis of Digital Gene Expression Data.” <em>Bioinformatics (Oxford, England)</em> 26 (1): 139–40. doi:<a href="https://doi.org/10.1093/bioinformatics/btp616">10.1093/bioinformatics/btp616</a>.</p>
+</div>
+<div id="ref-pheatmap">
+<p>Kolde, Raivo. 2019. <em>Pheatmap: Pretty Heatmaps</em>. <a href="https://CRAN.R-project.org/package=pheatmap" class="uri">https://CRAN.R-project.org/package=pheatmap</a>.</p>
+</div>
+<div id="ref-gu_complex_2016">
+<p>Gu, Zuguang, Roland Eils, and Matthias Schlesner. 2016. “Complex Heatmaps Reveal Patterns and Correlations in Multidimensional Genomic Data.” <em>Bioinformatics (Oxford, England)</em> 32 (18): 2847–9. doi:<a href="https://doi.org/10.1093/bioinformatics/btw313">10.1093/bioinformatics/btw313</a>.</p>
+</div>
+<div id="ref-gandolfo_rle_2018">
+<p>Gandolfo, Luke C., and Terence P. Speed. 2018. “RLE Plots: Visualizing Unwanted Variation in High Dimensional Data.” <em>PloS One</em> 13 (2): e0191629. doi:<a href="https://doi.org/10.1371/journal.pone.0191629">10.1371/journal.pone.0191629</a>.</p>
+</div>
+<div id="ref-risso_normalization_2014">
+<p>Risso, Davide, John Ngai, Terence P. Speed, and Sandrine Dudoit. 2014. “Normalization of RNA-Seq Data Using Factor Analysis of Control Genes or Samples.” <em>Nature Biotechnology</em> 32 (9): 896–902. doi:<a href="https://doi.org/10.1038/nbt.2931">10.1038/nbt.2931</a>.</p>
+</div>
+<div id="ref-leek_sva_2012">
+<p>Leek, Jeffrey T., W. Evan Johnson, Hilary S. Parker, Andrew E. Jaffe, and John D. Storey. 2012. “The Sva Package for Removing Batch Effects and Other Unwanted Variation in High-Throughput Experiments.” <em>Bioinformatics</em> 28 (6): 882–83. doi:<a href="https://doi.org/10.1093/bioinformatics/bts034">10.1093/bioinformatics/bts034</a>.</p>
+</div>
+<div id="ref-luo_gage:_2009">
+<p>Luo, Weijun, Michael S Friedman, Kerby Shedden, Kurt D Hankenson, and Peter J Woolf. 2009. “GAGE: Generally Applicable Gene Set Enrichment for Pathway Analysis.” <em>BMC Bioinformatics</em> 10 (1): 161. doi:<a href="https://doi.org/10.1186/1471-2105-10-161">10.1186/1471-2105-10-161</a>.</p>
+</div>
+<div id="ref-subramanian_gene_2005">
+<p>Subramanian, Aravind, Pablo Tamayo, Vamsi K. Mootha, Sayan Mukherjee, Benjamin L. Ebert, Michael A. Gillette, Amanda Paulovich, et al. 2005. “Gene Set Enrichment Analysis: A Knowledge-Based Approach for Interpreting Genome-Wide Expression Profiles.” <em>Proceedings of the National Academy of Sciences</em> 102 (43): 15545–50. doi:<a href="https://doi.org/10.1073/pnas.0506580102">10.1073/pnas.0506580102</a>.</p>
+</div>
+<div id="ref-kanehisa_kegg_2016">
+<p>Kanehisa, Minoru, Yoko Sato, Masayuki Kawashima, Miho Furumichi, and Mao Tanabe. 2016. “KEGG as a Reference Resource for Gene and Protein Annotation.” <em>Nucleic Acids Research</em> 44 (Database issue): D457–D462. doi:<a href="https://doi.org/10.1093/nar/gkv1070">10.1093/nar/gkv1070</a>.</p>
+</div>
+<div id="ref-fabregat_reactome_2018">
+<p>Fabregat, Antonio, Steven Jupe, Lisa Matthews, Konstantinos Sidiropoulos, Marc Gillespie, Phani Garapati, Robin Haw, et al. 2018. “The Reactome Pathway Knowledgebase.” <em>Nucleic Acids Research</em> 46 (D1): D649–D655. doi:<a href="https://doi.org/10.1093/nar/gkx1132">10.1093/nar/gkx1132</a>.</p>
+</div>
+<div id="ref-jiang_synthetic_2011">
+<p>Jiang, Lichun, Felix Schlesinger, Carrie A. Davis, Yu Zhang, Renhua Li, Marc Salit, Thomas R. Gingeras, and Brian Oliver. 2011. “Synthetic Spike-in Standards for RNA-Seq Experiments.” <em>Genome Research</em> 21 (9): 1543–51. doi:<a href="https://doi.org/10.1101/gr.121095.111">10.1101/gr.121095.111</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="methods-to-detect-gene-expression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="other-applications-of-rna-seq.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/compgenomr/book/edit/master/05-rna-seq-analysis.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["compgenomrReloaded.pdf"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
