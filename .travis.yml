@@ -16,7 +16,6 @@ before_script:
   - chmod +x ./deploy_github
 
 script:
-  - chmod +x ./_build.sh
-#  - ./_build.sh
-#  - ./deploy_github
+  - ./_build.sh
+  - ./deploy_github
   
