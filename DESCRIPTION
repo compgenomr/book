@@ -2,7 +2,7 @@ Package: placeholder
 Type: Book
 Title: Does not matter.
 Version: 0.0.1
-Imports: bookdown, devtools, MASS, qvalue, plot3D, ggplot2,pheatmap,
+Imports: bookdown, MASS, qvalue, plot3D, ggplot2,pheatmap,
          cluster, NbClust, fastICA, NMF, Rtsne, mosaic, knitr, 
          genomation, ggbio, Gviz, DESeq2, RUVSeq, gProfileR, 
          ggfortify, corrplot, gage, EDASeq
