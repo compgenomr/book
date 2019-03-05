@@ -9,6 +9,8 @@ language: r
 r: bioc-release
 pandoc_version: 1.19.2.1
 
+r_github_packages: compgenomr/compGenomRData
+
 before_script:
   - chmod +x ./_build.sh
   - chmod +x ./_deploy.sh
