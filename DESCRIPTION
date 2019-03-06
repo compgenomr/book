@@ -6,6 +6,6 @@ Imports: bookdown, MASS, qvalue, plot3D, ggplot2,pheatmap,
          cluster, NbClust, fastICA, NMF, Rtsne, mosaic, knitr, 
          genomation, ggbio, Gviz, DESeq2, RUVSeq, gProfileR, 
          ggfortify, corrplot, gage, EDASeq, citr, 
-         formatR, svglite, rqc, shortRead, QuasR
+         formatR, svglite, Rqc, ShortRead, QuasR
          
 #Remotes: compgenomr/compGenomRData
