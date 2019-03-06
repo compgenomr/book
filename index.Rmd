@@ -35,7 +35,7 @@ local({
   options(repos = r)
 })
 
-lapply(c('DT', 'citr', 'formatR', 'svglite'), function(pkg) {
+lapply(c('citr', 'formatR', 'svglite'), function(pkg) {
   if (system.file(package = pkg) == '') install.packages(pkg)
 })
 ```

@@ -1,0 +1,27 @@
+# Quality check and processing of high-throughput sequencing reads {#processingReads}
+
+```{r,setupProcessingReads,echo=FALSE}
+library(knitr)
+opts_chunk$set(echo = TRUE,out.width='65%',fig.width=5.1, cache=TRUE,warning=FALSE,message=FALSE)
+
+```
+
+In recent years, advances in sequencing technology helped researchers sequence the genome deeper than ever. These sequencing experiments typically yield millions of reads. These reads have to be further processed, quality checked and aligned before we can quantify the genomic signal of interest and apply statistics and/or machine learning methods. For example, you may want to count how many reads overlapping with your promoter set of interest or you may want to quantify RNA-seq reads overlapping with exons. Such post-alignment operations are usually but not always similar to operations on genomic intervals. Dealing with mapped reads are described previously in chapter \@ref(genomicIntervals). In addition, we have introduced high-throughput sequencing and its applications in general in chapter \@ref(intro). In this chapter we will introduce the fundamentals of read processing and quality check, and we will show how to do those tasks in R. For a long time, quality check and mapping tasks were outside the R domain. However, certain packages in Bioconductor currently can accomplish those tasks. 
+
+
+
+## Quality check on sequencing reads 
+The sequencing technologies usually produce basecalls with varying quality. In addition, there could be sample-prep specific issues in your sequencing run, such as adapter contamination. It is standard procedure to check the quality of the reads before further analysis. Checking the quality and making some decisions for the downstream analysis can influence the outcome of your analysis.
+
+Read quality checking is possible with Bioconductor packages: [rqc](http://www.bioconductor.org/packages/release/bioc/html/rqc.html),[shortRead](http://www.bioconductor.org/packages/release/bioc/html/shortRead.html), [Rsubread](http://www.bioconductor.org/packages/release/bioc/html/Rsubread.html) and [QuasR](http://www.bioconductor.org/packages/release/bioc/html/QuasR.html) to name a few. Below, we will walk you through the quality check steps.
+
+
+
+
+
+
+## Filtering and trimming reads
+Based on the results of the quality check, you may want to trim or filter the reads. Quality check might have shown number of reads that have low quality scores. These reads will probably not align very well because of the potential mistakes in base calling, or they may align to wrong places in the genome. Therefore, you may want to remove these reads from your fastq file. Another potential scenario is that part of your reads needs to be trimmed in order align the read. In some cases, adapters will be present in either side of the read, in other cases technical errors will lead to decreasing base quality towards the ends of the reads. Both in these cases, portion of the read should be trimmed so that read can align or better align the genome.
+
+## Mapping reads to the genome
+The read mapping can be done with packages such as QuasR or Rsubread. For the read mapping, QuasR uses Rbowtie package and produces BAM files (see below for short intro on BAM) and Rsubread employs its own mapping algorithm and can also produce BAM files.
