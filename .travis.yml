@@ -13,9 +13,9 @@ r_github_packages: compgenomr/compGenomRData
 
 before_script:
   - chmod +x ./_build.sh
-  - chmod +x ./_deploy.sh
+  - chmod +x ./_deploy_github.sh
 
 script:
   - ./_build.sh
-  - ./_deploy.sh
+  - ./_deploy_github.sh
   
