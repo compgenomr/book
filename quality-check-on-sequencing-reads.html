@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>4.3 Dealing with continuous scores over the genome | Computational Genomics With R</title>
+  <title>5.1 Quality check on sequencing reads | Computational Genomics With R</title>
   <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="4.3 Dealing with continuous scores over the genome | Computational Genomics With R" />
+  <meta property="og:title" content="5.1 Quality check on sequencing reads | Computational Genomics With R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://compmgenomr.github.io/book/" />
   <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="compgenomr/bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.3 Dealing with continuous scores over the genome | Computational Genomics With R" />
+  <meta name="twitter:title" content="5.1 Quality check on sequencing reads | Computational Genomics With R" />
   
   <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
   <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="dealing-with-mapped-high-throughput-sequencing-reads.html">
-<link rel="next" href="genomic-intervals-with-more-information-summarizedexperiment-class.html">
+<link rel="prev" href="processingReads.html">
+<link rel="next" href="filtering-and-trimming-reads.html">
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -287,162 +287,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="dealing-with-continuous-scores-over-the-genome" class="section level2">
-<h2><span class="header-section-number">4.3</span> Dealing with continuous scores over the genome</h2>
-<p>Most high-throughput data can be viewed as a continuous score over the bases of the genome. In case of RNA-seq or ChIP-seq experiments the data can be represented as read coverage values per genomic base position. In addition, other information (not necessarily from high-throughput experiments) can be represented this way. The GC content and conservation scores per base are prime examples of other data sets that can be represented as scores. This sort of data can be stored as a generic text file or can have special formats such as Wig (stands for wiggle) from UCSC, or the bigWig format is which is indexed binary format of the wig files. The bigWig format is great for data that covers large fraction of the genome with varying scores, because the file is much smaller than regular text files that have the same information and it can be queried easier since it is indexed.</p>
-<p>In R/Bioconductor, the continuous data can also be represented in a compressed format, in a format called Rle vector, which stands for run-length encoded vector. This gives superior memory performance over regular vectors because repeating consecutive values are represented as one value in the Rle vector (See Figure <a href="dealing-with-continuous-scores-over-the-genome.html#fig:Rle">4.3</a> ).</p>
-<div class="figure" style="text-align: center"><span id="fig:Rle"></span>
-<img src="images/Rle_demo.png" alt="Rle encoding explained" width="100%" />
-<p class="caption">
-FIGURE 4.3: Rle encoding explained
-</p>
-</div>
-<p>Typically, for genome-wide data you will have a RleList object which is a list of Rle vectors per chromosome. You can obtain such vectors by reading the reads in and calling <em>coverage()</em> function from <em>GenomicRanges</em> package. Let’s try that on the above data set.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">covs=<span class="kw">coverage</span>(alns) <span class="co"># get coverage vectors</span>
-covs</code></pre></div>
-<pre><code>## RleList of length 24
-## $chr1
-## integer-Rle of length 249250621 with 1 run
-##   Lengths: 249250621
-##   Values :         0
-## 
-## $chr2
-## integer-Rle of length 243199373 with 1 run
-##   Lengths: 243199373
-##   Values :         0
-## 
-## $chr3
-## integer-Rle of length 198022430 with 1 run
-##   Lengths: 198022430
-##   Values :         0
-## 
-## $chr4
-## integer-Rle of length 191154276 with 1 run
-##   Lengths: 191154276
-##   Values :         0
-## 
-## $chr5
-## integer-Rle of length 180915260 with 1 run
-##   Lengths: 180915260
-##   Values :         0
-## 
-## ...
-## &lt;19 more elements&gt;</code></pre>
-<p>Alternatively, you can get the coverage from the Bam file directly. Below, we are getting the coverage directly from the Bam file for our previously defined promoters.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">covs=<span class="kw">coverage</span>(bamfilePath, <span class="dt">param=</span>param) <span class="co"># get coverage vectors</span></code></pre></div>
-<p>One of the most common ways of storing score data is, as mentioned, wig or bigWig format. Most of the ENCODE project data can be downloaded in bigWig format. In addition, conservation scores can also be downloaded as wig/bigWig format. You can import bigWig files into R using <em>import()</em> function from <em>rtracklayer</em> package. However, it is generally not advisable to read the whole bigWig file in memory as it was the case with BAM files. Usually, you will be interested in only a fraction of the genome, such as promoters, exons etc. So it is best you extract the data for those regions and read those into memory rather than the whole file. Below we read the a bigWig file only for promoters. The operation returns an <em>GRanges</em> object with score column which indicates the scores in the BigWig file per genomic region.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rtracklayer)
-
-<span class="co"># File from ENCODE ChIP-seq tracks</span>
-bwFile=<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,
-                      <span class="st">&quot;wgEncodeHaibTfbsA549.chr21.bw&quot;</span>,
-                      <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)
-bw.gr=<span class="kw">import</span>(bwFile, <span class="dt">which=</span>promoter.gr) <span class="co"># get coverage vectors</span>
-bw.gr</code></pre></div>
-<pre><code>## GRanges object with 9205 ranges and 1 metadata column:
-##          seqnames            ranges strand |     score
-##             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt;
-##      [1]    chr21   9825456-9825457      * |         1
-##      [2]    chr21   9825458-9825464      * |         2
-##      [3]    chr21   9825465-9825466      * |         4
-##      [4]    chr21   9825467-9825470      * |         5
-##      [5]    chr21           9825471      * |         6
-##      ...      ...               ...    ... .       ...
-##   [9201]    chr21 48055809-48055856      * |         2
-##   [9202]    chr21 48055857-48055858      * |         1
-##   [9203]    chr21 48055872-48055921      * |         1
-##   [9204]    chr21 48055944-48055993      * |         1
-##   [9205]    chr21 48056069-48056118      * |         1
-##   -------
-##   seqinfo: 1 sequence from an unspecified genome</code></pre>
-<p>Following this we can create an <code>RleList</code> object from the GRanges with <code>coverage</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cov.bw=<span class="kw">coverage</span>(bw.gr,<span class="dt">weight =</span> <span class="st">&quot;score&quot;</span>)
-
-<span class="co"># or get this directly from</span>
-cov.bw=<span class="kw">import</span>(bwFile, <span class="dt">which=</span>promoter.gr,<span class="dt">as =</span> <span class="st">&quot;RleList&quot;</span>)</code></pre></div>
-<div id="extracting-subsections-of-rle-and-rlelist-objects" class="section level3">
-<h3><span class="header-section-number">4.3.1</span> Extracting subsections of Rle and RleList objects</h3>
-<p>Frequently, we will need to extract subsections of the Rle vectors or RleList objects. We will need to do this to visualize that subsection or get some statistics out of those sections. For example, we could be interested in average coverage per base for the regions we are interested in. We have to extract those regions from RleList object and apply summary statistics. Below, we show how to extract subsections of RleList object. We are extracting promoter regions from ChIP-seq read coverage RleList. Following that, we will plot the one of the promoters associated coverage values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myViews=<span class="kw">Views</span>(cov.bw,<span class="kw">as</span>(promoter.gr,<span class="st">&quot;IRangesList&quot;</span>)) <span class="co"># get subsets of coverage</span>
-<span class="co"># there is a views object for each chromosome</span>
-myViews</code></pre></div>
-<pre><code>## RleViewsList of length 1
-## $chr21
-## Views on a 48129895-length Rle subject
-## 
-## views:
-##          start      end width
-##   [1] 42218039 42220039  2001 [2 0 0 0 0 0 0 0 0 ...]
-##   [2] 17441841 17443841  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [3] 17565698 17567698  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [4] 30395937 30397937  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [5] 27542138 27544138  2001 [1 1 1 1 1 1 1 1 1 ...]
-##   [6] 27511708 27513708  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [7] 32930290 32932290  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [8] 27542446 27544446  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [9] 28338439 28340439  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   ...      ...      ...   ... ...
-## [370] 47517032 47519032  2001 [1 1 1 1 1 1 1 1 1 ...]
-## [371] 47648157 47650157  2001 [1 1 1 1 1 1 1 1 1 ...]
-## [372] 47603373 47605373  2001 [0 0 0 0 0 0 0 0 0 ...]
-## [373] 47647738 47649738  2001 [2 2 2 2 2 2 2 2 2 ...]
-## [374] 47704236 47706236  2001 [0 0 0 0 0 0 0 0 0 ...]
-## [375] 47742785 47744785  2001 [0 0 0 0 0 0 0 0 0 ...]
-## [376] 47881383 47883383  2001 [1 1 1 1 1 1 1 1 1 ...]
-## [377] 48054506 48056506  2001 [0 0 0 0 0 0 0 0 0 ...]
-## [378] 48024035 48026035  2001 [1 1 1 1 1 1 1 1 1 ...]</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">myViews[[<span class="dv">1</span>]]</code></pre></div>
-<pre><code>## Views on a 48129895-length Rle subject
-## 
-## views:
-##          start      end width
-##   [1] 42218039 42220039  2001 [2 0 0 0 0 0 0 0 0 ...]
-##   [2] 17441841 17443841  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [3] 17565698 17567698  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [4] 30395937 30397937  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [5] 27542138 27544138  2001 [1 1 1 1 1 1 1 1 1 ...]
-##   [6] 27511708 27513708  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [7] 32930290 32932290  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [8] 27542446 27544446  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   [9] 28338439 28340439  2001 [0 0 0 0 0 0 0 0 0 ...]
-##   ...      ...      ...   ... ...
-## [370] 47517032 47519032  2001 [1 1 1 1 1 1 1 1 1 ...]
-## [371] 47648157 47650157  2001 [1 1 1 1 1 1 1 1 1 ...]
-## [372] 47603373 47605373  2001 [0 0 0 0 0 0 0 0 0 ...]
-## [373] 47647738 47649738  2001 [2 2 2 2 2 2 2 2 2 ...]
-## [374] 47704236 47706236  2001 [0 0 0 0 0 0 0 0 0 ...]
-## [375] 47742785 47744785  2001 [0 0 0 0 0 0 0 0 0 ...]
-## [376] 47881383 47883383  2001 [1 1 1 1 1 1 1 1 1 ...]
-## [377] 48054506 48056506  2001 [0 0 0 0 0 0 0 0 0 ...]
-## [378] 48024035 48026035  2001 [1 1 1 1 1 1 1 1 1 ...]</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the coverage vector from the 5th view and plot</span>
-<span class="kw">plot</span>(myViews[[<span class="dv">1</span>]][[<span class="dv">5</span>]],<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:getViews"></span>
-<img src="compgenomrReloaded_files/figure-html/getViews-1.png" alt="Coverage vector extracted from RleList via Views() function is plotted as a line plot." width="672" />
-<p class="caption">
-FIGURE 4.4: Coverage vector extracted from RleList via Views() function is plotted as a line plot.
-</p>
-</div>
-<p>Next, we are interested in average coverage per base for the promoters using summary functions that works on Views object.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the mean of the views</span>
-<span class="kw">head</span>(
-  <span class="kw">viewMeans</span>(myViews[[<span class="dv">1</span>]])
-)</code></pre></div>
-<pre><code>## [1] 0.2259 0.3498 1.2244 0.4998 2.0905 0.6997</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the max of the views</span>
-<span class="kw">head</span>(
-  <span class="kw">viewMaxs</span>(myViews[[<span class="dv">1</span>]])
-)</code></pre></div>
-<pre><code>## [1]  2  4 12  4 21  6</code></pre>
-</div>
+<div id="quality-check-on-sequencing-reads" class="section level2">
+<h2><span class="header-section-number">5.1</span> Quality check on sequencing reads</h2>
+<p>The sequencing technologies usually produce basecalls with varying quality. In addition, there could be sample-prep specific issues in your sequencing run, such as adapter contamination. It is standard procedure to check the quality of the reads before further analysis. Checking the quality and making some decisions for the downstream analysis can influence the outcome of your analysis.</p>
+<p>Read quality checking is possible with Bioconductor packages: <a href="http://www.bioconductor.org/packages/release/bioc/html/rqc.html">rqc</a>,<a href="http://www.bioconductor.org/packages/release/bioc/html/shortRead.html">shortRead</a>, <a href="http://www.bioconductor.org/packages/release/bioc/html/Rsubread.html">Rsubread</a> and <a href="http://www.bioconductor.org/packages/release/bioc/html/QuasR.html">QuasR</a> to name a few. Below, we will walk you through the quality check steps.</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="dealing-with-mapped-high-throughput-sequencing-reads.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="genomic-intervals-with-more-information-summarizedexperiment-class.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="processingReads.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="filtering-and-trimming-reads.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
@@ -472,7 +328,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/compgenomr/book/edit/master/04-genomicIntervals.Rmd",
+"link": "https://github.com/compgenomr/book/edit/master/05-Read_Processing.Rmd",
 "text": "Edit"
 },
 "history": {
