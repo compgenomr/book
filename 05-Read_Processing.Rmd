@@ -28,7 +28,7 @@ __Line 1__ begins with a '@' character and is followed by a sequence identifier 
 ## Quality check on sequencing reads 
 The sequencing technologies usually produce basecalls with varying quality. In addition, there could be sample specific issues in your sequencing run, such as adapter contamination. It is standard procedure to check the quality of the reads and identify problems before doing further analysis. Checking the quality and making some decisions for the downstream analysis can influence the outcome of your project.
 
-Below, we will walk you through the quality check steps using (**Rqc**)[https://bioconductor.org/packages/release/bioc/html/Rqc.html] package. First, we need to feed fastq files to `rqc()` function and obtain an object with sequence quality related results. We are using example fastq files from **ShortRead** package.
+Below, we will walk you through the quality check steps using [**Rqc**](https://bioconductor.org/packages/release/bioc/html/Rqc.html) package. First, we need to feed fastq files to `rqc()` function and obtain an object with sequence quality related results. We are using example fastq files from **ShortRead** package.
 ```{r,rqcStart,echo=TRUE, warning=FALSE}
 library(Rqc)
 folder = system.file(package="ShortRead", "extdata/E-MTAB-1147")
@@ -43,7 +43,7 @@ qcRes=rqc(path = folder, pattern = ".fastq.gz", openBrowser=FALSE)
 ### Sequence quality per base/cycle
 Now that we have `qcRes` object, we can plot various sequence quality metrics for our fastq files. We will first plot " sequence quality per base/cycle". This plot depicts the quality scores across all bases at each position in the reads.
 
-```{r,fastq,fig.cap="Per base sequence quality boxplot",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE}
+```{r,CycleQualityBoxPlot,fig.cap="Per base sequence quality boxplot",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE}
 rqcCycleQualityBoxPlot(qcRes)
 
 ```
@@ -71,7 +71,7 @@ In addition, some libraries are inherently biased in their sequence composition.
 ### Read frequency plot
 This plot shows the degree of duplication for every read in the library. A high level of duplication, non-unique reads, is  likely to indicate an enrichment bias. Technical duplicates arising from PCR artefacts could cause this. PCR is a common step in library preparation which creates many copies of the sequence fragment. In RNA-seq data, non-unique read proportion can reach more than 20%. However, these duplications may stem from simply genes being expressed at high levels. This means that there will many copies of transcripts and many copies of the same fragment. Since, we can not be sure these duplicated reads are due to PCR bias or an effect of high transcription we should not remove duplicated reads in RNA-seq analysis. However, in ChIP-seq experiments duplicated reads are more likely to be due to PCR bias.
 
-```{r,fastq,fig.cap="Per base sequence quality boxplot",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE}
+```{r,ReadFrequencyPlot,fig.cap="Per base sequence quality boxplot",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE}
 rqcReadFrequencyPlot(qcRes)
 
 ```
@@ -146,8 +146,13 @@ As we have mentioned, **ShortRead** package has low-level functions, which `Quas
 ```{r,shortreadQual}
 library(ShortRead)
 
+# obtain a list of fastq file paths
+fastqFile <- system.file(package="ShortRead",
+                          "extdata/E-MTAB-1147",
+                          "ERR127302_1_subset.fastq.gz")
+
 # read fastq file
-fq = readFastq(fastqFiles[1])
+fq = readFastq(fastqFile)
 
 # get quality scores per base as a matrix
 qPerBase = as(quality(fq), "matrix")
@@ -165,7 +170,7 @@ We can finally write out the filtered fastq file with `ShortRead::writeFastq()` 
 # write out fastq file with only reads where all 
 # quality scores per base are above 20
 writeFastq(fq[qcount == 0], 
-           paste(fastqFiles[1], "Qfiltered", sep="_"))
+           paste(fastqFile, "Qfiltered", sep="_"))
 ```
 
 As fastq files can be quite large, it may not be feasible to read a 30 Gigabyte file into memory. A more memory efficient way would be to read the file piece by piece. We can do our filtering operations for each piece, write the filtered part out and read a new piece. Fortunately, this is possible by `ShortRead::FastqStreamer()` function. This function enables "streaming" the fastq file in pieces, which are blocks of the fastq file with a pre-defined number of reads . We can access the successive blocks with `yield()` function. Each time we call `yield()` function after opening the fastq file with `FastqStreamer()`, a new part of the file will be read to the memory.
@@ -175,7 +180,7 @@ As fastq files can be quite large, it may not be feasible to read a 30 Gigabyte 
 # set up streaming with block size 1000
 # every time we call the yield() function 1000 read portion
 # of the file will be read successively. 
-f <- FastqStreamer(fastqFiles[1],readerBlockSize=1000) 
+f <- FastqStreamer(fastqFile,readerBlockSize=1000) 
 
 # we set up a while loop to call yield() function to
 # go through the file
@@ -191,7 +196,7 @@ while(length(fq <- yield(f))) {
     # write fastq file with mode="a", so every new block
     # is written out to the same file
     writeFastq(fq[qcount == 0], 
-               paste(fastq[1], "Qfiltered", sep="_"), 
+               paste(fastqFile, "Qfiltered", sep="_"), 
                mode="a")
 }
 ```
@@ -204,7 +209,15 @@ After quality check and potential pre-processing, the reads are ready to be mapp
 Another class of algorithms build genome indices by creating Burrows-Wheeler transformation of the genome. This in essence creates a compact and searchable data structure for all reads. Although, details are out of scope for this section, these alignment tools provide faster alignment and use less memory. BWA[@li2009fast], Bowtie1/2[@langmead2012fast] and SOAP[@li2009soap2] are examples of such algorithms.
 
 
-The read mapping in R can be done with gmapR` [@gmapR], `QuasR` [@gaidatzis_quasr:_2015], `Rsubread` [@liao_subread_2013], and `systemPipeR` [@backman_systempiper:_2016] packages. We will demonstrate read mapping with QuasR which uses **Rbowtie** package, which wraps the Bowtie aligner. Below, we show how to map reads from a ChIP-seq experiment using QuasR/bowtie. The interface is mostly simplified and it takes care of creating the index from a genome fasta file if there is no index provided. If you use bowtie from command line, the interface will not be as simple.
+The read mapping in R can be done with `gmapR` [@gmapR], `QuasR` [@gaidatzis_quasr:_2015], `Rsubread` [@liao_subread_2013], and `systemPipeR` [@backman_systempiper:_2016] packages. We will demonstrate read mapping with QuasR which uses **Rbowtie** package, which wraps the Bowtie aligner. Below, we show how to map reads from a ChIP-seq experiment using QuasR/bowtie. 
+
+We will use `qAlign()` function which requires two mandatory arugments: 1) a genome file either in fasta format or as a **BSgenome** package  2) a sample file which is a text file and contains file paths to fastq files and sample names. In the case, below sample file looks like this:
+
+```
+FileName	SampleName
+chip_1_1.fq.bz2	Sample1
+chip_2_1.fq.bz2	Sample2
+```
 
 ```{r,eval=FALSE}
 library(QuasR)
@@ -215,14 +228,14 @@ file.copy(system.file(package="QuasR", "extdata"), ".", recursive=TRUE)
 # genome file in fasta format
 genomeFile <- "extdata/hg19sub.fa"
 
-# fastq file
+# text file containing sample names and fastq file paths
 sampleFile <- "extdata/samples_chip_single.txt"
 
 # create alignments 
 proj <- qAlign(sampleFile, genomeFile)
 ```
 
-It is good to explain, what is going on here as the `qAlign` function makes things look simple. This function is designed to be easy. For example, it creates a genome index automatically if it does not exist if you provide a fasta file. We provided only two arguments for the fastq file and a reference genome file. In fact, this function also has many knobs and you can change its behavior by giving different arguments to affect the behaviors of the aligner Bowtie. For example, you can supply parameters to Bowtie using `alignmentParameter` argument, however the `qAlign()` function is optimized for different types of alignment problems and selects alignment parameters automatically. It is designed to work with alignment and quantification tasks for RNA-seq, ChIP-seq, small-RNA sequencing, Bisulfite sequencing (DNA methylation) and allele specific analysis. If you want to change default bowtie parameters only do it for simple alignment problems such as ChIP-seq and RNA-seq.
+It is good to explain what is going on here as the `qAlign()` function makes things look simple. This function is designed to be easy. For example, it creates a genome index automatically if it does not exist, and will look for existing indices before it creates one. We provided only two arguments, a text file containing sample names and fastq file paths and a reference genome file. In fact, this function also has many knobs and you can change its behavior by supplying different arguments in order to affect the behavior of Bowtie. For example, you can supply parameters to Bowtie using `alignmentParameter` argument. However the `qAlign()` function is optimized for different types of alignment problems and selects alignment parameters automatically. It is designed to work with alignment and quantification tasks for RNA-seq, ChIP-seq, small-RNA sequencing, Bisulfite sequencing (DNA methylation) and allele specific analysis. If you want to change default bowtie parameters only do it for simple alignment problems such as ChIP-seq and RNA-seq.
 
 ```{block2, statsLinMod, type='rmdtip'}
 
