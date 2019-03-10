@@ -419,7 +419,7 @@ mbw=<span class="kw">readRDS</span>(methFile)
 <span class="co"># segment the methylation data</span>
 res=<span class="kw">methSeg</span>(mbw,<span class="dt">minSeg=</span><span class="dv">10</span>,<span class="dt">G=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,
             <span class="dt">join.neighbours =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-242-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-242-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>In this case, we know that BIC does not improve much after 4 segment classes. Now, we will not have a look at the characteristics of the segment classes. We are going to plot mean methylation value and the length of the segment as a scatter plot.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot </span>
 <span class="kw">plot</span>(res<span class="op">$</span>seg.mean,
@@ -427,7 +427,7 @@ res=<span class="kw">methSeg</span>(mbw,<span class="dt">minSeg=</span><span cla
      <span class="dt">col=</span>scales<span class="op">::</span><span class="kw">alpha</span>(<span class="kw">rainbow</span>(<span class="dv">4</span>)[<span class="kw">as.numeric</span>(res<span class="op">$</span>seg.group)], <span class="fl">0.2</span>),
      <span class="dt">ylab=</span><span class="st">&quot;log10(length)&quot;</span>,
      <span class="dt">xlab=</span><span class="st">&quot;methylation proportion&quot;</span>)</code></pre></div>
-<p><img src="compgenomrReloaded_files/figure-html/segplot-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p><img src="compgenomrReloaded_files/figure-html/segplot-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The highly methylated segment classes that have more than 70% methylation are usually longer, median length is 17889 bp. The segment class that has the lowest methylation values have median length of 1376 bp and the shortest segment class has low to medium methylation level, has median length of 412 bp.</p>
 </div>
 <div id="working-with-large-files" class="section level3">
