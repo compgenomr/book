@@ -237,7 +237,7 @@ proj <- qAlign(sampleFile, genomeFile)
 
 It is good to explain what is going on here as the `qAlign()` function makes things look simple. This function is designed to be easy. For example, it creates a genome index automatically if it does not exist, and will look for existing indices before it creates one. We provided only two arguments, a text file containing sample names and fastq file paths and a reference genome file. In fact, this function also has many knobs and you can change its behavior by supplying different arguments in order to affect the behavior of Bowtie. For example, you can supply parameters to Bowtie using `alignmentParameter` argument. However the `qAlign()` function is optimized for different types of alignment problems and selects alignment parameters automatically. It is designed to work with alignment and quantification tasks for RNA-seq, ChIP-seq, small-RNA sequencing, Bisulfite sequencing (DNA methylation) and allele specific analysis. If you want to change default bowtie parameters only do it for simple alignment problems such as ChIP-seq and RNA-seq.
 
-```{block2, statsLinMod, type='rmdtip'}
+```{block2, mappingKnowledge, type='rmdtip'}
 
 __Want to know more ?__
 
