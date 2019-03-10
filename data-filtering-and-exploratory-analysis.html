@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>2.9 Functions and control structures (for, if/else etc.) | Computational Genomics With R</title>
+  <title>8.2 Data filtering and exploratory analysis | Computational Genomics With R</title>
   <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="2.9 Functions and control structures (for, if/else etc.) | Computational Genomics With R" />
+  <meta property="og:title" content="8.2 Data filtering and exploratory analysis | Computational Genomics With R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://compmgenomr.github.io/book/" />
   <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="compgenomr/bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.9 Functions and control structures (for, if/else etc.) | Computational Genomics With R" />
+  <meta name="twitter:title" content="8.2 Data filtering and exploratory analysis | Computational Genomics With R" />
   
   <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
   <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="saving-plots.html">
-<link rel="next" href="exercises.html">
+<link rel="prev" href="processing-raw-data-and-getting-data-into-r.html">
+<link rel="next" href="extracting-interesting-regions-segmentation-and-differential-methylation.html">
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -324,153 +324,189 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="functions-and-control-structures-for-ifelse-etc." class="section level2">
-<h2><span class="header-section-number">2.9</span> Functions and control structures (for, if/else etc.)</h2>
-<div id="user-defined-functions" class="section level3">
-<h3><span class="header-section-number">2.9.1</span> User defined functions</h3>
-<p>Functions are useful for transforming larger chunks of code to re-usable pieces of code. Generally, if you need to execute certain tasks with variable parameters then it is time you write a function. A function in R takes different arguments and returns a definite output, much like mathematical functions. Here is a simple function takes two arguments, x and y, and returns the sum of their squares.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sqSum&lt;-<span class="cf">function</span>(x,y){
-result=x<span class="op">^</span><span class="dv">2</span><span class="op">+</span>y<span class="op">^</span><span class="dv">2</span>
-<span class="kw">return</span>(result)
-}
-<span class="co"># now try the function out</span>
-<span class="kw">sqSum</span>(<span class="dv">2</span>,<span class="dv">3</span>)</code></pre></div>
-<pre><code>## [1] 13</code></pre>
-<p>Functions can also output plots and/or messages to the terminal. Here is a function that prints a message to the terminal:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sqSumPrint&lt;-<span class="cf">function</span>(x,y){
-result=x<span class="op">^</span><span class="dv">2</span><span class="op">+</span>y<span class="op">^</span><span class="dv">2</span>
-<span class="kw">cat</span>(<span class="st">&quot;here is the result:&quot;</span>,result,<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
-}
-<span class="co"># now try the function out</span>
-<span class="kw">sqSumPrint</span>(<span class="dv">2</span>,<span class="dv">3</span>)</code></pre></div>
-<pre><code>## here is the result: 13</code></pre>
-<p>Sometimes we would want to execute a certain part of the code only if certain condition is satisfied. This condition can be anything from the type of an object (Ex: if object is a matrix execute certain code), or it can be more complicated such as if object value is between certain thresholds. Let us see how they can be used3. They can be used anywhere in your code, now we will use it in a function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cpgi.df &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;intro2R_data/data/subset.cpgi.hg18.bed&quot;</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
-<span class="co"># function takes input one row</span>
-<span class="co"># of CpGi data frame</span>
-largeCpGi&lt;-<span class="cf">function</span>(bedRow){
- cpglen=bedRow[<span class="dv">3</span>]<span class="op">-</span>bedRow[<span class="dv">2</span>]<span class="op">+</span><span class="dv">1</span>
- <span class="cf">if</span>(cpglen<span class="op">&gt;</span><span class="dv">1500</span>){
-    <span class="kw">cat</span>(<span class="st">&quot;this is large</span><span class="ch">\n</span><span class="st">&quot;</span>)
- }
- <span class="cf">else</span> <span class="cf">if</span>(cpglen<span class="op">&lt;=</span><span class="dv">1500</span> <span class="op">&amp;</span><span class="st"> </span>cpglen<span class="op">&gt;</span><span class="dv">700</span>){
-    <span class="kw">cat</span>(<span class="st">&quot;this is normal</span><span class="ch">\n</span><span class="st">&quot;</span>)
- }
- <span class="cf">else</span>{
-    <span class="kw">cat</span>(<span class="st">&quot;this is short</span><span class="ch">\n</span><span class="st">&quot;</span>)
- }
-}
-<span class="kw">largeCpGi</span>(cpgi.df[<span class="dv">10</span>,])
-<span class="kw">largeCpGi</span>(cpgi.df[<span class="dv">100</span>,])
-<span class="kw">largeCpGi</span>(cpgi.df[<span class="dv">1000</span>,])</code></pre></div>
-</div>
-<div id="loops-and-looping-structures-in-r" class="section level3">
-<h3><span class="header-section-number">2.9.2</span> Loops and looping structures in R</h3>
-<p>When you need to repeat a certain task or a execute a function multiple times, you can do that with the help of loops. A loop will execute the task until a certain condition is reached. The loop below is called a “for-loop” and it executes the task sequentially 10 times.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>){ <span class="co"># number of repetitions</span>
-<span class="kw">cat</span>(<span class="st">&quot;This is iteration&quot;</span>) <span class="co"># the task to be repeated</span>
-<span class="kw">print</span>(i)
-}</code></pre></div>
-<pre><code>## This is iteration[1] 1
-## This is iteration[1] 2
-## This is iteration[1] 3
-## This is iteration[1] 4
-## This is iteration[1] 5
-## This is iteration[1] 6
-## This is iteration[1] 7
-## This is iteration[1] 8
-## This is iteration[1] 9
-## This is iteration[1] 10</code></pre>
-<p>The task above is a bit pointless, normally in a loop, you would want to do something meaningful. Let us calculate the length of the CpG islands we read in earlier. Although this is not the most efficient way of doing that particular task, it serves as a good example for looping. The code below will be execute hundred times, and it will calculate the length of the CpG islands for the first 100 islands in the data frame (by subtracting the end coordinate from the start coordinate).</p>
-<p><strong>Note:</strong>If you are going to run a loop that has a lot of repetitions, it is smart to try the loop with few repetitions first and check the results. This will help you make sure the code in the loop works before executing it for thousands of times.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this is where we will keep the lenghts</span>
-<span class="co"># for now it is an empty vector</span>
-result=<span class="kw">c</span>()
-<span class="co"># start the loop</span>
-<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>){
-    <span class="co">#calculate the length</span>
-    len=cpgi.df[i,<span class="dv">3</span>]<span class="op">-</span>cpgi.df[i,<span class="dv">2</span>]<span class="op">+</span><span class="dv">1</span>
-    <span class="co">#append the length to the result</span>
-    result=<span class="kw">c</span>(result,len)
-}
-<span class="co"># check the results</span>
-<span class="kw">head</span>(result)</code></pre></div>
-<pre><code>## [1]  277  360  383 1325 3498 1602</code></pre>
-<div id="apply-family-functions-instead-of-loops" class="section level4">
-<h4><span class="header-section-number">2.9.2.1</span> apply family functions instead of loops</h4>
-<p>R has other ways of repeating tasks that tend to be more efficient than using loops. They are known as the <strong>“apply”</strong> family of functions, which include <em>apply, lapply, mapply and tapply</em> (and some other variants). All of these functions apply a given function to a set of instances and returns the result of those functions for each instance. The differences between them is that they take different type of inputs. For example apply works on data frames or matrices and applies the function on each row or column of the data structure. <em>lapply</em> works on lists or vectors and applies a function which takes the list element as an argument. Next we will demonstrate how to use <strong>apply()</strong> on a matrix. The example applies the sum function on the rows of a matrix, it basically sums up the values on each row of the matrix, which is conceptualized in Figure <a href="functions-and-control-structures-for-ifelse-etc-.html#fig:applyConcept">2.2</a>.</p>
-<div class="figure" style="text-align: center"><span id="fig:applyConcept"></span>
-<img src="images/apply.png" alt="apply concept in R" width="80%" />
-<p class="caption">
-FIGURE 2.2: apply concept in R
-</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat=<span class="kw">cbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">3</span>),<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">3</span>),<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>))
-result&lt;-<span class="kw">apply</span>(mat,<span class="dv">1</span>,sum)
-result</code></pre></div>
-<pre><code>## [1] 12  3  5  6</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># OR you can define the function as an argument to apply()</span>
-result&lt;-<span class="kw">apply</span>(mat,<span class="dv">1</span>,<span class="cf">function</span>(x) <span class="kw">sum</span>(x))
-result</code></pre></div>
-<pre><code>## [1] 12  3  5  6</code></pre>
-<p>Notice that we used a second argument which equals to 1, that indicates that rows of the matrix/ data frame will be the input for the function. If we change the second argument to 2, this will indicate that columns should be the input for the function that will be applied. See Figure <a href="functions-and-control-structures-for-ifelse-etc-.html#fig:applyConcept2">2.3</a> for the visualization of apply() on columns.</p>
-<div class="figure" style="text-align: center"><span id="fig:applyConcept2"></span>
-<img src="images/apply2.png" alt="apply function on columns" width="80%" />
-<p class="caption">
-FIGURE 2.3: apply function on columns
-</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result&lt;-<span class="kw">apply</span>(mat,<span class="dv">2</span>,sum)
-result</code></pre></div>
-<pre><code>## [1] 9 3 6 2 3 3</code></pre>
-<p>Next, we will use <strong>lapply()</strong>, which applies a function on a list or a vector. The function that will be applied is a simple function that takes the square of a given number.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)
-<span class="kw">lapply</span>(input,<span class="cf">function</span>(x) x<span class="op">^</span><span class="dv">2</span>)</code></pre></div>
+<div id="data-filtering-and-exploratory-analysis" class="section level2">
+<h2><span class="header-section-number">8.2</span> Data filtering and exploratory analysis</h2>
+<p>We assume that we start the analysis in R with the methylation call files. We will read those files in and carry out exploratory analysis, we will show how to filter bases or regions from the data and in what circumstances we might need to do so. We will use <a href="https://bioconductor.org/packages/release/bioc/html/methylKit.html">methylKit</a><span class="citation">(Akalin et al. <a href="#ref-Akalin2012-af">2012</a>)</span> package for the bulk of the analysis.</p>
+<div id="reading-methylation-call-files" class="section level3">
+<h3><span class="header-section-number">8.2.1</span> Reading methylation call files</h3>
+<p>A typical methylation call file looks like this:</p>
+<pre><code>##         chrBase   chr    base strand coverage freqC
+## 1 chr21.9764539 chr21 9764539      R       12 25.00
+## 2 chr21.9764513 chr21 9764513      R       12  0.00
+## 3 chr21.9820622 chr21 9820622      F       13  0.00
+## 4 chr21.9837545 chr21 9837545      F       11  0.00
+## 5 chr21.9849022 chr21 9849022      F      124 72.58
+##    freqT
+## 1  75.00
+## 2 100.00
+## 3 100.00
+## 4 100.00
+## 5  27.42</code></pre>
+<p>Most of the time bisulfite sequencing experiments have test and control samples. The test samples can be from a disease tissue while the control samples can be from a healthy tissue. You can read a set of methylation call files that have test/control conditions giving <code>treatment</code> vector option. The treatment vector defines the sample groups and it is very important for the differential methylation analysis. For sake of subsequent analysis, file.list, sample.id and treatment option should have the same order. In the following example, first two files have the sample ids “test1” and “test2” and as determined by treatment vector they belong to the same group. The third and fourth files have sample ids “ctrl1” and “ctrl2” and they belong to the same group as indicated by the treatment vector. We will first get a list of file paths and have a look at the content.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(methylKit)
+file.list=<span class="kw">list</span>( <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, 
+                            <span class="st">&quot;test1.myCpG.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;methylKit&quot;</span>),
+                <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,
+                            <span class="st">&quot;test2.myCpG.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;methylKit&quot;</span>),
+                <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, 
+                            <span class="st">&quot;control1.myCpG.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;methylKit&quot;</span>),
+                <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, 
+                            <span class="st">&quot;control2.myCpG.txt&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;methylKit&quot;</span>) )
+
+file.list</code></pre></div>
 <pre><code>## [[1]]
-## [1] 1
+## [1] &quot;/home/travis/R/Library/methylKit/extdata/test1.myCpG.txt&quot;
 ## 
 ## [[2]]
-## [1] 4
+## [1] &quot;/home/travis/R/Library/methylKit/extdata/test2.myCpG.txt&quot;
 ## 
 ## [[3]]
-## [1] 9</code></pre>
-<p><strong>mapply()</strong> is another member of apply family, it can apply a function on an unlimited set of vectors/lists, it is like a version of lapply that can handle multiple vectors as arguments. In this case, the argument to the mapply() is the function to be applied and the sets of parameters to be supplied as arguments of the function. This conceptualized Figure <a href="functions-and-control-structures-for-ifelse-etc-.html#fig:mapplyConcept">2.4</a>, the function to be applied is a function that takes to arguments and sums them up. The arguments to be summed up are in the format of vectors, Xs and Ys. <code>mapply()</code> applies the summation function to each pair in Xs and Ys vector. Notice that the order of the input function and extra arguments are different for mapply.</p>
-<div class="figure" style="text-align: center"><span id="fig:mapplyConcept"></span>
-<img src="images/mapply.png" alt="mapply concept" width="80%" />
-<p class="caption">
-FIGURE 2.4: mapply concept
-</p>
+## [1] &quot;/home/travis/R/Library/methylKit/extdata/control1.myCpG.txt&quot;
+## 
+## [[4]]
+## [1] &quot;/home/travis/R/Library/methylKit/extdata/control2.myCpG.txt&quot;</code></pre>
+<p>As you can see <code>file.list</code> variable is a simple list of file paths. Each file contains methylation calls for a given sample. Now, we can read the files with <code>methRead()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># read the files to a methylRawList object: myobj</span>
+myobj=<span class="kw">methRead</span>(file.list,
+           <span class="dt">sample.id=</span><span class="kw">list</span>(<span class="st">&quot;test1&quot;</span>,<span class="st">&quot;test2&quot;</span>,<span class="st">&quot;ctrl1&quot;</span>,<span class="st">&quot;ctrl2&quot;</span>),
+           <span class="dt">assembly=</span><span class="st">&quot;hg18&quot;</span>,
+           <span class="dt">treatment=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),
+           <span class="dt">context=</span><span class="st">&quot;CpG&quot;</span>
+           )</code></pre></div>
+<p>tab-separated bedgraph like formats from Bismark methylation caller can also be read in by methylkit. In those cases, we have to provide either <code>pipeline=&quot;bismarkCoverage&quot;</code> or <code>pipeline=&quot;bismarkCytosineReport&quot;</code> to <code>methRead</code> function. In addition to the options we mentioned above, any tab separated text file with a generic format can be read in using methylKit, such as methylation ratio files from <a href="http://code.google.com/p/bsmap/">BSMAP</a>. See <a href="http://zvfak.blogspot.com/2012/10/how-to-read-bsmap-methylation-ratio.html">here</a> for an example.</p>
+<p>Before we move on, let us have a look at what kind of information is stored in <code>myobj</code>. This is technically a <code>methylRawList</code> object, which is essentially a list of <code>methylRaw</code> objects. These objects hold the information for location of Cs, and methylated Cs and unmethylated Cs.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## inside the methylRawList object
+<span class="kw">length</span>(myobj)</code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(myobj[[<span class="dv">1</span>]])</code></pre></div>
+<pre><code>##     chr   start     end strand coverage numCs numTs
+## 1 chr21 9764539 9764539      -       12     3     9
+## 2 chr21 9764513 9764513      -       12     0    12
+## 3 chr21 9820622 9820622      +       13     0    13
+## 4 chr21 9837545 9837545      +       11     0    11
+## 5 chr21 9849022 9849022      +      124    90    34
+## 6 chr21 9853326 9853326      +       17    12     5</code></pre>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xs=<span class="dv">0</span><span class="op">:</span><span class="dv">5</span>
-Ys=<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>)
-result&lt;-<span class="kw">mapply</span>(<span class="cf">function</span>(x,y) <span class="kw">sum</span>(x,y),Xs,Ys)
-result</code></pre></div>
-<pre><code>## [1] 2 3 4 6 7 8</code></pre>
+<div id="further-quality-check" class="section level3">
+<h3><span class="header-section-number">8.2.2</span> Further quality check</h3>
+<p>It is always a good idea to check how the data looks like before proceeding further. For example, the methylation values should have bimodal distribution generally. This can be checked via <code>getMethylationStats</code> function. Normally, we should see a bimodal distributions. Strong deviations from the bimodality may be due poor experimental quality, such as problems with bisulfite treatment.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getMethylationStats</span>(myobj[[<span class="dv">2</span>]],<span class="dt">plot=</span><span class="ot">TRUE</span>,<span class="dt">both.strands=</span><span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/methStats-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p>In addition, we might want to see coverage values. By default, methylkit handles bases with at least 10X coverage by that can be changed. The bases with unusually high coverage is usually alarming. It might indicate a PCR bias issue in the experimental procedure. The general coverage statistics can be checked with <code>getCoverageStats</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getCoverageStats</span>(myobj[[<span class="dv">2</span>]],<span class="dt">plot=</span><span class="ot">TRUE</span>,<span class="dt">both.strands=</span><span class="ot">FALSE</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/coverageStats-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p>It might be useful to filter samples based on coverage. Particularly, if our samples are suffering from PCR bias it would be useful to discard bases with very high read coverage. Furthermore, we would also like to discard bases that have low read coverage, a high enough read coverage will increase the power of the statistical tests. The code below filters a <code>methylRawList</code> and discards bases that have coverage below 10X and also discards the bases that have more than 99.9th percentile of coverage in each sample.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtered.myobj=<span class="kw">filterByCoverage</span>(myobj,<span class="dt">lo.count=</span><span class="dv">10</span>,<span class="dt">lo.perc=</span><span class="ot">NULL</span>,
+                                      <span class="dt">hi.count=</span><span class="ot">NULL</span>,<span class="dt">hi.perc=</span><span class="fl">99.9</span>)</code></pre></div>
 </div>
-<div id="apply-family-functions-on-multiple-cores" class="section level4">
-<h4><span class="header-section-number">2.9.2.2</span> apply family functions on multiple cores</h4>
-<p>If you have large data sets apply family functions can be slow (although probably still better than for loops). If that is the case, you can easily use the parallel versions of those functions from parallel package. These functions essentially divide your tasks to smaller chunks run them on separate CPUs and merge the results from those parallel operations. This concept is visualized at Figure below , <code>mcapply</code> runs the summation function on three different processors. Each processor executes the summation function on a part of the data set, and the results are merged and returned as a single vector that has the same order as the input parameters Xs and Ys.</p>
-<div class="figure" style="text-align: center"><span id="fig:mcapplyConcept"></span>
-<img src="images/mcmapply.png" alt="mcapplyconcept" width="80%" />
-<p class="caption">
-FIGURE 2.5: mcapplyconcept
-</p>
+<div id="merging-samples-into-a-single-table" class="section level3">
+<h3><span class="header-section-number">8.2.3</span> Merging samples into a single table</h3>
+<p>When we first read the files, each file is stored as its own entity. If we want compare samples in any way, we need to make a unified data structure that contains CpGs that are covered in most samples. The <code>unite</code> function creates a new object using the CpGs covered in each sample. This means</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">meth=<span class="kw">unite</span>(myobj, <span class="dt">destrand=</span><span class="ot">FALSE</span>)</code></pre></div>
+<p>Let us take a look at the data content of methylBase object:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(meth)</code></pre></div>
+<pre><code>##     chr   start     end strand coverage1 numCs1 numTs1
+## 1 chr21 9853296 9853296      +        17     10      7
+## 2 chr21 9853326 9853326      +        17     12      5
+## 3 chr21 9860126 9860126      +        39     38      1
+## 4 chr21 9906604 9906604      +        68     42     26
+## 5 chr21 9906616 9906616      +        68     52     16
+## 6 chr21 9906619 9906619      +        68     59      9
+##   coverage2 numCs2 numTs2 coverage3 numCs3 numTs3
+## 1       333    268     65        18     16      2
+## 2       329    249     79        16     14      2
+## 3        83     78      5        83     83      0
+## 4       111     97     14        23     18      5
+## 5       111    104      7        23     14      9
+## 6       111    109      2        22     18      4
+##   coverage4 numCs4 numTs4
+## 1       395    341     54
+## 2       379    284     95
+## 3        41     40      1
+## 4        37     33      4
+## 5        37     27     10
+## 6        37     29      8</code></pre>
+<p>By default, <code>unite</code> function produces bases/regions covered in all samples. That requirement can be relaxed using “min.per.group” option in <code>unite</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># creates a methylBase object, </span>
+<span class="co"># where only CpGs covered with at least 1 sample per group will be returned</span>
+
+<span class="co"># there were two groups defined by the treatment vector, </span>
+<span class="co"># given during the creation of myobj: treatment=c(1,1,0,0)</span>
+meth.min=<span class="kw">unite</span>(myobj,<span class="dt">min.per.group=</span>1L)</code></pre></div>
+</div>
+<div id="filtering-cpgs" class="section level3">
+<h3><span class="header-section-number">8.2.4</span> Filtering CpGs</h3>
+<p>We might need to filter the CpGs further before exploratory analysis or even before the downstream analysis such as differential methylation . For exploratory analysis, it is of general interest to see how samples relate to each other and we might want to remove CpGs that are not variable before doing that. Or we might remove Cs that are potentially C-&gt;T mutations. First, we show how to filter based on variation. Below, we extract percent methylation values from CpGs as a matrix. Calculate standard deviation for each CpG and filter based on standard deviation. We also plot the the distribution of per CpG standard deviations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pm=<span class="kw">percMethylation</span>(meth) <span class="co"># get percent methylation matrix</span>
+mds=matrixStats<span class="op">::</span><span class="kw">rowSds</span>(pm) <span class="co"># calculate standard deviation of CpGs</span>
+<span class="kw">head</span>(meth[mds<span class="op">&gt;</span><span class="dv">20</span>,])</code></pre></div>
+<pre><code>##      chr   start     end strand coverage1 numCs1
+## 11 chr21 9906681 9906681      +        21     12
+## 12 chr21 9906694 9906694      +        21      9
+## 13 chr21 9906700 9906700      +        13      6
+## 14 chr21 9906714 9906714      +        14      3
+## 18 chr21 9906873 9906873      +        12      8
+## 23 chr21 9927527 9927527      +        17      5
+##    numTs1 coverage2 numCs2 numTs2 coverage3 numCs3
+## 11      9        60     56      4        37     14
+## 12     12        60     53      7        39     16
+## 13      7        53     43     10        30      8
+## 14     11        41     37      4        25     19
+## 18      4        41     33      8        15      4
+## 23     12        40     22     18        32     32
+##    numTs3 coverage4 numCs4 numTs4
+## 11     23        26     11     15
+## 12     23        26     15     11
+## 13     22        23     10     13
+## 14      6        21     19      2
+## 18     11        22      7     15
+## 23      0        14     11      3</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">hist</span>(mds,<span class="dt">col=</span><span class="st">&quot;cornflowerblue&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Std. dev. per CpG&quot;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/methVar-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p>Now, let’s assume we know the locations of C-&gt;T mutations. These locations should be removed from the analysis as they do not represent bisulfite treatment associated conversions. Mutation locations are stored in a <code>GRanges</code> object, and we can use that to remove CpGs overlapping with mutations. In order to do overlap operation, we will convert the methylKit object to a <code>GRanges</code> object and do the filtering with <code>%over%</code> function within <code>[ ]</code>. The returned object will still be a methylKit object.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(GenomicRanges)
+mut=<span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr21&quot;</span>,<span class="st">&quot;chr21&quot;</span>),
+            <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">9853296</span>, <span class="dv">9853326</span>),
+                           <span class="dt">end=</span><span class="kw">c</span>( <span class="dv">9853296</span>,<span class="dv">9853326</span>)))
+
+<span class="co"># select CpGs that do not overlap with mutations</span>
+sub.meth=meth[<span class="op">!</span><span class="st"> </span><span class="kw">as</span>(meth,<span class="st">&quot;GRanges&quot;</span>) <span class="op">%over%</span><span class="st"> </span>mut,]
+<span class="kw">nrow</span>(meth)</code></pre></div>
+<pre><code>## [1] 963</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(sub.meth)</code></pre></div>
+<pre><code>## [1] 961</code></pre>
+</div>
+<div id="clustering-samples" class="section level3">
+<h3><span class="header-section-number">8.2.5</span> Clustering samples</h3>
+<p>Clustering is used for grouping data points by their similarity. It is a general concept that can be achieved by many different algorithms. In the context of DNA methylation we are trying to find samples that are similar to each other. For example, if we sequenced three heart samples and 4 liver samples, we would expect liver samples will be more similar to each other than heart samples on the DNA methylation space.</p>
+<p>The following function will cluster the samples and draw a dendrogram. It will use correlation distance which is <span class="math inline">\(1-\rho\)</span> , where <span class="math inline">\(\rho\)</span> is the correlation coefficient between two pairs of samples. The cluster tree will be drawn using the “ward” method. This specific variant uses a “bottom up” approach: each data point starts in its own cluster, and pairs of clusters are merged as one moves up the hierarchy. In Ward’s method, two clusters are merged if the variance is minimized compared to other possible merge operations. This bottom up approach helps build the dendrogram showing the relationship between clusters.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">clusterSamples</span>(meth, <span class="dt">dist=</span><span class="st">&quot;correlation&quot;</span>, <span class="dt">method=</span><span class="st">&quot;ward&quot;</span>, <span class="dt">plot=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-235-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<pre><code>## 
+## Call:
+## hclust(d = d, method = HCLUST.METHODS[hclust.method])
+## 
+## Cluster method   : ward.D 
+## Distance         : pearson 
+## Number of objects: 4</code></pre>
+<p>Setting the <code>plot=FALSE</code> will return a dendrogram object which can be manipulated by users or fed in to other user functions that can work with dendrograms.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hc =<span class="st"> </span><span class="kw">clusterSamples</span>(meth, <span class="dt">dist=</span><span class="st">&quot;correlation&quot;</span>, <span class="dt">method=</span><span class="st">&quot;ward&quot;</span>, <span class="dt">plot=</span><span class="ot">FALSE</span>)</code></pre></div>
+</div>
+<div id="principal-component-analysis-1" class="section level3">
+<h3><span class="header-section-number">8.2.6</span> Principal component analysis</h3>
+<p>Principal component analysis (PCA) is a mathematical transformation of possibly(correlated) variables into a number of uncorrelated variables called principal components. The resulting components from this transformation is defined in such a way that the first principal component has the highest variance and accounts for as most of the variability in the data. The following function will plot a scree plot for importance of components.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">PCASamples</span>(meth, <span class="dt">screeplot=</span><span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-237-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p>We can also plot PC1 and PC2 axis and a scatter plot of our samples on those axis which will reveal how they cluster within these new dimensions. Similar to clustering dendrogram, we would like to see samples that are similar to be close to each other on the scatter plot. If they are not, it might indicate problems with the experiment such as batch effects.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pc=<span class="kw">PCASamples</span>(meth,<span class="dt">obj.return =</span> <span class="ot">TRUE</span>, <span class="dt">adj.lim=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-238-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p>In this case, we also returned an object from the plotting function. this is the output of R <code>prcomp</code> function, which includes loadings and eigen vectors which might be useful. You can also do your own PCA analysis using <code>percMethylation</code> and <code>prcomp</code>. In the case above, the methylation matrix is transponsed. This allows us to compare distances between samples on the PCA scatterplot.</p>
 </div>
 </div>
-<div id="vectorized-functions-in-r" class="section level4">
-<h4><span class="header-section-number">2.9.2.3</span> Vectorized Functions in R</h4>
-<p>The above examples have been put forward to illustrate functions and loops in R because functions using sum() are not complicated and easy to understand. You will probably need to use loops and looping structures with more complicated functions. In reality, most of the operations we used do not need the use of loops or looping structures because there are already vectorized functions that can achieve the same outcomes, meaning if the input arguments are R vectors the output will be a vector as well, so no need for loops or vectorization.</p>
-<p>For example, instead of using mapply() and sum() functions we can just use + operator and sum up Xs and Ys.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result=Xs<span class="op">+</span>Ys
-result</code></pre></div>
-<pre><code>## [1] 2 3 4 6 7 8</code></pre>
-<p>In order to get the column or row sums, we can use the vectorized functions colSums() and rowSums().</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colSums</span>(mat)</code></pre></div>
-<pre><code>## [1] 9 3 6 2 3 3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rowSums</span>(mat)</code></pre></div>
-<pre><code>## [1] 12  3  5  6</code></pre>
-<p>However, remember that not every function is vectorized in R, use the ones that are. But sooner or later, apply family functions will come in handy.</p>
-</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Akalin2012-af">
+<p>Akalin, Altuna, Matthias Kormaksson, Sheng Li, Francine E Garrett-Bakelman, Maria E Figueroa, Ari Melnick, and Christopher E Mason. 2012. “MethylKit: A Comprehensive R Package for the Analysis of Genome-Wide DNA Methylation Profiles.” <em>Genome Biol.</em> 13 (10): R87.</p>
 </div>
 </div>
             </section>
@@ -478,8 +514,8 @@ result</code></pre></div>
           </div>
         </div>
       </div>
-<a href="saving-plots.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="processing-raw-data-and-getting-data-into-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="extracting-interesting-regions-segmentation-and-differential-methylation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
@@ -509,7 +545,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/compgenomr/book/edit/master/02-intro2R.Rmd",
+"link": "https://github.com/compgenomr/book/edit/master/08-bs-seq-analysis.Rmd",
 "text": "Edit"
 },
 "history": {

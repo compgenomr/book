@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>2.9 Functions and control structures (for, if/else etc.) | Computational Genomics With R</title>
+  <title>8.6 Exercises | Computational Genomics With R</title>
   <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="2.9 Functions and control structures (for, if/else etc.) | Computational Genomics With R" />
+  <meta property="og:title" content="8.6 Exercises | Computational Genomics With R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://compmgenomr.github.io/book/" />
   <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="compgenomr/bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.9 Functions and control structures (for, if/else etc.) | Computational Genomics With R" />
+  <meta name="twitter:title" content="8.6 Exercises | Computational Genomics With R" />
   
   <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
   <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="saving-plots.html">
-<link rel="next" href="exercises.html">
+<link rel="prev" href="other-r-packages-that-can-be-used-for-methylation-analysis.html">
+<link rel="next" href="references.html">
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -324,153 +324,59 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="functions-and-control-structures-for-ifelse-etc." class="section level2">
-<h2><span class="header-section-number">2.9</span> Functions and control structures (for, if/else etc.)</h2>
-<div id="user-defined-functions" class="section level3">
-<h3><span class="header-section-number">2.9.1</span> User defined functions</h3>
-<p>Functions are useful for transforming larger chunks of code to re-usable pieces of code. Generally, if you need to execute certain tasks with variable parameters then it is time you write a function. A function in R takes different arguments and returns a definite output, much like mathematical functions. Here is a simple function takes two arguments, x and y, and returns the sum of their squares.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sqSum&lt;-<span class="cf">function</span>(x,y){
-result=x<span class="op">^</span><span class="dv">2</span><span class="op">+</span>y<span class="op">^</span><span class="dv">2</span>
-<span class="kw">return</span>(result)
-}
-<span class="co"># now try the function out</span>
-<span class="kw">sqSum</span>(<span class="dv">2</span>,<span class="dv">3</span>)</code></pre></div>
-<pre><code>## [1] 13</code></pre>
-<p>Functions can also output plots and/or messages to the terminal. Here is a function that prints a message to the terminal:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sqSumPrint&lt;-<span class="cf">function</span>(x,y){
-result=x<span class="op">^</span><span class="dv">2</span><span class="op">+</span>y<span class="op">^</span><span class="dv">2</span>
-<span class="kw">cat</span>(<span class="st">&quot;here is the result:&quot;</span>,result,<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
-}
-<span class="co"># now try the function out</span>
-<span class="kw">sqSumPrint</span>(<span class="dv">2</span>,<span class="dv">3</span>)</code></pre></div>
-<pre><code>## here is the result: 13</code></pre>
-<p>Sometimes we would want to execute a certain part of the code only if certain condition is satisfied. This condition can be anything from the type of an object (Ex: if object is a matrix execute certain code), or it can be more complicated such as if object value is between certain thresholds. Let us see how they can be used3. They can be used anywhere in your code, now we will use it in a function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cpgi.df &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;intro2R_data/data/subset.cpgi.hg18.bed&quot;</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
-<span class="co"># function takes input one row</span>
-<span class="co"># of CpGi data frame</span>
-largeCpGi&lt;-<span class="cf">function</span>(bedRow){
- cpglen=bedRow[<span class="dv">3</span>]<span class="op">-</span>bedRow[<span class="dv">2</span>]<span class="op">+</span><span class="dv">1</span>
- <span class="cf">if</span>(cpglen<span class="op">&gt;</span><span class="dv">1500</span>){
-    <span class="kw">cat</span>(<span class="st">&quot;this is large</span><span class="ch">\n</span><span class="st">&quot;</span>)
- }
- <span class="cf">else</span> <span class="cf">if</span>(cpglen<span class="op">&lt;=</span><span class="dv">1500</span> <span class="op">&amp;</span><span class="st"> </span>cpglen<span class="op">&gt;</span><span class="dv">700</span>){
-    <span class="kw">cat</span>(<span class="st">&quot;this is normal</span><span class="ch">\n</span><span class="st">&quot;</span>)
- }
- <span class="cf">else</span>{
-    <span class="kw">cat</span>(<span class="st">&quot;this is short</span><span class="ch">\n</span><span class="st">&quot;</span>)
- }
-}
-<span class="kw">largeCpGi</span>(cpgi.df[<span class="dv">10</span>,])
-<span class="kw">largeCpGi</span>(cpgi.df[<span class="dv">100</span>,])
-<span class="kw">largeCpGi</span>(cpgi.df[<span class="dv">1000</span>,])</code></pre></div>
+<div id="exercises-8" class="section level2">
+<h2><span class="header-section-number">8.6</span> Exercises</h2>
+<div id="exercise-1" class="section level3">
+<h3><span class="header-section-number">8.6.1</span> Exercise 1</h3>
+<p>The main objective of this exercise is getting differential methylated cytosines between two groups of samples: IDH-mut (AML patients with IDH mutations) vs NBM (normal bone marrow samples).</p>
+<ul>
+<li>Download methylation call files from GEO. These files are readable by methlKit using default <code>methRead</code> arguments.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>samples</th>
+<th align="left">Link</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>IDH1_rep1</td>
+<td align="left"><a href="https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM919990&amp;format=file&amp;file=GSM919990%5FIDH%2Dmut%5F1%5FmyCpG%2Etxt%2Egz">link</a></td>
+</tr>
+<tr class="even">
+<td>IDH1_rep2</td>
+<td align="left"><a href="https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM919991&amp;format=file&amp;file=GSM919991%5FIDH%5Fmut%5F2%5FmyCpG%2Etxt%2Egz">link</a></td>
+</tr>
+<tr class="odd">
+<td>NBM_rep1</td>
+<td align="left"><a href="https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM919982&amp;format=file&amp;file=GSM919982%5FNBM%5F1%5FmyCpG%2Etxt%2Egz">link</a></td>
+</tr>
+<tr class="even">
+<td>NBM_rep2</td>
+<td align="left"><a href="https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM919984&amp;format=file&amp;file=GSM919984%5FNBM%5F2%5FRep1%5FmyCpG%2Etxt%2Egz">link</a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Find differentially methylated cytosines. Use chr1 and chr2 only if you need to save time. You can subset it after you download the files either in R or unix. The files are for hg18 assembly of human genome.</li>
+<li>Describe the differential methylation trend, what is the main effect ?</li>
+<li>Annotate differentially methylated cytosines (DMCs) promoter/intron/exon ?</li>
+<li>Which genes are the nearest to DMCs ? Can you do gene set analysis either in R or via web-based tools ?</li>
+</ul>
+<p>Example code for reading a file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(methylKit)
+m=<span class="kw">methRead</span>(<span class="st">&quot;~/Downloads/GSM919982_NBM_1_myCpG.txt.gz&quot;</span>,<span class="dt">sample.id =</span> <span class="st">&quot;idh&quot;</span>,<span class="dt">assembly=</span><span class="st">&quot;hg18&quot;</span>)</code></pre></div>
 </div>
-<div id="loops-and-looping-structures-in-r" class="section level3">
-<h3><span class="header-section-number">2.9.2</span> Loops and looping structures in R</h3>
-<p>When you need to repeat a certain task or a execute a function multiple times, you can do that with the help of loops. A loop will execute the task until a certain condition is reached. The loop below is called a “for-loop” and it executes the task sequentially 10 times.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>){ <span class="co"># number of repetitions</span>
-<span class="kw">cat</span>(<span class="st">&quot;This is iteration&quot;</span>) <span class="co"># the task to be repeated</span>
-<span class="kw">print</span>(i)
-}</code></pre></div>
-<pre><code>## This is iteration[1] 1
-## This is iteration[1] 2
-## This is iteration[1] 3
-## This is iteration[1] 4
-## This is iteration[1] 5
-## This is iteration[1] 6
-## This is iteration[1] 7
-## This is iteration[1] 8
-## This is iteration[1] 9
-## This is iteration[1] 10</code></pre>
-<p>The task above is a bit pointless, normally in a loop, you would want to do something meaningful. Let us calculate the length of the CpG islands we read in earlier. Although this is not the most efficient way of doing that particular task, it serves as a good example for looping. The code below will be execute hundred times, and it will calculate the length of the CpG islands for the first 100 islands in the data frame (by subtracting the end coordinate from the start coordinate).</p>
-<p><strong>Note:</strong>If you are going to run a loop that has a lot of repetitions, it is smart to try the loop with few repetitions first and check the results. This will help you make sure the code in the loop works before executing it for thousands of times.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this is where we will keep the lenghts</span>
-<span class="co"># for now it is an empty vector</span>
-result=<span class="kw">c</span>()
-<span class="co"># start the loop</span>
-<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>){
-    <span class="co">#calculate the length</span>
-    len=cpgi.df[i,<span class="dv">3</span>]<span class="op">-</span>cpgi.df[i,<span class="dv">2</span>]<span class="op">+</span><span class="dv">1</span>
-    <span class="co">#append the length to the result</span>
-    result=<span class="kw">c</span>(result,len)
-}
-<span class="co"># check the results</span>
-<span class="kw">head</span>(result)</code></pre></div>
-<pre><code>## [1]  277  360  383 1325 3498 1602</code></pre>
-<div id="apply-family-functions-instead-of-loops" class="section level4">
-<h4><span class="header-section-number">2.9.2.1</span> apply family functions instead of loops</h4>
-<p>R has other ways of repeating tasks that tend to be more efficient than using loops. They are known as the <strong>“apply”</strong> family of functions, which include <em>apply, lapply, mapply and tapply</em> (and some other variants). All of these functions apply a given function to a set of instances and returns the result of those functions for each instance. The differences between them is that they take different type of inputs. For example apply works on data frames or matrices and applies the function on each row or column of the data structure. <em>lapply</em> works on lists or vectors and applies a function which takes the list element as an argument. Next we will demonstrate how to use <strong>apply()</strong> on a matrix. The example applies the sum function on the rows of a matrix, it basically sums up the values on each row of the matrix, which is conceptualized in Figure <a href="functions-and-control-structures-for-ifelse-etc-.html#fig:applyConcept">2.2</a>.</p>
-<div class="figure" style="text-align: center"><span id="fig:applyConcept"></span>
-<img src="images/apply.png" alt="apply concept in R" width="80%" />
-<p class="caption">
-FIGURE 2.2: apply concept in R
-</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat=<span class="kw">cbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">3</span>),<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">3</span>),<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>))
-result&lt;-<span class="kw">apply</span>(mat,<span class="dv">1</span>,sum)
-result</code></pre></div>
-<pre><code>## [1] 12  3  5  6</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># OR you can define the function as an argument to apply()</span>
-result&lt;-<span class="kw">apply</span>(mat,<span class="dv">1</span>,<span class="cf">function</span>(x) <span class="kw">sum</span>(x))
-result</code></pre></div>
-<pre><code>## [1] 12  3  5  6</code></pre>
-<p>Notice that we used a second argument which equals to 1, that indicates that rows of the matrix/ data frame will be the input for the function. If we change the second argument to 2, this will indicate that columns should be the input for the function that will be applied. See Figure <a href="functions-and-control-structures-for-ifelse-etc-.html#fig:applyConcept2">2.3</a> for the visualization of apply() on columns.</p>
-<div class="figure" style="text-align: center"><span id="fig:applyConcept2"></span>
-<img src="images/apply2.png" alt="apply function on columns" width="80%" />
-<p class="caption">
-FIGURE 2.3: apply function on columns
-</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result&lt;-<span class="kw">apply</span>(mat,<span class="dv">2</span>,sum)
-result</code></pre></div>
-<pre><code>## [1] 9 3 6 2 3 3</code></pre>
-<p>Next, we will use <strong>lapply()</strong>, which applies a function on a list or a vector. The function that will be applied is a simple function that takes the square of a given number.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)
-<span class="kw">lapply</span>(input,<span class="cf">function</span>(x) x<span class="op">^</span><span class="dv">2</span>)</code></pre></div>
-<pre><code>## [[1]]
-## [1] 1
-## 
-## [[2]]
-## [1] 4
-## 
-## [[3]]
-## [1] 9</code></pre>
-<p><strong>mapply()</strong> is another member of apply family, it can apply a function on an unlimited set of vectors/lists, it is like a version of lapply that can handle multiple vectors as arguments. In this case, the argument to the mapply() is the function to be applied and the sets of parameters to be supplied as arguments of the function. This conceptualized Figure <a href="functions-and-control-structures-for-ifelse-etc-.html#fig:mapplyConcept">2.4</a>, the function to be applied is a function that takes to arguments and sums them up. The arguments to be summed up are in the format of vectors, Xs and Ys. <code>mapply()</code> applies the summation function to each pair in Xs and Ys vector. Notice that the order of the input function and extra arguments are different for mapply.</p>
-<div class="figure" style="text-align: center"><span id="fig:mapplyConcept"></span>
-<img src="images/mapply.png" alt="mapply concept" width="80%" />
-<p class="caption">
-FIGURE 2.4: mapply concept
-</p>
-</div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xs=<span class="dv">0</span><span class="op">:</span><span class="dv">5</span>
-Ys=<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>)
-result&lt;-<span class="kw">mapply</span>(<span class="cf">function</span>(x,y) <span class="kw">sum</span>(x,y),Xs,Ys)
-result</code></pre></div>
-<pre><code>## [1] 2 3 4 6 7 8</code></pre>
-</div>
-<div id="apply-family-functions-on-multiple-cores" class="section level4">
-<h4><span class="header-section-number">2.9.2.2</span> apply family functions on multiple cores</h4>
-<p>If you have large data sets apply family functions can be slow (although probably still better than for loops). If that is the case, you can easily use the parallel versions of those functions from parallel package. These functions essentially divide your tasks to smaller chunks run them on separate CPUs and merge the results from those parallel operations. This concept is visualized at Figure below , <code>mcapply</code> runs the summation function on three different processors. Each processor executes the summation function on a part of the data set, and the results are merged and returned as a single vector that has the same order as the input parameters Xs and Ys.</p>
-<div class="figure" style="text-align: center"><span id="fig:mcapplyConcept"></span>
-<img src="images/mcmapply.png" alt="mcapplyconcept" width="80%" />
-<p class="caption">
-FIGURE 2.5: mcapplyconcept
-</p>
-</div>
-</div>
-<div id="vectorized-functions-in-r" class="section level4">
-<h4><span class="header-section-number">2.9.2.3</span> Vectorized Functions in R</h4>
-<p>The above examples have been put forward to illustrate functions and loops in R because functions using sum() are not complicated and easy to understand. You will probably need to use loops and looping structures with more complicated functions. In reality, most of the operations we used do not need the use of loops or looping structures because there are already vectorized functions that can achieve the same outcomes, meaning if the input arguments are R vectors the output will be a vector as well, so no need for loops or vectorization.</p>
-<p>For example, instead of using mapply() and sum() functions we can just use + operator and sum up Xs and Ys.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result=Xs<span class="op">+</span>Ys
-result</code></pre></div>
-<pre><code>## [1] 2 3 4 6 7 8</code></pre>
-<p>In order to get the column or row sums, we can use the vectorized functions colSums() and rowSums().</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colSums</span>(mat)</code></pre></div>
-<pre><code>## [1] 9 3 6 2 3 3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rowSums</span>(mat)</code></pre></div>
-<pre><code>## [1] 12  3  5  6</code></pre>
-<p>However, remember that not every function is vectorized in R, use the ones that are. But sooner or later, apply family functions will come in handy.</p>
-</div>
+<div id="exercise-2" class="section level3">
+<h3><span class="header-section-number">8.6.2</span> Exercise 2</h3>
+<p>The main objective of this exercise is to learn how to do methylome segmentation and the downstream analysis for annotation and data integration.</p>
+<ul>
+<li>Download the human embryonic stem-cell (H1 Cell Line) methylation bigWig files from <a href="http://egg2.wustl.edu/roadmap/web_portal/processed_data.html#MethylData">Roadmap Epigenomics website</a>. It may take a while to understand how the website is structured and which bigWig file to use. That is part of the exercise. The files you will download are for hg19 assembly unless stated otherwise.</li>
+<li>Do segmentation on hESC methylome. you can only do chr1 if it takes too much time.</li>
+<li>Annotate segments, what kind of gene-based features each segment class overlaps with (promoter/exon/intron)</li>
+<li>For each segment type, annotate the segments with chromHMM annotations from Roadmap Epigenome database available (here)[<a href="https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html#core_15state" class="uri">https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html#core_15state</a>], the specific file you should use is (here)[<a href="https://egg2.wustl.edu/roadmap/data/byFileType/chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final/E003_15_coreMarks_mnemonics.bed.gz" class="uri">https://egg2.wustl.edu/roadmap/data/byFileType/chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final/E003_15_coreMarks_mnemonics.bed.gz</a>]. This is a bed file with chromHMM annotations. chromHMM annotations are parts of the genome identified by a hidden-markov-model based machine-learning algorithm. The segments correspond to active promoters, enhancers, active transcription, insulators. etc. The chromHMM model uses histone modification ChIP-seq and potentially other ChIP-seq data sets to annotate the genome.</li>
+</ul>
 </div>
 </div>
             </section>
@@ -478,8 +384,8 @@ result</code></pre></div>
           </div>
         </div>
       </div>
-<a href="saving-plots.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="other-r-packages-that-can-be-used-for-methylation-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
@@ -509,7 +415,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/compgenomr/book/edit/master/02-intro2R.Rmd",
+"link": "https://github.com/compgenomr/book/edit/master/08-bs-seq-analysis.Rmd",
 "text": "Edit"
 },
 "history": {

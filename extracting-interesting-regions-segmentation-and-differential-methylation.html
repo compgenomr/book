@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>2.9 Functions and control structures (for, if/else etc.) | Computational Genomics With R</title>
+  <title>8.3 Extracting interesting regions: segmentation and differential methylation | Computational Genomics With R</title>
   <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="2.9 Functions and control structures (for, if/else etc.) | Computational Genomics With R" />
+  <meta property="og:title" content="8.3 Extracting interesting regions: segmentation and differential methylation | Computational Genomics With R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://compmgenomr.github.io/book/" />
   <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="compgenomr/bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.9 Functions and control structures (for, if/else etc.) | Computational Genomics With R" />
+  <meta name="twitter:title" content="8.3 Extracting interesting regions: segmentation and differential methylation | Computational Genomics With R" />
   
   <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
   <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="saving-plots.html">
-<link rel="next" href="exercises.html">
+<link rel="prev" href="data-filtering-and-exploratory-analysis.html">
+<link rel="next" href="annotation-of-dmrsdmcs-and-segments.html">
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -324,153 +324,146 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="functions-and-control-structures-for-ifelse-etc." class="section level2">
-<h2><span class="header-section-number">2.9</span> Functions and control structures (for, if/else etc.)</h2>
-<div id="user-defined-functions" class="section level3">
-<h3><span class="header-section-number">2.9.1</span> User defined functions</h3>
-<p>Functions are useful for transforming larger chunks of code to re-usable pieces of code. Generally, if you need to execute certain tasks with variable parameters then it is time you write a function. A function in R takes different arguments and returns a definite output, much like mathematical functions. Here is a simple function takes two arguments, x and y, and returns the sum of their squares.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sqSum&lt;-<span class="cf">function</span>(x,y){
-result=x<span class="op">^</span><span class="dv">2</span><span class="op">+</span>y<span class="op">^</span><span class="dv">2</span>
-<span class="kw">return</span>(result)
-}
-<span class="co"># now try the function out</span>
-<span class="kw">sqSum</span>(<span class="dv">2</span>,<span class="dv">3</span>)</code></pre></div>
-<pre><code>## [1] 13</code></pre>
-<p>Functions can also output plots and/or messages to the terminal. Here is a function that prints a message to the terminal:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sqSumPrint&lt;-<span class="cf">function</span>(x,y){
-result=x<span class="op">^</span><span class="dv">2</span><span class="op">+</span>y<span class="op">^</span><span class="dv">2</span>
-<span class="kw">cat</span>(<span class="st">&quot;here is the result:&quot;</span>,result,<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
-}
-<span class="co"># now try the function out</span>
-<span class="kw">sqSumPrint</span>(<span class="dv">2</span>,<span class="dv">3</span>)</code></pre></div>
-<pre><code>## here is the result: 13</code></pre>
-<p>Sometimes we would want to execute a certain part of the code only if certain condition is satisfied. This condition can be anything from the type of an object (Ex: if object is a matrix execute certain code), or it can be more complicated such as if object value is between certain thresholds. Let us see how they can be used3. They can be used anywhere in your code, now we will use it in a function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cpgi.df &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;intro2R_data/data/subset.cpgi.hg18.bed&quot;</span>, <span class="dt">header =</span> <span class="ot">FALSE</span>)
-<span class="co"># function takes input one row</span>
-<span class="co"># of CpGi data frame</span>
-largeCpGi&lt;-<span class="cf">function</span>(bedRow){
- cpglen=bedRow[<span class="dv">3</span>]<span class="op">-</span>bedRow[<span class="dv">2</span>]<span class="op">+</span><span class="dv">1</span>
- <span class="cf">if</span>(cpglen<span class="op">&gt;</span><span class="dv">1500</span>){
-    <span class="kw">cat</span>(<span class="st">&quot;this is large</span><span class="ch">\n</span><span class="st">&quot;</span>)
- }
- <span class="cf">else</span> <span class="cf">if</span>(cpglen<span class="op">&lt;=</span><span class="dv">1500</span> <span class="op">&amp;</span><span class="st"> </span>cpglen<span class="op">&gt;</span><span class="dv">700</span>){
-    <span class="kw">cat</span>(<span class="st">&quot;this is normal</span><span class="ch">\n</span><span class="st">&quot;</span>)
- }
- <span class="cf">else</span>{
-    <span class="kw">cat</span>(<span class="st">&quot;this is short</span><span class="ch">\n</span><span class="st">&quot;</span>)
- }
-}
-<span class="kw">largeCpGi</span>(cpgi.df[<span class="dv">10</span>,])
-<span class="kw">largeCpGi</span>(cpgi.df[<span class="dv">100</span>,])
-<span class="kw">largeCpGi</span>(cpgi.df[<span class="dv">1000</span>,])</code></pre></div>
+<div id="extracting-interesting-regions-segmentation-and-differential-methylation" class="section level2">
+<h2><span class="header-section-number">8.3</span> Extracting interesting regions: segmentation and differential methylation</h2>
+<p>When analyzing DNA methylation data, we usually look for regions that are different than the rest of the methylome or different from a reference methylome. These regions are so called “interesting regions”. They usually mark important genomic features that are related to gene regulation which in turn defines the cell type. Therefore, it is a general interest to find such regions and analyze them further to understand our biological sample or to answer specific research questions. Below we will describe two ways of defining “regions of interest”.</p>
+<div id="differential-methylation" class="section level3">
+<h3><span class="header-section-number">8.3.1</span> Differential methylation</h3>
+<p>Once methylation proportions per base are obtained, generally, the differences between methylation profiles are considered next. When there are multiple sample groups where each group defines a separate biological entity or treatment, it is usually of interest to locate bases or regions with different methylation proportions across the sample groups. The bases or regions with different methylation proportions across samples are called differentially methylated CpG sites (DMCs) and differentially methylated regions (DMRs). They have been shown to play a role in many different diseases due to their association with epigenetic control of gene regulation. In addition, DNA methylation profiles can be highly tissue-specific due to their role in gene regulation <span class="citation">(Schübeler <a href="#ref-Schubeler2015-ai">2015</a>)</span>. DNA methylation is highly informative when studying normal and diseased cells, because it can also act as a biomarker. For example, the presence of large-scale abnormally methylated genomic regions is a hallmark feature of many types of cancers <span class="citation">(Ehrlich <a href="#ref-Ehrlich2002-hv">2002</a>)</span>. Because of aforementioned reasons, investigating differential methylation is usually one of the primary goals of doing bisulfite sequencing.</p>
+<div id="fishers-exact-test" class="section level4">
+<h4><span class="header-section-number">8.3.1.1</span> Fisher’s exact test</h4>
+<p>Differential DNA methylation is usually calculated by comparing the proportion of methylated Cs in a test sample relative to a control. In simple comparisons between such pairs of samples (i.e. test and control), methods such as Fisher’s Exact Test can be used. if there are replicates, replicates can be pooled within groups to a single sample per group. This strategy, however, does not take into account biological variability between replicates. We will now show how to compare pairs of samples via <code>calculateDiffMeth</code> function in <code>methylKit</code>. When there are only one sample per sample group, <code>calculateDiffMeth</code> automatically applies Fisher’s exact test. We will not extract one sample from each group and run <code>calculateDiffMeth</code>, which will automatically run Fisher’s exact test.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSampleID</span>(meth)
+new.meth=<span class="kw">reorganize</span>(meth,<span class="dt">sample.ids=</span><span class="kw">c</span>(<span class="st">&quot;test1&quot;</span>,<span class="st">&quot;ctrl1&quot;</span>),<span class="dt">treatment=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))
+dmf=<span class="kw">calculateDiffMeth</span>(new.meth)</code></pre></div>
+<p>As mentioned, we can also pool the samples from the same group by adding up the number of Cs and Ts per group. This way even if we have replicated experiments we treat them as single experiments, and can apply Fisher’s exact test. We will now pool the samples and apply</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pooled.meth=<span class="kw">pool</span>(meth,<span class="dt">sample.ids=</span><span class="kw">c</span>(<span class="st">&quot;test&quot;</span>,<span class="st">&quot;control&quot;</span>))
+dm.pooledf=<span class="kw">calculateDiffMeth</span>(pooled.meth)</code></pre></div>
+<p><code>calculateDiffMeth</code> function returns the P-values for all bases or regions in the input methylBase object. We need to filter to get differentially methylated CpGs. This can be done via <code>getMethlyDiff</code> function or simple filtering via <code>[ ]</code> notation. Below we show how to filter the <code>methylDiff</code> object output by <code>calculateDiffMeth()</code> function in order to get differentially methylated CpGs. The function arguments defines cutoff values for the methylation difference between groups and Q-value. In these cases, we require a methylation difference of 25% and Q-value of at least <span class="math inline">\(0.01\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get differentially methylated bases/regions with specific cutoffs</span>
+all.diff=<span class="kw">getMethylDiff</span>(dm.pooledf,<span class="dt">difference=</span><span class="dv">25</span>,<span class="dt">qvalue=</span><span class="fl">0.01</span>,<span class="dt">type=</span><span class="st">&quot;all&quot;</span>)
+
+<span class="co"># get hyper-methylated</span>
+hyper=<span class="kw">getMethylDiff</span>(dm.pooledf,<span class="dt">difference=</span><span class="dv">25</span>,<span class="dt">qvalue=</span><span class="fl">0.01</span>,<span class="dt">type=</span><span class="st">&quot;hyper&quot;</span>)
+
+<span class="co"># get hypo-methylated</span>
+hypo=<span class="kw">getMethylDiff</span>(dm.pooledf,<span class="dt">difference=</span><span class="dv">25</span>,<span class="dt">qvalue=</span><span class="fl">0.01</span>,<span class="dt">type=</span><span class="st">&quot;hypo&quot;</span>)
+
+<span class="co">#using [ ] notation</span>
+hyper2=dm.pooledf[dm.pooledf<span class="op">$</span>qvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.01</span> <span class="op">&amp;</span><span class="st"> </span>dm.pooledf<span class="op">$</span>meth.diff <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>,]</code></pre></div>
 </div>
-<div id="loops-and-looping-structures-in-r" class="section level3">
-<h3><span class="header-section-number">2.9.2</span> Loops and looping structures in R</h3>
-<p>When you need to repeat a certain task or a execute a function multiple times, you can do that with the help of loops. A loop will execute the task until a certain condition is reached. The loop below is called a “for-loop” and it executes the task sequentially 10 times.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>){ <span class="co"># number of repetitions</span>
-<span class="kw">cat</span>(<span class="st">&quot;This is iteration&quot;</span>) <span class="co"># the task to be repeated</span>
-<span class="kw">print</span>(i)
-}</code></pre></div>
-<pre><code>## This is iteration[1] 1
-## This is iteration[1] 2
-## This is iteration[1] 3
-## This is iteration[1] 4
-## This is iteration[1] 5
-## This is iteration[1] 6
-## This is iteration[1] 7
-## This is iteration[1] 8
-## This is iteration[1] 9
-## This is iteration[1] 10</code></pre>
-<p>The task above is a bit pointless, normally in a loop, you would want to do something meaningful. Let us calculate the length of the CpG islands we read in earlier. Although this is not the most efficient way of doing that particular task, it serves as a good example for looping. The code below will be execute hundred times, and it will calculate the length of the CpG islands for the first 100 islands in the data frame (by subtracting the end coordinate from the start coordinate).</p>
-<p><strong>Note:</strong>If you are going to run a loop that has a lot of repetitions, it is smart to try the loop with few repetitions first and check the results. This will help you make sure the code in the loop works before executing it for thousands of times.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># this is where we will keep the lenghts</span>
-<span class="co"># for now it is an empty vector</span>
-result=<span class="kw">c</span>()
-<span class="co"># start the loop</span>
-<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">100</span>){
-    <span class="co">#calculate the length</span>
-    len=cpgi.df[i,<span class="dv">3</span>]<span class="op">-</span>cpgi.df[i,<span class="dv">2</span>]<span class="op">+</span><span class="dv">1</span>
-    <span class="co">#append the length to the result</span>
-    result=<span class="kw">c</span>(result,len)
-}
-<span class="co"># check the results</span>
-<span class="kw">head</span>(result)</code></pre></div>
-<pre><code>## [1]  277  360  383 1325 3498 1602</code></pre>
-<div id="apply-family-functions-instead-of-loops" class="section level4">
-<h4><span class="header-section-number">2.9.2.1</span> apply family functions instead of loops</h4>
-<p>R has other ways of repeating tasks that tend to be more efficient than using loops. They are known as the <strong>“apply”</strong> family of functions, which include <em>apply, lapply, mapply and tapply</em> (and some other variants). All of these functions apply a given function to a set of instances and returns the result of those functions for each instance. The differences between them is that they take different type of inputs. For example apply works on data frames or matrices and applies the function on each row or column of the data structure. <em>lapply</em> works on lists or vectors and applies a function which takes the list element as an argument. Next we will demonstrate how to use <strong>apply()</strong> on a matrix. The example applies the sum function on the rows of a matrix, it basically sums up the values on each row of the matrix, which is conceptualized in Figure <a href="functions-and-control-structures-for-ifelse-etc-.html#fig:applyConcept">2.2</a>.</p>
-<div class="figure" style="text-align: center"><span id="fig:applyConcept"></span>
-<img src="images/apply.png" alt="apply concept in R" width="80%" />
-<p class="caption">
-FIGURE 2.2: apply concept in R
-</p>
+<div id="logistic-regression-based-tests" class="section level4">
+<h4><span class="header-section-number">8.3.1.2</span> Logistic regression based tests</h4>
+<p>Regression-based methods are generally used to model methylation levels in relation to the sample groups and variation between replicates. Differences between currently available regression methods stem from the choice of distribution to model the data and the variation associated with it. In the simplest case, linear regression can be used to model methylation per given CpG or loci across sample groups. The model fits regression coefficients to model the expected methylation proportion values for each CpG site across sample groups. Hence, the null hypothesis of the model coefficients being zero could be tested using t-statistics. However, linear regression based methods might produce fitted methylation levels outside the range [0,1] unless the values are transformed before regression. An alternative is logistic regression, which can deal with data strictly bounded between 0 and 1 and with non-constant variance, such as methylation proportion/fraction values. In the logistic regression, it is assumed that fitted values have variation <span class="math inline">\(np(1-p)\)</span>, where <span class="math inline">\(p\)</span> is the fitted methylation proportion for a given sample and n is the read coverage. If the observed variance is larger or smaller than assumed by the model, one speaks of under- or over-dispersion. This over/under-dispersion can be corrected by calculating a scaling factor and using that factor to adjust the variance estimates as in <span class="math inline">\(np(1-p)s\)</span>, where <span class="math inline">\(s\)</span> is the scaling factor. MethylKit can apply logistic regression to test the methylation difference with or without the over-dispersion correction. In this case, Chi-square or F-test can be used to compare the difference in the deviances of the null model and the alternative model. The null model assumes there is no relationship between sample groups and methylation, and the alternative model assumes that there is a relationship where sample groups are predictive of methylation values for a given CpG or region for which the model is constructed. Next, we are going to use the logistic regression based model with over-dispersion correction and Chi-square test.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dm.lr=<span class="kw">calculateDiffMeth</span>(meth,<span class="dt">overdispersion =</span> <span class="st">&quot;MN&quot;</span>,<span class="dt">test =</span><span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat=<span class="kw">cbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">3</span>),<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">3</span>),<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>))
-result&lt;-<span class="kw">apply</span>(mat,<span class="dv">1</span>,sum)
-result</code></pre></div>
-<pre><code>## [1] 12  3  5  6</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># OR you can define the function as an argument to apply()</span>
-result&lt;-<span class="kw">apply</span>(mat,<span class="dv">1</span>,<span class="cf">function</span>(x) <span class="kw">sum</span>(x))
-result</code></pre></div>
-<pre><code>## [1] 12  3  5  6</code></pre>
-<p>Notice that we used a second argument which equals to 1, that indicates that rows of the matrix/ data frame will be the input for the function. If we change the second argument to 2, this will indicate that columns should be the input for the function that will be applied. See Figure <a href="functions-and-control-structures-for-ifelse-etc-.html#fig:applyConcept2">2.3</a> for the visualization of apply() on columns.</p>
-<div class="figure" style="text-align: center"><span id="fig:applyConcept2"></span>
-<img src="images/apply2.png" alt="apply function on columns" width="80%" />
-<p class="caption">
-FIGURE 2.3: apply function on columns
-</p>
+<div id="betabinomial-distribution-based-tests" class="section level4">
+<h4><span class="header-section-number">8.3.1.3</span> Betabinomial distribution based tests</h4>
+<p>More complex regression models use beta binomial distribution and are particularly useful for better modeling the variance. Similar to logistic regression, their observation follows binomial distribution (number of reads), but methylation proportion itself can vary across samples, according to a beta distribution. It can deal with fitting values in [0,1] range and performs better when there is greater variance than expected by the simple logistic model. In essence, these models have a different way of calculating a scaling factor when there is over-dispersion in the model. Further enhancements are made to these models by using the Empirical Bayes methods that can better estimate hyper parameters of the beta distribution (variance-related parameters) by borrowing information between loci or regions within the genome to aid with inference about each individual loci or region. We are now going to use a beta-binomial based model called DSS<span class="citation">(Feng, Conneely, and Wu <a href="#ref-Feng2014-pd">2014</a>)</span> to calculate differential methylation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dm.dss=<span class="kw">calculateDiffMethDSS</span>(meth)</code></pre></div>
+<pre><code>## Using internal DSS code...</code></pre>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result&lt;-<span class="kw">apply</span>(mat,<span class="dv">2</span>,sum)
-result</code></pre></div>
-<pre><code>## [1] 9 3 6 2 3 3</code></pre>
-<p>Next, we will use <strong>lapply()</strong>, which applies a function on a list or a vector. The function that will be applied is a simple function that takes the square of a given number.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">input=<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)
-<span class="kw">lapply</span>(input,<span class="cf">function</span>(x) x<span class="op">^</span><span class="dv">2</span>)</code></pre></div>
-<pre><code>## [[1]]
-## [1] 1
-## 
-## [[2]]
-## [1] 4
-## 
-## [[3]]
-## [1] 9</code></pre>
-<p><strong>mapply()</strong> is another member of apply family, it can apply a function on an unlimited set of vectors/lists, it is like a version of lapply that can handle multiple vectors as arguments. In this case, the argument to the mapply() is the function to be applied and the sets of parameters to be supplied as arguments of the function. This conceptualized Figure <a href="functions-and-control-structures-for-ifelse-etc-.html#fig:mapplyConcept">2.4</a>, the function to be applied is a function that takes to arguments and sums them up. The arguments to be summed up are in the format of vectors, Xs and Ys. <code>mapply()</code> applies the summation function to each pair in Xs and Ys vector. Notice that the order of the input function and extra arguments are different for mapply.</p>
-<div class="figure" style="text-align: center"><span id="fig:mapplyConcept"></span>
-<img src="images/mapply.png" alt="mapply concept" width="80%" />
-<p class="caption">
-FIGURE 2.4: mapply concept
-</p>
+<div id="differential-methylation-for-regions-rather-than-base-pairs" class="section level4">
+<h4><span class="header-section-number">8.3.1.4</span> Differential methylation for regions rather than base-pairs</h4>
+<p>Until now, we worked on differentially methylated cytosines. However, working with base-pair resolution data has its problems. Not all the CpGs will be covered in all samples, if covered they may have low coverage which reduces the power of the tests. Instead of base-pairs, we can choose to work with regions. So, it might be desirable to summarize methylation information over pre-defined regions rather than doing base-pair resolution analysis. <code>methylKit</code> provides functionality to do such analysis. We can either tile the whole genome to tiles with predefined length, or we can use pre-defined regions such as promoters or CpG islands. This kind of regional analysis is carried out by adding up C and T counts from each covered cytosine and returning a total C and T count for each region.</p>
+<p>The function below tiles the genome with windows 1000bp length and 1000bp step-size and summarizes the methylation information on those tiles. In this case, it returns a <code>methylRawList</code> object which can be fed into <code>unite</code> and <code>calculateDiffMeth</code> functions consecutively to get differentially methylated regions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tiles=<span class="kw">tileMethylCounts</span>(myobj,<span class="dt">win.size=</span><span class="dv">1000</span>,<span class="dt">step.size=</span><span class="dv">1000</span>)
+<span class="kw">head</span>(tiles[[<span class="dv">1</span>]],<span class="dv">3</span>)</code></pre></div>
+<pre><code>##     chr   start     end strand coverage numCs numTs
+## 1 chr21 9764001 9765000      *       24     3    21
+## 2 chr21 9820001 9821000      *       13     0    13
+## 3 chr21 9837001 9838000      *       11     0    11</code></pre>
+<p>In addition, if we are interested in particular regions, we can also get those regions as methylKit objects after summarizing the methylation information as described above. The code below summarizes the methylation information over a given set of promoter regions and outputs a <code>methylRaw</code> or <code>methylRawList</code> object depending on the input. We are using the output of <code>genomation</code> functions used above to provide the locations of promoters. For regional summary functions, we need to provide regions of interest as GRanges object.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(genomation)
+
+<span class="co"># read the gene BED file</span>
+gene.obj=<span class="kw">readTranscriptFeatures</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;refseq.hg18.bed.txt&quot;</span>, 
+                                           <span class="dt">package =</span> <span class="st">&quot;methylKit&quot;</span>))
+promoters=<span class="kw">regionCounts</span>(myobj,gene.obj<span class="op">$</span>promoters)
+
+<span class="kw">head</span>(promoters[[<span class="dv">1</span>]])</code></pre></div>
+<pre><code>##     chr    start      end strand coverage numCs numTs
+## 1 chr21 10011791 10013791      -     7953  6662  1290
+## 2 chr21 10119796 10121796      -     1725  1171   554
+## 3 chr21 10119808 10121808      -     1725  1171   554
+## 4 chr21 13903368 13905368      +       10    10     0
+## 5 chr21 14273636 14275636      -      282   220    62
+## 6 chr21 14509336 14511336      +     1058    55  1003</code></pre>
+<p>In addition, it is possible to cluster DMCs based on their proximity and direction of differential methylation. This can be achieved by <code>methSeg</code> function in methylKit. We will see more about <code>methSeg</code> function in the following section. But it can take the output of <code>getMethylDiff</code> function therefore can work on DMCs to get differentially methylated regions.</p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Xs=<span class="dv">0</span><span class="op">:</span><span class="dv">5</span>
-Ys=<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">3</span>)
-result&lt;-<span class="kw">mapply</span>(<span class="cf">function</span>(x,y) <span class="kw">sum</span>(x,y),Xs,Ys)
-result</code></pre></div>
-<pre><code>## [1] 2 3 4 6 7 8</code></pre>
-</div>
-<div id="apply-family-functions-on-multiple-cores" class="section level4">
-<h4><span class="header-section-number">2.9.2.2</span> apply family functions on multiple cores</h4>
-<p>If you have large data sets apply family functions can be slow (although probably still better than for loops). If that is the case, you can easily use the parallel versions of those functions from parallel package. These functions essentially divide your tasks to smaller chunks run them on separate CPUs and merge the results from those parallel operations. This concept is visualized at Figure below , <code>mcapply</code> runs the summation function on three different processors. Each processor executes the summation function on a part of the data set, and the results are merged and returned as a single vector that has the same order as the input parameters Xs and Ys.</p>
-<div class="figure" style="text-align: center"><span id="fig:mcapplyConcept"></span>
-<img src="images/mcmapply.png" alt="mcapplyconcept" width="80%" />
-<p class="caption">
-FIGURE 2.5: mcapplyconcept
-</p>
+<div id="adding-covariates" class="section level4">
+<h4><span class="header-section-number">8.3.1.5</span> Adding covariates</h4>
+<p>Covariates can be included in the analysis as well in methylKit. The <code>calculateDiffMeth</code> function will then try to separate the influence of the covariates from the treatment effect via the logistic regression model. In this case, we will test if full model (model with treatment and covariates) is better than the model with the covariates only. If there is no effect due to the treatment (sample groups), the full model will not explain the data better than the model with covariates only. In <code>calculateDiffMeth</code>, this is achieved by supplying the <code>covariates</code> argument in the format of a <code>data.frame</code>. Below, we simulate methylation data and add make a <code>data.frame</code> for the age. The data frame can include more columns, and those columns can also be <code>factor</code> variables. The row order of the data.frame should match the order of samples in the <code>methylBase</code> object. Below we are showing an example of this using a simulated data set where methylation values of CpGs will be affected by the age of the sample.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">covariates=<span class="kw">data.frame</span>(<span class="dt">age=</span><span class="kw">c</span>(<span class="dv">30</span>,<span class="dv">80</span>,<span class="dv">34</span>,<span class="dv">30</span>,<span class="dv">80</span>,<span class="dv">40</span>))
+sim.methylBase=<span class="kw">dataSim</span>(<span class="dt">replicates=</span><span class="dv">6</span>,<span class="dt">sites=</span><span class="dv">1000</span>,
+                        <span class="dt">treatment=</span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">3</span>),<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">3</span>)),
+                        <span class="dt">covariates=</span>covariates,
+                        <span class="dt">sample.ids=</span><span class="kw">c</span>(<span class="kw">paste0</span>(<span class="st">&quot;test&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>),<span class="kw">paste0</span>(<span class="st">&quot;ctrl&quot;</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)))
+
+my.diffMeth3=<span class="kw">calculateDiffMeth</span>(sim.methylBase,
+                               <span class="dt">covariates=</span>covariates,
+                               <span class="dt">overdispersion=</span><span class="st">&quot;MN&quot;</span>,
+                               <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>,<span class="dt">mc.cores=</span><span class="dv">1</span>)</code></pre></div>
 </div>
 </div>
-<div id="vectorized-functions-in-r" class="section level4">
-<h4><span class="header-section-number">2.9.2.3</span> Vectorized Functions in R</h4>
-<p>The above examples have been put forward to illustrate functions and loops in R because functions using sum() are not complicated and easy to understand. You will probably need to use loops and looping structures with more complicated functions. In reality, most of the operations we used do not need the use of loops or looping structures because there are already vectorized functions that can achieve the same outcomes, meaning if the input arguments are R vectors the output will be a vector as well, so no need for loops or vectorization.</p>
-<p>For example, instead of using mapply() and sum() functions we can just use + operator and sum up Xs and Ys.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">result=Xs<span class="op">+</span>Ys
-result</code></pre></div>
-<pre><code>## [1] 2 3 4 6 7 8</code></pre>
-<p>In order to get the column or row sums, we can use the vectorized functions colSums() and rowSums().</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">colSums</span>(mat)</code></pre></div>
-<pre><code>## [1] 9 3 6 2 3 3</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rowSums</span>(mat)</code></pre></div>
-<pre><code>## [1] 12  3  5  6</code></pre>
-<p>However, remember that not every function is vectorized in R, use the ones that are. But sooner or later, apply family functions will come in handy.</p>
+<div id="methylation-segmentation" class="section level3">
+<h3><span class="header-section-number">8.3.2</span> Methylation segmentation</h3>
+<p>The analysis of methylation dynamics is not exclusively restricted to differentially methylated regions across samples, apart from this there is also an interest in examining the methylation profiles within the same sample. Usually, depressions in methylation profiles pinpoint regulatory regions like gene promoters that co-localize with CG-dense CpG islands. On the other hand, many gene-body regions are extensively methylated and CpG-poor <span class="citation">(Bock et al. <a href="#ref-Bock2012-oh">2012</a>)</span>. These observations would describe a bimodal model of either hyper- or hypomethylated regions dependent on the local density of CpGs <span class="citation">(Lövkvist et al. <a href="#ref-Lovkvist2016-ky">2016</a>)</span>. However, given the detection of CpG-poor regions with locally reduced levels of methylation (on average 30%) in pluripotent embryonic stem cells and in neuronal progenitors in both mouse and human, a different model seems also reasonable <span class="citation">(M. B. Stadler et al. <a href="#ref-Stadler2011-iu">2011</a>)</span>. These low-methylated regions (LMRs) are located distal to promoters, have little overlap with CpG islands and associated with enhancer marks such as p300 binding sites and H3K27ac enrichment.</p>
+<p>Now we are going to try to segment portion for the H1 human embryonic stem cell line. MethylKit uses change-point analysis to segment the methylome. In change-point analysis, the change-points of a genome-wide methylation signal are recorded and the genome is partitioned into regions between consecutive change points. CpGs in each segment is similar to eachoter more than the following segment. After segmentation, methylKit function <code>methSeg</code> identifies segments that are further clustered into segment classes using a mixture modeling approach. This clustering is based on only the average methylation level of the segments and allows the detection of distinct methylome features comparable to unmethylated regions (UMRs), lowly methylated regions (LMRs) and fully methylated regions (FMRs) mentioned at Stadler et. al (2012). The code snippet below reads the methylation data from H1 cell line as a <code>GRanges</code> object, and runs the segmentation with potentially up to classes of segments. Mixture modelling determines the optimal number of segments using a statistic called bayesian information criterion (BIC). BIC is a statistic based on model likelihood and helps us select the model that fits the data better. We have set the number of segment classes to try using <code>G=1:4</code> argument.The <code>minSeg</code> arguments are related to minimum number of CpGs in the segments.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># read methylation data</span>
+
+methFile=<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,<span class="st">&quot;H1.chr21.chr22.rds&quot;</span>,
+                     <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)
+mbw=<span class="kw">readRDS</span>(methFile)
+
+<span class="co"># segment the methylation data</span>
+res=<span class="kw">methSeg</span>(mbw,<span class="dt">minSeg=</span><span class="dv">10</span>,<span class="dt">G=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,
+            <span class="dt">join.neighbours =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-242-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p>In this case, we know that BIC does not improve much after 4 segment classes. Now, we will not have a look at the characteristics of the segment classes. We are going to plot mean methylation value and the length of the segment as a scatter plot.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot </span>
+<span class="kw">plot</span>(res<span class="op">$</span>seg.mean,
+     <span class="kw">log10</span>(<span class="kw">width</span>(res)),<span class="dt">pch=</span><span class="dv">20</span>,
+     <span class="dt">col=</span>scales<span class="op">::</span><span class="kw">alpha</span>(<span class="kw">rainbow</span>(<span class="dv">4</span>)[<span class="kw">as.numeric</span>(res<span class="op">$</span>seg.group)], <span class="fl">0.2</span>),
+     <span class="dt">ylab=</span><span class="st">&quot;log10(length)&quot;</span>,
+     <span class="dt">xlab=</span><span class="st">&quot;methylation proportion&quot;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/segplot-1.png" width="65%" style="display: block; margin: auto;" /></p>
+<p>The highly methylated segment classes that have more than 70% methylation are usually longer, median length is 17889 bp. The segment class that has the lowest methylation values have median length of 1376 bp and the shortest segment class has low to medium methylation level, has median length of 412 bp.</p>
 </div>
+<div id="working-with-large-files" class="section level3">
+<h3><span class="header-section-number">8.3.3</span> Working with large files</h3>
+<p>We might want to perform differential methylation analysis in R using whole genome methylation data of multiple samples. The problem is that for genome-wide experiments, file sizes can easily range from hundreds of megabytes to gigabytes and processing multiple instances of those files in memory (RAM) might become unfeasible unless we have access to a high performance cluster (HPC) with extensive RAM. If we want to use a desktop computer or laptop with limited RAM, we either need to restrict our analysis to a subset of the data or use packages that can handle this situation.</p>
+<p>The methylKit package provides the capability of dealing large files and high number of samples by exploiting flat file databases to substitute in-memory objects. The internal data apart from meta information has a tabular structure storing chromosome, start/end position, strand information of the associated CpG base just like many other biological formats like BED, GFF or SAM. By exporting this tabular data into a TAB-delimited file and making sure it is accordingly position-sorted it can be indexed using the generic <a href="http://www.htslib.org/doc/tabix.html">tabix tool</a>. In general tabix indexing is a generalization of BAM indexing for generic TAB-delimited files. It inherits all the advantages of BAM indexing, including data compression and efficient random access in terms of few seek function calls per query <span class="citation">(H. Li <a href="#ref-Li2011-wc">2011</a>)</span>. MethylKit relies on [Rsamtools] (<a href="http://bioconductor.org/packages/release/bioc/html/Rsamtools.html" class="uri">http://bioconductor.org/packages/release/bioc/html/Rsamtools.html</a>) which implements tabix functionality for R and this way internal methylKit objects can be efficiently stored as compressed file on the disk and still be fast accessed. Another advantage is that existing compressed files can be loaded in interactive sessions, allowing the backup and transfer of intermediate analysis results.</p>
+<p>methylKit provides the capability for storing objects in tabix format within various functions. Every methylKit object has their tabix-based flat-file database equivalent. For example, when reading a methylation call file the <code>dbtype</code> argument can be provided, this will create tabix based objects.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> myobj=<span class="kw">methRead</span>( file.list,
+               <span class="dt">sample.id=</span><span class="kw">list</span>(<span class="st">&quot;test1&quot;</span>,<span class="st">&quot;test2&quot;</span>,<span class="st">&quot;ctrl1&quot;</span>,<span class="st">&quot;ctrl2&quot;</span>),
+               <span class="dt">assembly=</span><span class="st">&quot;hg18&quot;</span>,<span class="dt">treatment=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),
+               <span class="dt">dbtype=</span><span class="st">&quot;tabix&quot;</span>) </code></pre></div>
+<p>The advantage of tabix-based objects is of course saving memory and more efficient parallelization for differential methylation calculation. However, since the data is written to a file and indexed whenever a new object is created, working with tabix-based objects will be slower at certain steps of the analysis compared to in-memory objects.</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-Schubeler2015-ai">
+<p>Schübeler, Dirk. 2015. “Function and Information Content of DNA Methylation.” <em>Nature</em> 517 (7534): 321–26.</p>
+</div>
+<div id="ref-Ehrlich2002-hv">
+<p>Ehrlich, Melanie. 2002. “DNA Methylation in Cancer: Too Much, but Also Too Little.” <em>Oncogene</em> 21 (35): 5400–5413.</p>
+</div>
+<div id="ref-Feng2014-pd">
+<p>Feng, Hao, Karen N Conneely, and Hao Wu. 2014. “A Bayesian Hierarchical Model to Detect Differentially Methylated Loci from Single Nucleotide Resolution Sequencing Data.” <em>Nucleic Acids Res.</em> 42 (8): e69.</p>
+</div>
+<div id="ref-Bock2012-oh">
+<p>Bock, Christoph, Isabel Beerman, Wen-Hui Lien, Zachary D Smith, Hongcang Gu, Patrick Boyle, Andreas Gnirke, Elaine Fuchs, Derrick J Rossi, and Alexander Meissner. 2012. “DNA Methylation Dynamics During in Vivo Differentiation of Blood and Skin Stem Cells.” <em>Mol. Cell</em> 47 (4): 633–47.</p>
+</div>
+<div id="ref-Lovkvist2016-ky">
+<p>Lövkvist, Cecilia, Ian B Dodd, Kim Sneppen, and Jan O Haerter. 2016. “DNA Methylation in Human Epigenomes Depends on Local Topology of CpG Sites.” <em>Nucleic Acids Res.</em> 44 (11): 5123–32.</p>
+</div>
+<div id="ref-Stadler2011-iu">
+<p>Stadler, Michael B, Rabih Murr, Lukas Burger, Robert Ivanek, Florian Lienert, Anne Schöler, Erik van Nimwegen, et al. 2011. “DNA-binding Factors Shape the Mouse Methylome at Distal Regulatory Regions.” <em>Nature</em> 480 (7378): 490–95.</p>
+</div>
+<div id="ref-Li2011-wc">
+<p>Li, Heng. 2011. “Tabix: Fast Retrieval of Sequence Features from Generic TAB-delimited Files.” <em>Bioinformatics</em> 27 (5): 718–19.</p>
 </div>
 </div>
             </section>
@@ -478,8 +471,8 @@ result</code></pre></div>
           </div>
         </div>
       </div>
-<a href="saving-plots.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="exercises.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="data-filtering-and-exploratory-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="annotation-of-dmrsdmcs-and-segments.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
@@ -509,7 +502,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/compgenomr/book/edit/master/02-intro2R.Rmd",
+"link": "https://github.com/compgenomr/book/edit/master/08-bs-seq-analysis.Rmd",
 "text": "Edit"
 },
 "history": {
