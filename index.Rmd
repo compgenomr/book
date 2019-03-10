@@ -47,26 +47,22 @@ lapply(c('citr', 'formatR', 'svglite'), function(pkg) {
 knitr::include_graphics('images/cover.jpg', dpi = NA)
 ```
 
-The aim of this book is to provide the fundamentals for data analysis for genomics. We developed this book based on the computational genomics courses we are giving every year. We have had invariably an interdisicplineary audience with backgrounds from physics, biology medicine, math, computer science or other quantitative fields. We want this book to be a starting point for computational genomics students and a guide for further data analysis in more specific topics in genomics. This is why we tried to cover a large variety of topics from programming to basic genome biology. As the field is interdisciplineary, it requires different starting points for people with different backgrounds. A biologist might skip sections on basic genome biology and start with R programming whereas a computer scientist might want to start with genome biology. In the same manner, a more experienced person might want to refer to this book when s/he needs a certain type of analysis where s/he does not have prior experience.
+The aim of this book is to provide the fundamentals for data analysis for genomics. We developed this book based on the computational genomics courses we are giving every year. We have had invariably an interdisicplineary audience with backgrounds from physics, biology medicine, math, computer science or other quantitative fields. We want this book to be a starting point for computational genomics students and a guide for further data analysis in more specific topics in genomics. This is why we tried to cover a large variety of topics from programming to basic genome biology. As the field is interdisciplineary, it requires different starting points for people with different backgrounds. A biologist might skip sections on basic genome biology and start with R programming whereas a computer scientist might want to start with genome biology. In the same manner, a more experienced person might want to refer to this book when s/he needs to do a certain type of analysis where s/he does not have prior experience.
 
 
 ![Creative Commons License](images/by-nc-sa.png)  
-The online version of this book is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/). You can purchase a hardcopy from [Chapman & Hall](https://www.crcpress.com/product/isbn/) or Amazon.
+The online version of this book is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/). 
 
 ## Who is this book for? {-}
 The book contains practical and theoretical aspects for computational genomics. Biology and 
-medicine generate more data than ever before and we need to educate more people with data 
+medicine generate more data than ever before. Therefore, we need to educate more people with data 
 analysis skills and understanding of computational genomics.
 Since computational genomics is interdisciplinary; this book aims to be accessible for
 biologists, medical scientists, computer scientists and people from other quantitative backgrounds. We wrote this book for the following audiences:
 
- - Biologists and medical scientists who generate the data and are keen on 
-   analyzing it themselves.
- - Students and researchers who are formally starting to do research on or using
-   computational genomics but do not have extensive domain specific knowledge but
-   has at least a beginner level in a quantitative field: math, stats
- - Experienced researchers looking for recipes or quick how-tos to get started 
-   in specific data analysis tasks relating to computational genomics. 
+ - Biologists and medical scientists who generate the data and are keen on analyzing it themselves.
+ - Students and researchers who are formally starting to do research on or using computational genomics but do not have extensive domain specific knowledge but has at least a beginner level in a quantitative field: math, stats
+ - Experienced researchers looking for recipes or quick how-tos to get started in specific data analysis tasks related to computational genomics. 
 
 
 ### What will you get out of this?  {-}
@@ -99,11 +95,11 @@ with the analysis techniques for popular high-throughput sequencing techniques.
 The last chapter "multi-omics data integration" deals with methods for integrating multiple omics data sets.
 
 
-To sum it up, this book is a comprehensive guide for computational genomics. Some sections are there for the sake of the wide interdisciplineary audience and completeness, and not all sections will equally useful to all readers from this broad audience.
+To sum it up, this book is a comprehensive guide for computational genomics. Some sections are there for the sake of the wide interdisciplineary audience and completeness, and not all sections will be equally useful to all readers of this broad audience.
 
 ## Software information and conventions {-}
 
-This book is primarily about the using R packages to analyze genomics data, therefore if you want to reproduce the analysis in this book you need to install the relevant packages in each chapter using `install.packages` or `BiocManager::install` functions. We rely on data from different R and Bioconductor packages through out the book. For the datasets that do not ship with those packages, we created our own package **compGenomRData**.
+This book is primarily about using R packages to analyze genomics data, therefore if you want to reproduce the analysis in this book you need to install the relevant packages in each chapter using `install.packages` or `BiocManager::install` functions. We rely on data from different R and Bioconductor packages through out the book. For the datasets that do not ship with those packages, we created our own package [**compGenomRData**](https://github.com/compgenomr/compGenomRData). You can install this package via `devtools::install_github("compgenomr/compGenomRData")`.
 
 
 Package names are in bold text (e.g., **methylKit**), and inline code and filenames are formatted in a typewriter font. Function names are followed by parentheses (e.g., `genomation::ScoreMatrix()`). The double-colon operator `::` means accessing an object from a package. 

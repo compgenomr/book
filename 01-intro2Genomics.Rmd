@@ -103,7 +103,7 @@ genes are activated and their functional products are produced to help liver
 cell achieve its tasks.
 
 ```{r,CentDog,fig.cap="Central Dogma: replication, transcription, translation",fig.align = 'center',out.width='100%',echo=FALSE}
-knitr::include_graphics("images/CentDogma.png" )
+knitr::include_graphics("images/centDogma.png" )
 ```
 
 
@@ -664,8 +664,7 @@ the input fragments.
 
 #### High-throughput sequencing data
 If there is a genome available, the reads are aligned to the genome and based
-on the sequencing protocol different strategies are applied for analysis. 
-Some of the potential analysis strategies and processed output of read alignments
+on the library preperation protocol different strategies are applied for analysis. A sequencing library is composed of fragments of RNA or DNA ready to be sequenced. The library preparation primarily depends on the experiment of interest. There are a number of library preperation protocols aimed at quantifying different signals from the genome. Some of the potential analysis strategies for different library-prep protocols and processed output of read alignments
 are depicted in Figure \@ref(fig:HTseq).
 For example, we maybe interested to quantify the gene expression.
 The experimental protocol, called RNA sequencing-

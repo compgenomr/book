@@ -5,3 +5,5 @@
 _book/
 _bookdown_files/
 book-output
+extdata
+fastqc_results
