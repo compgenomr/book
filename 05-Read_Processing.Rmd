@@ -252,5 +252,5 @@ __Want to know more ?__
 After alignment some further processing might be necessary. However, these steps are usually sequencing protocol specific. For example, for methylation C->T mismatches should be counted. For gene expression measurements, reads that overlap with transcripts should be counted. These further processing tasks are either done by specialized alignment related software or can be done in R. We will explain these further processing steps when they become relevant in the context of following chapters.
 
 
-# Exercises 
+## Exercises 
 TBD
