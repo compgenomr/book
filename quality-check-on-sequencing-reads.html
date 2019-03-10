@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>5.1 Quality check on sequencing reads | Computational Genomics With R</title>
+  <title>5.2 Quality check on sequencing reads | Computational Genomics With R</title>
   <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="5.1 Quality check on sequencing reads | Computational Genomics With R" />
+  <meta property="og:title" content="5.2 Quality check on sequencing reads | Computational Genomics With R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://compmgenomr.github.io/book/" />
   <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="compgenomr/bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="5.1 Quality check on sequencing reads | Computational Genomics With R" />
+  <meta name="twitter:title" content="5.2 Quality check on sequencing reads | Computational Genomics With R" />
   
   <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
   <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -25,14 +25,14 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-03-07">
+<meta name="date" content="2019-03-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="processingReads.html">
+<link rel="prev" href="fasta-and-fastq-formats.html">
 <link rel="next" href="filtering-and-trimming-reads.html">
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
@@ -244,27 +244,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.6.4" data-path="exercises-2.html"><a href="exercises-2.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>4.6.4</b> Visualizing and summarizing genomic intervals</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="processingReads.html"><a href="processingReads.html"><i class="fa fa-check"></i><b>5</b> Quality check and processing of high-throughput sequencing reads</a><ul>
-<li class="chapter" data-level="5.1" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html"><i class="fa fa-check"></i><b>5.1</b> Quality check on sequencing reads</a></li>
-<li class="chapter" data-level="5.2" data-path="filtering-and-trimming-reads.html"><a href="filtering-and-trimming-reads.html"><i class="fa fa-check"></i><b>5.2</b> Filtering and trimming reads</a></li>
-<li class="chapter" data-level="5.3" data-path="mapping-reads-to-the-genome.html"><a href="mapping-reads-to-the-genome.html"><i class="fa fa-check"></i><b>5.3</b> Mapping reads to the genome</a></li>
+<li class="chapter" data-level="5" data-path="processingReads.html"><a href="processingReads.html"><i class="fa fa-check"></i><b>5</b> Quality check, processing and alignment of high-throughput sequencing reads</a><ul>
+<li class="chapter" data-level="5.1" data-path="fasta-and-fastq-formats.html"><a href="fasta-and-fastq-formats.html"><i class="fa fa-check"></i><b>5.1</b> FASTA and FASTQ formats</a></li>
+<li class="chapter" data-level="5.2" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html"><i class="fa fa-check"></i><b>5.2</b> Quality check on sequencing reads</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#sequence-quality-per-basecycle"><i class="fa fa-check"></i><b>5.2.1</b> Sequence quality per base/cycle</a></li>
+<li class="chapter" data-level="5.2.2" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#sequence-content-per-basecycle"><i class="fa fa-check"></i><b>5.2.2</b> Sequence content per base/cycle</a></li>
+<li class="chapter" data-level="5.2.3" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#read-frequency-plot"><i class="fa fa-check"></i><b>5.2.3</b> Read frequency plot</a></li>
+<li class="chapter" data-level="5.2.4" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#other-quality-metrics-and-qc-tools"><i class="fa fa-check"></i><b>5.2.4</b> Other quality metrics and QC tools</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="rna-seq-analysis-overview.html"><a href="rna-seq-analysis-overview.html"><i class="fa fa-check"></i><b>6</b> RNA-seq analysis overview</a><ul>
-<li class="chapter" data-level="6.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>6.1</b> What is gene expression?</a></li>
-<li class="chapter" data-level="6.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>6.2</b> Methods to detect gene expression</a></li>
-<li class="chapter" data-level="6.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>6.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>6.3.1</b> Processing raw data</a></li>
-<li class="chapter" data-level="6.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>6.3.2</b> Alignment</a></li>
-<li class="chapter" data-level="6.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>6.3.3</b> Quantification</a></li>
-<li class="chapter" data-level="6.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#normalization-of-read-counts"><i class="fa fa-check"></i><b>6.3.4</b> Normalization of read counts</a></li>
-<li class="chapter" data-level="6.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#demonstration-in-r"><i class="fa fa-check"></i><b>6.3.5</b> Demonstration in R</a></li>
-<li class="chapter" data-level="6.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>6.3.6</b> Exploratory analysis of the read count table</a></li>
-<li class="chapter" data-level="6.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>6.3.7</b> Differential expression analysis</a></li>
-<li class="chapter" data-level="6.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>6.3.8</b> Functional Enrichment Analysis</a></li>
-<li class="chapter" data-level="6.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>6.3.9</b> Accounting for additional sources of variation</a></li>
+<li class="chapter" data-level="5.3" data-path="filtering-and-trimming-reads.html"><a href="filtering-and-trimming-reads.html"><i class="fa fa-check"></i><b>5.3</b> Filtering and trimming reads</a></li>
+<li class="chapter" data-level="5.4" data-path="mappingaligning-reads-to-the-genome.html"><a href="mappingaligning-reads-to-the-genome.html"><i class="fa fa-check"></i><b>5.4</b> Mapping/aligning reads to the genome</a></li>
+<li class="chapter" data-level="5.5" data-path="further-processing-of-aligned-reads.html"><a href="further-processing-of-aligned-reads.html"><i class="fa fa-check"></i><b>5.5</b> Further processing of aligned reads</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>6.4</b> Other applications of RNA-seq</a></li>
-<li class="chapter" data-level="6.5" data-path="reproducibility.html"><a href="reproducibility.html"><i class="fa fa-check"></i><b>6.5</b> Reproducibility</a></li>
+<li class="chapter" data-level="6" data-path="exercises-3.html"><a href="exercises-3.html"><i class="fa fa-check"></i><b>6</b> Exercises</a></li>
+<li class="chapter" data-level="7" data-path="rna-seq-analysis-overview.html"><a href="rna-seq-analysis-overview.html"><i class="fa fa-check"></i><b>7</b> RNA-seq analysis overview</a><ul>
+<li class="chapter" data-level="7.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>7.1</b> What is gene expression?</a></li>
+<li class="chapter" data-level="7.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>7.2</b> Methods to detect gene expression</a></li>
+<li class="chapter" data-level="7.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>7.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>7.3.1</b> Processing raw data</a></li>
+<li class="chapter" data-level="7.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>7.3.2</b> Alignment</a></li>
+<li class="chapter" data-level="7.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>7.3.3</b> Quantification</a></li>
+<li class="chapter" data-level="7.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#normalization-of-read-counts"><i class="fa fa-check"></i><b>7.3.4</b> Normalization of read counts</a></li>
+<li class="chapter" data-level="7.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#demonstration-in-r"><i class="fa fa-check"></i><b>7.3.5</b> Demonstration in R</a></li>
+<li class="chapter" data-level="7.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>7.3.6</b> Exploratory analysis of the read count table</a></li>
+<li class="chapter" data-level="7.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>7.3.7</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="7.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>7.3.8</b> Functional Enrichment Analysis</a></li>
+<li class="chapter" data-level="7.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>7.3.9</b> Accounting for additional sources of variation</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>7.4</b> Other applications of RNA-seq</a></li>
+<li class="chapter" data-level="7.5" data-path="reproducibility.html"><a href="reproducibility.html"><i class="fa fa-check"></i><b>7.5</b> Reproducibility</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -288,16 +296,99 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="quality-check-on-sequencing-reads" class="section level2">
-<h2><span class="header-section-number">5.1</span> Quality check on sequencing reads</h2>
-<p>The sequencing technologies usually produce basecalls with varying quality. In addition, there could be sample-prep specific issues in your sequencing run, such as adapter contamination. It is standard procedure to check the quality of the reads before further analysis. Checking the quality and making some decisions for the downstream analysis can influence the outcome of your analysis.</p>
-<p>Read quality checking is possible with Bioconductor packages: <a href="http://www.bioconductor.org/packages/release/bioc/html/rqc.html">rqc</a>,<a href="http://www.bioconductor.org/packages/release/bioc/html/shortRead.html">shortRead</a>, <a href="http://www.bioconductor.org/packages/release/bioc/html/Rsubread.html">Rsubread</a> and <a href="http://www.bioconductor.org/packages/release/bioc/html/QuasR.html">QuasR</a> to name a few. Below, we will walk you through the quality check steps.</p>
+<h2><span class="header-section-number">5.2</span> Quality check on sequencing reads</h2>
+<p>The sequencing technologies usually produce basecalls with varying quality. In addition, there could be sample specific issues in your sequencing run, such as adapter contamination. It is standard procedure to check the quality of the reads and identify problems before doing further analysis. Checking the quality and making some decisions for the downstream analysis can influence the outcome of your project.</p>
+<p>Below, we will walk you through the quality check steps using <a href="https://bioconductor.org/packages/release/bioc/html/Rqc.html"><strong>Rqc</strong></a> package. First, we need to feed fastq files to <code>rqc()</code> function and obtain an object with sequence quality related results. We are using example fastq files from <strong>ShortRead</strong> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(Rqc)
+folder =<span class="st"> </span><span class="kw">system.file</span>(<span class="dt">package=</span><span class="st">&quot;ShortRead&quot;</span>, <span class="st">&quot;extdata/E-MTAB-1147&quot;</span>)
+
+<span class="co"># feeds fastq.qz files in &quot;folder&quot; to quality check function</span>
+qcRes=<span class="kw">rqc</span>(<span class="dt">path =</span> folder, <span class="dt">pattern =</span> <span class="st">&quot;.fastq.gz&quot;</span>, <span class="dt">openBrowser=</span><span class="ot">FALSE</span>)</code></pre></div>
+<div id="sequence-quality-per-basecycle" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Sequence quality per base/cycle</h3>
+<p>Now that we have <code>qcRes</code> object, we can plot various sequence quality metrics for our fastq files. We will first plot &quot; sequence quality per base/cycle“. This plot depicts the quality scores across all bases at each position in the reads.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rqcCycleQualityBoxPlot</span>(qcRes)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:CycleQualityBoxPlot"></span>
+<img src="compgenomrReloaded_files/figure-html/CycleQualityBoxPlot-1.png" alt="Per base sequence quality boxplot" width="80%" />
+<p class="caption">
+FIGURE 5.3: Per base sequence quality boxplot
+</p>
+</div>
+<p>In our case, the x-axis in the plot is labeled as “cycle”. This is because in each sequencing “cycle” a fluorescently labeled nucleotide is added to complement the template sequence, and the sequencing machine identifies which nucleotide is added. Therefore, cycles corresponds to bases/nucleotides along the read, and the number of cycles is equivalent to the read length.</p>
+<p>Long sequences can have degraded quality towards the ends of the reads. Looking at quality distribution over base positions can help us decide to do trimming towards the end of the reads or not. A good sample will have median quality scores per base above 28. If scores are below 20 towards the ends, you can think about trimming the reads.</p>
+</div>
+<div id="sequence-content-per-basecycle" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Sequence content per base/cycle</h3>
+<p>Per base sequence content shows nucleotide proportions for each position. In a random sequencing library there should be no nucleotide bias and the lines should be almost parallel with each other.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rqcCycleBaseCallsLinePlot</span>(qcRes)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:baseCallFreq"></span>
+<img src="compgenomrReloaded_files/figure-html/baseCallFreq-1.png" alt="Per base sequence quality boxplot" width="80%" />
+<p class="caption">
+FIGURE 5.4: Per base sequence quality boxplot
+</p>
+</div>
+<p>However some types of sequencing libraries can produce a biased sequence composition. For example, in RNA-Seq , it is common to have bias at the beginning of the reads. This happens because of random primers annealing to the start of reads during RNA-Seq library preparation. These primers are not truly random, and it leads to a variation at the beginning of the reads. Although RNA-seq experiments will usually have these biases, this will not affect the ability of measuring gene expression.</p>
+<p>In addition, some libraries are inherently biased in their sequence composition. For example, in bisulfite sequencing experiments most of the cytosines will be converted to thymines. This will create a difference in C and T base compositions over the read, however this type of difference is normal for bisulfite sequencing experiments.</p>
+</div>
+<div id="read-frequency-plot" class="section level3">
+<h3><span class="header-section-number">5.2.3</span> Read frequency plot</h3>
+<p>This plot shows the degree of duplication for every read in the library. A high level of duplication, non-unique reads, is likely to indicate an enrichment bias. Technical duplicates arising from PCR artefacts could cause this. PCR is a common step in library preparation which creates many copies of the sequence fragment. In RNA-seq data, non-unique read proportion can reach more than 20%. However, these duplications may stem from simply genes being expressed at high levels. This means that there will many copies of transcripts and many copies of the same fragment. Since, we can not be sure these duplicated reads are due to PCR bias or an effect of high transcription we should not remove duplicated reads in RNA-seq analysis. However, in ChIP-seq experiments duplicated reads are more likely to be due to PCR bias.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rqcReadFrequencyPlot</span>(qcRes)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:ReadFrequencyPlot"></span>
+<img src="compgenomrReloaded_files/figure-html/ReadFrequencyPlot-1.png" alt="Per base sequence quality boxplot" width="80%" />
+<p class="caption">
+FIGURE 5.5: Per base sequence quality boxplot
+</p>
+</div>
+</div>
+<div id="other-quality-metrics-and-qc-tools" class="section level3">
+<h3><span class="header-section-number">5.2.4</span> Other quality metrics and QC tools</h3>
+<p>Over-represented k-mers along the reads can be an additional check. If there are such sequences it may point to adapter contamination and should be trimmed. Adapters are known sequences that are added to the ends of the reads. This kind of contamination could also be visible at “sequence content per base” plots. In addition, if you know the adapter sequences you can match it to the end of the reads and trim them. The most popular tool for sequencing quality control is the fastQC tool <span class="citation">(“Babraham Bioinformatics - FastQC A Quality Control Tool for High Throughput Sequence Data” <a href="#ref-noauthor_babraham_nodate">2018</a>)</span>, which is written in Java. It produces the plots that we described above in addition to k-mer overrepresentation and adapter overrepresentation plots. The R package <a href="https://cran.r-project.org/web/packages/fastqcr/index.html">fastqcr</a> can run this Java tool and produce R based plots and reports. This package simply calls the Java tool and parses its results. Below, we are showing how to do that.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(fastqcr)
+
+<span class="co"># install the FASTQC java tool</span>
+<span class="kw">fastqc_install</span>()
+
+<span class="co"># call FASTQC and record the resulting statistics</span>
+<span class="co"># in fastqc_results folder</span>
+<span class="kw">fastqc</span>(<span class="dt">fq.dir =</span> folder,<span class="dt">qc.dir =</span> <span class="st">&quot;fastqc_results&quot;</span>)</code></pre></div>
+<p>Now that we have run FastQC on our fastq files, we can read the results to R and construct plots or reports. <code>gc_report</code> function can create an Rmarkdown based report from FastQC output.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># view the report rendered by R functions</span>
+<span class="kw">qc_report</span>(<span class="dt">qc.path=</span><span class="st">&quot;fastqc_results&quot;</span>, 
+          <span class="dt">result.file=</span><span class="st">&quot;reportFile&quot;</span>, <span class="dt">preview =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Alternatively, we can read the results with <code>qc_read()</code> and make specific plots we are interested in with <code>qc_plot()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># read QC results to R for one fastq file</span>
+qc &lt;-<span class="st"> </span><span class="kw">qc_read</span>(<span class="st">&quot;fastqc_results/ERR127302_1_subset_fastqc.zip&quot;</span>)
+
+<span class="co"># make plots, example &quot;Per base sequence quality plot&quot;</span>
+<span class="kw">qc_plot</span>(qc, <span class="st">&quot;Per base sequence quality&quot;</span>)</code></pre></div>
+<p>Apart from this, the bioconductor packages Rqc <span class="citation">(de Souza, Carvalho, and Lopes-Cendes <a href="#ref-Rqc">2018</a>)</span> (see <code>Rqc::rqcReport</code> function), QuasR <span class="citation">(Gaidatzis et al. <a href="#ref-gaidatzis_quasr:_2015">2015</a>)</span> (see <code>QuasR::qQCReport</code> function), systemPipeR <span class="citation">(Backman and Girke <a href="#ref-backman_systempiper:_2016">2016</a>)</span> (see <code>systemPipeR::seeFastq</code> function), and ShortRead <span class="citation">(Morgan et al. <a href="#ref-morgan_shortread:_2009">2009</a>)</span> (see <code>ShortRead::report</code> function) packages can all generate quality reports in a similar fashion to FastQC with some differences in plot content and number.</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-noauthor_babraham_nodate">
+<p>“Babraham Bioinformatics - FastQC A Quality Control Tool for High Throughput Sequence Data.” 2018. Accessed July 16. <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/" class="uri">https://www.bioinformatics.babraham.ac.uk/projects/fastqc/</a>.</p>
+</div>
+<div id="ref-Rqc">
+<p>de Souza, Welliton, Benilton S Carvalho, and Iscia Lopes-Cendes. 2018. “Rqc: A Bioconductor Package for Quality Control of High-Throughput Sequencing Data.” <em>Journal of Statistical Software, Code Snippets</em> 87 (2): 1–14. doi:<a href="https://doi.org/10.18637/jss.v087.c02">10.18637/jss.v087.c02</a>.</p>
+</div>
+<div id="ref-gaidatzis_quasr:_2015">
+<p>Gaidatzis, Dimos, Anita Lerch, Florian Hahne, and Michael B. Stadler. 2015. “QuasR: Quantification and Annotation of Short Reads in R.” <em>Bioinformatics</em> 31 (7): 1130–2. doi:<a href="https://doi.org/10.1093/bioinformatics/btu781">10.1093/bioinformatics/btu781</a>.</p>
+</div>
+<div id="ref-backman_systempiper:_2016">
+<p>Backman, Tyler W. H., and Thomas Girke. 2016. “systemPipeR: NGS Workflow and Report Generation Environment.” <em>BMC Bioinformatics</em> 17 (1). doi:<a href="https://doi.org/10.1186/s12859-016-1241-0">10.1186/s12859-016-1241-0</a>.</p>
+</div>
+<div id="ref-morgan_shortread:_2009">
+<p>Morgan, Martin, Simon Anders, Michael Lawrence, Patrick Aboyoun, Hervé Pagès, and Robert Gentleman. 2009. “ShortRead: A Bioconductor Package for Input, Quality Assessment and Exploration of High-Throughput Sequence Data.” <em>Bioinformatics</em> 25 (19): 2607–8. doi:<a href="https://doi.org/10.1093/bioinformatics/btp450">10.1093/bioinformatics/btp450</a>.</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="processingReads.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="fasta-and-fastq-formats.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="filtering-and-trimming-reads.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
