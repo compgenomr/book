@@ -95,7 +95,7 @@ Proteins are essential elements for life.
 The growth and repair, functioning and structure of all living cells depends on them.
 This is why the gene is a central
 concept in genome biology, because a gene can encode information for proteins and other
-functional molecules. How genes are controled and activated dictates
+functional molecules. How genes are controlled and activated dictates
 everything about an organism. From the identity of a cell to response to
 an infection, how cells develop and behave against certain stimuli is governed
 by activity of the genes and functional molecules they encode. The liver cell becomes a liver cell because certain
@@ -107,7 +107,7 @@ knitr::include_graphics("images/centDogma.png" )
 ```
 
 
-### How genes are controlled ? The transcriptional and the post-transcriptional regulation
+### How genes are controlled? The transcriptional and the post-transcriptional regulation
 In order to answer this question, we have to dig a little deeper on the
 transcription concept we introduced via the central dogma.
 The first step in a process of information transfer - a production of an RNA
@@ -121,10 +121,10 @@ bind to core promoters and form a pre-initiation complex. RNA polymerases
 recognize these complexes and initiate synthesis of RNAs, the
 polymerase travels along the template DNA and making an RNA
 copy[3]. After mRNA is
-produced it is often spliced by splicesosome. The sections called 'introns' are removed and
+produced it is often spliced by spliceosome. The sections called 'introns' are removed and
 sections called 'exons' left in. Then, the remaining mRNA translated into proteins. Which exons
 will be part of the final mature transcript can also be regulated and creates
-diversity in protein structure and function (See Figure \@ref(fig:TransSplice)`).
+diversity in protein structure and function (See Figure \@ref(fig:TransSplice)).
 
 
 ```{r,TransSplice,fig.cap="Transcription could be followed by splicing, which creates different transcript isoforms. This will in return create different protein isoforms since the information required to produce the protein is encoded in the transcripts. Differences in transcript of the same gene can give rise to different protein isoforms",fig.align = 'center',out.width='70%',ref.label='TransSplice',echo=FALSE}
@@ -133,7 +133,7 @@ knitr::include_graphics("images/TransSplice.png" )
 
 On the contrary to protein coding genes, non-coding RNA (ncRNAs)
 genes are processed and assume their functional structures after transcription
-and without going into translation, hence the name: non-coding RNAs. certain
+and without going into translation, hence the name: non-coding RNAs. Certain
 ncRNAs can also be spliced but still not translated. ncRNAs and
 other RNAs in general can form complementary base-pairs within the RNA molecule
 which gives them additional complexity. This self-complementarity based
@@ -156,8 +156,8 @@ a gene on a computer screen, and how it is represented on the computer will be
 equivalent to what you imagine when you hear the word "gene".
 In the online databases, the genes will appear as a sequence of letters
 or as a series of connected boxes showing exon-intron structure which may
-include the direction of transcription as well (see Figure \@ref(fig:RealGene)).
-direction. You will encounter more with the latter so this is likely what will
+include the direction of transcription as well (see Figure \@ref(fig:RealGene)). 
+You will encounter more with the latter so this is likely what will
 pop into your mind when you think of genes.
 
 As we have mentioned DNA has two strands, and a gene can be located
@@ -208,7 +208,7 @@ altered protein-protein interactions.
 ####   Regulation by transcription factors through regulatory regions
  Transcripton factors are proteins that
 recognize a specific DNA motif to bind on a regulatory region and regulate the transcription rate of
-the gene associated with that regulatory region (See Figure \@ref(fig:regSummary))`
+the gene associated with that regulatory region (See Figure \@ref(fig:regSummary)
 for an illustration). These factors bind to a variety of regulatory regions summarized in
 Figure \@ref(fig:regSummary), and their concerted action
 controls the transcription rate. Apart from their binding preference, their
