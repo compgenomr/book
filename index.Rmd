@@ -47,7 +47,7 @@ lapply(c('citr', 'formatR', 'svglite'), function(pkg) {
 knitr::include_graphics('images/cover.jpg', dpi = NA)
 ```
 
-The aim of this book is to provide the fundamentals for data analysis for genomics. We developed this book based on the computational genomics courses we are giving every year. We have had invariably an interdisicplineary audience with backgrounds from physics, biology medicine, math, computer science or other quantitative fields. We want this book to be a starting point for computational genomics students and a guide for further data analysis in more specific topics in genomics. This is why we tried to cover a large variety of topics from programming to basic genome biology. As the field is interdisciplineary, it requires different starting points for people with different backgrounds. A biologist might skip sections on basic genome biology and start with R programming whereas a computer scientist might want to start with genome biology. In the same manner, a more experienced person might want to refer to this book when s/he needs to do a certain type of analysis where s/he does not have prior experience.
+The aim of this book is to provide the fundamentals for data analysis for genomics. We developed this book based on the computational genomics courses we are giving every year. We have had invariably an interdisicplinary audience with backgrounds from physics, biology medicine, math, computer science or other quantitative fields. We want this book to be a starting point for computational genomics students and a guide for further data analysis in more specific topics in genomics. This is why we tried to cover a large variety of topics from programming to basic genome biology. As the field is interdisciplinary, it requires different starting points for people with different backgrounds. A biologist might skip sections on basic genome biology and start with R programming whereas a computer scientist might want to start with genome biology. In the same manner, a more experienced person might want to refer to this book when s/he needs to do a certain type of analysis where s/he does not have prior experience.
 
 
 ![Creative Commons License](images/by-nc-sa.png)  
@@ -57,11 +57,11 @@ The online version of this book is licensed under the [Creative Commons Attribut
 The book contains practical and theoretical aspects for computational genomics. Biology and 
 medicine generate more data than ever before. Therefore, we need to educate more people with data 
 analysis skills and understanding of computational genomics.
-Since computational genomics is interdisciplinary; this book aims to be accessible for
+Since computational genomics is interdisciplinary, this book aims to be accessible for
 biologists, medical scientists, computer scientists and people from other quantitative backgrounds. We wrote this book for the following audiences:
 
  - Biologists and medical scientists who generate the data and are keen on analyzing it themselves.
- - Students and researchers who are formally starting to do research on or using computational genomics but do not have extensive domain specific knowledge but has at least a beginner level in a quantitative field: math, stats
+ - Students and researchers who are formally starting to do research on or using computational genomics but do not have extensive domain specific knowledge but have at least a beginner level understanding in a quantitative field: math, stats
  - Experienced researchers looking for recipes or quick how-tos to get started in specific data analysis tasks related to computational genomics. 
 
 
@@ -72,9 +72,9 @@ analyze their own genomics data.
 After reading:
 
 - If you are not familiar with R, you will get the basics of R and dive right in to specialized uses of R for computational genomics.
-- you will understand genomic intervals and operations on them, such as overlap
+- You will understand genomic intervals and operations on them, such as overlap
 - You will be able to use R and its vast package library to do sequence analysis: Such as calculating GC content for given segments of a genome or find transcription factor binding sites
-- You will be familiar with visualization techniques used in genomics, such as heatmaps,meta-gene plots and genomic track visualization
+- You will be familiar with visualization techniques used in genomics, such as heatmaps, meta-gene plots and genomic track visualization
 - You will be familiar with supervised and unsupervised learning techniques which are important in data modelling and exploratory analysis of high-dimensional data
 - You will be familiar with analysis of different high-throughput sequencing data
 sets mostly using R based tools.
@@ -86,16 +86,16 @@ The book is designed with the idea that practical and conceptual
 understanding of data analysis methods is as important, if not more important, than the theoretical understanding, such as detailed derivation of equations in statistics or machine-learning. That is why we first try to give a conceptual explanation of the concepts then we try to give essential parts of the mathematical formulas for more detailed understanding. In this sprit, we always show the code and 
 explain the code for a particular data analysis task. In addition, we give additional references such as books, websites and scientific papers for readers who desire to gain deeper theoretical understanding of data analysis related methods or concepts.
 
-Introduction chapter introduce data analysis paradigms and what computational genomics looks like in practice. "Essentials for genomics" chapter introduces the basic concepts in genome biology and genomics. Understanding these concepts are important for computational genomics. 
+Introduction chapter introduces data analysis paradigms and what computational genomics looks like in practice. "Essentials for genomics" chapter introduces the basic concepts in genome biology and genomics. Understanding these concepts are important for computational genomics. 
 
-Chapters "Introduction to R" and "Statistics and Exploratory Data Analysis for Genomics" introduce the necessary programming and practical data analysis skillls for computational genomics. Related to these, "Operations on genomic intervals and genome arithmetic" introduces fundemental tools for dealing with genomic intervals and their relationship to eachother over the genome. These three chapters composes the necessary technical toolkit for analysis of specific high-throughput sequencing techniques. 
+Chapters "Introduction to R" and "Statistics and Exploratory Data Analysis for Genomics" introduce the necessary programming and practical data analysis skills for computational genomics. Related to these, "Operations on genomic intervals and genome arithmetic" introduces fundemental tools for dealing with genomic intervals and their relationship to each other over the genome. These three chapters compose the necessary technical toolkit for analysis of specific high-throughput sequencing techniques. 
 
 Chapters "RNA-seq analysis", "ChIP-seq analysis" and "BS-seq analysis" deals 
 with the analysis techniques for popular high-throughput sequencing techniques.
 The last chapter "multi-omics data integration" deals with methods for integrating multiple omics data sets.
 
 
-To sum it up, this book is a comprehensive guide for computational genomics. Some sections are there for the sake of the wide interdisciplineary audience and completeness, and not all sections will be equally useful to all readers of this broad audience.
+To sum it up, this book is a comprehensive guide for computational genomics. Some sections are there for the sake of the wide interdisciplinary audience and completeness, and not all sections will be equally useful to all readers of this broad audience.
 
 ## Software information and conventions {-}
 
