@@ -331,6 +331,7 @@ population parameters). We will try to estimate the precision
 of the mean of the sample using bootstrap to build confidence intervals.
 
 ```{r,out.width='70%',fig.cap="Precision estimate of the sample mean using 1000 bootstrap samples. Confidence intervals derived from the bootstrap samples are shown with red lines."}
+library(mosaic)
 set.seed(21)
 sample1= rnorm(50,20,5) # simulate a sample
 
