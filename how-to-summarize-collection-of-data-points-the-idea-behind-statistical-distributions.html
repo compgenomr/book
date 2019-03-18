@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-03-10">
+<meta name="date" content="2019-03-18">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -438,7 +438,8 @@ FIGURE 3.5: Z-score and associated probabilities for Z= -1
 <p>When we take a random sample from a population and compute a statistic, such as the mean, we are trying to approximate the mean of the population. How well this sample statistic estimates the population value will always be a concern. A confidence interval addresses this concern because it provides a range of values which is plausible to contain the population parameter of interest. Normally, we would not have access to a population. If we did, we would not have to estimate the population parameters and its precision.</p>
 <p>When we do not have access to the population, one way to estimate intervals is to repeatedly take samples from the original sample with replacement, that is we take a data point from the sample we replace, and we take another data point until we have sample size of the original sample. Then, we calculate the parameter of interest, in this case mean, and repeat this step a large number of times, such as 1000. At this point, we would have a distribution of re-sampled means, we can then calculate the 2.5th and 97.5th percentiles and these will be our so-called 95% confidence interval. This procedure, resampling with replacement to estimate the precision of population parameter estimates, is known as the <strong>bootstrap</strong>.</p>
 <p>Let’s see how we can do this in practice. We simulate a sample coming from a normal distribution (but we pretend we don’t know the population parameters). We will try to estimate the precision of the mean of the sample using bootstrap to build confidence intervals.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">21</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mosaic)
+<span class="kw">set.seed</span>(<span class="dv">21</span>)
 sample1=<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">50</span>,<span class="dv">20</span>,<span class="dv">5</span>) <span class="co"># simulate a sample</span>
 
 <span class="co"># do bootstrap resampling, sampling with replacement</span>
