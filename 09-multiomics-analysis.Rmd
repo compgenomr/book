@@ -77,7 +77,9 @@ $$
 
 which may be further subject to some constraints or regularization terms. As we normally seek a latent variable model with a considerably lower dimensionality than $X$, this is the more common case.
 
-![General matrix factorization framework. The data matrix on the left hand side is decomposed into factors on the right hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation.](figures/matrix_factorization.pdf)
+```{r,matrixFactorization,fig.cap="General matrix factorization framework. The data matrix on the left hand side is decomposed into factors on the right hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation.",fig.align = 'center',out.width='100%',echo=FALSE}
+knitr::include_graphics("images/matrix_factorization.svg" )
+```
 
 In the figure above, the $5 \times 4$ data matrix $X$ is decomposed to a 2-dimensional latent variable model.
 
@@ -87,7 +89,11 @@ Multiple factor analysis is a natural starting point for a discussion about matr
 
 Consider the figure below, a naive extension of PCA to a multi-omics context:
 
-![A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.](figures/mfa.pdf)
+```{r,MFA,fig.cap="A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.",fig.align = 'center',out.width='100%',echo=FALSE}
+knitr::include_graphics("images/mfa.svg" )
+```
+
+
 
 Formally, we have
 $$
@@ -241,18 +247,6 @@ test_merge_neg_columns <- function() {
 test_merge_neg_columns()
 ```
 
-```{r echo=FALSE}
-# this hack is here because of an NMF / DelayedArray incompatibility
-# https://github.com/renozao/NMF/issues/85
-detach("package:Rqc")
-detach("package:RUVSeq")
-detach("package:EDASeq")
-detach("package:ShortRead")
-detach("package:GenomicAlignments")
-detach("package:DESeq2")
-detach("package:SummarizedExperiment")
-detach("package:DelayedArray")
-```
 
 ```{r}
 # Feature-normalize the data
@@ -267,6 +261,18 @@ x3.featnorm.frobnorm <- x3.featnorm / norm(as.matrix(x3.featnorm), type="F")
 
 # Split the features of the CNV matrix into two non-negative features each
 x3.featnorm.frobnorm.nonneg <- t(split_neg_columns(t(x3.featnorm.frobnorm)))
+
+# this hack is here because of an NMF / DelayedArray incompatibility
+# https://github.com/renozao/NMF/issues/85
+detach("package:Rqc")
+detach("package:RUVSeq")
+detach("package:EDASeq")
+detach("package:ShortRead")
+detach("package:GenomicAlignments")
+detach("package:DESeq2")
+detach("package:SummarizedExperiment")
+detach("package:DelayedArray")
+# end hack
 
 require(NMF)
 r.nmf <- nmf(t(rbind(x1.featnorm.frobnorm, x2.featnorm.frobnorm, x3.featnorm.frobnorm.nonneg)), 2, method='Frobenius')
@@ -296,7 +302,11 @@ $$
 
 where $X_{(i)}$ is a data matrix from a single omics platform, $W_{(i)}$ are model parameters, $Z$ is a latent variable matrix, and is shared between the different omics platforms, and $\epsilon_i$ is a "noise" random variable, $\epsilon \sim N(0,\Psi)$, with $\Psi = diag(\psi_1,\dots \psi_M)$ is a diagonal covariance matrix.
 
-![Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise.](figures/icluster.pdf)
+```{r,iCluster,fig.cap="Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise.",fig.align = 'center',out.width='100%',echo=FALSE}
+knitr::include_graphics("images/icluster.svg" )
+```
+
+
 
 Note that with this construction, the omics measurements $X$ are expected to be the same for samples with the same latent variable representation, up to gaussian noise. Further, we assume a Gaussian prior distribution on the latent variables $Z \sim N(0,I)$, which means we assume $X_{(i)} \sim N \big( 0,W_{(i)} W_{(i)}^T + \Psi_{(i)} \big)$. In order to find suitable values for $W$, $Z$, and $\Psi$, we can write down the multivariate normal log-likelihood function and optimize it. For a multivariate normal distribution with mean $0$ and covariance $\Sigma$, the log-likelihood function is given by
 
