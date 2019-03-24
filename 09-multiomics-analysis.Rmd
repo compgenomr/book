@@ -240,6 +240,20 @@ test_merge_neg_columns <- function() {
 }
 test_merge_neg_columns()
 ```
+
+```{r echo=FALSE}
+# this hack is here because of an NMF / DelayedArray incompatibility
+# https://github.com/renozao/NMF/issues/85
+detach("package:Rqc")
+detach("package:RUVSeq")
+detach("package:EDASeq")
+detach("package:ShortRead")
+detach("package:GenomicAlignments")
+detach("package:DESeq2")
+detach("package:SummarizedExperiment")
+detach("package:DelayedArray")
+```
+
 ```{r}
 # Feature-normalize the data
 x1.featnorm <- x1 / rowSums(x1)
@@ -254,7 +268,8 @@ x3.featnorm.frobnorm <- x3.featnorm / norm(as.matrix(x3.featnorm), type="F")
 # Split the features of the CNV matrix into two non-negative features each
 x3.featnorm.frobnorm.nonneg <- t(split_neg_columns(t(x3.featnorm.frobnorm)))
 
-r.nmf <- NMF::nmf(t(rbind(x1.featnorm.frobnorm, x2.featnorm.frobnorm, x3.featnorm.frobnorm.nonneg)), 2, method='Frobenius')
+require(NMF)
+r.nmf <- nmf(t(rbind(x1.featnorm.frobnorm, x2.featnorm.frobnorm, x3.featnorm.frobnorm.nonneg)), 2, method='Frobenius')
 nmf.h <- NMF::basis(r.nmf)
 nmf.w <- NMF::coef(r.nmf)
 
