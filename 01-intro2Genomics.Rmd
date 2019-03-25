@@ -516,7 +516,7 @@ Mutations in the genome occur due to multiple reasons. First, DNA replication
 is not an error-free process. Before a cell division, the DNA is replicated with
 1 mistake per 10^8 to 10^10 base-pairs. Second, mutagens such as UV light
 can induce mutations on the genome. Third factor that contributes to mutation
-is imperfect DNA repair. Every day any human cell suffers multiple instances DNA damage.
+is imperfect DNA repair. Every day any human cell suffers multiple instances of DNA damage.
 DNA repair enzymes are there to cope with this damage but they are also not
 error-free, depending on which DNA repair mechanism is used (there are multiple)
 mistakes will be made at varying rates.
