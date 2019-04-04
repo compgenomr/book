@@ -6,19 +6,19 @@ Living cells are a symphony of complex processes. Modern sequencing technology h
 
 The examples in this chapter will use the following data: a set of 121 tumors from the TCGA [@tcga_pan_cancer] cohorts of Colon and Rectum adenocarcinoma. The tumors have been profiled for gene expression using RNA-seq, mutations using Exome-seq, and copy number variations using genotyping arrays. The subset of tumors used in this chapter belong to two distinct molecular subtypes defined by the Colorectal Cancer Subtyping Consortium [@cmscc], _CMS1_ and _CMS3_.
 
-```{r, results='asis'}
+```{r,loadMultiomicsGE,results='asis'}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_gex.csv",package="compGenomRData")
 x1 <- read.csv(csvfile, row.names=1)
 rownames(x1) <- sapply(strsplit(rownames(x1), "\\|"), function(x) x[1])
 knitr::kable(head(t(head(x1))), caption="Gene expression data (head)")
 ```
-```{r results='asis'}
+```{r,loadMultiomicsMUT,results='asis'}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_muts.csv",package="compGenomRData")
 x2 <- read.csv(csvfile, row.names=1)
 x2[x2>0]=1
 knitr::kable(head(t(head(x2))), caption="Mutation data (head)")
 ```
-```{r results='asis'}
+```{r,loadMultiomicsCNV,results='asis'}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_cnv.csv",package="compGenomRData")
 x3 <- read.csv(csvfile, row.names=1)
 knitr::kable(head(t(head(x3))), caption="Copy number data (head)")
