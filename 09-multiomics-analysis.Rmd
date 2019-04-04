@@ -121,7 +121,7 @@ where $\lambda^{(i)}_1$ is the first eigenvalue of the principal component decom
 #### Example in R
 
 MFA is available through the CRAN package `FactoMineR`. The code snippet below shows how to run it:
-```{r}
+```{r,multiomicsFactoMineR}
 r.mfa <- FactoMineR::MFA(t(rbind(x1,x2,x3)), c(dim(x1)[1], dim(x2)[1], dim(x3)[1]), graph=FALSE)
 mfa.h <- r.mfa$global.pca$ind$coord
 mfa.w <- r.mfa$quanti.var$coord
