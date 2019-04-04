@@ -7,6 +7,6 @@ Imports: bookdown, MASS, qvalue, plot3D, ggplot2,pheatmap,
          genomation, ggbio, Gviz, DESeq2, RUVSeq, gProfileR, 
          ggfortify, corrplot, gage, EDASeq, citr, 
          formatR, svglite, Rqc, ShortRead, QuasR, methylKit,
-         FactoMineR
+         FactoMineR, iClusterPlus, enrichR
          
 #Remotes: compgenomr/compGenomRData

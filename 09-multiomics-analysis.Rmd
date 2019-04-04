@@ -354,7 +354,7 @@ Both iCluster and iCluster+ make use of sophisticated Bayesian inference algorit
 
 iCluster+ is available through the BioConductor package `iClusterPlus`:
 
-```{r}
+```{r,multiOmicsiclusterplus}
 r.icluster <- iClusterPlus::iClusterPlus(t(x1), t(x2), t(x3), type=c("gaussian", "binomial", "multinomial"), K=2, alpha=c(1,1,1), lambda=c(.03,.03,.03))
 
 icluster.z <- r.icluster$meanZ
@@ -473,7 +473,7 @@ The hypergeometric enrichment test is also referred to as _Fisher's one-sided ex
 
 In R, we can do this analysis using the `enrichR` package, which gives us access to many gene set libraries. In the example below, we'll find the genes associated with preferentially NMF factor 1 or NMF factor 2, by the contribution of those genes' expression values to the factor. Then, we'll use `enrichR` to query the Gene Ontology terms which might be overlapping. `enrichR` performs 
 
-```{r}
+```{r,enrichr}
 genes.factor.1 <- names(which(nmfw[1:dim(x1)[1],1] > nmfw[1:dim(x1)[1],2]))
 genes.factor.2 <- names(which(nmfw[1:dim(x1)[1],1] < nmfw[1:dim(x1)[1],2]))
 
