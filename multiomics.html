@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-04-03">
+<meta name="date" content="2019-04-04">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="references.html">
-<link rel="next" href="references-1.html">
+<link rel="next" href="latent-variable-models-for-multi-omics-integration.html">
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -302,7 +302,25 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="8.7" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>8.7</b> References</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="multiomics.html"><a href="multiomics.html"><i class="fa fa-check"></i><b>9</b> Multi-omics analysis</a></li>
+<li class="chapter" data-level="9" data-path="multiomics.html"><a href="multiomics.html"><i class="fa fa-check"></i><b>9</b> Multi-omics analysis</a><ul>
+<li class="chapter" data-level="9.0.1" data-path="multiomics.html"><a href="multiomics.html#example-data"><i class="fa fa-check"></i><b>9.0.1</b> Example data</a></li>
+<li class="chapter" data-level="9.1" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>9.1</b> Latent variable models for multi-omics integration</a></li>
+<li class="chapter" data-level="9.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>9.2</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
+<li class="chapter" data-level="9.2.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>9.2.1</b> Multiple Factor Analysis</a></li>
+<li class="chapter" data-level="9.2.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>9.2.2</b> Joint Non-negative Matrix Factorization</a></li>
+<li class="chapter" data-level="9.2.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>9.2.3</b> iCluster</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>9.3</b> Clustering using latent factors</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html#one-hot-clustering"><i class="fa fa-check"></i><b>9.3.1</b> One-hot clustering</a></li>
+<li class="chapter" data-level="9.3.2" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html#k-means-clustering-1"><i class="fa fa-check"></i><b>9.3.2</b> K-means clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html"><i class="fa fa-check"></i><b>9.4</b> Biological interpretation of latent factors</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#inspection-of-feature-weights-in-loading-vectors"><i class="fa fa-check"></i><b>9.4.1</b> Inspection of feature weights in loading vectors</a></li>
+<li class="chapter" data-level="9.4.2" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#making-sense-of-factors-using-enrichment-analysis"><i class="fa fa-check"></i><b>9.4.2</b> Making sense of factors using enrichment analysis</a></li>
+<li class="chapter" data-level="9.4.3" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#interpretation-using-additional-covariates"><i class="fa fa-check"></i><b>9.4.3</b> Interpretation using additional covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="exercises-9.html"><a href="exercises-9.html"><i class="fa fa-check"></i><b>9.5</b> Exercises</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
@@ -326,8 +344,257 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="multiomics" class="section level1">
 <h1><span class="header-section-number">Chapter 9</span> Multi-omics analysis</h1>
-<p>in progress…</p>
-
+<p>Living cells are a symphony of complex processes. Modern sequencing technology has lead to many comprehensive assays being routinely available to experimenters, giving us different ways to peek at the internal doings of the cells, each experiment revealing a different part of some underlying processes. As an example, most cells have the same DNA, but sequencing the genome of a cell allows us to find mutations and structural alterations that drive tumerogenesis in cancer. If we treat the DNA with bisulfite prior to sequencing, cytosine residues are converted to uracil, but 5-methylcytosine residues are unaffected. This allows us to probe the methylation patterns of the genome, or its methylome. By sequencing the mRNA molecules in a cell, we can calculate the abundance, in different samples, of different mRNA transcripts, or uncover its transcriptome. Performing different experiments on the same samples, for instance RNA-seq, DNA-seq, and BS-seq, results in multi-dimensional omics datasets, which enable the study of relationships between different biological processes, e.g. DNA methylation, mutations, and gene expression, and the leveraging of multiple data types to draw inferences about biological systems. This chapter provides an overview of some of the available methods for such analyses, focusing on matrix factorization approaches. In the examples in this chapter we will demonstrate how these methods are applicable to cancer subtyping, i.e. finding tumors which are driven by the same oncogenic processes.</p>
+<div id="example-data" class="section level3">
+<h3><span class="header-section-number">9.0.1</span> Example data</h3>
+<p>The examples in this chapter will use the following data: a set of 121 tumors from the TCGA <span class="citation">(<span class="citeproc-not-found" data-reference-id="tcga_pan_cancer"><strong>???</strong></span>)</span> cohorts of Colon and Rectum adenocarcinoma. The tumors have been profiled for gene expression using RNA-seq, mutations using Exome-seq, and copy number variations using genotyping arrays. The subset of tumors used in this chapter belong to two distinct molecular subtypes defined by the Colorectal Cancer Subtyping Consortium <span class="citation">(<span class="citeproc-not-found" data-reference-id="cmscc"><strong>???</strong></span>)</span>, <em>CMS1</em> and <em>CMS3</em>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_gex.csv&quot;</span>,<span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)
+x1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)
+<span class="kw">rownames</span>(x1) &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(x1), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">|&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])
+knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x1))), <span class="dt">caption=</span><span class="st">&quot;Gene expression data (head)&quot;</span>)</code></pre></div>
+<table>
+<caption><span id="tab:loadMultiomicsGE">TABLE 9.1: </span>Gene expression data (head)</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">RNF113A</th>
+<th align="right">S100A13</th>
+<th align="right">AP3D1</th>
+<th align="right">ATP6V1G1</th>
+<th align="right">UBQLN4</th>
+<th align="right">TPPP3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TCGA.A6.2672</td>
+<td align="right">21.20</td>
+<td align="right">19.73</td>
+<td align="right">11.53</td>
+<td align="right">0.00</td>
+<td align="right">15.36</td>
+<td align="right">12.77</td>
+</tr>
+<tr class="even">
+<td>TCGA.A6.3809</td>
+<td align="right">21.51</td>
+<td align="right">18.66</td>
+<td align="right">12.99</td>
+<td align="right">14.13</td>
+<td align="right">19.62</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="odd">
+<td>TCGA.A6.5661</td>
+<td align="right">20.08</td>
+<td align="right">18.97</td>
+<td align="right">10.84</td>
+<td align="right">15.31</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td>TCGA.A6.5665</td>
+<td align="right">0.00</td>
+<td align="right">11.88</td>
+<td align="right">10.24</td>
+<td align="right">19.79</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="odd">
+<td>TCGA.A6.6653</td>
+<td align="right">0.00</td>
+<td align="right">12.08</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td>TCGA.A6.6780</td>
+<td align="right">0.00</td>
+<td align="right">12.99</td>
+<td align="right">0.00</td>
+<td align="right">19.97</td>
+<td align="right">13.18</td>
+<td align="right">11.59</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_muts.csv&quot;</span>,<span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)
+x2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)
+x2[x2<span class="op">&gt;</span><span class="dv">0</span>]=<span class="dv">1</span>
+knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x2))), <span class="dt">caption=</span><span class="st">&quot;Mutation data (head)&quot;</span>)</code></pre></div>
+<table>
+<caption><span id="tab:loadMultiomicsMUT">TABLE 9.2: </span>Mutation data (head)</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">TTN</th>
+<th align="right">TP53</th>
+<th align="right">APC</th>
+<th align="right">KRAS</th>
+<th align="right">SYNE1</th>
+<th align="right">MUC16</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TCGA.A6.2672</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>TCGA.A6.3809</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>TCGA.A6.5661</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>TCGA.A6.5665</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>TCGA.A6.6653</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>TCGA.A6.6780</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_cnv.csv&quot;</span>,<span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)
+x3 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)
+knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x3))), <span class="dt">caption=</span><span class="st">&quot;Copy number data (head)&quot;</span>)</code></pre></div>
+<table>
+<caption><span id="tab:loadMultiomicsCNV">TABLE 9.3: </span>Copy number data (head)</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">8p23.2</th>
+<th align="right">8p23.3</th>
+<th align="right">8p23.1</th>
+<th align="right">8p21.3</th>
+<th align="right">8p12</th>
+<th align="right">8p22</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TCGA.A6.2672</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>TCGA.A6.3809</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>TCGA.A6.5661</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>TCGA.A6.5665</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td>TCGA.A6.6653</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td>TCGA.A6.6780</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>Each of the data types (gene expresion, mutations, copy number variation) on its own, provides some signal which allows to somewhat separate the samples into the two different subtypes:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_subtypes.csv&quot;</span>,<span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)
+covariates &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)
+<span class="kw">rownames</span>(covariates) &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="dt">pattern =</span> <span class="st">&#39;-&#39;</span>, <span class="dt">replacement =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>, <span class="kw">rownames</span>(covariates))
+covariates &lt;-<span class="st"> </span>covariates[<span class="kw">colnames</span>(x1),]
+anno_col &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">cms=</span><span class="kw">as.factor</span>(covariates<span class="op">$</span>cms_label))
+<span class="kw">rownames</span>(anno_col) &lt;-<span class="st"> </span><span class="kw">rownames</span>(covariates)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x1,
+                   <span class="dt">annotation_col =</span> anno_col,
+                   <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,
+                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,
+                   <span class="dt">main=</span><span class="st">&quot;Gene expression data&quot;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-247-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x2,
+                   <span class="dt">annotation_col =</span> anno_col,
+                   <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,
+                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,
+                   <span class="dt">main=</span><span class="st">&quot;Mutation data&quot;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-248-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x3,
+                   <span class="dt">annotation_col =</span> anno_col,
+                   <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,
+                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,
+                   <span class="dt">main=</span><span class="st">&quot;Copy number data&quot;</span>)</code></pre></div>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-249-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div> 
 </div>
             </section>
 
@@ -335,7 +602,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
         </div>
       </div>
 <a href="references.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="latent-variable-models-for-multi-omics-integration.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
