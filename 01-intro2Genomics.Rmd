@@ -695,19 +695,19 @@ knitr::include_graphics("images/HTseq.png" )
 
 
 #### Future of high-throughput sequencing
-The sequencing tech is still evolving. Next frontier is the obtaining
-longer single-molecule reads and preferably being able to call base modifications
-on the fly.
+The sequencing technology is still evolving. Obtaining
+longer single-molecule reads, and preferably, being able to call base modifications
+on the fly is the next frontier.
 With longer reads, the genome asssembly will be easier for the regions
 that have high repeat content. With single-molecule sequencing, we will be able
 tell how many transcripts are present in a given cell population without
 relying on fragment amplification methods which can introduce biases. 
 
-Another recent development is single-cell sequencing. Current  technologies usually
+Another recent development is single-cell sequencing. Current technologies usually
 work on genetic material from thousands to millions of cells. This means that the
 results you receive represents the population of cells that were used in the 
-experiment. However, there is a lot variation between the same type of cells,
-this variation is not observed at all. Newer sequecing techniques can work 
+experiment. However, there is a lot of variation between the same type of cells, but 
+this variation is not observed at all. Newer sequencing techniques can work 
 on single cells and give quantititave information on each cell. 
 
 ```{block2, htseqtip, type='rmdtip'}
@@ -727,13 +727,13 @@ __Want to know more ?__
 
 ## Visualization and data repositories for genomics
 There are ~100 animal genomes sequenced as of 2016. On top these, there are many
-research projects from either individual labs or consortiums that 
+research projects from either individual labs or consortia that 
 produce petabytes of auxiliary genomics data, such as ChIP-seq, RNA-seq, etc. 
 
-There are two requirements for to be able to visualize genomes and its associated
+There are two requirements to be able to visualize genomes and its associated
 data,  1) you need to be able to work with a species
 that has a sequenced genome and 2) you want to have annotation on that genome, 
-meaning at the very least you want to know where the genes are. Most
+meaning, at the very least, you want to know where the genes are. Most
 genomes after sequencing quickly annotated with gene-predictions or
 know gene sequences are mapped on to it, you can also
 have conservation to other species to filter functional elements. If you
@@ -741,8 +741,7 @@ are working with a model organism or human you will also have a lot of
 auxiliary information to help demarcate the functional regions such
 as regulatory regions, ncRNA, SNPs that are common in the population.
 Or you might have disease or tissue specific data available.
-. The more the organism is
-worked on the more auxiliary data you will have.
+The more the organism is worked on the more auxiliary data you will have.
 
 
 
@@ -755,7 +754,7 @@ the data.
 
 Many genomes and associated data is
 available through genome browsers. A genome browser
-is a website or an app
+is a website or an application
 that helps you visualize the genome and all the available data associated
  with it. Via genome browsers, you will be able to see where genes are in
  relation to each other and other functional elements. You will be
@@ -769,9 +768,9 @@ This is an interactive website that contains genomes
 and annotations for many species. You can search for genes or genome coordinates
 for the species of your interest. It is usually very responsive and allows 
 you to visualize large amounts of data. In addition, it has multiple other tools
-that can be used in connection with the browser. One of the most useful tool 
+that can be used in connection with the browser. One of the most useful tools 
 is _UCSC Table Browser_, which lets you download the all the data you see on the 
-browser, including sequence data, in multiple formats . 
+browser, including sequence data, in multiple formats. 
 Users can upload data or provide links to the data
 to visualize user specific data.
 
@@ -781,7 +780,7 @@ __Ensembl:__ This is another online browser maintained by
 European Bioinformatics Institute and the Wellcome Trust Sanger Institute in 
 the UK, http://www.ensembl.org. 
 Similar to UCSC browser, users can visualize genes or genomic coordinates
-from multiple species and it also comes with auxiliary data. Ensemlb is 
+from multiple species and it also comes with auxiliary data. Ensembl is 
 associated with _Biomart_ tool which is similar to UCSC Table browser, can
 download genome data including all the auxiliary data set in multiple formats.
 
@@ -797,13 +796,13 @@ sequencing data available online somewhere before it can be viewed by browsers.
 
 
 #### Data repositories for high-throughput assays
-Genome browser contain lots of auxiliary high-throughput data. However, there are
+Genome browsers contain lots of auxiliary high-throughput data. However, there are
 many more public high-throughput data sets available and they are certainly
 not available through genome browsers. Normally, every high-throughput dataset
-associated with a publication should be deposited to public archieves. There 
+associated with a publication should be deposited to public archives. There 
 are two major public archives we use to deposit data. One of them is 
-_Gene expression Omnibus(GEO) _ hosted at http://www.ncbi.nlm.nih.gov/geo/, 
-and the other one is _European nucleotide archive(ENA)_ hosted at
+_Gene expression Omnibus (GEO)_ hosted at http://www.ncbi.nlm.nih.gov/geo/, 
+and the other one is _European nucleotide archive (ENA)_ hosted at
 http://www.ebi.ac.uk/ena. These repositories accept high-throughput datasets 
 and users can freely download and use these public data sets for their 
 own research. Many data sets in these repositories are in their raw format,
@@ -811,9 +810,9 @@ for example the format the sequencer provides mostly. Some data sets will also
 have processed data but that is not a norm.
 
 Apart from these repositories, there are multiple multi-national consortia 
-that is dedicated to certain genome biology or disease related problems and 
+that are dedicated to certain genome biology or disease related problems and 
 they maintain their own databases and provide access to processed and raw data.
-Some of these consortia is mentioned below.
+Some of these consortia are mentioned below.
 
 Consortium | what is it for?   
 ------------------- | -------------------------------------  
