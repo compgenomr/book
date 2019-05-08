@@ -133,7 +133,7 @@ BiocManager::install(c('qvalue','plot3D','ggplot2','pheatmap',
 
 We wish to thank R and Bioconductor community for developing and maintaining libraries for genomic data analysis. Without their constant work and dedication, writing such a book will not be possible. 
 
-The following people kindly contributed fixes for typos: Thomas Schalch and Sarvesh Nikumbh.
+The following people kindly contributed fixes for typos: Thomas Schalch, Alex Gosdschan and Sarvesh Nikumbh.
 
 
 
