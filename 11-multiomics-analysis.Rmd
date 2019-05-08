@@ -59,12 +59,12 @@ pheatmap::pheatmap(x3,
 
 ## Latent variable models for multi-omics integration
 
-Unupervised multi-omics integration methods are methods that look for patterns within and across data types, in a label-agnostic fashion, i.e. without knowledge of the identity or label of the analyzed samples (e.g. cell type, tumor/normal). This chapter focuses on latent variable models, a form of dimensionality reduction technique (TODO see chapter..). Latent variable models make an assumption that the high dimensional data we observe (e.g. counts of tens of thousands of mRNA molecules) arrise from a lower dimension description. The variables in that lower dimensional description are termed _Latent Variables_, as they are believed to be latent in the data, but not directly observable through experimentation. Therefore, there is a need for methods to infer the latent variables from the data. For instance, (TODO reference RNA-seq chapter) the relative abundance of different mRNA molecules in a cell is largely determined by the cell type. There are other experiments which may be used to discern the cell type of cells (e.g. looking at them under a microscope), but an RNA-seq experiment does not, directly, reveal whether the analyzed sample was taken from one organ or another. A latent variable model would set the cell type as a latent variable, and the observable abundance of mRNA molecules to be dependent on the value of the latent variable (e.g. if the latent variable is "Regulatory T-cell", we would expect to find high expression of CD4, FOXP3, and CD25).
+Unupervised multi-omics integration methods are methods that look for patterns within and across data types, in a label-agnostic fashion, i.e. without knowledge of the identity or label of the analyzed samples (e.g. cell type, tumor/normal). This chapter focuses on latent variable models, a form of dimensionality reduction technique (see Chapter 4, Unsupervised Learning). Latent variable models make an assumption that the high dimensional data we observe (e.g. counts of tens of thousands of mRNA molecules) arrise from a lower dimension description. The variables in that lower dimensional description are termed _Latent Variables_, as they are believed to be latent in the data, but not directly observable through experimentation. Therefore, there is a need for methods to infer the latent variables from the data. For instance, (see Chapter 8, RNA-seq analysis) the relative abundance of different mRNA molecules in a cell is largely determined by the cell type. There are other experiments which may be used to discern the cell type of cells (e.g. looking at them under a microscope), but an RNA-seq experiment does not, directly, reveal whether the analyzed sample was taken from one organ or another. A latent variable model would set the cell type as a latent variable, and the observable abundance of mRNA molecules to be dependent on the value of the latent variable (e.g. if the latent variable is "Regulatory T-cell", we would expect to find high expression of CD4, FOXP3, and CD25).
   
 ## Matrix factorization methods for unsupervised multi-omics data integration
 
-Matrix factorization techniques attempt to infer a set of latent variables from the data by finding factors of a data matrix. Principal Component Analysis (TODO chapter xyz) is a form of matrix factorization which finds factors based on the covariance structure of the data. Generally, matrix factorization methods may be formulated as
-Matrix factorization techniques attempt to infer a set of latent variables from the data by finding factors of a data matrix. Principal Component Analysis (TODO chapter xyz) is a form of matrix factorization which finds factors based on the covariance structure of the data. Generally, matrix factorization methods may be formulated as
+Matrix factorization techniques attempt to infer a set of latent variables from the data by finding factors of a data matrix. Principal Component Analysis (Chapter 4) is a form of matrix factorization which finds factors based on the covariance structure of the data. Generally, matrix factorization methods may be formulated as
+
 
 $$
 X = WH,
@@ -85,7 +85,7 @@ In Figure \@ref(fig:mo_matrixFactorization), the $5 \times 4$ data matrix $X$ is
 
 ### Multiple Factor Analysis
 
-Multiple factor analysis is a natural starting point for a discussion about matrix factorization methods for intergrating multiple data types. It is a straightforward extension of PCA into the domain of multiple data types. (TODO footnote: when dealing with categorical variables, MFA uses MCA (Multipe Correspondence Analysis). This is less relevant to biological data analysis and will not be discussed here).
+Multiple factor analysis is a natural starting point for a discussion about matrix factorization methods for intergrating multiple data types. It is a straightforward extension of PCA into the domain of multiple data types [^mfamca].
 
 Consider the figure below, a naive extension of PCA to a multi-omics context:
 
@@ -195,13 +195,31 @@ where $X_i^N$ is the feature-normalized data matrix $X_i^N = \frac{x^{ij}}{\sum_
 Another consideration with NMF is the non-negativity constraint. Different omics data types may have negative values, for instance, copy-number variations (CNVs) may be positive, indicating gains, or negative, indicating losses. In order to turn such data into a non-negative form, we will split each feature into two features, one new feature holding all the non-negative values of the original feature, and another feature holding the absolute value of the negative ones:
 
 TODO table of CNVs before and after splitting column.
+```{r,mo_CNV_splitcol_example_create,echo=FALSE}
+cnvs_with_neg <- as.data.frame(cbind(c(1,2,1),c(0,1,-2)))
+colnames(cnvs_with_neg) <- c('seg1', 'seg2')
+rownames(cnvs_with_neg) <- c('samp1', 'samp2', 'samp3')
+
+cnvs_split_pos <- as.data.frame(cbind(c(1,2,1), c(0,0,0), c(0,1,0), c(0,0,2)))
+colnames(cnvs_split_pos) <- c('seg1+', 'seg1-', 'seg2+', 'seg2-')
+rownames(cnvs_split_pos) <- c('samp1', 'samp2', 'samp3')
+```
+
+```{r,mo_cnv_splitcol_show1}
+knitr::kable(cnvs_with_neg, caption="Example copy number data. Data can be both positive (amplified regions) or negative (deleted regions).")
+```
+
+```{r,mo_cnv_splitcol_show2}
+knitr::kable(cnvs_split_pos, caption="Example copy number data after splitting each column to a column representing copy number gains (+) and a column representing deletions (-). This data matrix is non-negative, and thus suitable for NMF algorithms.")
+```
+
 
 #### Example in R
 
 Many NMF algorithms are available through the CRAN package `NMF`:
 
 ```{r,mo_hiddenNMFPreprocessingFunctions,echo=FALSE}
-# For NMF to be usable on data types which allow negativity, we'll use the trick from TODO,
+# For NMF to be usable on data types which allow negativity, we'll use a trick,
 # where we split each column into two non-negative columns, one for the negative numbers
 # and one for the positive numbers. Here's a function that does that:
 split_neg_columns <- function(x) {
@@ -328,7 +346,7 @@ $$
 
 The parameter $\lambda$ acts as a dial to weigh the tradeoff between better model fits (higher log-likelihood) and a sparser model, with more $w_{ij}$s set to $0$, which gives models which generalize better and are more interpretable.
 
-In order to solve this problem, iCluster employs the Expectation Maximization (EM) algorithm. The full details are beyond the scope of this textbook. We will introduce a short sketch instead. The intuition behind the EM algorithm is a more general case of the k-means clustering algorithm (TODO see chapter..).
+In order to solve this problem, iCluster employs the Expectation Maximization (EM) algorithm. The full details are beyond the scope of this textbook. We will introduce a short sketch instead. The intuition behind the EM algorithm is a more general case of the k-means clustering algorithm (Chapter 4).
 
 ##### EM algorithm sketch
 
@@ -404,7 +422,7 @@ The one-hot clustering method does not lend itself very well to the other method
 
 ### K-means clustering
 
-K-means clustering was introduced in (TODO chapter x). K-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step.
+K-means clustering was introduced in Chapter 4. K-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step.
 
 ```{r,mo_iClusterHeatmap,fig.cap="K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types."}
 rownames(icluster.z) <- rownames(covariates)
@@ -467,7 +485,7 @@ $$
 p = \sum_{i=k}^K P(k=i).
 $$
 
-The hypergeometric enrichment test is also referred to as _Fisher's one-sided exact test_. This way, we can determine if the genes associated with a factor significantly overlap (beyond chance) the genes involved in a biological process. Because we will typically be testing many gene sets, we will also need to apply multiple testing correction, such as Benjamini-Hochberg correction [TODO see chapter].
+The hypergeometric enrichment test is also referred to as _Fisher's one-sided exact test_. This way, we can determine if the genes associated with a factor significantly overlap (beyond chance) the genes involved in a biological process. Because we will typically be testing many gene sets, we will also need to apply multiple testing correction, such as Benjamini-Hochberg correction (see Chapter 3, multiple testing correction).
 
 #### Example in R
 
@@ -548,3 +566,6 @@ ggplot2::ggplot(cov_factor, ggplot2::aes(x=cimp, y=factor2, group=cimp)) + ggplo
 
 * Does MFA give a disentangled representation?
 * Does iCluster give disentangled representations? Why do you think that is?
+
+
+[^mfamca]: When dealing with categorical variables, MFA uses MCA (Multipe Correspondence Analysis). This is less relevant to biological data analysis and will not be discussed here
