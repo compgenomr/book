@@ -538,7 +538,7 @@ The random forests algorithm tries to decorrelate the trees so that they learn d
 Another sampling method introduce when building random forest models is the bootstrap resampling before constructing each tree. This brings the advantage of out-of-the-bag (OOB) error prediction. In this case, the prediction error can be estimated for training samples that were OOB, meaning they were not used in the training, for some percentage of the trees. The prediction error for each sample can be estimated from the trees where that sample was OOB. OOB estimates claimed to be a good alternative to cross-validation estimated errors [@breiman2001random].
 
 ```{r,RFcartoon,fig.cap="Random forest concept. Individual decision trees are built with sampling strategies. Votes from each tree defines the final class",fig.align = 'center',out.width='70%',echo=FALSE}
-knitr::include_graphics("RFcartoon.png" )
+knitr::include_graphics("ml-random-forest-features.png" )
 ```
 
 
@@ -798,6 +798,10 @@ svmFit <- train(subtype~., data = training,
 
 ### Neural networks and deep versions of it  
 Neural networks are another popular machine learning method which is recently regaining popularity. The earlier versions of the algorithm were popularized in the 80s and 90s. The advantage of neural networks is like SVM, they can model non-linear decision boundaries. The basic idea of neural networks is to combine the predictor variables in order to model the response variable as a non-linear function. In a neural network, input variables pass through several layers that combine variables and transform those combination.
+
+```{r,neuralNetDiagram,fig.cap="Diagram for a simple neural network, their combinations pass through hidden layers and combined again for the output. Predictor variables are fed to the network and weights are adjusted to optimize the cost function",fig.align = 'center',out.width='80%',echo=FALSE}
+knitr::include_graphics("neuralNetDiagram.png" )
+```
 
 In practical sense, the number of nodes in the hidden layer (size) and some regularization on the weights calculated (decay) parameter controls for overfitting. Increasing the number of nodes in hidden layer or in other implementations increasing the number of hidden layers will help model non-linear relationships but can overfit. One way to combat that is to limit the number of nodes in the hidden layer, another way is to regularize the weights. The decay parameter does just that, it penalizes the loss function by $decay(weigths^2)$. In the example below, we are trying 1 or 2 nodes in the hidden layer in the interest of simplicity and run-time. In addition, we are setting `decay=0`, which will correspond to not doing any regularization. 
 ```{r, nnet, eval=FALSE}
