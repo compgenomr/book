@@ -99,14 +99,41 @@ To sum it up, this book is a comprehensive guide for computational genomics. Som
 
 ## Software information and conventions {-}
 
-This book is primarily about using R packages to analyze genomics data, therefore if you want to reproduce the analysis in this book you need to install the relevant packages in each chapter using `install.packages` or `BiocManager::install` functions. We rely on data from different R and Bioconductor packages through out the book. For the datasets that do not ship with those packages, we created our own package [**compGenomRData**](https://github.com/compgenomr/compGenomRData). You can install this package via `devtools::install_github("compgenomr/compGenomRData")`.
+Package names are in bold text (e.g., **methylKit**), and inline code and filenames are formatted in a typewriter font. Function names are followed by parentheses (e.g., `genomation::ScoreMatrix()`). The double-colon operator `::` means accessing an object from a package.
+
+## data for the book
+We rely on data from different R and Bioconductor packages through out the book. For the datasets that do not ship with those packages, we created our own package [**compGenomRData**](https://github.com/compgenomr/compGenomRData). You can install this package via `devtools::install_github("compgenomr/compGenomRData")`. We use `system.file()` function to get the path to the files. We noticed many inexperienced users are confused about this function. This function just outputs full path to the file that is installed with the data package. 
 
 
-Package names are in bold text (e.g., **methylKit**), and inline code and filenames are formatted in a typewriter font. Function names are followed by parentheses (e.g., `genomation::ScoreMatrix()`). The double-colon operator `::` means accessing an object from a package. 
+ 
+
+### Assignment operator convention
+Traditionally, `<-` is the preffered assignment operator. However, throughout the book we use `=` and `<-` as the assignment operator interchangeably.
+
+### Packages needed to run the book code
+This book is primarily about using R packages to analyze genomics data, therefore if you want to reproduce the analysis in this book you need to install the relevant packages in each chapter using `install.packages` or `BiocManager::install` functions. In each chapter, we load the necessary packages with the `library()` or `require()` function when we use the needed functions from respective packages. By looking at that calls, you can see which packages are needed for that code chunk or chapter. If you need to install all the package dependencies for the book, you can run the following command and have a cup of tea while waiting.
+```{r,installAllPackages,eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(c('qvalue','plot3D','ggplot2','pheatmap',
+                      'cluster', 'NbClust', 'fastICA', 'NMF',
+                      'Rtsne', 'mosaic', 'knitr', 'genomation',
+                      'ggbio', 'Gviz', 'DESeq2', 'RUVSeq',
+                      'gProfileR', 'ggfortify', 'corrplot',
+                      'gage', 'EDASeq', 'citr', 'formatR',
+                      'svglite', 'Rqc', 'ShortRead', 'QuasR',
+                      'methylKit','FactoMineR', 'iClusterPlus',
+                      'enrichR','caret','xgboost','glmnet',
+                      'DALEX','kernlab','pROC','nnet','RANN',
+                      'ranger'
+                     )
+```
 
 ## Acknowledgements {-}
 
 We wish to thank R and Bioconductor community for developing and maintaining libraries for genomic data analysis. Without their constant work and dedication, writing such a book will not be possible. 
+
+The following people kindly contributed fixes for typos: Thomas Schalch and Sarvesh Nikumbh.
 
 
 
