@@ -64,7 +64,7 @@ Within R, quantification can be done using
   - `QuasR::qCount` 
   - `GenomicAlignments::summarizeOverlaps`
 
-### Normalization of read counts 
+### Within sample normalization of the read counts 
 
 The most common application after a gene's expression is quantified (as the number of reads aligned to the gene), is to compare the gene's expression in different conditions, for instance, in a case-control setting (e.g. disease versus normal) or in a time-series (e.g. along different developmental stages). Making such comparisons help identify the genes that might be responsible for a disease or an impaired developmental trajectory. However, there are multiple caveats that needs to be addressed before making a comparison between the read counts of a gene in different conditions [@maza_comparison_2013]
 
@@ -86,7 +86,7 @@ Popular metrics that improve upon CPM are RPKM/FPKM (reads/fragments per kilobas
 
 TPM also controls for both the library size and the gene lengths, however, with the TPM method, the read counts are first normalized by the gene length (per kilobase), and then gene-length normalized values are divided by the sum of the gene-length normalized values and multiplied by 10^6. Thus, the sum of normalized values for TPM will always be equal to 10^6 for each library, while the sum of RPKM/FPKM values do not sum to 10^6. Therefore, it is easier to interpret TPM values than RPKM/FPKM values. 
 
-### Demonstration in R
+### Computing different normalization schemes in R
 
 Here we will assume that there is an RNA-seq count table comprising of raw-counts, meaning the number of reads counted for each gene has not been exposed to any kind of normalization and consists of integers. The rows of the count table correspond to the genes and the columns represent different samples. Here we will use a subset of the RNA-seq count table from a colorectal cancer study. We have filtered the original count table for only protein-coding genes (to improve the speed of calculation) and also selected only five metastasized colorectal cancer samples along with five normal colon samples. There is an additional column `width` that contains the length of the corresponding gene in the unit of base pairs. The length of the genes are important to compute RPKM and TPM values. The original count tables can be found from the recount2 database [REF] using the SRA project code `SRP029880` and the experimental setup along with other accessory information can be found from the NCBI Trace archive using the SRA project code `SRP029880` [here](https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP029880). 
 
