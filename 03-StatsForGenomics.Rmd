@@ -1,8 +1,8 @@
-# Statistics and Exploratory Data Analysis for Genomics {#stats}
+# Statistics for Genomics {#stats}
 
 
 
-This chapter will summarize statistics and exploratory data analysis methods frequently used
+This chapter will summarize statistics methods frequently used
 in computational genomics. As these fields are continuously evolving,  the
 techniques introduced here do not form an exhaustive list but mostly corner 
 stone methods
