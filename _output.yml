@@ -17,6 +17,9 @@ bookdown::gitbook:
       facebook: no
 bookdown::html_chapters:
   css: [css/style.css, css/toc.css]
+  fig_width: 6
+  fig_height: 6
+  fig_caption: true
 bookdown::pdf_book:
   includes:
     in_header: latex/preamble.tex
