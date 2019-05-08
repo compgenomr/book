@@ -6,19 +6,19 @@ Living cells are a symphony of complex processes. Modern sequencing technology h
 
 The examples in this chapter will use the following data: a set of 121 tumors from the TCGA [@tcga_pan_cancer] cohorts of Colon and Rectum adenocarcinoma. The tumors have been profiled for gene expression using RNA-seq, mutations using Exome-seq, and copy number variations using genotyping arrays. The subset of tumors used in this chapter belong to two distinct molecular subtypes defined by the Colorectal Cancer Subtyping Consortium [@cmscc], _CMS1_ and _CMS3_.
 
-```{r,loadMultiomicsGE,results='asis'}
+```{r,mo_loadMultiomicsGE,results='asis'}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_gex.csv",package="compGenomRData")
 x1 <- read.csv(csvfile, row.names=1)
 rownames(x1) <- sapply(strsplit(rownames(x1), "\\|"), function(x) x[1])
 knitr::kable(head(t(head(x1))), caption="Gene expression data (head)")
 ```
-```{r,loadMultiomicsMUT,results='asis'}
+```{r,mo_loadMultiomicsMUT,results='asis'}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_muts.csv",package="compGenomRData")
 x2 <- read.csv(csvfile, row.names=1)
 x2[x2>0]=1
 knitr::kable(head(t(head(x2))), caption="Mutation data (head)")
 ```
-```{r,loadMultiomicsCNV,results='asis'}
+```{r,mo_loadMultiomicsCNV,results='asis'}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_cnv.csv",package="compGenomRData")
 x3 <- read.csv(csvfile, row.names=1)
 knitr::kable(head(t(head(x3))), caption="Copy number data (head)")
@@ -26,7 +26,7 @@ knitr::kable(head(t(head(x3))), caption="Copy number data (head)")
 
 Each of the data types (gene expresion, mutations, copy number variation) on its own, provides some signal which allows to somewhat separate the samples into the two different subtypes:
 
-```{r}
+```{r,mo_loadCOREADSubsypes}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_subtypes.csv",package="compGenomRData")
 covariates <- read.csv(csvfile, row.names=1)
 rownames(covariates) <- gsub(pattern = '-', replacement = '\\.', rownames(covariates))
@@ -35,21 +35,21 @@ anno_col <- data.frame(cms=as.factor(covariates$cms_label))
 rownames(anno_col) <- rownames(covariates)
 ```
 
-```{r}
+```{r,mo_geneExpressionHeatmap}
 pheatmap::pheatmap(x1,
                    annotation_col = anno_col,
                    show_colnames = FALSE,
                    show_rownames = FALSE,
                    main="Gene expression data")
 ```
-```{r}
+```{r,mo_mutationsHeatmap}
 pheatmap::pheatmap(x2,
                    annotation_col = anno_col,
                    show_colnames = FALSE,
                    show_rownames = FALSE,
                    main="Mutation data")
 ```
-```{r}
+```{r,mo_CNVHeatmap}
 pheatmap::pheatmap(x3,
                    annotation_col = anno_col,
                    show_colnames = FALSE,
@@ -77,7 +77,7 @@ $$
 
 which may be further subject to some constraints or regularization terms. As we normally seek a latent variable model with a considerably lower dimensionality than $X$, this is the more common case.
 
-```{r,matrixFactorization,fig.cap="General matrix factorization framework. The data matrix on the left hand side is decomposed into factors on the right hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation.",fig.align = 'center',out.width='100%',echo=FALSE}
+```{r,mo_matrixFactorization,fig.cap="General matrix factorization framework. The data matrix on the left hand side is decomposed into factors on the right hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation.",fig.align = 'center',out.width='100%',echo=FALSE}
 knitr::include_graphics("images/matrix_factorization.svg" )
 ```
 
@@ -89,7 +89,7 @@ Multiple factor analysis is a natural starting point for a discussion about matr
 
 Consider the figure below, a naive extension of PCA to a multi-omics context:
 
-```{r,MFA,fig.cap="A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.",fig.align = 'center',out.width='100%',echo=FALSE}
+```{r,mo_MFA,fig.cap="A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.",fig.align = 'center',out.width='100%',echo=FALSE}
 knitr::include_graphics("images/mfa.svg" )
 ```
 
@@ -121,7 +121,7 @@ where $\lambda^{(i)}_1$ is the first eigenvalue of the principal component decom
 #### Example in R
 
 MFA is available through the CRAN package `FactoMineR`. The code snippet below shows how to run it:
-```{r,multiomicsFactoMineR}
+```{r,mo_multiomicsFactoMineR}
 r.mfa <- FactoMineR::MFA(t(rbind(x1,x2,x3)), c(dim(x1)[1], dim(x2)[1], dim(x3)[1]), graph=FALSE)
 mfa.h <- r.mfa$global.pca$ind$coord
 mfa.w <- r.mfa$quanti.var$coord
@@ -200,7 +200,7 @@ TODO table of CNVs before and after splitting column.
 
 Many NMF algorithms are available through the CRAN package `NMF`:
 
-```{r echo=FALSE}
+```{r,mo_hiddenNMFPreprocessingFunctions,echo=FALSE}
 # For NMF to be usable on data types which allow negativity, we'll use the trick from TODO,
 # where we split each column into two non-negative columns, one for the negative numbers
 # and one for the positive numbers. Here's a function that does that:
@@ -248,7 +248,7 @@ test_merge_neg_columns()
 ```
 
 
-```{r}
+```{r,mo_nmfFeatureNormalization}
 # Feature-normalize the data
 x1.featnorm <- x1 / rowSums(x1)
 x2.featnorm <- x2 / rowSums(x2)
@@ -302,7 +302,7 @@ $$
 
 where $X_{(i)}$ is a data matrix from a single omics platform, $W_{(i)}$ are model parameters, $Z$ is a latent variable matrix, and is shared between the different omics platforms, and $\epsilon_i$ is a "noise" random variable, $\epsilon \sim N(0,\Psi)$, with $\Psi = diag(\psi_1,\dots \psi_M)$ is a diagonal covariance matrix.
 
-```{r,iCluster,fig.cap="Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise.",fig.align = 'center',out.width='100%',echo=FALSE}
+```{r,mo_iCluster,fig.cap="Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise.",fig.align = 'center',out.width='100%',echo=FALSE}
 knitr::include_graphics("images/icluster.svg" )
 ```
 
@@ -354,7 +354,7 @@ Both iCluster and iCluster+ make use of sophisticated Bayesian inference algorit
 
 iCluster+ is available through the BioConductor package `iClusterPlus`:
 
-```{r,multiOmicsiclusterplus}
+```{r,mo_multiOmicsiclusterplus}
 r.icluster <- iClusterPlus::iClusterPlus(t(x1), t(x2), t(x3), type=c("gaussian", "binomial", "multinomial"), K=2, alpha=c(1,1,1), lambda=c(.03,.03,.03))
 
 icluster.z <- r.icluster$meanZ
@@ -388,7 +388,7 @@ A specific clustering method for NMF data is to assume each sample is driven by 
 
 The two rows are the two latent variables, and the columns are the 72 tumors. We can observe that most tumors are indeed driven mainly by one of the factors, and not a combination of the two. We can use this to assign each tumor a cluster label based on its dominant factor:
 
-```{r}
+```{r,mo_NMFClustering}
 nmf.clusters <- max.col(nmf.h)
 names(nmf.clusters) <- rownames(nmf.h)
 anno_nmf_cl <- data.frame(nmf.cluster=factor(nmf.clusters), cms.subtype=factor(covariates[rownames(nmf.h),]$cms_label))
@@ -406,7 +406,7 @@ The one-hot clustering method does not lend itself very well to the other method
 
 K-means clustering was introduced in (TODO chapter x). K-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step.
 
-```{r}
+```{r,mo_iClusterHeatmap}
 rownames(icluster.z) <- rownames(covariates)
 icluster.clusters <- kmeans(icluster.z, 2)$cluster
 names(icluster.clusters) <- rownames(icluster.z)
@@ -426,7 +426,7 @@ This demonstrates the ability of iClusterPlus to find clusters which correspond 
 
 The most straightforward way to go about interpreting the latent factors in a biological context, is to look at the coefficients which are associated with them. The latent variable models introduced above all take the linear form $X \approx WH$, where $W$ is a factor matrix, with coefficients tying each latent variable with each of the features in the $L$ original multi-omics data matrices. By inspecting these coefficients, we can get a sense of which multi-omics features are co-regulated. The figure below shows the coefficients for the Joint NMF analysis above:
 
-```{r}
+```{r,mo_NMFHeatmap}
 nmfw <- t(nmf.w)
 
 data_anno <- data.frame(omics=c(rep('expression',dim(x1)[1]), rep('mut',dim(x2)[1]), rep('cnv',dim(x3.featnorm.frobnorm.nonneg)[1])))
@@ -473,7 +473,7 @@ The hypergeometric enrichment test is also referred to as _Fisher's one-sided ex
 
 In R, we can do this analysis using the `enrichR` package, which gives us access to many gene set libraries. In the example below, we'll find the genes associated with preferentially NMF factor 1 or NMF factor 2, by the contribution of those genes' expression values to the factor. Then, we'll use `enrichR` to query the Gene Ontology terms which might be overlapping. `enrichR` performs 
 
-```{r,enrichr}
+```{r,mo_enrichr}
 genes.factor.1 <- names(which(nmfw[1:dim(x1)[1],1] > nmfw[1:dim(x1)[1],2]))
 genes.factor.2 <- names(which(nmfw[1:dim(x1)[1],1] < nmfw[1:dim(x1)[1],2]))
 
@@ -485,7 +485,7 @@ go.factor.2 <- enrichR::enrichr(genes.factor.2,
                                 )$GO_Biological_Process_2018
 ```
 
-```{r}
+```{r,mo_NMFGOTerms}
 ggplot2::ggplot(head(go.factor.1), ggplot2::aes(y=-log10(Adjusted.P.value), x=Term)) + ggplot2::geom_bar(stat='identity') + ggplot2::coord_flip() + ggplot2::ggtitle("Top GO-terms\nassociated with\nNMF factor 1")
 ```
 
@@ -494,7 +494,7 @@ ggplot2::ggplot(head(go.factor.1), ggplot2::aes(y=-log10(Adjusted.P.value), x=Te
 
 Another way to ascribe biological significance to the latent variables is by correlating them with additional covariates we might have about the samples. In our example, the Colorectal cancer tumors have also been characterized for Microsattelite Instability status, using an external test (typically PCR-based). By examining the latent variable values as they relate to a tumor's MSI status, we might discover that we've learned latent factors that are related to it.
 
-```{r}
+```{r,mo_NMFClinicalCovariates}
 a <- data.frame(age=covariates$age, gender=as.numeric(covariates$gender), msi=covariates$msi)
 b <- nmf.h
 colnames(b) <- c('factor1', 'factor2')
@@ -517,7 +517,7 @@ The figures above show that NMF factor 1 values are higher both microsattelite i
 
 * In order to use NMF algorithms on data which can be negative, we need to split each feature into two new features, one positive and one negative. Implement the following function, and see that the included test does not fail:
 
-```{r eval=FALSE, echo=TRUE}
+```{r,mo_NMFExerciseColumnSplitting,eval=FALSE, echo=TRUE}
 split_neg_columns <- function(x) {
     # your code here
 }
@@ -535,7 +535,7 @@ test_split_neg_columns()
 
 * Another covariate in the metadata of these tumors is their _CpG island methylator Phenotype_ (CIMP). This is a phenotype carried by a group of colorectal cancers that display hypermethylation of promoter CpG island sites, resulting in the inactivation of some tumor suppressors. This is also assayed using an external test. Do any of the multi-omics methods surveyed find a latent variable that is associated with the tumor's CIMP phenotype?
 
-```{r echo=FALSE, eval=FALSE}
+```{r,mo_NMFCIMP,echo=FALSE, eval=FALSE}
 a <- data.frame(age=covariates$age, gender=as.factor(covariates$gender), msi=covariates$msi, cimp=as.factor(covariates$cimp))
 b <- nmf.h
 colnames(b) <- c('factor1', 'factor2')
