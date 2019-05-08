@@ -300,7 +300,7 @@ library(pROC)
 testProbs=predict(knnFit,testing[,-1])
 
 # get the roc curve
-rocCurve <- roc(response = testing[,1],
+rocCurve <- pROC::roc(response = testing[,1],
                 predictor = testProbs[,1],
               ## This function assumes that the second
               ## class is the class of interest, so we
@@ -310,7 +310,7 @@ rocCurve <- roc(response = testing[,1],
 plot(rocCurve, legacy.axes = TRUE)
 
 # return area under the curve
-auc(rocCurve)
+pROC::auc(rocCurve)
 
 ```
 
@@ -889,6 +889,8 @@ Now we can use random forest regression to predict the age from methylation valu
 ```{r, predictAge, fig.width=4.5,out.width='60%', fig.cap="Observed vs predicted age (Left). Residual plot showing for older people the error increases (Right)"}
 
 set.seed(18)
+
+par(mfrow=c(1,2))
 
 # we are not going to do any cross-validatin
 # and rely on OOB error
