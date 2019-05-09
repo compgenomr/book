@@ -442,7 +442,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>In this section, we are going to show how to use a supervised learning method for regression. All the methods we have introduced previously in the context of classification can also do regression. Technically, this is just a simple change in the cost function format and optimization step still tries to optimize the parameters of the cost function. In many cases, if your response variable is numeric methods in the <strong>caret</strong> package will automatically apply regression.</p>
 <div id="use-case-predicting-age-from-dna-methylation" class="section level3">
 <h3><span class="header-section-number">5.15.1</span> Use case: Predicting age from DNA methylation</h3>
-<p>We will demonstrate random forest regression using a different data set which has a continuous response variable. This time we are going to try to predict age of individuals from their DNA methylation levels. Methylation is a DNA modification which has implications in gene regulation and cell state. We are going to introduce methylation in depth in chapter <a href="#methylation"><strong>??</strong></a>, however for now what we need to know is that there are 24 million CpG dinucleotides in the human genome. Their methylation status can be measured with quantitative assays and the value is between 0 and 1. If it is 0, the CpG is not methylated in any of the cells in the sample, and if it is 1, the CpG is methylated in all the cells of the sample. It has been shown that methylation is predictive of the age of the individual that the sample is taken from <span class="citation">(Numata et al. <a href="#ref-numata2012dna">2012</a>; Horvath <a href="#ref-horvath2013dna">2013</a>)</span>. Now, we will try to test that with a data set containing hundreds of individuals, their age and methylation values for ~27000 CpGs. We first read in the files and construct a training and test set.</p>
+<p>We will demonstrate random forest regression using a different data set which has a continuous response variable. This time we are going to try to predict age of individuals from their DNA methylation levels. Methylation is a DNA modification which has implications in gene regulation and cell state. We are going to introduce methylation in depth in chapter <a href="bsseq.html#bsseq">10</a>, however for now what we need to know is that there are 24 million CpG dinucleotides in the human genome. Their methylation status can be measured with quantitative assays and the value is between 0 and 1. If it is 0, the CpG is not methylated in any of the cells in the sample, and if it is 1, the CpG is methylated in all the cells of the sample. It has been shown that methylation is predictive of the age of the individual that the sample is taken from <span class="citation">(Numata et al. <a href="#ref-numata2012dna">2012</a>; Horvath <a href="#ref-horvath2013dna">2013</a>)</span>. Now, we will try to test that with a data set containing hundreds of individuals, their age and methylation values for ~27000 CpGs. We first read in the files and construct a training set.</p>
 </div>
 <div id="reading-and-processing-the-data" class="section level3">
 <h3><span class="header-section-number">5.15.2</span> reading and processing the data</h3>
@@ -487,7 +487,7 @@ FIGURE 5.14: Histogram of methylation values in the training set for age predict
 
 <span class="co"># we are not going to do any cross-validatin</span>
 <span class="co"># and rely on OOB error</span>
-trctrl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>,<span class="dt">number=</span><span class="dv">5</span>)
+trctrl &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;none&quot;</span>)
 
 <span class="co"># we will now train random forest model</span>
 rfregFit &lt;-<span class="st"> </span><span class="kw">train</span>(Age<span class="op">~</span>., 
@@ -513,7 +513,7 @@ rfregFit &lt;-<span class="st"> </span><span class="kw">train</span>(Age<span cl
      <span class="dt">xlab=</span><span class="st">&quot;observed Age&quot;</span>,<span class="dt">col=</span><span class="st">&quot;blue3&quot;</span>)
 <span class="kw">abline</span>(<span class="dt">h=</span><span class="dv">0</span>,<span class="dt">col=</span><span class="st">&quot;red4&quot;</span>,<span class="dt">lty=</span><span class="dv">2</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:predictAge"></span>
-<img src="compgenomrReloaded_files/figure-html/predictAge-1.png" alt="Observed vs predicted age (Left). Residual plot showing for older people the error increases (Right)" width="60%" />
+<img src="compgenomrReloaded_files/figure-html/predictAge-1.png" alt="Observed vs predicted age (Left). Residual plot showing for older people the error increases (Right)" width="70%" />
 <p class="caption">
 FIGURE 5.15: Observed vs predicted age (Left). Residual plot showing for older people the error increases (Right)
 </p>
