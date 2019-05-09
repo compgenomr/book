@@ -2,7 +2,7 @@
 
 The authors have decades of combined experience in data analysis for genomics. They are developers of Bioconductor packages such as [**methylKit**](https://bioconductor.org/packages/release/bioc/html/methylKit.html), [**genomation**](https://bioconductor.org/packages/release/bioc/html/genomation.html), [**RCAS**](https://bioconductor.org/packages/release/bioc/html/RCAS.html) and [**netSmooth**](https://bioconductor.org/packages/release/bioc/html/netSmooth.html). In addition, they have played key roles in developing end-to-end genomics data analysis pipelines for RNA-seq, ChIP-seq, Bisulfite-seq, and single cell RNA-seq called [PiGx](http://bioinformatics.mdc-berlin.de/pigx/).
 
-[**Altuna Akalin**](https://github.com/al2na) wrote and edited most of the book.
+[**Altuna Akalin**](https://github.com/al2na) wrote most of the book and edited the rest.
 
 [**Bora Uyar**](https://github.com/borauyar) contributed "RNA-seq Analysis" chapter
 
