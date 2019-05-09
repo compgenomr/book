@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>8.3 Extracting interesting regions: segmentation and differential methylation | Computational Genomics With R</title>
+  <title>10.3 Extracting interesting regions: segmentation and differential methylation | Computational Genomics With R</title>
   <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="8.3 Extracting interesting regions: segmentation and differential methylation | Computational Genomics With R" />
+  <meta property="og:title" content="10.3 Extracting interesting regions: segmentation and differential methylation | Computational Genomics With R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://compmgenomr.github.io/book/" />
   <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="compgenomr/bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8.3 Extracting interesting regions: segmentation and differential methylation | Computational Genomics With R" />
+  <meta name="twitter:title" content="10.3 Extracting interesting regions: segmentation and differential methylation | Computational Genomics With R" />
   
   <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
   <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-04-04">
+<meta name="date" content="2019-05-09">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -60,41 +60,67 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
@@ -118,7 +144,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html#what-will-you-get-out-of-this"><i class="fa fa-check"></i>What will you get out of this?</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="structure-of-the-book.html"><a href="structure-of-the-book.html"><i class="fa fa-check"></i>Structure of the book</a></li>
-<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html"><i class="fa fa-check"></i>Software information and conventions</a></li>
+<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html"><i class="fa fa-check"></i>Software information and conventions</a><ul>
+<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html#assignment-operator-convention"><i class="fa fa-check"></i>Assignment operator convention</a></li>
+<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html#packages-needed-to-run-the-book-code"><i class="fa fa-check"></i>Packages needed to run the book code</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-for-the-book.html"><a href="data-for-the-book.html"><i class="fa fa-check"></i>Data for the book</a></li>
 <li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
 <li class="chapter" data-level="" data-path="how-to-contribute.html"><a href="how-to-contribute.html"><i class="fa fa-check"></i>How to contribute</a></li>
 </ul></li>
@@ -141,7 +171,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="chapter" data-level="1.5" data-path="visualization-and-data-repositories-for-genomics.html"><a href="visualization-and-data-repositories-for-genomics.html"><i class="fa fa-check"></i><b>1.5</b> Visualization and data repositories for genomics</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="Rintro.html"><a href="Rintro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R for genomic data analysis</a><ul>
+<li class="chapter" data-level="2" data-path="Rintro.html"><a href="Rintro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R for Genomic Data Analysis</a><ul>
 <li class="chapter" data-level="2.1" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Steps of (genomic) data analysis</a><ul>
 <li class="chapter" data-level="2.1.1" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-collection"><i class="fa fa-check"></i><b>2.1.1</b> Data collection</a></li>
 <li class="chapter" data-level="2.1.2" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-quality-check-and-cleaning"><i class="fa fa-check"></i><b>2.1.2</b> Data quality check and cleaning</a></li>
@@ -179,7 +209,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.10.5" data-path="exercises.html"><a href="exercises.html#functions-and-control-structures-for-ifelse-etc.-1"><i class="fa fa-check"></i><b>2.10.5</b> Functions and control structures (for, if/else etc.)</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="stats.html"><a href="stats.html"><i class="fa fa-check"></i><b>3</b> Statistics and Exploratory Data Analysis for Genomics</a><ul>
+<li class="chapter" data-level="3" data-path="stats.html"><a href="stats.html"><i class="fa fa-check"></i><b>3</b> Statistics for Genomics</a><ul>
 <li class="chapter" data-level="3.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><i class="fa fa-check"></i><b>3.1</b> How to summarize collection of data points: The idea behind statistical distributions</a><ul>
 <li class="chapter" data-level="3.1.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-central-tendency-mean-and-median"><i class="fa fa-check"></i><b>3.1.1</b> Describing the central tendency: mean and median</a></li>
 <li class="chapter" data-level="3.1.2" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-spread-measurements-of-variation"><i class="fa fa-check"></i><b>3.1.2</b> Describing the spread: measurements of variation</a></li>
@@ -198,128 +228,192 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3.3.4" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-with-categorical-variables"><i class="fa fa-check"></i><b>3.3.4</b> Regression with categorical variables</a></li>
 <li class="chapter" data-level="3.3.5" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-pitfalls"><i class="fa fa-check"></i><b>3.3.5</b> Regression pitfalls</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html"><i class="fa fa-check"></i><b>3.4</b> Clustering: grouping samples based on their similarity</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#distance-metrics"><i class="fa fa-check"></i><b>3.4.1</b> Distance metrics</a></li>
-<li class="chapter" data-level="3.4.2" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#hiearchical-clustering"><i class="fa fa-check"></i><b>3.4.2</b> Hiearchical clustering</a></li>
-<li class="chapter" data-level="3.4.3" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#k-means-clustering"><i class="fa fa-check"></i><b>3.4.3</b> K-means clustering</a></li>
-<li class="chapter" data-level="3.4.4" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#how-to-choose-k-the-number-of-clusters"><i class="fa fa-check"></i><b>3.4.4</b> how to choose “k”, the number of clusters</a></li>
-</ul></li>
-<li class="chapter" data-level="3.5" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><i class="fa fa-check"></i><b>3.5</b> Dimensionality reduction techniques: visualizing complex data sets in 2D</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#principal-component-analysis"><i class="fa fa-check"></i><b>3.5.1</b> Principal component analysis</a></li>
-<li class="chapter" data-level="3.5.2" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#other-dimension-reduction-techniques-using-other-matrix-factorization-methods"><i class="fa fa-check"></i><b>3.5.2</b> Other dimension reduction techniques using other matrix factorization methods</a></li>
-<li class="chapter" data-level="3.5.3" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#multi-dimensional-scaling"><i class="fa fa-check"></i><b>3.5.3</b> Multi-dimensional scaling</a></li>
-<li class="chapter" data-level="3.5.4" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#t-distributed-stochastic-neighbor-embedding-t-sne"><i class="fa fa-check"></i><b>3.5.4</b> t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
-</ul></li>
-<li class="chapter" data-level="3.6" data-path="exercises-1.html"><a href="exercises-1.html"><i class="fa fa-check"></i><b>3.6</b> Exercises</a><ul>
-<li class="chapter" data-level="3.6.1" data-path="exercises-1.html"><a href="exercises-1.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><i class="fa fa-check"></i><b>3.6.1</b> How to summarize collection of data points: The idea behind statistical distributions</a></li>
-<li class="chapter" data-level="3.6.2" data-path="exercises-1.html"><a href="exercises-1.html#how-to-test-for-differences-in-samples"><i class="fa fa-check"></i><b>3.6.2</b> How to test for differences in samples</a></li>
-<li class="chapter" data-level="3.6.3" data-path="exercises-1.html"><a href="exercises-1.html#relationship-between-variables-linear-models-and-correlation-1"><i class="fa fa-check"></i><b>3.6.3</b> Relationship between variables: linear models and correlation</a></li>
+<li class="chapter" data-level="3.4" data-path="exercises-1.html"><a href="exercises-1.html"><i class="fa fa-check"></i><b>3.4</b> Exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="exercises-1.html"><a href="exercises-1.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><i class="fa fa-check"></i><b>3.4.1</b> How to summarize collection of data points: The idea behind statistical distributions</a></li>
+<li class="chapter" data-level="3.4.2" data-path="exercises-1.html"><a href="exercises-1.html#how-to-test-for-differences-in-samples"><i class="fa fa-check"></i><b>3.4.2</b> How to test for differences in samples</a></li>
+<li class="chapter" data-level="3.4.3" data-path="exercises-1.html"><a href="exercises-1.html#relationship-between-variables-linear-models-and-correlation-1"><i class="fa fa-check"></i><b>3.4.3</b> Relationship between variables: linear models and correlation</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="genomicIntervals.html"><a href="genomicIntervals.html"><i class="fa fa-check"></i><b>4</b> Operations on Genomic Intervals and Genome Arithmetic</a><ul>
-<li class="chapter" data-level="4.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html"><i class="fa fa-check"></i><b>4.1</b> Operations on Genomic Intervals with GenomicRanges package</a><ul>
-<li class="chapter" data-level="4.1.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#how-to-create-and-manipulate-a-granges-object"><i class="fa fa-check"></i><b>4.1.1</b> How to create and manipulate a GRanges object</a></li>
-<li class="chapter" data-level="4.1.2" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#getting-genomic-regions-into-r-as-granges-objects"><i class="fa fa-check"></i><b>4.1.2</b> Getting genomic regions into R as GRanges objects</a></li>
-<li class="chapter" data-level="4.1.3" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><i class="fa fa-check"></i><b>4.1.3</b> Finding regions that do/do not overlap with another set of regions</a></li>
+<li class="chapter" data-level="4" data-path="unsupervisedLearning.html"><a href="unsupervisedLearning.html"><i class="fa fa-check"></i><b>4</b> Exploratory Data Analysis with Unsupervised Machine Learning</a><ul>
+<li class="chapter" data-level="4.1" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html"><i class="fa fa-check"></i><b>4.1</b> Clustering: grouping samples based on their similarity</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#distance-metrics"><i class="fa fa-check"></i><b>4.1.1</b> Distance metrics</a></li>
+<li class="chapter" data-level="4.1.2" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#hiearchical-clustering"><i class="fa fa-check"></i><b>4.1.2</b> Hiearchical clustering</a></li>
+<li class="chapter" data-level="4.1.3" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#k-means-clustering"><i class="fa fa-check"></i><b>4.1.3</b> K-means clustering</a></li>
+<li class="chapter" data-level="4.1.4" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#how-to-choose-k-the-number-of-clusters"><i class="fa fa-check"></i><b>4.1.4</b> how to choose “k”, the number of clusters</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="dealing-with-mapped-high-throughput-sequencing-reads.html"><a href="dealing-with-mapped-high-throughput-sequencing-reads.html"><i class="fa fa-check"></i><b>4.2</b> Dealing with mapped high-throughput sequencing reads</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="dealing-with-mapped-high-throughput-sequencing-reads.html"><a href="dealing-with-mapped-high-throughput-sequencing-reads.html#counting-mapped-reads-for-a-set-of-regions"><i class="fa fa-check"></i><b>4.2.1</b> Counting mapped reads for a set of regions</a></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><i class="fa fa-check"></i><b>4.2</b> Dimensionality reduction techniques: visualizing complex data sets in 2D</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#principal-component-analysis"><i class="fa fa-check"></i><b>4.2.1</b> Principal component analysis</a></li>
+<li class="chapter" data-level="4.2.2" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#other-dimension-reduction-techniques-using-other-matrix-factorization-methods"><i class="fa fa-check"></i><b>4.2.2</b> Other dimension reduction techniques using other matrix factorization methods</a></li>
+<li class="chapter" data-level="4.2.3" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#multi-dimensional-scaling"><i class="fa fa-check"></i><b>4.2.3</b> Multi-dimensional scaling</a></li>
+<li class="chapter" data-level="4.2.4" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#t-distributed-stochastic-neighbor-embedding-t-sne"><i class="fa fa-check"></i><b>4.2.4</b> t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html"><i class="fa fa-check"></i><b>4.3</b> Dealing with continuous scores over the genome</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html#extracting-subsections-of-rle-and-rlelist-objects"><i class="fa fa-check"></i><b>4.3.1</b> Extracting subsections of Rle and RleList objects</a></li>
+<li class="chapter" data-level="4.3" data-path="exercises-2.html"><a href="exercises-2.html"><i class="fa fa-check"></i><b>4.3</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="4.4" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html"><i class="fa fa-check"></i><b>4.4</b> Genomic intervals with more information: SummarizedExperiment class</a><ul>
-<li class="chapter" data-level="4.4.1" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#create-a-summarizedexperiment-object"><i class="fa fa-check"></i><b>4.4.1</b> Create a SummarizedExperiment object</a></li>
-<li class="chapter" data-level="4.4.2" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#subset-and-manipulate-the-summarizedexperiment-object"><i class="fa fa-check"></i><b>4.4.2</b> Subset and manipulate the SummarizedExperiment object</a></li>
+<li class="chapter" data-level="5" data-path="supervisedLearning.html"><a href="supervisedLearning.html"><i class="fa fa-check"></i><b>5</b> Predictive Modeling with Supervised Machine Learning</a><ul>
+<li class="chapter" data-level="5.1" data-path="how-machine-learning-models-are-fit.html"><a href="how-machine-learning-models-are-fit.html"><i class="fa fa-check"></i><b>5.1</b> How machine learning models are fit?</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="how-machine-learning-models-are-fit.html"><a href="how-machine-learning-models-are-fit.html#machine-learning-vs-statistics"><i class="fa fa-check"></i><b>5.1.1</b> Machine learning vs Statistics</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html"><i class="fa fa-check"></i><b>4.5</b> Visualizing and summarizing genomic intervals</a><ul>
-<li class="chapter" data-level="4.5.1" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#visualizing-intervals-on-a-locus-of-interest"><i class="fa fa-check"></i><b>4.5.1</b> Visualizing intervals on a locus of interest</a></li>
-<li class="chapter" data-level="4.5.2" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#summaries-of-genomic-intervals-on-multiple-loci"><i class="fa fa-check"></i><b>4.5.2</b> Summaries of genomic intervals on multiple loci</a></li>
-<li class="chapter" data-level="4.5.3" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#making-karyograms-and-circos-plots"><i class="fa fa-check"></i><b>4.5.3</b> Making karyograms and circos plots</a></li>
+<li class="chapter" data-level="5.2" data-path="steps-in-supervised-machine-learning.html"><a href="steps-in-supervised-machine-learning.html"><i class="fa fa-check"></i><b>5.2</b> Steps in supervised machine learning</a></li>
+<li class="chapter" data-level="5.3" data-path="use-case-disease-subtype-from-genomics-data.html"><a href="use-case-disease-subtype-from-genomics-data.html"><i class="fa fa-check"></i><b>5.3</b> Use case: Disease subtype from genomics data</a></li>
+<li class="chapter" data-level="5.4" data-path="data-preprocessing.html"><a href="data-preprocessing.html"><i class="fa fa-check"></i><b>5.4</b> Data preprocessing</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#data-transformation"><i class="fa fa-check"></i><b>5.4.1</b> data transformation</a></li>
+<li class="chapter" data-level="5.4.2" data-path="data-preprocessing.html"><a href="data-preprocessing.html#filtering-data-and-scaling"><i class="fa fa-check"></i><b>5.4.2</b> Filtering data and scaling</a></li>
+<li class="chapter" data-level="5.4.3" data-path="data-preprocessing.html"><a href="data-preprocessing.html#dealing-with-missing-values"><i class="fa fa-check"></i><b>5.4.3</b> Dealing with missing values</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="exercises-2.html"><a href="exercises-2.html"><i class="fa fa-check"></i><b>4.6</b> Exercises</a><ul>
-<li class="chapter" data-level="4.6.1" data-path="exercises-2.html"><a href="exercises-2.html#operations-on-genomic-intervals-with-genomicranges-package-1"><i class="fa fa-check"></i><b>4.6.1</b> Operations on Genomic Intervals with GenomicRanges package</a></li>
-<li class="chapter" data-level="4.6.2" data-path="exercises-2.html"><a href="exercises-2.html#dealing-with-mapped-high-throughput-sequencing-reads-1"><i class="fa fa-check"></i><b>4.6.2</b> Dealing with mapped high-throughput sequencing reads</a></li>
-<li class="chapter" data-level="4.6.3" data-path="exercises-2.html"><a href="exercises-2.html#dealing-with-contiguous-scores-over-the-genome"><i class="fa fa-check"></i><b>4.6.3</b> Dealing with contiguous scores over the genome</a></li>
-<li class="chapter" data-level="4.6.4" data-path="exercises-2.html"><a href="exercises-2.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>4.6.4</b> Visualizing and summarizing genomic intervals</a></li>
+<li class="chapter" data-level="5.5" data-path="splitting-the-data.html"><a href="splitting-the-data.html"><i class="fa fa-check"></i><b>5.5</b> Splitting the data</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="splitting-the-data.html"><a href="splitting-the-data.html#holdout-test-dataset"><i class="fa fa-check"></i><b>5.5.1</b> Holdout test dataset</a></li>
+<li class="chapter" data-level="5.5.2" data-path="splitting-the-data.html"><a href="splitting-the-data.html#cross-validation"><i class="fa fa-check"></i><b>5.5.2</b> Cross-validation</a></li>
+<li class="chapter" data-level="5.5.3" data-path="splitting-the-data.html"><a href="splitting-the-data.html#bootstrap-resampling"><i class="fa fa-check"></i><b>5.5.3</b> Bootstrap resampling</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="predicting-the-subtype-with-k-nearest-neighbors.html"><a href="predicting-the-subtype-with-k-nearest-neighbors.html"><i class="fa fa-check"></i><b>5.6</b> Predicting the subtype with k-nearest neighbors</a></li>
+<li class="chapter" data-level="5.7" data-path="assessing-the-performance-of-our-model.html"><a href="assessing-the-performance-of-our-model.html"><i class="fa fa-check"></i><b>5.7</b> Assessing the performance of our model</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="assessing-the-performance-of-our-model.html"><a href="assessing-the-performance-of-our-model.html#receiver-operating-characteristic-roc-curves"><i class="fa fa-check"></i><b>5.7.1</b> Receiver Operating Characteristic (ROC) Curves</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="model-tuning-and-avoiding-overfitting.html"><a href="model-tuning-and-avoiding-overfitting.html"><i class="fa fa-check"></i><b>5.8</b> Model tuning and avoiding overfitting</a><ul>
+<li class="chapter" data-level="5.8.1" data-path="model-tuning-and-avoiding-overfitting.html"><a href="model-tuning-and-avoiding-overfitting.html#model-complexity-and-bias-variance-trade-off"><i class="fa fa-check"></i><b>5.8.1</b> Model complexity and bias variance trade-off</a></li>
+<li class="chapter" data-level="5.8.2" data-path="model-tuning-and-avoiding-overfitting.html"><a href="model-tuning-and-avoiding-overfitting.html#data-split-strategies-for-model-tuning-and-testing"><i class="fa fa-check"></i><b>5.8.2</b> Data split strategies for model tuning and testing</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="variable-importance.html"><a href="variable-importance.html"><i class="fa fa-check"></i><b>5.9</b> Variable importance</a></li>
+<li class="chapter" data-level="5.10" data-path="how-to-deal-with-class-imbalance.html"><a href="how-to-deal-with-class-imbalance.html"><i class="fa fa-check"></i><b>5.10</b> How to deal with class imbalance</a><ul>
+<li class="chapter" data-level="5.10.1" data-path="how-to-deal-with-class-imbalance.html"><a href="how-to-deal-with-class-imbalance.html#sampling-for-class-balance"><i class="fa fa-check"></i><b>5.10.1</b> Sampling for class balance</a></li>
+<li class="chapter" data-level="5.10.2" data-path="how-to-deal-with-class-imbalance.html"><a href="how-to-deal-with-class-imbalance.html#altering-case-weights"><i class="fa fa-check"></i><b>5.10.2</b> Altering case weights</a></li>
+<li class="chapter" data-level="5.10.3" data-path="how-to-deal-with-class-imbalance.html"><a href="how-to-deal-with-class-imbalance.html#selecting-different-classification-score-cutoffs"><i class="fa fa-check"></i><b>5.10.3</b> selecting different classification score cutoffs</a></li>
+</ul></li>
+<li class="chapter" data-level="5.11" data-path="dealing-with-correlated-predictors.html"><a href="dealing-with-correlated-predictors.html"><i class="fa fa-check"></i><b>5.11</b> Dealing with correlated predictors</a></li>
+<li class="chapter" data-level="5.12" data-path="trees-and-forests-random-forests-in-action.html"><a href="trees-and-forests-random-forests-in-action.html"><i class="fa fa-check"></i><b>5.12</b> Trees and forests: Random forests in action</a><ul>
+<li class="chapter" data-level="5.12.1" data-path="trees-and-forests-random-forests-in-action.html"><a href="trees-and-forests-random-forests-in-action.html#decision-trees"><i class="fa fa-check"></i><b>5.12.1</b> decision trees</a></li>
+<li class="chapter" data-level="5.12.2" data-path="trees-and-forests-random-forests-in-action.html"><a href="trees-and-forests-random-forests-in-action.html#trees-to-forests"><i class="fa fa-check"></i><b>5.12.2</b> Trees to forests</a></li>
+<li class="chapter" data-level="5.12.3" data-path="trees-and-forests-random-forests-in-action.html"><a href="trees-and-forests-random-forests-in-action.html#variable-importance-1"><i class="fa fa-check"></i><b>5.12.3</b> Variable importance</a></li>
+</ul></li>
+<li class="chapter" data-level="5.13" data-path="logistic-regression-and-regularization.html"><a href="logistic-regression-and-regularization.html"><i class="fa fa-check"></i><b>5.13</b> Logistic regression and regularization</a><ul>
+<li class="chapter" data-level="5.13.1" data-path="logistic-regression-and-regularization.html"><a href="logistic-regression-and-regularization.html#regularization-in-order-to-avoid-overfitting"><i class="fa fa-check"></i><b>5.13.1</b> regularization in order to avoid overfitting</a></li>
+<li class="chapter" data-level="5.13.2" data-path="logistic-regression-and-regularization.html"><a href="logistic-regression-and-regularization.html#variable-importance-2"><i class="fa fa-check"></i><b>5.13.2</b> variable importance</a></li>
+</ul></li>
+<li class="chapter" data-level="5.14" data-path="other-supervised-algorithms.html"><a href="other-supervised-algorithms.html"><i class="fa fa-check"></i><b>5.14</b> Other supervised algorithms</a><ul>
+<li class="chapter" data-level="5.14.1" data-path="other-supervised-algorithms.html"><a href="other-supervised-algorithms.html#gradient-boosting"><i class="fa fa-check"></i><b>5.14.1</b> Gradient boosting</a></li>
+<li class="chapter" data-level="5.14.2" data-path="other-supervised-algorithms.html"><a href="other-supervised-algorithms.html#support-vector-machines-svm"><i class="fa fa-check"></i><b>5.14.2</b> Support Vector Machines (SVM)</a></li>
+<li class="chapter" data-level="5.14.3" data-path="other-supervised-algorithms.html"><a href="other-supervised-algorithms.html#neural-networks-and-deep-versions-of-it"><i class="fa fa-check"></i><b>5.14.3</b> Neural networks and deep versions of it</a></li>
+<li class="chapter" data-level="5.14.4" data-path="other-supervised-algorithms.html"><a href="other-supervised-algorithms.html#ensemble-learning"><i class="fa fa-check"></i><b>5.14.4</b> Ensemble learning</a></li>
+</ul></li>
+<li class="chapter" data-level="5.15" data-path="predicting-continuous-variables-regression-with-machine-learning.html"><a href="predicting-continuous-variables-regression-with-machine-learning.html"><i class="fa fa-check"></i><b>5.15</b> Predicting continuous variables: regression with machine learning</a><ul>
+<li class="chapter" data-level="5.15.1" data-path="predicting-continuous-variables-regression-with-machine-learning.html"><a href="predicting-continuous-variables-regression-with-machine-learning.html#use-case-predicting-age-from-dna-methylation"><i class="fa fa-check"></i><b>5.15.1</b> Use case: Predicting age from DNA methylation</a></li>
+<li class="chapter" data-level="5.15.2" data-path="predicting-continuous-variables-regression-with-machine-learning.html"><a href="predicting-continuous-variables-regression-with-machine-learning.html#reading-and-processing-the-data"><i class="fa fa-check"></i><b>5.15.2</b> reading and processing the data</a></li>
+<li class="chapter" data-level="5.15.3" data-path="predicting-continuous-variables-regression-with-machine-learning.html"><a href="predicting-continuous-variables-regression-with-machine-learning.html#running-random-forest-regression"><i class="fa fa-check"></i><b>5.15.3</b> Running random forest regression</a></li>
+</ul></li>
+<li class="chapter" data-level="5.16" data-path="exercises-3.html"><a href="exercises-3.html"><i class="fa fa-check"></i><b>5.16</b> Exercises</a><ul>
+<li class="chapter" data-level="5.16.1" data-path="exercises-3.html"><a href="exercises-3.html#classification"><i class="fa fa-check"></i><b>5.16.1</b> classification</a></li>
+<li class="chapter" data-level="5.16.2" data-path="exercises-3.html"><a href="exercises-3.html#regression"><i class="fa fa-check"></i><b>5.16.2</b> Regression</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="processingReads.html"><a href="processingReads.html"><i class="fa fa-check"></i><b>5</b> Quality check, processing and alignment of high-throughput sequencing reads</a><ul>
-<li class="chapter" data-level="5.1" data-path="fasta-and-fastq-formats.html"><a href="fasta-and-fastq-formats.html"><i class="fa fa-check"></i><b>5.1</b> FASTA and FASTQ formats</a></li>
-<li class="chapter" data-level="5.2" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html"><i class="fa fa-check"></i><b>5.2</b> Quality check on sequencing reads</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#sequence-quality-per-basecycle"><i class="fa fa-check"></i><b>5.2.1</b> Sequence quality per base/cycle</a></li>
-<li class="chapter" data-level="5.2.2" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#sequence-content-per-basecycle"><i class="fa fa-check"></i><b>5.2.2</b> Sequence content per base/cycle</a></li>
-<li class="chapter" data-level="5.2.3" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#read-frequency-plot"><i class="fa fa-check"></i><b>5.2.3</b> Read frequency plot</a></li>
-<li class="chapter" data-level="5.2.4" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#other-quality-metrics-and-qc-tools"><i class="fa fa-check"></i><b>5.2.4</b> Other quality metrics and QC tools</a></li>
+<li class="chapter" data-level="6" data-path="genomicIntervals.html"><a href="genomicIntervals.html"><i class="fa fa-check"></i><b>6</b> Operations on Genomic Intervals and Genome Arithmetic</a><ul>
+<li class="chapter" data-level="6.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html"><i class="fa fa-check"></i><b>6.1</b> Operations on Genomic Intervals with GenomicRanges package</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#how-to-create-and-manipulate-a-granges-object"><i class="fa fa-check"></i><b>6.1.1</b> How to create and manipulate a GRanges object</a></li>
+<li class="chapter" data-level="6.1.2" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#getting-genomic-regions-into-r-as-granges-objects"><i class="fa fa-check"></i><b>6.1.2</b> Getting genomic regions into R as GRanges objects</a></li>
+<li class="chapter" data-level="6.1.3" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><i class="fa fa-check"></i><b>6.1.3</b> Finding regions that do/do not overlap with another set of regions</a></li>
 </ul></li>
-<li class="chapter" data-level="5.3" data-path="filtering-and-trimming-reads.html"><a href="filtering-and-trimming-reads.html"><i class="fa fa-check"></i><b>5.3</b> Filtering and trimming reads</a></li>
-<li class="chapter" data-level="5.4" data-path="mappingaligning-reads-to-the-genome.html"><a href="mappingaligning-reads-to-the-genome.html"><i class="fa fa-check"></i><b>5.4</b> Mapping/aligning reads to the genome</a></li>
-<li class="chapter" data-level="5.5" data-path="further-processing-of-aligned-reads.html"><a href="further-processing-of-aligned-reads.html"><i class="fa fa-check"></i><b>5.5</b> Further processing of aligned reads</a></li>
-<li class="chapter" data-level="5.6" data-path="exercises-3.html"><a href="exercises-3.html"><i class="fa fa-check"></i><b>5.6</b> Exercises</a></li>
+<li class="chapter" data-level="6.2" data-path="dealing-with-mapped-high-throughput-sequencing-reads.html"><a href="dealing-with-mapped-high-throughput-sequencing-reads.html"><i class="fa fa-check"></i><b>6.2</b> Dealing with mapped high-throughput sequencing reads</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="dealing-with-mapped-high-throughput-sequencing-reads.html"><a href="dealing-with-mapped-high-throughput-sequencing-reads.html#counting-mapped-reads-for-a-set-of-regions"><i class="fa fa-check"></i><b>6.2.1</b> Counting mapped reads for a set of regions</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="rna-seq-analysis-overview.html"><a href="rna-seq-analysis-overview.html"><i class="fa fa-check"></i><b>6</b> RNA-seq analysis overview</a><ul>
-<li class="chapter" data-level="6.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>6.1</b> What is gene expression?</a></li>
-<li class="chapter" data-level="6.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>6.2</b> Methods to detect gene expression</a></li>
-<li class="chapter" data-level="6.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>6.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
-<li class="chapter" data-level="6.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>6.3.1</b> Processing raw data</a></li>
-<li class="chapter" data-level="6.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>6.3.2</b> Alignment</a></li>
-<li class="chapter" data-level="6.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>6.3.3</b> Quantification</a></li>
-<li class="chapter" data-level="6.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#normalization-of-read-counts"><i class="fa fa-check"></i><b>6.3.4</b> Normalization of read counts</a></li>
-<li class="chapter" data-level="6.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#demonstration-in-r"><i class="fa fa-check"></i><b>6.3.5</b> Demonstration in R</a></li>
-<li class="chapter" data-level="6.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>6.3.6</b> Exploratory analysis of the read count table</a></li>
-<li class="chapter" data-level="6.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>6.3.7</b> Differential expression analysis</a></li>
-<li class="chapter" data-level="6.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>6.3.8</b> Functional Enrichment Analysis</a></li>
-<li class="chapter" data-level="6.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>6.3.9</b> Accounting for additional sources of variation</a></li>
+<li class="chapter" data-level="6.3" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html"><i class="fa fa-check"></i><b>6.3</b> Dealing with continuous scores over the genome</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html#extracting-subsections-of-rle-and-rlelist-objects"><i class="fa fa-check"></i><b>6.3.1</b> Extracting subsections of Rle and RleList objects</a></li>
 </ul></li>
-<li class="chapter" data-level="6.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>6.4</b> Other applications of RNA-seq</a></li>
-<li class="chapter" data-level="6.5" data-path="reproducibility.html"><a href="reproducibility.html"><i class="fa fa-check"></i><b>6.5</b> Reproducibility</a></li>
+<li class="chapter" data-level="6.4" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html"><i class="fa fa-check"></i><b>6.4</b> Genomic intervals with more information: SummarizedExperiment class</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#create-a-summarizedexperiment-object"><i class="fa fa-check"></i><b>6.4.1</b> Create a SummarizedExperiment object</a></li>
+<li class="chapter" data-level="6.4.2" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#subset-and-manipulate-the-summarizedexperiment-object"><i class="fa fa-check"></i><b>6.4.2</b> Subset and manipulate the SummarizedExperiment object</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="chipseq.html"><a href="chipseq.html"><i class="fa fa-check"></i><b>7</b> ChIP-seq analysis</a></li>
-<li class="chapter" data-level="8" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>8</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="8.0.1" data-path="bsseq.html"><a href="bsseq.html#what-is-dna-methylation"><i class="fa fa-check"></i><b>8.0.1</b> what is DNA methylation ?</a></li>
-<li class="chapter" data-level="8.0.2" data-path="bsseq.html"><a href="bsseq.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>8.0.2</b> How DNA methylation is set ?</a></li>
-<li class="chapter" data-level="8.0.3" data-path="bsseq.html"><a href="bsseq.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>8.0.3</b> How to measure DNA methylation with bisulfite-sequencing</a></li>
-<li class="chapter" data-level="8.0.4" data-path="bsseq.html"><a href="bsseq.html#analyzing-dna-methylation-data"><i class="fa fa-check"></i><b>8.0.4</b> Analyzing DNA methylation data</a></li>
-<li class="chapter" data-level="8.1" data-path="processing-raw-data-and-getting-data-into-r.html"><a href="processing-raw-data-and-getting-data-into-r.html"><i class="fa fa-check"></i><b>8.1</b> Processing raw data and getting data into R</a></li>
-<li class="chapter" data-level="8.2" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html"><i class="fa fa-check"></i><b>8.2</b> Data filtering and exploratory analysis</a><ul>
-<li class="chapter" data-level="8.2.1" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#reading-methylation-call-files"><i class="fa fa-check"></i><b>8.2.1</b> Reading methylation call files</a></li>
-<li class="chapter" data-level="8.2.2" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#further-quality-check"><i class="fa fa-check"></i><b>8.2.2</b> Further quality check</a></li>
-<li class="chapter" data-level="8.2.3" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#merging-samples-into-a-single-table"><i class="fa fa-check"></i><b>8.2.3</b> Merging samples into a single table</a></li>
-<li class="chapter" data-level="8.2.4" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#filtering-cpgs"><i class="fa fa-check"></i><b>8.2.4</b> Filtering CpGs</a></li>
-<li class="chapter" data-level="8.2.5" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#clustering-samples"><i class="fa fa-check"></i><b>8.2.5</b> Clustering samples</a></li>
-<li class="chapter" data-level="8.2.6" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#principal-component-analysis-1"><i class="fa fa-check"></i><b>8.2.6</b> Principal component analysis</a></li>
+<li class="chapter" data-level="6.5" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html"><i class="fa fa-check"></i><b>6.5</b> Visualizing and summarizing genomic intervals</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#visualizing-intervals-on-a-locus-of-interest"><i class="fa fa-check"></i><b>6.5.1</b> Visualizing intervals on a locus of interest</a></li>
+<li class="chapter" data-level="6.5.2" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#summaries-of-genomic-intervals-on-multiple-loci"><i class="fa fa-check"></i><b>6.5.2</b> Summaries of genomic intervals on multiple loci</a></li>
+<li class="chapter" data-level="6.5.3" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#making-karyograms-and-circos-plots"><i class="fa fa-check"></i><b>6.5.3</b> Making karyograms and circos plots</a></li>
 </ul></li>
-<li class="chapter" data-level="8.3" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html"><i class="fa fa-check"></i><b>8.3</b> Extracting interesting regions: segmentation and differential methylation</a><ul>
-<li class="chapter" data-level="8.3.1" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html#differential-methylation"><i class="fa fa-check"></i><b>8.3.1</b> Differential methylation</a></li>
-<li class="chapter" data-level="8.3.2" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html#methylation-segmentation"><i class="fa fa-check"></i><b>8.3.2</b> Methylation segmentation</a></li>
-<li class="chapter" data-level="8.3.3" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html#working-with-large-files"><i class="fa fa-check"></i><b>8.3.3</b> Working with large files</a></li>
+<li class="chapter" data-level="6.6" data-path="exercises-4.html"><a href="exercises-4.html"><i class="fa fa-check"></i><b>6.6</b> Exercises</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="exercises-4.html"><a href="exercises-4.html#operations-on-genomic-intervals-with-genomicranges-package-1"><i class="fa fa-check"></i><b>6.6.1</b> Operations on Genomic Intervals with GenomicRanges package</a></li>
+<li class="chapter" data-level="6.6.2" data-path="exercises-4.html"><a href="exercises-4.html#dealing-with-mapped-high-throughput-sequencing-reads-1"><i class="fa fa-check"></i><b>6.6.2</b> Dealing with mapped high-throughput sequencing reads</a></li>
+<li class="chapter" data-level="6.6.3" data-path="exercises-4.html"><a href="exercises-4.html#dealing-with-contiguous-scores-over-the-genome"><i class="fa fa-check"></i><b>6.6.3</b> Dealing with contiguous scores over the genome</a></li>
+<li class="chapter" data-level="6.6.4" data-path="exercises-4.html"><a href="exercises-4.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>6.6.4</b> Visualizing and summarizing genomic intervals</a></li>
 </ul></li>
-<li class="chapter" data-level="8.4" data-path="annotation-of-dmrsdmcs-and-segments.html"><a href="annotation-of-dmrsdmcs-and-segments.html"><i class="fa fa-check"></i><b>8.4</b> Annotation of DMRs/DMCs and segments</a></li>
-<li class="chapter" data-level="8.5" data-path="other-r-packages-that-can-be-used-for-methylation-analysis.html"><a href="other-r-packages-that-can-be-used-for-methylation-analysis.html"><i class="fa fa-check"></i><b>8.5</b> Other R packages that can be used for methylation analysis</a></li>
-<li class="chapter" data-level="8.6" data-path="exercises-8.html"><a href="exercises-8.html"><i class="fa fa-check"></i><b>8.6</b> Exercises</a><ul>
-<li class="chapter" data-level="8.6.1" data-path="exercises-8.html"><a href="exercises-8.html#exercise-1"><i class="fa fa-check"></i><b>8.6.1</b> Exercise 1</a></li>
-<li class="chapter" data-level="8.6.2" data-path="exercises-8.html"><a href="exercises-8.html#exercise-2"><i class="fa fa-check"></i><b>8.6.2</b> Exercise 2</a></li>
 </ul></li>
-<li class="chapter" data-level="8.7" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>8.7</b> References</a></li>
+<li class="chapter" data-level="7" data-path="processingReads.html"><a href="processingReads.html"><i class="fa fa-check"></i><b>7</b> Quality Check, Processing and Alignment of High-throughput Sequencing Reads</a><ul>
+<li class="chapter" data-level="7.1" data-path="fasta-and-fastq-formats.html"><a href="fasta-and-fastq-formats.html"><i class="fa fa-check"></i><b>7.1</b> FASTA and FASTQ formats</a></li>
+<li class="chapter" data-level="7.2" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html"><i class="fa fa-check"></i><b>7.2</b> Quality check on sequencing reads</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#sequence-quality-per-basecycle"><i class="fa fa-check"></i><b>7.2.1</b> Sequence quality per base/cycle</a></li>
+<li class="chapter" data-level="7.2.2" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#sequence-content-per-basecycle"><i class="fa fa-check"></i><b>7.2.2</b> Sequence content per base/cycle</a></li>
+<li class="chapter" data-level="7.2.3" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#read-frequency-plot"><i class="fa fa-check"></i><b>7.2.3</b> Read frequency plot</a></li>
+<li class="chapter" data-level="7.2.4" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#other-quality-metrics-and-qc-tools"><i class="fa fa-check"></i><b>7.2.4</b> Other quality metrics and QC tools</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="multiomics.html"><a href="multiomics.html"><i class="fa fa-check"></i><b>9</b> Multi-omics analysis</a><ul>
-<li class="chapter" data-level="9.0.1" data-path="multiomics.html"><a href="multiomics.html#example-data"><i class="fa fa-check"></i><b>9.0.1</b> Example data</a></li>
-<li class="chapter" data-level="9.1" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>9.1</b> Latent variable models for multi-omics integration</a></li>
-<li class="chapter" data-level="9.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>9.2</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
-<li class="chapter" data-level="9.2.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>9.2.1</b> Multiple Factor Analysis</a></li>
-<li class="chapter" data-level="9.2.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>9.2.2</b> Joint Non-negative Matrix Factorization</a></li>
-<li class="chapter" data-level="9.2.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>9.2.3</b> iCluster</a></li>
+<li class="chapter" data-level="7.3" data-path="filtering-and-trimming-reads.html"><a href="filtering-and-trimming-reads.html"><i class="fa fa-check"></i><b>7.3</b> Filtering and trimming reads</a></li>
+<li class="chapter" data-level="7.4" data-path="mappingaligning-reads-to-the-genome.html"><a href="mappingaligning-reads-to-the-genome.html"><i class="fa fa-check"></i><b>7.4</b> Mapping/aligning reads to the genome</a></li>
+<li class="chapter" data-level="7.5" data-path="further-processing-of-aligned-reads.html"><a href="further-processing-of-aligned-reads.html"><i class="fa fa-check"></i><b>7.5</b> Further processing of aligned reads</a></li>
+<li class="chapter" data-level="7.6" data-path="exercises-5.html"><a href="exercises-5.html"><i class="fa fa-check"></i><b>7.6</b> Exercises</a></li>
 </ul></li>
-<li class="chapter" data-level="9.3" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>9.3</b> Clustering using latent factors</a><ul>
-<li class="chapter" data-level="9.3.1" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html#one-hot-clustering"><i class="fa fa-check"></i><b>9.3.1</b> One-hot clustering</a></li>
-<li class="chapter" data-level="9.3.2" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html#k-means-clustering-1"><i class="fa fa-check"></i><b>9.3.2</b> K-means clustering</a></li>
+<li class="chapter" data-level="8" data-path="rnaseqanalysis.html"><a href="rnaseqanalysis.html"><i class="fa fa-check"></i><b>8</b> RNA-seq Analysis</a><ul>
+<li class="chapter" data-level="8.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>8.1</b> What is gene expression?</a></li>
+<li class="chapter" data-level="8.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>8.2</b> Methods to detect gene expression</a></li>
+<li class="chapter" data-level="8.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>8.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>8.3.1</b> Processing raw data</a></li>
+<li class="chapter" data-level="8.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>8.3.2</b> Alignment</a></li>
+<li class="chapter" data-level="8.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>8.3.3</b> Quantification</a></li>
+<li class="chapter" data-level="8.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#within-sample-normalization-of-the-read-counts"><i class="fa fa-check"></i><b>8.3.4</b> Within sample normalization of the read counts</a></li>
+<li class="chapter" data-level="8.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#computing-different-normalization-schemes-in-r"><i class="fa fa-check"></i><b>8.3.5</b> Computing different normalization schemes in R</a></li>
+<li class="chapter" data-level="8.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>8.3.6</b> Exploratory analysis of the read count table</a></li>
+<li class="chapter" data-level="8.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>8.3.7</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="8.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>8.3.8</b> Functional Enrichment Analysis</a></li>
+<li class="chapter" data-level="8.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>8.3.9</b> Accounting for additional sources of variation</a></li>
 </ul></li>
-<li class="chapter" data-level="9.4" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html"><i class="fa fa-check"></i><b>9.4</b> Biological interpretation of latent factors</a><ul>
-<li class="chapter" data-level="9.4.1" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#inspection-of-feature-weights-in-loading-vectors"><i class="fa fa-check"></i><b>9.4.1</b> Inspection of feature weights in loading vectors</a></li>
-<li class="chapter" data-level="9.4.2" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#making-sense-of-factors-using-enrichment-analysis"><i class="fa fa-check"></i><b>9.4.2</b> Making sense of factors using enrichment analysis</a></li>
-<li class="chapter" data-level="9.4.3" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#interpretation-using-additional-covariates"><i class="fa fa-check"></i><b>9.4.3</b> Interpretation using additional covariates</a></li>
+<li class="chapter" data-level="8.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>8.4</b> Other applications of RNA-seq</a></li>
+<li class="chapter" data-level="8.5" data-path="exercises-6.html"><a href="exercises-6.html"><i class="fa fa-check"></i><b>8.5</b> Exercises</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="exercises-6.html"><a href="exercises-6.html#exploring-the-count-tables"><i class="fa fa-check"></i><b>8.5.1</b> Exploring the count tables</a></li>
+<li class="chapter" data-level="8.5.2" data-path="exercises-6.html"><a href="exercises-6.html#differential-expression-analysis-1"><i class="fa fa-check"></i><b>8.5.2</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="8.5.3" data-path="exercises-6.html"><a href="exercises-6.html#functional-enrichment-analysis-1"><i class="fa fa-check"></i><b>8.5.3</b> Functional enrichment analysis</a></li>
+<li class="chapter" data-level="8.5.4" data-path="exercises-6.html"><a href="exercises-6.html#removing-unwanted-variation-from-the-expression-data"><i class="fa fa-check"></i><b>8.5.4</b> Removing unwanted variation from the expression data</a></li>
 </ul></li>
-<li class="chapter" data-level="9.5" data-path="exercises-9.html"><a href="exercises-9.html"><i class="fa fa-check"></i><b>9.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chipseq.html"><a href="chipseq.html"><i class="fa fa-check"></i><b>9</b> ChIP-seq Analysis</a></li>
+<li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
+<li class="chapter" data-level="10.0.1" data-path="bsseq.html"><a href="bsseq.html#what-is-dna-methylation"><i class="fa fa-check"></i><b>10.0.1</b> what is DNA methylation ?</a></li>
+<li class="chapter" data-level="10.0.2" data-path="bsseq.html"><a href="bsseq.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.0.2</b> How DNA methylation is set ?</a></li>
+<li class="chapter" data-level="10.0.3" data-path="bsseq.html"><a href="bsseq.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.0.3</b> How to measure DNA methylation with bisulfite-sequencing</a></li>
+<li class="chapter" data-level="10.0.4" data-path="bsseq.html"><a href="bsseq.html#analyzing-dna-methylation-data"><i class="fa fa-check"></i><b>10.0.4</b> Analyzing DNA methylation data</a></li>
+<li class="chapter" data-level="10.1" data-path="processing-raw-data-and-getting-data-into-r.html"><a href="processing-raw-data-and-getting-data-into-r.html"><i class="fa fa-check"></i><b>10.1</b> Processing raw data and getting data into R</a></li>
+<li class="chapter" data-level="10.2" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html"><i class="fa fa-check"></i><b>10.2</b> Data filtering and exploratory analysis</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#reading-methylation-call-files"><i class="fa fa-check"></i><b>10.2.1</b> Reading methylation call files</a></li>
+<li class="chapter" data-level="10.2.2" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#further-quality-check"><i class="fa fa-check"></i><b>10.2.2</b> Further quality check</a></li>
+<li class="chapter" data-level="10.2.3" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#merging-samples-into-a-single-table"><i class="fa fa-check"></i><b>10.2.3</b> Merging samples into a single table</a></li>
+<li class="chapter" data-level="10.2.4" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#filtering-cpgs"><i class="fa fa-check"></i><b>10.2.4</b> Filtering CpGs</a></li>
+<li class="chapter" data-level="10.2.5" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#clustering-samples"><i class="fa fa-check"></i><b>10.2.5</b> Clustering samples</a></li>
+<li class="chapter" data-level="10.2.6" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#principal-component-analysis-1"><i class="fa fa-check"></i><b>10.2.6</b> Principal component analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html"><i class="fa fa-check"></i><b>10.3</b> Extracting interesting regions: segmentation and differential methylation</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html#differential-methylation"><i class="fa fa-check"></i><b>10.3.1</b> Differential methylation</a></li>
+<li class="chapter" data-level="10.3.2" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html#methylation-segmentation"><i class="fa fa-check"></i><b>10.3.2</b> Methylation segmentation</a></li>
+<li class="chapter" data-level="10.3.3" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html#working-with-large-files"><i class="fa fa-check"></i><b>10.3.3</b> Working with large files</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="annotation-of-dmrsdmcs-and-segments.html"><a href="annotation-of-dmrsdmcs-and-segments.html"><i class="fa fa-check"></i><b>10.4</b> Annotation of DMRs/DMCs and segments</a></li>
+<li class="chapter" data-level="10.5" data-path="other-r-packages-that-can-be-used-for-methylation-analysis.html"><a href="other-r-packages-that-can-be-used-for-methylation-analysis.html"><i class="fa fa-check"></i><b>10.5</b> Other R packages that can be used for methylation analysis</a></li>
+<li class="chapter" data-level="10.6" data-path="exercises-7.html"><a href="exercises-7.html"><i class="fa fa-check"></i><b>10.6</b> Exercises</a><ul>
+<li class="chapter" data-level="10.6.1" data-path="exercises-7.html"><a href="exercises-7.html#exercise-1"><i class="fa fa-check"></i><b>10.6.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="10.6.2" data-path="exercises-7.html"><a href="exercises-7.html#exercise-2"><i class="fa fa-check"></i><b>10.6.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="10.7" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>10.7</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="multiomics.html"><a href="multiomics.html"><i class="fa fa-check"></i><b>11</b> Multi-omics Analysis</a><ul>
+<li class="chapter" data-level="11.0.1" data-path="multiomics.html"><a href="multiomics.html#use-case-multi-omics-data-from-colorectal-cancer"><i class="fa fa-check"></i><b>11.0.1</b> Use case: Multi-omics data from colorectal cancer</a></li>
+<li class="chapter" data-level="11.1" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.1</b> Latent variable models for multi-omics integration</a></li>
+<li class="chapter" data-level="11.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.2</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.2.1</b> Multiple Factor Analysis</a></li>
+<li class="chapter" data-level="11.2.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.2.2</b> Joint Non-negative Matrix Factorization</a></li>
+<li class="chapter" data-level="11.2.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.2.3</b> iCluster</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.3</b> Clustering using latent factors</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html#one-hot-clustering"><i class="fa fa-check"></i><b>11.3.1</b> One-hot clustering</a></li>
+<li class="chapter" data-level="11.3.2" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html#k-means-clustering-1"><i class="fa fa-check"></i><b>11.3.2</b> K-means clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Biological interpretation of latent factors</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#inspection-of-feature-weights-in-loading-vectors"><i class="fa fa-check"></i><b>11.4.1</b> Inspection of feature weights in loading vectors</a></li>
+<li class="chapter" data-level="11.4.2" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#making-sense-of-factors-using-enrichment-analysis"><i class="fa fa-check"></i><b>11.4.2</b> Making sense of factors using enrichment analysis</a></li>
+<li class="chapter" data-level="11.4.3" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#interpretation-using-additional-covariates"><i class="fa fa-check"></i><b>11.4.3</b> Interpretation using additional covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="exercises-8.html"><a href="exercises-8.html"><i class="fa fa-check"></i><b>11.5</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -343,22 +437,22 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="extracting-interesting-regions-segmentation-and-differential-methylation" class="section level2">
-<h2><span class="header-section-number">8.3</span> Extracting interesting regions: segmentation and differential methylation</h2>
+<h2><span class="header-section-number">10.3</span> Extracting interesting regions: segmentation and differential methylation</h2>
 <p>When analyzing DNA methylation data, we usually look for regions that are different than the rest of the methylome or different from a reference methylome. These regions are so called “interesting regions”. They usually mark important genomic features that are related to gene regulation which in turn defines the cell type. Therefore, it is a general interest to find such regions and analyze them further to understand our biological sample or to answer specific research questions. Below we will describe two ways of defining “regions of interest”.</p>
 <div id="differential-methylation" class="section level3">
-<h3><span class="header-section-number">8.3.1</span> Differential methylation</h3>
+<h3><span class="header-section-number">10.3.1</span> Differential methylation</h3>
 <p>Once methylation proportions per base are obtained, generally, the differences between methylation profiles are considered next. When there are multiple sample groups where each group defines a separate biological entity or treatment, it is usually of interest to locate bases or regions with different methylation proportions across the sample groups. The bases or regions with different methylation proportions across samples are called differentially methylated CpG sites (DMCs) and differentially methylated regions (DMRs). They have been shown to play a role in many different diseases due to their association with epigenetic control of gene regulation. In addition, DNA methylation profiles can be highly tissue-specific due to their role in gene regulation <span class="citation">(Schübeler <a href="#ref-Schubeler2015-ai">2015</a>)</span>. DNA methylation is highly informative when studying normal and diseased cells, because it can also act as a biomarker. For example, the presence of large-scale abnormally methylated genomic regions is a hallmark feature of many types of cancers <span class="citation">(Ehrlich <a href="#ref-Ehrlich2002-hv">2002</a>)</span>. Because of aforementioned reasons, investigating differential methylation is usually one of the primary goals of doing bisulfite sequencing.</p>
 <div id="fishers-exact-test" class="section level4">
-<h4><span class="header-section-number">8.3.1.1</span> Fisher’s exact test</h4>
+<h4><span class="header-section-number">10.3.1.1</span> Fisher’s exact test</h4>
 <p>Differential DNA methylation is usually calculated by comparing the proportion of methylated Cs in a test sample relative to a control. In simple comparisons between such pairs of samples (i.e. test and control), methods such as Fisher’s Exact Test can be used. if there are replicates, replicates can be pooled within groups to a single sample per group. This strategy, however, does not take into account biological variability between replicates. We will now show how to compare pairs of samples via <code>calculateDiffMeth</code> function in <code>methylKit</code>. When there are only one sample per sample group, <code>calculateDiffMeth</code> automatically applies Fisher’s exact test. We will not extract one sample from each group and run <code>calculateDiffMeth</code>, which will automatically run Fisher’s exact test.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSampleID</span>(meth)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSampleID</span>(meth)
 new.meth=<span class="kw">reorganize</span>(meth,<span class="dt">sample.ids=</span><span class="kw">c</span>(<span class="st">&quot;test1&quot;</span>,<span class="st">&quot;ctrl1&quot;</span>),<span class="dt">treatment=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))
-dmf=<span class="kw">calculateDiffMeth</span>(new.meth)</code></pre></div>
+dmf=<span class="kw">calculateDiffMeth</span>(new.meth)</code></pre>
 <p>As mentioned, we can also pool the samples from the same group by adding up the number of Cs and Ts per group. This way even if we have replicated experiments we treat them as single experiments, and can apply Fisher’s exact test. We will now pool the samples and apply</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pooled.meth=<span class="kw">pool</span>(meth,<span class="dt">sample.ids=</span><span class="kw">c</span>(<span class="st">&quot;test&quot;</span>,<span class="st">&quot;control&quot;</span>))
-dm.pooledf=<span class="kw">calculateDiffMeth</span>(pooled.meth)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">pooled.meth=<span class="kw">pool</span>(meth,<span class="dt">sample.ids=</span><span class="kw">c</span>(<span class="st">&quot;test&quot;</span>,<span class="st">&quot;control&quot;</span>))
+dm.pooledf=<span class="kw">calculateDiffMeth</span>(pooled.meth)</code></pre>
 <p><code>calculateDiffMeth</code> function returns the P-values for all bases or regions in the input methylBase object. We need to filter to get differentially methylated CpGs. This can be done via <code>getMethlyDiff</code> function or simple filtering via <code>[ ]</code> notation. Below we show how to filter the <code>methylDiff</code> object output by <code>calculateDiffMeth()</code> function in order to get differentially methylated CpGs. The function arguments defines cutoff values for the methylation difference between groups and Q-value. In these cases, we require a methylation difference of 25% and Q-value of at least <span class="math inline">\(0.01\)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get differentially methylated bases/regions with specific cutoffs</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get differentially methylated bases/regions with specific cutoffs</span>
 all.diff=<span class="kw">getMethylDiff</span>(dm.pooledf,<span class="dt">difference=</span><span class="dv">25</span>,<span class="dt">qvalue=</span><span class="fl">0.01</span>,<span class="dt">type=</span><span class="st">&quot;all&quot;</span>)
 
 <span class="co"># get hyper-methylated</span>
@@ -368,38 +462,41 @@ hyper=<span class="kw">getMethylDiff</span>(dm.pooledf,<span class="dt">differen
 hypo=<span class="kw">getMethylDiff</span>(dm.pooledf,<span class="dt">difference=</span><span class="dv">25</span>,<span class="dt">qvalue=</span><span class="fl">0.01</span>,<span class="dt">type=</span><span class="st">&quot;hypo&quot;</span>)
 
 <span class="co">#using [ ] notation</span>
-hyper2=dm.pooledf[dm.pooledf<span class="op">$</span>qvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.01</span> <span class="op">&amp;</span><span class="st"> </span>dm.pooledf<span class="op">$</span>meth.diff <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>,]</code></pre></div>
+hyper2=dm.pooledf[dm.pooledf<span class="op">$</span>qvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.01</span> <span class="op">&amp;</span><span class="st"> </span>dm.pooledf<span class="op">$</span>meth.diff <span class="op">&gt;</span><span class="st"> </span><span class="dv">25</span>,]</code></pre>
 </div>
 <div id="logistic-regression-based-tests" class="section level4">
-<h4><span class="header-section-number">8.3.1.2</span> Logistic regression based tests</h4>
+<h4><span class="header-section-number">10.3.1.2</span> Logistic regression based tests</h4>
 <p>Regression-based methods are generally used to model methylation levels in relation to the sample groups and variation between replicates. Differences between currently available regression methods stem from the choice of distribution to model the data and the variation associated with it. In the simplest case, linear regression can be used to model methylation per given CpG or loci across sample groups. The model fits regression coefficients to model the expected methylation proportion values for each CpG site across sample groups. Hence, the null hypothesis of the model coefficients being zero could be tested using t-statistics. However, linear regression based methods might produce fitted methylation levels outside the range [0,1] unless the values are transformed before regression. An alternative is logistic regression, which can deal with data strictly bounded between 0 and 1 and with non-constant variance, such as methylation proportion/fraction values. In the logistic regression, it is assumed that fitted values have variation <span class="math inline">\(np(1-p)\)</span>, where <span class="math inline">\(p\)</span> is the fitted methylation proportion for a given sample and n is the read coverage. If the observed variance is larger or smaller than assumed by the model, one speaks of under- or over-dispersion. This over/under-dispersion can be corrected by calculating a scaling factor and using that factor to adjust the variance estimates as in <span class="math inline">\(np(1-p)s\)</span>, where <span class="math inline">\(s\)</span> is the scaling factor. MethylKit can apply logistic regression to test the methylation difference with or without the over-dispersion correction. In this case, Chi-square or F-test can be used to compare the difference in the deviances of the null model and the alternative model. The null model assumes there is no relationship between sample groups and methylation, and the alternative model assumes that there is a relationship where sample groups are predictive of methylation values for a given CpG or region for which the model is constructed. Next, we are going to use the logistic regression based model with over-dispersion correction and Chi-square test.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dm.lr=<span class="kw">calculateDiffMeth</span>(meth,<span class="dt">overdispersion =</span> <span class="st">&quot;MN&quot;</span>,<span class="dt">test =</span><span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">dm.lr=<span class="kw">calculateDiffMeth</span>(meth,<span class="dt">overdispersion =</span> <span class="st">&quot;MN&quot;</span>,<span class="dt">test =</span><span class="st">&quot;Chisq&quot;</span>)</code></pre>
 </div>
 <div id="betabinomial-distribution-based-tests" class="section level4">
-<h4><span class="header-section-number">8.3.1.3</span> Betabinomial distribution based tests</h4>
+<h4><span class="header-section-number">10.3.1.3</span> Betabinomial distribution based tests</h4>
 <p>More complex regression models use beta binomial distribution and are particularly useful for better modeling the variance. Similar to logistic regression, their observation follows binomial distribution (number of reads), but methylation proportion itself can vary across samples, according to a beta distribution. It can deal with fitting values in [0,1] range and performs better when there is greater variance than expected by the simple logistic model. In essence, these models have a different way of calculating a scaling factor when there is over-dispersion in the model. Further enhancements are made to these models by using the Empirical Bayes methods that can better estimate hyper parameters of the beta distribution (variance-related parameters) by borrowing information between loci or regions within the genome to aid with inference about each individual loci or region. We are now going to use a beta-binomial based model called DSS<span class="citation">(Feng, Conneely, and Wu <a href="#ref-Feng2014-pd">2014</a>)</span> to calculate differential methylation.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dm.dss=<span class="kw">calculateDiffMethDSS</span>(meth)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">dm.dss=<span class="kw">calculateDiffMethDSS</span>(meth)</code></pre>
 <pre><code>## Using internal DSS code...</code></pre>
 </div>
 <div id="differential-methylation-for-regions-rather-than-base-pairs" class="section level4">
-<h4><span class="header-section-number">8.3.1.4</span> Differential methylation for regions rather than base-pairs</h4>
-<p>Until now, we worked on differentially methylated cytosines. However, working with base-pair resolution data has its problems. Not all the CpGs will be covered in all samples, if covered they may have low coverage which reduces the power of the tests. Instead of base-pairs, we can choose to work with regions. So, it might be desirable to summarize methylation information over pre-defined regions rather than doing base-pair resolution analysis. <code>methylKit</code> provides functionality to do such analysis. We can either tile the whole genome to tiles with predefined length, or we can use pre-defined regions such as promoters or CpG islands. This kind of regional analysis is carried out by adding up C and T counts from each covered cytosine and returning a total C and T count for each region.</p>
+<h4><span class="header-section-number">10.3.1.4</span> Differential methylation for regions rather than base-pairs</h4>
+<p>Until now, we worked on differentially methylated cytosines. However,
+working with base-pair resolution data has its problems. Not all the CpGs will be covered in all samples, if covered they may have low coverage which reduces the power of the tests. Instead of base-pairs, we can choose to work with regions. So, it might be desirable to summarize methylation information over pre-defined regions rather than doing base-pair resolution analysis. <code>methylKit</code> provides functionality to do such analysis. We can either tile the whole genome to tiles with predefined length, or we can use pre-defined regions such as promoters or CpG islands. This kind of regional analysis is carried out by adding up C and T counts from each covered cytosine and returning a total C and T count for each region.</p>
 <p>The function below tiles the genome with windows 1000bp length and 1000bp step-size and summarizes the methylation information on those tiles. In this case, it returns a <code>methylRawList</code> object which can be fed into <code>unite</code> and <code>calculateDiffMeth</code> functions consecutively to get differentially methylated regions.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tiles=<span class="kw">tileMethylCounts</span>(myobj,<span class="dt">win.size=</span><span class="dv">1000</span>,<span class="dt">step.size=</span><span class="dv">1000</span>)
-<span class="kw">head</span>(tiles[[<span class="dv">1</span>]],<span class="dv">3</span>)</code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r">tiles=<span class="kw">tileMethylCounts</span>(myobj,<span class="dt">win.size=</span><span class="dv">1000</span>,<span class="dt">step.size=</span><span class="dv">1000</span>)
+<span class="kw">head</span>(tiles[[<span class="dv">1</span>]],<span class="dv">3</span>)</code></pre>
 <pre><code>##     chr   start     end strand coverage numCs numTs
 ## 1 chr21 9764001 9765000      *       24     3    21
 ## 2 chr21 9820001 9821000      *       13     0    13
 ## 3 chr21 9837001 9838000      *       11     0    11</code></pre>
-<p>In addition, if we are interested in particular regions, we can also get those regions as methylKit objects after summarizing the methylation information as described above. The code below summarizes the methylation information over a given set of promoter regions and outputs a <code>methylRaw</code> or <code>methylRawList</code> object depending on the input. We are using the output of <code>genomation</code> functions used above to provide the locations of promoters. For regional summary functions, we need to provide regions of interest as GRanges object.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(genomation)
+<p>In addition, if we are interested in particular regions, we can also get those regions as methylKit objects after summarizing the methylation information as described above. The code below summarizes the methylation information over a given set of promoter regions and outputs a <code>methylRaw</code> or <code>methylRawList</code> object depending on the input. We are using the output of
+<code>genomation</code> functions used above to provide the locations of promoters. For regional summary functions, we need to
+provide regions of interest as GRanges object.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(genomation)
 
 <span class="co"># read the gene BED file</span>
 gene.obj=<span class="kw">readTranscriptFeatures</span>(<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;refseq.hg18.bed.txt&quot;</span>, 
                                            <span class="dt">package =</span> <span class="st">&quot;methylKit&quot;</span>))
 promoters=<span class="kw">regionCounts</span>(myobj,gene.obj<span class="op">$</span>promoters)
 
-<span class="kw">head</span>(promoters[[<span class="dv">1</span>]])</code></pre></div>
+<span class="kw">head</span>(promoters[[<span class="dv">1</span>]])</code></pre>
 <pre><code>##     chr    start      end strand coverage numCs numTs
 ## 1 chr21 10011791 10013791      -     7953  6662  1290
 ## 2 chr21 10119796 10121796      -     1725  1171   554
@@ -407,12 +504,25 @@ promoters=<span class="kw">regionCounts</span>(myobj,gene.obj<span class="op">$<
 ## 4 chr21 13903368 13905368      +       10    10     0
 ## 5 chr21 14273636 14275636      -      282   220    62
 ## 6 chr21 14509336 14511336      +     1058    55  1003</code></pre>
-<p>In addition, it is possible to cluster DMCs based on their proximity and direction of differential methylation. This can be achieved by <code>methSeg</code> function in methylKit. We will see more about <code>methSeg</code> function in the following section. But it can take the output of <code>getMethylDiff</code> function therefore can work on DMCs to get differentially methylated regions.</p>
+<p>In addition, it is possible to cluster DMCs based on their proximity and direction of differential methylation. This can be achieved by <code>methSeg</code> function in methylKit. We will see more about <code>methSeg</code> function in the following section.
+But it can take the output of <code>getMethylDiff</code> function therefore can work on DMCs to get differentially methylated regions.</p>
 </div>
 <div id="adding-covariates" class="section level4">
-<h4><span class="header-section-number">8.3.1.5</span> Adding covariates</h4>
-<p>Covariates can be included in the analysis as well in methylKit. The <code>calculateDiffMeth</code> function will then try to separate the influence of the covariates from the treatment effect via the logistic regression model. In this case, we will test if full model (model with treatment and covariates) is better than the model with the covariates only. If there is no effect due to the treatment (sample groups), the full model will not explain the data better than the model with covariates only. In <code>calculateDiffMeth</code>, this is achieved by supplying the <code>covariates</code> argument in the format of a <code>data.frame</code>. Below, we simulate methylation data and add make a <code>data.frame</code> for the age. The data frame can include more columns, and those columns can also be <code>factor</code> variables. The row order of the data.frame should match the order of samples in the <code>methylBase</code> object. Below we are showing an example of this using a simulated data set where methylation values of CpGs will be affected by the age of the sample.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">covariates=<span class="kw">data.frame</span>(<span class="dt">age=</span><span class="kw">c</span>(<span class="dv">30</span>,<span class="dv">80</span>,<span class="dv">34</span>,<span class="dv">30</span>,<span class="dv">80</span>,<span class="dv">40</span>))
+<h4><span class="header-section-number">10.3.1.5</span> Adding covariates</h4>
+<p>Covariates can be included in the analysis as well in methylKit. The <code>calculateDiffMeth</code> function will then try to
+separate the influence of the covariates from the
+treatment effect via the logistic regression model. In this case, we will test
+if full model (model with treatment and covariates) is better than the model with
+the covariates only. If there is no effect due to the treatment (sample groups),
+the full model will not explain the data better than the model with covariates
+only. In <code>calculateDiffMeth</code>, this is achieved by
+supplying the <code>covariates</code> argument in the format of a <code>data.frame</code>.
+Below, we simulate methylation data and add make a <code>data.frame</code> for the age.
+The data frame can include more columns, and those columns can also be
+<code>factor</code> variables. The row order of the data.frame should match the order
+of samples in the <code>methylBase</code> object. Below we are showing an example
+of this using a simulated data set where methylation values of CpGs will be affected by the age of the sample.</p>
+<pre class="sourceCode r"><code class="sourceCode r">covariates=<span class="kw">data.frame</span>(<span class="dt">age=</span><span class="kw">c</span>(<span class="dv">30</span>,<span class="dv">80</span>,<span class="dv">34</span>,<span class="dv">30</span>,<span class="dv">80</span>,<span class="dv">40</span>))
 sim.methylBase=<span class="kw">dataSim</span>(<span class="dt">replicates=</span><span class="dv">6</span>,<span class="dt">sites=</span><span class="dv">1000</span>,
                         <span class="dt">treatment=</span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">3</span>),<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">3</span>)),
                         <span class="dt">covariates=</span>covariates,
@@ -421,14 +531,15 @@ sim.methylBase=<span class="kw">dataSim</span>(<span class="dt">replicates=</spa
 my.diffMeth3=<span class="kw">calculateDiffMeth</span>(sim.methylBase,
                                <span class="dt">covariates=</span>covariates,
                                <span class="dt">overdispersion=</span><span class="st">&quot;MN&quot;</span>,
-                               <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>,<span class="dt">mc.cores=</span><span class="dv">1</span>)</code></pre></div>
+                               <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span>,<span class="dt">mc.cores=</span><span class="dv">1</span>)</code></pre>
 </div>
 </div>
 <div id="methylation-segmentation" class="section level3">
-<h3><span class="header-section-number">8.3.2</span> Methylation segmentation</h3>
-<p>The analysis of methylation dynamics is not exclusively restricted to differentially methylated regions across samples, apart from this there is also an interest in examining the methylation profiles within the same sample. Usually, depressions in methylation profiles pinpoint regulatory regions like gene promoters that co-localize with CG-dense CpG islands. On the other hand, many gene-body regions are extensively methylated and CpG-poor <span class="citation">(Bock et al. <a href="#ref-Bock2012-oh">2012</a>)</span>. These observations would describe a bimodal model of either hyper- or hypomethylated regions dependent on the local density of CpGs <span class="citation">(Lövkvist et al. <a href="#ref-Lovkvist2016-ky">2016</a>)</span>. However, given the detection of CpG-poor regions with locally reduced levels of methylation (on average 30%) in pluripotent embryonic stem cells and in neuronal progenitors in both mouse and human, a different model seems also reasonable <span class="citation">(M. B. Stadler et al. <a href="#ref-Stadler2011-iu">2011</a>)</span>. These low-methylated regions (LMRs) are located distal to promoters, have little overlap with CpG islands and associated with enhancer marks such as p300 binding sites and H3K27ac enrichment.</p>
-<p>Now we are going to try to segment portion for the H1 human embryonic stem cell line. MethylKit uses change-point analysis to segment the methylome. In change-point analysis, the change-points of a genome-wide methylation signal are recorded and the genome is partitioned into regions between consecutive change points. CpGs in each segment is similar to eachoter more than the following segment. After segmentation, methylKit function <code>methSeg</code> identifies segments that are further clustered into segment classes using a mixture modeling approach. This clustering is based on only the average methylation level of the segments and allows the detection of distinct methylome features comparable to unmethylated regions (UMRs), lowly methylated regions (LMRs) and fully methylated regions (FMRs) mentioned at Stadler et. al (2012). The code snippet below reads the methylation data from H1 cell line as a <code>GRanges</code> object, and runs the segmentation with potentially up to classes of segments. Mixture modelling determines the optimal number of segments using a statistic called bayesian information criterion (BIC). BIC is a statistic based on model likelihood and helps us select the model that fits the data better. We have set the number of segment classes to try using <code>G=1:4</code> argument.The <code>minSeg</code> arguments are related to minimum number of CpGs in the segments.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># read methylation data</span>
+<h3><span class="header-section-number">10.3.2</span> Methylation segmentation</h3>
+<p>The analysis of methylation dynamics is not exclusively restricted to differentially methylated regions across samples, apart from this there is also an interest in examining the methylation profiles within the same sample. Usually, depressions in methylation profiles pinpoint regulatory regions like gene promoters that co-localize with CG-dense CpG islands. On the other hand, many gene-body regions are extensively methylated and CpG-poor <span class="citation">(Bock et al. <a href="#ref-Bock2012-oh">2012</a>)</span>. These observations would describe a bimodal model of either hyper- or hypomethylated regions dependent on the local density of CpGs <span class="citation">(Lövkvist et al. <a href="#ref-Lovkvist2016-ky">2016</a>)</span>. However, given the detection of CpG-poor regions with locally reduced levels of methylation (on average 30%) in pluripotent embryonic stem cells and in neuronal progenitors in both mouse and human, a different model seems also reasonable <span class="citation">(Stadler et al. <a href="#ref-Stadler2011-iu">2011</a>)</span>. These low-methylated regions (LMRs) are located distal to promoters, have little overlap with CpG islands and associated with enhancer marks such as p300 binding sites and H3K27ac enrichment.</p>
+<p>Now we are going to try to segment portion for the H1 human embryonic stem cell line. MethylKit uses change-point analysis to segment the methylome. In change-point analysis, the change-points of a genome-wide methylation signal are recorded and the genome is partitioned into regions between consecutive change points. CpGs in each segment is similar to eachoter more than the following segment.
+After segmentation, methylKit function <code>methSeg</code> identifies segments that are further clustered into segment classes using a mixture modeling approach. This clustering is based on only the average methylation level of the segments and allows the detection of distinct methylome features comparable to unmethylated regions (UMRs), lowly methylated regions (LMRs) and fully methylated regions (FMRs) mentioned at Stadler et. al (2012). The code snippet below reads the methylation data from H1 cell line as a <code>GRanges</code> object, and runs the segmentation with potentially up to classes of segments. Mixture modelling determines the optimal number of segments using a statistic called bayesian information criterion (BIC). BIC is a statistic based on model likelihood and helps us select the model that fits the data better. We have set the number of segment classes to try using <code>G=1:4</code> argument.The <code>minSeg</code> arguments are related to minimum number of CpGs in the segments.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># read methylation data</span>
 
 methFile=<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,<span class="st">&quot;H1.chr21.chr22.rds&quot;</span>,
                      <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)
@@ -436,27 +547,27 @@ mbw=<span class="kw">readRDS</span>(methFile)
 
 <span class="co"># segment the methylation data</span>
 res=<span class="kw">methSeg</span>(mbw,<span class="dt">minSeg=</span><span class="dv">10</span>,<span class="dt">G=</span><span class="dv">1</span><span class="op">:</span><span class="dv">4</span>,
-            <span class="dt">join.neighbours =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-242-1.png" width="672" style="display: block; margin: auto;" /></p>
+            <span class="dt">join.neighbours =</span> <span class="ot">TRUE</span>)</code></pre>
+<p><img src="compgenomrReloaded_files/figure-html/unnamed-chunk-198-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>In this case, we know that BIC does not improve much after 4 segment classes. Now, we will not have a look at the characteristics of the segment classes. We are going to plot mean methylation value and the length of the segment as a scatter plot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot </span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot </span>
 <span class="kw">plot</span>(res<span class="op">$</span>seg.mean,
      <span class="kw">log10</span>(<span class="kw">width</span>(res)),<span class="dt">pch=</span><span class="dv">20</span>,
      <span class="dt">col=</span>scales<span class="op">::</span><span class="kw">alpha</span>(<span class="kw">rainbow</span>(<span class="dv">4</span>)[<span class="kw">as.numeric</span>(res<span class="op">$</span>seg.group)], <span class="fl">0.2</span>),
      <span class="dt">ylab=</span><span class="st">&quot;log10(length)&quot;</span>,
-     <span class="dt">xlab=</span><span class="st">&quot;methylation proportion&quot;</span>)</code></pre></div>
+     <span class="dt">xlab=</span><span class="st">&quot;methylation proportion&quot;</span>)</code></pre>
 <p><img src="compgenomrReloaded_files/figure-html/segplot-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The highly methylated segment classes that have more than 70% methylation are usually longer, median length is 17889 bp. The segment class that has the lowest methylation values have median length of 1376 bp and the shortest segment class has low to medium methylation level, has median length of 412 bp.</p>
 </div>
 <div id="working-with-large-files" class="section level3">
-<h3><span class="header-section-number">8.3.3</span> Working with large files</h3>
+<h3><span class="header-section-number">10.3.3</span> Working with large files</h3>
 <p>We might want to perform differential methylation analysis in R using whole genome methylation data of multiple samples. The problem is that for genome-wide experiments, file sizes can easily range from hundreds of megabytes to gigabytes and processing multiple instances of those files in memory (RAM) might become unfeasible unless we have access to a high performance cluster (HPC) with extensive RAM. If we want to use a desktop computer or laptop with limited RAM, we either need to restrict our analysis to a subset of the data or use packages that can handle this situation.</p>
-<p>The methylKit package provides the capability of dealing large files and high number of samples by exploiting flat file databases to substitute in-memory objects. The internal data apart from meta information has a tabular structure storing chromosome, start/end position, strand information of the associated CpG base just like many other biological formats like BED, GFF or SAM. By exporting this tabular data into a TAB-delimited file and making sure it is accordingly position-sorted it can be indexed using the generic <a href="http://www.htslib.org/doc/tabix.html">tabix tool</a>. In general tabix indexing is a generalization of BAM indexing for generic TAB-delimited files. It inherits all the advantages of BAM indexing, including data compression and efficient random access in terms of few seek function calls per query <span class="citation">(H. Li <a href="#ref-Li2011-wc">2011</a>)</span>. MethylKit relies on [Rsamtools] (<a href="http://bioconductor.org/packages/release/bioc/html/Rsamtools.html" class="uri">http://bioconductor.org/packages/release/bioc/html/Rsamtools.html</a>) which implements tabix functionality for R and this way internal methylKit objects can be efficiently stored as compressed file on the disk and still be fast accessed. Another advantage is that existing compressed files can be loaded in interactive sessions, allowing the backup and transfer of intermediate analysis results.</p>
+<p>The methylKit package provides the capability of dealing large files and high number of samples by exploiting flat file databases to substitute in-memory objects. The internal data apart from meta information has a tabular structure storing chromosome, start/end position, strand information of the associated CpG base just like many other biological formats like BED, GFF or SAM. By exporting this tabular data into a TAB-delimited file and making sure it is accordingly position-sorted it can be indexed using the generic <a href="http://www.htslib.org/doc/tabix.html">tabix tool</a>. In general tabix indexing is a generalization of BAM indexing for generic TAB-delimited files. It inherits all the advantages of BAM indexing, including data compression and efficient random access in terms of few seek function calls per query <span class="citation">(Li <a href="#ref-Li2011-wc">2011</a>)</span>. MethylKit relies on [Rsamtools] (<a href="http://bioconductor.org/packages/release/bioc/html/Rsamtools.html" class="uri">http://bioconductor.org/packages/release/bioc/html/Rsamtools.html</a>) which implements tabix functionality for R and this way internal methylKit objects can be efficiently stored as compressed file on the disk and still be fast accessed. Another advantage is that existing compressed files can be loaded in interactive sessions, allowing the backup and transfer of intermediate analysis results.</p>
 <p>methylKit provides the capability for storing objects in tabix format within various functions. Every methylKit object has their tabix-based flat-file database equivalent. For example, when reading a methylation call file the <code>dbtype</code> argument can be provided, this will create tabix based objects.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"> myobj=<span class="kw">methRead</span>( file.list,
+<pre class="sourceCode r"><code class="sourceCode r"> myobj=<span class="kw">methRead</span>( file.list,
                <span class="dt">sample.id=</span><span class="kw">list</span>(<span class="st">&quot;test1&quot;</span>,<span class="st">&quot;test2&quot;</span>,<span class="st">&quot;ctrl1&quot;</span>,<span class="st">&quot;ctrl2&quot;</span>),
                <span class="dt">assembly=</span><span class="st">&quot;hg18&quot;</span>,<span class="dt">treatment=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),
-               <span class="dt">dbtype=</span><span class="st">&quot;tabix&quot;</span>) </code></pre></div>
+               <span class="dt">dbtype=</span><span class="st">&quot;tabix&quot;</span>) </code></pre>
 <p>The advantage of tabix-based objects is of course saving memory and more efficient parallelization for differential methylation calculation. However, since the data is written to a file and indexed whenever a new object is created, working with tabix-based objects will be slower at certain steps of the analysis compared to in-memory objects.</p>
 </div>
 </div>
@@ -520,7 +631,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/compgenomr/book/edit/master/08-bs-seq-analysis.Rmd",
+"link": "https://github.com/compgenomr/book/edit/master/10-bs-seq-analysis.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -540,7 +651,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    var src = "";
+    var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');
