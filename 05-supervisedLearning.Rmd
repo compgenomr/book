@@ -869,7 +869,7 @@ Until now, we only considered methods that can help us predict class labels. How
 In this section, we are going to show how to use a supervised learning method for regression. All the methods we have introduced previously in the context of classification can also do regression. Technically, this is just a simple change in the  cost function format and optimization step still tries to optimize the parameters of the cost function. In many cases, if your response variable is numeric methods in the **caret** package will automatically apply regression. 
 
 ### Use case: Predicting age from DNA methylation
-We will demonstrate random forest regression using a different data set which has a continuous response variable. This time we are going to try to predict age of individuals from their DNA methylation levels. Methylation is a DNA modification which has implications in gene regulation and cell state. We are going to introduce methylation in depth in chapter \@ref(methylation), however for now what we need to know is that there are 24 million CpG dinucleotides in the human genome. Their methylation status can be measured with quantitative assays and the value is between 0 and 1. If it is 0, the CpG is not methylated in any of the cells in the sample, and if it is 1, the CpG is methylated in all the cells of the sample. It has been shown that methylation is predictive of the age of the individual that the sample is taken from [@numata2012dna; @horvath2013dna]. Now, we will try to test that with a data set containing hundreds of individuals, their age and methylation values for ~27000 CpGs. We first read in the files and construct a training and test set.
+We will demonstrate random forest regression using a different data set which has a continuous response variable. This time we are going to try to predict age of individuals from their DNA methylation levels. Methylation is a DNA modification which has implications in gene regulation and cell state. We are going to introduce methylation in depth in chapter \@ref(bsseq), however for now what we need to know is that there are 24 million CpG dinucleotides in the human genome. Their methylation status can be measured with quantitative assays and the value is between 0 and 1. If it is 0, the CpG is not methylated in any of the cells in the sample, and if it is 1, the CpG is methylated in all the cells of the sample. It has been shown that methylation is predictive of the age of the individual that the sample is taken from [@numata2012dna; @horvath2013dna]. Now, we will try to test that with a data set containing hundreds of individuals, their age and methylation values for ~27000 CpGs. We first read in the files and construct a training set.
 
 ### reading and processing the data
 Let us first read in the data. When we run the summary and histogram we see that the methylation values are between 0 and 1 and there are 108 samples (See Figure @\ref(fig:readMethAge)). Typically, methylation values have bimodal distribution. In this case many of them have values around 0 and second most frequent value bracket is around 0.9.   
@@ -897,7 +897,7 @@ dim(ameth)
 ### Running random forest regression 
 Now we can use random forest regression to predict the age from methylation values. We are then going to plot predicted vs observed ages and see how well our predictions are.
 
-```{r, predictAge, fig.width=4.5,out.width='60%', fig.cap="Observed vs predicted age (Left). Residual plot showing for older people the error increases (Right)"}
+```{r, predictAge, fig.width=11,out.width='70%', fig.cap="Observed vs predicted age (Left). Residual plot showing for older people the error increases (Right)"}
 
 set.seed(18)
 
@@ -905,7 +905,7 @@ par(mfrow=c(1,2))
 
 # we are not going to do any cross-validatin
 # and rely on OOB error
-trctrl <- trainControl(method = "cv",number=5)
+trctrl <- trainControl(method = "none")
 
 # we will now train random forest model
 rfregFit <- train(Age~., 
