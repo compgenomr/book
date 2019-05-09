@@ -6,19 +6,19 @@ Living cells are a symphony of complex processes. Modern sequencing technology h
 
 The examples in this chapter will use the following data: a set of 121 tumors from the TCGA [@tcga_pan_cancer] cohorts of Colon and Rectum adenocarcinoma. The tumors have been profiled for gene expression using RNA-seq, mutations using Exome-seq, and copy number variations using genotyping arrays. The subset of tumors used in this chapter belong to two distinct molecular subtypes defined by the Colorectal Cancer Subtyping Consortium [@cmscc], _CMS1_ and _CMS3_.
 
-```{r,loadMultiomicsGE,results='asis'}
+```{r,mo_loadMultiomicsGE,results='asis'}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_gex.csv",package="compGenomRData")
 x1 <- read.csv(csvfile, row.names=1)
 rownames(x1) <- sapply(strsplit(rownames(x1), "\\|"), function(x) x[1])
 knitr::kable(head(t(head(x1))), caption="Gene expression data (head)")
 ```
-```{r,loadMultiomicsMUT,results='asis'}
+```{r,mo_loadMultiomicsMUT,results='asis'}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_muts.csv",package="compGenomRData")
 x2 <- read.csv(csvfile, row.names=1)
 x2[x2>0]=1
 knitr::kable(head(t(head(x2))), caption="Mutation data (head)")
 ```
-```{r,loadMultiomicsCNV,results='asis'}
+```{r,mo_loadMultiomicsCNV,results='asis'}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_cnv.csv",package="compGenomRData")
 x3 <- read.csv(csvfile, row.names=1)
 knitr::kable(head(t(head(x3))), caption="Copy number data (head)")
@@ -26,7 +26,7 @@ knitr::kable(head(t(head(x3))), caption="Copy number data (head)")
 
 Each of the data types (gene expresion, mutations, copy number variation) on its own, provides some signal which allows to somewhat separate the samples into the two different subtypes:
 
-```{r}
+```{r,mo_loadCOREADSubsypes}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_subtypes.csv",package="compGenomRData")
 covariates <- read.csv(csvfile, row.names=1)
 rownames(covariates) <- gsub(pattern = '-', replacement = '\\.', rownames(covariates))
@@ -35,21 +35,21 @@ anno_col <- data.frame(cms=as.factor(covariates$cms_label))
 rownames(anno_col) <- rownames(covariates)
 ```
 
-```{r}
+```{r,mo_geneExpressionHeatmap, fig.cap="Heatmap of gene expression data, colorectal cancers"}
 pheatmap::pheatmap(x1,
                    annotation_col = anno_col,
                    show_colnames = FALSE,
                    show_rownames = FALSE,
                    main="Gene expression data")
 ```
-```{r}
+```{r,mo_mutationsHeatmap,fig.cap="Heatmap of mutation data, colorectal cancers"}
 pheatmap::pheatmap(x2,
                    annotation_col = anno_col,
                    show_colnames = FALSE,
                    show_rownames = FALSE,
                    main="Mutation data")
 ```
-```{r}
+```{r,mo_CNVHeatmap,fig.cap="Heatmap of copy number variation data, colorectal cancers"}
 pheatmap::pheatmap(x3,
                    annotation_col = anno_col,
                    show_colnames = FALSE,
@@ -59,12 +59,12 @@ pheatmap::pheatmap(x3,
 
 ## Latent variable models for multi-omics integration
 
-Unupervised multi-omics integration methods are methods that look for patterns within and across data types, in a label-agnostic fashion, i.e. without knowledge of the identity or label of the analyzed samples (e.g. cell type, tumor/normal). This chapter focuses on latent variable models, a form of dimensionality reduction technique (TODO see chapter..). Latent variable models make an assumption that the high dimensional data we observe (e.g. counts of tens of thousands of mRNA molecules) arrise from a lower dimension description. The variables in that lower dimensional description are termed _Latent Variables_, as they are believed to be latent in the data, but not directly observable through experimentation. Therefore, there is a need for methods to infer the latent variables from the data. For instance, (TODO reference RNA-seq chapter) the relative abundance of different mRNA molecules in a cell is largely determined by the cell type. There are other experiments which may be used to discern the cell type of cells (e.g. looking at them under a microscope), but an RNA-seq experiment does not, directly, reveal whether the analyzed sample was taken from one organ or another. A latent variable model would set the cell type as a latent variable, and the observable abundance of mRNA molecules to be dependent on the value of the latent variable (e.g. if the latent variable is "Regulatory T-cell", we would expect to find high expression of CD4, FOXP3, and CD25).
+Unupervised multi-omics integration methods are methods that look for patterns within and across data types, in a label-agnostic fashion, i.e. without knowledge of the identity or label of the analyzed samples (e.g. cell type, tumor/normal). This chapter focuses on latent variable models, a form of dimensionality reduction technique (see Chapter 4, Unsupervised Learning). Latent variable models make an assumption that the high dimensional data we observe (e.g. counts of tens of thousands of mRNA molecules) arrise from a lower dimension description. The variables in that lower dimensional description are termed _Latent Variables_, as they are believed to be latent in the data, but not directly observable through experimentation. Therefore, there is a need for methods to infer the latent variables from the data. For instance, (see Chapter 8, RNA-seq analysis) the relative abundance of different mRNA molecules in a cell is largely determined by the cell type. There are other experiments which may be used to discern the cell type of cells (e.g. looking at them under a microscope), but an RNA-seq experiment does not, directly, reveal whether the analyzed sample was taken from one organ or another. A latent variable model would set the cell type as a latent variable, and the observable abundance of mRNA molecules to be dependent on the value of the latent variable (e.g. if the latent variable is "Regulatory T-cell", we would expect to find high expression of CD4, FOXP3, and CD25).
   
 ## Matrix factorization methods for unsupervised multi-omics data integration
 
-Matrix factorization techniques attempt to infer a set of latent variables from the data by finding factors of a data matrix. Principal Component Analysis (TODO chapter xyz) is a form of matrix factorization which finds factors based on the covariance structure of the data. Generally, matrix factorization methods may be formulated as
-Matrix factorization techniques attempt to infer a set of latent variables from the data by finding factors of a data matrix. Principal Component Analysis (TODO chapter xyz) is a form of matrix factorization which finds factors based on the covariance structure of the data. Generally, matrix factorization methods may be formulated as
+Matrix factorization techniques attempt to infer a set of latent variables from the data by finding factors of a data matrix. Principal Component Analysis (Chapter 4) is a form of matrix factorization which finds factors based on the covariance structure of the data. Generally, matrix factorization methods may be formulated as
+
 
 $$
 X = WH,
@@ -77,19 +77,19 @@ $$
 
 which may be further subject to some constraints or regularization terms. As we normally seek a latent variable model with a considerably lower dimensionality than $X$, this is the more common case.
 
-```{r,matrixFactorization,fig.cap="General matrix factorization framework. The data matrix on the left hand side is decomposed into factors on the right hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation.",fig.align = 'center',out.width='100%',echo=FALSE}
+```{r,mo_matrixFactorization,fig.cap="General matrix factorization framework. The data matrix on the left hand side is decomposed into factors on the right hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation.",fig.align = 'center',out.width='100%',echo=FALSE}
 knitr::include_graphics("images/matrix_factorization.svg" )
 ```
 
-In the figure above, the $5 \times 4$ data matrix $X$ is decomposed to a 2-dimensional latent variable model.
+In Figure \@ref(fig:mo_matrixFactorization), the $5 \times 4$ data matrix $X$ is decomposed to a 2-dimensional latent variable model.
 
 ### Multiple Factor Analysis
 
-Multiple factor analysis is a natural starting point for a discussion about matrix factorization methods for intergrating multiple data types. It is a straightforward extension of PCA into the domain of multiple data types. (TODO footnote: when dealing with categorical variables, MFA uses MCA (Multipe Correspondence Analysis). This is less relevant to biological data analysis and will not be discussed here).
+Multiple factor analysis is a natural starting point for a discussion about matrix factorization methods for intergrating multiple data types. It is a straightforward extension of PCA into the domain of multiple data types [^mfamca].
 
 Consider the figure below, a naive extension of PCA to a multi-omics context:
 
-```{r,MFA,fig.cap="A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.",fig.align = 'center',out.width='100%',echo=FALSE}
+```{r,mo_MFA,fig.cap="A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.",fig.align = 'center',out.width='100%',echo=FALSE}
 knitr::include_graphics("images/mfa.svg" )
 ```
 
@@ -121,7 +121,7 @@ where $\lambda^{(i)}_1$ is the first eigenvalue of the principal component decom
 #### Example in R
 
 MFA is available through the CRAN package `FactoMineR`. The code snippet below shows how to run it:
-```{r,multiomicsFactoMineR}
+```{r,mo_multiomicsFactoMineR,fig.cap="MFA of multi-omics data creates seperability between the tumpr sub-types CMS1 and CMS3. "}
 r.mfa <- FactoMineR::MFA(t(rbind(x1,x2,x3)), c(dim(x1)[1], dim(x2)[1], dim(x3)[1]), graph=FALSE)
 mfa.h <- r.mfa$global.pca$ind$coord
 mfa.w <- r.mfa$quanti.var$coord
@@ -195,13 +195,31 @@ where $X_i^N$ is the feature-normalized data matrix $X_i^N = \frac{x^{ij}}{\sum_
 Another consideration with NMF is the non-negativity constraint. Different omics data types may have negative values, for instance, copy-number variations (CNVs) may be positive, indicating gains, or negative, indicating losses. In order to turn such data into a non-negative form, we will split each feature into two features, one new feature holding all the non-negative values of the original feature, and another feature holding the absolute value of the negative ones:
 
 TODO table of CNVs before and after splitting column.
+```{r,mo_CNV_splitcol_example_create,echo=FALSE}
+cnvs_with_neg <- as.data.frame(cbind(c(1,2,1),c(0,1,-2)))
+colnames(cnvs_with_neg) <- c('seg1', 'seg2')
+rownames(cnvs_with_neg) <- c('samp1', 'samp2', 'samp3')
+
+cnvs_split_pos <- as.data.frame(cbind(c(1,2,1), c(0,0,0), c(0,1,0), c(0,0,2)))
+colnames(cnvs_split_pos) <- c('seg1+', 'seg1-', 'seg2+', 'seg2-')
+rownames(cnvs_split_pos) <- c('samp1', 'samp2', 'samp3')
+```
+
+```{r,mo_cnv_splitcol_show1}
+knitr::kable(cnvs_with_neg, caption="Example copy number data. Data can be both positive (amplified regions) or negative (deleted regions).")
+```
+
+```{r,mo_cnv_splitcol_show2}
+knitr::kable(cnvs_split_pos, caption="Example copy number data after splitting each column to a column representing copy number gains (+) and a column representing deletions (-). This data matrix is non-negative, and thus suitable for NMF algorithms.")
+```
+
 
 #### Example in R
 
 Many NMF algorithms are available through the CRAN package `NMF`:
 
-```{r echo=FALSE}
-# For NMF to be usable on data types which allow negativity, we'll use the trick from TODO,
+```{r,mo_hiddenNMFPreprocessingFunctions,echo=FALSE}
+# For NMF to be usable on data types which allow negativity, we'll use a trick,
 # where we split each column into two non-negative columns, one for the negative numbers
 # and one for the positive numbers. Here's a function that does that:
 split_neg_columns <- function(x) {
@@ -248,7 +266,7 @@ test_merge_neg_columns()
 ```
 
 
-```{r}
+```{r,mo_nmfFeatureNormalization,fig.cap="NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned form multi-omics data."}
 # Feature-normalize the data
 x1.featnorm <- x1 / rowSums(x1)
 x2.featnorm <- x2 / rowSums(x2)
@@ -302,7 +320,7 @@ $$
 
 where $X_{(i)}$ is a data matrix from a single omics platform, $W_{(i)}$ are model parameters, $Z$ is a latent variable matrix, and is shared between the different omics platforms, and $\epsilon_i$ is a "noise" random variable, $\epsilon \sim N(0,\Psi)$, with $\Psi = diag(\psi_1,\dots \psi_M)$ is a diagonal covariance matrix.
 
-```{r,iCluster,fig.cap="Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise.",fig.align = 'center',out.width='100%',echo=FALSE}
+```{r,mo_iCluster,fig.cap="Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise.",fig.align = 'center',out.width='100%',echo=FALSE}
 knitr::include_graphics("images/icluster.svg" )
 ```
 
@@ -328,7 +346,7 @@ $$
 
 The parameter $\lambda$ acts as a dial to weigh the tradeoff between better model fits (higher log-likelihood) and a sparser model, with more $w_{ij}$s set to $0$, which gives models which generalize better and are more interpretable.
 
-In order to solve this problem, iCluster employs the Expectation Maximization (EM) algorithm. The full details are beyond the scope of this textbook. We will introduce a short sketch instead. The intuition behind the EM algorithm is a more general case of the k-means clustering algorithm (TODO see chapter..).
+In order to solve this problem, iCluster employs the Expectation Maximization (EM) algorithm. The full details are beyond the scope of this textbook. We will introduce a short sketch instead. The intuition behind the EM algorithm is a more general case of the k-means clustering algorithm (Chapter 4).
 
 ##### EM algorithm sketch
 
@@ -354,7 +372,7 @@ Both iCluster and iCluster+ make use of sophisticated Bayesian inference algorit
 
 iCluster+ is available through the BioConductor package `iClusterPlus`:
 
-```{r,multiOmicsiclusterplus}
+```{r,mo_multiOmicsiclusterplus,fig.cap="iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated."}
 r.icluster <- iClusterPlus::iClusterPlus(t(x1), t(x2), t(x3), type=c("gaussian", "binomial", "multinomial"), K=2, alpha=c(1,1,1), lambda=c(.03,.03,.03))
 
 icluster.z <- r.icluster$meanZ
@@ -388,7 +406,7 @@ A specific clustering method for NMF data is to assume each sample is driven by 
 
 The two rows are the two latent variables, and the columns are the 72 tumors. We can observe that most tumors are indeed driven mainly by one of the factors, and not a combination of the two. We can use this to assign each tumor a cluster label based on its dominant factor:
 
-```{r}
+```{r,mo_NMFClustering,fig.cap="Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types."}
 nmf.clusters <- max.col(nmf.h)
 names(nmf.clusters) <- rownames(nmf.h)
 anno_nmf_cl <- data.frame(nmf.cluster=factor(nmf.clusters), cms.subtype=factor(covariates[rownames(nmf.h),]$cms_label))
@@ -404,9 +422,9 @@ The one-hot clustering method does not lend itself very well to the other method
 
 ### K-means clustering
 
-K-means clustering was introduced in (TODO chapter x). K-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step.
+K-means clustering was introduced in Chapter 4. K-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step.
 
-```{r}
+```{r,mo_iClusterHeatmap,fig.cap="K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types."}
 rownames(icluster.z) <- rownames(covariates)
 icluster.clusters <- kmeans(icluster.z, 2)$cluster
 names(icluster.clusters) <- rownames(icluster.z)
@@ -426,7 +444,7 @@ This demonstrates the ability of iClusterPlus to find clusters which correspond 
 
 The most straightforward way to go about interpreting the latent factors in a biological context, is to look at the coefficients which are associated with them. The latent variable models introduced above all take the linear form $X \approx WH$, where $W$ is a factor matrix, with coefficients tying each latent variable with each of the features in the $L$ original multi-omics data matrices. By inspecting these coefficients, we can get a sense of which multi-omics features are co-regulated. The figure below shows the coefficients for the Joint NMF analysis above:
 
-```{r}
+```{r,mo_NMFHeatmap,fig.cap="Heatmap showing the association of input features from multi-omics data (gene expression, copy number variation, and mutations), with JNMF factors. Gene expression features dominate both factors, but copy numbers and mutations mostly affect only one factor each."}
 nmfw <- t(nmf.w)
 
 data_anno <- data.frame(omics=c(rep('expression',dim(x1)[1]), rep('mut',dim(x2)[1]), rep('cnv',dim(x3.featnorm.frobnorm.nonneg)[1])))
@@ -467,13 +485,13 @@ $$
 p = \sum_{i=k}^K P(k=i).
 $$
 
-The hypergeometric enrichment test is also referred to as _Fisher's one-sided exact test_. This way, we can determine if the genes associated with a factor significantly overlap (beyond chance) the genes involved in a biological process. Because we will typically be testing many gene sets, we will also need to apply multiple testing correction, such as Benjamini-Hochberg correction [TODO see chapter].
+The hypergeometric enrichment test is also referred to as _Fisher's one-sided exact test_. This way, we can determine if the genes associated with a factor significantly overlap (beyond chance) the genes involved in a biological process. Because we will typically be testing many gene sets, we will also need to apply multiple testing correction, such as Benjamini-Hochberg correction (see Chapter 3, multiple testing correction).
 
 #### Example in R
 
 In R, we can do this analysis using the `enrichR` package, which gives us access to many gene set libraries. In the example below, we'll find the genes associated with preferentially NMF factor 1 or NMF factor 2, by the contribution of those genes' expression values to the factor. Then, we'll use `enrichR` to query the Gene Ontology terms which might be overlapping. `enrichR` performs 
 
-```{r,enrichr}
+```{r,mo_enrichr}
 genes.factor.1 <- names(which(nmfw[1:dim(x1)[1],1] > nmfw[1:dim(x1)[1],2]))
 genes.factor.2 <- names(which(nmfw[1:dim(x1)[1],1] < nmfw[1:dim(x1)[1],2]))
 
@@ -485,7 +503,7 @@ go.factor.2 <- enrichR::enrichr(genes.factor.2,
                                 )$GO_Biological_Process_2018
 ```
 
-```{r}
+```{r,mo_NMFGOTerms,fig.cap="Top GO-terms associated with NMF factor 1."}
 ggplot2::ggplot(head(go.factor.1), ggplot2::aes(y=-log10(Adjusted.P.value), x=Term)) + ggplot2::geom_bar(stat='identity') + ggplot2::coord_flip() + ggplot2::ggtitle("Top GO-terms\nassociated with\nNMF factor 1")
 ```
 
@@ -494,7 +512,7 @@ ggplot2::ggplot(head(go.factor.1), ggplot2::aes(y=-log10(Adjusted.P.value), x=Te
 
 Another way to ascribe biological significance to the latent variables is by correlating them with additional covariates we might have about the samples. In our example, the Colorectal cancer tumors have also been characterized for Microsattelite Instability status, using an external test (typically PCR-based). By examining the latent variable values as they relate to a tumor's MSI status, we might discover that we've learned latent factors that are related to it.
 
-```{r}
+```{r,mo_NMFClinicalCovariates,fig.cap="Box plots show values of NMF factors 1 and 2 for tumors separated by their microsatellite instability status. Factor 1 is high in microsatellite-stable tumors, while factor 2 is high in microsatellite instable tumors."}
 a <- data.frame(age=covariates$age, gender=as.numeric(covariates$gender), msi=covariates$msi)
 b <- nmf.h
 colnames(b) <- c('factor1', 'factor2')
@@ -517,7 +535,7 @@ The figures above show that NMF factor 1 values are higher both microsattelite i
 
 * In order to use NMF algorithms on data which can be negative, we need to split each feature into two new features, one positive and one negative. Implement the following function, and see that the included test does not fail:
 
-```{r eval=FALSE, echo=TRUE}
+```{r,mo_NMFExerciseColumnSplitting,eval=FALSE, echo=TRUE}
 split_neg_columns <- function(x) {
     # your code here
 }
@@ -535,7 +553,7 @@ test_split_neg_columns()
 
 * Another covariate in the metadata of these tumors is their _CpG island methylator Phenotype_ (CIMP). This is a phenotype carried by a group of colorectal cancers that display hypermethylation of promoter CpG island sites, resulting in the inactivation of some tumor suppressors. This is also assayed using an external test. Do any of the multi-omics methods surveyed find a latent variable that is associated with the tumor's CIMP phenotype?
 
-```{r echo=FALSE, eval=FALSE}
+```{r,mo_NMFCIMP,echo=FALSE, eval=FALSE}
 a <- data.frame(age=covariates$age, gender=as.factor(covariates$gender), msi=covariates$msi, cimp=as.factor(covariates$cimp))
 b <- nmf.h
 colnames(b) <- c('factor1', 'factor2')
@@ -548,3 +566,6 @@ ggplot2::ggplot(cov_factor, ggplot2::aes(x=cimp, y=factor2, group=cimp)) + ggplo
 
 * Does MFA give a disentangled representation?
 * Does iCluster give disentangled representations? Why do you think that is?
+
+
+[^mfamca]: When dealing with categorical variables, MFA uses MCA (Multipe Correspondence Analysis). This is less relevant to biological data analysis and will not be discussed here
