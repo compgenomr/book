@@ -1,3 +1,3 @@
-# ChIP-seq analysis {#chipseq}
+# ChIP-seq Analysis {#chipseq}
 
 in progress...

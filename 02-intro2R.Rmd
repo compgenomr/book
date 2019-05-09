@@ -1,4 +1,4 @@
-# Introduction to R for genomic data analysis {#Rintro}
+# Introduction to R for Genomic Data Analysis {#Rintro}
 
 The aim of computational genomics is to provide biological interpretation and insights from high 
 dimensional genomics data. Generally speaking, it is similar to any other kind 

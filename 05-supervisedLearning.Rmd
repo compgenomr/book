@@ -1,4 +1,4 @@
-# Predictive modeling with supervised machine learning {#supervisedLearning} 
+# Predictive Modeling with Supervised Machine Learning {#supervisedLearning} 
 
 ```{r setupSML, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,cache=FALSE,warning = FALSE)
@@ -394,17 +394,17 @@ Note that in the above equation $\sigma_e^2$ is the irreducible error. This is t
 
 The models that have high variance are generally more complex models that have many knobs or parameters than can fit the training data well. These models, due to their flexibility, can fit training data too much that it creates poor prediction performance in a new data set. On the other hand, simple, less complex models do not have the flexibility to fit every data set that well, so they can avoid overfitting. However, they can underfit if they are not flexible enough to model or at least approximate the true relationship between predictors and the response variable. The bias term is mostly about the general model performance (expected or average value of predictions ) that can be attributed to approximating a real life problem with simpler models. These simple models can have less variability in their predictions, then the prediction error will be mostly composed of the bias term. 
 
-In reality, there is always a trade-off between bias and variance (See Figure \@ref(fig:varBias)). Increasing the variance with complex models will decrease the bias but that might overfit. Conversely, simple models will increase the bias in the expense of the model variance and that might underfit. There is an optimal point for model complexity, a balance between overfitting and underfitting. In practice, there is no analytical way to find this optimal complexity. Instead we must use an accurate measure of prediction error and explore different levels of model complexity and choose the complexity level that minimizes the overall error.
+In reality, there is always a trade-off between bias and variance (See Figure \@ref(fig:varBias)). Increasing the variance with complex models will decrease the bias but that might overfit. Conversely, simple models will increase the bias in the expense of the model variance and that might underfit. There is an optimal point for model complexity, a balance between overfitting and underfitting. In practice, there is no analytical way to find this optimal complexity. Instead we must use an accurate measure of prediction error and explore different levels of model complexity and choose the complexity level that minimizes the overall error. Another approach to this is to use "The one standard error rule". Instead of choosing the parameter that minimizes the error estimate, we can choose the simplest model whose error estimate is within one standard error of the best model (see chapter 7 of [@friedman2001elements]). The rationale behind that is to choose a simple model with the hope that it would perform better in the unseen data since its performance is not different from the best model in a statistically significant way. You might see the option to choose "one-standard-error" model in some machine learning packages.
 
 ```{r,varBias,fig.cap="Variance-Bias trade-off visualized as components of total prediction error in relation to model complexity",fig.align = 'center',out.width='80%',echo=FALSE}
-knitr::include_graphics("Variance-bias.png" )
+knitr::include_graphics("images/Variance-bias.png" )
 ```
 
 In our k-NN example, lower $k$ values creates a more flexible model. This might be counter intuitive but as we have explained before having small $k$ values will fit the data in very data specific manner. It will probably not generalize well. Therefore in this respect, lower $k$ values will result in more complex models with high variance. On the other hand, higher $k$ values will result in less variance but higher bias. Figure \@ref(fig:kNNboundary) shows the decision boundary for two different k-NN models with $k=2$ and $k=12$, to be able to plot this in 2D we ran the model on principal component 1 and 2 of the training data set, and predicted the class label of many points in this 2D space. As you can see, $k=2$ creates a more variable model which tries aggressively to include all training samples in the correct class. This creates a high variance model because the model could change drastically from data set to the data set. On the other hand, setting $k=12$ creates a model with a smoother decision boundary. This model will have less variance since it considers many points for a decision, therefore the decision boundary is smoother. 
 
 
 ```{r,kNNboundary,fig.cap="Decision boundary for different k values in k-NN models. k=12 creates a smooth decision boundary and ignores certain data points on either side of the boundary. k=2 is less smooth and more variable",fig.align = 'center',out.width='70%',echo=FALSE}
-knitr::include_graphics("knnDecisionBoundPCA.png" )
+knitr::include_graphics("images/knnDecisionBoundPCA.png" )
 ```
 
 ### Data split strategies for model tuning and testing
@@ -538,7 +538,7 @@ The random forests algorithm tries to decorrelate the trees so that they learn d
 Another sampling method introduce when building random forest models is the bootstrap resampling before constructing each tree. This brings the advantage of out-of-the-bag (OOB) error prediction. In this case, the prediction error can be estimated for training samples that were OOB, meaning they were not used in the training, for some percentage of the trees. The prediction error for each sample can be estimated from the trees where that sample was OOB. OOB estimates claimed to be a good alternative to cross-validation estimated errors [@breiman2001random].
 
 ```{r,RFcartoon,fig.cap="Random forest concept. Individual decision trees are built with sampling strategies. Votes from each tree defines the final class",fig.align = 'center',out.width='70%',echo=FALSE}
-knitr::include_graphics("ml-random-forest-features.png" )
+knitr::include_graphics("images/ml-random-forest-features.png" )
 ```
 
 
@@ -706,9 +706,14 @@ enetFit <- train(subtype~., data = training,
 # best alpha and lambda values by cross-validation accuracy
 enetFit$bestTune
 
-#
+# test accuracy 
+class.res=predict(enetFit,testing[,-1])
+confusionMatrix(testing[,1],class.res)$overall[1]
 
 ```
+As you can see regularization worked, the tuning step selected $\lambda=1$ and we were able to get a satisfactory test set accuracy with the best model.
+
+
 ### variable importance 
 The variable importance for the penalized regression especially for lasso and elastic net is more or less out of the box. As discussed, these methods will set regression coefficients for irrelevant variables to zero. This provides a system for selecting important variables but it does not necessarily provide a way to rank them. Using the size of the regression coefficients is a way to rank predictor variables, however if the data is not normalized you will get different scales for different variables. In our case, we normalized the data and we know that the variables have the same scale before they went into the training. We can use this fact and rank them based on the regression coefficients. The `caret::varImp()` function uses the coefficients to rank the variables from the elastic net model. Below, were going to plot top 10 important variables which are normalized to the importance of the most important variable.
 ```{r varImpEnet,out.width='60%',fig.width=5,fig.cap="Variable importance metric for elastic net. This metric is using regression coefficients as importance"}
@@ -797,13 +802,15 @@ svmFit <- train(subtype~., data = training,
 - [Online demo for SVM](https://cs.stanford.edu/people/karpathy/svmjs/demo/). You can play with sigma and C parameters for radial basis SVM and see how they affect the decision boundary.
 
 ### Neural networks and deep versions of it  
-Neural networks are another popular machine learning method which is recently regaining popularity. The earlier versions of the algorithm were popularized in the 80s and 90s. The advantage of neural networks is like SVM, they can model non-linear decision boundaries. The basic idea of neural networks is to combine the predictor variables in order to model the response variable as a non-linear function. In a neural network, input variables pass through several layers that combine variables and transform those combination.
+Neural networks are another popular machine learning method which is recently regaining popularity. The earlier versions of the algorithm were popularized in the 80s and 90s. The advantage of neural networks is like SVM, they can model non-linear decision boundaries. The basic idea of neural networks is to combine the predictor variables in order to model the response variable as a non-linear function. In a neural network, input variables pass through several layers that combine the variables and transform those combinations and recombine outputs depending on how many layers the network has. In the conceptual example in Figure @\ref(fig:neuralNetDiagram) the input nodes receive predictor variables and make linear combinations of them in the form of $\sum ( w_ixi +b)$. Simply put, the variables are multiplied with weights and summed up. This is what we by "linear combination". These quantities are further fed into another layer called hidden layer where an activation function is applied on the sums. And these results are further fed into an output node which outputs class probabilities assuming we are working on a classification algorithm. There could be many more hidden layers that will even further combine the output from hidden layers before them. The algorithm in the end also has a cost function similar to the logistic regression  cost function but it now has to estimate all the weight parameters: $w_i$. This is a more complicated problem than logistic regression because of number of parameters to be estimated but neural networks are able to fit complex functions due their parameter space flexibility as well.
 
 ```{r,neuralNetDiagram,fig.cap="Diagram for a simple neural network, their combinations pass through hidden layers and combined again for the output. Predictor variables are fed to the network and weights are adjusted to optimize the cost function",fig.align = 'center',out.width='80%',echo=FALSE}
-knitr::include_graphics("neuralNetDiagram.png" )
+knitr::include_graphics("images/neuralNetDiagram.png" )
 ```
 
-In practical sense, the number of nodes in the hidden layer (size) and some regularization on the weights calculated (decay) parameter controls for overfitting. Increasing the number of nodes in hidden layer or in other implementations increasing the number of hidden layers will help model non-linear relationships but can overfit. One way to combat that is to limit the number of nodes in the hidden layer, another way is to regularize the weights. The decay parameter does just that, it penalizes the loss function by $decay(weigths^2)$. In the example below, we are trying 1 or 2 nodes in the hidden layer in the interest of simplicity and run-time. In addition, we are setting `decay=0`, which will correspond to not doing any regularization. 
+In practical sense, the number of nodes in the hidden layer (size) and some regularization on the weights can be applied to control for overfitting. This is called the calculated (decay) parameter controls for overfitting. 
+
+We will train a simple neural network on our cancer data set. In this simple example, the network architecture is somewhat fixed. We can only choose number of nodes (denoted by "size") in the hidden layer and a regularization parameter ( denoted by "decay"). Increasing the number of nodes in hidden layer or in other implementations increasing the number of hidden layers will help model non-linear relationships but can overfit. One way to combat that is to limit the number of nodes in the hidden layer, another way is to regularize the weights. The decay parameter does just that, it penalizes the loss function by $decay(weigths^2)$. In the example below, we are trying 1 or 2 nodes in the hidden layer in the interest of simplicity and run-time. In addition, we are setting `decay=0`, which will correspond to not doing any regularization. 
 ```{r, nnet, eval=FALSE}
 #svm code here
 library(nnet)

@@ -47,7 +47,7 @@ lapply(c('citr', 'formatR', 'svglite'), function(pkg) {
 knitr::include_graphics('images/cover.jpg', dpi = NA)
 ```
 
-The aim of this book is to provide the fundamentals for data analysis for genomics. We developed this book based on the computational genomics courses we are giving every year. We have had invariably an interdisicplinary audience with backgrounds from physics, biology medicine, math, computer science or other quantitative fields. We want this book to be a starting point for computational genomics students and a guide for further data analysis in more specific topics in genomics. This is why we tried to cover a large variety of topics from programming to basic genome biology. As the field is interdisciplinary, it requires different starting points for people with different backgrounds. A biologist might skip sections on basic genome biology and start with R programming whereas a computer scientist might want to start with genome biology. In the same manner, a more experienced person might want to refer to this book when s/he needs to do a certain type of analysis where s/he does not have prior experience.
+The aim of this book is to provide the fundamentals for data analysis for genomics. We developed this book based on the computational genomics courses we are giving every year. We have had invariably an interdisicplinary audience with backgrounds from physics, biology, medicine, math, computer science or other quantitative fields. We want this book to be a starting point for computational genomics students and a guide for further data analysis in more specific topics in genomics. This is why we tried to cover a large variety of topics from programming to basic genome biology. As the field is interdisciplinary, it requires different starting points for people with different backgrounds. A biologist might skip sections on basic genome biology and start with R programming whereas a computer scientist might want to start with genome biology. In the same manner, a more experienced person might want to refer to this book when s/he needs to do a certain type of analysis where s/he does not have prior experience.
 
 
 ![Creative Commons License](images/by-nc-sa.png)  
@@ -83,16 +83,17 @@ sets mostly using R based tools.
 
 ## Structure of the book {-}
 The book is designed with the idea that practical and conceptual
-understanding of data analysis methods is as important, if not more important, than the theoretical understanding, such as detailed derivation of equations in statistics or machine-learning. That is why we first try to give a conceptual explanation of the concepts then we try to give essential parts of the mathematical formulas for more detailed understanding. In this sprit, we always show the code and 
-explain the code for a particular data analysis task. In addition, we give additional references such as books, websites and scientific papers for readers who desire to gain deeper theoretical understanding of data analysis related methods or concepts.
+understanding of data analysis methods is as important, if not more important, than the theoretical understanding, such as detailed derivation of equations in statistics or machine learning. That is why we first try to give a conceptual explanation of the concepts then we try to give essential parts of the mathematical formulas for more detailed understanding. In this sprit, we always show the code and 
+explain the code for a particular data analysis task. In addition, we give additional references such as books, websites , video lectures and scientific papers for readers who desire to gain deeper theoretical understanding of data analysis related methods or concepts.
 
-Introduction chapter introduces data analysis paradigms and what computational genomics looks like in practice. "Essentials for genomics" chapter introduces the basic concepts in genome biology and genomics. Understanding these concepts are important for computational genomics. 
+"Introduction to Genomics" chapter introduces the basic concepts in genome biology and genomics. Understanding these concepts are important for computational genomics. 
 
-Chapters "Introduction to R" and "Statistics and Exploratory Data Analysis for Genomics" introduce the necessary programming and practical data analysis skills for computational genomics. Related to these, "Operations on genomic intervals and genome arithmetic" introduces fundemental tools for dealing with genomic intervals and their relationship to each other over the genome. These three chapters compose the necessary technical toolkit for analysis of specific high-throughput sequencing techniques. 
+"Introduction to R for Genomic Data Analysis" chapter provides basic R skills necessary to follow the book in addition to common data analysis paradigms we observe in genomic data analysis.  The "Statistics for Genomics", "Exploratory Data Analysis with Unsupervised Machine Learning" and "Predictive Modeling with Supervised Machine Learning" chapters introduces the necessary quantitative skills that one might need when analyzing high-dimensional genomics data.
 
-Chapters "RNA-seq analysis", "ChIP-seq analysis" and "BS-seq analysis" deals 
-with the analysis techniques for popular high-throughput sequencing techniques.
-The last chapter "multi-omics data integration" deals with methods for integrating multiple omics data sets.
+The "Operations on Genomic Intervals and Genome Arithmetic" chapter introduces the fundamental tools for dealing with genomic intervals and their relationship to each other over the genome. In addition, the chapter introduces a variety of ways used in genomic data visualization. The skills introduced in this chapter are key skills that are needed to work with processed genomic data which are available through public databases such as Ensembl and UCSC browser.
+
+The next chapters deals with specific analysis of high-throughput sequencing data and integrating different kinds of data sets. The "Quality Check, Processing and Alignment of High-throughput Sequencing Reads" chapter introduces quality checks that need to be done on sequencing reads and different ways to process them further. The chapters "RNA-seq Analysis", "ChIP-seq Analysis" and "BS-seq Analysis" deals 
+with the analysis techniques for popular high-throughput sequencing techniques. The last chapter "Multi-omics Analysis" deals with methods for integrating multiple omics data sets.
 
 
 To sum it up, this book is a comprehensive guide for computational genomics. Some sections are there for the sake of the wide interdisciplinary audience and completeness, and not all sections will be equally useful to all readers of this broad audience.
@@ -101,16 +102,10 @@ To sum it up, this book is a comprehensive guide for computational genomics. Som
 
 Package names are in bold text (e.g., **methylKit**), and inline code and filenames are formatted in a typewriter font. Function names are followed by parentheses (e.g., `genomation::ScoreMatrix()`). The double-colon operator `::` means accessing an object from a package.
 
-## data for the book
-We rely on data from different R and Bioconductor packages through out the book. For the datasets that do not ship with those packages, we created our own package [**compGenomRData**](https://github.com/compgenomr/compGenomRData). You can install this package via `devtools::install_github("compgenomr/compGenomRData")`. We use `system.file()` function to get the path to the files. We noticed many inexperienced users are confused about this function. This function just outputs full path to the file that is installed with the data package. 
-
-
- 
-
-### Assignment operator convention
+### Assignment operator convention {-}
 Traditionally, `<-` is the preffered assignment operator. However, throughout the book we use `=` and `<-` as the assignment operator interchangeably.
 
-### Packages needed to run the book code
+### Packages needed to run the book code {-}
 This book is primarily about using R packages to analyze genomics data, therefore if you want to reproduce the analysis in this book you need to install the relevant packages in each chapter using `install.packages` or `BiocManager::install` functions. In each chapter, we load the necessary packages with the `library()` or `require()` function when we use the needed functions from respective packages. By looking at that calls, you can see which packages are needed for that code chunk or chapter. If you need to install all the package dependencies for the book, you can run the following command and have a cup of tea while waiting.
 ```{r,installAllPackages,eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -128,6 +123,11 @@ BiocManager::install(c('qvalue','plot3D','ggplot2','pheatmap',
                       'ranger'
                      )
 ```
+
+
+## Data for the book {-}
+We rely on data from different R and Bioconductor packages through out the book. For the datasets that do not ship with those packages, we created our own package [**compGenomRData**](https://github.com/compgenomr/compGenomRData). You can install this package via `devtools::install_github("compgenomr/compGenomRData")`. We use `system.file()` function to get the path to the files. We noticed many inexperienced users are confused about this function. This function just outputs full path to the file that is installed with the data package. 
+
 
 ## Acknowledgements {-}
 

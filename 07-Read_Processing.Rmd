@@ -1,4 +1,4 @@
-# Quality check, processing and alignment of high-throughput sequencing reads {#processingReads}
+# Quality Check, Processing and Alignment of High-throughput Sequencing Reads {#processingReads}
 
 ```{r,setupProcessingReads,echo=FALSE}
 library(knitr)
