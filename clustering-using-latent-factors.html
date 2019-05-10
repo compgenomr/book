@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-05-09">
+<meta name="date" content="2019-05-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -450,10 +450,10 @@ pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(<span class="
          <span class="dt">annotation_col =</span> anno_nmf_cl,
          <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,
          <span class="dt">main=</span><span class="st">&quot;Joint NMF factors with clusters and molecular subtypes&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_NMFClustering-1.png" alt="Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:moNMFClustering"></span>
+<img src="compgenomrReloaded_files/figure-html/moNMFClustering-1.png" alt="Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types." width="672" />
 <p class="caption">
-(#fig:mo_NMFClustering)Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types.
+FIGURE 11.13: Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types.
 </p>
 </div>
 <p>We see that using one-hot clustering with Joint NMF, we were able to find two clusters in the data which correspond fairly well with the molecular subtype of the tumors.</p>
@@ -470,10 +470,10 @@ pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(<span class="
          <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,
          <span class="dt">annotation_col =</span> anno_icluster_cl,
          <span class="dt">main=</span><span class="st">&quot;iCluster factors with clusters and molecular subtypes&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_iClusterHeatmap-1.png" alt="K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:moiClusterHeatmap"></span>
+<img src="compgenomrReloaded_files/figure-html/moiClusterHeatmap-1.png" alt="K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types." width="672" />
 <p class="caption">
-(#fig:mo_iClusterHeatmap)K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types.
+FIGURE 11.14: K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types.
 </p>
 </div>
 <p>This demonstrates the ability of iClusterPlus to find clusters which correspond to molecular subtypes, based on multi-omics data.</p>

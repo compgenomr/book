@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-05-09">
+<meta name="date" content="2019-05-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -701,7 +701,7 @@ pcaResults &lt;-<span class="st"> </span><span class="kw">prcomp</span>(M)
 correlationMatrix &lt;-<span class="st"> </span><span class="kw">cor</span>(tpm)</code></pre>
 <p>Let’s have a look at how the correlation matrix looks:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
-<span class="kw">kable</span>(correlationMatrix)</code></pre>
+<span class="kw">kable</span>(correlationMatrix,<span class="dt">booktabs =</span> <span class="ot">TRUE</span>)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -1059,7 +1059,8 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
                      <span class="dt">hier_filtering =</span> <span class="st">&#39;moderate&#39;</span>)
 <span class="co"># sort the enriched GO terms by pvalue and print the top 10 terms </span>
 <span class="co">#  for the selected columns from the go results</span>
-<span class="kw">kable</span>(goResults[<span class="kw">order</span>(goResults<span class="op">$</span>p.value), <span class="kw">c</span>(<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">12</span>)][<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,])</code></pre>
+<span class="kw">kable</span>(goResults[<span class="kw">order</span>(goResults<span class="op">$</span>p.value), 
+                <span class="kw">c</span>(<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">12</span>)][<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,],<span class="dt">booktabs =</span> <span class="ot">TRUE</span>)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -1073,7 +1074,7 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
 </thead>
 <tbody>
 <tr class="odd">
-<td>59</td>
+<td>54</td>
 <td align="right">0</td>
 <td align="right">2740</td>
 <td align="right">0.223</td>
@@ -1081,7 +1082,7 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
 <td align="left">plasma membrane part</td>
 </tr>
 <tr class="even">
-<td>52</td>
+<td>32</td>
 <td align="right">0</td>
 <td align="right">1609</td>
 <td align="right">0.136</td>
@@ -1089,7 +1090,7 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
 <td align="left">ion transport</td>
 </tr>
 <tr class="odd">
-<td>33</td>
+<td>49</td>
 <td align="right">0</td>
 <td align="right">3656</td>
 <td align="right">0.258</td>
@@ -1097,7 +1098,7 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
 <td align="left">regulation of biological quality</td>
 </tr>
 <tr class="even">
-<td>21</td>
+<td>50</td>
 <td align="right">0</td>
 <td align="right">385</td>
 <td align="right">0.042</td>
@@ -1105,7 +1106,7 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
 <td align="left">extracellular structure organization</td>
 </tr>
 <tr class="odd">
-<td>23</td>
+<td>30</td>
 <td align="right">0</td>
 <td align="right">7414</td>
 <td align="right">0.452</td>
@@ -1113,7 +1114,7 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
 <td align="left">multicellular organismal process</td>
 </tr>
 <tr class="even">
-<td>90</td>
+<td>68</td>
 <td align="right">0</td>
 <td align="right">1069</td>
 <td align="right">0.090</td>
@@ -1121,7 +1122,7 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
 <td align="left">transmembrane transporter activity</td>
 </tr>
 <tr class="odd">
-<td>35</td>
+<td>46</td>
 <td align="right">0</td>
 <td align="right">1073</td>
 <td align="right">0.090</td>
@@ -1129,7 +1130,7 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
 <td align="left">organic acid metabolic process</td>
 </tr>
 <tr class="even">
-<td>51</td>
+<td>26</td>
 <td align="right">0</td>
 <td align="right">975</td>
 <td align="right">0.083</td>
@@ -1137,7 +1138,7 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
 <td align="left">response to drug</td>
 </tr>
 <tr class="odd">
-<td>38</td>
+<td>25</td>
 <td align="right">0</td>
 <td align="right">1351</td>
 <td align="right">0.107</td>
@@ -1145,7 +1146,7 @@ goResults &lt;-<span class="st"> </span><span class="kw">gprofiler</span>(<span 
 <td align="left">biological adhesion</td>
 </tr>
 <tr class="even">
-<td>3</td>
+<td>28</td>
 <td align="right">0</td>
 <td align="right">4760</td>
 <td align="right">0.302</td>
@@ -1183,9 +1184,11 @@ gseaResults &lt;-<span class="st"> </span><span class="kw">gage</span>(<span cla
            <span class="dt">samp =</span> <span class="kw">match</span>(<span class="kw">rownames</span>(colData[colData<span class="op">$</span>group <span class="op">==</span><span class="st"> &#39;CASE&#39;</span>,]), <span class="kw">colnames</span>(normalizedCounts)),
            <span class="dt">gsets =</span> geneSets, <span class="dt">compare =</span> <span class="st">&#39;as.group&#39;</span>)</code></pre>
 <p>We can observe if there is a significant upregulation or downregulation of the gene set in the case group compared to the controls by accessing <code>gseaResults$greater</code> or <code>gseaResults$less</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(gseaResults<span class="op">$</span>greater, <span class="dt">caption =</span> <span class="st">&#39;Up-regulation statistics&#39;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(gseaResults<span class="op">$</span>greater,
+      <span class="dt">booktabs =</span> <span class="ot">TRUE</span>, 
+      <span class="dt">caption =</span> <span class="st">&quot;Up-regulation statistics&quot;</span>)</code></pre>
 <table>
-<caption>(#tab:gsea_post_1)Up-regulation statistics</caption>
+<caption><span id="tab:gseaPost1">TABLE 8.1: </span>Up-regulation statistics</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -1218,9 +1221,10 @@ gseaResults &lt;-<span class="st"> </span><span class="kw">gage</span>(<span cla
 </tr>
 </tbody>
 </table>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(gseaResults<span class="op">$</span>less, <span class="dt">caption =</span> <span class="st">&#39;Down-regulation statistics&#39;</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(gseaResults<span class="op">$</span>less, 
+      <span class="dt">booktabs =</span> <span class="ot">TRUE</span>,<span class="dt">caption =</span> <span class="st">&#39;Down-regulation statistics&#39;</span>)</code></pre>
 <table>
-<caption>(#tab:gsea_post_2)Down-regulation statistics</caption>
+<caption><span id="tab:gseaPost2">TABLE 8.2: </span>Down-regulation statistics</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -1265,7 +1269,7 @@ M &lt;-<span class="st"> </span>normalizedCounts[<span class="kw">rownames</span
          <span class="dt">scale =</span> <span class="st">&#39;row&#39;</span>, 
          <span class="dt">cutree_cols =</span> <span class="dv">2</span>, 
          <span class="dt">cutree_rows =</span> <span class="dv">2</span>)</code></pre>
-<p><img src="compgenomrReloaded_files/figure-html/gsea_post_3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="compgenomrReloaded_files/figure-html/gseaPost3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We can see that about two thirds of the genes from this gene set have been up-regulated in the case samples
 compared to the controls.</p>
 </div>

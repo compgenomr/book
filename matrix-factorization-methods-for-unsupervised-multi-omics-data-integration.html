@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-05-09">
+<meta name="date" content="2019-05-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -447,21 +447,21 @@ where <span class="math inline">\(X\)</span> is the <em>data matrix</em>, <span 
 min~\|X-WH\|,
 \]</span></p>
 <p>which may be further subject to some constraints or regularization terms. As we normally seek a latent variable model with a considerably lower dimensionality than <span class="math inline">\(X\)</span>, this is the more common case.</p>
-<div class="figure" style="text-align: center">
-<img src="images/matrix_factorization.svg" alt="General matrix factorization framework. The data matrix on the left hand side is decomposed into factors on the right hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation." width="100%" />
+<div class="figure" style="text-align: center"><span id="fig:momatrixFactorization"></span>
+<img src="images/matrix_factorization.png" alt="General matrix factorization framework. The data matrix on the left hand side is decomposed into factors on the right hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation." width="100%" />
 <p class="caption">
-(#fig:mo_matrixFactorization)General matrix factorization framework. The data matrix on the left hand side is decomposed into factors on the right hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation.
+FIGURE 11.4: General matrix factorization framework. The data matrix on the left hand side is decomposed into factors on the right hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation.
 </p>
 </div>
-<p>In Figure @ref(fig:mo_matrixFactorization), the <span class="math inline">\(5 \times 4\)</span> data matrix <span class="math inline">\(X\)</span> is decomposed to a 2-dimensional latent variable model.</p>
+<p>In Figure <a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#fig:momatrixFactorization">11.4</a>, the <span class="math inline">\(5 \times 4\)</span> data matrix <span class="math inline">\(X\)</span> is decomposed to a 2-dimensional latent variable model.</p>
 <div id="multiple-factor-analysis" class="section level3">
 <h3><span class="header-section-number">11.2.1</span> Multiple Factor Analysis</h3>
 <p>Multiple factor analysis is a natural starting point for a discussion about matrix factorization methods for intergrating multiple data types. It is a straightforward extension of PCA into the domain of multiple data types.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <p>Consider the figure below, a naive extension of PCA to a multi-omics context:</p>
-<div class="figure" style="text-align: center">
-<img src="images/mfa.svg" alt="A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA." width="100%" />
+<div class="figure" style="text-align: center"><span id="fig:moMFA"></span>
+<img src="images/mfa.png" alt="A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA." width="100%" />
 <p class="caption">
-(#fig:mo_MFA)A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.
+FIGURE 11.5: A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.
 </p>
 </div>
 <p>Formally, we have
@@ -484,8 +484,8 @@ X = \begin{bmatrix}
          \end{bmatrix} = WH,
 \]</span>
 where <span class="math inline">\(\lambda^{(i)}_1\)</span> is the first eigenvalue of the principal component decomposition of <span class="math inline">\(X_i\)</span>.</p>
-<div id="example-in-r" class="section level4">
-<h4><span class="header-section-number">11.2.1.1</span> Example in R</h4>
+<div id="mfa-in-r" class="section level4">
+<h4><span class="header-section-number">11.2.1.1</span> MFA in R</h4>
 <p>MFA is available through the CRAN package <code>FactoMineR</code>. The code snippet below shows how to run it:</p>
 <pre class="sourceCode r"><code class="sourceCode r">r.mfa &lt;-<span class="st"> </span>FactoMineR<span class="op">::</span><span class="kw">MFA</span>(<span class="kw">t</span>(<span class="kw">rbind</span>(x1,x2,x3)), <span class="kw">c</span>(<span class="kw">dim</span>(x1)[<span class="dv">1</span>], <span class="kw">dim</span>(x2)[<span class="dv">1</span>], <span class="kw">dim</span>(x3)[<span class="dv">1</span>]), <span class="dt">graph=</span><span class="ot">FALSE</span>)
 mfa.h &lt;-<span class="st"> </span>r.mfa<span class="op">$</span>global.pca<span class="op">$</span>ind<span class="op">$</span>coord
@@ -494,18 +494,18 @@ mfa.w &lt;-<span class="st"> </span>r.mfa<span class="op">$</span>quanti.var<spa
 mfa_df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(mfa.h)
 mfa_df<span class="op">$</span>subtype &lt;-<span class="st"> </span><span class="kw">factor</span>(covariates[<span class="kw">rownames</span>(mfa_df),]<span class="op">$</span>cms_label)
 ggplot2<span class="op">::</span><span class="kw">ggplot</span>(mfa_df, ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x=</span>Dim<span class="fl">.1</span>, <span class="dt">y=</span>Dim<span class="fl">.2</span>, <span class="dt">color=</span>subtype)) <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">ggtitle</span>(<span class="st">&quot;Scatter plot of MFA&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_multiomicsFactoMineR-1.png" alt="MFA of multi-omics data creates seperability between the tumpr sub-types CMS1 and CMS3. " width="672" />
+<div class="figure" style="text-align: center"><span id="fig:momultiomicsFactoMineR1"></span>
+<img src="compgenomrReloaded_files/figure-html/momultiomicsFactoMineR-1.png" alt="MFA of multi-omics data creates seperability between the tumpr sub-types CMS1 and CMS3. " width="672" />
 <p class="caption">
-(#fig:mo_multiomicsFactoMineR1)MFA of multi-omics data creates seperability between the tumpr sub-types CMS1 and CMS3.
+FIGURE 11.6: MFA of multi-omics data creates seperability between the tumpr sub-types CMS1 and CMS3.
 </p>
 </div>
 <pre class="sourceCode r"><code class="sourceCode r">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(<span class="kw">t</span>(mfa.h)[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,], <span class="dt">annotation_col =</span> anno_col, <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,
          <span class="dt">main=</span><span class="st">&quot;MFA for multi-omics integration&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_multiomicsFactoMineR-2.png" alt="MFA of multi-omics data creates seperability between the tumpr sub-types CMS1 and CMS3. " width="672" />
+<div class="figure" style="text-align: center"><span id="fig:momultiomicsFactoMineR2"></span>
+<img src="compgenomrReloaded_files/figure-html/momultiomicsFactoMineR-2.png" alt="MFA of multi-omics data creates seperability between the tumpr sub-types CMS1 and CMS3. " width="672" />
 <p class="caption">
-(#fig:mo_multiomicsFactoMineR2)MFA of multi-omics data creates seperability between the tumpr sub-types CMS1 and CMS3.
+FIGURE 11.7: MFA of multi-omics data creates seperability between the tumpr sub-types CMS1 and CMS3.
 </p>
 </div>
 </div>
@@ -559,7 +559,7 @@ X = \begin{bmatrix}
 <p>TODO table of CNVs before and after splitting column.</p>
 <pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(cnvs_with_neg, <span class="dt">caption=</span><span class="st">&quot;Example copy number data. Data can be both positive (amplified regions) or negative (deleted regions).&quot;</span>)</code></pre>
 <table>
-<caption>(#tab:mo_cnv_splitcol_show1)Example copy number data. Data can be both positive (amplified regions) or negative (deleted regions).</caption>
+<caption>(#tab:mocnvsplitcol_show1)Example copy number data. Data can be both positive (amplified regions) or negative (deleted regions).</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -587,7 +587,7 @@ X = \begin{bmatrix}
 </table>
 <pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(cnvs_split_pos, <span class="dt">caption=</span><span class="st">&quot;Example copy number data after splitting each column to a column representing copy number gains (+) and a column representing deletions (-). This data matrix is non-negative, and thus suitable for NMF algorithms.&quot;</span>)</code></pre>
 <table>
-<caption>(#tab:mo_cnv_splitcol_show2)Example copy number data after splitting each column to a column representing copy number gains (+) and a column representing deletions (-). This data matrix is non-negative, and thus suitable for NMF algorithms.</caption>
+<caption>(#tab:mocnvsplitcol_show2)Example copy number data after splitting each column to a column representing copy number gains (+) and a column representing deletions (-). This data matrix is non-negative, and thus suitable for NMF algorithms.</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -621,8 +621,8 @@ X = \begin{bmatrix}
 </tr>
 </tbody>
 </table>
-<div id="example-in-r-1" class="section level4">
-<h4><span class="header-section-number">11.2.2.1</span> Example in R</h4>
+<div id="nmf-in-r" class="section level4">
+<h4><span class="header-section-number">11.2.2.1</span> NMF in R</h4>
 <p>Many NMF algorithms are available through the CRAN package <code>NMF</code>:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Feature-normalize the data</span>
 x1.featnorm &lt;-<span class="st"> </span>x1 <span class="op">/</span><span class="st"> </span><span class="kw">rowSums</span>(x1)
@@ -658,17 +658,17 @@ nmf_df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(nmf.h
 <span class="kw">colnames</span>(nmf_df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;dim1&quot;</span>, <span class="st">&quot;dim2&quot;</span>)
 nmf_df<span class="op">$</span>subtype &lt;-<span class="st"> </span><span class="kw">factor</span>(covariates[<span class="kw">rownames</span>(nmf_df),]<span class="op">$</span>cms_label)
 ggplot2<span class="op">::</span><span class="kw">ggplot</span>(nmf_df, ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x=</span>dim1, <span class="dt">y=</span>dim2, <span class="dt">color=</span>subtype)) <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">ggtitle</span>(<span class="st">&quot;Scatterplot of 2-component NMF for multi-omics integration&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_nmfFeatureNormalization-1.png" alt="NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned form multi-omics data." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:monmfFeatureNormalization1"></span>
+<img src="compgenomrReloaded_files/figure-html/monmfFeatureNormalization-1.png" alt="NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned form multi-omics data." width="672" />
 <p class="caption">
-(#fig:mo_nmfFeatureNormalization1)NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned form multi-omics data.
+FIGURE 11.8: NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned form multi-omics data.
 </p>
 </div>
 <pre class="sourceCode r"><code class="sourceCode r">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(<span class="kw">t</span>(nmf_df[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]), <span class="dt">annotation_col =</span> anno_col, <span class="dt">show_colnames=</span><span class="ot">FALSE</span>, <span class="dt">main=</span><span class="st">&quot;Heatmap of 2-component NMF&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_nmfFeatureNormalization-2.png" alt="NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned form multi-omics data." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:monmfFeatureNormalization2"></span>
+<img src="compgenomrReloaded_files/figure-html/monmfFeatureNormalization-2.png" alt="NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned form multi-omics data." width="672" />
 <p class="caption">
-(#fig:mo_nmfFeatureNormalization2)NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned form multi-omics data.
+FIGURE 11.9: NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned form multi-omics data.
 </p>
 </div>
 </div>
@@ -687,10 +687,10 @@ ggplot2<span class="op">::</span><span class="kw">ggplot</span>(nmf_df, ggplot2<
 X_{(i)} = W_{(i)}Z + \epsilon_i,
 \]</span></p>
 <p>where <span class="math inline">\(X_{(i)}\)</span> is a data matrix from a single omics platform, <span class="math inline">\(W_{(i)}\)</span> are model parameters, <span class="math inline">\(Z\)</span> is a latent variable matrix, and is shared between the different omics platforms, and <span class="math inline">\(\epsilon_i\)</span> is a “noise” random variable, <span class="math inline">\(\epsilon \sim N(0,\Psi)\)</span>, with <span class="math inline">\(\Psi = diag(\psi_1,\dots \psi_M)\)</span> is a diagonal covariance matrix.</p>
-<div class="figure" style="text-align: center">
-<img src="images/icluster.svg" alt="Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise." width="100%" />
+<div class="figure" style="text-align: center"><span id="fig:moiCluster"></span>
+<img src="images/icluster.png" alt="Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise." width="100%" />
 <p class="caption">
-(#fig:mo_iCluster)Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise.
+FIGURE 11.10: Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise.
 </p>
 </div>
 <p>Note that with this construction, the omics measurements <span class="math inline">\(X\)</span> are expected to be the same for samples with the same latent variable representation, up to gaussian noise. Further, we assume a Gaussian prior distribution on the latent variables <span class="math inline">\(Z \sim N(0,I)\)</span>, which means we assume <span class="math inline">\(X_{(i)} \sim N \big( 0,W_{(i)} W_{(i)}^T + \Psi_{(i)} \big)\)</span>. In order to find suitable values for <span class="math inline">\(W\)</span>, <span class="math inline">\(Z\)</span>, and <span class="math inline">\(\Psi\)</span>, we can write down the multivariate normal log-likelihood function and optimize it. For a multivariate normal distribution with mean <span class="math inline">\(0\)</span> and covariance <span class="math inline">\(\Sigma\)</span>, the log-likelihood function is given by</p>
@@ -730,8 +730,8 @@ X_{(i)} = W_{(i)}Z + \epsilon_i,
 <p>In that way, iCluster+ allows us to explicitly model our assumptions about the distributions of our different omics data types, and leverage the strengths of Bayesian inferrence.</p>
 <p>Both iCluster and iCluster+ make use of sophisticated Bayesian inference algorithms (EM for iCluster, Metropolis-Hastings MCMC for iCluster+), which means they do not scale up trivially. Therefore, it is recommended to filter down the features to a manageable size before inputing data to the algorithm. The exact size of “manageable” data depends on your hardware, but a rule of thumb is that dimensions in the thousands are ok, but in the tens of thousands might be too slow.</p>
 </div>
-<div id="example-in-r-2" class="section level4">
-<h4><span class="header-section-number">11.2.3.2</span> Example in R</h4>
+<div id="running-icluster" class="section level4">
+<h4><span class="header-section-number">11.2.3.2</span> running iCluster</h4>
 <p>iCluster+ is available through the BioConductor package <code>iClusterPlus</code>:</p>
 <pre class="sourceCode r"><code class="sourceCode r">r.icluster &lt;-<span class="st"> </span>iClusterPlus<span class="op">::</span><span class="kw">iClusterPlus</span>(<span class="kw">t</span>(x1), <span class="kw">t</span>(x2), <span class="kw">t</span>(x3), <span class="dt">type=</span><span class="kw">c</span>(<span class="st">&quot;gaussian&quot;</span>, <span class="st">&quot;binomial&quot;</span>, <span class="st">&quot;multinomial&quot;</span>), <span class="dt">K=</span><span class="dv">2</span>, <span class="dt">alpha=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">lambda=</span><span class="kw">c</span>(.<span class="dv">03</span>,.<span class="dv">03</span>,.<span class="dv">03</span>))
 
@@ -744,17 +744,17 @@ icp_df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(iclus
 <span class="kw">rownames</span>(icp_df) &lt;-<span class="st"> </span><span class="kw">colnames</span>(x1)
 icp_df<span class="op">$</span>subtype &lt;-<span class="st"> </span><span class="kw">factor</span>(covariates[<span class="kw">rownames</span>(icp_df),]<span class="op">$</span>cms_label)
 ggplot2<span class="op">::</span><span class="kw">ggplot</span>(icp_df, ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x=</span>dim1, <span class="dt">y=</span>dim2, <span class="dt">color=</span>subtype)) <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">ggtitle</span>(<span class="st">&quot;Scatter plot of iCluster+ factors&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_multiOmicsiclusterplus-1.png" alt="iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:momultiOmicsiclusterplus1"></span>
+<img src="compgenomrReloaded_files/figure-html/momultiOmicsiclusterplus-1.png" alt="iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated." width="672" />
 <p class="caption">
-(#fig:mo_multiOmicsiclusterplus1)iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated.
+FIGURE 11.11: iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated.
 </p>
 </div>
 <pre class="sourceCode r"><code class="sourceCode r">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(<span class="kw">t</span>(icp_df[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]), <span class="dt">annotation_col =</span> anno_col, <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>, <span class="dt">main=</span><span class="st">&quot;Heatmap of iCluster+ factors&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_multiOmicsiclusterplus-2.png" alt="iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:momultiOmicsiclusterplus2"></span>
+<img src="compgenomrReloaded_files/figure-html/momultiOmicsiclusterplus-2.png" alt="iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated." width="672" />
 <p class="caption">
-(#fig:mo_multiOmicsiclusterplus2)iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated.
+FIGURE 11.12: iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated.
 </p>
 </div>
 </div>

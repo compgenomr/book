@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-05-09">
+<meta name="date" content="2019-05-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -453,10 +453,10 @@ pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(nmfw,
                    <span class="dt">main=</span><span class="st">&quot;NMF coefficients&quot;</span>,
                    <span class="dt">clustering_distance_rows =</span> <span class="st">&quot;manhattan&quot;</span>,
                    <span class="dt">fontsize_row =</span> <span class="dv">1</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_NMFHeatmap-1.png" alt="Heatmap showing the association of input features from multi-omics data (gene expression, copy number variation, and mutations), with JNMF factors. Gene expression features dominate both factors, but copy numbers and mutations mostly affect only one factor each." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:moNMFHeatmap"></span>
+<img src="compgenomrReloaded_files/figure-html/moNMFHeatmap-1.png" alt="Heatmap showing the association of input features from multi-omics data (gene expression, copy number variation, and mutations), with JNMF factors. Gene expression features dominate both factors, but copy numbers and mutations mostly affect only one factor each." width="672" />
 <p class="caption">
-(#fig:mo_NMFHeatmap)Heatmap showing the association of input features from multi-omics data (gene expression, copy number variation, and mutations), with JNMF factors. Gene expression features dominate both factors, but copy numbers and mutations mostly affect only one factor each.
+FIGURE 11.15: Heatmap showing the association of input features from multi-omics data (gene expression, copy number variation, and mutations), with JNMF factors. Gene expression features dominate both factors, but copy numbers and mutations mostly affect only one factor each.
 </p>
 </div>
 <p>Inspection of the factor coefficients in the heatmap above reveals that Joint NMF has found two nearly orthogonal non-negative factors. One is associated with high expression of the HOXC11, ZIC5, and XIRP1 genes, frequent mutations in the BRAF, PCDHGA6, and DNAH5 genes, as well as losses in the 18q12.2 and gains in 8p21.1 cytobands. The other factor is associated with high expression of the SOX1 gene, more frequent mutations in the APC, KRAS, and TP53 genes, and a weak association with some CNVs.</p>
@@ -481,7 +481,7 @@ p = \sum_{i=k}^K P(k=i).
 \]</span></p>
 <p>The hypergeometric enrichment test is also referred to as <em>Fisher’s one-sided exact test</em>. This way, we can determine if the genes associated with a factor significantly overlap (beyond chance) the genes involved in a biological process. Because we will typically be testing many gene sets, we will also need to apply multiple testing correction, such as Benjamini-Hochberg correction (see Chapter 3, multiple testing correction).</p>
 </div>
-<div id="example-in-r-3" class="section level4">
+<div id="example-in-r" class="section level4">
 <h4><span class="header-section-number">11.4.2.2</span> Example in R</h4>
 <p>In R, we can do this analysis using the <code>enrichR</code> package, which gives us access to many gene set libraries. In the example below, we’ll find the genes associated with preferentially NMF factor 1 or NMF factor 2, by the contribution of those genes’ expression values to the factor. Then, we’ll use <code>enrichR</code> to query the Gene Ontology terms which might be overlapping. <code>enrichR</code> performs</p>
 <pre class="sourceCode r"><code class="sourceCode r">genes.factor<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">which</span>(nmfw[<span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">1</span>] <span class="op">&gt;</span><span class="st"> </span>nmfw[<span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">2</span>]))
@@ -500,10 +500,10 @@ go.factor<span class="fl">.1</span> &lt;-<span class="st"> </span>enrichR<span c
 ##   Querying GO_Biological_Process_2018... Done.
 ## Parsing results... Done.</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r">ggplot2<span class="op">::</span><span class="kw">ggplot</span>(<span class="kw">head</span>(go.factor<span class="fl">.1</span>), ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">y=</span><span class="op">-</span><span class="kw">log10</span>(Adjusted.P.value), <span class="dt">x=</span>Term)) <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&#39;identity&#39;</span>) <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">ggtitle</span>(<span class="st">&quot;Top GO-terms</span><span class="ch">\n</span><span class="st">associated with</span><span class="ch">\n</span><span class="st">NMF factor 1&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_NMFGOTerms-1.png" alt="Top GO-terms associated with NMF factor 1." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:moNMFGOTerms"></span>
+<img src="compgenomrReloaded_files/figure-html/moNMFGOTerms-1.png" alt="Top GO-terms associated with NMF factor 1." width="672" />
 <p class="caption">
-(#fig:mo_NMFGOTerms)Top GO-terms associated with NMF factor 1.
+FIGURE 11.16: Top GO-terms associated with NMF factor 1.
 </p>
 </div>
 </div>
@@ -516,17 +516,17 @@ b &lt;-<span class="st"> </span>nmf.h
 <span class="kw">colnames</span>(b) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;factor1&#39;</span>, <span class="st">&#39;factor2&#39;</span>)
 cov_factor &lt;-<span class="st"> </span><span class="kw">cbind</span>(a,b)
 ggplot2<span class="op">::</span><span class="kw">ggplot</span>(cov_factor, ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x=</span>msi, <span class="dt">y=</span>factor1, <span class="dt">group=</span>msi)) <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">ggtitle</span>(<span class="st">&quot;NMF factor 1 microsatellite instability&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_NMFClinicalCovariates-1.png" alt="Box plots show values of NMF factors 1 and 2 for tumors separated by their microsatellite instability status. Factor 1 is high in microsatellite-stable tumors, while factor 2 is high in microsatellite instable tumors." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:moNMFClinicalCovariates1"></span>
+<img src="compgenomrReloaded_files/figure-html/moNMFClinicalCovariates-1.png" alt="Box plots show values of NMF factors 1 and 2 for tumors separated by their microsatellite instability status. Factor 1 is high in microsatellite-stable tumors, while factor 2 is high in microsatellite instable tumors." width="672" />
 <p class="caption">
-(#fig:mo_NMFClinicalCovariates1)Box plots show values of NMF factors 1 and 2 for tumors separated by their microsatellite instability status. Factor 1 is high in microsatellite-stable tumors, while factor 2 is high in microsatellite instable tumors.
+FIGURE 11.17: Box plots show values of NMF factors 1 and 2 for tumors separated by their microsatellite instability status. Factor 1 is high in microsatellite-stable tumors, while factor 2 is high in microsatellite instable tumors.
 </p>
 </div>
 <pre class="sourceCode r"><code class="sourceCode r">ggplot2<span class="op">::</span><span class="kw">ggplot</span>(cov_factor, ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x=</span>msi, <span class="dt">y=</span>factor2, <span class="dt">group=</span>msi)) <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">geom_boxplot</span>() <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">ggtitle</span>(<span class="st">&quot;NMF factor 2 and microsatellite instability&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_NMFClinicalCovariates-2.png" alt="Box plots show values of NMF factors 1 and 2 for tumors separated by their microsatellite instability status. Factor 1 is high in microsatellite-stable tumors, while factor 2 is high in microsatellite instable tumors." width="672" />
+<div class="figure" style="text-align: center"><span id="fig:moNMFClinicalCovariates2"></span>
+<img src="compgenomrReloaded_files/figure-html/moNMFClinicalCovariates-2.png" alt="Box plots show values of NMF factors 1 and 2 for tumors separated by their microsatellite instability status. Factor 1 is high in microsatellite-stable tumors, while factor 2 is high in microsatellite instable tumors." width="672" />
 <p class="caption">
-(#fig:mo_NMFClinicalCovariates2)Box plots show values of NMF factors 1 and 2 for tumors separated by their microsatellite instability status. Factor 1 is high in microsatellite-stable tumors, while factor 2 is high in microsatellite instable tumors.
+FIGURE 11.18: Box plots show values of NMF factors 1 and 2 for tumors separated by their microsatellite instability status. Factor 1 is high in microsatellite-stable tumors, while factor 2 is high in microsatellite instable tumors.
 </p>
 </div>
 <p>The figures above show that NMF factor 1 values are higher both microsattelite instable tumors, while NMF factor 2 is higher for microsatellite stable tumors. This is an example of multi-omics integration methods finding latent variables which are clinically significant.</p>

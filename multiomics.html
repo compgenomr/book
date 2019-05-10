@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-05-09">
+<meta name="date" content="2019-05-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -447,7 +447,7 @@ x1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span
 <span class="kw">rownames</span>(x1) &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(x1), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">|&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])
 knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x1))), <span class="dt">caption=</span><span class="st">&quot;Gene expression data (head)&quot;</span>)</code></pre>
 <table>
-<caption>(#tab:mo_loadMultiomicsGE)Gene expression data (head)</caption>
+<caption><span id="tab:moloadMultiomicsGE">TABLE 11.1: </span>Gene expression data (head)</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -521,7 +521,7 @@ x2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span
 x2[x2<span class="op">&gt;</span><span class="dv">0</span>]=<span class="dv">1</span>
 knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x2))), <span class="dt">caption=</span><span class="st">&quot;Mutation data (head)&quot;</span>)</code></pre>
 <table>
-<caption>(#tab:mo_loadMultiomicsMUT)Mutation data (head)</caption>
+<caption><span id="tab:moloadMultiomicsMUT">TABLE 11.2: </span>Mutation data (head)</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -594,7 +594,7 @@ knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">he
 x3 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)
 knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x3))), <span class="dt">caption=</span><span class="st">&quot;Copy number data (head)&quot;</span>)</code></pre>
 <table>
-<caption>(#tab:mo_loadMultiomicsCNV)Copy number data (head)</caption>
+<caption><span id="tab:moloadMultiomicsCNV">TABLE 11.3: </span>Copy number data (head)</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -670,37 +670,40 @@ covariates &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfil
 covariates &lt;-<span class="st"> </span>covariates[<span class="kw">colnames</span>(x1),]
 anno_col &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">cms=</span><span class="kw">as.factor</span>(covariates<span class="op">$</span>cms_label))
 <span class="kw">rownames</span>(anno_col) &lt;-<span class="st"> </span><span class="kw">rownames</span>(covariates)</code></pre>
+<p>We will first check the gene expression data in relation to the subtypes.</p>
 <pre class="sourceCode r"><code class="sourceCode r">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x1,
                    <span class="dt">annotation_col =</span> anno_col,
                    <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,
                    <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,
                    <span class="dt">main=</span><span class="st">&quot;Gene expression data&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_geneExpressionHeatmap-1.png" alt="Heatmap of gene expression data, colorectal cancers" width="672" />
+<div class="figure" style="text-align: center"><span id="fig:mogeneExpressionHeatmap"></span>
+<img src="compgenomrReloaded_files/figure-html/mogeneExpressionHeatmap-1.png" alt="Heatmap of gene expression data for colorectal cancers" width="60%" />
 <p class="caption">
-(#fig:mo_geneExpressionHeatmap)Heatmap of gene expression data, colorectal cancers
+FIGURE 11.1: Heatmap of gene expression data for colorectal cancers
 </p>
 </div>
+<p>Next up is mutation data. We are going to again make heatmap with subtype annotation.</p>
 <pre class="sourceCode r"><code class="sourceCode r">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x2,
                    <span class="dt">annotation_col =</span> anno_col,
                    <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,
                    <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,
                    <span class="dt">main=</span><span class="st">&quot;Mutation data&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_mutationsHeatmap-1.png" alt="Heatmap of mutation data, colorectal cancers" width="672" />
+<div class="figure" style="text-align: center"><span id="fig:momutationsHeatmap"></span>
+<img src="compgenomrReloaded_files/figure-html/momutationsHeatmap-1.png" alt="Heatmap of mutation data for colorectal cancers" width="672" />
 <p class="caption">
-(#fig:mo_mutationsHeatmap)Heatmap of mutation data, colorectal cancers
+FIGURE 11.2: Heatmap of mutation data for colorectal cancers
 </p>
 </div>
+<p>Next, we are looking into copy number variation data and again tyring to see if clustered samples are in concordance with subtypes.</p>
 <pre class="sourceCode r"><code class="sourceCode r">pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x3,
                    <span class="dt">annotation_col =</span> anno_col,
                    <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,
                    <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,
                    <span class="dt">main=</span><span class="st">&quot;Copy number data&quot;</span>)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/mo_CNVHeatmap-1.png" alt="Heatmap of copy number variation data, colorectal cancers" width="672" />
+<div class="figure" style="text-align: center"><span id="fig:moCNVHeatmap"></span>
+<img src="compgenomrReloaded_files/figure-html/moCNVHeatmap-1.png" alt="Heatmap of copy number variation data, colorectal cancers" width="672" />
 <p class="caption">
-(#fig:mo_CNVHeatmap)Heatmap of copy number variation data, colorectal cancers
+FIGURE 11.3: Heatmap of copy number variation data, colorectal cancers
 </p>
 </div>
 </div> 

@@ -25,7 +25,7 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-05-09">
+<meta name="date" content="2019-05-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -547,7 +547,7 @@ sml=<span class="kw">ScoreMatrixList</span>(<span class="kw">c</span>(<span clas
                       <span class="dt">type=</span><span class="st">&quot;bigWig&quot;</span>,<span class="dt">strand.aware =</span> <span class="ot">TRUE</span>)
 <span class="kw">plotMeta</span>(sml)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-171"></span>
-<img src="compgenomrReloaded_files/figure-html/unnamed-chunk-171-1.png" alt="Average profiles of DNAse and H3K4me3 ChIP-seq" width="672" />
+<img src="compgenomrReloaded_files/figure-html/unnamed-chunk-171-1.png" alt="Average profiles of DNAse and H3K4me3 ChIP-seq" width="60%" />
 <p class="caption">
 FIGURE 6.9: Average profiles of DNAse and H3K4me3 ChIP-seq
 </p>
@@ -562,10 +562,10 @@ Below, we will be using k-means clustering with 3 clusters.</p>
                 <span class="dt">matrix.main =</span> <span class="kw">c</span>(<span class="st">&quot;H3K4me3&quot;</span>,<span class="st">&quot;DNAse&quot;</span>),
                 <span class="dt">column.scale=</span><span class="ot">TRUE</span>,
                 <span class="dt">clustfun=</span><span class="cf">function</span>(x) <span class="kw">kmeans</span>(x, <span class="dt">centers=</span><span class="dv">3</span>)<span class="op">$</span>cluster)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="compgenomrReloaded_files/figure-html/Heatmaps%20of%20H3K4me3%20&%20DNAse%20data-1.png" alt="multiHeatMatrix" width="672" />
+<div class="figure" style="text-align: center"><span id="fig:multiHeatMatrix"></span>
+<img src="compgenomrReloaded_files/figure-html/multiHeatMatrix-1.png" alt="Heatmaps of H3K4me3 and DNAse data" width="60%" />
 <p class="caption">
-(#fig:Heatmaps of H3K4me3 &amp; DNAse data)multiHeatMatrix
+FIGURE 6.10: Heatmaps of H3K4me3 and DNAse data
 </p>
 </div>
 <p>This revealed a different picture than we have observed before. Almost half of the promoters have no signal for DNAse or H3K4me3; these regions are probably not active and associated genes are not expressed. For regions with H3K4me3 signal, there are two major patterns. One pattern where both downstream and upstream of the TSS are enriched. On the other pattern, mostly downstream of the TSS is enriched.</p>
@@ -592,7 +592,7 @@ p</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:karyo1"></span>
 <img src="compgenomrReloaded_files/figure-html/karyo1-1.png" alt="Karyogram example" width="672" />
 <p class="caption">
-FIGURE 6.10: Karyogram example
+FIGURE 6.11: Karyogram example
 </p>
 </div>
 <p>Next, we would like to plot CpG islands on this Karyogram. We simply do this
@@ -608,9 +608,9 @@ cpgi.gr=genomation<span class="op">::</span><span class="kw">readGeneric</span>(
 
 p <span class="op">+</span><span class="st"> </span><span class="kw">layout_karyogram</span>(cpgi.gr)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:karyo2"></span>
-<img src="compgenomrReloaded_files/figure-html/karyo2-1.png" alt="Karyogram of CpG islands" width="672" />
+<img src="compgenomrReloaded_files/figure-html/karyo2-1.png" alt="Karyogram of CpG islands over the human genome" width="672" />
 <p class="caption">
-FIGURE 6.11: Karyogram of CpG islands
+FIGURE 6.12: Karyogram of CpG islands over the human genome
 </p>
 </div>
 <p>Next, we would like to plot some data over the chromosomes. This could be ChIP-seq
@@ -623,9 +623,9 @@ it says the points will have x coordinate from CpG island start positions and y 
                      <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">50</span>), <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>,
                      <span class="dt">size=</span><span class="fl">0.1</span>,<span class="dt">rect.height=</span><span class="dv">1</span>)</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:karyoCpG"></span>
-<img src="compgenomrReloaded_files/figure-html/karyoCpG-1.png" alt="Karyogram of CpG islands observed/expected scores" width="672" />
+<img src="compgenomrReloaded_files/figure-html/karyoCpG-1.png" alt="Karyogram of CpG islands and their observed/expected scores over the human genome" width="672" />
 <p class="caption">
-FIGURE 6.12: Karyogram of CpG islands observed/expected scores
+FIGURE 6.13: Karyogram of CpG islands and their observed/expected scores over the human genome
 </p>
 </div>
 <p>Another way to depict regions or quantitative signals on the chromosomes is circos plots. These are circular plots usually used for showing chromosomal rearrangements, but can also be used for depicting signals.<code>ggbio</code> package can produce all kinds of circos plots. Below, we will show how to use that for our CpG island score example.</p>
@@ -649,7 +649,7 @@ p</code></pre>
 <div class="figure" style="text-align: center"><span id="fig:circosCpG"></span>
 <img src="compgenomrReloaded_files/figure-html/circosCpG-1.png" alt="circos plot for CpG islands scores" width="672" />
 <p class="caption">
-FIGURE 6.13: circos plot for CpG islands scores
+FIGURE 6.14: circos plot for CpG islands scores
 </p>
 </div>
 </div>
