@@ -381,8 +381,8 @@ The SummarizedExperiment class is outlined in the figure below (Figure \@ref(fig
 
 
 
-```{r,SumExpOv,fig.cap="Overview of SummarizedExperiment class and functions",fig.align = 'center',out.width='100%',echo=FALSE}
-knitr::include_graphics("images/Summarized.Experiment.svg" )
+```{r,SumExpOv,fig.cap="Overview of SummarizedExperiment class and functions. Adapted from SummerizedExperiment package vignette",fig.align = 'center',out.width='100%',echo=FALSE}
+knitr::include_graphics("images/Summarized.Experiment.png" )
 ```
 
 ### Create a SummarizedExperiment object
@@ -568,7 +568,7 @@ Here we saw that about half of the regions do not have any signal. In addition i
 
 Normally, there would be more than one experiment or we can integrate datasets from
 public repositories. In this case, we can see how different signals look like on the regions we are interested in. Now, we will also use DNAse-seq data and create a list of matrices with our datasets and plot the average profile of the signals from both datasets.  
-```{r,fig.cap= "Average profiles of DNAse and H3K4me3 ChIP-seq"}
+```{r,fig.cap= "Average profiles of DNAse and H3K4me3 ChIP-seq",out.width='60%'}
 
 DNAseFile=system.file("extdata",
                       "H1.ESC.dnase.chr20.bw",
@@ -585,7 +585,7 @@ We should now look at the heatmaps side by side and we should also cluster the r
 based on their similarity. We will be using `multiHeatMatrix` since we have multiple ScoreMatrix objects in the list. In this case, we will also use `winsorize` argument to limit extreme values, 
 every score above 95th percentile will be equalized the the value of the 95th percentile. In addition, `heatMatrix` and `multiHeatMatrix` can cluster the rows.
 Below, we will be using k-means clustering with 3 clusters.
-```{r,fig.cap= "multiHeatMatrix","Heatmaps of H3K4me3 & DNAse data" }
+```{r,multiHeatMatrix,fig.cap= "Heatmaps of H3K4me3 and DNAse data",out.width='60%'}
 set.seed(1029)
 multiHeatMatrix(sml,order=TRUE,xcoords = c(-500,500),
                 xlab="bases around TSS",winsorize = c(0,95),
@@ -621,7 +621,7 @@ p
 
 Next, we would like to plot CpG islands on this Karyogram. We simply do this
 by adding a layer with `layout_karyogram` function.
-```{r,karyo2,fig.cap= "Karyogram of CpG islands"}
+```{r,karyo2,fig.cap= "Karyogram of CpG islands over the human genome"}
 # read CpG islands from a generic text file
 
 CpGiFile=filePath=system.file("extdata",
@@ -641,7 +641,7 @@ signal
 or any other signal over the genome, we will use CpG island scores from the data set
 we read earlier. We will plot a point proportional to "obsExp" column in the data set. We use `ylim` argument to squish the chromosomal rectangles and plot on top of those. `aes` argument defines how the data is mapped to geometry. In this case,
 it says the points will have x coordinate from CpG island start positions and y coordinate from obsExp score of CpG islands.
-```{r,karyoCpG,fig.cap="Karyogram of CpG islands observed/expected scores"}
+```{r,karyoCpG,fig.cap="Karyogram of CpG islands and their observed/expected scores over the human genome"}
 
 p + layout_karyogram(cpgi.gr, aes(x= start, y = obsExp),
                      geom="point",

@@ -235,7 +235,7 @@ Let's have a look at how the correlation matrix looks:
 
 ```{r corrplot_2}
 library(knitr)
-kable(correlationMatrix)
+kable(correlationMatrix,booktabs = TRUE)
 ```
 
 We can also draw more visually appealing correlation plots using the `corrplot` package.
@@ -440,7 +440,8 @@ goResults <- gprofiler(query = genesOfInterest,
                      hier_filtering = 'moderate')
 # sort the enriched GO terms by pvalue and print the top 10 terms 
 #  for the selected columns from the go results
-kable(goResults[order(goResults$p.value), c(3:4, 7, 10, 12)][1:10,])
+kable(goResults[order(goResults$p.value), 
+                c(3:4, 7, 10, 12)][1:10,],booktabs = TRUE)
 ```
 
 #### Gene set enrichment analysis 
@@ -482,17 +483,20 @@ gseaResults <- gage(exprs = log2(normalizedCounts+1),
 
 We can observe if there is a significant upregulation or downregulation of the gene set in the case group compared to the controls by accessing `gseaResults$greater` or `gseaResults$less`. 
 
-```{r gsea_post_1}
-kable(gseaResults$greater, caption = 'Up-regulation statistics')
+```{r gseaPost1}
+knitr::kable(gseaResults$greater,
+      booktabs = TRUE, 
+      caption = "Up-regulation statistics")
 ```
 
-```{r gsea_post_2}
-kable(gseaResults$less, caption = 'Down-regulation statistics')
+```{r gseaPost2}
+kable(gseaResults$less, 
+      booktabs = TRUE,caption = 'Down-regulation statistics')
 ```
 
 We can see that the random gene set shows no significant up or down-regulation, while the gene set we defined using the top GO term shows a significant down-regulation (adjusted p-value < 0.0007). It is worthwhile to visualize these systematic changes in a heatmap:
 
-```{r gsea_post_3}
+```{r gseaPost3}
 library(pheatmap)
 # get the expression data for the gene set of interest
 M <- normalizedCounts[rownames(normalizedCounts) %in% geneSet1, ]
