@@ -1,0 +1,17 @@
+\frontmatter
+
+## Trainings and consultation {-}
+
+### Custom Training and Workshops {-}
+We offer custom computational genomics training at your location. Our in-person workshops offer an intense experience to get you up and running with the techniques related to computational genomics. If you have a specific need in mind, get in touch via [e-mail](mailto:compgenomr@gmail.com) and we can work out a curriculum.
+
+
+### Consultation {-}
+We offer project based consultation. If you have a project in mind, we can discuss how we can help you. Get in touch via [e-mail](mailto:compgenomr@gmail.com) 
+
+#### Scientific/technical feasibility {-}
+We can help you assess the scientific or technical feasibility of your projects. We review exsisting methodology in relation to your problem, and help you decide if your idea is feasible to accomplish with the current technology and/or current scientific knowledge.
+
+#### Data analysis strategies {-} 
+We can help you create data analysis strategies for your computational genomics or machine learning based projects. These strategies will be based on current scientific literature and personal experiences. 
+

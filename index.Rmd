@@ -140,4 +140,7 @@ The following people kindly contributed fixes for typos: Thomas Schalch, Alex Go
 ```{r contributions,child = if (knitr::is_html_output()) 'addons/how-to-contribute.Rmd'}
 ```
 
+```{r trainings,child = if (knitr::is_html_output()) 'addons/training.Rmd'}
+```
+
 
