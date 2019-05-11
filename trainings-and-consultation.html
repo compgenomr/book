@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>5.7 Assessing the performance of our model | Computational Genomics With R</title>
+  <title>Trainings and consultation | Computational Genomics With R</title>
   <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="5.7 Assessing the performance of our model | Computational Genomics With R" />
+  <meta property="og:title" content="Trainings and consultation | Computational Genomics With R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://compmgenomr.github.io/book/" />
   <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="compgenomr/bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="5.7 Assessing the performance of our model | Computational Genomics With R" />
+  <meta name="twitter:title" content="Trainings and consultation | Computational Genomics With R" />
   
   <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
   <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="predicting-the-subtype-with-k-nearest-neighbors.html">
-<link rel="next" href="model-tuning-and-avoiding-overfitting.html">
+<link rel="prev" href="how-to-contribute.html">
+<link rel="next" href="about-the-authors.html">
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -440,153 +440,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="assessing-the-performance-of-our-model" class="section level2">
-<h2><span class="header-section-number">5.7</span> Assessing the performance of our model</h2>
-<p>We have to define some metrics to see if our model worked. The algorithm is trying to reduce the classification error, or in other words it is trying to increase the training accuracy. For the assessment of performance, there are other different metrics to consider. All the metrics for 2-class classification depend on the table below. Which shows the number of true positives (TP), false positives (FP), true negatives (TN) and false negatives (FN), similar to a table we used in hypothesis testing section in the statistics chapter previously.</p>
-<table style="width:82%;">
-<colgroup>
-<col width="22%" />
-<col width="29%" />
-<col width="30%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th></th>
-<th align="center">Actual CIMP</th>
-<th align="center">Actual noCIMP</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Predicted as
-CIMP</td>
-<td align="center">True Positives (TP)</td>
-<td align="center">False Positive (FP)</td>
-</tr>
-<tr class="even">
-<td>Predicted as
-noCIMP</td>
-<td align="center">False Positives (FN)</td>
-<td align="center">True negatives (TN)</td>
-</tr>
-</tbody>
-</table>
-<p>Accuracy is the first metric to look at. This metric is is simply
-<span class="math inline">\((TP+TN)/(TP+TN+FP+FN)\)</span> and shows the proportion of times we were right. There are other accuracy metrics that are important and output by <strong>caret</strong> functions. We will go over some of them here.</p>
-<p>Precision, <span class="math inline">\(TP/(TP+FP)\)</span>, is about the confidence we have on our CIMP calls. If our method is very precise, we will have low false positives. That means every time we call a CIMP event, we would relatively certain it is not a false positive.</p>
-<p>Sensitivity, <span class="math inline">\(TP/(TP+FN)\)</span>, is how often we miss CIMP cases and call them as noCIMP. Making less mistakes in noCIMP cases will increase our sensitivity. You can think of sensitivity also as in sick/healthy context. A highly sensitive method will be good at classifying sick people when they are indeed sick.</p>
-<p>Specificity,<span class="math inline">\(TN/(TN+FP)\)</span>, is about how sure we are when we call something as noCIMP. If our method is not very specific, we would call many patients as CIMP while in fact they did not have the subtype. In the sick/healthy context, a highly specific method, will be good at not calling healthy people sick.</p>
-<p>An alternative to accuracy we showed earlier is “balanced accuracy”. Accuracy does not perform well when classes have very different number of samples (class imbalance). For example, if you have 90 CIMP cases and 10 noCIMP cases, classifying all the samples as CIMP gives 0.9 accuracy score by default. Using the “balanced accuracy” metric can help in such situations. This is simply <span class="math inline">\((Precision+Sensitivity)/2\)</span>. In this case above with the class imbalance scenario, the “balanced accuracy” would be 0.5. Another metric that takes into account accuracy that could be generated by chance is “Kappa statistic” or “Cohen’s Kappa”. This metric includes expected accuracy which is affected by class imbalance in the training set and provides a metric corrected by that.</p>
-<p>In the k-NN example above, we trained and tested on the same data. The model returned the predicted labels for our training. We can calculate the accuracy metrics using <code>caret::confusionMatrix()</code> function. This is sometimes what it is called training accuracy. If you take <span class="math inline">\(1-accuracy\)</span>, it will be the “training error”.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># gte k-NN prediction on the training data itself, with k=5</span>
-knnFit=<span class="kw">knn3</span>(<span class="dt">x=</span>training[,<span class="op">-</span><span class="dv">1</span>], <span class="co"># training set</span>
-            <span class="dt">y=</span>training[,<span class="dv">1</span>], <span class="co"># training set class labels</span>
-            <span class="dt">k=</span><span class="dv">5</span>)
-
-<span class="co"># predictions on the training set</span>
-trainPred=<span class="kw">predict</span>(knnFit,training[,<span class="op">-</span><span class="dv">1</span>],<span class="dt">type=</span><span class="st">&quot;class&quot;</span>)
-
-<span class="co"># compare the predicted labels to real labels</span>
-<span class="co"># get different performance metrics</span>
-<span class="kw">confusionMatrix</span>(<span class="dt">data=</span>training[,<span class="dv">1</span>],<span class="dt">reference=</span>trainPred)</code></pre>
-<pre><code>## Confusion Matrix and Statistics
-## 
-##           Reference
-## Prediction CIMP noCIMP
-##     CIMP     65      0
-##     noCIMP    5     60
-##                                         
-##                Accuracy : 0.962         
-##                  95% CI : (0.913, 0.987)
-##     No Information Rate : 0.538         
-##     P-Value [Acc &gt; NIR] : &lt;2e-16        
-##                                         
-##                   Kappa : 0.923         
-##  Mcnemar&#39;s Test P-Value : 0.0736        
-##                                         
-##             Sensitivity : 0.929         
-##             Specificity : 1.000         
-##          Pos Pred Value : 1.000         
-##          Neg Pred Value : 0.923         
-##              Prevalence : 0.538         
-##          Detection Rate : 0.500         
-##    Detection Prevalence : 0.500         
-##       Balanced Accuracy : 0.964         
-##                                         
-##        &#39;Positive&#39; Class : CIMP          
-## </code></pre>
-<p>Now, let us see what our test set accuracy looks like again using the <code>knn</code> function and the <code>confusionMatrix()</code> function on the predicted and real classes.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># predictions on the test set, return class labels</span>
-testPred=<span class="kw">predict</span>(knnFit,testing[,<span class="op">-</span><span class="dv">1</span>],<span class="dt">type=</span><span class="st">&quot;class&quot;</span>)
-
-<span class="co"># compare the predicted labels to real labels</span>
-<span class="co"># get different performance metrics</span>
-<span class="kw">confusionMatrix</span>(<span class="dt">data=</span>testing[,<span class="dv">1</span>],<span class="dt">reference=</span>testPred)</code></pre>
-<pre><code>## Confusion Matrix and Statistics
-## 
-##           Reference
-## Prediction CIMP noCIMP
-##     CIMP     27      0
-##     noCIMP    1     26
-##                                     
-##                Accuracy : 0.981     
-##                  95% CI : (0.901, 1)
-##     No Information Rate : 0.519     
-##     P-Value [Acc &gt; NIR] : 2.02e-14  
-##                                     
-##                   Kappa : 0.963     
-##  Mcnemar&#39;s Test P-Value : 1         
-##                                     
-##             Sensitivity : 0.964     
-##             Specificity : 1.000     
-##          Pos Pred Value : 1.000     
-##          Neg Pred Value : 0.963     
-##              Prevalence : 0.519     
-##          Detection Rate : 0.500     
-##    Detection Prevalence : 0.500     
-##       Balanced Accuracy : 0.982     
-##                                     
-##        &#39;Positive&#39; Class : CIMP      
-## </code></pre>
-<p>Test set accuracy is not as good as the training accuracy, which is usually the case. That is why the best way to evaluate performance is to use test data that is not used by the model for training. That gives you an idea about real world performance where the model will be used to predict data that is not previously seen.</p>
-<div id="receiver-operating-characteristic-roc-curves" class="section level3">
-<h3><span class="header-section-number">5.7.1</span> Receiver Operating Characteristic (ROC) Curves</h3>
-<p>One important and popular metric when evaluating performance is looking at receiver operating characteristic (ROC) curves. The ROC curve is created by evaluating the class probabilities for the model across a continuum of thresholds. Typically, in the case of two class classification the methods return a probability for one of the classes. If that probability is higher than 0.5, you call the label as, for example, class A. If less than 0.5, we call the label class B. However, we can move that threshold and change what we call class A or B. For each candidate threshold, the resulting the sensitivity and 1-specificity are plotted against each other. The best possible prediction would result a point in the upper left corner, representing 100% sensitivity (no false negatives) and 100% specificity (no false positives). For the best model, the curve will be almost like a square. Since this is an important information, area under the curve (AUC) is calculated. This is a quantity between 0 and 1, and closer to 1 better the performance of your classifier in terms of sensitivity and specificity. For an uninformative classification model AUC will be 0.5. Although, ROC curves are initially designed fro two class problems, later extensions made it possible to use ROC curves for multi-class problems.</p>
-<p>ROC curves can also be used to determine alternate cutoffs for class probabilities for two class problems. However, this will always result in a trade-off between sensitivity and specificity. Sometimes it might be desirable to limit number of false positives as making such mistakes would be too costly for the individual cases. For example, if predicted with a certain disease, you might be recommended to go under surgery. However, if your classifier has a relatively high false positive rate, low specificity, you might go under the surgery for no reason. Typically, you want your classification model to have high specificity and sensitivity which may not be always possible in the real world. You might have to choose what is more important for a specific problem and try to increase that.</p>
-<p>Next, we will show how to use ROC curves for our k-NN application. The method requires classification probabilities in the format where 0 probability denotes class “noCIMP” and probability 1 denotes class “CIMP”. This way ROC curve can be drawn by varying the probability cutoff for calling class “noCIMP” or “CIMP”. Below we are getting a similar probability from k-NN but we have to transform it to the format we described above. Then, we feed those class probabilities to <code>pROC::roc()</code> function to calculate ROC curve and area-under-the-curve.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(pROC)
-
-<span class="co"># get k-NN class probabilities</span>
-<span class="co"># prediction probabilities on the test set</span>
-testProbs=<span class="kw">predict</span>(knnFit,testing[,<span class="op">-</span><span class="dv">1</span>])
-
-<span class="co"># get the roc curve</span>
-rocCurve &lt;-<span class="st"> </span>pROC<span class="op">::</span><span class="kw">roc</span>(<span class="dt">response =</span> testing[,<span class="dv">1</span>],
-                <span class="dt">predictor =</span> testProbs[,<span class="dv">1</span>],
-              <span class="co">## This function assumes that the second</span>
-              <span class="co">## class is the class of interest, so we</span>
-              <span class="co">## reverse the labels.</span>
-              <span class="dt">levels =</span> <span class="kw">rev</span>(<span class="kw">levels</span>(testing[,<span class="dv">1</span>])))
-<span class="co"># plot the curve</span>
-<span class="kw">plot</span>(rocCurve, <span class="dt">legacy.axes =</span> <span class="ot">TRUE</span>)</code></pre>
-<div class="figure" style="text-align: center"><span id="fig:ROC"></span>
-<img src="compgenomrReloaded_files/figure-html/ROC-1.png" alt="ROC curve for k-NN" width="60%" />
-<p class="caption">
-FIGURE 5.3: ROC curve for k-NN
-</p>
+<div id="trainings-and-consultation" class="section level2 unnumbered">
+<h2>Trainings and consultation</h2>
+<div id="custom-training-and-workshops" class="section level3 unnumbered">
+<h3>Custom Training and Workshops</h3>
+<p>We offer custom computational genomics training at your location. Our in-person workshops offer an intense experience to get you up and running with the techniques related to computational genomics. If you have a specific need in mind, get in touch via <a href="mailto:compgenomr@gmail.com">e-mail</a> and we can work out a curriculum.</p>
 </div>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># return area under the curve</span>
-pROC<span class="op">::</span><span class="kw">auc</span>(rocCurve)</code></pre>
-<pre><code>## Area under the curve: 0.999</code></pre>
+<div id="consultation" class="section level3 unnumbered">
+<h3>Consultation</h3>
+<p>We offer project based consultation. If you have a project in mind, we can discuss how we can help you. Get in touch via <a href="mailto:compgenomr@gmail.com">e-mail</a></p>
+<div id="scientifictechnical-feasibility" class="section level4 unnumbered">
+<h4>Scientific/technical feasibility</h4>
+<p>We can help you assess the scientific or technical feasibility of your projects. We review exsisting methodology in relation to your problem, and help you decide if your idea is feasible to accomplish with the current technology and/or current scientific knowledge.</p>
+</div>
+<div id="data-analysis-strategies" class="section level4 unnumbered">
+<h4>Data analysis strategies</h4>
+<p>We can help you create data analysis strategies for your computational genomics or machine learning based projects. These strategies will be based on current scientific literature and personal experiences.</p>
+
 </div>
 </div>
+</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="predicting-the-subtype-with-k-nearest-neighbors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="model-tuning-and-avoiding-overfitting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="how-to-contribute.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="about-the-authors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
@@ -616,7 +497,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/compgenomr/book/edit/master/05-supervisedLearning.Rmd",
+"link": "https://github.com/compgenomr/book/edit/master/index.Rmd",
 "text": "Edit"
 },
 "history": {
