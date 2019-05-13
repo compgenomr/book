@@ -342,7 +342,7 @@ sequences to repress transposable elements, these elements when active can
 jump around and insert them to random parts of the genome, potentially distrupting
 the genomic functions.
 
-.DNA methylation is also related to a
+DNA methylation is also related to a
 key core and proximal promoter element: CpG islands. CpG islands are usually
 unmethylated, however for some genes CpG island methylation accompanies their
 silenced expression. For example, during X-chromosome inactivation many CpG
@@ -381,7 +381,7 @@ Modifications                 Effect
 ------------                  ------  
     H3K9ac                    Active promoters and enhancers        
     H3K14ac                   Active transcription       
-    H3K4me3/me2/me1   Active promoters and enhancers, H3K4me1 and H3K27ac is enhancer-specific
+    H3K4me3/me2/me1           Active promoters and enhancers, H3K4me1 and H3K27ac is enhancer-specific
     H3K27ac                   H3K27ac is enhancer-specific          
     H3K36me3                  Active transcribed regions
     H3K27me3/me2/me1          Silent promoters
@@ -470,7 +470,7 @@ or introns. Depending of their activity and their locations there are four types
  -  intronic splicing silencers (ISSs).
 
 The majority of splicing repressors are heterogeneous nuclear ribonucleoproteins (hnRNPs). If splicing repressor protein bind
-silencer elements they reduce the change of nearby site to be
+silencer elements they reduce the chance of nearby site to be
 used as splice junction. On the contrary, splicing enhancers are sites to which splicing activator proteins bind and binding
 on that region increases the probability that a nearby site will be used as a splice junction. Most of the activator proteins that bind to splicing enhancers are members of the SR protein family. Such proteins can recognize specific RNA recognition motifs. By regulating splicing exons can be skipped or included
 which creates protein diversity.
