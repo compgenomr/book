@@ -8,6 +8,8 @@ Imports: bookdown, MASS, qvalue,plot3D,ggplot2,pheatmap,
          ggfortify, corrplot, gage, EDASeq, citr, 
          formatR, svglite, Rqc, ShortRead, QuasR, methylKit,
          FactoMineR, iClusterPlus, enrichR, caret,xgboost,glmnet,
-         DALEX,kernlab,pROC,nnet,RANN, ranger
+         DALEX,kernlab,pROC,nnet,RANN, ranger,  GenomeInfoDb, GenomicRanges, GenomicAlignments, 
+         ComplexHeatmap, circlize, rtracklayer, BSgenome.Hsapiens.UCSC.hg38, tidyr, AnnotationHub, 
+         GenomicFeatures, normr, MotifDb, TFBSTools, motifRG, JASPAR2018
          
 #Remotes: compgenomr/compGenomRData
