@@ -2,10 +2,12 @@
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo    = TRUE,
-                      message = FALSE, 
-                      error   = FALSE,
-                      cache   = TRUE)
+knitr::opts_chunk$set(echo      = TRUE,
+                      message   = FALSE, 
+                      error     = FALSE,
+                      cache     = TRUE,
+                      out.width = "65%",
+                      fig.width = 5.1)
 ```
 
 
@@ -431,7 +433,9 @@ ChIP-seq pipeline.
 In this tutorial, for performance considerations, we have taken a subset of the
 data which corresponds to the human chromosome 21 (chr21).
 
-The data sets are located in the following folder:
+The data sets are located in the **compGenomRData** package.
+The location of the data sets can be accessed using the **system.file** command,
+in the following way:
 
 ```{r data_path}
 data_path = system.file('extdata/chip-seq',package='compGenomRData')
@@ -506,9 +510,7 @@ to the hg38 version of the human genome, and filter the length for human
 chromosome 21.
 
 
-
-
-```{r, sample_clustering.seqlen, message=FALSE, warning=FALSE}
+```{r sample_clustering.seqlen, message=FALSE, warning=FALSE}
 # load the chromosome info package
 library(GenomeInfoDb)
 
@@ -591,7 +593,7 @@ CPM = counts * (10^{6} / total\>number\>of\>reads)
 
 
 
-```{r}
+```{r sample_clustering.norm}
 # calculate the cpm from the counts matrix
 # the following command works because R calculates everything by columns
 cpm = counts*(100000/colSums(counts))
@@ -603,7 +605,7 @@ they introduce artificial similarity between the samples (i.e. samples with
 a only a handful of bound regions will have a lot of tiles with 0 counts, while
 they do not have to have any overlapping enriched tiles).
 
-```{r}
+```{r sample_clustering.cpm}
 # remove all tiles which do not contain reads
 cpm = cpm[rowSums(cpm) > 0,]
 ```
@@ -619,7 +621,7 @@ colnames(cpm) = sub('.chr21.bam','',   colnames(cpm))
 colnames(cpm) = sub('GM12878_hg38_','',colnames(cpm))
 ```
 
-```{r include=FALSE, eval=TRUE, echo=TRUE}
+```{r sample_clustering.colnames include=FALSE, eval=TRUE, echo=TRUE}
 colnames(cpm)
 ```
 
@@ -630,9 +632,9 @@ The function takes as input an region X sample count matrix, and returns
 a sample X sample matrix, where each field contains the correlation coefficient
 between two samples.
 
-```{r}
+```{r sample_clustering.correlation}
 # calculates the pearson correlation coefficient between the samples
-dcor = cor(cpm, method='pearson')
+correlation_matrix = cor(cpm, method='pearson')
 ```
 
 The *Heatmap* function from the **ComplexHeatmap** [@Gu_2016] package is used to visualize 
@@ -642,7 +644,7 @@ samples which have the highest pairwise correlation.
 The diagonal represents the correlation of each sample with itself.
 
 
-```{r, fig.width=8, fig.height=7}
+```{r sample_clustering.complex_heatmap}
 # load ComplexHeatmap
 library(ComplexHeatmap)
 
@@ -652,7 +654,7 @@ library(circlize)
 heatmap_col = circlize::colorRamp2(c(-1,0,1),c('blue','white','red'))
 
 # plot the heatmap using the Heatmap function
-Heatmap(dcor, 
+Heatmap(correlation_matrix, 
         col = heatmap_col)
 ```
 
@@ -933,7 +935,7 @@ cc = data.frame(fragment_size = wsize, cross_correlation = cc)
 
 We can finally plot the shift Vs the correlation coefficient:
 
-```{r correlation.plot, fig.width = 5, fig.height=3}
+```{r correlation.plot}
 library(ggplot2)
 ggplot(data = cc, aes(fragment_size, cross_correlation)) +
     geom_point() +
@@ -1047,7 +1049,7 @@ gc   = cbind(data.frame(cpm_log), GC = nuc['GC'])
 ```
 
 
-```{r gc.plot, fig.width = 5, fig.height=3}
+```{r gc.plot}
 ggplot(data = gc, aes(GC, GM12878_hg38_CTCF_r1.chr21.bam)) +
     geom_point(size=2, alpha=.3) +
     theme_bw() +
@@ -1074,7 +1076,7 @@ need to be taken into account in downstream analysis.
 Firstly, we will reorder the columns of the data.frame using the gather 
 function from the tidyr package
 
-```{r, fig.width = 10, fig.height=3}
+```{r gc.tidy}
 # load the tidyr package
 library(tidyr)
 
@@ -1299,7 +1301,7 @@ annot_reads_list = lapply(bam_files, function(x)annotateReads(x, annotation_list
 
 And plot the results.
 
-```{r read_annot.plot, fig.width = 6, fig.height=4}
+```{r read_annot.plot}
 # collapse the per-file read distributions into one data.frame
 annot_reads_df = dplyr::bind_rows(annot_reads_list)
 
@@ -1481,7 +1483,7 @@ data_tracks = lapply(names(chip_profiles), function(exp_name){
 We are finally ready to create the genome screenshot.
 We will focus on an extended region around the URB1 gene.
 
-```{r, fig.height=5, fig.width = 7}
+```{r}
 # select the start coordinate for the URB1 gene
 start = min(start(subset(gtf, gene_name == 'URB1')))
 
@@ -1542,7 +1544,7 @@ cpm = counts*(100000/colSums(counts))
 
 We can now plot the ChIP Vs Input signal:
 
-```{r peak_calling.sharp.plot, fig.width = 4, fig.height=4, message = FALSE, erroe=FALSE}
+```{r peak_calling.sharp.plot, message = FALSE, erroe=FALSE}
 library(ggplot2)
 # convert the matrix into a data.frame for ggplot
 cpm = data.frame(cpm)
@@ -1663,7 +1665,7 @@ enriched_regions = countOverlaps(tilling_window, ctcf_peaks) > 0
 ```
 
 
-```{r peak_calling.sharp.peak_calling.plot, fig.width=6, fig.height=4}
+```{r peak_calling.sharp.peak_calling.plot}
 library(ggplot2)
 cpm$enriched_regions = enriched_regions 
     
@@ -1972,7 +1974,7 @@ h3k36_counts_df
 
 We can now plot the percentage of reads in peaks:
 
-```{r peak_quality.counts.plot, fig.width = 5, fig.height=3}
+```{r peak_quality.counts.plot}
 ggplot(data = h3k36_counts_df, aes(experiment, percentage, fill=enriched)) +
     geom_bar(stat='identity', position='dodge') +
     theme_bw() +
@@ -2076,7 +2078,7 @@ We will use now the **seqLogo** package to visualize the information content of 
 CTCF motif.
 The figure shows which are the most important nucleotides for CTCF binding.
 
-```{r peak_quality.seqLogo, fig.width=7, fig.height=5}
+```{r peak_quality.seqLogo}
 # plot the seqLogo of the CTCF motif
 seqLogo::seqLogo(ctcf_motif)
 ```
@@ -2154,7 +2156,7 @@ first position, and the least enriched peak on the last position.
 We then walk from the lowest to the highest ranking and measure the
 percentage of peaks containing the motif.
 
-```{r, peak_quality.scan.scan.dist, fig.width = 5, fig.height=3}
+```{r, peak_quality.scan.scan.dist}
 # label which peaks contain CTCF motifs
 motif_hits_df = data.frame(
     peak_order     = 1:length(ctcf_peaks)
@@ -2220,7 +2222,7 @@ We now construct a plot, where the
 X axis represents the +/ 1000 nucleotides around the peak, while the
 Y axis shows the motif enrichment at each position.
 
-```{r chip_quality.motifloc.plot, fig.height=3, fig.width=5}
+```{r chip_quality.motifloc.plot}
 # set the position relative to the start
 hits$position = hits$start - 1000 
 
@@ -2314,7 +2316,7 @@ annot_peaks_list = lapply(names(peak_list), function(peak_name){
     })
 ```
 
-```{r peak_annotation.plot, fig.width = 5, fig.height=3}
+```{r peak_annotation.plot}
 # combine a list of data.frames into one data.frame
 annot_peaks_df = dplyr::bind_rows(annot_peaks_list)
 
@@ -2489,7 +2491,7 @@ refined_motifs = lapply(motifs$motifs, function(x){
 We will visualize the refined motif using the **seqLogo** function
 from the same package,
 
-```{r motif_discovery.seqlogo, fig.width = 3, fig.width = 6}
+```{r motif_discovery.seqlogo}
 # visualize the resulting motif
 seqLogo::seqLogo(refined_motifs[[1]]$model$prob)
 ```
