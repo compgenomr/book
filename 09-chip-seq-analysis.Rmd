@@ -415,7 +415,7 @@ packages = c(
     'TFBSTools',
     'motifStack',
     'JASPAR2018')
-biocLite(packages)
+BiocManager::install(packages)
 ```
 
 
@@ -434,7 +434,7 @@ data which corresponds to the human chromosome 21 (chr21).
 The data sets are located in the following folder:
 
 ```{r data_path}
-data_path = './Data'
+data_path = system.file('extdata/chip-seq',package='compGenomRData')
 ```
 
 The available data sets can be listed using the **list.files** command:
