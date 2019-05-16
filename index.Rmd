@@ -1,5 +1,5 @@
 --- 
-title: "Computational Genomics With R"
+title: "Computational Genomics with R"
 author: "Altuna Akalin"
 date: "`r Sys.Date()`"
 knit: "bookdown::render_book"
