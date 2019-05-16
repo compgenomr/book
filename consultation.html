@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>8.4 Other applications of RNA-seq | Computational Genomics with R</title>
+  <title>Consultation | Computational Genomics With R</title>
   <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="8.4 Other applications of RNA-seq | Computational Genomics with R" />
+  <meta property="og:title" content="Consultation | Computational Genomics With R" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://compmgenomr.github.io/book/" />
   <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="compgenomr/bookdown" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="8.4 Other applications of RNA-seq | Computational Genomics with R" />
+  <meta name="twitter:title" content="Consultation | Computational Genomics With R" />
   
   <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
   <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
@@ -25,15 +25,15 @@
 <meta name="author" content="Altuna Akalin">
 
 
-<meta name="date" content="2019-05-16">
+<meta name="date" content="2019-05-11">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html">
-<link rel="next" href="exercises-6.html">
+<link rel="prev" href="custom-training-and-workshops.html">
+<link rel="next" href="about-the-authors.html">
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -151,9 +151,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="data-for-the-book.html"><a href="data-for-the-book.html"><i class="fa fa-check"></i>Data for the book</a></li>
 <li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
 <li class="chapter" data-level="" data-path="how-to-contribute.html"><a href="how-to-contribute.html"><i class="fa fa-check"></i>How to contribute</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="trainings-and-consultation.html"><a href="trainings-and-consultation.html"><i class="fa fa-check"></i>Trainings and consultation</a><ul>
-<li class="chapter" data-level="" data-path="trainings-and-consultation.html"><a href="trainings-and-consultation.html#custom-training-and-workshops"><i class="fa fa-check"></i>Custom Training and Workshops</a></li>
-<li class="chapter" data-level="" data-path="trainings-and-consultation.html"><a href="trainings-and-consultation.html#consultation"><i class="fa fa-check"></i>Consultation</a></li>
+<li class="chapter" data-level="" data-path="custom-training-and-workshops.html"><a href="custom-training-and-workshops.html"><i class="fa fa-check"></i>Custom Training and Workshops</a></li>
+<li class="chapter" data-level="" data-path="consultation.html"><a href="consultation.html"><i class="fa fa-check"></i>Consultation</a><ul>
+<li class="chapter" data-level="" data-path="consultation.html"><a href="consultation.html#scientifictechnical-feasibility"><i class="fa fa-check"></i>Scientific/technical feasibility</a></li>
+<li class="chapter" data-level="" data-path="consultation.html"><a href="consultation.html#data-analysis-strategies"><i class="fa fa-check"></i>Data analysis strategies</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
@@ -432,7 +435,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Genomics with R</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Genomics With R</a>
           </h1>
         </div>
 
@@ -440,35 +443,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="other-applications-of-rna-seq" class="section level2">
-<h2><span class="header-section-number">8.4</span> Other applications of RNA-seq</h2>
-<p>RNA-seq generates valuable data that contains information not only at the gene level but also at the level of exons and transcripts. Moreover, the kind of information that we can extract from RNA-seq is not limited to expression quantification. It is possible to detect alternative splicing events such as novel isoforms <span class="citation">(Trapnell et al. <a href="#ref-trapnell_transcript_2010">2010</a>)</span>, differential usage of exons <span class="citation">(Anders, Reyes, and Huber <a href="#ref-anders_detecting_2012">2012</a>)</span> . It is also possible to observe sequence variants (substitutions, insertions, deletions, RNA-editing) that may change the translated protein product <span class="citation">(McKenna et al. <a href="#ref-mckenna_genome_2010">2010</a>)</span>. In the context of cancer genomes, gene-fusion events can be detected with RNA-seq <span class="citation">(McPherson et al. <a href="#ref-mcpherson_defuse:_2011">2011</a>)</span>. Finally, for the purposes of gene prediction or improving existing gene predictions, RNA-seq is a valuable method <span class="citation">(Stanke and Morgenstern <a href="#ref-stanke_augustus:_2005">2005</a>)</span>. In order to learn more about how to implement these, it is recommended to go through the tutorials of the cited tools.</p>
+<div id="consultation" class="section level2 unnumbered">
+<h2>Consultation</h2>
+<p>We offer project based consultation. If you have a project in mind, we can discuss how we can help you. Get in touch via <a href="mailto:compgenomr@gmail.com">e-mail</a></p>
+<div id="scientifictechnical-feasibility" class="section level3 unnumbered">
+<h3>Scientific/technical feasibility</h3>
+<p>We can help you assess the scientific or technical feasibility of your projects. We review exsisting methodology in relation to your problem, and help you decide if your idea is feasible to accomplish with the current technology and/or current scientific knowledge.</p>
 </div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-trapnell_transcript_2010">
-<p>Trapnell, Cole, Brian A. Williams, Geo Pertea, Ali Mortazavi, Gordon Kwan, Marijke J. van Baren, Steven L. Salzberg, Barbara J. Wold, and Lior Pachter. 2010. “Transcript Assembly and Quantification by RNA-Seq Reveals Unannotated Transcripts and Isoform Switching During Cell Differentiation.” <em>Nature Biotechnology</em> 28 (5): 511–15. <a href="https://doi.org/10.1038/nbt.1621">https://doi.org/10.1038/nbt.1621</a>.</p>
-</div>
-<div id="ref-anders_detecting_2012">
-<p>Anders, Simon, Alejandro Reyes, and Wolfgang Huber. 2012. “Detecting Differential Usage of Exons from RNA-Seq Data.” <em>Genome Research</em> 22 (10): 2008–17. <a href="https://doi.org/10.1101/gr.133744.111">https://doi.org/10.1101/gr.133744.111</a>.</p>
-</div>
-<div id="ref-mckenna_genome_2010">
-<p>McKenna, Aaron, Matthew Hanna, Eric Banks, Andrey Sivachenko, Kristian Cibulskis, Andrew Kernytsky, Kiran Garimella, et al. 2010. “The Genome Analysis Toolkit: A MapReduce Framework for Analyzing Next-Generation DNA Sequencing Data.” <em>Genome Research</em> 20 (9): 1297–1303. <a href="https://doi.org/10.1101/gr.107524.110">https://doi.org/10.1101/gr.107524.110</a>.</p>
-</div>
-<div id="ref-mcpherson_defuse:_2011">
-<p>McPherson, Andrew, Fereydoun Hormozdiari, Abdalnasser Zayed, Ryan Giuliany, Gavin Ha, Mark G. F. Sun, Malachi Griffith, et al. 2011. “deFuse: An Algorithm for Gene Fusion Discovery in Tumor RNA-Seq Data.” <em>PLOS Computational Biology</em> 7 (5): e1001138. <a href="https://doi.org/10.1371/journal.pcbi.1001138">https://doi.org/10.1371/journal.pcbi.1001138</a>.</p>
-</div>
-<div id="ref-stanke_augustus:_2005">
-<p>Stanke, Mario, and Burkhard Morgenstern. 2005. “AUGUSTUS: A Web Server for Gene Prediction in Eukaryotes That Allows User-Defined Constraints.” <em>Nucleic Acids Research</em> 33 (Web Server issue): W465–W467. <a href="https://doi.org/10.1093/nar/gki458">https://doi.org/10.1093/nar/gki458</a>.</p>
+<div id="data-analysis-strategies" class="section level3 unnumbered">
+<h3>Data analysis strategies</h3>
+<p>We can help you create data analysis strategies for your computational genomics or machine learning based projects. These strategies will be based on current scientific literature and personal experiences.</p>
+
 </div>
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="exercises-6.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="custom-training-and-workshops.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="about-the-authors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
@@ -498,7 +493,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/compgenomr/book/edit/master/08-rna-seq-analysis.Rmd",
+"link": "https://github.com/compgenomr/book/edit/master/index.Rmd",
 "text": "Edit"
 },
 "history": {
