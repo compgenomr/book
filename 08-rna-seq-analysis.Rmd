@@ -414,7 +414,7 @@ In a typical differential expression analysis, thousands of genes are found diff
 In R, the simplest way to do enrichment analysis is via the `gProfileR` package.
 
 Let's select the genes that are significantly differentially expressed between the case and control samples. 
-Let's remove genes that have an adjusted p-value below 0.1 and that show a 2-fold change (either negative or positive) in the case compared to control.  
+Let's remove genes that have an adjusted p-value above 0.1 and that show a 2-fold change (either negative or positive) in the case compared to control.  
 
 ```{r GO_analysis}
 library(DESeq2)
