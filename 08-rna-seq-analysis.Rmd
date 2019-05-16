@@ -494,7 +494,7 @@ kable(gseaResults$less,
       booktabs = TRUE,caption = 'Down-regulation statistics')
 ```
 
-We can see that the random gene set shows no significant up or down-regulation, while the gene set we defined using the top GO term shows a significant down-regulation (adjusted p-value < 0.0007). It is worthwhile to visualize these systematic changes in a heatmap:
+We can see that the random gene set shows no significant up or down-regulation, while the gene set we defined using the top GO term shows a significant up-regulation (adjusted p-value < 0.0007). It is worthwhile to visualize these systematic changes in a heatmap:
 
 ```{r gseaPost3}
 library(pheatmap)
