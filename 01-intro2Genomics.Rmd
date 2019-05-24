@@ -734,8 +734,8 @@ There are two requirements to be able to visualize genomes and its associated
 data,  1) you need to be able to work with a species
 that has a sequenced genome and 2) you want to have annotation on that genome, 
 meaning, at the very least, you want to know where the genes are. Most
-genomes after sequencing quickly annotated with gene-predictions or
-know gene sequences are mapped on to it, you can also
+genomes after sequencing are quickly annotated with gene-predictions or
+known gene sequences are mapped on to it, you can also
 have conservation to other species to filter functional elements. If you
 are working with a model organism or human you will also have a lot of
 auxiliary information to help demarcate the functional regions such
@@ -769,7 +769,7 @@ and annotations for many species. You can search for genes or genome coordinates
 for the species of your interest. It is usually very responsive and allows 
 you to visualize large amounts of data. In addition, it has multiple other tools
 that can be used in connection with the browser. One of the most useful tools 
-is _UCSC Table Browser_, which lets you download the all the data you see on the 
+is _UCSC Table Browser_, which lets you download  all the data you see on the 
 browser, including sequence data, in multiple formats. 
 Users can upload data or provide links to the data
 to visualize user specific data.
