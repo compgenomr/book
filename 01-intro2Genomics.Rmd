@@ -699,7 +699,7 @@ The sequencing technology is still evolving. Obtaining
 longer single-molecule reads, and preferably, being able to call base modifications
 on the fly is the next frontier.
 With longer reads, the genome asssembly will be easier for the regions
-that have high repeat content. With single-molecule sequencing, we will be able
+that have high repeat content. With single-molecule sequencing, we will be able to
 tell how many transcripts are present in a given cell population without
 relying on fragment amplification methods which can introduce biases. 
 
