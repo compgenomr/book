@@ -120,7 +120,11 @@ BiocManager::install(c('qvalue','plot3D','ggplot2','pheatmap',
                       'methylKit','FactoMineR', 'iClusterPlus',
                       'enrichR','caret','xgboost','glmnet',
                       'DALEX','kernlab','pROC','nnet','RANN',
-                      'ranger'
+                      'ranger','GenomeInfoDb', 'GenomicRanges',
+                      'GenomicAlignments', 'ComplexHeatmap', 'circlize', 
+                      'rtracklayer', 'BSgenome.Hsapiens.UCSC.hg38', 'tidyr',
+                      'AnnotationHub', 'GenomicFeatures', 'normr',
+                      'MotifDb', 'TFBSTools', 'motifRG', 'JASPAR2018'
                      )
 ```
 
