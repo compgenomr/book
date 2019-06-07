@@ -101,7 +101,7 @@ protocol. Therefore the fragments need to be amplified using PCR.
 
 7. DNA fragment sequencing 
 
-```{r Figure_ChIP-seq_Protocol, echo=FALSE, include=TRUE, fig.cap='Main experimental steps in the ChIP-seq protocol'}
+```{r ChIP.seq.Protocol.plot, echo=FALSE, include=TRUE, fig.cap="Main experimental steps in the ChIP-seq protocol"}
 knitr::include_graphics('./Figures/Chip-Seq_Protocol_Extended.png')
 ```
 
@@ -397,26 +397,30 @@ By this chapter you should be familiar with the following terms:
 
 Please install the following **R** packages
 
-```{r, eval=FALSE, echo=TRUE, include=TRUE}
+```{r install, eval=FALSE, echo=TRUE, include=TRUE}
 packages = c(
-    'GenomicRanges',
-    'GenomicFeatures',
-    'GenomeInfoDB',
-    'plyranges',
-    'ComplexHeatmap',
-    'rtracklayer',
-    'Gviz',
-    'ggplot2',
-    'BSgenome.Hsapiens.UCSC.hg38',
-    'BSgenome',
-    'Biostrings',
     'AnnotationHub',
+    'Biostrings',
+    'BSgenome',
+    'BSgenome.Hsapiens.UCSC.hg38',
+    'circlize',
+    'ComplexHeatmap',
+    'dplyr',
+    'GenomicAlignments',
     'GenomicFeatures',
+    'GenomicRanges',
+    'GenomeInfoDB',
+    'ggplot2',
+    'Gviz',
+    'JASPAR2018',
     'MotifDb',
+    'motifRG',
+    'motifStack',
+    'normr',
+    'rtracklayer',
     'seqLogo',
     'TFBSTools',
-    'motifStack',
-    'JASPAR2018')
+    'tidyr')
 BiocManager::install(packages)
 ```
 
@@ -447,7 +451,7 @@ The available data sets can be listed using the **list.files** command:
 chip_files = list.files(data_path, full.names=TRUE)
 ```
 
-```{r, echo=FALSE, eval=TRUE, include=TRUE}
+```{r data_path.show, echo=FALSE, eval=TRUE, include=TRUE}
 head(chip_files)
 ```
 
@@ -553,7 +557,7 @@ tilling_window = tileGenome(seqlengths, tilewidth=1000)
 tilling_window = unlist(tilling_window)
 ```
 
-```{r, include=TRUE, echo=FALSE, eval=TRUE}
+```{r sample_clustering.show_tilling_window, include=TRUE, echo=FALSE, eval=TRUE}
 tilling_window
 ```
 
@@ -605,14 +609,14 @@ they introduce artificial similarity between the samples (i.e. samples with
 a only a handful of bound regions will have a lot of tiles with 0 counts, while
 they do not have to have any overlapping enriched tiles).
 
-```{r sample_clustering.cpm}
+```{r sample_clustering.filter_cpm}
 # remove all tiles which do not contain reads
 cpm = cpm[rowSums(cpm) > 0,]
 ```
 
 We use the sub function to shorten the column names of the cpm matrix.
 
-```{r}
+```{r sample_clustering.change_colnames}
 # change the formatting of the column names
 # remove the .chr21.bam suffix
 colnames(cpm) = sub('.chr21.bam','',   colnames(cpm))
@@ -621,7 +625,7 @@ colnames(cpm) = sub('.chr21.bam','',   colnames(cpm))
 colnames(cpm) = sub('GM12878_hg38_','',colnames(cpm))
 ```
 
-```{r sample_clustering.colnames include=FALSE, eval=TRUE, echo=TRUE}
+```{r sample_clustering.colnames, include=FALSE, eval=TRUE, echo=TRUE}
 colnames(cpm)
 ```
 
@@ -644,7 +648,7 @@ samples which have the highest pairwise correlation.
 The diagonal represents the correlation of each sample with itself.
 
 
-```{r sample_clustering.complex_heatmap}
+```{r sample_clustering.complex_heatmap, fig.cap='Heatmap showing ChIP-seq sample similarity using Pearson correlation coefficient'}
 # load ComplexHeatmap
 library(ComplexHeatmap)
 
@@ -825,7 +829,7 @@ Tracks are plotted with the **plotTracks** function.
 **sizes** argument needs to be the same size as the track_list, and defines the 
 relative size of each track.
 
-```{r}
+```{r genome_browser.gviz_show, fig.cap='ChIP-seq signal visualized as a browser track using Gviz'}
 # plot the list of browser tracks
 # sizes argument defines the relative sizes of tracks
 # background title defines the color for the track labels
@@ -935,7 +939,7 @@ cc = data.frame(fragment_size = wsize, cross_correlation = cc)
 
 We can finally plot the shift Vs the correlation coefficient:
 
-```{r correlation.plot}
+```{r correlation.plot, fig.cap='The figure shows the correlation coefficient between the ChIP-seq signal on + and - strands. The peak of the distribution designates the fragment size'}
 library(ggplot2)
 ggplot(data = cc, aes(fragment_size, cross_correlation)) +
     geom_point() +
@@ -1049,7 +1053,7 @@ gc   = cbind(data.frame(cpm_log), GC = nuc['GC'])
 ```
 
 
-```{r gc.plot}
+```{r gc.plot, fig.cap='GC content abundance in a ChIP-seq experiment'}
 ggplot(data = gc, aes(GC, GM12878_hg38_CTCF_r1.chr21.bam)) +
     geom_point(size=2, alpha=.3) +
     theme_bw() +
@@ -1173,7 +1177,7 @@ ENSEMBL gene annotation.
 
 ```{r read_annot.query}
 # query the hub for the human annotation
-query(hub, c('ENSEMBL','Homo','GRCh38','chr','gtf'))
+AnnotationHub::query(hub, c('ENSEMBL','Homo','GRCh38','chr','gtf'))
 ```
 
 We are interested in the version GRCh38.92, which is available under **AH61126**.
@@ -1252,6 +1256,7 @@ to keep only one annotated category per read.
 ```{r read_annot.annotateReads}
 annotateReads = function(bam_file, annotation_list){
     
+    library(dplyr)
     message(basename(bam_file))
     
     # load the reads into R
@@ -1301,7 +1306,7 @@ annot_reads_list = lapply(bam_files, function(x)annotateReads(x, annotation_list
 
 And plot the results.
 
-```{r read_annot.plot}
+```{r read_annot.plot, fig.cap='ChIP-seq signal distribution over functional genomic features'}
 # collapse the per-file read distributions into one data.frame
 annot_reads_df = dplyr::bind_rows(annot_reads_list)
 
@@ -1483,7 +1488,7 @@ data_tracks = lapply(names(chip_profiles), function(exp_name){
 We are finally ready to create the genome screenshot.
 We will focus on an extended region around the URB1 gene.
 
-```{r}
+```{r chip_type.plot_gviz, fig.cap='ChIP-seq signal around the URB1 gene'}
 # select the start coordinate for the URB1 gene
 start = min(start(subset(gtf, gene_name == 'URB1')))
 
@@ -1544,7 +1549,7 @@ cpm = counts*(100000/colSums(counts))
 
 We can now plot the ChIP Vs Input signal:
 
-```{r peak_calling.sharp.plot, message = FALSE, erroe=FALSE}
+```{r peak_calling.sharp.plot, message = FALSE, erroe=FALSE, fig.cap='Comparison of CPM values between ChIP and Input experiments. Good ChIP experiments should always show enrichment'}
 library(ggplot2)
 # convert the matrix into a data.frame for ggplot
 cpm = data.frame(cpm)
@@ -1599,7 +1604,7 @@ ctcf_fit = enrichR(
 
 With the summary function we can take look at the results:
 
-```{r}
+```{r peak_calling.summary}
 summary(ctcf_fit)
 ```
 
@@ -1648,7 +1653,7 @@ seqlevels(ctcf_peaks, pruning.mode='coarse') = 'chr21'
 
 Let's export the peaks into a .txt file which we can use downstream in the analysis.
 
-```{r, include=T, eval=T, echo=T}
+```{r peak_calling.write_table, include=T, eval=T, echo=T}
 # write the peaks loacations into a txt table
 write.table(ctcf_peaks, file.path(data_path, 'CTCF_peaks.txt'), 
             row.names=F, col.names=T, quote=F, sep='\t')
@@ -1665,7 +1670,7 @@ enriched_regions = countOverlaps(tilling_window, ctcf_peaks) > 0
 ```
 
 
-```{r peak_calling.sharp.peak_calling.plot}
+```{r peak_calling.sharp.peak_calling.plot, fig.cap='Comparison of signal between ChIP and input samples. Red labeled dots correspond to called peaks.'}
 library(ggplot2)
 cpm$enriched_regions = enriched_regions 
     
@@ -1769,7 +1774,7 @@ cont_track  = DataTrack(cont_cov,   name = "Input", type='h', lwd=3)
 ```
 
 
-```{r}
+```{r peak_calling.signal_profile.plot, fig.cap='ChIP and Input signal profile in around the peak centers.'}
 plotTracks(list(chr_track,
                 axis, 
                 peaks_track, 
@@ -1866,7 +1871,7 @@ data_tracks = list(
 ```
 
 
-```{r peak_calling.broad.gviz}
+```{r peak_calling.broad.gviz, fig.cap='Visualization of H3K36me3 ChIP signal on a called broad peak.'}
 # define the window for the visualization
 start = min(start(h3k36_peaks[2])) - 25000
 end   = max(end(h3k36_peaks[2])) + 25000
@@ -1974,7 +1979,7 @@ h3k36_counts_df
 
 We can now plot the percentage of reads in peaks:
 
-```{r peak_quality.counts.plot}
+```{r peak_quality.counts.plot, fig.cap='Percentage of ChIP read in called peaks. Higher percentage indicates higher ChIP quality.'}
 ggplot(data = h3k36_counts_df, aes(experiment, percentage, fill=enriched)) +
     geom_bar(stat='identity', position='dodge') +
     theme_bw() +
@@ -2017,7 +2022,7 @@ database. The **MotifDB** is an agglomeration of multiple motif databases.
 
 ```{r peak_quality.motifdb}
 # load the MotifDB packge
-library('MotifDb')
+library(MotifDb)
 
 # fetch the CTCF motif from the data base
 motifs = query(query(MotifDb, 'Hsapiens'), 'CTCF')
@@ -2078,7 +2083,7 @@ We will use now the **seqLogo** package to visualize the information content of 
 CTCF motif.
 The figure shows which are the most important nucleotides for CTCF binding.
 
-```{r peak_quality.seqLogo}
+```{r peak_quality.seqLogo, fig.cap="CTCF sequence motif visualized as a sequence logo. Y axis ranges from zero to two, and corresponds to the amount of information each base in the motif contributes to the overall motif. The larger the letter the greater the probability of observing just one defined base on the designated position."}
 # plot the seqLogo of the CTCF motif
 seqLogo::seqLogo(ctcf_motif)
 ```
@@ -2156,7 +2161,7 @@ first position, and the least enriched peak on the last position.
 We then walk from the lowest to the highest ranking and measure the
 percentage of peaks containing the motif.
 
-```{r, peak_quality.scan.scan.dist}
+```{r, peak_quality.scan.dist.plot, fig.cap="Percentage of peaks containing the motif'. Higher percentage indicates a better ChIP-experiment, and a better peak calling procedure."}
 # label which peaks contain CTCF motifs
 motif_hits_df = data.frame(
     peak_order     = 1:length(ctcf_peaks)
@@ -2179,6 +2184,7 @@ ggplot(motif_hits_df, aes(peak_order, perc_peaks)) +
     ylab('Percetage of peaks with motif') +
     ggtitle('Percentage of CTCF peaks with the CTCF motif')
 ```
+
 The figure shows that, when we take all peaks into account ~45% of
 the peaks contain a CTCF motif.
 This is an excellent percentage and indicates a high quality ChIP experiment.
@@ -2222,7 +2228,7 @@ We now construct a plot, where the
 X axis represents the +/ 1000 nucleotides around the peak, while the
 Y axis shows the motif enrichment at each position.
 
-```{r chip_quality.motifloc.plot}
+```{r chip_quality.motifloc.plot, fig.cap='Transcription factor sequence motif localization with respect to the defined binding sites.'}
 # set the position relative to the start
 hits$position = hits$start - 1000 
 
@@ -2316,7 +2322,7 @@ annot_peaks_list = lapply(names(peak_list), function(peak_name){
     })
 ```
 
-```{r peak_annotation.plot}
+```{r peak_annotation.plot, fig.cap='Enrichment of transcription factor or histone modifications in functional genomic features'}
 # combine a list of data.frames into one data.frame
 annot_peaks_df = dplyr::bind_rows(annot_peaks_list)
 
@@ -2579,9 +2585,9 @@ of mechanistic information, however, quite often it is hard to make
 biologically relevant conclusions just from one ChIP-seq experiment (i.e. if
 we want to explain how our protein causes a disease, it is hard to guess
 which of the tens of thousands of binding places is relevant for the phenotype).
-Therefore, it is customary to integrate our results data which is already available
+Therefore, it is customary to integrate the results with data which is already available
 for our system of interest - ChIP-seq of different proteins, genome wide measurements of 
-expression, or assay for 3D genome structure.
+expression, or assays of 3D genome structure.
 
 The choice of downstream analysis is guided by the biological question of interest.
 Often we want to compare our samples to other available ChIP-seq experiments.
@@ -2591,7 +2597,7 @@ It is a procedure analogous to the differential expression analysis, except it
 results in sets of coordinates that are differentially bound in two biological 
 conditions. We can then search for specific DNA binding motif in such regions, 
 or correlate changes in the binding with changes in gene expression.
-With an increase in number of ChIP experiment, pairwise comparisons start being
+With an increase in number of ChIP experiment, pairwise comparisons becomes
 combinatorially complex. In this case we can segment the genome into multiple classes, where
 each class corresponds to a combination of bound transcription factors.
 Genome segmentation is usually done using probabilistic models (such as hidden
