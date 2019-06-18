@@ -812,7 +812,7 @@ counts=countBam(bamfile, param=param)
 ### Dealing with contiguous scores over the genome
 
 #### 
-Extract Views object for the promoters on chr20 from `GenomicIntervals_data/data/H1.ESC.H3K4me1.chr20.bw` file. Plot the first "View" as a line plot. **HINT**: see [lecture notes](GenomicIntervals_data/lectures/genomicIntervalsTutorial.html), adapt the code from there.
+Extract Views object for the promoters on chr20 from `H1.ESC.H3K4me1.chr20.bw` file available at **CompGenomRData** package. Plot the first "View" as a line plot. **HINT**: see the code in the relevant section and adapt the code from there.
 
 #### 
 Make a histogram of the maximum signal for the Views in the object you extracted above. You can use any of the view summary functions or use lapply() and write your own summary function.
@@ -823,29 +823,48 @@ Get the genomic positions of maximum signal in each view and make a GRanges obje
 ### Visualizing and summarizing genomic intervals
 
 ####
-Extract -500,+500 bp regions around TSSes on chr21, there are refseq files in the `GenomicIntervals_data/data` folder or you can
-pull the data out of UCSC browser. Use SP1 ChIP-seq data 
-(`GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam` ) to create an average profile of read coverage around TSSes. Following that, visualize the read coverage with a heatmap. **HINT**: All of these possible using `genomation` package functions.
+Extract -500,+500 bp regions around TSSes on chr21, there are refseq files in the compGenomRData package or you can
+pull the data out of UCSC browser. Use SP1 ChIP-seq data in the compGenomRData package, access the file path via `system.file() `command
+(`wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam` ) to create an average profile of read coverage around TSSes. Following that, visualize the read coverage with a heatmap. **HINT**: All of these possible using `genomation` package functions. Check `help(ScoreMatrix)` to see how you can use bam files.
 
 ```{r,eval=FALSE,echo=FALSE}
-gene.chr21=readTranscriptFeatures("GenomicIntervals_data/data/refseq.hg19.chr21.bed",up.flank = 500,down.flank = 500)
+transcriptFilechr21=system.file("extdata",
+                      "refseq.hg19.chr21.bed",
+                      package="compGenomRData")
+gene.chr21=readTranscriptFeatures(transcriptFilechr21,
+                                  up.flank = 500,down.flank = 500)
 prom.chr21=gene.chr21$promoters
 
-sm=ScoreMatrix("GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam",prom.chr21,
+bamFile=system.file("extdata",
+                    "wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam",
+                    package="compGenomRData")
+sm=ScoreMatrix(bamFile,prom.chr21,
                type="bam",strand.aware = TRUE)
 plotMeta(sm)
 
 ```
 
 ####
-Extract -500,+500 bp regions around TSSes on chr20. Use H3K4me3 (`GenomicIntervals_data/data/H1.ESC.H3K4me3.chr20.bw`) and H3K27ac (`GenomicIntervals_data/data/H1.ESC.H3K27ac.chr20.bw`) ChIP-seq enrichment data in the data folder and create heatmaps and average signal profiles for regions around the TSSes.
+Extract -500,+500 bp regions around TSSes on chr20. Use H3K4me3 (`H1.ESC.H3K4me3.chr20.bw`) and H3K27ac (`H1.ESC.H3K27ac.chr20.bw`) ChIP-seq enrichment data in the compGenomRData package and create heatmaps and average signal profiles for regions around the TSSes.
 
 ```{r,eval=FALSE,echo=FALSE}
-gene.chr20=readTranscriptFeatures("GenomicIntervals_data/data/refseq.hg19.chr20.bed",up.flank = 500,down.flank = 500)
+transcriptFile=system.file("extdata",
+                      "refseq.hg19.chr20.bed",
+                      package="compGenomRData")
+gene.chr20=readTranscriptFeatures(transcriptFile,up.flank = 500,down.flank = 500)
 prom.chr20=gene.chr20$promoters
 
-sml=ScoreMatrixList(c("GenomicIntervals_data/data/H1.ESC.H3K4me3.chr20.bw",
-                      "GenomicIntervals_data/data/H1.ESC.H3K27ac.chr20.bw"),prom.chr20,
+
+h3k4me3File=system.file("extdata",
+                      "H1.ESC.H3K4me3.chr20.bw",
+                      package="compGenomRData")
+
+H3K27acFile=system.file("extdata",
+                      "H1.ESC.H3K27ac.chr20.bw",
+                      package="compGenomRData")
+
+sml=ScoreMatrixList(c(h3k4me3File,
+                      H3K27acFile),prom.chr20,
                       type="bigWig",strand.aware = TRUE)
 
 # look for the average enrichment
@@ -857,6 +876,40 @@ multiHeatMatrix(sml,order=TRUE,winsorize = c(0,95),
                 matrix.main = c("H3K4me3","H3K27ac"))
 
 ```
+
+####
+Download P300 ChIP-seq peaks data from UCSC browser. The peaks are locations where P300 binds. The P300 binding marks enhancer regions in the genome. (HINT:  group: "regulation", track: "Txn Factor ChIP", table:"wgEncodeRegTfbsClusteredV3", you need to filter the rows for "EP300" name )
+
+Check enrichment of H3K4me3, H3K27ac and DNase-seq (`H1.ESC.dnase.chr20.bw`) experiments on chr20, use data from compGenomRData package. Make multi-heatmaps and metaplots, what is different from TSS profiles ? 
+
+```{r,eval=FALSE}
+library(genomation)
+peaks=readBed("~/Downloads/chip.peaks.bed")
+p300.gr=peaks[mcols(peaks)$name=="EP300",]
+
+rs.p300.gr=resize(p300.gr,width=1000,fix="center" )
+
+rs.p300.gr=rs.p300.gr[seqnames(rs.p300.gr)=="chr20",]
+
+dnaseFile=system.file("extdata",
+                      "H1.ESC.dnase.chr20.bw",
+                      package="compGenomRData")
+  
+sml=ScoreMatrixList(c(h3k4me3File,
+                      H3K27acFile,dnaseFile),rs.p300.gr,
+                      type="bigWig",strand.aware = FALSE)
+
+plotMeta(sml)
+multiHeatMatrix(sml,
+                winsorize = c(0,95),
+                matrix.main=c("H3K4me3","H3K27ac","DNase"),
+               clustfun=function(x) kmeans(x, centers=3)$cluster)
+```
+
+####
+Cluster the rows of multi-heatmaps? Are there obvious clusters ? HINT: check arguments of multiHeatMatrix() function.
+
+
 
 #### 
 Visualize one of the -500,+500 bp regions around TSS using `Gviz` functions. You should visualize both H3K4me3 and H3K27ac and the gene models.
