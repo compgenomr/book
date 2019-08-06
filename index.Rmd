@@ -103,7 +103,7 @@ To sum it up, this book is a comprehensive guide for computational genomics. Som
 Package names are in bold text (e.g., **methylKit**), and inline code and filenames are formatted in a typewriter font. Function names are followed by parentheses (e.g., `genomation::ScoreMatrix()`). The double-colon operator `::` means accessing an object from a package.
 
 ### Assignment operator convention {-}
-Traditionally, `<-` is the preffered assignment operator. However, throughout the book we use `=` and `<-` as the assignment operator interchangeably.
+Traditionally, `<-` is the preferred assignment operator. However, throughout the book we use `=` and `<-` as the assignment operator interchangeably.
 
 ### Packages needed to run the book code {-}
 This book is primarily about using R packages to analyze genomics data, therefore if you want to reproduce the analysis in this book you need to install the relevant packages in each chapter using `install.packages` or `BiocManager::install` functions. In each chapter, we load the necessary packages with the `library()` or `require()` function when we use the needed functions from respective packages. By looking at that calls, you can see which packages are needed for that code chunk or chapter. If you need to install all the package dependencies for the book, you can run the following command and have a cup of tea while waiting.
