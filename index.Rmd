@@ -125,7 +125,7 @@ BiocManager::install(c('qvalue','plot3D','ggplot2','pheatmap',
                       'rtracklayer', 'BSgenome.Hsapiens.UCSC.hg38', 'tidyr',
                       'AnnotationHub', 'GenomicFeatures', 'normr',
                       'MotifDb', 'TFBSTools', 'motifRG', 'JASPAR2018'
-                     )
+                     ))
 ```
 
 
