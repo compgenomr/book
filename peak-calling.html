@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>9.7 Peak Calling | Computational Genomics with R</title>
+  <meta name="description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="9.7 Peak Calling | Computational Genomics with R" />
+  <meta property="og:type" content="book" />
+  <meta property="og:url" content="https://compmgenomr.github.io/book/" />
+  <meta property="og:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
+  <meta property="og:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
+  <meta name="github-repo" content="compgenomr/bookdown" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="9.7 Peak Calling | Computational Genomics with R" />
+  
+  <meta name="twitter:description" content="A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience" />
+  <meta name="twitter:image" content="https://compmgenomr.github.io/book/images/cover.jpg" />
+
+<meta name="author" content="Altuna Akalin">
+
+
+<meta name="date" content="2019-09-24">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="chip-quality-control.html">
+<link rel="next" href="motif-discovery.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-83786243-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-83786243-1');
+</script>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Computational Genomics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html"><i class="fa fa-check"></i>Who is this book for?</a><ul>
+<li class="chapter" data-level="" data-path="who-is-this-book-for.html"><a href="who-is-this-book-for.html#what-will-you-get-out-of-this"><i class="fa fa-check"></i>What will you get out of this?</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="structure-of-the-book.html"><a href="structure-of-the-book.html"><i class="fa fa-check"></i>Structure of the book</a></li>
+<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html"><i class="fa fa-check"></i>Software information and conventions</a><ul>
+<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html#assignment-operator-convention"><i class="fa fa-check"></i>Assignment operator convention</a></li>
+<li class="chapter" data-level="" data-path="software-information-and-conventions.html"><a href="software-information-and-conventions.html#packages-needed-to-run-the-book-code"><i class="fa fa-check"></i>Packages needed to run the book code</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="data-for-the-book.html"><a href="data-for-the-book.html"><i class="fa fa-check"></i>Data for the book</a></li>
+<li class="chapter" data-level="" data-path="acknowledgements.html"><a href="acknowledgements.html"><i class="fa fa-check"></i>Acknowledgements</a></li>
+<li class="chapter" data-level="" data-path="how-to-contribute.html"><a href="how-to-contribute.html"><i class="fa fa-check"></i>How to contribute</a></li>
+<li class="chapter" data-level="" data-path="trainings-and-consultation.html"><a href="trainings-and-consultation.html"><i class="fa fa-check"></i>Trainings and consultation</a><ul>
+<li class="chapter" data-level="" data-path="trainings-and-consultation.html"><a href="trainings-and-consultation.html#custom-training-and-workshops"><i class="fa fa-check"></i>Custom Training and Workshops</a></li>
+<li class="chapter" data-level="" data-path="trainings-and-consultation.html"><a href="trainings-and-consultation.html#consultation"><i class="fa fa-check"></i>Consultation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="about-the-authors.html"><a href="about-the-authors.html"><i class="fa fa-check"></i>About the Authors</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction to Genomics</a><ul>
+<li class="chapter" data-level="1.1" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html"><i class="fa fa-check"></i><b>1.1</b> Genes, DNA and central dogma</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-is-a-genome"><i class="fa fa-check"></i><b>1.1.1</b> What is a genome?</a></li>
+<li class="chapter" data-level="1.1.2" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-is-a-gene"><i class="fa fa-check"></i><b>1.1.2</b> What is a gene?</a></li>
+<li class="chapter" data-level="1.1.3" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#how-genes-are-controlled-the-transcriptional-and-the-post-transcriptional-regulation"><i class="fa fa-check"></i><b>1.1.3</b> How genes are controlled ? The transcriptional and the post-transcriptional regulation</a></li>
+<li class="chapter" data-level="1.1.4" data-path="genes-dna-and-central-dogma.html"><a href="genes-dna-and-central-dogma.html#what-does-a-gene-look-like"><i class="fa fa-check"></i><b>1.1.4</b> What does a gene look like?</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html"><i class="fa fa-check"></i><b>1.2</b> Elements of gene regulation</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html#transcriptional-regulation"><i class="fa fa-check"></i><b>1.2.1</b> Transcriptional regulation</a></li>
+<li class="chapter" data-level="1.2.2" data-path="elements-of-gene-regulation.html"><a href="elements-of-gene-regulation.html#post-transcriptional-regulation"><i class="fa fa-check"></i><b>1.2.2</b> Post-transcriptional regulation</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="shaping-the-genome-dna-mutation.html"><a href="shaping-the-genome-dna-mutation.html"><i class="fa fa-check"></i><b>1.3</b> Shaping the genome: DNA mutation</a></li>
+<li class="chapter" data-level="1.4" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html"><i class="fa fa-check"></i><b>1.4</b> High-throughput experimental methods in genomics</a><ul>
+<li class="chapter" data-level="1.4.1" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html#the-general-idea-behind-high-throughput-techniques"><i class="fa fa-check"></i><b>1.4.1</b> The general idea behind high-throughput techniques</a></li>
+<li class="chapter" data-level="1.4.2" data-path="high-throughput-experimental-methods-in-genomics.html"><a href="high-throughput-experimental-methods-in-genomics.html#high-throughput-sequencing"><i class="fa fa-check"></i><b>1.4.2</b> High-throughput sequencing</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="visualization-and-data-repositories-for-genomics.html"><a href="visualization-and-data-repositories-for-genomics.html"><i class="fa fa-check"></i><b>1.5</b> Visualization and data repositories for genomics</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="Rintro.html"><a href="Rintro.html"><i class="fa fa-check"></i><b>2</b> Introduction to R for Genomic Data Analysis</a><ul>
+<li class="chapter" data-level="2.1" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html"><i class="fa fa-check"></i><b>2.1</b> Steps of (genomic) data analysis</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-collection"><i class="fa fa-check"></i><b>2.1.1</b> Data collection</a></li>
+<li class="chapter" data-level="2.1.2" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-quality-check-and-cleaning"><i class="fa fa-check"></i><b>2.1.2</b> Data quality check and cleaning</a></li>
+<li class="chapter" data-level="2.1.3" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#data-processing"><i class="fa fa-check"></i><b>2.1.3</b> Data processing</a></li>
+<li class="chapter" data-level="2.1.4" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#exploratory-data-analysis-and-modeling"><i class="fa fa-check"></i><b>2.1.4</b> Exploratory data analysis and modeling</a></li>
+<li class="chapter" data-level="2.1.5" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#visualization-and-reporting"><i class="fa fa-check"></i><b>2.1.5</b> Visualization and reporting</a></li>
+<li class="chapter" data-level="2.1.6" data-path="steps-of-genomic-data-analysis.html"><a href="steps-of-genomic-data-analysis.html#why-use-r-for-genomics"><i class="fa fa-check"></i><b>2.1.6</b> Why use R for genomics ?</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html"><i class="fa fa-check"></i><b>2.2</b> Getting started with R</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#installing-packages"><i class="fa fa-check"></i><b>2.2.1</b> Installing packages</a></li>
+<li class="chapter" data-level="2.2.2" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#installing-packages-in-custom-locations"><i class="fa fa-check"></i><b>2.2.2</b> Installing packages in custom locations</a></li>
+<li class="chapter" data-level="2.2.3" data-path="getting-started-with-r.html"><a href="getting-started-with-r.html#getting-help-on-functions-and-packages"><i class="fa fa-check"></i><b>2.2.3</b> Getting help on functions and packages</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="computations-in-r.html"><a href="computations-in-r.html"><i class="fa fa-check"></i><b>2.3</b> Computations in R</a></li>
+<li class="chapter" data-level="2.4" data-path="data-structures.html"><a href="data-structures.html"><i class="fa fa-check"></i><b>2.4</b> Data structures</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="data-structures.html"><a href="data-structures.html#vectors"><i class="fa fa-check"></i><b>2.4.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.4.2" data-path="data-structures.html"><a href="data-structures.html#matrices"><i class="fa fa-check"></i><b>2.4.2</b> Matrices</a></li>
+<li class="chapter" data-level="2.4.3" data-path="data-structures.html"><a href="data-structures.html#data-frames"><i class="fa fa-check"></i><b>2.4.3</b> Data Frames</a></li>
+<li class="chapter" data-level="2.4.4" data-path="data-structures.html"><a href="data-structures.html#lists"><i class="fa fa-check"></i><b>2.4.4</b> Lists</a></li>
+<li class="chapter" data-level="2.4.5" data-path="data-structures.html"><a href="data-structures.html#factors"><i class="fa fa-check"></i><b>2.4.5</b> Factors</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="data-types.html"><a href="data-types.html"><i class="fa fa-check"></i><b>2.5</b> Data types</a></li>
+<li class="chapter" data-level="2.6" data-path="reading-and-writing-data.html"><a href="reading-and-writing-data.html"><i class="fa fa-check"></i><b>2.6</b> Reading and writing data</a></li>
+<li class="chapter" data-level="2.7" data-path="plotting-in-r.html"><a href="plotting-in-r.html"><i class="fa fa-check"></i><b>2.7</b> Plotting in R</a></li>
+<li class="chapter" data-level="2.8" data-path="saving-plots.html"><a href="saving-plots.html"><i class="fa fa-check"></i><b>2.8</b> Saving plots</a></li>
+<li class="chapter" data-level="2.9" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html"><i class="fa fa-check"></i><b>2.9</b> Functions and control structures (for, if/else etc.)</a><ul>
+<li class="chapter" data-level="2.9.1" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html#user-defined-functions"><i class="fa fa-check"></i><b>2.9.1</b> User defined functions</a></li>
+<li class="chapter" data-level="2.9.2" data-path="functions-and-control-structures-for-ifelse-etc-.html"><a href="functions-and-control-structures-for-ifelse-etc-.html#loops-and-looping-structures-in-r"><i class="fa fa-check"></i><b>2.9.2</b> Loops and looping structures in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.10" data-path="exercises.html"><a href="exercises.html"><i class="fa fa-check"></i><b>2.10</b> Exercises</a><ul>
+<li class="chapter" data-level="2.10.1" data-path="exercises.html"><a href="exercises.html#computations-in-r-1"><i class="fa fa-check"></i><b>2.10.1</b> Computations in R</a></li>
+<li class="chapter" data-level="2.10.2" data-path="exercises.html"><a href="exercises.html#data-structures-in-r"><i class="fa fa-check"></i><b>2.10.2</b> Data structures in R</a></li>
+<li class="chapter" data-level="2.10.3" data-path="exercises.html"><a href="exercises.html#reading-in-and-writing-data-out-in-r"><i class="fa fa-check"></i><b>2.10.3</b> Reading in and writing data out in R</a></li>
+<li class="chapter" data-level="2.10.4" data-path="exercises.html"><a href="exercises.html#plotting-in-r-1"><i class="fa fa-check"></i><b>2.10.4</b> Plotting in R</a></li>
+<li class="chapter" data-level="2.10.5" data-path="exercises.html"><a href="exercises.html#functions-and-control-structures-for-ifelse-etc.-1"><i class="fa fa-check"></i><b>2.10.5</b> Functions and control structures (for, if/else etc.)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="stats.html"><a href="stats.html"><i class="fa fa-check"></i><b>3</b> Statistics for Genomics</a><ul>
+<li class="chapter" data-level="3.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><i class="fa fa-check"></i><b>3.1</b> How to summarize collection of data points: The idea behind statistical distributions</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-central-tendency-mean-and-median"><i class="fa fa-check"></i><b>3.1.1</b> Describing the central tendency: mean and median</a></li>
+<li class="chapter" data-level="3.1.2" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#describing-the-spread-measurements-of-variation"><i class="fa fa-check"></i><b>3.1.2</b> Describing the spread: measurements of variation</a></li>
+<li class="chapter" data-level="3.1.3" data-path="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html"><a href="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions.html#precision-of-estimates-confidence-intervals"><i class="fa fa-check"></i><b>3.1.3</b> Precision of estimates: Confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html"><i class="fa fa-check"></i><b>3.2</b> How to test for differences between samples</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#randomization-based-testing-for-difference-of-the-means"><i class="fa fa-check"></i><b>3.2.1</b> randomization based testing for difference of the means</a></li>
+<li class="chapter" data-level="3.2.2" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#using-t-test-for-difference-of-the-means-between-two-samples"><i class="fa fa-check"></i><b>3.2.2</b> Using t-test for difference of the means between two samples</a></li>
+<li class="chapter" data-level="3.2.3" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#multiple-testing-correction"><i class="fa fa-check"></i><b>3.2.3</b> multiple testing correction</a></li>
+<li class="chapter" data-level="3.2.4" data-path="how-to-test-for-differences-between-samples.html"><a href="how-to-test-for-differences-between-samples.html#moderated-t-tests-using-information-from-multiple-comparisons"><i class="fa fa-check"></i><b>3.2.4</b> moderated t-tests: using information from multiple comparisons</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html"><i class="fa fa-check"></i><b>3.3</b> Relationship between variables: linear models and correlation</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#how-to-fit-a-line"><i class="fa fa-check"></i><b>3.3.1</b> How to fit a line</a></li>
+<li class="chapter" data-level="3.3.2" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#how-to-estimate-the-error-of-the-coefficients"><i class="fa fa-check"></i><b>3.3.2</b> How to estimate the error of the coefficients</a></li>
+<li class="chapter" data-level="3.3.3" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#accuracy-of-the-model"><i class="fa fa-check"></i><b>3.3.3</b> Accuracy of the model</a></li>
+<li class="chapter" data-level="3.3.4" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-with-categorical-variables"><i class="fa fa-check"></i><b>3.3.4</b> Regression with categorical variables</a></li>
+<li class="chapter" data-level="3.3.5" data-path="relationship-between-variables-linear-models-and-correlation.html"><a href="relationship-between-variables-linear-models-and-correlation.html#regression-pitfalls"><i class="fa fa-check"></i><b>3.3.5</b> Regression pitfalls</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="exercises-1.html"><a href="exercises-1.html"><i class="fa fa-check"></i><b>3.4</b> Exercises</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="exercises-1.html"><a href="exercises-1.html#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><i class="fa fa-check"></i><b>3.4.1</b> How to summarize collection of data points: The idea behind statistical distributions</a></li>
+<li class="chapter" data-level="3.4.2" data-path="exercises-1.html"><a href="exercises-1.html#how-to-test-for-differences-in-samples"><i class="fa fa-check"></i><b>3.4.2</b> How to test for differences in samples</a></li>
+<li class="chapter" data-level="3.4.3" data-path="exercises-1.html"><a href="exercises-1.html#relationship-between-variables-linear-models-and-correlation-1"><i class="fa fa-check"></i><b>3.4.3</b> Relationship between variables: linear models and correlation</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="unsupervisedLearning.html"><a href="unsupervisedLearning.html"><i class="fa fa-check"></i><b>4</b> Exploratory Data Analysis with Unsupervised Machine Learning</a><ul>
+<li class="chapter" data-level="4.1" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html"><i class="fa fa-check"></i><b>4.1</b> Clustering: grouping samples based on their similarity</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#distance-metrics"><i class="fa fa-check"></i><b>4.1.1</b> Distance metrics</a></li>
+<li class="chapter" data-level="4.1.2" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#hiearchical-clustering"><i class="fa fa-check"></i><b>4.1.2</b> Hiearchical clustering</a></li>
+<li class="chapter" data-level="4.1.3" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#k-means-clustering"><i class="fa fa-check"></i><b>4.1.3</b> K-means clustering</a></li>
+<li class="chapter" data-level="4.1.4" data-path="clustering-grouping-samples-based-on-their-similarity.html"><a href="clustering-grouping-samples-based-on-their-similarity.html#how-to-choose-k-the-number-of-clusters"><i class="fa fa-check"></i><b>4.1.4</b> how to choose “k”, the number of clusters</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><i class="fa fa-check"></i><b>4.2</b> Dimensionality reduction techniques: visualizing complex data sets in 2D</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#principal-component-analysis"><i class="fa fa-check"></i><b>4.2.1</b> Principal component analysis</a></li>
+<li class="chapter" data-level="4.2.2" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#other-dimension-reduction-techniques-using-other-matrix-factorization-methods"><i class="fa fa-check"></i><b>4.2.2</b> Other dimension reduction techniques using other matrix factorization methods</a></li>
+<li class="chapter" data-level="4.2.3" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#multi-dimensional-scaling"><i class="fa fa-check"></i><b>4.2.3</b> Multi-dimensional scaling</a></li>
+<li class="chapter" data-level="4.2.4" data-path="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html"><a href="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d.html#t-distributed-stochastic-neighbor-embedding-t-sne"><i class="fa fa-check"></i><b>4.2.4</b> t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="exercises-2.html"><a href="exercises-2.html"><i class="fa fa-check"></i><b>4.3</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="supervisedLearning.html"><a href="supervisedLearning.html"><i class="fa fa-check"></i><b>5</b> Predictive Modeling with Supervised Machine Learning</a><ul>
+<li class="chapter" data-level="5.1" data-path="how-machine-learning-models-are-fit.html"><a href="how-machine-learning-models-are-fit.html"><i class="fa fa-check"></i><b>5.1</b> How machine learning models are fit?</a><ul>
+<li class="chapter" data-level="5.1.1" data-path="how-machine-learning-models-are-fit.html"><a href="how-machine-learning-models-are-fit.html#machine-learning-vs-statistics"><i class="fa fa-check"></i><b>5.1.1</b> Machine learning vs Statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="steps-in-supervised-machine-learning.html"><a href="steps-in-supervised-machine-learning.html"><i class="fa fa-check"></i><b>5.2</b> Steps in supervised machine learning</a></li>
+<li class="chapter" data-level="5.3" data-path="use-case-disease-subtype-from-genomics-data.html"><a href="use-case-disease-subtype-from-genomics-data.html"><i class="fa fa-check"></i><b>5.3</b> Use case: Disease subtype from genomics data</a></li>
+<li class="chapter" data-level="5.4" data-path="data-preprocessing.html"><a href="data-preprocessing.html"><i class="fa fa-check"></i><b>5.4</b> Data preprocessing</a><ul>
+<li class="chapter" data-level="5.4.1" data-path="data-preprocessing.html"><a href="data-preprocessing.html#data-transformation"><i class="fa fa-check"></i><b>5.4.1</b> data transformation</a></li>
+<li class="chapter" data-level="5.4.2" data-path="data-preprocessing.html"><a href="data-preprocessing.html#filtering-data-and-scaling"><i class="fa fa-check"></i><b>5.4.2</b> Filtering data and scaling</a></li>
+<li class="chapter" data-level="5.4.3" data-path="data-preprocessing.html"><a href="data-preprocessing.html#dealing-with-missing-values"><i class="fa fa-check"></i><b>5.4.3</b> Dealing with missing values</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="splitting-the-data.html"><a href="splitting-the-data.html"><i class="fa fa-check"></i><b>5.5</b> Splitting the data</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="splitting-the-data.html"><a href="splitting-the-data.html#holdout-test-dataset"><i class="fa fa-check"></i><b>5.5.1</b> Holdout test dataset</a></li>
+<li class="chapter" data-level="5.5.2" data-path="splitting-the-data.html"><a href="splitting-the-data.html#cross-validation"><i class="fa fa-check"></i><b>5.5.2</b> Cross-validation</a></li>
+<li class="chapter" data-level="5.5.3" data-path="splitting-the-data.html"><a href="splitting-the-data.html#bootstrap-resampling"><i class="fa fa-check"></i><b>5.5.3</b> Bootstrap resampling</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="predicting-the-subtype-with-k-nearest-neighbors.html"><a href="predicting-the-subtype-with-k-nearest-neighbors.html"><i class="fa fa-check"></i><b>5.6</b> Predicting the subtype with k-nearest neighbors</a></li>
+<li class="chapter" data-level="5.7" data-path="assessing-the-performance-of-our-model.html"><a href="assessing-the-performance-of-our-model.html"><i class="fa fa-check"></i><b>5.7</b> Assessing the performance of our model</a><ul>
+<li class="chapter" data-level="5.7.1" data-path="assessing-the-performance-of-our-model.html"><a href="assessing-the-performance-of-our-model.html#receiver-operating-characteristic-roc-curves"><i class="fa fa-check"></i><b>5.7.1</b> Receiver Operating Characteristic (ROC) Curves</a></li>
+</ul></li>
+<li class="chapter" data-level="5.8" data-path="model-tuning-and-avoiding-overfitting.html"><a href="model-tuning-and-avoiding-overfitting.html"><i class="fa fa-check"></i><b>5.8</b> Model tuning and avoiding overfitting</a><ul>
+<li class="chapter" data-level="5.8.1" data-path="model-tuning-and-avoiding-overfitting.html"><a href="model-tuning-and-avoiding-overfitting.html#model-complexity-and-bias-variance-trade-off"><i class="fa fa-check"></i><b>5.8.1</b> Model complexity and bias variance trade-off</a></li>
+<li class="chapter" data-level="5.8.2" data-path="model-tuning-and-avoiding-overfitting.html"><a href="model-tuning-and-avoiding-overfitting.html#data-split-strategies-for-model-tuning-and-testing"><i class="fa fa-check"></i><b>5.8.2</b> Data split strategies for model tuning and testing</a></li>
+</ul></li>
+<li class="chapter" data-level="5.9" data-path="variable-importance.html"><a href="variable-importance.html"><i class="fa fa-check"></i><b>5.9</b> Variable importance</a></li>
+<li class="chapter" data-level="5.10" data-path="how-to-deal-with-class-imbalance.html"><a href="how-to-deal-with-class-imbalance.html"><i class="fa fa-check"></i><b>5.10</b> How to deal with class imbalance</a><ul>
+<li class="chapter" data-level="5.10.1" data-path="how-to-deal-with-class-imbalance.html"><a href="how-to-deal-with-class-imbalance.html#sampling-for-class-balance"><i class="fa fa-check"></i><b>5.10.1</b> Sampling for class balance</a></li>
+<li class="chapter" data-level="5.10.2" data-path="how-to-deal-with-class-imbalance.html"><a href="how-to-deal-with-class-imbalance.html#altering-case-weights"><i class="fa fa-check"></i><b>5.10.2</b> Altering case weights</a></li>
+<li class="chapter" data-level="5.10.3" data-path="how-to-deal-with-class-imbalance.html"><a href="how-to-deal-with-class-imbalance.html#selecting-different-classification-score-cutoffs"><i class="fa fa-check"></i><b>5.10.3</b> selecting different classification score cutoffs</a></li>
+</ul></li>
+<li class="chapter" data-level="5.11" data-path="dealing-with-correlated-predictors.html"><a href="dealing-with-correlated-predictors.html"><i class="fa fa-check"></i><b>5.11</b> Dealing with correlated predictors</a></li>
+<li class="chapter" data-level="5.12" data-path="trees-and-forests-random-forests-in-action.html"><a href="trees-and-forests-random-forests-in-action.html"><i class="fa fa-check"></i><b>5.12</b> Trees and forests: Random forests in action</a><ul>
+<li class="chapter" data-level="5.12.1" data-path="trees-and-forests-random-forests-in-action.html"><a href="trees-and-forests-random-forests-in-action.html#decision-trees"><i class="fa fa-check"></i><b>5.12.1</b> decision trees</a></li>
+<li class="chapter" data-level="5.12.2" data-path="trees-and-forests-random-forests-in-action.html"><a href="trees-and-forests-random-forests-in-action.html#trees-to-forests"><i class="fa fa-check"></i><b>5.12.2</b> Trees to forests</a></li>
+<li class="chapter" data-level="5.12.3" data-path="trees-and-forests-random-forests-in-action.html"><a href="trees-and-forests-random-forests-in-action.html#variable-importance-1"><i class="fa fa-check"></i><b>5.12.3</b> Variable importance</a></li>
+</ul></li>
+<li class="chapter" data-level="5.13" data-path="logistic-regression-and-regularization.html"><a href="logistic-regression-and-regularization.html"><i class="fa fa-check"></i><b>5.13</b> Logistic regression and regularization</a><ul>
+<li class="chapter" data-level="5.13.1" data-path="logistic-regression-and-regularization.html"><a href="logistic-regression-and-regularization.html#regularization-in-order-to-avoid-overfitting"><i class="fa fa-check"></i><b>5.13.1</b> regularization in order to avoid overfitting</a></li>
+<li class="chapter" data-level="5.13.2" data-path="logistic-regression-and-regularization.html"><a href="logistic-regression-and-regularization.html#variable-importance-2"><i class="fa fa-check"></i><b>5.13.2</b> variable importance</a></li>
+</ul></li>
+<li class="chapter" data-level="5.14" data-path="other-supervised-algorithms.html"><a href="other-supervised-algorithms.html"><i class="fa fa-check"></i><b>5.14</b> Other supervised algorithms</a><ul>
+<li class="chapter" data-level="5.14.1" data-path="other-supervised-algorithms.html"><a href="other-supervised-algorithms.html#gradient-boosting"><i class="fa fa-check"></i><b>5.14.1</b> Gradient boosting</a></li>
+<li class="chapter" data-level="5.14.2" data-path="other-supervised-algorithms.html"><a href="other-supervised-algorithms.html#support-vector-machines-svm"><i class="fa fa-check"></i><b>5.14.2</b> Support Vector Machines (SVM)</a></li>
+<li class="chapter" data-level="5.14.3" data-path="other-supervised-algorithms.html"><a href="other-supervised-algorithms.html#neural-networks-and-deep-versions-of-it"><i class="fa fa-check"></i><b>5.14.3</b> Neural networks and deep versions of it</a></li>
+<li class="chapter" data-level="5.14.4" data-path="other-supervised-algorithms.html"><a href="other-supervised-algorithms.html#ensemble-learning"><i class="fa fa-check"></i><b>5.14.4</b> Ensemble learning</a></li>
+</ul></li>
+<li class="chapter" data-level="5.15" data-path="predicting-continuous-variables-regression-with-machine-learning.html"><a href="predicting-continuous-variables-regression-with-machine-learning.html"><i class="fa fa-check"></i><b>5.15</b> Predicting continuous variables: regression with machine learning</a><ul>
+<li class="chapter" data-level="5.15.1" data-path="predicting-continuous-variables-regression-with-machine-learning.html"><a href="predicting-continuous-variables-regression-with-machine-learning.html#use-case-predicting-age-from-dna-methylation"><i class="fa fa-check"></i><b>5.15.1</b> Use case: Predicting age from DNA methylation</a></li>
+<li class="chapter" data-level="5.15.2" data-path="predicting-continuous-variables-regression-with-machine-learning.html"><a href="predicting-continuous-variables-regression-with-machine-learning.html#reading-and-processing-the-data"><i class="fa fa-check"></i><b>5.15.2</b> reading and processing the data</a></li>
+<li class="chapter" data-level="5.15.3" data-path="predicting-continuous-variables-regression-with-machine-learning.html"><a href="predicting-continuous-variables-regression-with-machine-learning.html#running-random-forest-regression"><i class="fa fa-check"></i><b>5.15.3</b> Running random forest regression</a></li>
+</ul></li>
+<li class="chapter" data-level="5.16" data-path="exercises-3.html"><a href="exercises-3.html"><i class="fa fa-check"></i><b>5.16</b> Exercises</a><ul>
+<li class="chapter" data-level="5.16.1" data-path="exercises-3.html"><a href="exercises-3.html#classification"><i class="fa fa-check"></i><b>5.16.1</b> classification</a></li>
+<li class="chapter" data-level="5.16.2" data-path="exercises-3.html"><a href="exercises-3.html#regression"><i class="fa fa-check"></i><b>5.16.2</b> Regression</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="genomicIntervals.html"><a href="genomicIntervals.html"><i class="fa fa-check"></i><b>6</b> Operations on Genomic Intervals and Genome Arithmetic</a><ul>
+<li class="chapter" data-level="6.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html"><i class="fa fa-check"></i><b>6.1</b> Operations on Genomic Intervals with GenomicRanges package</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#how-to-create-and-manipulate-a-granges-object"><i class="fa fa-check"></i><b>6.1.1</b> How to create and manipulate a GRanges object</a></li>
+<li class="chapter" data-level="6.1.2" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#getting-genomic-regions-into-r-as-granges-objects"><i class="fa fa-check"></i><b>6.1.2</b> Getting genomic regions into R as GRanges objects</a></li>
+<li class="chapter" data-level="6.1.3" data-path="operations-on-genomic-intervals-with-genomicranges-package.html"><a href="operations-on-genomic-intervals-with-genomicranges-package.html#finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><i class="fa fa-check"></i><b>6.1.3</b> Finding regions that do/do not overlap with another set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="dealing-with-mapped-high-throughput-sequencing-reads.html"><a href="dealing-with-mapped-high-throughput-sequencing-reads.html"><i class="fa fa-check"></i><b>6.2</b> Dealing with mapped high-throughput sequencing reads</a><ul>
+<li class="chapter" data-level="6.2.1" data-path="dealing-with-mapped-high-throughput-sequencing-reads.html"><a href="dealing-with-mapped-high-throughput-sequencing-reads.html#counting-mapped-reads-for-a-set-of-regions"><i class="fa fa-check"></i><b>6.2.1</b> Counting mapped reads for a set of regions</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html"><i class="fa fa-check"></i><b>6.3</b> Dealing with continuous scores over the genome</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="dealing-with-continuous-scores-over-the-genome.html"><a href="dealing-with-continuous-scores-over-the-genome.html#extracting-subsections-of-rle-and-rlelist-objects"><i class="fa fa-check"></i><b>6.3.1</b> Extracting subsections of Rle and RleList objects</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html"><i class="fa fa-check"></i><b>6.4</b> Genomic intervals with more information: SummarizedExperiment class</a><ul>
+<li class="chapter" data-level="6.4.1" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#create-a-summarizedexperiment-object"><i class="fa fa-check"></i><b>6.4.1</b> Create a SummarizedExperiment object</a></li>
+<li class="chapter" data-level="6.4.2" data-path="genomic-intervals-with-more-information-summarizedexperiment-class.html"><a href="genomic-intervals-with-more-information-summarizedexperiment-class.html#subset-and-manipulate-the-summarizedexperiment-object"><i class="fa fa-check"></i><b>6.4.2</b> Subset and manipulate the SummarizedExperiment object</a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html"><i class="fa fa-check"></i><b>6.5</b> Visualizing and summarizing genomic intervals</a><ul>
+<li class="chapter" data-level="6.5.1" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#visualizing-intervals-on-a-locus-of-interest"><i class="fa fa-check"></i><b>6.5.1</b> Visualizing intervals on a locus of interest</a></li>
+<li class="chapter" data-level="6.5.2" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#summaries-of-genomic-intervals-on-multiple-loci"><i class="fa fa-check"></i><b>6.5.2</b> Summaries of genomic intervals on multiple loci</a></li>
+<li class="chapter" data-level="6.5.3" data-path="visualizing-and-summarizing-genomic-intervals.html"><a href="visualizing-and-summarizing-genomic-intervals.html#making-karyograms-and-circos-plots"><i class="fa fa-check"></i><b>6.5.3</b> Making karyograms and circos plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6.6" data-path="exercises-4.html"><a href="exercises-4.html"><i class="fa fa-check"></i><b>6.6</b> Exercises</a><ul>
+<li class="chapter" data-level="6.6.1" data-path="exercises-4.html"><a href="exercises-4.html#operations-on-genomic-intervals-with-genomicranges-package-1"><i class="fa fa-check"></i><b>6.6.1</b> Operations on Genomic Intervals with GenomicRanges package</a></li>
+<li class="chapter" data-level="6.6.2" data-path="exercises-4.html"><a href="exercises-4.html#dealing-with-mapped-high-throughput-sequencing-reads-1"><i class="fa fa-check"></i><b>6.6.2</b> Dealing with mapped high-throughput sequencing reads</a></li>
+<li class="chapter" data-level="6.6.3" data-path="exercises-4.html"><a href="exercises-4.html#dealing-with-contiguous-scores-over-the-genome"><i class="fa fa-check"></i><b>6.6.3</b> Dealing with contiguous scores over the genome</a></li>
+<li class="chapter" data-level="6.6.4" data-path="exercises-4.html"><a href="exercises-4.html#visualizing-and-summarizing-genomic-intervals-1"><i class="fa fa-check"></i><b>6.6.4</b> Visualizing and summarizing genomic intervals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="processingReads.html"><a href="processingReads.html"><i class="fa fa-check"></i><b>7</b> Quality Check, Processing and Alignment of High-throughput Sequencing Reads</a><ul>
+<li class="chapter" data-level="7.1" data-path="fasta-and-fastq-formats.html"><a href="fasta-and-fastq-formats.html"><i class="fa fa-check"></i><b>7.1</b> FASTA and FASTQ formats</a></li>
+<li class="chapter" data-level="7.2" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html"><i class="fa fa-check"></i><b>7.2</b> Quality check on sequencing reads</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#sequence-quality-per-basecycle"><i class="fa fa-check"></i><b>7.2.1</b> Sequence quality per base/cycle</a></li>
+<li class="chapter" data-level="7.2.2" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#sequence-content-per-basecycle"><i class="fa fa-check"></i><b>7.2.2</b> Sequence content per base/cycle</a></li>
+<li class="chapter" data-level="7.2.3" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#read-frequency-plot"><i class="fa fa-check"></i><b>7.2.3</b> Read frequency plot</a></li>
+<li class="chapter" data-level="7.2.4" data-path="quality-check-on-sequencing-reads.html"><a href="quality-check-on-sequencing-reads.html#other-quality-metrics-and-qc-tools"><i class="fa fa-check"></i><b>7.2.4</b> Other quality metrics and QC tools</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="filtering-and-trimming-reads.html"><a href="filtering-and-trimming-reads.html"><i class="fa fa-check"></i><b>7.3</b> Filtering and trimming reads</a></li>
+<li class="chapter" data-level="7.4" data-path="mappingaligning-reads-to-the-genome.html"><a href="mappingaligning-reads-to-the-genome.html"><i class="fa fa-check"></i><b>7.4</b> Mapping/aligning reads to the genome</a></li>
+<li class="chapter" data-level="7.5" data-path="further-processing-of-aligned-reads.html"><a href="further-processing-of-aligned-reads.html"><i class="fa fa-check"></i><b>7.5</b> Further processing of aligned reads</a></li>
+<li class="chapter" data-level="7.6" data-path="exercises-5.html"><a href="exercises-5.html"><i class="fa fa-check"></i><b>7.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="rnaseqanalysis.html"><a href="rnaseqanalysis.html"><i class="fa fa-check"></i><b>8</b> RNA-seq Analysis</a><ul>
+<li class="chapter" data-level="8.1" data-path="what-is-gene-expression.html"><a href="what-is-gene-expression.html"><i class="fa fa-check"></i><b>8.1</b> What is gene expression?</a></li>
+<li class="chapter" data-level="8.2" data-path="methods-to-detect-gene-expression.html"><a href="methods-to-detect-gene-expression.html"><i class="fa fa-check"></i><b>8.2</b> Methods to detect gene expression</a></li>
+<li class="chapter" data-level="8.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><i class="fa fa-check"></i><b>8.3</b> Gene Expression Analysis Using High-throughput Sequencing Technologies</a><ul>
+<li class="chapter" data-level="8.3.1" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#processing-raw-data"><i class="fa fa-check"></i><b>8.3.1</b> Processing raw data</a></li>
+<li class="chapter" data-level="8.3.2" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#alignment"><i class="fa fa-check"></i><b>8.3.2</b> Alignment</a></li>
+<li class="chapter" data-level="8.3.3" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#quantification"><i class="fa fa-check"></i><b>8.3.3</b> Quantification</a></li>
+<li class="chapter" data-level="8.3.4" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#within-sample-normalization-of-the-read-counts"><i class="fa fa-check"></i><b>8.3.4</b> Within sample normalization of the read counts</a></li>
+<li class="chapter" data-level="8.3.5" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#computing-different-normalization-schemes-in-r"><i class="fa fa-check"></i><b>8.3.5</b> Computing different normalization schemes in R</a></li>
+<li class="chapter" data-level="8.3.6" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#exploratory-analysis-of-the-read-count-table"><i class="fa fa-check"></i><b>8.3.6</b> Exploratory analysis of the read count table</a></li>
+<li class="chapter" data-level="8.3.7" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#differential-expression-analysis"><i class="fa fa-check"></i><b>8.3.7</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="8.3.8" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#functional-enrichment-analysis"><i class="fa fa-check"></i><b>8.3.8</b> Functional Enrichment Analysis</a></li>
+<li class="chapter" data-level="8.3.9" data-path="gene-expression-analysis-using-high-throughput-sequencing-technologies.html"><a href="gene-expression-analysis-using-high-throughput-sequencing-technologies.html#accounting-for-additional-sources-of-variation"><i class="fa fa-check"></i><b>8.3.9</b> Accounting for additional sources of variation</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="other-applications-of-rna-seq.html"><a href="other-applications-of-rna-seq.html"><i class="fa fa-check"></i><b>8.4</b> Other applications of RNA-seq</a></li>
+<li class="chapter" data-level="8.5" data-path="exercises-6.html"><a href="exercises-6.html"><i class="fa fa-check"></i><b>8.5</b> Exercises</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="exercises-6.html"><a href="exercises-6.html#exploring-the-count-tables"><i class="fa fa-check"></i><b>8.5.1</b> Exploring the count tables</a></li>
+<li class="chapter" data-level="8.5.2" data-path="exercises-6.html"><a href="exercises-6.html#differential-expression-analysis-1"><i class="fa fa-check"></i><b>8.5.2</b> Differential expression analysis</a></li>
+<li class="chapter" data-level="8.5.3" data-path="exercises-6.html"><a href="exercises-6.html#functional-enrichment-analysis-1"><i class="fa fa-check"></i><b>8.5.3</b> Functional enrichment analysis</a></li>
+<li class="chapter" data-level="8.5.4" data-path="exercises-6.html"><a href="exercises-6.html#removing-unwanted-variation-from-the-expression-data"><i class="fa fa-check"></i><b>8.5.4</b> Removing unwanted variation from the expression data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chipseq.html"><a href="chipseq.html"><i class="fa fa-check"></i><b>9</b> ChIP-seq analysis</a><ul>
+<li class="chapter" data-level="9.1" data-path="regulatory-protein-dna-interactions.html"><a href="regulatory-protein-dna-interactions.html"><i class="fa fa-check"></i><b>9.1</b> Regulatory Protein-DNA Interactions</a></li>
+<li class="chapter" data-level="9.2" data-path="measuring-protein-dna-interactions-with-chip-seq.html"><a href="measuring-protein-dna-interactions-with-chip-seq.html"><i class="fa fa-check"></i><b>9.2</b> Measuring Protein-DNA interactions with ChIP-seq</a></li>
+<li class="chapter" data-level="9.3" data-path="factors-that-affect-chip-seq-experiment-and-analysis-quality.html"><a href="factors-that-affect-chip-seq-experiment-and-analysis-quality.html"><i class="fa fa-check"></i><b>9.3</b> Factors that affect ChIP-seq experiment and analysis quality</a><ul>
+<li class="chapter" data-level="9.3.1" data-path="factors-that-affect-chip-seq-experiment-and-analysis-quality.html"><a href="factors-that-affect-chip-seq-experiment-and-analysis-quality.html#antibody-specificity"><i class="fa fa-check"></i><b>9.3.1</b> Antibody specificity</a></li>
+<li class="chapter" data-level="9.3.2" data-path="factors-that-affect-chip-seq-experiment-and-analysis-quality.html"><a href="factors-that-affect-chip-seq-experiment-and-analysis-quality.html#sequencing-depth"><i class="fa fa-check"></i><b>9.3.2</b> Sequencing depth</a></li>
+<li class="chapter" data-level="9.3.3" data-path="factors-that-affect-chip-seq-experiment-and-analysis-quality.html"><a href="factors-that-affect-chip-seq-experiment-and-analysis-quality.html#pcr-duplication"><i class="fa fa-check"></i><b>9.3.3</b> PCR duplication</a></li>
+<li class="chapter" data-level="9.3.4" data-path="factors-that-affect-chip-seq-experiment-and-analysis-quality.html"><a href="factors-that-affect-chip-seq-experiment-and-analysis-quality.html#biological-replicates"><i class="fa fa-check"></i><b>9.3.4</b> Biological replicates</a></li>
+<li class="chapter" data-level="9.3.5" data-path="factors-that-affect-chip-seq-experiment-and-analysis-quality.html"><a href="factors-that-affect-chip-seq-experiment-and-analysis-quality.html#control-experiments"><i class="fa fa-check"></i><b>9.3.5</b> Control experiments</a></li>
+<li class="chapter" data-level="9.3.6" data-path="factors-that-affect-chip-seq-experiment-and-analysis-quality.html"><a href="factors-that-affect-chip-seq-experiment-and-analysis-quality.html#using-tagged-proteins"><i class="fa fa-check"></i><b>9.3.6</b> Using tagged proteins</a></li>
+</ul></li>
+<li class="chapter" data-level="9.4" data-path="pre-processing-chip-data.html"><a href="pre-processing-chip-data.html"><i class="fa fa-check"></i><b>9.4</b> Pre-processing ChIP data</a><ul>
+<li class="chapter" data-level="9.4.1" data-path="pre-processing-chip-data.html"><a href="pre-processing-chip-data.html#read-quality-control"><i class="fa fa-check"></i><b>9.4.1</b> Read quality control</a></li>
+<li class="chapter" data-level="9.4.2" data-path="pre-processing-chip-data.html"><a href="pre-processing-chip-data.html#adapter-and-quality-trimming"><i class="fa fa-check"></i><b>9.4.2</b> Adapter and Quality trimming</a></li>
+<li class="chapter" data-level="9.4.3" data-path="pre-processing-chip-data.html"><a href="pre-processing-chip-data.html#mapping"><i class="fa fa-check"></i><b>9.4.3</b> Mapping</a></li>
+</ul></li>
+<li class="chapter" data-level="9.5" data-path="computational-analysis-of-chip-seq-data.html"><a href="computational-analysis-of-chip-seq-data.html"><i class="fa fa-check"></i><b>9.5</b> Computational Analysis of ChIP-seq data</a><ul>
+<li class="chapter" data-level="9.5.1" data-path="computational-analysis-of-chip-seq-data.html"><a href="computational-analysis-of-chip-seq-data.html#prerequisites"><i class="fa fa-check"></i><b>9.5.1</b> Prerequisites</a></li>
+<li class="chapter" data-level="9.5.2" data-path="computational-analysis-of-chip-seq-data.html"><a href="computational-analysis-of-chip-seq-data.html#the-data"><i class="fa fa-check"></i><b>9.5.2</b> The Data</a></li>
+</ul></li>
+<li class="chapter" data-level="9.6" data-path="chip-quality-control.html"><a href="chip-quality-control.html"><i class="fa fa-check"></i><b>9.6</b> ChIP Quality Control</a><ul>
+<li class="chapter" data-level="9.6.1" data-path="chip-quality-control.html"><a href="chip-quality-control.html#sample-clustering"><i class="fa fa-check"></i><b>9.6.1</b> Sample Clustering</a></li>
+<li class="chapter" data-level="9.6.2" data-path="chip-quality-control.html"><a href="chip-quality-control.html#visualization-the-genome-browser"><i class="fa fa-check"></i><b>9.6.2</b> Visualization the Genome Browser</a></li>
+<li class="chapter" data-level="9.6.3" data-path="chip-quality-control.html"><a href="chip-quality-control.html#plus-and-minus-strand-cross-correlation"><i class="fa fa-check"></i><b>9.6.3</b> Plus and minus strand cross-correlation</a></li>
+<li class="chapter" data-level="9.6.4" data-path="chip-quality-control.html"><a href="chip-quality-control.html#gc-bias-quantification"><i class="fa fa-check"></i><b>9.6.4</b> GC bias quantification</a></li>
+<li class="chapter" data-level="9.6.5" data-path="chip-quality-control.html"><a href="chip-quality-control.html#sequence-read-genomic-distribution"><i class="fa fa-check"></i><b>9.6.5</b> Sequence read genomic distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="9.7" data-path="peak-calling.html"><a href="peak-calling.html"><i class="fa fa-check"></i><b>9.7</b> Peak Calling</a><ul>
+<li class="chapter" data-level="9.7.1" data-path="peak-calling.html"><a href="peak-calling.html#types-of-chip-experiments"><i class="fa fa-check"></i><b>9.7.1</b> Types of ChIP experiments</a></li>
+<li class="chapter" data-level="9.7.2" data-path="peak-calling.html"><a href="peak-calling.html#peak-calling---sharp-experiments"><i class="fa fa-check"></i><b>9.7.2</b> Peak Calling - Sharp Experiments</a></li>
+<li class="chapter" data-level="9.7.3" data-path="peak-calling.html"><a href="peak-calling.html#broad-regions"><i class="fa fa-check"></i><b>9.7.3</b> Broad regions</a></li>
+<li class="chapter" data-level="9.7.4" data-path="peak-calling.html"><a href="peak-calling.html#peak-quality-control"><i class="fa fa-check"></i><b>9.7.4</b> Peak quality control</a></li>
+<li class="chapter" data-level="9.7.5" data-path="peak-calling.html"><a href="peak-calling.html#peak-annotation"><i class="fa fa-check"></i><b>9.7.5</b> Peak Annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.8" data-path="motif-discovery.html"><a href="motif-discovery.html"><i class="fa fa-check"></i><b>9.8</b> Motif Discovery</a><ul>
+<li class="chapter" data-level="9.8.1" data-path="motif-discovery.html"><a href="motif-discovery.html#motif-annotation"><i class="fa fa-check"></i><b>9.8.1</b> Motif annotation</a></li>
+</ul></li>
+<li class="chapter" data-level="9.9" data-path="what-to-do-next.html"><a href="what-to-do-next.html"><i class="fa fa-check"></i><b>9.9</b> What to do next?</a></li>
+<li class="chapter" data-level="9.10" data-path="exercises-7.html"><a href="exercises-7.html"><i class="fa fa-check"></i><b>9.10</b> Exercises:</a><ul>
+<li class="chapter" data-level="9.10.1" data-path="exercises-7.html"><a href="exercises-7.html#basic"><i class="fa fa-check"></i><b>9.10.1</b> Basic</a></li>
+<li class="chapter" data-level="9.10.2" data-path="exercises-7.html"><a href="exercises-7.html#intermediate"><i class="fa fa-check"></i><b>9.10.2</b> Intermediate</a></li>
+<li class="chapter" data-level="9.10.3" data-path="exercises-7.html"><a href="exercises-7.html#advanced"><i class="fa fa-check"></i><b>9.10.3</b> Advanced</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
+<li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite-sequencing</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="analyzing-dna-methylation-data.html"><a href="analyzing-dna-methylation-data.html"><i class="fa fa-check"></i><b>10.2</b> Analyzing DNA methylation data</a></li>
+<li class="chapter" data-level="10.3" data-path="processing-raw-data-and-getting-data-into-r.html"><a href="processing-raw-data-and-getting-data-into-r.html"><i class="fa fa-check"></i><b>10.3</b> Processing raw data and getting data into R</a></li>
+<li class="chapter" data-level="10.4" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html"><i class="fa fa-check"></i><b>10.4</b> Data filtering and exploratory analysis</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#reading-methylation-call-files"><i class="fa fa-check"></i><b>10.4.1</b> Reading methylation call files</a></li>
+<li class="chapter" data-level="10.4.2" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#further-quality-check"><i class="fa fa-check"></i><b>10.4.2</b> Further quality check</a></li>
+<li class="chapter" data-level="10.4.3" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#merging-samples-into-a-single-table"><i class="fa fa-check"></i><b>10.4.3</b> Merging samples into a single table</a></li>
+<li class="chapter" data-level="10.4.4" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#filtering-cpgs"><i class="fa fa-check"></i><b>10.4.4</b> Filtering CpGs</a></li>
+<li class="chapter" data-level="10.4.5" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#clustering-samples"><i class="fa fa-check"></i><b>10.4.5</b> Clustering samples</a></li>
+<li class="chapter" data-level="10.4.6" data-path="data-filtering-and-exploratory-analysis.html"><a href="data-filtering-and-exploratory-analysis.html#principal-component-analysis-1"><i class="fa fa-check"></i><b>10.4.6</b> Principal component analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="10.5" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html"><i class="fa fa-check"></i><b>10.5</b> Extracting interesting regions: segmentation and differential methylation</a><ul>
+<li class="chapter" data-level="10.5.1" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html#differential-methylation"><i class="fa fa-check"></i><b>10.5.1</b> Differential methylation</a></li>
+<li class="chapter" data-level="10.5.2" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html#methylation-segmentation"><i class="fa fa-check"></i><b>10.5.2</b> Methylation segmentation</a></li>
+<li class="chapter" data-level="10.5.3" data-path="extracting-interesting-regions-segmentation-and-differential-methylation.html"><a href="extracting-interesting-regions-segmentation-and-differential-methylation.html#working-with-large-files"><i class="fa fa-check"></i><b>10.5.3</b> Working with large files</a></li>
+</ul></li>
+<li class="chapter" data-level="10.6" data-path="annotation-of-dmrsdmcs-and-segments.html"><a href="annotation-of-dmrsdmcs-and-segments.html"><i class="fa fa-check"></i><b>10.6</b> Annotation of DMRs/DMCs and segments</a></li>
+<li class="chapter" data-level="10.7" data-path="other-r-packages-that-can-be-used-for-methylation-analysis.html"><a href="other-r-packages-that-can-be-used-for-methylation-analysis.html"><i class="fa fa-check"></i><b>10.7</b> Other R packages that can be used for methylation analysis</a></li>
+<li class="chapter" data-level="10.8" data-path="exercises-8.html"><a href="exercises-8.html"><i class="fa fa-check"></i><b>10.8</b> Exercises</a><ul>
+<li class="chapter" data-level="10.8.1" data-path="exercises-8.html"><a href="exercises-8.html#exercise-1"><i class="fa fa-check"></i><b>10.8.1</b> Exercise 1</a></li>
+<li class="chapter" data-level="10.8.2" data-path="exercises-8.html"><a href="exercises-8.html#exercise-2"><i class="fa fa-check"></i><b>10.8.2</b> Exercise 2</a></li>
+</ul></li>
+<li class="chapter" data-level="10.9" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>10.9</b> References</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="multiomics.html"><a href="multiomics.html"><i class="fa fa-check"></i><b>11</b> Multi-omics Analysis</a><ul>
+<li class="chapter" data-level="11.0.1" data-path="multiomics.html"><a href="multiomics.html#use-case-multi-omics-data-from-colorectal-cancer"><i class="fa fa-check"></i><b>11.0.1</b> Use case: Multi-omics data from colorectal cancer</a></li>
+<li class="chapter" data-level="11.1" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.1</b> Latent variable models for multi-omics integration</a></li>
+<li class="chapter" data-level="11.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.2</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
+<li class="chapter" data-level="11.2.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.2.1</b> Multiple Factor Analysis</a></li>
+<li class="chapter" data-level="11.2.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.2.2</b> Joint Non-negative Matrix Factorization</a></li>
+<li class="chapter" data-level="11.2.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.2.3</b> iCluster</a></li>
+</ul></li>
+<li class="chapter" data-level="11.3" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.3</b> Clustering using latent factors</a><ul>
+<li class="chapter" data-level="11.3.1" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html#one-hot-clustering"><i class="fa fa-check"></i><b>11.3.1</b> One-hot clustering</a></li>
+<li class="chapter" data-level="11.3.2" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html#k-means-clustering-1"><i class="fa fa-check"></i><b>11.3.2</b> K-means clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="11.4" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Biological interpretation of latent factors</a><ul>
+<li class="chapter" data-level="11.4.1" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#inspection-of-feature-weights-in-loading-vectors"><i class="fa fa-check"></i><b>11.4.1</b> Inspection of feature weights in loading vectors</a></li>
+<li class="chapter" data-level="11.4.2" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#making-sense-of-factors-using-enrichment-analysis"><i class="fa fa-check"></i><b>11.4.2</b> Making sense of factors using enrichment analysis</a></li>
+<li class="chapter" data-level="11.4.3" data-path="biological-interpretation-of-latent-factors.html"><a href="biological-interpretation-of-latent-factors.html#interpretation-using-additional-covariates"><i class="fa fa-check"></i><b>11.4.3</b> Interpretation using additional covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="11.5" data-path="exercises-9.html"><a href="exercises-9.html"><i class="fa fa-check"></i><b>11.5</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Computational Genomics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="peak-calling" class="section level2">
+<h2><span class="header-section-number">9.7</span> Peak Calling</h2>
+<p>After we are convinced that the data is of sufficient quality, we can
+proceed with the downstream analysis.
+One of he first steps in the ChIP-seq analysis is peak calling.
+Peak calling is a statistical procedure, which uses coverage properties
+of ChIP and Input samples to find regions which are enriched due to
+protein binding.
+The procedure requires mapped reads, and outputs a set of regions, which
+represent the putative binding locations. Each region is usually associated
+with a significance score which is an indicator of enrichment.</p>
+<p>For peak calling we will use the <strong>normR</strong> (ref) Bioconductor package.
+<strong>normR</strong> uses a binomial mixture model, and performs simultaneous
+normalization and peak finding. Due to the nature of the model, it is
+quite plastic and can be used for different types of ChIP experiments.</p>
+<p>One of the caveats of <strong>normR</strong> is that it does not inherently support
+multiple biological replicates, for the same biological sample.
+Therefore, the peak calling procedure needs to be done on each replicate
+separately, and the peaks need to be combined in post-processing.</p>
+<div id="types-of-chip-experiments" class="section level3">
+<h3><span class="header-section-number">9.7.1</span> Types of ChIP experiments</h3>
+<p>Based on the binding properties of ChIP-ped proteins, ChIP-seq
+signal profiles can be divided into three classes:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Sharp</strong> (point signal) - A signal profile which is localized to specific
+short genomic regions (up to couple of hundred base pairs)
+It is usually obtained from transcription factors, or highly localized posttranslational histone modifications
+(H3K4me3, which is found on gene promoters).</p></li>
+<li><p><strong>Broad</strong> (wide signal) - The signal covers broad genomic domains spanning up to several kilobases.
+Usually produced by disperse histone modifications (H3K36me3, located
+on gene bodies, or H3K23me3, which is deposited by the Polycomb complex in large genomic regions).</p></li>
+<li><p><strong>Mixed</strong> - The signal consists of a mixture of sharp and broad regions.
+It is produced by proteins which have dynamic behavior. Most often these are ChIP experiments
+of RNA Polymerase 2.</p></li>
+</ol>
+<p>Different types of ChIP experiment usually require specialized analysis tools -
+some peak callers are developed to specifically detect narrow peaks<span class="citation">(Zhang et al. <a href="#ref-zhang_2008">2008</a>; Xu et al. <a href="#ref-xu_2010">2010</a>, @shao_2012)</span>, while others
+detect enrichment in diffuse broad regions <span class="citation">(Zang et al. <a href="#ref-zang_2009">2009</a>; Micsinai et al. <a href="#ref-micsinai_2012">2012</a>; Beck et al. <a href="#ref-beck_2012">2012</a>, @song_2011 @xing_2012)</span>,
+or mixed (Polymerase 2) signals <span class="citation">(Han et al. <a href="#ref-han_2012">2012</a>)</span>.
+Recent developments in peak calling methods (such as <strong>normR</strong>) can however accommodate
+multiple types of ChIP experiments <span class="citation">(Rashid et al. <a href="#ref-rashid_2011">2011</a>)</span>.
+The choice of the algorithm will largely depend on the type of the wanted
+results, and the peculiarities of the experimental design and execution <span class="citation">(Laajala et al. <a href="#ref-laajala_2009">2009</a>; Wilbanks and Facciotti <a href="#ref-wilbanks_2010">2010</a>)</span>.</p>
+<p>If you are not certain what kind of signal profile to expect from a ChIP-seq
+experiment, the best solution is to visualize the data.</p>
+<p>We will now use the data from H3K3me36 (Sharp), H3K36me3 (Broad), and POL2 (Mixed)
+ChIP experiments to show the differences in the signal profiles.</p>
+<p>We will use the the bigWig files to visualize the signal profiles around a
+highly expressed human gene from chromosome 21. This will give us an indication
+of how the profiles for different types of ChIP experiments differ.</p>
+<p>First we select the files of interest:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># set names for chip-seq bigWig files</span>
+chip_files =<span class="st"> </span><span class="kw">list</span>(
+    <span class="dt">H3K4me3  =</span> <span class="st">&#39;GM12878_hg38_H3K4me3.chr21.bw&#39;</span>,
+
+    <span class="dt">H3K36me3 =</span> <span class="st">&#39;GM12878_hg38_H3K36me3.chr21.bw&#39;</span>,
+
+    <span class="dt">POL2     =</span> <span class="st">&#39;GM12878_hg38_POLR2A.chr21.bw&#39;</span>
+)
+<span class="co"># get full paths to the files</span>
+chip_files =<span class="st"> </span><span class="kw">lapply</span>(chip_files, <span class="cf">function</span>(x)<span class="kw">file.path</span>(data_path, x))</code></pre>
+<p>Next we import the coverage profiles into <strong>R</strong>:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load rtracklayer</span>
+<span class="kw">library</span>(rtracklayer)
+
+<span class="co"># import the ChIP bigWig files</span>
+chip_profiles =<span class="st"> </span><span class="kw">lapply</span>(chip_files, rtracklayer<span class="op">::</span>import.bw)</code></pre>
+<p>We fetch the reference annotation for human chromosome 21.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(AnnotationHub)
+hub =<span class="st"> </span><span class="kw">AnnotationHub</span>()
+gtf =<span class="st"> </span>hub[[<span class="st">&#39;AH61126&#39;</span>]]
+<span class="kw">seqlevels</span>(gtf, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>) =<span class="st"> &#39;21&#39;</span>
+<span class="kw">seqlevels</span>(gtf, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>) =<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;chr&#39;</span>, <span class="kw">seqlevels</span>(gtf))</code></pre>
+<p>To enable Gviz to work with genomic annotation we will convert the <strong>GRanges</strong>
+object into a transcript database using the following function:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load the GenomicFeatures object</span>
+<span class="kw">library</span>(GenomicFeatures)
+
+<span class="co"># convert the gtf annotation into a data.base</span>
+txdb         =<span class="st"> </span><span class="kw">makeTxDbFromGRanges</span>(gtf)</code></pre>
+<p>And convert the transcript database into a Gviz track.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># define the gene track object</span>
+gene_track  =<span class="st"> </span><span class="kw">GeneRegionTrack</span>(txdb, <span class="dt">chr=</span><span class="st">&#39;chr21&#39;</span>, <span class="dt">genome=</span><span class="st">&#39;hg38&#39;</span>)</code></pre>
+<p>Once we have downloaded the annotation, and imported the signal profiles into <strong>R</strong>
+we are ready to visualize the data.
+We will again use the <strong>Gviz</strong> library.</p>
+<p>We firstly define the coordinate system - the ideogram track which will show
+the position of our current viewpoint on the chromosome, and a genome axis track,
+which will show the exact coordinates.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load Gviz package</span>
+<span class="kw">library</span>(Gviz)
+<span class="co"># fetches the chromosome length information</span>
+hg_chrs =<span class="st"> </span><span class="kw">fetchExtendedChromInfoFromUCSC</span>(<span class="st">&#39;hg38&#39;</span>)
+hg_chrs =<span class="st"> </span><span class="kw">subset</span>(hg_chrs, (<span class="kw">grepl</span>(<span class="st">&#39;chr21$&#39;</span>,UCSC_seqlevel)))
+
+<span class="co"># convert data.frame to named vector</span>
+seqlengths =<span class="st"> </span><span class="kw">with</span>(hg_chrs, <span class="kw">setNames</span>(UCSC_seqlength, UCSC_seqlevel))
+
+<span class="co"># constructs the ideogram track</span>
+chr_track   =<span class="st"> </span><span class="kw">IdeogramTrack</span>(<span class="st">&#39;chr21&#39;</span>, <span class="st">&#39;hg38&#39;</span>)
+
+<span class="co"># constructs the coordinate system</span>
+axis        =<span class="st"> </span><span class="kw">GenomeAxisTrack</span>(<span class="kw">GRanges</span>(<span class="st">&#39;chr21&#39;</span>, <span class="kw">IRanges</span>(<span class="dv">1</span>, <span class="dt">width=</span>seqlengths)))</code></pre>
+<p>We use a loop to convert the signal profiles into a <strong>DataTrack</strong> object.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># use a lapply on the imported bw files to create the track objects</span>
+<span class="co"># we loop over experiment names, and select the corresponding object</span>
+<span class="co"># within the function</span>
+data_tracks =<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">names</span>(chip_profiles), <span class="cf">function</span>(exp_name){
+    
+    <span class="co"># chip_profiles[[exp_name]] - selects the proper experiment using the name</span>
+    <span class="kw">DataTrack</span>(chip_profiles[[exp_name]],   <span class="dt">name =</span> exp_name,  <span class="dt">type=</span><span class="st">&#39;h&#39;</span>, <span class="dt">lwd=</span><span class="dv">5</span>)
+})</code></pre>
+<p>We are finally ready to create the genome screenshot.
+We will focus on an extended region around the URB1 gene.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># select the start coordinate for the URB1 gene</span>
+start =<span class="st"> </span><span class="kw">min</span>(<span class="kw">start</span>(<span class="kw">subset</span>(gtf, gene_name <span class="op">==</span><span class="st"> &#39;URB1&#39;</span>)))
+
+<span class="co"># select the end coordinate for the URB1 gene</span>
+end   =<span class="st"> </span><span class="kw">max</span>(<span class="kw">end</span>(<span class="kw">subset</span>(gtf, gene_name <span class="op">==</span><span class="st"> &#39;URB1&#39;</span>)))
+
+<span class="co"># plot the signal profiles around the URB1 gene</span>
+<span class="kw">plotTracks</span>(<span class="kw">c</span>(chr_track, axis, gene_track, data_tracks),
+           <span class="dt">sizes=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">background.title =</span> <span class="st">&quot;black&quot;</span>,
+           <span class="dt">collapseTranscripts =</span> <span class="st">&quot;longest&quot;</span>, <span class="dt">transcriptAnnotation=</span><span class="st">&quot;symbol&quot;</span>,
+           <span class="dt">from =</span> start <span class="op">-</span><span class="st"> </span><span class="dv">5000</span>,
+           <span class="dt">to   =</span> end   <span class="op">+</span><span class="st"> </span><span class="dv">5000</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:chip-type-plot-gviz"></span>
+<img src="compgenomrReloaded_files/figure-html/chip-type-plot-gviz-1.png" alt="ChIP-seq signal around the URB1 gene" width="672" />
+<p class="caption">
+FIGURE 9.10: ChIP-seq signal around the URB1 gene
+</p>
+</div>
+<p>The figure shows the signal profile around the URB1 gene.
+H3K4me3 signal profile contains a strong narrow peak on the transcription start site.
+H3K36me3 shows strong enrichment in the gene body, wile the POL2 ChIP shows
+a mixed profile, with a strong peak at the TSS and an enrichment over the gene body.</p>
+</div>
+<div id="peak-calling---sharp-experiments" class="section level3">
+<h3><span class="header-section-number">9.7.2</span> Peak Calling - Sharp Experiments</h3>
+<p>We will now use use <strong>normR</strong> <span class="citation">(Helmuth et al. <a href="#ref-helmuth_2016">2016</a>)</span> for peak calling in sharp and broad peak experiments.</p>
+<p>Select the input files. Since <strong>normR</strong> does not support the usage of biological
+replicates, we will showcase the peak calling on one of the CTCF samples.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># full path to the ChIP data file</span>
+chip_file    =<span class="st"> </span><span class="kw">file.path</span>(data_path, <span class="st">&#39;GM12878_hg38_CTCF_r1.chr21.bam&#39;</span>)
+
+<span class="co"># full path to the Control data file</span>
+control_file =<span class="st"> </span><span class="kw">file.path</span>(data_path, <span class="st">&#39;GM12878_hg38_Input_r5.chr21.bam&#39;</span>)</code></pre>
+<p>To a feeling about the dynamic range of enrichment we will create a scatter plot
+showing the strength of signal in the CTCF and Input.</p>
+<p>Let us first count the reads in 1kb windows, and normalize them to counts per
+million sequenced reads.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># as previously done, we calculate the cpm for each experiment</span>
+<span class="kw">library</span>(GenomicRanges)
+<span class="kw">library</span>(GenomicAlignments)
+
+hg_chrs =<span class="st"> </span><span class="kw">fetchExtendedChromInfoFromUCSC</span>(<span class="st">&#39;hg38&#39;</span>) 
+hg_chrs =<span class="st"> </span><span class="kw">subset</span>(hg_chrs, <span class="kw">grepl</span>(<span class="st">&#39;chr21$&#39;</span>,UCSC_seqlevel))
+
+seqlengths =<span class="st"> </span><span class="kw">with</span>(hg_chrs, <span class="kw">setNames</span>(UCSC_seqlength, UCSC_seqlevel))
+
+tilling_window =<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">tileGenome</span>(seqlengths, <span class="dt">tilewidth=</span><span class="dv">1000</span>))
+counts         =<span class="st"> </span><span class="kw">summarizeOverlaps</span>(tilling_window, <span class="kw">c</span>(chip_file, control_file))
+counts         =<span class="st"> </span><span class="kw">assays</span>(counts)[[<span class="dv">1</span>]]
+
+cpm =<span class="st"> </span><span class="kw">t</span>(<span class="kw">t</span>(counts)<span class="op">*</span>(<span class="dv">1000000</span><span class="op">/</span><span class="kw">colSums</span>(counts)))</code></pre>
+<p>We can now plot the ChIP Vs Input signal:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="co"># convert the matrix into a data.frame for ggplot</span>
+cpm =<span class="st"> </span><span class="kw">data.frame</span>(cpm)
+<span class="kw">ggplot</span>(<span class="dt">data =</span> cpm, <span class="kw">aes</span>(GM12878_hg38_Input_r5.chr21.bam, GM12878_hg38_CTCF_r1.chr21.bam)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&#39;Set2&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme</span>(
+        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),
+        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),
+        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>),
+        <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;Input CPM&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;CTCF CPM&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&#39;ChIP Vs Input&#39;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:peak-calling-sharp-plot"></span>
+<img src="compgenomrReloaded_files/figure-html/peak-calling-sharp-plot-1.png" alt="Comparison of CPM values between ChIP and Input experiments. Good ChIP experiments should always show enrichment" width="672" />
+<p class="caption">
+FIGURE 9.11: Comparison of CPM values between ChIP and Input experiments. Good ChIP experiments should always show enrichment
+</p>
+</div>
+<p>Regions above the diagonal show higher enrichment in the ChIP samples, while
+the regions below the diagonal show higher enrichment in the Input samples.</p>
+<p>Let us now perform for peak calling.
+<strong>normR</strong> usage is deceivingly simple - we need to provide the location
+ChIP and Control read files, and the genome version to the <strong>enrichR</strong> function.
+The function will automatically create tilling windows (250bp by default),
+count the number of reads in each window, and fit a mixture of
+binomial distributions.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(normr)
+<span class="co"># peak calling using chip and control</span>
+ctcf_fit =<span class="st"> </span><span class="kw">enrichR</span>(
+    
+            <span class="co"># ChIP file</span>
+            <span class="dt">treatment =</span> chip_file,
+            
+            <span class="co"># control file</span>
+            <span class="dt">control   =</span> control_file,
+            
+            <span class="co"># genome version</span>
+            <span class="dt">genome    =</span> <span class="st">&quot;hg38&quot;</span>,
+            
+            <span class="co"># print intermediary steps during the analysis</span>
+            <span class="dt">verbose   =</span> <span class="ot">FALSE</span>)</code></pre>
+<p>With the summary function we can take look at the results:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ctcf_fit)</code></pre>
+<pre><code>## NormRFit-class object
+## 
+## Type:                  &#39;enrichR&#39;
+## Number of Regions:     12353090
+## Number of Components:  2
+## Theta* (naive bg):     0.137
+## Background component B: 1
+## 
+## +++ Results of fit +++ 
+## Mixture Proportions:
+## Background       Class 1    
+##     97.72%         2.28%    
+## Theta:
+## Background       Class 1    
+##      0.103         0.695    
+## 
+## Bayesian Information Criterion:  539882
+## 
+## +++ Results of binomial test +++ 
+## T-Filter threshold: 4
+## Number of Regions filtered out: 12267164
+## Significantly different from background B based on q-values:
+## TOTAL:
+##            ***        **         *         .          
+## Bins         0       627       120       195        87
+## %        0.000     0.711     0.847     1.068     1.166
+##           n.s.
+## Bins     84897
+## %       96.209
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39;  &#39; 1 &#39;n.s.&#39;</code></pre>
+<p>The summary function shows that most of the regions of the chromosome 21 correspond
+to the background - 97.72%.
+In total we have 1029 (627+120+195+87) significantly enriched regions.</p>
+<p>We will now extract the regions into a <strong>GRanges</strong> object.
+<strong>getRanges</strong> function extracts the regions from the model. Using the
+<strong>getQvalue</strong>, and <strong>getEnrichment</strong> function we assign to our regions
+the statistical significance and calculated enrichment.
+In order to identify only highly significant regions,
+we keep only ranges where the false discovery rate (q value) is below 0.01.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extracts the ranges</span>
+ctcf_peaks =<span class="st"> </span><span class="kw">getRanges</span>(ctcf_fit)
+    
+<span class="co"># annotates the ranges with the supporting p value</span>
+ctcf_peaks<span class="op">$</span>qvalue     =<span class="st"> </span><span class="kw">getQvalues</span>(ctcf_fit)
+    
+    <span class="co"># annotates the ranges with the calculated enrichment</span>
+ctcf_peaks<span class="op">$</span>enrichment =<span class="st"> </span><span class="kw">getEnrichment</span>(ctcf_fit)
+    
+<span class="co"># selects the ranges which correspond to the enriched class</span>
+ctcf_peaks =<span class="st"> </span><span class="kw">subset</span>(ctcf_peaks, <span class="op">!</span><span class="kw">is.na</span>(component))
+    
+<span class="co"># Filter by a stringent q value threshold</span>
+ctcf_peaks =<span class="st"> </span><span class="kw">subset</span>(ctcf_peaks, qvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.01</span>)
+    
+<span class="co"># order the peaks based on the q value</span>
+ctcf_peaks =<span class="st"> </span>ctcf_peaks[<span class="kw">order</span>(ctcf_peaks<span class="op">$</span>qvalue)]</code></pre>
+<pre><code>## GRanges object with 724 ranges and 3 metadata columns:
+##         seqnames            ranges strand | component
+##            &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt;
+##     [1]    chr21 43939251-43939500      * |         1
+##     [2]    chr21 43646751-43647000      * |         1
+##     [3]    chr21 43810751-43811000      * |         1
+##     [4]    chr21 43939001-43939250      * |         1
+##     [5]    chr21 37712251-37712500      * |         1
+##     ...      ...               ...    ... .       ...
+##   [720]    chr21 38172001-38172250      * |         1
+##   [721]    chr21 38806001-38806250      * |         1
+##   [722]    chr21 42009501-42009750      * |         1
+##   [723]    chr21 46153001-46153250      * |         1
+##   [724]    chr21 46294751-46295000      * |         1
+##                        qvalue        enrichment
+##                     &lt;numeric&gt;         &lt;numeric&gt;
+##     [1] 4.69879088213602e-140  1.37891167819688
+##     [2] 2.52004889325437e-137  1.42361119278072
+##     [3] 1.86403432672239e-121  1.30519118296387
+##     [4] 2.10820978012318e-121  1.19820284045747
+##     [5] 6.35709179339583e-118  1.70989409220685
+##     ...                   ...               ...
+##   [720]   0.00867373860905281 0.951189030141648
+##   [721]   0.00867373860905281 0.951189030141648
+##   [722]   0.00867373860905281 0.656252728068132
+##   [723]   0.00867373860905281 0.951189030141648
+##   [724]   0.00867373860905281 0.722822247557788
+##   -------
+##   seqinfo: 24 sequences from an unspecified genome</code></pre>
+<p>After stringent q value filtering we are left with 724 peaks.</p>
+<p>For the ease of downstream analysis, we will limit the sequence levels to
+chromosome 21.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">seqlevels</span>(ctcf_peaks, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>) =<span class="st"> &#39;chr21&#39;</span></code></pre>
+<p>Let’s export the peaks into a .txt file which we can use downstream in the analysis.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># write the peaks loacations into a txt table</span>
+<span class="kw">write.table</span>(ctcf_peaks, <span class="kw">file.path</span>(data_path, <span class="st">&#39;CTCF_peaks.txt&#39;</span>), 
+            <span class="dt">row.names=</span>F, <span class="dt">col.names=</span>T, <span class="dt">quote=</span>F, <span class="dt">sep=</span><span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)</code></pre>
+<p>We can now repeat the CTCF Vs Input plot, and label significantly marked peaks.</p>
+<p>Using the count overlaps we mark which of our 1kb regions contained significant peaks.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find enriched tilling windows</span>
+enriched_regions =<span class="st"> </span><span class="kw">countOverlaps</span>(tilling_window, ctcf_peaks) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+cpm<span class="op">$</span>enriched_regions =<span class="st"> </span>enriched_regions 
+    
+<span class="kw">ggplot</span>(<span class="dt">data =</span> cpm, <span class="kw">aes</span>(GM12878_hg38_Input_r5.chr21.bam, GM12878_hg38_CTCF_r1.chr21.bam, 
+               <span class="dt">color=</span>enriched_regions)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_abline</span>(<span class="dt">slope =</span> <span class="dv">1</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&#39;Set2&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme</span>(
+        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),
+        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),
+        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>),
+        <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;Input CPM&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;CTCF CPM&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&#39;ChIP Vs Input&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&#39;gray&#39;</span>,<span class="st">&#39;red&#39;</span>))</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:peak-calling-sharp-peak-calling-plot"></span>
+<img src="compgenomrReloaded_files/figure-html/peak-calling-sharp-peak-calling-plot-1.png" alt="Comparison of signal between ChIP and input samples. Red labeled dots correspond to called peaks." width="672" />
+<p class="caption">
+FIGURE 9.12: Comparison of signal between ChIP and input samples. Red labeled dots correspond to called peaks.
+</p>
+</div>
+<p>We can see that <strong>normR</strong> identified all of the regions above the diagonal
+as statistically significant. It has, however, labeled a significant
+number of regions below the diagonal. Because the sophisticated statistical model,
+<strong>normR</strong> has greater sensitivity, and these peaks might really be enriched regions,
+it is worth investigating the nature of these regions. This is left as an exercise
+to the reader.</p>
+<p>We can no create a genome browser screenshot around a peak regions.
+This will show us what kind of signal properties have contributed to the peak calling.
+We would expect to see a strong, bell shaped, enrichment in the ChIP sample, and a
+uniform noise in the Input sample.</p>
+<p>Let us now visualize the signal around the most enriched peak:</p>
+<p>The following function takes as input a <strong>.bam</strong> file, and loads the bam into R.
+It extends the reads to a size of 200 bp, and creates the coverage vector.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clauclate the coverage for one bam file</span>
+calculateCoverage =<span class="st"> </span><span class="cf">function</span>(
+    bam_file,
+    <span class="dt">extend =</span> <span class="dv">200</span>
+){
+
+    <span class="co"># load reads into R</span>
+    reads =<span class="st"> </span><span class="kw">readGAlignments</span>(bam_file)
+    
+    <span class="co"># convert reads into a GRanges object</span>
+    reads =<span class="st"> </span><span class="kw">granges</span>(reads)
+    
+    <span class="co"># resize the reads to 200bp</span>
+    reads =<span class="st"> </span><span class="kw">resize</span>(reads, <span class="dt">width=</span>extend, <span class="dt">fix=</span><span class="st">&#39;start&#39;</span>)
+    
+    <span class="co"># get the coverage vector</span>
+    cov   =<span class="st"> </span><span class="kw">coverage</span>(reads)
+    
+    <span class="co"># normalize the coverage vector to the sequencing depth</span>
+    cov =<span class="st"> </span><span class="kw">round</span>(cov <span class="op">*</span><span class="st"> </span>(<span class="dv">1000000</span><span class="op">/</span><span class="kw">length</span>(reads)),<span class="dv">2</span>)
+    
+    <span class="co"># convert the coverate go a GRanges object</span>
+    cov   =<span class="st"> </span><span class="kw">as</span>(cov, <span class="st">&#39;GRanges&#39;</span>)
+    
+    <span class="co"># keep only chromosome 21</span>
+    <span class="kw">seqlevels</span>(cov, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>) =<span class="st"> &#39;chr21&#39;</span>
+    <span class="kw">return</span>(cov)
+}</code></pre>
+<p>Let’s apply the function to the ChIP and input samples.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate coverage for the ChIP file</span>
+ctcf_cov =<span class="st"> </span><span class="kw">calculateCoverage</span>(chip_file)
+
+<span class="co"># calculate coverage for the control file</span>
+cont_cov =<span class="st"> </span><span class="kw">calculateCoverage</span>(control_file)</code></pre>
+<p>Using Gviz, we will construct the layered tracks.
+First the genome coordinates</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load Gviz and get the chromosome coordinates</span>
+<span class="kw">library</span>(Gviz)
+chr_track  =<span class="st"> </span><span class="kw">IdeogramTrack</span>(<span class="st">&#39;chr21&#39;</span>, <span class="st">&#39;hg38&#39;</span>)
+axis       =<span class="st"> </span><span class="kw">GenomeAxisTrack</span>(<span class="kw">GRanges</span>(<span class="st">&#39;chr21&#39;</span>, <span class="kw">IRanges</span>(<span class="dv">1</span>, <span class="dt">width=</span>seqlengths)))</code></pre>
+<p>Then the peak locations</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># peaks track</span>
+peaks_track =<span class="st"> </span><span class="kw">AnnotationTrack</span>(ctcf_peaks, <span class="dt">name =</span> <span class="st">&quot;CTCF Peaks&quot;</span>)</code></pre>
+<p>And finally, the signal files</p>
+<pre class="sourceCode r"><code class="sourceCode r">chip_track  =<span class="st"> </span><span class="kw">DataTrack</span>(ctcf_cov,   <span class="dt">name =</span> <span class="st">&quot;CTCF&quot;</span>,  <span class="dt">type=</span><span class="st">&#39;h&#39;</span>, <span class="dt">lwd=</span><span class="dv">3</span>)
+cont_track  =<span class="st"> </span><span class="kw">DataTrack</span>(cont_cov,   <span class="dt">name =</span> <span class="st">&quot;Input&quot;</span>, <span class="dt">type=</span><span class="st">&#39;h&#39;</span>, <span class="dt">lwd=</span><span class="dv">3</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plotTracks</span>(<span class="kw">list</span>(chr_track,
+                axis, 
+                peaks_track, 
+                chip_track,
+                cont_track), 
+           <span class="dt">sizes=</span><span class="kw">c</span>(.<span class="dv">2</span>,.<span class="dv">5</span>,.<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">background.title =</span> <span class="st">&quot;black&quot;</span>,
+           <span class="dt">from =</span> <span class="kw">start</span>(ctcf_peaks)[<span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="dv">1000</span>,
+           <span class="dt">to   =</span> <span class="kw">end</span>(ctcf_peaks)[<span class="dv">1</span>]   <span class="op">+</span><span class="st"> </span><span class="dv">1000</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:peak-calling-signal-profile-plot"></span>
+<img src="compgenomrReloaded_files/figure-html/peak-calling-signal-profile-plot-1.png" alt="ChIP and Input signal profile in around the peak centers." width="672" />
+<p class="caption">
+FIGURE 9.13: ChIP and Input signal profile in around the peak centers.
+</p>
+</div>
+<p>The ChIP sample looks as expected. Although the Input sample shows an enrichment,
+it is important to compare the scales on both samples. The normalized ChIP signal goes up
+to 2500, while the maximum value in the input sample is only 60.</p>
+</div>
+<div id="broad-regions" class="section level3">
+<h3><span class="header-section-number">9.7.3</span> Broad regions</h3>
+<p>We will now use <strong>normR</strong> to call peaks for the H3K36me3 histone modification,
+which is associated with gene bodies of expressed genes.</p>
+<p>We define the ChIP and Input files:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fetch the ChIP-file for H3k36me3</span>
+chip_file    =<span class="st"> </span><span class="kw">file.path</span>(data_path, <span class="st">&#39;GM12878_hg38_H3K36me3.chr21.bam&#39;</span>)
+
+<span class="co"># fetch the corresponding input file</span>
+control_file =<span class="st"> </span><span class="kw">file.path</span>(data_path, <span class="st">&#39;GM12878_hg38_Input_r5.chr21.bam&#39;</span>)</code></pre>
+<p>Because H3K36 regions span broad domains it is necessary to increase the
+tilling window size which will be used for counting.
+Using the <strong>countConfiguration</strong> function we will set the tilling window size
+to 5000 base pairs.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(normr)
+<span class="co"># define the window width for the counting</span>
+countConfiguration =<span class="st"> </span><span class="kw">countConfigSingleEnd</span>(<span class="dt">binsize =</span> <span class="dv">5000</span>)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find broad peaks using enrichR</span>
+h3k36_fit =<span class="st"> </span><span class="kw">enrichR</span>(
+            
+            <span class="co"># ChIP file</span>
+            <span class="dt">treatment   =</span> chip_file,
+            
+            <span class="co"># control file</span>
+            <span class="dt">control     =</span> control_file,
+            
+            <span class="co"># Genome version</span>
+            <span class="dt">genome      =</span> <span class="st">&quot;hg38&quot;</span>,
+            <span class="dt">verbose     =</span> <span class="ot">FALSE</span>,
+            
+            <span class="co"># window size for counting</span>
+            <span class="dt">countConfig =</span> countConfiguration)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(h3k36_fit)</code></pre>
+<pre><code>## NormRFit-class object
+## 
+## Type:                  &#39;enrichR&#39;
+## Number of Regions:     617665
+## Number of Components:  2
+## Theta* (naive bg):     0.197
+## Background component B: 1
+## 
+## +++ Results of fit +++ 
+## Mixture Proportions:
+## Background       Class 1    
+##      85.4%         14.6%    
+## Theta:
+## Background       Class 1    
+##      0.138         0.442    
+## 
+## Bayesian Information Criterion:  741525
+## 
+## +++ Results of binomial test +++ 
+## T-Filter threshold: 5
+## Number of Regions filtered out: 610736
+## Significantly different from background B based on q-values:
+## TOTAL:
+##           ***       **        *        .         
+## Bins        0     1005      314      381      237
+## %        0.00     9.18    12.04    15.52    17.68
+##          n.s.
+## Bins     4992
+## %       45.58
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39;  &#39; 1 &#39;n.s.&#39;</code></pre>
+<p>The summary function shows that we get 1937 enriched regions.</p>
+<p>We will extract enriched regions, and plot them in the same way we did for the
+CTCF.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the locations of broad peaks</span>
+h3k36_peaks            =<span class="st"> </span><span class="kw">getRanges</span>(h3k36_fit)
+
+<span class="co"># extract the qvalue and enrichment</span>
+h3k36_peaks<span class="op">$</span>qvalue     =<span class="st"> </span><span class="kw">getQvalues</span>(h3k36_fit)
+h3k36_peaks<span class="op">$</span>enrichment =<span class="st"> </span><span class="kw">getEnrichment</span>(h3k36_fit)
+
+<span class="co"># select proper peaks</span>
+h3k36_peaks =<span class="st"> </span><span class="kw">subset</span>(h3k36_peaks, <span class="op">!</span><span class="kw">is.na</span>(component))
+h3k36_peaks =<span class="st"> </span><span class="kw">subset</span>(h3k36_peaks, qvalue <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.01</span>)
+h3k36_peaks =<span class="st"> </span>h3k36_peaks[<span class="kw">order</span>(h3k36_peaks<span class="op">$</span>qvalue)]
+
+<span class="co"># collapse nearby enriched reginos</span>
+h3k36_peaks =<span class="st"> </span><span class="kw">reduce</span>(h3k36_peaks)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># construct the data tracks for the H3k36me3 and Input files</span>
+h3k36_cov =<span class="st"> </span><span class="kw">calculateCoverage</span>(chip_file)
+data_tracks =<span class="st"> </span><span class="kw">list</span>(
+    <span class="dt">h3k36 =</span> <span class="kw">DataTrack</span>(h3k36_cov,  <span class="dt">name =</span> <span class="st">&#39;h3k36_cov&#39;</span>,  <span class="dt">type=</span><span class="st">&#39;h&#39;</span>, <span class="dt">lwd=</span><span class="dv">3</span>),
+    <span class="dt">input =</span> <span class="kw">DataTrack</span>(cont_cov,   <span class="dt">name =</span> <span class="st">&#39;Input&#39;</span>,  <span class="dt">type=</span><span class="st">&#39;h&#39;</span>, <span class="dt">lwd=</span><span class="dv">3</span>))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># define the window for the visualization</span>
+start =<span class="st"> </span><span class="kw">min</span>(<span class="kw">start</span>(h3k36_peaks[<span class="dv">2</span>])) <span class="op">-</span><span class="st"> </span><span class="dv">25000</span>
+end   =<span class="st"> </span><span class="kw">max</span>(<span class="kw">end</span>(h3k36_peaks[<span class="dv">2</span>])) <span class="op">+</span><span class="st"> </span><span class="dv">25000</span>
+
+<span class="co"># create the peak track</span>
+peak_track =<span class="st"> </span><span class="kw">AnnotationTrack</span>(<span class="kw">reduce</span>(h3k36_peaks), <span class="dt">name=</span><span class="st">&#39;h3k36me3&#39;</span>)
+
+<span class="co"># plots the enriched region</span>
+<span class="kw">plotTracks</span>(<span class="kw">c</span>(chr_track, axis, gene_track, peak_track, data_tracks),
+           <span class="dt">sizes=</span><span class="kw">c</span>(.<span class="dv">5</span>,.<span class="dv">5</span>,.<span class="dv">5</span>,.<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">background.title =</span> <span class="st">&quot;black&quot;</span>,
+           <span class="dt">collapseTranscripts =</span> <span class="st">&quot;longest&quot;</span>, <span class="dt">transcriptAnnotation=</span><span class="st">&quot;symbol&quot;</span>,
+           <span class="dt">from =</span> start,
+           <span class="dt">to   =</span> end)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:peak-calling-broad-gviz"></span>
+<img src="compgenomrReloaded_files/figure-html/peak-calling-broad-gviz-1.png" alt="Visualization of H3K36me3 ChIP signal on a called broad peak." width="672" />
+<p class="caption">
+FIGURE 9.14: Visualization of H3K36me3 ChIP signal on a called broad peak.
+</p>
+</div>
+<p>The figure shows a highly enriched H3K36me3 region covering the gene body,
+as expected.</p>
+</div>
+<div id="peak-quality-control" class="section level3">
+<h3><span class="header-section-number">9.7.4</span> Peak quality control</h3>
+<p>Peak calling is not a mathematically defined procedure - it is impossible
+to unambiguously define what a “peak” is. Therefore all of the peak
+calling procedures use heuristics, and statistical models which have been
+show to work well in specific use-cases.
+After peak calling it is always necessary to check
+whether the defined peaks really are located in enriched regions, and in addition,
+use prior knowledge to ascertain whether the peaks correspond to known biology.</p>
+<p>Peak calling can falsely identify enriched regions if the input
+sample is not sequenced to the proper depth. Because the input samples
+correspond to <strong>de facto</strong> whole genome sequencing, and the ChIP procedure
+enriches for a subset of the genome, it can often happen that many regions
+in the the genome are not sufficiently covered by the Input sample.
+Such variability in the signal profile of Input samples can cause a region
+to be defined as a peak - enriched in the ChIP sample, while in reality it is depleted in the
+Input, due to under-sampling. For example, the figure in the previous chapter, showing
+an enriched region H3K36me3 over a gene body, shows a large depletion in the Input
+sample over the same region. Such depletion should be a concern and merit
+further investigation.</p>
+<p>The quality of enrichment can be checked by calculating the percentage of reads within peaks for both
+ChIP and Input samples. ChIP samples should have a high percentage of reads in peaks,
+while for the input samples the percentage of reads should correspond to the
+percentage of genome covered by peaks.</p>
+<p>For transcription factor ChIP experiments, an important control is to determine whether
+the peak regions contain sequences which are known to be bound
+by the corresponding transcription factor - whether they contain
+known transcription factor binding motifs.
+Transcription factor binding motifs are sequence models which model the propensity
+of binding DNA sequences.
+Such sequence models can be downloaded from public databases and compared to see
+whether there is a positional enrichment around our peaks.</p>
+<p>We will now calculate the percentage of reads within peaks for H3K36me3 experiment.
+Subsequently, we will download the known CTCF sequence model, and compare it
+to our peak regions.</p>
+<div id="percentage-of-reads-in-peaks" class="section level4">
+<h4><span class="header-section-number">9.7.4.1</span> Percentage of reads in peaks</h4>
+<p>To calculate the reads in peaks, we will firstly extract the number of reads
+in each tilling window from the <strong>normR</strong> produced fit object.
+This is done using the <strong>getCounts</strong> function.
+We will then use the q value to define which tilling windows correspond
+to peaks, and count the number of reads within and outside peaks.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extract, per tilling window, counts from the fit object</span>
+h3k36_counts =<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">getCounts</span>(h3k36_fit))
+    
+<span class="co"># change the column names of the data.frame</span>
+<span class="kw">colnames</span>(h3k36_counts) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Input&#39;</span>,<span class="st">&#39;H3K36me3&#39;</span>)
+    
+<span class="co"># extract the q value corresponding to each bin</span>
+h3k36_counts<span class="op">$</span>qvalue =<span class="st"> </span><span class="kw">getQvalues</span>(h3k36_fit)
+    
+<span class="co"># define which regions are peaks using a q value cutoff</span>
+h3k36_counts<span class="op">$</span>enriched[<span class="kw">is.na</span>(h3k36_counts<span class="op">$</span>qvalue)]  =<span class="st"> &#39;Not Peak&#39;</span>
+h3k36_counts<span class="op">$</span>enriched[h3k36_counts<span class="op">$</span>qvalue <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.05</span>]  =<span class="st"> &#39;Not Peak&#39;</span>
+h3k36_counts<span class="op">$</span>enriched[h3k36_counts<span class="op">$</span>qvalue <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.05</span>] =<span class="st"> &#39;Peak&#39;</span>
+    
+<span class="co"># remove the q value column</span>
+h3k36_counts<span class="op">$</span>qvalue =<span class="st"> </span><span class="ot">NULL</span> 
+    
+<span class="co"># reshape the data.frame into a long format</span>
+h3k36_counts_df =<span class="st"> </span>tidyr<span class="op">::</span><span class="kw">gather</span>(<span class="dt">data=</span>h3k36_counts, experiment, counts, <span class="op">-</span>enriched)
+    
+<span class="co"># sum the number of reads in the Peak and Not Peak regions</span>
+h3k36_counts_df =<span class="st"> </span><span class="kw">group_by</span>(<span class="dt">.data =</span> h3k36_counts_df, experiment, enriched)
+h3k36_counts_df =<span class="st"> </span><span class="kw">summarize</span>(<span class="dt">.data =</span> h3k36_counts_df, <span class="dt">num_of_reads =</span> <span class="kw">sum</span>(counts))
+    
+<span class="co"># calculate the percentage of reads.</span>
+h3k36_counts_df       =<span class="st"> </span><span class="kw">group_by</span>(<span class="dt">.data =</span> h3k36_counts_df, experiment)
+h3k36_counts_df       =<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">.data =</span> h3k36_counts_df, <span class="dt">total=</span><span class="kw">sum</span>(num_of_reads))
+h3k36_counts_df<span class="op">$</span>percentage =<span class="st"> </span><span class="kw">with</span>(h3k36_counts_df, <span class="kw">round</span>(num_of_reads<span class="op">/</span>total,<span class="dv">2</span>))</code></pre>
+<pre><code>## # A tibble: 4 x 5
+## # Groups:   experiment [2]
+##   experiment enriched num_of_reads  total percentage
+##   &lt;chr&gt;      &lt;chr&gt;           &lt;int&gt;  &lt;int&gt;      &lt;dbl&gt;
+## 1 H3K36me3   Not Peak        67623 158616      0.43 
+## 2 H3K36me3   Peak            90993 158616      0.570
+## 3 Input      Not Peak       492369 648196      0.76 
+## 4 Input      Peak           155827 648196      0.24</code></pre>
+<p>We can now plot the percentage of reads in peaks:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> h3k36_counts_df, <span class="kw">aes</span>(experiment, percentage, <span class="dt">fill=</span>enriched)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&#39;identity&#39;</span>, <span class="dt">position=</span><span class="st">&#39;dodge&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme</span>(
+        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),
+        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">12</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),
+        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;Experiment&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;Percetage of reads in region&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&#39;Percentage of reads in peaks for H3K36me3&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&#39;gray&#39;</span>,<span class="st">&#39;red&#39;</span>))</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:peak-quality-counts-plot"></span>
+<img src="compgenomrReloaded_files/figure-html/peak-quality-counts-plot-1.png" alt="Percentage of ChIP read in called peaks. Higher percentage indicates higher ChIP quality." width="672" />
+<p class="caption">
+FIGURE 9.15: Percentage of ChIP read in called peaks. Higher percentage indicates higher ChIP quality.
+</p>
+</div>
+<p>The figure shows that the ChIP sample is clearly enriched
+in the peak regions.
+The percentage of read in peaks will depend on the quality of the antibody (strength of
+enrichment), and the size of peaks which are bound by the protein of interest.
+If the total size of peaks is small, relative to the genome size, we can expect that
+the percentage of reads in peaks will be small.
+For in depth consideration about the appropriate percentage thresholds see (ref)</p>
+</div>
+<div id="dna-motifs" class="section level4">
+<h4><span class="header-section-number">9.7.4.2</span> DNA Motifs</h4>
+<p>Well studied transcription factor have publicly available transcription
+factor binding motifs.
+If such a model is available for our transcription factor of interest, we
+can use ti to check the quality of our ChIP data.
+Two common measures are used for this purpose:</p>
+<ol style="list-style-type: decimal">
+<li><p>Percentage of peaks containing the motif of interest.</p></li>
+<li><p>Positional distribution of the motif - the distribution of motif locations should be
+centered on the peak centers.</p></li>
+</ol>
+<div id="percentage-of-peaks-with-motif" class="section level5">
+<h5><span class="header-section-number">9.7.4.2.1</span> Percentage of peaks with motif</h5>
+<p>We will firstly calculate the percentage of CTCF peaks which contain a know CTCF
+motif. DNA binding motifs can be extracted from the <strong>MotifDB</strong> Bioconductor
+database. The <strong>MotifDB</strong> is an agglomeration of multiple motif databases.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load the MotifDB packge</span>
+<span class="kw">library</span>(MotifDb)
+
+<span class="co"># fetch the CTCF motif from the data base</span>
+motifs =<span class="st"> </span><span class="kw">query</span>(<span class="kw">query</span>(MotifDb, <span class="st">&#39;Hsapiens&#39;</span>), <span class="st">&#39;CTCF&#39;</span>)
+
+<span class="co"># show all available ctcf motifs</span>
+motifs</code></pre>
+<pre><code>## MotifDb object of length 10
+## | Created from downloaded public sources: 2013-Aug-30
+## | 10 position frequency matrices from 7 sources:
+## |        HOCOMOCOv10:    2
+## |        JASPAR_2014:    1
+## |        JASPAR_CORE:    1
+## |         jaspar2016:    1
+## |         jaspar2018:    2
+## |          jolma2013:    1
+## |       SwissRegulon:    2
+## | 1 organism/s
+## |           Hsapiens:   10
+## Hsapiens-HOCOMOCOv10-CTCFL_HUMAN.H10MO.A 
+## Hsapiens-HOCOMOCOv10-CTCF_HUMAN.H10MO.A 
+## Hsapiens-JASPAR_CORE-CTCF-MA0139.1 
+## Hsapiens-JASPAR_2014-CTCF-MA0139.1 
+## Hsapiens-jaspar2016-CTCF-MA0139.1 
+## Hsapiens-jaspar2018-CTCF-MA0139.1 
+## Hsapiens-jaspar2018-CTCFL-MA1102.1 
+## Hsapiens-jolma2013-CTCF 
+## Hsapiens-SwissRegulon-CTCFL.SwissRegulon 
+## Hsapiens-SwissRegulon-CTCF.SwissRegulon</code></pre>
+<p>We will extract the CTCF from the <span class="citation">(Khan et al. <a href="#ref-khan_2018">2018</a>)</span> database.</p>
+<pre class="sourceCode r"><code class="sourceCode r">ctcf_motif  =<span class="st"> </span>motifs[[<span class="dv">9</span>]]</code></pre>
+<p>The downloaded motif is a matrix with dimensions 4 X N. The matrix
+contains 4 rows where each row corresponds to one nucleotide (A, C, G, T).
+The number of columns designates the width of the region bound by the transcription factor.
+Each element of the matrix contains the probability of observing the corresponding
+nucleotide on this position.
+For example, for following the CTCF matrix, the probability of observing a thymine at
+the first position of the motif is 0.57 (1st column, 4th row).
+Such a matrix, where each column is a probability distribution of over a sequence of nucleotides
+is called a position frequency matrix - PFM.
+Such matrices are constructed from sequences which were experimentally verified sequences, using
+a motif finding algorithm.</p>
+<pre><code>##       1     2     3     4      5       6     7       8
+## A 0.173 0.226 0.288 0.105 0.3340 0.06001 0.052 0.03703
+## C 0.416 0.275 0.299 0.320 0.1140 0.32603 0.562 0.00496
+## G 0.246 0.229 0.259 0.268 0.4161 0.55394 0.052 0.82698
+## T 0.165 0.270 0.154 0.307 0.1360 0.06001 0.334 0.13102
+##          9       10      11       12       13      14
+## A 0.022981 0.000992 0.24502 0.000992 0.000992 0.05001
+## C 0.960073 0.997024 0.66992 0.689014 0.997024 0.04299
+## G 0.012978 0.000992 0.02703 0.000992 0.000992 0.01703
+## T 0.003968 0.000992 0.05803 0.309002 0.000992 0.88997
+##        15       16      17       18      19     20
+## A 0.25304 0.003968 0.17203 0.000992 0.01901 0.1920
+## C 0.07299 0.418038 0.15004 0.000992 0.06299 0.4319
+## G 0.52501 0.546003 0.05497 0.997024 0.86501 0.1500
+## T 0.14896 0.031991 0.62296 0.000992 0.05299 0.2260</code></pre>
+<p>Each path through the matrix calculates the probability that the transcription factor
+will bind one sequence @ref(fig:Figure_PWMScanning).</p>
+<div class="figure" style="text-align: center"><span id="fig:Figure-PWMScanning"></span>
+<img src="Figures/PWMScanning.png" alt="PWM scanning principle. A genomic sequence is scanned by a scoring matrix. The scoring matrix defines how likely is that the transcription factor will bind each nucelotide in each position. Here we are looking at how likely it is that our TF will bind to the sequence ACACT. The score for this sequence is 1.1. The maximal score obtainable by the PWM is 2.7. Because 1.1 / 2.7 = 0.4, and 0.4 is lower than our designated threshold of 0.8, we conclude that the ACACT sequence will not be bound by our TF of interest." width="543" />
+<p class="caption">
+FIGURE 9.16: PWM scanning principle. A genomic sequence is scanned by a scoring matrix. The scoring matrix defines how likely is that the transcription factor will bind each nucelotide in each position. Here we are looking at how likely it is that our TF will bind to the sequence ACACT. The score for this sequence is 1.1. The maximal score obtainable by the PWM is 2.7. Because 1.1 / 2.7 = 0.4, and 0.4 is lower than our designated threshold of 0.8, we conclude that the ACACT sequence will not be bound by our TF of interest.
+</p>
+</div>
+<p>Such a matrix can be used to calculate the probability that the transcription
+factor will any sequence.</p>
+<p>Using the PFM, we can calculate the information content of each position in the matrix.
+The information content quantifies the contribution of each nucleotide to the
+cumulative binding preference (how important each nucleotide is for the binding).
+It additionally allows us to visually represent the probability matrices as sequence logos.
+The information content is quantified as Shannon entropy. It ranges from 0 - no information,
+to 2 - maximal information</p>
+<p>Shannon entropy formula:
+<span class="math display">\[
+entropy = -\sum\limits_{i=1}^n p_{i}\log_2(p_i) 
+\]</span></p>
+<p>We will use now the <strong>seqLogo</strong> package to visualize the information content of the
+CTCF motif.
+The figure shows which are the most important nucleotides for CTCF binding.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot the seqLogo of the CTCF motif</span>
+seqLogo<span class="op">::</span><span class="kw">seqLogo</span>(ctcf_motif)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:peak-quality-seqLogo"></span>
+<img src="compgenomrReloaded_files/figure-html/peak-quality-seqLogo-1.png" alt="CTCF sequence motif visualized as a sequence logo. Y axis ranges from zero to two, and corresponds to the amount of information each base in the motif contributes to the overall motif. The larger the letter the greater the probability of observing just one defined base on the designated position." width="672" />
+<p class="caption">
+FIGURE 9.17: CTCF sequence motif visualized as a sequence logo. Y axis ranges from zero to two, and corresponds to the amount of information each base in the motif contributes to the overall motif. The larger the letter the greater the probability of observing just one defined base on the designated position.
+</p>
+</div>
+<p>To annotate the CTCF peaks with the motif, we will firstly extend the peak
+regions to +/- 200 bp around the peak center.
+Because the average fragment size is 200 bp, 400 nucleotides is the
+expected variation in the position of the true binding location.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># extend the peak regions</span>
+ctcf_peaks_resized =<span class="st"> </span><span class="kw">resize</span>(ctcf_peaks, <span class="dt">width =</span> <span class="dv">400</span>, <span class="dt">fix=</span><span class="st">&#39;center&#39;</span>)</code></pre>
+<p>Now we use the <strong>BSgenome</strong> package to extract the sequences corresponding to the peak regions.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load the human genome sequenct</span>
+<span class="kw">library</span>(BSgenome.Hsapiens.UCSC.hg38)
+
+<span class="co"># extract the sequences around the peaks</span>
+seq =<span class="st"> </span><span class="kw">getSeq</span>(BSgenome.Hsapiens.UCSC.hg38, ctcf_peaks_resized)</code></pre>
+<pre><code>##   A DNAStringSet instance of length 6
+##     width seq
+## [1]   400 CCCACTGTGGCCCCGTGACCC...AGCAAACCTTGCTGCAGTTTG
+## [2]   400 AACCCTAGTGTAAGTTAACAT...CCTTCTGCTAATCTTTGAACC
+## [3]   400 ATGGCCTCTCCCCCGCGTGGC...TGTTTGGGCGAGTGCCTCGTT
+## [4]   400 GGCTGCCCCATCACGCTCTCT...CCCCACCCCCGTCGCTGTTGT
+## [5]   400 CTAGCATCAGTAACCAGAGGG...TCCTCCCCTTCTCCTCCTCTT
+## [6]   400 CCCTGCCCCACCTGGCCAGGT...CACTTCTCGTGGACTGGGCGG</code></pre>
+<p>Once we have extracted the sequences, we can use the CTCF motif to
+scan each sequences and determine the probability of CTCF binding.
+For this we use the <strong>TFBSTools</strong> <span class="citation">(Tan and Lenhard <a href="#ref-TFBSTools">2016</a>)</span> package.</p>
+<p>We first convert the raw probability matrix into a <strong>PWMMatrix</strong> object,
+which can then be used for efficient scanning.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load the TFBS tools package</span>
+<span class="kw">library</span>(TFBSTools)
+
+<span class="co"># Convert the matrix into a PWM object</span>
+ctcf_pwm =<span class="st"> </span><span class="kw">PWMatrix</span>(<span class="dt">ID=</span><span class="st">&#39;CTCF&#39;</span>, <span class="dt">profileMatrix =</span> ctcf_motif)</code></pre>
+<p>We can now use the <strong>searchSeq</strong> function to scan each sequence for the motif occurrence.
+Because the motif matrices are give a continuous binding score, we need to set a cutoff to
+determine when a sequence contains the motif, and when it doesn’t.
+The cutoff is set by determining the maximal possible score produced by the motif matrix;
+a percentage of that score is then taken as the threshold value.
+For example, if the best sequence would have a score of 1.4 of being bound,
+then we define a threshold of 80% of 1.4, which is 1.12; and any sequence which
+scores less that 1.12 would not be marked as being bound by the protein.</p>
+<p>For the CTCF, we mark any peak containing a sequence with &gt; 80% of the maximal
+score as a positive hit.</p>
+<pre><code>##   seqnames source feature start end absScore relScore
+## 1        1   TFBS    TFBS    44  63    11.95   0.9214
+## 2        1   TFBS    TFBS   102 121    10.99   0.8388
+## 3        2   TFBS    TFBS   151 170    11.47   0.8805
+## 4        4   TFBS    TFBS   294 313    11.95   0.9214
+## 5        4   TFBS    TFBS   352 371    10.99   0.8388
+## 6        5   TFBS    TFBS   164 183    10.89   0.8306
+##   strand   ID      TF   class             siteSeqs
+## 1      - CTCF Unknown Unknown AGGGAGCGCCCCCTGGAGGC
+## 2      - CTCF Unknown Unknown AGGGAGCGCCCGCTAGAGGC
+## 3      + CTCF Unknown Unknown TGAGGCCGCCACCTTGTGGC
+## 4      - CTCF Unknown Unknown AGGGAGCGCCCCCTGGAGGC
+## 5      - CTCF Unknown Unknown AGGGAGCGCCCGCTAGAGGC
+## 6      - CTCF Unknown Unknown CTCTGGATCCCCCTAGCGGC</code></pre>
+<p>A common diagnostic plot is to graph a reverse cumulative distribution of
+peak occurrences.
+On the X axis we rank the peaks, with the most highly enriched peak on the
+first position, and the least enriched peak on the last position.
+We then walk from the lowest to the highest ranking and measure the
+percentage of peaks containing the motif.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># label which peaks contain CTCF motifs</span>
+motif_hits_df =<span class="st"> </span><span class="kw">data.frame</span>(
+    <span class="dt">peak_order     =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(ctcf_peaks)
+)
+motif_hits_df<span class="op">$</span>contains_motif =<span class="st"> </span>motif_hits_df<span class="op">$</span>peak_order <span class="op">%in%</span><span class="st"> </span>hits<span class="op">$</span>seqnames
+motif_hits_df =<span class="st"> </span>motif_hits_df[<span class="kw">order</span>(<span class="op">-</span>motif_hits_df<span class="op">$</span>peak_order),]
+
+<span class="co"># calculate the percentage of peaks with motif for peaks of descenting strength</span>
+motif_hits_df<span class="op">$</span>perc_peaks =<span class="st"> </span><span class="kw">with</span>(motif_hits_df, <span class="kw">round</span>(<span class="kw">cumsum</span>(contains_motif)<span class="op">/</span><span class="kw">max</span>(peak_order),<span class="dv">2</span>))
+
+<span class="co"># plot the cumulative distribution of motif hit percentages</span>
+<span class="kw">ggplot</span>(motif_hits_df, <span class="kw">aes</span>(peak_order, perc_peaks)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme</span>(
+        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),
+        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),
+        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;Peak rank&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;Percetage of peaks with motif&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&#39;Percentage of CTCF peaks with the CTCF motif&#39;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:peak-quality-scan-dist-plot"></span>
+<img src="compgenomrReloaded_files/figure-html/peak-quality-scan-dist-plot-1.png" alt="Percentage of peaks containing the motif'. Higher percentage indicates a better ChIP-experiment, and a better peak calling procedure." width="672" />
+<p class="caption">
+FIGURE 9.18: Percentage of peaks containing the motif’. Higher percentage indicates a better ChIP-experiment, and a better peak calling procedure.
+</p>
+</div>
+<p>The figure shows that, when we take all peaks into account ~45% of
+the peaks contain a CTCF motif.
+This is an excellent percentage and indicates a high quality ChIP experiment.
+Our inability to locate the motif in ~50% of the sequences does not
+necessarily need to be a consequence of a poor experiment - sometimes
+it is a result of the molecular mechanism of by which the transcription factor
+binds. If a transcription factor has multiple binding modes, which are context
+dependent - for example, if the transcription factor binds indirectly to
+a subset of regions, through
+an interacting partner, we do not have to observe a motif.</p>
+</div>
+</div>
+<div id="motif-localization" class="section level4">
+<h4><span class="header-section-number">9.7.4.3</span> Motif Localization</h4>
+<p>If the ChIP experiment was performed properly, we would expect the motif
+to be localized just below the summit of each peak.
+By plotting the motif localization around ChIP peaks, we are quantifying
+the uncertainty in peak location.</p>
+<p>We will firstly resize our peaks into regions around +/- 1kb around the peak
+center.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># resize the region around peaks to +/- 1kb</span>
+ctcf_peaks_resized =<span class="st"> </span><span class="kw">resize</span>(ctcf_peaks, <span class="dt">width =</span> <span class="dv">2000</span>, <span class="dt">fix=</span><span class="st">&#39;center&#39;</span>)</code></pre>
+<p>Now we perform the motif localization, as before.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fetch the sequence</span>
+seq =<span class="st"> </span><span class="kw">getSeq</span>(BSgenome.Hsapiens.UCSC.hg38,ctcf_peaks_resized)
+
+<span class="co"># convert the motiv matrix to PWM, and scan the peaks</span>
+ctcf_pwm    =<span class="st"> </span><span class="kw">PWMatrix</span>(<span class="dt">ID=</span><span class="st">&#39;CTCF&#39;</span>, <span class="dt">profileMatrix =</span> ctcf_motif)
+hits =<span class="st"> </span><span class="kw">searchSeq</span>(ctcf_pwm, seq, <span class="dt">min.score=</span><span class="st">&quot;80%&quot;</span>, <span class="dt">strand=</span><span class="st">&quot;*&quot;</span>)
+hits =<span class="st"> </span><span class="kw">as.data.frame</span>(hits)</code></pre>
+<p>We now construct a plot, where the
+X axis represents the +/ 1000 nucleotides around the peak, while the
+Y axis shows the motif enrichment at each position.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># set the position relative to the start</span>
+hits<span class="op">$</span>position =<span class="st"> </span>hits<span class="op">$</span>start <span class="op">-</span><span class="st"> </span><span class="dv">1000</span> 
+
+<span class="co"># plot the motif hits around peaks</span>
+<span class="kw">ggplot</span>(<span class="dt">data=</span>hits, <span class="kw">aes</span>(position)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_density</span>(<span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">0</span>, <span class="dt">linetype=</span><span class="dv">2</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">size=</span><span class="dv">2</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;Position around the CTCF peaks&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;Per position percentage</span><span class="ch">\n</span><span class="st">of motif occurence&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme</span>(
+        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),
+        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),
+        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>))</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:chip-quality-motifloc-plot"></span>
+<img src="compgenomrReloaded_files/figure-html/chip-quality-motifloc-plot-1.png" alt="Transcription factor sequence motif localization with respect to the defined binding sites." width="672" />
+<p class="caption">
+FIGURE 9.19: Transcription factor sequence motif localization with respect to the defined binding sites.
+</p>
+</div>
+<p>We can see that the bulk of motif hits are found in a region of +/- 250 bp
+around the peak centers. This means that the peak calling procedure was quite precise.</p>
+</div>
+</div>
+<div id="peak-annotation" class="section level3">
+<h3><span class="header-section-number">9.7.5</span> Peak Annotation</h3>
+<p>As the final step of quality control we will visualize the distribution
+of peaks in different functional genomic regions.
+The purpose of the analysis is to check whether the location of the peaks
+conforms with our prior knowledge.
+This analysis is equivalent to constructing distributions for reads.</p>
+<p>Firstly we download the human gene models and construct the annotation hierarchy.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Download the annotation</span>
+hub =<span class="st"> </span><span class="kw">AnnotationHub</span>()
+gtf =<span class="st"> </span>hub[[<span class="st">&#39;AH61126&#39;</span>]]
+<span class="kw">seqlevels</span>(gtf, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>) =<span class="st"> &#39;21&#39;</span>
+<span class="kw">seqlevels</span>(gtf, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>) =<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;chr&#39;</span>, <span class="kw">seqlevels</span>(gtf))
+
+<span class="co"># Create the annotation hierarchy</span>
+annotation_list =<span class="st"> </span><span class="kw">GRangesList</span>(
+    <span class="dt">tss    =</span> <span class="kw">promoters</span>(<span class="kw">subset</span>(gtf, type<span class="op">==</span><span class="st">&#39;gene&#39;</span>), <span class="dv">1000</span>, <span class="dv">1000</span>),
+    <span class="dt">exon   =</span> <span class="kw">subset</span>(gtf, type<span class="op">==</span><span class="st">&#39;exon&#39;</span>),
+    <span class="dt">intron =</span> <span class="kw">subset</span>(gtf, type<span class="op">==</span><span class="st">&#39;gene&#39;</span>)
+)</code></pre>
+<p>The following function finds the genomic location of each peak, annotates
+the peaks using the hierarchical prioritization, and calculates the summary statistics.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># function which annotates the location of each peak</span>
+annotatePeaks =<span class="st"> </span><span class="cf">function</span>(peaks, annotation_list, name){
+    
+    <span class="co"># collapse touching enriched regions</span>
+    peaks =<span class="st"> </span><span class="kw">reduce</span>(peaks)
+    
+    <span class="co"># find overlaps between the peaks and annotation_list</span>
+    result =<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">suppressWarnings</span>(<span class="kw">findOverlaps</span>(peaks, annotation_list)))
+    
+    <span class="co"># fetch annotation names</span>
+    result<span class="op">$</span>annotation =<span class="st"> </span><span class="kw">names</span>(annotation_list)[result<span class="op">$</span>subjectHits]
+    
+    <span class="co"># rank by annotation precedence</span>
+    result =<span class="st"> </span>result[<span class="kw">order</span>(result<span class="op">$</span>subjectHits),]    
+    
+    <span class="co"># remove overlapping annotations</span>
+    result =<span class="st"> </span><span class="kw">subset</span>(result, <span class="op">!</span><span class="kw">duplicated</span>(queryHits))
+        
+    <span class="co"># count the number of peaks in each annotation category</span>
+    result =<span class="st"> </span><span class="kw">group_by</span>(<span class="dt">.data =</span> result, annotation)
+    result =<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">.data =</span> result, <span class="dt">counts =</span> <span class="kw">length</span>(annotation))
+    
+    <span class="co"># fetch the number of intergenic peaks</span>
+    result =<span class="st"> </span><span class="kw">rbind</span>(result, 
+                   <span class="kw">data.frame</span>(<span class="dt">annotation =</span> <span class="st">&#39;intergenic&#39;</span>, 
+                              <span class="dt">counts     =</span> <span class="kw">length</span>(peaks) <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(result<span class="op">$</span>counts)))
+        
+    result<span class="op">$</span>frequency  =<span class="st"> </span><span class="kw">with</span>(result, <span class="kw">round</span>(counts<span class="op">/</span><span class="kw">sum</span>(counts),<span class="dv">2</span>))
+    result<span class="op">$</span>experiment =<span class="st"> </span>name
+        
+    <span class="kw">return</span>(result)
+}</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">peak_list =<span class="st"> </span><span class="kw">list</span>(<span class="dt">CTCF     =</span> ctcf_peaks, 
+                 <span class="dt">H3K36me3 =</span> h3k36_peaks)
+
+<span class="co"># calculate the distribution of peaks in annotation for each experiment</span>
+annot_peaks_list =<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">names</span>(peak_list), <span class="cf">function</span>(peak_name){
+        <span class="kw">annotatePeaks</span>(peak_list[[peak_name]], annotation_list, peak_name)
+    })</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># combine a list of data.frames into one data.frame</span>
+annot_peaks_df =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">bind_rows</span>(annot_peaks_list)
+
+<span class="co"># plot the distrubtion of peaks in genomic features</span>
+<span class="kw">ggplot</span>(<span class="dt">data =</span> annot_peaks_df, <span class="kw">aes</span>(experiment, frequency, <span class="dt">fill=</span>annotation)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&#39;identity&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&#39;Set2&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_bw</span>()<span class="op">+</span>
+<span class="st">    </span><span class="kw">theme</span>(
+        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">18</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),
+        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),
+        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>))  <span class="op">+</span>
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&#39;Peak distribution in</span><span class="ch">\n</span><span class="st">genomic regions&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;Experiment&#39;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;Frequency&#39;</span>)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:peak-annotation-plot"></span>
+<img src="compgenomrReloaded_files/figure-html/peak-annotation-plot-1.png" alt="Enrichment of transcription factor or histone modifications in functional genomic features" width="672" />
+<p class="caption">
+FIGURE 9.20: Enrichment of transcription factor or histone modifications in functional genomic features
+</p>
+</div>
+<p>The plot shows that the H3K36me3 peaks are located preferentially in gene bodies,
+as expected, while the CTCF peaks are found preferentially in introns.</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-zhang_2008">
+<p>Zhang, Yong, Tao Liu, Clifford A Meyer, Jérôme Eeckhoute, David S Johnson, Bradley E Bernstein, Chad Nusbaum, et al. 2008. “Model-Based Analysis of ChIP-Seq (MACS).” <em>Genome Biol</em> 9 (9): R137. <a href="https://doi.org/10.1186/gb-2008-9-9-r137">https://doi.org/10.1186/gb-2008-9-9-r137</a>.</p>
+</div>
+<div id="ref-xu_2010">
+<p>Xu, Han, Lusy Handoko, Xueliang Wei, Chaopeng Ye, Jianpeng Sheng, Chia-Lin Wei, Feng Lin, and Wing-Kin Sung. 2010. “A Signal-Noise Model for Significance Analysis of ChIP-Seq with Negative Control.” <em>Bioinformatics</em> 26 (9): 1199–1204. <a href="https://doi.org/10.1093/bioinformatics/btq128">https://doi.org/10.1093/bioinformatics/btq128</a>.</p>
+</div>
+<div id="ref-zang_2009">
+<p>Zang, Chongzhi, Dustin E Schones, Chen Zeng, Kairong Cui, Keji Zhao, and Weiqun Peng. 2009. “A Clustering Approach for Identification of Enriched Domains from Histone Modification ChIP-Seq Data.” <em>Bioinformatics</em> 25 (15): 1952–8. <a href="https://doi.org/10.1093/bioinformatics/btp340">https://doi.org/10.1093/bioinformatics/btp340</a>.</p>
+</div>
+<div id="ref-micsinai_2012">
+<p>Micsinai, Mariann, Fabio Parisi, Francesco Strino, Patrik Asp, Brian D Dynlacht, and Yuval Kluger. 2012. “Picking ChIP-Seq Peak Detectors for Analyzing Chromatin Modification Experiments.” <em>Nucleic Acids Res</em> 40 (9): e70. <a href="https://doi.org/10.1093/nar/gks048">https://doi.org/10.1093/nar/gks048</a>.</p>
+</div>
+<div id="ref-beck_2012">
+<p>Beck, Dominik, Miriam B Brandl, Lies Boelen, Ashwin Unnikrishnan, John E Pimanda, and Jason W H Wong. 2012. “Signal Analysis for Genome-Wide Maps of Histone Modifications Measured by ChIP-Seq.” <em>Bioinformatics</em> 28 (8): 1062–9. <a href="https://doi.org/10.1093/bioinformatics/bts085">https://doi.org/10.1093/bioinformatics/bts085</a>.</p>
+</div>
+<div id="ref-han_2012">
+<p>Han, Zhi, Lu Tian, Thierry Pécot, Tim Huang, Raghu Machiraju, and Kun Huang. 2012. “A Signal Processing Approach for Enriched Region Detection in RNA Polymerase II ChIP-Seq Data.” <em>BMC Bioinformatics</em> 13 Suppl 2 (March): S2. <a href="https://doi.org/10.1186/1471-2105-13-S2-S2">https://doi.org/10.1186/1471-2105-13-S2-S2</a>.</p>
+</div>
+<div id="ref-rashid_2011">
+<p>Rashid, Naim U, Paul G Giresi, Joseph G Ibrahim, Wei Sun, and Jason D Lieb. 2011. “ZINBA Integrates Local Covariates with DNA-Seq Data to Identify Broad and Narrow Regions of Enrichment, Even Within Amplified Genomic Regions.” <em>Genome Biol</em> 12 (7): R67. <a href="https://doi.org/10.1186/gb-2011-12-7-r67">https://doi.org/10.1186/gb-2011-12-7-r67</a>.</p>
+</div>
+<div id="ref-laajala_2009">
+<p>Laajala, Teemu D, Sunil Raghav, Soile Tuomela, Riitta Lahesmaa, Tero Aittokallio, and Laura L Elo. 2009. “A Practical Comparison of Methods for Detecting Transcription Factor Binding Sites in ChIP-Seq Experiments.” <em>BMC Genomics</em> 10 (December): 618. <a href="https://doi.org/10.1186/1471-2164-10-618">https://doi.org/10.1186/1471-2164-10-618</a>.</p>
+</div>
+<div id="ref-wilbanks_2010">
+<p>Wilbanks, Elizabeth G, and Marc T Facciotti. 2010. “Evaluation of Algorithm Performance in ChIP-Seq Peak Detection.” <em>PLoS ONE</em> 5 (7): e11471. <a href="https://doi.org/10.1371/journal.pone.0011471">https://doi.org/10.1371/journal.pone.0011471</a>.</p>
+</div>
+<div id="ref-helmuth_2016">
+<p>Helmuth, Johannes, Na Li, Laura Arrigoni, Kathrin Gianmoena, Cristina Cadenas, Gilles Gasparoni, Anupam Sinha, et al. 2016. “normR: Regime Enrichment Calling for ChIP-Seq Data.” <em>bioRxiv</em>.</p>
+</div>
+<div id="ref-khan_2018">
+<p>Khan, Aziz, Oriol Fornes, Arnaud Stigliani, Marius Gheorghe, Jaime A Castro-Mondragon, Robin van der Lee, Adrien Bessy, et al. 2018. “JASPAR 2018: Update of the Open-Access Database of Transcription Factor Binding Profiles and Its Web Framework.” <em>Nucleic Acids Res</em> 46 (D1): D260–D266. <a href="https://doi.org/10.1093/nar/gkx1126">https://doi.org/10.1093/nar/gkx1126</a>.</p>
+</div>
+<div id="ref-TFBSTools">
+<p>Tan, Ge, and Boris Lenhard. 2016. “TFBSTools: An R/Bioconductor Package for Transcription Factor Binding Site Analysis.” <em>Bioinformatics</em> 32 (10): 1555–6. <a href="https://doi.org/10.1093/bioinformatics/btw024">https://doi.org/10.1093/bioinformatics/btw024</a>.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chip-quality-control.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="motif-discovery.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/compgenomr/book/edit/master/09-chip-seq-analysis.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["compgenomrReloaded.pdf"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
