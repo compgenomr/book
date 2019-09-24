@@ -1,7 +1,7 @@
-# ChIP-seq analysis with R and Bioconductor {#chipseq}
+# ChIP-seq analysis {#chipseq}
 
 
-```{r setup, include=FALSE}
+```{r setup_chip_seq, include=FALSE}
 knitr::opts_chunk$set(echo      = TRUE,
                       message   = FALSE, 
                       error     = FALSE,
@@ -10,15 +10,13 @@ knitr::opts_chunk$set(echo      = TRUE,
                       fig.width = 5.1)
 ```
 
+Protein-DNA interactions control large part of the gene expression regulation. Proteins such as transcription factors as well as histones are directly related to how much and in which contexts are the genes expressed. Some of these concepts are already introduced in Chapter \@ref(intro), if readers need more in depth introduction to these concepts. In this chapter, we will introduce how to process and analyze ChIP-seq data in order to identify genome-wide protein binding sites and learn about underlying sequence context via DNA binding motifs.
 
-## Introduction into ChIP-seq
-
-One of the most fascinating biological phenomenons is the fact that a myriad of 
-different cell types, in a multicellular organisms, are encoded
-by one single genome. How exactly this is achieved is still a
+## Regulatory Protein-DNA Interactions
+One of the most fascinating biological phenomena is the fact that a myriad of  different cell types, in a multicellular organisms, are encoded by one single genome. How exactly this is achieved is still a
 major unanswered question in biology. 
 Cell types differ based on a multitude of features:
-their size, shape, mobility, surface receptors, metabolic content...
+their size, shape, mobility, surface receptors, metabolic content.
 However, the main predominant feature which influences all of the above is which
 genes are expressed in each cell type. 
 Therefore, if we can understand what controls which
@@ -26,7 +24,7 @@ genes will be expressed, and where they will be expressed,
 we can start forming a picture of how a single genomic template, 
 can give rise to a complex organism.
 
-Gene expression is controlled by a special class of genes called 
+As explained in chapter \@ref(intro), gene expression is controlled by a special class of genes called 
 transcription factors - genes which control other genes. 
 Transcription factor genes encode  proteins which
 can bind to the DNA, and control whether a certain part of DNA will be
@@ -41,30 +39,26 @@ short stretches which contain the corresponding DNA motif.
 DNA in the nucleus is wrapped around a protein complex called the histone complex.
 Histones form a chain of beads along the DNA. By changing their position, histones can make
 certain parts of the DNA more or less accessible to transcription 
-factors. Histone complexes can be chemically modified with different posttranslational modifications
-(phosphorylation, methylation, acetylation...). Such modifications change histone
+factors. Histone complexes can be chemically modified with different post-translational modifications (see chapter \@ref(intro)). Such modifications change histone
 mobility, and their interactions with different proteins, thereby creating
 an additional regulatory layer on top of the DNA sequence.
 
 In order to understand what are the target genes of a certain transcription factor,
 and how it controls the gene expression we need to where on the DNA is the 
-transcription factor located.
-  
-ChIP-seq stands for chromatin immunoprecipitation followed by sequencing.
-It is an experimental method for finding locations on DNA which are bound
-by proteins. It has been extensively used to study 
-in-vivo binding preferences of transcription factors, and genomic distribution
-of modified histones.
+transcription factor located. 
 
-In the following tutorial you will learn how to assess quality control
+
+## Measuring Protein-DNA interactions with ChIP-seq 
+
+ChIP-seq, stands for chromatin immunoprecipitation followed by sequencing, is an experimental method for finding locations on DNA which are bound by proteins. It has been extensively used to study 
+in-vivo binding preferences of transcription factors, and genomic distribution of modified histones.
+
+In the remainder of this chapter, you will learn how to assess quality control
 of ChIP-seq data sets, perform peak calling, to find bound regions, and 
 assess the quality of the peak calling.
 
 Once you have obtained peaks, you will learn how to perform sequence analysis
 to construct motif models, and compare signals between experiments.
-
-##  ChIP-seq Experiment
-
 Biological experiment often contain multitude of consecutive steps. Each 
 step can profoundly influence the quality of the data, and the subsequent analysis.
 The computational biologist has to have an in depth knowledge of the experimental
@@ -113,6 +107,8 @@ finally, to integrate with existing data sets.
 Each step of the experimental protocol can affect on the quality
 of the data set, and the subsequent analysis steps. It is, therefore, of crucial
 importance to perform quality control for every sequenced experiment.
+
+## Factors that affect ChIP-seq experiment and analysis quality
 
 ### Antibody specificity
 
@@ -251,7 +247,7 @@ it is knock out is impossible to perform.
 
 ### Using tagged proteins
 
-If an antibody of sufficient quality, is not available, it is possible
+If an antibody of sufficient quality is not available, it is possible
 to resort to constructs where the protein of interest gets engineered
 with a ChIP-able tag. The proper control for such experiments is to perform
 the ChIP in the cell line containing the engineered protein, and without the
@@ -1211,7 +1207,7 @@ And finally we subset only regions which correspond to chromosome 21.
 gtf = gtf[seqnames(gtf) == 'chr21']
 ```
 
-#### Constructing genomic annotaion
+#### Constructing genomic annotation
 
 Once we have downloaded the annotation we can define the functional hierarchy.
 We will use the previously mentioned ordering:
@@ -1746,7 +1742,7 @@ ctcf_cov = calculateCoverage(chip_file)
 cont_cov = calculateCoverage(control_file)
 ```
 
-Using Gvis, we will construct the layered tracks.
+Using Gviz, we will construct the layered tracks.
 First the genome coordinates
 
 ```{r peak_calling.sharp.peak_calling.gviz.axis}

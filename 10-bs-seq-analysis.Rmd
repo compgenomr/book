@@ -7,9 +7,10 @@ library(knitr)
 opts_chunk$set(echo = TRUE,out.width='65%',fig.width=5.1, cache=TRUE,warning=FALSE,message=FALSE)
 ```
 
+Epigenome consists of chemical modifications of DNA and histones. These modifications are shown to be associated with gene regulation in various settings (see Chapter \@ref(intro) for an intro). These modifications in turn have specific importance for cell type identification. There are many different ways of measuring such modifications. We have shown how histone modifications can be measured in a genome-wide manner in Chapter \@ref(chipseq) using ChIP-seq. In this chapter we will focus on the analysis of DNA methylation data using data from a technique called Bisulfite sequencing (BS-seq). We will introduce how to process data and data quality checks, as well as statistical analysis relevant for BS-seq data.
 
-### what is DNA methylation ?
-Cytosine methylation (5-methylcytosine, 5mC) is one of the main covalent base modifications in eukaryotic genomes, generally observed on CpG dinucleotides. Methylation can also rarely occur in non-CpG context, but this was mainly observed in human embryonic stem and neuronal cells [@Lister2009-sd,@Lister2013-vs]. DNA methylation is a part of the epigenetic regulation mechanism of gene expression. It is cell-type specific DNA modification. It is reversible but mostly remains stable through cell division.  There are roughly 28 million CpGs in the human genome, 60–80% are generally methylated. Less than 10% of CpGs occur in CG-dense regions that are termed CpG islands in the human genome [@Smith2013-jh]. It has been demonstrated that DNA methylation is also not uniformly distributed over the genome, but rather is associated with CpG density. In vertebrate genomes, cytosine bases are usually unmethylated in CpG-rich regions such as CpG islands and tend to be methylated in CpG-deficient regions. Vertebrate genomes are largely CpG deficient except at CpG islands. Conversely, invertebrates such as Drosophila melanogaster and Caenorhabditis elegans do not exhibit cytosine methylation and consequently do not have CpG rich and poor regions but rather a steady CpG frequency over their genomes [@Deaton2011-pm]. 
+## What is DNA methylation ?
+Cytosine methylation (5-methylcytosine, 5mC) is one of the main covalent base modifications in eukaryotic genomes, generally observed on CpG dinucleotides. Methylation can also rarely occur in non-CpG context, but this was mainly observed in human embryonic stem and neuronal cells [@Lister2009-sd; @Lister2013-vs]. DNA methylation is a part of the epigenetic regulation mechanism of gene expression. It is cell-type specific DNA modification. It is reversible but mostly remains stable through cell division.  There are roughly 28 million CpGs in the human genome, 60–80% are generally methylated. Less than 10% of CpGs occur in CG-dense regions that are termed CpG islands in the human genome [@Smith2013-jh]. It has been demonstrated that DNA methylation is also not uniformly distributed over the genome, but rather is associated with CpG density. In vertebrate genomes, cytosine bases are usually unmethylated in CpG-rich regions such as CpG islands and tend to be methylated in CpG-deficient regions. Vertebrate genomes are largely CpG deficient except at CpG islands. Conversely, invertebrates such as Drosophila melanogaster and Caenorhabditis elegans do not exhibit cytosine methylation and consequently do not have CpG rich and poor regions but rather a steady CpG frequency over their genomes [@Deaton2011-pm]. 
 
 ### How DNA methylation is set ?
 DNA methylation is established by DNA methyltransferases DNMT3A and DNMT3B in combination with DNMT3L and maintained through cell division by the methyltransferase DNMT1 and associated proteins. DNMT3a and DNMT3b are in charge of the de novo methylation during early development. Loss of 5mC can be achieved passively by dilution during replication or exclusion of DNMT1 from the nucleus. Recent discoveries of ten-eleven translocation (TET) family of proteins and their ability to convert 5-methylcytosine (5mC) into 5-hydroxymethylcytosine (5hmC) in vertebrates provide a path for catalysed active DNA demethylation [@Tahiliani2009-ar]. Iterative oxidations of 5hmC catalysed by TET result in 5-formylcytosine (5fC) and 5-carboxylcytosine (5caC). 5caC mark is excised from DNA by G/T mismatch-specific thymine-DNA glycosylase (TDG), which as a result returns cytosine residue back to its unmodified state [@He2011-pw]. Apart from these, mainly bacteria but possibly higher eukaryotes contain base modifications on bases other than cytosine, such as methylated adenine or guanine [@Clark2011-sc].
@@ -17,7 +18,7 @@ DNA methylation is established by DNA methyltransferases DNMT3A and DNMT3B in co
 ### How to measure DNA methylation with bisulfite-sequencing
 One of the most reliable and popular ways to measure DNA methylation is high-throughput bisulfite sequencing. This method, and the related ones, allow measurement of DNA methylation at the single nucleotide resolution. The bisulfite conversion turns unmethylated Cs to Ts and methylated Cs remain intact. Then, the only thing to do is to align the reads with those C->T conversions and count C->T mutations to calculate fraction of methylated bases. In the end, we can get quantitative genome-wide measurements for DNA methylation. 
 
-### Analyzing DNA methylation data
+## Analyzing DNA methylation data
 For the remainder of this chapter, we will explain how to do DNA methylation analysis using R. The analysis process is somewhat similar to the analysis patterns observed in other sequencing data analyses. The process can be chunked to four main parts with further sub-chunks:
 
 1. Processing raw data
@@ -115,7 +116,7 @@ getCoverageStats(myobj[[2]],plot=TRUE,both.strands=FALSE)
 
 It might be useful to filter samples based on coverage. Particularly, if our samples are suffering from PCR bias it would be useful to discard bases with very high read coverage. Furthermore, we would also like to discard bases that have low read coverage, a high enough read coverage will increase the power of the statistical tests. The code below filters a `methylRawList` and discards bases that have coverage below 10X and also discards the bases that have more than 99.9th percentile of coverage in each sample.
 
-```{r }
+```{r filterCovMeth}
 filtered.myobj=filterByCoverage(myobj,lo.count=10,lo.perc=NULL,
                                       hi.count=NULL,hi.perc=99.9)
 ```
@@ -123,13 +124,14 @@ filtered.myobj=filterByCoverage(myobj,lo.count=10,lo.perc=NULL,
 
 ### Merging samples into a single table
 When we first read the files, each file is stored as its own entity. If we want compare samples in any way, we need to make a unified data structure that contains CpGs that are covered in most samples. The `unite` function creates a new object using the CpGs covered in each sample. This means 
-```{r}
-meth=unite(myobj, destrand=FALSE)
+```{r uniteMeth}
+## we use :: notation to make sure unite() function from methylKit is called
+meth=methylKit::unite(myobj, destrand=FALSE)
 ```
 
 Let us take a look at the data content of methylBase object:
 
-```{r}
+```{r headMeth}
 head(meth)
 ```
 
