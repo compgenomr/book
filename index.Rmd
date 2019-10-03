@@ -16,7 +16,7 @@ monofontoptions: "Scale=0.7"
 site: bookdown::bookdown_site
 description: "A guide to computationa genomics using R. The book covers fundemental topics with practical examples for an interdisciplinery audience"
 url: 'https\://compmgenomr.github.io/book/'
-github-repo: compgenomr/bookdown
+github-repo: compgenomr/book
 cover-image: images/cover.jpg
 ---
 
