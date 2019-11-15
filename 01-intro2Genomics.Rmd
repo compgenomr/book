@@ -597,7 +597,7 @@ biological feature. For example, if you want to measure expression of protein co
 genes you need to be able to extract mRNA molecules with special post-transcriptional
 alterations that protein-coding genes acquire. If you are looking for transcription factor 
 binding, you need to enrich
-for the DNA fragments that are bound by the protein if interest.This parts 
+for the DNA fragments that are bound by the protein of interest.This parts 
 depends on available molecular biology and chemistry technques, and the final 
 product of this part is RNA or DNA fragments. 
 
