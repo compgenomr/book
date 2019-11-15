@@ -610,7 +610,7 @@ If the enriched material is complementary to the genetic material,
 a light signal will
 be produced and the intensity of the signal will be proportional to the amount of the
 genetic material pairing with that oligo. There will be more probes available for
-hybrdization (process of complementary bases forming bonds ), so the more fragments
+hybridization (process of complementary bases forming bonds ), so the more fragments
 available stronger the signal. For this to be able to work, you need to know
 at least part of your genome sequence, and design probes. If you want to measure
 gene expression, your probes should overlap with genes and should be unique 
@@ -618,15 +618,14 @@ enough to not to bind sequences from other genes. This technology is now being
 replaced with sequencing technology, where you directly sequence your genetic
 material. If you have the sequence of your fragments, you can align them back
 to genome, see where they are coming from and count them. This is a better 
-technology where the quantification is based on the real identiy of fragments 
+technology where the quantification is based on the real identity of fragments 
 rather than based on hybridization to designed probes.
 
-In summary HT techniques has the following steps, and this also summarized in
+In summary HT techniques have the following steps, and are also summarized in
 Figure \@ref(fig:HTassays):
 
 - Extraction: This is the step where you extract the genetic
   material of interest, RNA or DNA.
-  and nrichment
 - Enrichment: In this step, you enrich for the event you are interested
   in. For example, protein binding sites. In some cases such as whole-genome DNA
   sequencing there is no need for enrichment step. You just get fragments of
@@ -663,10 +662,10 @@ the length is usually enough to uniquely map the reads to the genome and quantif
 the input fragments. 
 
 #### High-throughput sequencing data
-If there is a genome available, the reads are aligned to the genome and based
-on the library preperation protocol different strategies are applied for analysis. A sequencing library is composed of fragments of RNA or DNA ready to be sequenced. The library preparation primarily depends on the experiment of interest. There are a number of library preperation protocols aimed at quantifying different signals from the genome. Some of the potential analysis strategies for different library-prep protocols and processed output of read alignments
+If there is a reference genome available, the reads are aligned to the reference and based
+on the library preparation protocol different strategies are applied for analysis. A sequencing library is composed of fragments of RNA or DNA ready to be sequenced. The library preparation primarily depends on the experiment of interest. There are a number of library preparation protocols aimed at quantifying different signals from the genome. Some of the potential analysis strategies for different library-prep protocols and processed output of read alignments
 are depicted in Figure \@ref(fig:HTseq).
-For example, we maybe interested to quantify the gene expression.
+For example, we may be interested in quantifying the gene expression.
 The experimental protocol, called RNA sequencing-
 RNA-seq, enriches for fragments of RNA that are coming from protein coding genes.
 Upon alignment, we can calculate the coverage profile which gives us a read count
@@ -705,7 +704,7 @@ relying on fragment amplification methods which can introduce biases.
 
 Another recent development is single-cell sequencing. Current technologies usually
 work on genetic material from thousands to millions of cells. This means that the
-results you receive represents the population of cells that were used in the 
+results you receive represent the population of cells that were used in the 
 experiment. However, there is a lot of variation between the same type of cells, but 
 this variation is not observed at all. Newer sequencing techniques can work 
 on single cells and give quantititave information on each cell. 
