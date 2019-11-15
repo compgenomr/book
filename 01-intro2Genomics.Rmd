@@ -381,7 +381,7 @@ Modifications                 Effect
 ------------                  ------  
     H3K9ac                    Active promoters and enhancers        
     H3K14ac                   Active transcription       
-    H3K4me3/me2/me1   Active promoters and enhancers, H3K4me1 and H3K27ac is enhancer-specific
+    H3K4me3/me2/me1           Active promoters and enhancers, H3K4me1 and H3K27ac is enhancer-specific
     H3K27ac                   H3K27ac is enhancer-specific          
     H3K36me3                  Active transcribed regions
     H3K27me3/me2/me1          Silent promoters
