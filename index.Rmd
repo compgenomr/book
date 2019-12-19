@@ -110,22 +110,27 @@ This book is primarily about using R packages to analyze genomics data, therefor
 ```{r,installAllPackages,eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install(c('qvalue','plot3D','ggplot2','pheatmap',
-                      'cluster', 'NbClust', 'fastICA', 'NMF',
-                      'Rtsne', 'mosaic', 'knitr', 'genomation',
-                      'ggbio', 'Gviz', 'DESeq2', 'RUVSeq',
-                      'gProfileR', 'ggfortify', 'corrplot',
-                      'gage', 'EDASeq', 'citr', 'formatR',
-                      'svglite', 'Rqc', 'ShortRead', 'QuasR',
-                      'methylKit','FactoMineR', 'iClusterPlus',
-                      'enrichR','caret','xgboost','glmnet',
-                      'DALEX','kernlab','pROC','nnet','RANN',
-                      'ranger','GenomeInfoDb', 'GenomicRanges',
-                      'GenomicAlignments', 'ComplexHeatmap', 'circlize', 
-                      'rtracklayer', 'BSgenome.Hsapiens.UCSC.hg38', 'tidyr',
-                      'AnnotationHub', 'GenomicFeatures', 'normr',
-                      'MotifDb', 'TFBSTools', 'motifRG', 'JASPAR2018'
-                     )
+packagesNeed <- c('qvalue','plot3D','ggplot2','pheatmap',
+                 'cluster', 'NbClust', 'fastICA', 'NMF',
+                 'Rtsne', 'mosaic', 'knitr', 'genomation',
+                 'ggbio', 'Gviz', 'DESeq2', 'RUVSeq',
+                 'gProfileR', 'ggfortify', 'corrplot',
+                 'gage', 'EDASeq', 'citr', 'formatR',
+                 'svglite', 'Rqc', 'ShortRead', 'QuasR',
+                 'methylKit','FactoMineR', 'iClusterPlus',
+                 'enrichR','caret','xgboost','glmnet',
+                 'DALEX','kernlab','pROC','nnet','RANN',
+                 'ranger','GenomeInfoDb', 'GenomicRanges',
+                 'GenomicAlignments', 'ComplexHeatmap', 'circlize',
+                 'rtracklayer', 'BSgenome.Hsapiens.UCSC.hg38', 'tidyr',
+                 'AnnotationHub', 'GenomicFeatures', 'normr',
+                 'MotifDb', 'TFBSTools', 'motifRG', 'JASPAR2018'
+)
+packagesRealNeed <- setdiff(packagesNeed, installed.packages())
+if(length(packagesRealNeed)>0){
+    cat(sprintf("\nInstalling required packages:\n%s\n", paste0(packToInst, collapse = "\n")))
+    BiocManager::install(packagesRealNeed)
+}
 ```
 
 
