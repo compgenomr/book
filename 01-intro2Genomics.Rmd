@@ -157,7 +157,7 @@ equivalent to what you imagine when you hear the word "gene".
 In the online databases, the genes will appear as a sequence of letters
 or as a series of connected boxes showing exon-intron structure which may
 include the direction of transcription as well (see Figure \@ref(fig:RealGene)).
-direction. You will encounter more with the latter so this is likely what will
+You will encounter more with the latter so this is likely what will
 pop into your mind when you think of genes.
 
 As we have mentioned DNA has two strands, and a gene can be located
