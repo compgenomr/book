@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo      = TRUE,
                       fig.width = 5.1)
 ```
 
-Protein-DNA interactions control large part of the gene expression regulation. Proteins such as transcription factors as well as histones are directly related to how much and in which contexts are the genes expressed. Some of these concepts are already introduced in Chapter \@ref(intro), if readers need more in depth introduction to these concepts. In this chapter, we will introduce how to process and analyze ChIP-seq data in order to identify genome-wide protein binding sites and learn about underlying sequence context via DNA binding motifs.
+Protein-DNA interactions are responsible for a large part of the gene expression regulation. Proteins such as transcription factors as well as histones are directly related to how much and in which contexts the genes are expressed. Some of these concepts are already introduced in Chapter \@ref(intro) if readers need a more in depth introduction. In this chapter, we will introduce how to process and analyze ChIP-seq data in order to identify genome-wide protein binding sites and to discover underlying sequence context via transcription factor binding-site motifs.
 
 ## Regulatory Protein-DNA Interactions
 One of the most fascinating biological phenomena is the fact that a myriad of  different cell types, in a multicellular organisms, are encoded by one single genome. How exactly this is achieved is still a
