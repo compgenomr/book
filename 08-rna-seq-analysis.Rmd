@@ -414,7 +414,7 @@ In a typical differential expression analysis, thousands of genes are found diff
 In R, the simplest way to do enrichment analysis is via the `gProfileR` package.
 
 Let's select the genes that are significantly differentially expressed between the case and control samples. 
-Let's remove genes that have an adjusted p-value below 0.1 and that show a 2-fold change (either negative or positive) in the case compared to control.  
+Let's extract genes that have an adjusted p-value below 0.1 and that show a 2-fold change (either negative or positive) in the case compared to control. We will then feed this gene set into  `gProfileR` function.
 
 ```{r GO_analysis}
 library(DESeq2)
@@ -494,7 +494,7 @@ kable(gseaResults$less,
       booktabs = TRUE,caption = 'Down-regulation statistics')
 ```
 
-We can see that the random gene set shows no significant up or down-regulation, while the gene set we defined using the top GO term shows a significant down-regulation (adjusted p-value < 0.0007). It is worthwhile to visualize these systematic changes in a heatmap:
+We can see that the random gene set shows no significant up or down-regulation, while the gene set we defined using the top GO term shows a significant up-regulation (adjusted p-value < 0.0007). It is worthwhile to visualize these systematic changes in a heatmap:
 
 ```{r gseaPost3}
 library(pheatmap)

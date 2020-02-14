@@ -105,10 +105,11 @@ install.packages("randomForests")
 ```
 You can install bioconductor packages with a specific installer script
 ```{r,eval=FALSE}
-# get the installer package
-source("http://bioconductor.org/biocLite.R")
+# get the installer package if you don't have
+install.packages("BiocManager")
+
 # install bioconductor package "rtracklayer"
-biocLite("rtracklayer")
+BiocManager::install("rtracklayer")
 ```
 You can install packages from github using *install_github()* function from **devtools**
 ```{r,eval=FALSE}
@@ -183,7 +184,7 @@ exp(2)        # exponential function
 R has multiple data structures. If you are familiar with excel you can think of a single excel sheet as a table and data structures as building blocks of that table. Most of the time you will deal with tabular data sets or you will want to transform your raw data to a tabular data set, and you will try to manipulate this tabular data set in some way. For example, you may want to take sub-sections of the table or extract all the values in a column. For these and similar purposes, it is essential to know what are the common data structures in R and how they can be used. R deals with named data structures, this means you can give names to data structures and manipulate or operate on them using those names. It will be clear soon what we mean by this if "named data structures" does not ring a bell.
 
 ### Vectors
-Vectors are one the core R data structures. It is basically a list of elements of the same type (numeric,character or logical). Later you will see that every column of a table will be represented as a vector. R handles vectors easily and intuitively. You can create vectors with c() function, however that is not the only way. The operations on vectors will propagate to all the elements of the vectors.
+Vectors are one of the core R data structures. It is basically a list of elements of the same type (numeric,character or logical). Later you will see that every column of a table will be represented as a vector. R handles vectors easily and intuitively. You can create vectors with c() function, however that is not the only way. The operations on vectors will propagate to all the elements of the vectors.
 
 ```{r}
 x<-c(1,3,2,10,5)    #create a vector named x with 5 components
@@ -423,7 +424,7 @@ cat("here is the result:",result,"\n")
 sqSumPrint(2,3)
 ```
 
-Sometimes we would want to execute a certain part of the code only if certain condition is satisfied. This condition can be anything from the type of an object (Ex: if object is a matrix execute certain code), or it can be more complicated such as if object value is between certain thresholds. Let us see how they can be used3. They can be used anywhere in your code, now we will use it in a function.
+Sometimes we would want to execute a certain part of the code only if certain condition is satisfied. This condition can be anything from the type of an object (Ex: if object is a matrix execute certain code), or it can be more complicated such as if object value is between certain thresholds. Let us see how they can be used. They can be used anywhere in your code, now we will use it in a function.
 
 ```{r,eval=FALSE}
 cpgi.df <- read.table("intro2R_data/data/subset.cpgi.hg18.bed", header = FALSE)
@@ -447,7 +448,7 @@ largeCpGi(cpgi.df[1000,])
 ```
 
 ### Loops and looping structures in R
-When you need to repeat a certain task or a execute a function multiple times, you can do that with the help of loops. A loop will execute the task until a certain condition is reached. The loop below is called a “for-loop” and it executes the task sequentially 10 times.
+When you need to repeat a certain task or execute a function multiple times, you can do that with the help of loops. A loop will execute the task until a certain condition is reached. The loop below is called a “for-loop” and it executes the task sequentially 10 times.
 ```{r}
 for(i in 1:10){ # number of repetitions
 cat("This is iteration") # the task to be repeated
@@ -677,7 +678,7 @@ myvec <= 2
 myvec != 4
 ```
 
-19.  Use `>` operator in `myvec[ ]` to get elements larger than 2 in `myvec` whic is described above
+19.  Use `>` operator in `myvec[ ]` to get elements larger than 2 in `myvec` which is described above
 ```{r,echo=FALSE,eval=FALSE}
 myvec[ myvec > 2 ] 
 myvec[ myvec == 2 ] 

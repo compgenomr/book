@@ -76,8 +76,8 @@ with this information is traditionally called a “gene”. However, the
 precise definition of the gene is still developing. According to the classical
 textbooks in molecular biology, a gene is a segment of a DNA sequence
 corresponding to a single protein or to a single catalytic and structural RNA
-molecule [1].  A modern definition is: "A region (or regions) that includes all
-of the sequence elements necessary to encode a functional transcript" [2]. No
+molecule  [@Albe_2002_book].  A modern definition is: "A region (or regions) that includes all
+of the sequence elements necessary to encode a functional transcript" [@eilbeck2005sequence]. No
 matter how variable the definitions are, all agree on the fact that genes are
 basic units of heredity in all living organisms.
 
@@ -95,7 +95,7 @@ Proteins are essential elements for life.
 The growth and repair, functioning and structure of all living cells depends on them.
 This is why the gene is a central
 concept in genome biology, because a gene can encode information for proteins and other
-functional molecules. How genes are controled and activated dictates
+functional molecules. How genes are controlled and activated dictates
 everything about an organism. From the identity of a cell to response to
 an infection, how cells develop and behave against certain stimuli is governed
 by activity of the genes and functional molecules they encode. The liver cell becomes a liver cell because certain
@@ -107,7 +107,7 @@ knitr::include_graphics("images/centDogma.png" )
 ```
 
 
-### How genes are controlled ? The transcriptional and the post-transcriptional regulation
+### How genes are controlled? The transcriptional and the post-transcriptional regulation
 In order to answer this question, we have to dig a little deeper on the
 transcription concept we introduced via the central dogma.
 The first step in a process of information transfer - a production of an RNA
@@ -120,11 +120,11 @@ eukaryotes, several proteins, called general transcription factors recognize and
 bind to core promoters and form a pre-initiation complex. RNA polymerases
 recognize these complexes and initiate synthesis of RNAs, the
 polymerase travels along the template DNA and making an RNA
-copy[3]. After mRNA is
-produced it is often spliced by splicesosome. The sections called 'introns' are removed and
+copy[@hager2009transcription]. After mRNA is
+produced it is often spliced by spliceosome. The sections called 'introns' are removed and
 sections called 'exons' left in. Then, the remaining mRNA translated into proteins. Which exons
 will be part of the final mature transcript can also be regulated and creates
-diversity in protein structure and function (See Figure \@ref(fig:TransSplice)`).
+diversity in protein structure and function (See Figure \@ref(fig:TransSplice)).
 
 
 ```{r,TransSplice,fig.cap="Transcription could be followed by splicing, which creates different transcript isoforms. This will in return create different protein isoforms since the information required to produce the protein is encoded in the transcripts. Differences in transcript of the same gene can give rise to different protein isoforms",fig.align = 'center',out.width='70%',ref.label='TransSplice',echo=FALSE}
@@ -133,7 +133,7 @@ knitr::include_graphics("images/TransSplice.png" )
 
 On the contrary to protein coding genes, non-coding RNA (ncRNAs)
 genes are processed and assume their functional structures after transcription
-and without going into translation, hence the name: non-coding RNAs. certain
+and without going into translation, hence the name: non-coding RNAs. Certain
 ncRNAs can also be spliced but still not translated. ncRNAs and
 other RNAs in general can form complementary base-pairs within the RNA molecule
 which gives them additional complexity. This self-complementarity based
@@ -156,8 +156,7 @@ a gene on a computer screen, and how it is represented on the computer will be
 equivalent to what you imagine when you hear the word "gene".
 In the online databases, the genes will appear as a sequence of letters
 or as a series of connected boxes showing exon-intron structure which may
-include the direction of transcription as well (see Figure \@ref(fig:RealGene)).
-direction. You will encounter more with the latter so this is likely what will
+include the direction of transcription as well (see Figure \@ref(fig:RealGene)). You will encounter more with the latter so this is likely what will
 pop into your mind when you think of genes.
 
 As we have mentioned DNA has two strands, and a gene can be located
@@ -208,7 +207,7 @@ altered protein-protein interactions.
 ####   Regulation by transcription factors through regulatory regions
  Transcripton factors are proteins that
 recognize a specific DNA motif to bind on a regulatory region and regulate the transcription rate of
-the gene associated with that regulatory region (See Figure \@ref(fig:regSummary))`
+the gene associated with that regulatory region (See Figure \@ref(fig:regSummary))
 for an illustration). These factors bind to a variety of regulatory regions summarized in
 Figure \@ref(fig:regSummary), and their concerted action
 controls the transcription rate. Apart from their binding preference, their
@@ -292,7 +291,7 @@ repressive chromatin domains. In vertebrates and insects, some of the
 well-studied insulators are bound by CTCF (CCCTC-binding factor).
 Genome-wide studies from different mammalian tissues confirm that CTCF binding
 is largely invariant of cell type, and CTCF motif locations are conserved in
-vertebrates.  At present, there are two models of explaining the insulator
+vertebrates. At present, there are two models of explaining the insulator
 function; the most prevalent model claims insulators create physically separate
 domains by modifying chromosome structure. This is thought to be achieved by
 CTCF-driven chromatin looping and recent evidence shows that CTCF can induce a
@@ -342,7 +341,7 @@ sequences to repress transposable elements, these elements when active can
 jump around and insert them to random parts of the genome, potentially distrupting
 the genomic functions.
 
-.DNA methylation is also related to a
+DNA methylation is also related to a
 key core and proximal promoter element: CpG islands. CpG islands are usually
 unmethylated, however for some genes CpG island methylation accompanies their
 silenced expression. For example, during X-chromosome inactivation many CpG
@@ -352,23 +351,23 @@ are silenced due to DNA methylation. Apart from methylation, there are other
 kinds of DNA modifications present in mamalian genomes, such as hydroxy-methylation and
 formylcytosine. These are other modifications under current research that are either 
 intermediate or stable modifications with distinct functional associations. There
-are as many as 12 distinct DNA modifications observed when we look accross 
-all studied species.
+are at least a dozen distinct DNA modifications observed when we look accross 
+all studied species [@sood2019dnamod].
 
 
 
-##### Histone Modifications:
+##### Histone modifications:
 Histones are proteins that constitute nucleosome. In
 eukaryotes, eight histones nucleosomes are wrapped around by DNA and build
 nucleosome. They help super-coiling of DNA and inducing high-order structure
 called chromatin. In chromatin, DNA is either densely packed (called
 heterochromatin or closed chromatin), or it is loosely packed (called
-euchromatin or open chromatin) [60, 61]. Heterochromatin is thought to harbor
+euchromatin or open chromatin). Heterochromatin is thought to harbor
 inactive genes since DNA is densely packed and transcriptional machinery cannot
 access it. On the other hand, euchromatin is more accessible for transcriptional
 machinery and might therefore harbor active genes.  Histones have long and
 unstructured N-terminal tails which can be covalently modified. The most studied
-modifications include acetylation, methylation and phosphorylation [60]. Using
+modifications include acetylation, methylation and phosphorylation [strahl2000language]. Using
 their tails, histones interact with neighboring nucleosomes and the
 modifications on the tail affect the nucleosomes affinity to bind DNA and
 therefore influence DNA packaging around nucleosomes. Different modifications on
@@ -381,7 +380,7 @@ Modifications                 Effect
 ------------                  ------  
     H3K9ac                    Active promoters and enhancers        
     H3K14ac                   Active transcription       
-    H3K4me3/me2/me1   Active promoters and enhancers, H3K4me1 and H3K27ac is enhancer-specific
+    H3K4me3/me2/me1           Active promoters and enhancers, H3K4me1 and H3K27ac is enhancer-specific
     H3K27ac                   H3K27ac is enhancer-specific          
     H3K36me3                  Active transcribed regions
     H3K27me3/me2/me1          Silent promoters
@@ -394,28 +393,21 @@ transcription-related conditions; some of them are summarized in Table 1.
 Histone modifications can indicate where the regulatory regions are and they can
 also indicate activity of the genes. From a gene regulatory perspective, maybe
 the most important modifications are the ones associated with enhancers and
-promoters. Certain genes in mouse embryonic stem cells have both active H3K4me3
-and inactive H3K27me3 modifications in their promoters. Surprisingly, most of
-these genes have high CpG content, are important for development and are shown
-to have paused RNA polymerase II [66, 67]. In addition, Heintzman et al. showed
-that H3K4me1 could predict tissue-specific active enhancers in human cells [68,
-69]. The examples above demonstrate the capability of histone modifications in
-predicting regulatory potential.
+promoters. 
 
 Furthermore, certain proteins can influence chromatin structure by interacting
 with histones. Some of these proteins, like those of the Polycomb Group (PcG)
 and CTCF, are discussed above in the insulators and silencer sections. In
 vertebrates and insects, PcGs are responsible for maintaining the silent state
 of developmental genes, and trithorax group proteins (trxG) for maintaining
-their active state [70, 71]. PcGs and trxGs induce repressed or active states by
+their active state [@henikoff2008nucleosome ; @schwartz2007polycomb]. PcGs and trxGs induce repressed or active states by
 catalyzing histone modifications or DNA methylation. Both the proteins bind PREs
-that can be on promoters or several kilobases away [30, 31, 71]. Another protein
-that induces histone modifications is CTCF. In b-globin locus, CTCF binding is
-shown to be associated with repressive H3K9/K27me2 modifications [72].
+that can be on promoters or several kilobases away. Another protein
+that induces histone modifications is CTCF. CTCF is associated with boundaries between active and repressive histone marks [@phillips2009ctcf]. This is due to the role of CTCF in regulating the 3D genome structure. Two CTCF binding sites that are far away from each other in linear distance can bound together in 3D space thus forming chromatin loops.
 
 ```{block2, transReg, type='rmdtip'}
 
-__Want to know more ?__
+__Want to know more?__
 
 - Transcriptional regulatory elements in the human genome: http://www.ncbi.nlm.nih.gov/pubmed/16719718
 
@@ -449,18 +441,17 @@ small-interferring RNAs (siRNAs), microRNAs (miRNAs), promoter-associated RNAs
 they are involved in epigenetic regulation by interacting with chromatin
 remodeling factors and they function in gene regulation. siRNAs are short
 double-stranded RNAs which are involved in gene-regulation and transposon
-control, they silence their target genes by cooperating with Argonaute proteins
-. miRNAs are short single-stranded RNA molecules that interact with their
+control, they silence their target genes by cooperating with Argonaute proteins. miRNAs are short single-stranded RNA molecules that interact with their
 target genes by using their complementary sequence and mark them for quicker
 degradation. PARs may regulate gene expression as well: they are ~18-200bp
-long ncRNAs originating from promoters of coding genes. snoRNAs also shown
+long ncRNAs originating from promoters of coding genes. snoRNAs are also shown
 to play roles in gene regulation, although they are mostly believed to guide
 ribosomal RNA modifications.
 
 
 #### Splicing regulation
 Splicing is regulated by regulatory elements on the pre-mRNA and proteins
-binding to those elements . Regulatory elements are categorized
+binding to those elements. Regulatory elements are categorized
 as splicing
 enhancers and repressors. They can be located either in exons
 or introns. Depending of their activity and their locations there are four types of regulatory elements:
@@ -470,7 +461,7 @@ or introns. Depending of their activity and their locations there are four types
  -  intronic splicing silencers (ISSs).
 
 The majority of splicing repressors are heterogeneous nuclear ribonucleoproteins (hnRNPs). If splicing repressor protein bind
-silencer elements they reduce the change of nearby site to be
+silencer elements they reduce the chance of nearby site to be
 used as splice junction. On the contrary, splicing enhancers are sites to which splicing activator proteins bind and binding
 on that region increases the probability that a nearby site will be used as a splice junction. Most of the activator proteins that bind to splicing enhancers are members of the SR protein family. Such proteins can recognize specific RNA recognition motifs. By regulating splicing exons can be skipped or included
 which creates protein diversity.
@@ -478,7 +469,7 @@ which creates protein diversity.
 
 ```{block2, postTranscriptreg, type='rmdtip'}
 
-__Want to know more ?__
+__Want to know more?__
 
 - On miRNAs: Their genesis and modes of regulation
 http://www.sciencedirect.com/science/article/pii/S0092867404000455
@@ -489,27 +480,27 @@ http://www.nature.com/nrg/journal/v15/n9/abs/nrg3765.html
 - Functions of non coding RNAs
 http://www.nature.com/nrg/journal/v15/n6/abs/nrg3722.html
 
-- on splicing: Wang, Zefeng; Christopher B. Burge (May 2008). "Splicing regulation: From a parts list of regulatory elements to an integrated splicing code". RNA 14 (5): 802–813. doi:10.1261/rna.876308. ISSN 1355-8382. PMC 2327353. PMID 18369186. Retrieved 2013-08-15.
+- On splicing: Wang, Zefeng; Christopher B. Burge (May 2008). "Splicing regulation: From a parts list of regulatory elements to an integrated splicing code". RNA 14 (5): 802–813. doi:10.1261/rna.876308. ISSN 1355-8382. PMC 2327353. PMID 18369186. Retrieved 2013-08-15.
 
 ```
 
 ## Shaping the genome: DNA mutation
 
-Human and chimpanzee genomes are 98.8% similar. The 1.2% difference is what separetes
+Human and chimpanzee genomes are 98.8% similar. The 1.2% difference is what separates
 us from chimpanzees. The further you move away from human in terms of evolutionary
 distance the higher the difference gets. However, even between the members of
-the same species differences in genome sequences exists. These differences are
+the same species differences in genome sequences exist. These differences are
 due to a process called mutation which drives differences between individuals
-but also the provides the fuel for evolution as the source of the genetic
+but also provides the fuel for evolution as the source of the genetic
 variation. Individuals with beneficial mutations can adapt to their surroundings
 better than others and in time these mutations which are beneficial for survival
-spreads in the population due to a process called "natural selection". Selection
+spread in the population due to a process called "natural selection". Selection
 acts upon individuals with beneficial features which gives them an edge for
 survival in a given environment. Genetic variation created by the mutations
 in individuals provide the material on which selection can act upon. If the
 selection process goes for a long time in a relatively isolated environment
 that requires adaptation, this population can evolve into a different species
-given enough time.This is the basic idea behind evolution in a nutshell,
+given enough time. This is the basic idea behind evolution in a nutshell,
 and without mutations providing the genetic variation there will be no evolution.
 
 Mutations in the genome occur due to multiple reasons. First, DNA replication
@@ -540,7 +531,7 @@ Mutations can also be classified by their size as follows:
 - __Point mutations__: mutations that involve one base. Substitutions, deletions and
   insertions are point mutations. They are also termed as single nucleotide
   polymorphisms (__SNPs__).
-- __small-scale mutations__: mutations that involve several bases.
+- __Small-scale mutations__: mutations that involve several bases.
 - __Large-scale mutations__: mutations which involve larger chromosomal regions.
   Transposable element insertions (where a segment of the genome
   jumps to another region in the genome) and segmental duplications ( a large
@@ -550,13 +541,27 @@ Mutations can also be classified by their size as follows:
 
 Mutations by their effect on gene function can be classified as follows:
 
-- __gain-of-function mutations__: A type of mutation in which the altered gene
+- __Gain-of-function mutations__: A type of mutation in which the altered gene
   product possesses a new molecular function or a new pattern of gene
   expression.
-- __loss-of-function mutations__:  A mutation that results in reduced or abolished
+- __Loss-of-function mutations__:  A mutation that results in reduced or abolished
   protein function. This is the more common type of mutation.
 
 
+```{block2, mutations, type='rmdtip'}
+
+__Want to know more?__
+
+- Interactive tutorial on mutations: http://www.dnaftb.org/27/
+
+- Tutorial on mutation and health maintained by NIH:https://ghr.nlm.nih.gov/primer#mutationsanddisorders
+    
+- Visualizations for different types of mutations: https://www.yourgenome.org/facts/what-types-of-mutation-are-there
+
+- Review article on mutations regarding human disease: https://www.nature.com/articles/nrg3241
+
+
+```
 
 
 
@@ -570,47 +575,45 @@ tests that are based on these techniques.
 
 Some of the things that can be measured by high-throughput assays are as follows:
 
-- _Which genes are expressed and how much ?_
-- _Where does a transcription factor bind ?_
-- _Which bases are methylated in the genome ?_
-- _Which transcripts are translated ?_
-- _Where does RNA-binding proteins bind ?_
-- _Which microRNAs are expressed ?_
-- _Which parts of the genome are in contact with each other ?_
-- _Where are the mutations in the genome  located ?_
-- _Which parts of the genome are nucleosome-free ?_
+- _Which genes are expressed and how much?_
+- _Where does a transcription factor bind?_
+- _Which bases are methylated in the genome?_
+- _Which transcripts are translated?_
+- _Where does RNA-binding proteins bind?_
+- _Which microRNAs are expressed?_
+- _Which parts of the genome are in contact with each other?_
+- _Where are the mutations in the genome  located?_
+- _Which parts of the genome are nucleosome-free?_
 
 There are many more questions one can answer using modern genome-wide techniques
 and every other day a new variant of the existing techniques comes along
 to answer a new question.
-However, One has to keep in mind that these methods are at varying degrees
+However, one has to keep in mind that these methods are at varying degrees
 of maturity and they all come with technical limitations
 and are not noise-free. Despite this, they are extremely useful for research and clinical
 purposes. And, thanks to these methods we are able to sequence and annotate
 genomes at a massive scale.
 
 ### The general idea behind high-throughput techniques
-High-throughput methods aim to quantify or locate all or most of the genome that harbours
+High-throughput methods aim to quantify or locate all or most of the genome that harbors
 the biological feature (expressed genes, binding sites, etc.) of interest. 
-Most of the methods rely on some sort of enrichment of the the targeted
+Most of the methods rely on some sort of enrichment of the targeted
 biological feature. For example, if you want to measure expression of protein coding
 genes you need to be able to extract mRNA molecules with special post-transcriptional
 alterations that protein-coding genes acquire. If you are looking for transcription factor 
 binding, you need to enrich
-for the DNA fragments that are bound by the protein if interest.This parts 
-depends on available molecular biology and chemistry technques, and the final 
+for the DNA fragments that are bound by the protein of interest.This part depends on available molecular biology and chemistry techniques, and the final 
 product of this part is RNA or DNA fragments. 
 
 Next, you need to be able to 
 tell where these fragments are coming from in the genome and how many of them
 are there. Microarrays were the standard tool for the quantification step 
-until spread of sequencing techniques. In microarrays, one had to design complementary bases
-,called "oligos" or "probes", to the genetic material enriched via the experimental protocol.
-If the enriched material is complementary to the genetic material,
+until spread of sequencing techniques. In microarrays, one had to design complementary bases, called "oligos" or "probes", to the genetic material enriched via the experimental protocol.
+If the enriched material is complementary to the oligos,
 a light signal will
 be produced and the intensity of the signal will be proportional to the amount of the
 genetic material pairing with that oligo. There will be more probes available for
-hybrdization (process of complementary bases forming bonds ), so the more fragments
+hybridization (process of complementary bases forming bonds ), so the more fragments
 available stronger the signal. For this to be able to work, you need to know
 at least part of your genome sequence, and design probes. If you want to measure
 gene expression, your probes should overlap with genes and should be unique 
@@ -621,12 +624,11 @@ to genome, see where they are coming from and count them. This is a better
 technology where the quantification is based on the real identiy of fragments 
 rather than based on hybridization to designed probes.
 
-In summary HT techniques has the following steps, and this also summarized in
+In summary HT techniques have the following steps, and this also summarized in
 Figure \@ref(fig:HTassays):
 
 - Extraction: This is the step where you extract the genetic
   material of interest, RNA or DNA.
-  and nrichment
 - Enrichment: In this step, you enrich for the event you are interested
   in. For example, protein binding sites. In some cases such as whole-genome DNA
   sequencing there is no need for enrichment step. You just get fragments of
@@ -648,23 +650,23 @@ of fragments at a time. This is in contrast to older technologies that can
 produce a limited
 number of fragments at a time. Here, throughput refers to number
 of sequenced bases per hour. The older low-throughput sequencing methods have
-~ 100 times less throughput compared to modern high-throughput methods. The 
+~100 times less throughput compared to modern high-throughput methods. The 
 increased throughput gives the ability to measure biological features on a 
 genome-wide scale in a shorter time frame.
 
-Similar to other high-throughput methods, sequencing based methods also require
+Similar to other high-throughput methods, sequencing-based methods also require
 an enrichment step. This step enriches for the features we are interested in.
 The main difference of the sequencing based methods is the quantification step. 
 In high-throughput sequencing,
 enriched fragments are put through the sequencer which outputs the sequences
 for the fragments. Due to limitations in current leading technologies, only 
-limited number of bases can be sequenced using from the input fragments. However,
+limited number of bases can be sequenced from the input fragments. However,
 the length is usually enough to uniquely map the reads to the genome and quantify
 the input fragments. 
 
 #### High-throughput sequencing data
 If there is a genome available, the reads are aligned to the genome and based
-on the library preperation protocol different strategies are applied for analysis. A sequencing library is composed of fragments of RNA or DNA ready to be sequenced. The library preparation primarily depends on the experiment of interest. There are a number of library preperation protocols aimed at quantifying different signals from the genome. Some of the potential analysis strategies for different library-prep protocols and processed output of read alignments
+on the library preperation protocol different strategies are applied for analysis. A sequencing library is composed of fragments of RNA or DNA ready to be sequenced. The library preparation primarily depends on the experiment of interest. There are a number of library preparation protocols aimed at quantifying different signals from the genome. Some of the potential analysis strategies for different library-prep protocols and processed output of read alignments
 are depicted in Figure \@ref(fig:HTseq).
 For example, we maybe interested to quantify the gene expression.
 The experimental protocol, called RNA sequencing-
@@ -676,8 +678,7 @@ We can also just count how many reads overlap with exons of each gene and record
 read counts per gene for further analysis. This essentially produces a table 
 with gene names and read counts for different samples. As we will see in later
 chapters, this is an essential information for statistical models that model
-RNA-seq data. Furthermore, we can stack up the reads and count how many times
-we see a base position in a read mismatches the base in the genome. Read aligners 
+RNA-seq data. Furthermore, we can stack up the reads and count how many times a base position in a read mismatches the base in the genome. Read aligners 
 allow for mismatches, and for this reason we can see reads with mismatches. 
 This information can be used to identify SNPs, and can be stored again in 
 a tabular format with the information of position and mismatch type and 
@@ -699,7 +700,7 @@ The sequencing technology is still evolving. Obtaining
 longer single-molecule reads, and preferably, being able to call base modifications
 on the fly is the next frontier.
 With longer reads, the genome asssembly will be easier for the regions
-that have high repeat content. With single-molecule sequencing, we will be able
+that have high repeat content. With single-molecule sequencing, we will be able to
 tell how many transcripts are present in a given cell population without
 relying on fragment amplification methods which can introduce biases. 
 
@@ -708,15 +709,15 @@ work on genetic material from thousands to millions of cells. This means that th
 results you receive represents the population of cells that were used in the 
 experiment. However, there is a lot of variation between the same type of cells, but 
 this variation is not observed at all. Newer sequencing techniques can work 
-on single cells and give quantititave information on each cell. 
+on single cells and give quantitative information on each cell. 
 
 ```{block2, htseqtip, type='rmdtip'}
 
-__Want to know more ?__
+__Want to know more?__
 
 - Current and the future high-throughput sequencing technologies http://www.sciencedirect.com/science/article/pii/S1097276515003408
 
-- Illumina repository for different library preperation protocols for sequencing http://www.illumina.com/techniques/sequencing/ngs-library-prep/library-prep-methods.html
+- Illumina repository for different library preparation protocols for sequencing http://www.illumina.com/techniques/sequencing/ngs-library-prep/library-prep-methods.html
 
 
 ```
@@ -734,8 +735,8 @@ There are two requirements to be able to visualize genomes and its associated
 data,  1) you need to be able to work with a species
 that has a sequenced genome and 2) you want to have annotation on that genome, 
 meaning, at the very least, you want to know where the genes are. Most
-genomes after sequencing quickly annotated with gene-predictions or
-know gene sequences are mapped on to it, you can also
+genomes after sequencing are quickly annotated with gene-predictions or
+known gene sequences are mapped on to them, you can also
 have conservation to other species to filter functional elements. If you
 are working with a model organism or human you will also have a lot of
 auxiliary information to help demarcate the functional regions such
@@ -752,7 +753,7 @@ interest in the genome visually. Looking at the genome case by case with all
 the additional datasets is a necessary step to develop hypothesis and understand
 the data.
 
-Many genomes and associated data is
+Many genomes and their associated data are
 available through genome browsers. A genome browser
 is a website or an application
 that helps you visualize the genome and all the available data associated
@@ -769,7 +770,7 @@ and annotations for many species. You can search for genes or genome coordinates
 for the species of your interest. It is usually very responsive and allows 
 you to visualize large amounts of data. In addition, it has multiple other tools
 that can be used in connection with the browser. One of the most useful tools 
-is _UCSC Table Browser_, which lets you download the all the data you see on the 
+is _UCSC Table Browser_, which lets you download all the data you see on the 
 browser, including sequence data, in multiple formats. 
 Users can upload data or provide links to the data
 to visualize user specific data.
@@ -809,8 +810,7 @@ own research. Many data sets in these repositories are in their raw format,
 for example the format the sequencer provides mostly. Some data sets will also
 have processed data but that is not a norm.
 
-Apart from these repositories, there are multiple multi-national consortia 
-that are dedicated to certain genome biology or disease related problems and 
+Apart from these repositories, there are multiple multi-national consortia dedicated to certain genome biology or disease related problems and 
 they maintain their own databases and provide access to processed and raw data.
 Some of these consortia are mentioned below.
 
