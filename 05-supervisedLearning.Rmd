@@ -24,15 +24,15 @@ We have already have quite an insight on how machine learning models are fit. We
 
 Machine learning models are optimization methods in their core. They all depend on defining a "cost" or "loss" function to minimize. For example, in linear regression the difference between predicted and the original values are being minimized. When we have a data set with the correct answer such as original values or class labels, this is called supervised learning. We use the structure in the data the predict a value and optimization methods help us use the right structure or patterns in the data. The supervised machine learning methods use predictor variables such as gene expression values or other genomic scores to build a mathematical function, or a mapping method if you will. This function maps a predictor variable vector or matrix from a given sample to the response variable: labels/classes or numeric values. The response variable is also called "dependent variable". Then, the predictions are simply output of mathematical functions, $f(X)$. These functions take predictor variables, $X$, as input. The variables in $X$ are also called "independent variables","explanatory variables" or "features". The functions also have internal parameters that help map $X$ to the predicted values. The optimization works on the parameters of $f(X)$ and tries to minimize the difference between the function output and original response variables ($Y$): $\sum(Y-f(X))^2$. Now, this is just a simplification of the actual "cost" or "loss" function. Especially, in classification problems cost functions can take different forms but the idea behind is the same. You have a mathematical expression you can minimize by searching for the optimal parameter values. The core ingredients of a machine learning algorithm are the same and they are listed as follows:
 
-1) Define a prediction function or method $f(X)$
-2) Devise a function (called loss or cost function) to optimize the difference between your predictions and observed values, such as $\sum (Y-f(X))^2$
+1) Define a prediction function or method $f(X)$.
+2) Devise a function (called loss or cost function) to optimize the difference between your predictions and observed values, such as $\sum (Y-f(X))^2$.
 3) Apply mathematical optimization methods to find best parameter values for $f(X)$ in relation to the cost/loss function.
 
 Similarly, clustering and dimension reduction techniques can use optimization methods but they do so without having a correct answer to predict or train with. In this case, they find patterns or structure in the data without trying to estimate a correct answer. These patterns are groupings of samples or variables, such as common gene expression patterns that can be obtained from dimension reduction techniques such as PCA. In general, dimension reduction algorithms can be thought as optimization procedures that are trying to minimize $X-WH$. Here, $X$ is our original data set and $WH$ is the product of potentially two lower dimension matrices, $W$ and $H$. In this case, the optimization procedure hopefully gives us the lower dimensional space we can represent our data without loosing too much information.
 
 
 ### Machine learning vs Statistics 
-Machine learning and statistics are related and sometimes overlapping fields. Statistical inference is the main purpose of statistics. The aim of inference is to find statistical properties of the underlying data and also estimate the uncertainty about those properties. However, while doing so field of statistics developed dimension reduction and regression techniques that are the corner stone of machine learning applications.
+Machine learning and statistics are related and sometimes overlapping fields. Statistical inference is the main purpose of statistics. The aim of inference is to find statistical properties of the underlying data and also estimate the uncertainty about those properties. However, while doing so, the field of statistics developed dimension reduction and regression techniques that are the corner stone of machine learning applications.
 
 Both machine learning and statistics share the same overarching goal, which is learning from the data. 
 The difference between the two is that machine learning emphasizes optimization and performance over statistical inference. Statistics is also concerned about performance but would like to calculate the uncertainty associated with parameters of the model. It will try to model the population statistics from the sample data points to assess that uncertainty. Having said that, many machine learning algorithms, including a couple we will introduce below, are developed by scientists who will define themselves as statisticians, and work at statistics departments of universities. 
@@ -41,11 +41,11 @@ The difference between the two is that machine learning emphasizes optimization 
 ## Steps in supervised machine learning
 There are many methods to use for supervised learning problems. However, there are similar steps that you will need to follow whatever machine learning method you choose to train. These steps are briefly described below and we will get back to these in detail later in the chapter:
 
-- pre-processing data: Normalization, data transformation
+- pre-processing data: We might have to use normalization and data transformation procedures.
 - training and test data split: Decide which strategy you want to use for evaluation purposes. You need to use a test set to evaluate your model later on. 
 - training the model: This is where your choice of supervised learning algorithm becomes relevant."Training" generally means your data set is used in optimization of the loss function to find parameters for $f(x)$. 
-- Estimating performance of the model: This is about which metrics to use to evaluate performance and how to calculate those metrics
-- Model tuning and selection: We try different parameters and select the best model
+- Estimating performance of the model: This is about which metrics to use to evaluate performance and how to calculate those metrics.
+- Model tuning and selection: We try different parameters and select the best model.
 
 Many of these steps are identical for different supervised learning methods. Therefore, we will use [**caret**](http://topepo.github.io/caret/index.html) package to perform these steps, which streamlines the steps and provides a similar interface for different supervised learning methods. There are other similar packages such as [**mlr**](https://mlr.mlr-org.com/) that can provide similar functionality. For now, we will focus on classification models which is a subset of supervised learning models. In these types of models, we try to predict a categorical response variable, such as if a patient has the disease or not, or what type of disease the patient has based on predictor variables. 
 
@@ -107,6 +107,7 @@ tgexp <- t(gexp)
 ### Filtering data and scaling
 We can filter predictor variables which has low variation. They are not likely to have any predictive importance since there is not much variation and they will just slow our algorithms. The more variables the slower the algorithms will be generally. `caret::preProcess()` function can help filter the predictor variables with near zero variance. 
 ```{r nzv,eval=FALSE}
+library(caret)
 # remove near zero variation for the columns at least
 # 85% of the values are the same
 # this function creates the filter but doesn't apply it yet
@@ -177,7 +178,7 @@ knnimputedGexp=predict(knnImpute,missing_tgexp)
 At this point we might choose to split the data to the test and the training partitions. The reason for this is that we need an independent test we did not train on. This will become more clear in the following sections but without having a separate test set we can not assess the performance of our model or tune it properly. 
 
 ### Holdout test dataset
-There are multiple data split strategies. For starters, we will split the 30% of the data as test. This method is the gold standard for testing performance of our model. By doing this, we have a separate data set that the model has never seen. First, we create a single data frame with predictors and response variables 
+There are multiple data split strategies. For starters, we will split 30% of the data as test. This method is the gold standard for testing performance of our model. By doing this, we have a separate data set that the model has never seen. First, we create a single data frame with predictors and response variables 
 ```{r mergeLabelTrain}
 tgexp=merge(patient,tgexp,by="row.names")
 
@@ -258,7 +259,7 @@ An alternative to accuracy we showed earlier is "balanced accuracy". Accuracy do
 In the k-NN example above, we trained and tested on the same data. The model returned the predicted labels for our training. We can calculate the accuracy metrics using `caret::confusionMatrix()` function. This is sometimes what it is called training accuracy. If you take $1-accuracy$, it will be the "training error". 
 ```{r}
 
-# gte k-NN prediction on the training data itself, with k=5
+# get k-NN prediction on the training data itself, with k=5
 knnFit=knn3(x=training[,-1], # training set
             y=training[,1], # training set class labels
             k=5)
@@ -543,7 +544,7 @@ knitr::include_graphics("images/ml-random-forest-features.png" )
 
 
 For the demonstration purposes, we will use **caret** package interface to **ranger** random forest package. This is a fast implementation of the original random forest algorithm. For random forests, we have two critical arguments. One is the most critical argument for random forest is the predictor variables to sample in each split of the tree. As this parameter controls the independence between the trees, and as explain before this limits the overfitting. Below, we are going to fit a random forest model to our tumor subtype problem. We will set `mtry=100` and do not let select the training procedure to find the best `mtry` value for simplicity. However, it is good practice
-to run the model with cross-validation let it pick best parameters based on the cross-validation performance. It defaults to the square root of number of predictor variables. Another variable we can tune is the minimum node size of terminal nodes in the trees (min.node.size). This controls the depth of the trees grown. Setting this to larger numbers might cost a small loss in accuracy but the algorithm will run faster.
+to run the model with cross-validation let it pick best parameters based on the cross-validation performance. It defaults to the square root of number of predictor variables. Another variable we can tune is the minimum node size of terminal nodes in the trees (`min.node.size`). This controls the depth of the trees grown. Setting this to larger numbers might cost a small loss in accuracy but the algorithm will run faster.
 ```{r,RFex,fig.cap="description",fig.align = 'center',out.width='70%'}
 set.seed(17)
 
@@ -721,8 +722,13 @@ plot(varImp(enetFit),top=10)
 ```
 
 
-#### Want to know more
+```{block2, glmnetHastie, type='rmdtip'}
+
+__Want to know more ?__
+
 - Lecture by Trevor Hastie on regularized regression. You probably need to understand basics of regression and its terminology to follow this. However, the lecture is not very heavy on math. https://youtu.be/BU2gjoLPfDc
+
+```
 
 ## Other supervised algorithms
 We will next introduce a couple of other supervised algorithms for completeness but in less detail. These algorithms are also as popular as the others we introduced above and people who are interested in computational genomics see them used in the field for different problems. These algorithms also fit to the general framework of optimization of a cost/loss function. However, the approaches to the construction of the cost function and the cost function itself is different in each case.
@@ -764,10 +770,14 @@ gbFit$bestTune
 
 Similar to random forests, we can estimate the variable importance for gradient boosting using the improvement in gini impurity or other performance relates metrics every time a variable is selected in a tree. Again, `caret::varImp` function can be used to plot the importance metrics.
 
-#### want to know more...
+```{block2, xgboostMore, type='rmdtip'}
+
+__Want to know more ?__
+
 - [More background on gradient boosting and XGboost](https://xgboost.readthedocs.io/en/latest/tutorials/model.html). This explains the cost/loss function and regularization in more detail.
 - [Lecture on Gradient boosting and random forests by Trevor Hastie](https://youtu.be/wPqtzj5VZus)
 
+```
 
 
 ### Support Vector Machines (SVM)
@@ -797,9 +807,14 @@ svmFit <- train(subtype~., data = training,
 ```
 
 
-#### Want to know more...
+```{block2, svmMore, type='rmdtip'}
+
+__Want to know more ?__
+
 - [MIT lecture by Patrick Winston on SVM](https://youtu.be/_PwhiWxHK8o). This lecture explains the concept with some mathematical background. It is not hard to follow. You should be able to follow this if you know what vectors are and if you have some knowledge on derivatives and basic algebra. 
 - [Online demo for SVM](https://cs.stanford.edu/people/karpathy/svmjs/demo/). You can play with sigma and C parameters for radial basis SVM and see how they affect the decision boundary.
+
+```
 
 ### Neural networks and deep versions of it  
 Neural networks are another popular machine learning method which is recently regaining popularity. The earlier versions of the algorithm were popularized in the 80s and 90s. The advantage of neural networks is like SVM, they can model non-linear decision boundaries. The basic idea of neural networks is to combine the predictor variables in order to model the response variable as a non-linear function. In a neural network, input variables pass through several layers that combine the variables and transform those combinations and recombine outputs depending on how many layers the network has. In the conceptual example in Figure @\ref(fig:neuralNetDiagram) the input nodes receive predictor variables and make linear combinations of them in the form of $\sum ( w_ixi +b)$. Simply put, the variables are multiplied with weights and summed up. This is what we by "linear combination". These quantities are further fed into another layer called hidden layer where an activation function is applied on the sums. And these results are further fed into an output node which outputs class probabilities assuming we are working on a classification algorithm. There could be many more hidden layers that will even further combine the output from hidden layers before them. The algorithm in the end also has a cost function similar to the logistic regression  cost function but it now has to estimate all the weight parameters: $w_i$. This is a more complicated problem than logistic regression because of number of parameters to be estimated but neural networks are able to fit complex functions due their parameter space flexibility as well.
@@ -833,10 +848,13 @@ nnetFit <- train(subtype~., data = training,
 
 The example we used above is a bit outdated. The modern "deep" neural networks provides much more flexibility in the number of nodes, number of layers and regularization options. In many areas especially computer vision deep neural networks are the state-of-the-art [@lecun2015deep]. These modern implementations of neural networks are available in R via **keras** package and also can be trained via the **caret** package with the similar interface we have shown until now.
 
-#### want to know more...
+```{block2, DL, type='rmdtip'}
+
+__Want to know more ?__
+
 - [Deep neural networks in R](https://keras.rstudio.com/). There are examples and background information on deep neural networks.
 - [Online demo for neural networks](https://cs.stanford.edu/~karpathy/svmjs/demo/demonn.html). You can see the affect of number of hidden layers and number of nodes on the decision boundary.
-
+```
 
 
 ### Ensemble learning
@@ -939,7 +957,9 @@ In this instance, we are using OOB errors and $R^2$ value which shows how the mo
 ## Exercises
 
 ### classification 
-TBD
+1. Use no data transformation and do classification. what is the effect on classification accuracy for KNN
+2. use bootstrap resampling with caret KNN
+3. get variable importance metrics from randomforest and compare that with DALEX
 
 ### Regression
 1. Split 20% of the methylation-age data as test data and run elastic net regression on the training portion to tune parameters and test it on the test portion.(intermediate difficulty) 
