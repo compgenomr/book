@@ -261,7 +261,7 @@ dir(folder) # will show the contents of the folder
 1. Plot base quality distributions of chip-seq samples **Rqc** package.[Difficulty: **Beginner/Intermediate**]
 **HINT**: You need to provide a regular expression pattern for extracting the right files from the folder. `"^chip"` matches the files begining with "chip".
 
-```{r seqProcessEx,eval=FALSE,echo=FALSE}
+```{r seqProcessEx2,eval=FALSE,echo=FALSE}
 folder=(system.file(package="QuasR", "extdata"))
 library(Rqc)
 folder = system.file(package="ShortRead", "extdata/E-MTAB-1147")

@@ -86,17 +86,16 @@ The book is designed with the idea that practical and conceptual
 understanding of data analysis methods is as important, if not more important, than the theoretical understanding, such as detailed derivation of equations in statistics or machine learning. That is why we first try to give a conceptual explanation of the concepts then we try to give essential parts of the mathematical formulas for more detailed understanding. In this sprit, we always show the code and 
 explain the code for a particular data analysis task. In addition, we give additional references such as books, websites , video lectures and scientific papers for readers who desire to gain deeper theoretical understanding of data analysis related methods or concepts.
 
-"Introduction to Genomics" chapter introduces the basic concepts in genome biology and genomics. Understanding these concepts are important for computational genomics. 
+Chapter \@ref(intro): "Introduction to Genomics" introduces the basic concepts in genome biology and genomics. Understanding these concepts are important for computational genomics. 
 
-"Introduction to R for Genomic Data Analysis" chapter provides basic R skills necessary to follow the book in addition to common data analysis paradigms we observe in genomic data analysis.  The "Statistics for Genomics", "Exploratory Data Analysis with Unsupervised Machine Learning" and "Predictive Modeling with Supervised Machine Learning" chapters introduces the necessary quantitative skills that one might need when analyzing high-dimensional genomics data.
+Chapter \@ref(Rintro): "Introduction to R for Genomic Data Analysis" provides basic R skills necessary to follow the book in addition to common data analysis paradigms we observe in genomic data analysis.  Chapter \@ref(stats): "Statistics for Genomics", chapter \@ref(unsupervisedLearning): "Exploratory Data Analysis with Unsupervised Machine Learning" and Chapter \@ref(supervisedLearning): "Predictive Modeling with Supervised Machine Learning" introduce the necessary quantitative skills that one might need when analyzing high-dimensional genomics data.
 
-The "Operations on Genomic Intervals and Genome Arithmetic" chapter introduces the fundamental tools for dealing with genomic intervals and their relationship to each other over the genome. In addition, the chapter introduces a variety of ways used in genomic data visualization. The skills introduced in this chapter are key skills that are needed to work with processed genomic data which are available through public databases such as Ensembl and UCSC browser.
+Chapter \@ref(genomicIntervals): "Operations on Genomic Intervals and Genome Arithmetic" introduces the fundamental tools for dealing with genomic intervals and their relationship to each other over the genome. In addition, the chapter introduces a variety of ways used in genomic data visualization. The skills introduced in this chapter are key skills that are needed to work with processed genomic data which are available through public databases such as Ensembl and UCSC browser.
 
-The next chapters deals with specific analysis of high-throughput sequencing data and integrating different kinds of data sets. The "Quality Check, Processing and Alignment of High-throughput Sequencing Reads" chapter introduces quality checks that need to be done on sequencing reads and different ways to process them further. The chapters "RNA-seq Analysis", "ChIP-seq Analysis" and "BS-seq Analysis" deals 
-with the analysis techniques for popular high-throughput sequencing techniques. The last chapter "Multi-omics Analysis" deals with methods for integrating multiple omics data sets.
+The next chapters deals with specific analysis of high-throughput sequencing data and integrating different kinds of data sets. Chapter \@ref(processingReads): "Quality Check, Processing and Alignment of High-throughput Sequencing Reads" introduces quality checks that need to be done on sequencing reads and different ways to process them further. The chapters \@ref(rnaseqanalysis), \@ref(chipseq) and \@ref(bsseq) deals with RNA-seq analysis, ChIP-seq analysis and BS-seq analysis. The last chapter, Chapter \@ref(multiomics):"Multi-omics Analysis" deals with methods for integrating multiple omics data sets.
 
 
-To sum it up, this book is a comprehensive guide for computational genomics. Some sections are there for the sake of the wide interdisciplinary audience and completeness, and not all sections will be equally useful to all readers of this broad audience.
+To sum it up, this book is a comprehensive guide for computational genomics. Some sections are there for the sake of the wide interdisciplinary audience and completeness, and not all sections will be equally useful to all readers of this broad audience. 
 
 ## Software information and conventions {-}
 
@@ -144,7 +143,6 @@ The following people kindly contributed fixes for typos and code, and various su
 ```{r contributions,child = if (knitr::is_html_output()) 'addons/how-to-contribute.Rmd'}
 ```
 
-```{r trainings,child = if (knitr::is_html_output()) 'addons/training.Rmd'}
-```
+
 
 
