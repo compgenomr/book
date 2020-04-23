@@ -527,9 +527,7 @@ __Want to know more ?__
 
 
 ## Exercises 
-
-### Clustering
-Use the expression data as shown below 
+For this set of exercises we will be using the expression data as shown below:
 ```{r dataLoadClu,eval=FALSE}
 expFile=system.file("extdata",
                     "leukemiaExpressionSubset.rds",
@@ -537,15 +535,24 @@ expFile=system.file("extdata",
 mat=readRDS(expFile)
 
 ```
-1. We want to observe the effect of data transformation in this exercise. Scale the expression matrix with `scale()` function. In addition, try taking the logarithm of the data with `log2()` function prior to scaling. Make boxlplots of the unscaled and scaled data sets using `boxplot()` function. (Difficulty: Beginner/Intermediate)
 
-2. For the same problem above using the unscaled data and different data transformation strategies, use `ward.d` distance in hierarhical clustering and plot multiple heatmap. You can try to use `pheatmap` library or any other library that can plot a heatmap with a dendrogram.Which data scaling strategy provides more homogeneous clusters with respect to disease types? (Difficulty: Beginner/Intermediate)
-3. For the data sets used in exercise above, use the silhouette for deciding number of clusters using hierarchical clustering (Difficulty: Intermediate/Advanced)
-4. Now, use Gap Statistic for deciding number of clusters in hierarchical clustering. Is it the same number of clusters identfied by two methods? Is it similar to the number of clusters obtained using the k-means algorithm in the chapter (Difficulty: Intermediate/Advanced)
+### Clustering
+
+1. We want to observe the effect of data transformation in this exercise. Scale the expression matrix with `scale()` function. In addition, try taking the logarithm of the data with `log2()` function prior to scaling. Make boxlplots of the unscaled and scaled data sets using `boxplot()` function. [Difficulty: **Beginner/Intermediate**]
+
+2. For the same problem above using the unscaled data and different data transformation strategies, use `ward.d` distance in hierarhical clustering and plot multiple heatmap. You can try to use `pheatmap` library or any other library that can plot a heatmap with a dendrogram.Which data scaling strategy provides more homogeneous clusters with respect to disease types? [Difficulty: **Beginner/Intermediate**]
+
+3. For the transformed and untransformed data sets used in exercise above, use the silhouette for deciding number of clusters using hierarchical clustering [Difficulty: **Intermediate/Advanced**]
+
+4. Now, use Gap Statistic for deciding number of clusters in hierarchical clustering. Is it the same number of clusters identfied by two methods? Is it similar to the number of clusters obtained using the k-means algorithm in the chapter [Difficulty: **Intermediate/Advanced**]
 
 ### Dimension Reduction
 We will be using the leukemia expression data set again. You can use it as shown in clustering exercises.
-1.  Do PCA on the expression matrix using `princomp()` function and then use `screeplot()` function to visualize the explained variation by eigen vectors (Difficulty: Beginner). How many top components explain the 95% of the variation ?
-2. Our next tasks is to remove eigen vectors and reconstruct the matrix using SVD, then calculating reconstruction error as the difference between original and reconstructed matrix. HINT: You have to use `svd()` function and equalize eigen value to 0 for the component you want to remove for the eigen vector you want to remove (Difficulty: Intermediate/Advanced)
-3. Produce a 10 component ICA from the expression data set. Remove each component one-by-one and measure the reconstruction error. Rank the components by decreasing reconstruction error.(Difficulty: Advanced)
-4. In this exercise we use the `Rtsne()` function on the leukemia expression data set. Try to increase and decrease perpexity t-sne, and describe observed the changes in 2D tsne plots. (Difficulty: Beginner)
+
+1. Do PCA on the expression matrix using `princomp()` function and then use `screeplot()` function to visualize the explained variation by eigen vectors. How many top components explain the 95% of the variation ? [Difficulty: **Beginner**]
+
+2. Our next tasks is to remove eigen vectors and reconstruct the matrix using SVD, then calculating reconstruction error as the difference between original and reconstructed matrix. HINT: You have to use `svd()` function and equalize eigen value to 0 for the component you want to remove for the eigen vector you want to remove [Difficulty: **Intermediate/Advanced**]
+
+3. Produce a 10 component ICA from the expression data set. Remove each component one-by-one and measure the reconstruction error. Rank the components by decreasing reconstruction error.[Difficulty: **Advanced**]
+
+4. In this exercise we use the `Rtsne()` function on the leukemia expression data set. Try to increase and decrease perplexity t-sne, and describe observed the changes in 2D tsne plots. [Difficulty: **Beginner**]

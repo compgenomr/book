@@ -249,8 +249,29 @@ __Want to know more ?__
 
 
 ## Further processing of aligned reads
-After alignment some further processing might be necessary. However, these steps are usually sequencing protocol specific. For example, for methylation C->T mismatches should be counted. For gene expression measurements, reads that overlap with transcripts should be counted. These further processing tasks are either done by specialized alignment related software or can be done in R. We will explain these further processing steps when they become relevant in the context of following chapters.
+After alignment some further processing might be necessary. However, these steps are usually sequencing protocol specific. For example, for methylation C->T mismatches should be counted. For gene expression measurements, reads that overlap with transcripts should be counted. These further processing tasks are either done by specialized alignment related software or can be done in R in some cases. We will explain these further processing steps when they become relevant in the context of following chapters.
 
 
 ## Exercises 
-TBD
+For this set of we will use the `chip_1_1.fq.bz2` and `chip_2_1.fq.bz2` files from the **QuasR** package. You can reach the folder that contains the files as follows, you need to:
+```{r seqProcessEx,eval=FALSE}
+folder=(system.file(package="QuasR", "extdata"))
+dir(folder) # will show the contents of the folder
+```
+1. Plot base quality distributions of chip-seq samples **Rqc** package.[Difficulty: **Beginner/Intermediate**]
+**HINT**: You need to provide a regular expression pattern for extracting the right files from the folder. `"^chip"` matches the files begining with "chip".
+
+```{r seqProcessEx,eval=FALSE,echo=FALSE}
+folder=(system.file(package="QuasR", "extdata"))
+library(Rqc)
+folder = system.file(package="ShortRead", "extdata/E-MTAB-1147")
+
+# feeds fastq.qz files in "folder" to quality check function
+qcRes=rqc(path = folder, pattern = "^chip", openBrowser=FALSE)
+rqcCycleQualityBoxPlot(qcRes)
+
+```
+
+2. Now we will trim the reads based on the quality scores. Let's trim 2-4 bases on the 3' end depending on the quality scores. You can use  Trim the ends of the samples `QuasR::preprocessReads()` function for this purpose.[Difficulty: **Beginner/Intermediate**]
+
+3. Align the trimmed and untrimmed reads using **QuasR** and plot alignment statistics, did the trimming improve alignments? [Difficulty: **Intermediate/Advanced**]
