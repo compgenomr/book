@@ -4,12 +4,11 @@ author: "Altuna Akalin"
 date: "`r Sys.Date()`"
 knit: "bookdown::render_book"
 documentclass: krantz
+classoption: numberinsequence,krantz2
 bibliography: [book.bib]
 biblio-style: apalike
 link-citations: yes
 colorlinks: yes
-lot: yes
-lof: yes
 fontsize: 12pt
 monofont: "Source Code Pro"
 monofontoptions: "Scale=0.7"
@@ -47,7 +46,7 @@ lapply(c('citr', 'formatR', 'svglite'), function(pkg) {
 knitr::include_graphics('images/cover.jpg', dpi = NA)
 ```
 
-The aim of this book is to provide the fundamentals for data analysis for genomics. We developed this book based on the computational genomics courses we are giving every year. We have had invariably an interdisicplinary audience with backgrounds from physics, biology, medicine, math, computer science or other quantitative fields. We want this book to be a starting point for computational genomics students and a guide for further data analysis in more specific topics in genomics. This is why we tried to cover a large variety of topics from programming to basic genome biology. As the field is interdisciplinary, it requires different starting points for people with different backgrounds. A biologist might skip sections on basic genome biology and start with R programming whereas a computer scientist might want to start with genome biology. In the same manner, a more experienced person might want to refer to this book when s/he needs to do a certain type of analysis where s/he does not have prior experience.
+The aim of this book is to provide the fundamentals for data analysis for genomics. We developed this book based on the computational genomics courses we are giving every year. We have had invariably an interdisciplinary audience with backgrounds from physics, biology, medicine, math, computer science or other quantitative fields. We want this book to be a starting point for computational genomics students and a guide for further data analysis in more specific topics in genomics. This is why we tried to cover a large variety of topics from programming to basic genome biology. As the field is interdisciplinary, it requires different starting points for people with different backgrounds. A biologist might skip sections on basic genome biology and start with R programming whereas a computer scientist might want to start with genome biology. In the same manner, a more experienced person might want to refer to this book when s/he needs to do a certain type of analysis where s/he does not have prior experience.
 
 
 ![Creative Commons License](images/by-nc-sa.png)  
@@ -83,7 +82,7 @@ sets mostly using R based tools.
 
 ## Structure of the book {-}
 The book is designed with the idea that practical and conceptual
-understanding of data analysis methods is as important, if not more important, than the theoretical understanding, such as detailed derivation of equations in statistics or machine learning. That is why we first try to give a conceptual explanation of the concepts then we try to give essential parts of the mathematical formulas for more detailed understanding. In this sprit, we always show the code and 
+understanding of data analysis methods is as important, if not more important, than the theoretical understanding, such as detailed derivation of equations in statistics or machine learning. That is why we first try to give a conceptual explanation of the concepts then we try to give essential parts of the mathematical formulas for more detailed understanding. In this spirit, we always show the code and 
 explain the code for a particular data analysis task. In addition, we give additional references such as books, websites , video lectures and scientific papers for readers who desire to gain deeper theoretical understanding of data analysis related methods or concepts.
 
 Chapter \@ref(intro): "Introduction to Genomics" introduces the basic concepts in genome biology and genomics. Understanding these concepts are important for computational genomics. 
@@ -99,7 +98,7 @@ To sum it up, this book is a comprehensive guide for computational genomics. Som
 
 ## Software information and conventions {-}
 
-Package names are in bold text (e.g., **methylKit**), and inline code and filenames are formatted in a typewriter font. Function names are followed by parentheses (e.g., `genomation::ScoreMatrix()`). The double-colon operator `::` means accessing an object from a package.
+Package names are in bold text (e.g., **methylKit**), and inline code and file names are formatted in a typewriter font. Function names are followed by parentheses (e.g., `genomation::ScoreMatrix()`). The double-colon operator `::` means accessing an object from a package.
 
 ### Assignment operator convention {-}
 Traditionally, `<-` is the preferred assignment operator. However, throughout the book we use `=` and `<-` as the assignment operator interchangeably.

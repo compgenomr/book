@@ -5,6 +5,9 @@
 _book/
 _bookdown_files/
 book-output
+book_pdf/
 extdata
 fastqc_results
 compgenomr.Rproj
+output_file
+compgenomrReloaded.log

@@ -6,8 +6,8 @@ knitr::opts_chunk$set(echo      = TRUE,
                       message   = FALSE, 
                       error     = FALSE,
                       cache     = TRUE,
-                      out.width = "65%",
-                      fig.width = 5.1)
+                      out.width = "60%",
+                      fig.width = 5)
 ```
 
 Protein-DNA interactions are responsible for a large part of the gene expression regulation. Proteins such as transcription factors as well as histones are directly related to how much and in which contexts the genes are expressed. Some of these concepts are already introduced in Chapter \@ref(intro) if readers need a more in depth introduction. In this chapter, we will introduce how to process and analyze ChIP-seq data in order to identify genome-wide protein binding sites and to discover underlying sequence context via transcription factor binding-site motifs.
@@ -874,14 +874,12 @@ The boolean vector contains the information of which genomic positions
 contained the DNA fragment ends.
 
 Similarity between two boolean vectors can be promptly computed  using the Jaccard index.
-Jaccard index is defined as an intersection between two boolean vectors, divided by their union
-\ref(fig:Figure_JaccardSimilarity).
+Jaccard index is defined as an intersection between two boolean vectors, divided by their union as shown in Figure @\ref(fig:FigureJaccardSimilarity).
 
-
-
-```{r Figure-JaccardSimilarity, echo=FALSE, include=TRUE, fig.cap='Jaccard similarity is defined as the ration of the intersection and union of two sets.'}
+```{r, FigureJaccardSimilarity, echo=FALSE,fig.align = 'center', fig.cap="Jaccard similarity is defined as the ratio of the intersection and union of two sets."}
 knitr::include_graphics('./Figures/Jaccard.png')
 ```
+
 
 
 Firstly we load the reads for one of the CTCF ChIP experiments.

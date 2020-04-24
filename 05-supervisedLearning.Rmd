@@ -854,6 +854,7 @@ __Want to know more ?__
 
 - [Deep neural networks in R](https://keras.rstudio.com/). There are examples and background information on deep neural networks.
 - [Online demo for neural networks](https://cs.stanford.edu/~karpathy/svmjs/demo/demonn.html). You can see the affect of number of hidden layers and number of nodes on the decision boundary.
+
 ```
 
 
@@ -890,7 +891,7 @@ In this section, we are going to show how to use a supervised learning method fo
 We will demonstrate random forest regression using a different data set which has a continuous response variable. This time we are going to try to predict age of individuals from their DNA methylation levels. Methylation is a DNA modification which has implications in gene regulation and cell state. We are going to introduce methylation in depth in chapter \@ref(bsseq), however for now what we need to know is that there are 24 million CpG dinucleotides in the human genome. Their methylation status can be measured with quantitative assays and the value is between 0 and 1. If it is 0, the CpG is not methylated in any of the cells in the sample, and if it is 1, the CpG is methylated in all the cells of the sample. It has been shown that methylation is predictive of the age of the individual that the sample is taken from [@numata2012dna; @horvath2013dna]. Now, we will try to test that with a data set containing hundreds of individuals, their age and methylation values for ~27000 CpGs. We first read in the files and construct a training set.
 
 ### reading and processing the data
-Let us first read in the data. When we run the summary and histogram we see that the methylation values are between 0 and 1 and there are 108 samples (See Figure @\ref(fig:readMethAge)). Typically, methylation values have bimodal distribution. In this case many of them have values around 0 and second most frequent value bracket is around 0.9.   
+Let us first read in the data. When we run the summary and histogram we see that the methylation values are between 0 and 1 and there are 108 samples (See Figure @\ref(fig:readMethAge) ). Typically, methylation values have bimodal distribution. In this case many of them have values around 0 and second most frequent value bracket is around 0.9.   
 ```{r, readMethAge,out.width='60%',fig.width=4.5,fig.cap="Histogram of methylation values in the training set for age prediction."}
 # file path for CpG methylation and age
 fileMethAge=system.file("extdata",

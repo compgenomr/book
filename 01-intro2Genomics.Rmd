@@ -35,9 +35,9 @@ interlace with each other and twist into the familiar helical shape.
 The full DNA sequence of an organism, which contains all the
 hereditary information, is called a genome. The genome contains all the information
 to build and maintain an organism. Genomes come in different sizes and structures.
-Our genome is not only a naked strech of DNA.
-In eukaryotic cells, DNA is wrapped around proteins (histones) forming higher-order structures like
-nucleosomes which make up chromatins and chromosomes (see Figure \@ref(fig:chromatinChr)).
+Our genome is not only a naked stretch of DNA.
+In eukaryotic cells, DNA is wrapped around proteins (histones) \index{histone} forming higher-order structures like
+nucleosomes which make up chromatins \index{chromatin} and chromosomes (see Figure \@ref(fig:chromatinChr)).
 
 
 ```{r,chromatinChr,fig.cap="Chromosome structure in animals",fig.align = 'center',out.width='60%',echo=FALSE}
@@ -47,7 +47,7 @@ knitr::include_graphics("images/chromatinChr.png" )
 
 
 
-There might be several chromosomes
+There might be several chromosomes \index{chromosome}
 depending on the organism. However, in some species (such as most prokaryotes)
 DNA is stored in a circular form. The size of genome between species differs too.
 Human genome has 46 chromosomes and over 3 billion base-pairs, whereas wheat genome
@@ -70,7 +70,7 @@ motivations behind writing this book.
 
 
 ### What is a gene?
-In the genome, there are specific regions containing the precise information that
+In the genome, there are specific regions containing the precise information that \index{gene}
 encodes for physical products of genetic information. A region in the genome
 with this information is traditionally called a “gene”. However, the
 precise definition of the gene is still developing. According to the classical
@@ -86,10 +86,10 @@ basic units of heredity in all living organisms.
 All cells use their hereditary
 information in the same way most of the time; the DNA is replicated to
 transfer the information to new cells. If activated, the genes are transcribed into
-messenger RNAs (mRNAs) in nucleus (in eukaryotes), followed by mRNAs (if the
+messenger RNAs (mRNAs) \index{mRNA} in nucleus (in eukaryotes), followed by mRNAs (if the
 gene is protein coding) getting translated into proteins in the cytoplasm. This is
 essentially a process of information transfer between information carrying
-polymers; DNA, RNA and proteins, known as the “central dogma” of molecular
+polymers; DNA, RNA and proteins, known as the “central dogma” \index{central dogma} of molecular
 biology (see Figure \@ref(fig:CentDog) for a summary).
 Proteins are essential elements for life.
 The growth and repair, functioning and structure of all living cells depends on them.
@@ -110,7 +110,7 @@ knitr::include_graphics("images/centDogma.png" )
 ### How genes are controlled? The transcriptional and the post-transcriptional regulation
 In order to answer this question, we have to dig a little deeper on the
 transcription concept we introduced via the central dogma.
-The first step in a process of information transfer - a production of an RNA
+The first step in a process of information transfer - a production of an RNA \index{gene regulation}
 copy of a part of the DNA sequence - is called transcription.  This task is
 carried out by the RNA polymerase enzyme. RNA polymerase-dependent initiation of
 transcription is enabled by the existence of a specific region in the sequence
@@ -150,7 +150,7 @@ genome biology.
 
 
 ### What does a gene look like?
-Before we move forward, it will be good to discuss how we can visualize genes.
+Before we move forward, it will be good to discuss how we can visualize genes. \index{gene}
 As someone interested in computational genomics, you will frequently encounter
 a gene on a computer screen, and how it is represented on the computer will be
 equivalent to what you imagine when you hear the word "gene".
@@ -164,14 +164,14 @@ on either of them, and direction of transcription will depend on that. In the
 Figure you can see arrows on introns (lines connecting boxes) indicating the
 direction of the gene.
 
-```{r,RealGene,fig.cap="A) Representation of a gene at UCSC browser. Boxes indicate exons, and lines indicate introns. B) Partial sequence of FATE1 gene as shown in NCBI GenBank database.",fig.align = 'center',out.width='60%',ref.label='RealGene',echo=FALSE}
+```{r,RealGene,fig.cap="A) Representation of a gene at UCSC browser. Boxes indicate exons, and lines indicate introns. B) Partial sequence of FATE1 gene as shown in NCBI GenBank database.",fig.align = 'center',out.width='80%',ref.label='RealGene',echo=FALSE}
  
 knitr::include_graphics("images/RealGene.png" )
 ```
 
 
 ##  Elements of gene regulation
-The mechanisms regulating gene expression are essential for
+The mechanisms regulating gene expression \index{gene regulation} are essential for
 all living organisms as they dictate where and how much of a gene product (may
 it be protein or ncRNA) should be manufactured. This regulation could occur
 at the pre- and co-transcriptional level by controlling how many transcripts should be produced and/or which version of the transcript should be produced by regulating
@@ -205,8 +205,8 @@ altered protein-protein interactions.
 
 
 ####   Regulation by transcription factors through regulatory regions
- Transcripton factors are proteins that
-recognize a specific DNA motif to bind on a regulatory region and regulate the transcription rate of
+ Transcription factors are proteins that \index{transcription factors (TFs)}
+recognize a specific DNA motif to bind on a regulatory region and regulate the transcription rate of \index{DNA motif}
 the gene associated with that regulatory region (See Figure \@ref(fig:regSummary))
 for an illustration). These factors bind to a variety of regulatory regions summarized in
 Figure \@ref(fig:regSummary), and their concerted action
@@ -214,7 +214,7 @@ controls the transcription rate. Apart from their binding preference, their
 concentration, the availability of synergistic or competing transcription
 factors will also affect the transcription rate.
  
-```{r,regSummary,fig.cap="Representation of regulatory regions in animal genomes",fig.align = 'center',out.width='60%',ref.label='regSummary',echo=FALSE}
+```{r,regSummary,fig.cap="Representation of regulatory regions in animal genomes",fig.align = 'center',out.width='70%',ref.label='regSummary',echo=FALSE}
  
 knitr::include_graphics("images/regulationSummary.png" )
 ```
@@ -223,7 +223,7 @@ knitr::include_graphics("images/regulationSummary.png" )
 
 
 #####  Core and proximal promoters
-Core promoters are the immediate neighboring regions around
+Core promoters are the immediate neighboring regions around \index{promoter}
 the transcription start site (TSS) that serves as a docking site for the
 transcriptional machinery and pre-initiation complex (PIC) assembly. The
 textbook model for transcription initiation is as follows: The core promoter has
@@ -248,7 +248,7 @@ transcription factors and they
 provide additional control over gene expression.
 
 ##### Enhancers:
-Proximal regulation is not the only, nor the most important mode
+Proximal regulation is not the only, \index{enhancer} nor the most important mode
 of gene regulation. Most of the transcription factor binding sites in
 the human genome are found in intergenic regions or in introns .
 This indicates the widespread usage of distal regulatory elements in animal
@@ -290,7 +290,7 @@ Insulators can block enhancer-promoter communication and/or prevent spreading of
 repressive chromatin domains. In vertebrates and insects, some of the
 well-studied insulators are bound by CTCF (CCCTC-binding factor).
 Genome-wide studies from different mammalian tissues confirm that CTCF binding
-is largely invariant of cell type, and CTCF motif locations are conserved in
+is largely invariant of cell type, and CTCF \index{CTCF protein} motif locations are conserved in
 vertebrates. At present, there are two models of explaining the insulator
 function; the most prevalent model claims insulators create physically separate
 domains by modifying chromosome structure. This is thought to be achieved by
@@ -317,8 +317,8 @@ essential for maintaining open chromatin domain.
 
 
 ####   Epigenetic regulation
-Epigenetics in biology usually refers to
-constructions (chromatin structure, DNA methylation etc.) other than DNA
+Epigenetics in biology usually refers to \index{gene regulation}
+constructions (chromatin structure, DNA methylation etc.) other than DNA \index{epigenetics}
 sequence that influence gene regulation. In essence, epigenetic regulation is
 the regulation of DNA packing and structure, the consequence of which is gene
 expression regulation. A typical example is that DNA packing inside the nucleus can
@@ -329,7 +329,7 @@ epigenetic regulation: i) DNA modifications ii) histone modifications. Below,
 we will introduce these two mechanisms.
 
 ##### DNA modifications such as methylation:
-DNA methylation is usually associated with gene silencing.
+DNA methylation is usually associated with gene silencing. \index{DNA methylation}
 DNA methyltransferase enzyme catalyzes the addition of a methyl group to cytosine of
 CpG dinucleotides (while in mammals the addition of methyl group is largely
 restricted to CpG dinucleotides, methylation can occur in other bases as well)
@@ -338,7 +338,7 @@ binding on the region, or methyl-CpG binding proteins induce the spread of
 repressive chromatin domains, thus the gene is silenced if its promoter has
 methylated CG dinucleotides.  DNA methylation usually occurs in repeat
 sequences to repress transposable elements, these elements when active can
-jump around and insert them to random parts of the genome, potentially distrupting
+jump around and insert them to random parts of the genome, potentially disrupting
 the genomic functions.
 
 DNA methylation is also related to a
@@ -351,13 +351,13 @@ are silenced due to DNA methylation. Apart from methylation, there are other
 kinds of DNA modifications present in mamalian genomes, such as hydroxy-methylation and
 formylcytosine. These are other modifications under current research that are either 
 intermediate or stable modifications with distinct functional associations. There
-are at least a dozen distinct DNA modifications observed when we look accross 
+are at least a dozen distinct DNA modifications observed when we look across 
 all studied species [@sood2019dnamod].
 
 
 
 ##### Histone modifications:
-Histones are proteins that constitute nucleosome. In
+Histones are proteins that constitute \index{histone} nucleosome. In
 eukaryotes, eight histones nucleosomes are wrapped around by DNA and build
 nucleosome. They help super-coiling of DNA and inducing high-order structure
 called chromatin. In chromatin, DNA is either densely packed (called
@@ -367,7 +367,7 @@ inactive genes since DNA is densely packed and transcriptional machinery cannot
 access it. On the other hand, euchromatin is more accessible for transcriptional
 machinery and might therefore harbor active genes.  Histones have long and
 unstructured N-terminal tails which can be covalently modified. The most studied
-modifications include acetylation, methylation and phosphorylation [strahl2000language]. Using
+modifications include acetylation, methylation and phosphorylation [@strahl2000language]. Using
 their tails, histones interact with neighboring nucleosomes and the
 modifications on the tail affect the nucleosomes affinity to bind DNA and
 therefore influence DNA packaging around nucleosomes. Different modifications on
@@ -432,8 +432,8 @@ http://www.nature.com/nrg/journal/v10/n5/abs/nrg2540.html
 ### Post-transcriptional regulation
 
 ####   Regulation by non-coding RNAs
-Recent years have witnessed an explosion in noncoding
-RNA (ncRNA)-related research. Many publications implicated ncRNAs as important
+Recent years have witnessed an explosion in non-coding \index{gene regulation}
+RNA (ncRNA)-related research \index{non-coding RNA (ncRNA)}. Many publications implicated ncRNAs as important
 regulatory elements. Plants and animals produce many
 different types of ncRNAs such as long non-coding RNAs (lncRNAs),
 small-interferring RNAs (siRNAs), microRNAs (miRNAs), promoter-associated RNAs
@@ -450,7 +450,7 @@ ribosomal RNA modifications.
 
 
 #### Splicing regulation
-Splicing is regulated by regulatory elements on the pre-mRNA and proteins
+Splicing is regulated by regulatory elements on the pre-mRNA and proteins \index{gene splicing}
 binding to those elements. Regulatory elements are categorized
 as splicing
 enhancers and repressors. They can be located either in exons
@@ -486,7 +486,7 @@ http://www.nature.com/nrg/journal/v15/n6/abs/nrg3722.html
 
 ## Shaping the genome: DNA mutation
 
-Human and chimpanzee genomes are 98.8% similar. The 1.2% difference is what separates
+Human and chimpanzee genomes are 98.8% similar. The 1.2% difference is what separates \index{mutation}
 us from chimpanzees. The further you move away from human in terms of evolutionary
 distance the higher the difference gets. However, even between the members of
 the same species differences in genome sequences exist. These differences are
@@ -515,7 +515,7 @@ mistakes will be made at varying rates.
 
 Mutations are classified by how many bases they effect, their effect on
 DNA structure and gene function. By their effect on DNA structure
-the mutations are classified as follows:
+the mutations \index{mutation} are classified as follows:
 
 - __Base substitution__: A base is changed with another.
 - __Deletion__: One or more bases is deleted.
@@ -607,7 +607,7 @@ product of this part is RNA or DNA fragments.
 
 Next, you need to be able to 
 tell where these fragments are coming from in the genome and how many of them
-are there. Microarrays were the standard tool for the quantification step 
+are there. Microarrays \index{microarray} were the standard tool for the quantification step 
 until spread of sequencing techniques. In microarrays, one had to design complementary bases, called "oligos" or "probes", to the genetic material enriched via the experimental protocol.
 If the enriched material is complementary to the oligos,
 a light signal will
@@ -618,10 +618,10 @@ available stronger the signal. For this to be able to work, you need to know
 at least part of your genome sequence, and design probes. If you want to measure
 gene expression, your probes should overlap with genes and should be unique 
 enough to not to bind sequences from other genes. This technology is now being
-replaced with sequencing technology, where you directly sequence your genetic
+replaced with sequencing technology, where you directly sequence your genetic \index{high-throughput sequencing}
 material. If you have the sequence of your fragments, you can align them back
 to genome, see where they are coming from and count them. This is a better 
-technology where the quantification is based on the real identiy of fragments 
+technology where the quantification is based on the real identity of fragments 
 rather than based on hybridization to designed probes.
 
 In summary HT techniques have the following steps, and this also summarized in
@@ -637,7 +637,7 @@ Figure \@ref(fig:HTassays):
   on the protocol you may need to quantify a control set as well, where you
   should see no enrichment or only background enrichment.
 
-```{r,HTassays,fig.cap="Common steps of High-throughput assays in genome biology",fig.align = 'center',out.width='60%',ref.label='HTassays',echo=FALSE}
+```{r,HTassays,fig.cap="Common steps of High-throughput assays in genome biology",fig.align = 'center',out.width='70%',ref.label='HTassays',echo=FALSE}
 knitr::include_graphics("images/HTassays.png" )
 ```
 
@@ -645,7 +645,7 @@ knitr::include_graphics("images/HTassays.png" )
 
 ### High-throughput sequencing
 High-throughput sequencing, or massively parallel sequencing,  is a 
-collection of methods and technologies that can sequence DNA thousands/millons
+collection of methods and technologies that can sequence DNA thousands/millions \index{high-throughput sequencing}
 of fragments at a time. This is in contrast to older technologies that can 
 produce a limited
 number of fragments at a time. Here, throughput refers to number
@@ -666,8 +666,8 @@ the input fragments.
 
 #### High-throughput sequencing data
 If there is a genome available, the reads are aligned to the genome and based
-on the library preperation protocol different strategies are applied for analysis. A sequencing library is composed of fragments of RNA or DNA ready to be sequenced. The library preparation primarily depends on the experiment of interest. There are a number of library preparation protocols aimed at quantifying different signals from the genome. Some of the potential analysis strategies for different library-prep protocols and processed output of read alignments
-are depicted in Figure \@ref(fig:HTseq).
+on the library preparation protocol different strategies are applied for analysis. A sequencing library is composed of fragments of RNA or DNA ready to be sequenced. The library preparation primarily depends on the experiment of interest. There are a number of library preparation protocols aimed at quantifying different signals from the genome. Some of the potential analysis strategies for different library-prep protocols and processed output of read alignments
+are depicted in Figure \@ref(fig:HTseq).\index{high-throughput sequencing}
 For example, we maybe interested to quantify the gene expression.
 The experimental protocol, called RNA sequencing-
 RNA-seq, enriches for fragments of RNA that are coming from protein coding genes.
@@ -690,14 +690,14 @@ rates by using filters, so that not every mismatch is recorded as SNP.
 
 
 
-```{r,HTseq,fig.cap="High-throughput sequencing summary",fig.align = 'center',out.width='70%',ref.label='HTseq',echo=FALSE}
+```{r,HTseq,fig.cap="High-throughput sequencing summary",fig.align = 'center',out.width='80%',ref.label='HTseq',echo=FALSE}
 knitr::include_graphics("images/HTseq.png" )
 ```
 
 
 #### Future of high-throughput sequencing
 The sequencing technology is still evolving. Obtaining
-longer single-molecule reads, and preferably, being able to call base modifications
+longer single-molecule reads, and preferably, being able to call base modifications \index{high-throughput sequencing}
 on the fly is the next frontier.
 With longer reads, the genome asssembly will be easier for the regions
 that have high repeat content. With single-molecule sequencing, we will be able to
@@ -740,7 +740,7 @@ known gene sequences are mapped on to them, you can also
 have conservation to other species to filter functional elements. If you
 are working with a model organism or human you will also have a lot of
 auxiliary information to help demarcate the functional regions such
-as regulatory regions, ncRNA, SNPs that are common in the population.
+as regulatory regions, ncRNAs, SNPs that are common in the population.
 Or you might have disease or tissue specific data available.
 The more the organism is worked on the more auxiliary data you will have.
 
@@ -757,7 +757,7 @@ Many genomes and their associated data are
 available through genome browsers. A genome browser
 is a website or an application
 that helps you visualize the genome and all the available data associated
- with it. Via genome browsers, you will be able to see where genes are in
+ with it. Via genome browsers \index{genome browser}, you will be able to see where genes are in
  relation to each other and other functional elements. You will be
  able to see gene structure. You will be able to see auxiliary data such as
  conservation, repeat content and SNPs. Here we review some of the popular 
@@ -792,7 +792,7 @@ developed to deal with large amounts of high-throughput sequencing data which
 is harder to view in online browsers. IGV can integrate your local sequencing
 results with online annotation on your desktop machine. This is useful when 
 viewing sequencing data, especially alignments. Other browsers mentioned above
-have similar functionalities however you will need to make your large 
+have similar features however you will need to make your large 
 sequencing data available online somewhere before it can be viewed by browsers.
 
 

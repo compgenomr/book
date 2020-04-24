@@ -181,7 +181,6 @@
   title={The elements of statistical learning},
   author={Friedman, Jerome and Hastie, Trevor and Tibshirani, Robert},
   volume={1},
-  number={10},
   year={2001},
   publisher={Springer series in statistics New York}
 }
@@ -3847,6 +3846,7 @@ CONCLUSIONS: Our within-lane normalization procedures, followed by between-lane 
 }
 
 @misc{noauthor_babraham_nodate,
+  author   = {Andrews, Simon R},
 	title = {Babraham {Bioinformatics} - {FastQC} {A} {Quality} {Control} tool for {High} {Throughput} {Sequence} {Data}},
 	url = {https://www.bioinformatics.babraham.ac.uk/projects/fastqc/},
 	urldate = {2018-07-16},
@@ -3876,6 +3876,7 @@ Supplementary data are available at Bioinformatics online.},
 }
 
 @misc{noauthor_babraham_nodate-1,
+  author   = {Andrews, Simon R},
 	title = {Babraham {Bioinformatics} - {Trim} {Galore}!},
 	url = {https://www.bioinformatics.babraham.ac.uk/projects/trim_galore/},
 	urldate = {2018-07-16},
@@ -4461,24 +4462,7 @@ pmcid = {PMC4448883},
 f1000-projects = {Normalization from Mendeley},
 abstract = {{BACKGROUND}: Chip-seq experiments are becoming a standard approach for genome-wide profiling protein-{DNA} interactions, such as detecting transcription factor binding sites, histone modification marks and {RNA} Polymerase {II} occupancy. However, when comparing a {ChIP} sample versus a control sample, such as Input {DNA}, normalization procedures have to be applied in order to remove experimental source of biases. Despite the substantial impact that the choice of the normalization method can have on the results of a {ChIP}-seq data analysis, their assessment is not fully explored in the literature. In particular, there are no diagnostic tools that show whether the applied normalization is indeed appropriate for the data being analyzed. {RESULTS}: In this work we propose a novel diagnostic tool to examine the appropriateness of the estimated normalization procedure. By plotting the empirical densities of log relative risks in bins of equal read count, along with the estimated normalization constant, after logarithmic transformation, the researcher is able to assess the appropriateness of the estimated normalization constant. We use the diagnostic plot to evaluate the appropriateness of the estimates obtained by {CisGenome}, {NCIS} and {CCAT} on several real data examples. Moreover, we show the impact that the choice of the normalization constant can have on standard tools for peak calling such as {MACS} or {SICER}. Finally, we propose a novel procedure for controlling the {FDR} using sample swapping. This procedure makes use of the estimated normalization constant in order to gain power over the naive choice of constant (used in {MACS} and {SICER}), which is the ratio of the total number of reads in the {ChIP} and Input samples. {CONCLUSIONS}: Linear normalization approaches aim to estimate a scale factor, r, to adjust for different sequencing depths when comparing {ChIP} versus Input samples. The estimated scaling factor can easily be incorporated in many peak caller algorithms to improve the accuracy of the peak identification. The diagnostic plot proposed in this paper can be used to assess how adequate {ChIP}/Input normalization constants are, and thus it allows the user to choose the most adequate estimate for the analysis.}
 }
-@article{shao_2012,
-title = {{MAnorm}: a robust model for quantitative comparison of {ChIP}-Seq data sets.},
-author = {Shao, Zhen and Zhang, Yijing and Yuan, Guo-Cheng and Orkin, Stuart H and Waxman, David J},
-pages = {R16},
-url = {http://dx.doi.org/10.1186/gb-2012-13-3-r16},
-year = {2012},
-month = {mar},
-day = {16},
-urldate = {2016-10-24},
-journal = {Genome Biol},
-volume = {13},
-number = {3},
-doi = {10.1186/gb-2012-13-3-r16},
-pmid = {22424423},
-pmcid = {PMC3439967},
-f1000-projects = {Normalization from Mendeley},
-abstract = {{ChIP}-Seq is widely used to characterize genome-wide binding patterns of transcription factors and other chromatin-associated proteins. Although comparison of {ChIP}-Seq data sets is critical for understanding cell type-dependent and cell state-specific binding, and thus the study of cell-specific gene regulation, few quantitative approaches have been developed. Here, we present a simple and effective method, {MAnorm}, for quantitative comparison of {ChIP}-Seq data sets describing transcription factor binding sites and epigenetic modifications. The quantitative binding differences inferred by {MAnorm} showed strong correlation with both the changes in expression of target genes and the binding of cell type-specific regulators.}
-}
+
 @Article{Teng_2017,
     title = {Accounting for GC-content bias reduces systematic errors and batch effects in ChIP-Seq data.},
     author = {Mingxiang Teng and Rafael A. Irizarry},
@@ -5144,24 +5128,7 @@ f1000-projects = {Normalization from Mendeley},
 abstract = {Chromatin immunoprecipitation followed by high-throughput sequencing ({ChIP}-seq) is rapidly replacing chromatin immunoprecipitation combined with genome-wide tiling array analysis ({ChIP}-chip) as the preferred approach for mapping transcription-factor binding sites and chromatin modifications. The state of the art for analyzing {ChIP}-seq data relies on using only reads that map uniquely to a relevant reference genome (uni-reads). This can lead to the omission of up to 30\% of alignable reads. We describe a general approach for utilizing reads that map to multiple locations on the reference genome (multi-reads). Our approach is based on allocating multi-reads as fractional counts using a weighted alignment scheme. Using human {STAT1} and mouse {GATA1} {ChIP}-seq datasets, we illustrate that incorporation of multi-reads significantly increases sequencing depths, leads to detection of novel peaks that are not otherwise identifiable with uni-reads, and improves detection of peaks in mappable regions. We investigate various genome-wide characteristics of peaks detected only by utilization of multi-reads via computational experiments. Overall, peaks from multi-read analysis have similar characteristics to peaks that are identified by uni-reads except that the majority of them reside in segmental duplications. We further validate a number of {GATA1} multi-read only peaks by independent quantitative real-time {ChIP} analysis and identify novel target genes of {GATA1}. These computational and experimental results establish that multi-reads can be of critical importance for studying transcription factor binding in highly repetitive regions of genomes with {ChIP}-seq experiments.}
 }
 
-@article{wilbanks_2010,
-title = {Evaluation of algorithm performance in {ChIP}-seq peak detection.},
-author = {Wilbanks, Elizabeth G and Facciotti, Marc T},
-pages = {e11471},
-url = {http://dx.doi.org/10.1371/journal.pone.0011471},
-year = {2010},
-month = {jul},
-day = {8},
-urldate = {2016-10-24},
-journal = {{PLoS} {ONE}},
-volume = {5},
-number = {7},
-doi = {10.1371/journal.pone.0011471},
-pmid = {20628599},
-pmcid = {PMC2900203},
-f1000-projects = {Reviews from Mendeley},
-abstract = {Next-generation {DNA} sequencing coupled with chromatin immunoprecipitation ({ChIP}-seq) is revolutionizing our ability to interrogate whole genome protein-{DNA} interactions. Identification of protein binding sites from {ChIP}-seq data has required novel computational tools, distinct from those used for the analysis of {ChIP}-Chip experiments. The growing popularity of {ChIP}-seq spurred the development of many different analytical programs (at last count, we noted 31 open source methods), each with some purported advantage. Given that the literature is dense and empirical benchmarking challenging, selecting an appropriate method for {ChIP}-seq analysis has become a daunting task. Herein we compare the performance of eleven different peak calling programs on common empirical, transcription factor datasets and measure their sensitivity, accuracy and usability. Our analysis provides an unbiased critical assessment of available technologies, and should assist researchers in choosing a suitable tool for handling {ChIP}-seq data.}
-}
+
 
 @article{laajala_2009,
 title = {A practical comparison of methods for detecting transcription factor binding sites in {ChIP}-seq experiments.},

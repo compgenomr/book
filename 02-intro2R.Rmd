@@ -97,7 +97,7 @@ You will need specific data sets to run the codes in this document. Download the
 
 
 ### Installing packages
-R packages are add-ons to base R that help you achieve additional tasks that are not directly supported by base R. It is by the action of these extra functionality that R excels as a tool for computational genomics. Bioconductor project (http://bioconductor.org/) is a dedicated package repository for computational biology related packages. However main package repository of R, called CRAN, has also computational biology related packages. In addition, R-Forge(http://r-forge.r-project.org/), GitHub(https://github. com/), and googlecode(http://code.google.com) are other locations where R packages might be hosted.
+R packages are add-ons to base R that help you achieve additional tasks that are not directly supported by base R. It is by the action of these extra functionality that R excels as a tool for computational genomics. Bioconductor project (http://bioconductor.org/) is a dedicated package repository for computational biology related packages. However main package repository of R, called CRAN, has also computational biology related packages. In addition, R-Forge(http://r-forge.r-project.org/), GitHub(https://github. com/), and Bitbucket(http://www.bitbucket.org) are some of the other locations where R packages might be hosted.
 You can install CRAN packages using install.packages(). (# is the comment character in R)
 ```{r,eval=FALSE}
 # install package named "randomForests" from CRAN

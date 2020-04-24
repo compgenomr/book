@@ -236,7 +236,7 @@ plot(pam.gap, main = "Gap statistic for the 'Leukemia' data")
 
 ```
 
-In this case, gap statistic shows that $k=7$ is the best if we take the maximum value as the best. However, after $k=6$ the statistic has more or less a stable curve. This observation is incoparated into algorithms that can select the best $k$ value based on gap statistic. A reasonable way is to take the simulation error (error bars in @\ref(fig:clusGap)) into account, and take the smallest $k$ whose gap statistic is larger or equal to the one of $k+1$ minus the simulation error. Formally written we would pick the smallest $k$ satisfying the following condition: $\mathrm{Gap}(k) \geq \mathrm{Gap}(k+1) - s_{k+1}$, where  $s_{k+1}$ is the simulation error for $\mathrm{Gap}(k+1)$. 
+In this case, gap statistic shows that $k=7$ is the best if we take the maximum value as the best. However, after $k=6$ the statistic has more or less a stable curve. This observation is incoparated into algorithms that can select the best $k$ value based on gap statistic. A reasonable way is to take the simulation error (error bars in \@ref(fig:clusGap)) into account, and take the smallest $k$ whose gap statistic is larger or equal to the one of $k+1$ minus the simulation error. Formally written we would pick the smallest $k$ satisfying the following condition: $\mathrm{Gap}(k) \geq \mathrm{Gap}(k+1) - s_{k+1}$, where  $s_{k+1}$ is the simulation error for $\mathrm{Gap}(k+1)$. 
 
 Using this procedure gives us $k=6$ as the optimum number of clusters. Biologically, we know that there are 5 main patient categories but this does not mean there is no sub-categories or sub-types for the cancers we are looking at. 
 
