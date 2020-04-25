@@ -92,13 +92,14 @@ Visualization is an important part of all data analysis techniques including com
  - Visualization of quantitative assays for given locus in the genome
 
 ## Getting started with R
-Download and install R http://cran.r-project.org/ and RStudio http://www.rstudio.com/ if you do not have them already. Rstudio is optional but it is a great tool if you are just starting to learn R.
-You will need specific data sets to run the codes in this document. Download the data.zip[URL to come] and extract it to your directory of choice. The folder name should be “data” and your R working directory should be level above the data folder. That means in your R console, when you type “dir(“data”)” you should be able to see the contents of the data folder. You can change your working directory by *setwd()* command and get your current working directory with *getwd()* command in R. In RStudio, you can click on the top menu and change the location of your working directory via user interface.
+Download and install R (http://cran.r-project.org/) and RStudio (http://www.rstudio.com/) if you do not have them already. Rstudio is optional but it is a great tool if you are just starting to learn R.
+You will need specific data sets to run the code snippets in this book, we have explained how to install and use the data in the [Data for the book] section in [Preface]. If you haven not use Rstudio before, we reccomend running it and familiarizing yourself with it first. To put it simply, this interface combines multiple features you will need while analyzing data. You can see your code, how it is executed, plots you make and your data all in one interface. 
 
 
 ### Installing packages
-R packages are add-ons to base R that help you achieve additional tasks that are not directly supported by base R. It is by the action of these extra functionality that R excels as a tool for computational genomics. Bioconductor project (http://bioconductor.org/) is a dedicated package repository for computational biology related packages. However main package repository of R, called CRAN, has also computational biology related packages. In addition, R-Forge(http://r-forge.r-project.org/), GitHub(https://github. com/), and Bitbucket(http://www.bitbucket.org) are some of the other locations where R packages might be hosted.
-You can install CRAN packages using install.packages(). (# is the comment character in R)
+R packages are add-ons to base R that help you achieve additional tasks that are not directly supported by base R. It is by the action of these extra functionality that R excels as a tool for computational genomics. Bioconductor project (http://bioconductor.org/) is a dedicated package repository for computational biology related packages. However main package repository of R, called CRAN, has also computational biology related packages. In addition, R-Forge (http://r-forge.r-project.org/), GitHub (https://github.com/), and Bitbucket (http://www.bitbucket.org) are some of the other locations where R packages might be hosted. The packages needed for the code snippets in this book and how to install them are explained in the [Packages needed to run the book code] section in the [Preface] of the book.
+
+You can install CRAN packages using `install.packages()`. (# is the comment character in R)
 ```{r,eval=FALSE}
 # install package named "randomForests" from CRAN
 install.packages("randomForests")
@@ -111,7 +112,7 @@ install.packages("BiocManager")
 # install bioconductor package "rtracklayer"
 BiocManager::install("rtracklayer")
 ```
-You can install packages from github using *install_github()* function from **devtools**
+You can install packages from github using `install_github()` function from **devtools** package.
 ```{r,eval=FALSE}
 library(devtools)
 install_github("hadley/stringr")
@@ -138,7 +139,7 @@ biocLite("BiocUpgrade")
 ```
 
 ### Installing packages in custom locations
-If you will be using R on servers or computing clusters rather than your personal computer it is unlikely that you will have administrator access to install packages. In that case, you can install packages in custom locations by telling R where to look for additional packages. This is done by setting up an .Renviron file in your home directory and add the following line:
+If you will be using R on servers or computing clusters rather than your personal computer it is unlikely that you will have administrator access to install packages. In that case, you can install packages in custom locations by telling R where to look for additional packages. This is done by setting up an `.Renviron` file in your home directory and add the following line:
 ```
 R_LIBS=~/Rlibs
 ```
@@ -146,7 +147,7 @@ R_LIBS=~/Rlibs
 This tells R that “Rlibs” directory at your home directory will be the first choice of locations to look for packages and install packages (The directory name and location is up to you above is just an example). You should go and create that directory now. After that, start a fresh R session and start installing packages. From now on, packages will be installed to your local directory where you have read-write access.
 
 ### Getting help on functions and packages
-You can get help on functions by help() and help.search() functions. You can list the functions in a package with ls() function
+You can get help on functions by `help()` and `help.search()` functions. You can list the functions in a package with `ls()` function
 
 ```{r,eval=FALSE}
 library(MASS)
@@ -161,11 +162,11 @@ help.search("hist")
 
 ```
 #### More help needed?
-In addition, check package vignettes for help and practical understanding of the functions. All Bionconductor packages have vignettes that walk you through example analysis. Google search will always be helpful as well, there are many blogs and web pages that have posts about R. R-help, Stackoverflow and R-bloggers are usually source of good and reliable information.
+In addition, check package vignettes for help and practical understanding of the functions. All Bionconductor packages have vignettes that walk you through example analysis. Google search will always be helpful as well, there are many blogs and web pages that have posts about R. R-help mailing list (https://stat.ethz.ch/mailman/listinfo/r-help), Stackoverflow.com and R-bloggers.com are usually source of good and reliable information.
 
 
 ## Computations in R
-R can be used as an ordinary calculator, some say it is an over-grown calculator. Here are some examples. Remember **#** is the comment character. The comments give details about the operations in case they are not clear.
+R can be used as an ordinary calculator, some say it is an over-grown calculator. Here are some examples. Remember `#` is the comment character. The comments give details about the operations in case they are not clear.
 ```r{}
 2 + 3 * 5       # Note the order of operations.
 log(10)        # Natural logarithm with base e
@@ -184,7 +185,7 @@ exp(2)        # exponential function
 R has multiple data structures. If you are familiar with excel you can think of a single excel sheet as a table and data structures as building blocks of that table. Most of the time you will deal with tabular data sets or you will want to transform your raw data to a tabular data set, and you will try to manipulate this tabular data set in some way. For example, you may want to take sub-sections of the table or extract all the values in a column. For these and similar purposes, it is essential to know what are the common data structures in R and how they can be used. R deals with named data structures, this means you can give names to data structures and manipulate or operate on them using those names. It will be clear soon what we mean by this if "named data structures" does not ring a bell.
 
 ### Vectors
-Vectors are one of the core R data structures. It is basically a list of elements of the same type (numeric,character or logical). Later you will see that every column of a table will be represented as a vector. R handles vectors easily and intuitively. You can create vectors with c() function, however that is not the only way. The operations on vectors will propagate to all the elements of the vectors.
+Vectors are one of the core R data structures. It is basically a list of elements of the same type (numeric,character or logical). Later you will see that every column of a table will be represented as a vector. R handles vectors easily and intuitively. You can create vectors with the `c()` function, however that is not the only way. The operations on vectors will propagate to all the elements of the vectors.
 
 ```{r}
 x<-c(1,3,2,10,5)    #create a vector named x with 5 components
@@ -204,7 +205,7 @@ class(r1)            # class of the vector
 a<-1                # this is actually a vector length one
 ```
 ### Matrices
-A matrix refers to a numeric array of rows and columns. You can think of it as a stacked version of vectors where each row or column is a vector. One of the easiest ways to create a matrix is to combine vectors of equal length using *cbind()*, meaning 'column bind'.
+A matrix refers to a numeric array of rows and columns. You can think of it as a stacked version of vectors where each row or column is a vector. One of the easiest ways to create a matrix is to combine vectors of equal length using `cbind()`, meaning 'column bind'.
 
 ```{r}
 x<-c(1,2,3,4)
@@ -218,14 +219,15 @@ You can also directly list the elements and specify the matrix:
 m2<-matrix(c(1,3,2,5,-1,2,2,3,9),nrow=3)
 m2
 ```
-Matrices and the next data structure **data frames** are tabular data structures. You can subset them using **[]** and providing desired rows and columns to subset. Figure  \@ref(fig:slicingDataFrames) shows how that works conceptually.
+Matrices and the next data structure **data frames** are tabular data structures. You can subset them using `[]` and providing desired rows and columns to subset. Figure  \@ref(fig:slicingDataFrames) shows how that works conceptually.
 
 ```{r,slicingDataFrames,fig.cap="slicing/subsetting of a matrix and a data frame",fig.align = 'center',out.width='80%',echo=FALSE}
 knitr::include_graphics("images/slicingDataFrames.png" )
 ```
 
 ### Data Frames
-A data frame is more general than a matrix, in that different columns can have different modes (numeric, character, factor, etc.). A data frame can be constructed by data.frame() function. For example, we illustrate how to construct a data frame from genomic intervals or coordinates.
+
+A data frame is more general than a matrix, in that different columns can have different modes (numeric, character, factor, etc.). A data frame can be constructed by `data.frame()` function. For example, we illustrate how to construct a data frame from genomic intervals or coordinates.
 
 ```{r}
 chr <- c("chr1", "chr1", "chr2", "chr2")
@@ -250,7 +252,7 @@ mydata[mydata$start>400,] # get all rows where start>400
 ```
 
 ### Lists
-An ordered collection of objects (components). A list allows you to gather a variety of (possibly unrelated) objects under one name.
+at list in R is an ordered collection of objects (components). A list allows you to gather a variety of (possibly unrelated) objects under one name. You can create a list with the `list()` function. Each object or element in the list has a numbered position and can have names. Below we show a few examples of how to create lists.
 ```{r}
 # example of a list with 4 components
 # a string, a numeric vector, a matrix, and a scalar
@@ -260,7 +262,7 @@ w <- list(name="Fred",
        age=5.3)
 w
 ```
-You can extract elements of a list using the **[[]]** convention using either its position in the list or its name.
+You can extract elements of a list using the ``[[]]``, the double square-bracket, convention using either its position in the list or its name.
 ```{r}
 w[[3]] # 3rd component of the list
 w[["mynumbers"]] # component named mynumbers in list
@@ -273,11 +275,11 @@ Factors are used to store categorical data. They are important for statistical m
 features=c("promoter","exon","intron")
 f.feat=factor(features)
 ```
-Important thing to note is that when you are reading a data.frame with read.table() or creating a data frame with **data.frame()** character columns are stored as factors by default, to change this behavior you need to set **stringsAsFactors=FALSE** in **read.table()** and/or **data.frame()** function arguments.
+Important thing to note is that when you are reading a data.frame with read.table() or creating a data frame with `data.frame()` character columns are stored as factors by default, to change this behavior you need to set `stringsAsFactors=FALSE` in `read.table()` and/or `data.frame()` function arguments.
 
 
 ## Data types
-There are four common data types in R, they are **numeric**, **logical**, **character** and **integer**. All these data types can be used to create vectors natively.
+There are four common data types in R, they are `numeric`, `logical`, `character` and `integer`. All these data types can be used to create vectors natively.
 ```{r}
 #create a numeric vector x with 5 components
 x<-c(1,3,2,10,5)
@@ -297,7 +299,7 @@ class(x)
 
 
 ## Reading and writing data
-Most of the genomics data sets are in the form of genomic intervals associated with a score. That means mostly the data will be in table format with columns denoting chromosome, start positions, end positions, strand and score. One of the popular formats is BED format used primarily by UCSC genome browser but most other genome browsers and tools will support BED format. We have all the annotation data in BED format. In R, you can easily read tabular format data with read.table() function.
+Most of the genomics data sets are in the form of genomic intervals associated with a score. That means mostly the data will be in table format with columns denoting chromosome, start positions, end positions, strand and score. One of the popular formats is BED format used primarily by UCSC genome browser but most other genome browsers and tools will support BED format. We have all the annotation data in BED format. In R, you can easily read tabular format data with `read.table()` function.
 ```{r}
 enhancerFilePath=system.file("extdata",
                 "subset.enhancers.hg18.bed",
@@ -316,12 +318,12 @@ head(enh.df)
 head(cpgi.df)
 ```
 
-You can save your data by writing it to disk as a text file. A data frame or matrix can be written out by using write.table() function. Now let us write out cpgi.df, we will write it out as a tab-separated file, pay attention to the arguments.
+You can save your data by writing it to disk as a text file. A data frame or matrix can be written out by using write.table() function. Now let us write out `cpgi.df`, we will write it out as a tab-separated file, pay attention to the arguments.
 ```{r,tidy=FALSE,eval=FALSE}
 write.table(cpgi.df,file="cpgi.txt",quote=FALSE,
             row.names=FALSE,col.names=FALSE,sep="\t")
 ```
-You can save your R objects directly into a file using save() and saveRDS() and load them back in with load() and readRDS(). By using these functions you can save any R object whether or not they are in data frame or matrix classes.
+You can save your R objects directly into a file using `save()` and `saveRDS()` and load them back in with `load()` and `readRDS()`. By using these functions you can save any R object whether or not they are in data frame or matrix classes.
 ```{r,eval= FALSE}
 save(cpgi.df,enh.df,file="mydata.RData")
 load("mydata.RData")
@@ -330,7 +332,7 @@ saveRDS(cpgi.df,file="cpgi.rds")
 x=readRDS("cpgi.rds")
 head(x)
 ```
-One important thing is that with `save()` you can save many objects at a time and when they are loaded into memory with `load(` they retain their variable names. For example, in the above code when you use `load("mydata.RData")` in a fresh R session, an object names “cpg.df” will be created. That means you have to figure out what name you gave it to the objects before saving them. On the contrary to that, when you save an object by `saveRDS()` and read by `readRDS()` the name of the object is not retained, you need to assign the output of `readRDS()` to a new variable (“x” in the above code chunk).
+One important thing is that with `save()` you can save many objects at a time and when they are loaded into memory with `load(` they retain their variable names. For example, in the above code when you use `load("mydata.RData")` in a fresh R session, an object names `cpg.df` will be created. That means you have to figure out what name you gave it to the objects before saving them. On the contrary to that, when you save an object by `saveRDS()` and read by `readRDS()` the name of the object is not retained, you need to assign the output of `readRDS()` to a new variable (`x` in the above code chunk).
 
 
 ## Plotting in R
@@ -360,7 +362,7 @@ plot(x,y,main="scatterplot of random samples",
         ylab="y values",xlab="x values")
 ```
 
-we can also plot boxplots for vectors x and y. Boxplots depict groups of numerical data through their quartiles. The edges of the box denote 1st and 3rd quartile, and the line that crosses the box is the median. Whiskers usually are defined using interquantile range:
+we can also plot boxplots for vectors x and y. Boxplots depict groups of numerical data through their quartiles. The edges of the box denote 1st and 3rd quartile, and the line that crosses the box is the median. Whiskers usually are defined using interquartile range:
 
 *lowerWhisker=Q1-1.5[IQR] and upperWhisker=Q1+1.5[IQR]*
 
@@ -509,7 +511,7 @@ Next, we will use **lapply()**, which applies a function on a list or a vector. 
 input=c(1,2,3)
 lapply(input,function(x) x^2)
 ```
-**mapply()** is another member of apply family, it can apply a function on an unlimited set of vectors/lists, it is like a version of lapply that can handle multiple vectors as arguments. In this case, the argument to the mapply() is the function to be applied and the sets of parameters to be supplied as arguments of the function. This conceptualized Figure \@ref(fig:mapplyConcept), the function to be applied is a function that takes to arguments and sums them up. The arguments to be summed up are in the format of vectors, Xs and Ys. `mapply()` applies the summation function to each pair in Xs and Ys vector. Notice that the order of the input function and extra arguments are different for mapply.
+**mapply()** is another member of apply family, it can apply a function on an unlimited set of vectors/lists, it is like a version of `lapply` that can handle multiple vectors as arguments. In this case, the argument to the `mapply()` is the function to be applied and the sets of parameters to be supplied as arguments of the function. This conceptualized Figure \@ref(fig:mapplyConcept), the function to be applied is a function that takes to arguments and sums them up. The arguments to be summed up are in the format of vectors, Xs and Ys. `mapply()` applies the summation function to each pair in Xs and Ys vector. Notice that the order of the input function and extra arguments are different for `mapply`.
 
 ```{r,mapplyConcept,fig.cap="mapply concept",fig.align = 'center',out.width='80%',echo=FALSE}
 knitr::include_graphics("images/mapply.png" )
@@ -532,12 +534,12 @@ knitr::include_graphics("images/mcmapply.png" )
 #### Vectorized Functions in R
 The above examples have been put forward to illustrate functions and loops in R because functions using sum() are not complicated and easy to understand. You will probably need to use loops and looping structures with more complicated functions. In reality, most of the operations we used do not need the use of loops or looping structures because there are already vectorized functions that can achieve the same outcomes, meaning if the input arguments are R vectors the output will be a vector as well, so no need for loops or vectorization.
 
-For example, instead of using mapply() and sum() functions we can just use + operator and sum up Xs and Ys.
+For example, instead of using `mapply()` and `sum()` functions we can just use + operator and sum up Xs and Ys.
 ```{r}
 result=Xs+Ys
 result
 ```
-In order to get the column or row sums, we can use the vectorized functions colSums() and rowSums().
+In order to get the column or row sums, we can use the vectorized functions `colSums()` and `rowSums()`.
 ```{r}
 colSums(mat)
 rowSums(mat)
@@ -557,7 +559,7 @@ However, remember that not every function is vectorized in R, use the ones that 
 ```
 
 
-2. Take the square root of 36, use sqrt()
+2. Take the square root of 36, use `sqrt()`
 
 ```{r,echo=FALSE,eval=FALSE}
 sqrt(36)
@@ -626,7 +628,7 @@ length(vec1)
 ```
 
 12. Make a vector of all numbers between 2 and 15.
-Ex: `vec=1:6` makes a vector of numbers between 1 and 6, assigns to vec variable
+Ex: `vec=1:6` makes a vector of numbers between 1 and 6, assigns to `vec` variable
 
 ```{r,echo=FALSE,eval=FALSE}
 vec=2:15 
@@ -687,7 +689,7 @@ myvec[ myvec != 2 ]
 
 
 20. make a 5x3 matrix (5 rows, 3 columns) using `matrix()`.
-Ex: matrix(1:6,nrow=3,ncol=2) makes a 3x2 matrix using numbers between 1 and 6
+Ex: `matrix(1:6,nrow=3,ncol=2)` makes a 3x2 matrix using numbers between 1 and 6
 
 ```{r,echo=FALSE,eval=FALSE}
 
@@ -875,7 +877,8 @@ as.factor()
 
 ### Reading in and writing data out in R
 
-42. Read CpG island (CpGi) data from the compGenomRData package `CpGi.table.hg18.txt`, this is a tab-separated file, store it in a variable called "cpgi". Use `cpgtFilePath=system.file("extdata",
+42. Read CpG island (CpGi) data from the compGenomRData package `CpGi.table.hg18.txt`, this is a tab-separated file, store it in a variable called `cpgi`.
+Use `cpgFilePath=system.file("extdata",
                 "CpGi.table.hg18.txt",
                 package="compGenomRData")`
 to get the file path within the installed `compGenomRData` package.
@@ -1279,7 +1282,7 @@ GCclass(90) # should return "high"
 GCclass(65) # should return "medium"
 ```
 
-44. Use a for loop to get GC percentage classes for gcValues below. Use the function
+44. Use a for loop to get GC percentage classes for `gcValues` below. Use the function
 you wrote above.
 
 ```
@@ -1297,7 +1300,7 @@ for( i in gcValues){
 }
 ```
 
-44. Use `lapply` to get to get GC percentage classes for gcValues. Example: 
+44. Use `lapply` to get to get GC percentage classes for `gcValues`. Example: 
 
 ```{r,eval=FALSE}
 vec=c(1,2,4,5)
@@ -1310,12 +1313,12 @@ s=lapply(gcValues,GCclass)
 ```
 
 
-44. Use sapply to get values to get GC percentage classes for gcValues
+44. Use sapply to get values to get GC percentage classes for `gcValues`
 ```{r,echo=FALSE,eval=FALSE}
 sapply(gcValues,GCclass)
 ```
 
-44. Is there a way to decide on the GC percentage class of given vector of GCpercentages
+44. Is there a way to decide on the GC percentage class of given vector of `GCpercentages`
 without using if/else structure and loops ? if so, how can you do it?
 **HINT:** subsetting using < and > operators
 
