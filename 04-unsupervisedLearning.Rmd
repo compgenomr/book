@@ -28,7 +28,7 @@ knitr::kable(
 
 It may not be obvious from the table at first sight but if we plot the gene expression profile for each patient, we will see that expression profiles of patient 1 and patient 2 is more similar to each other than patient 3 or patient 4. 
 
-```{r expPlot,echo=FALSE,out.width='60%',fig.cap="Gene expression values for different patients. Certain patients have similar gene expression values to each other."}
+```{r expPlot,echo=FALSE,out.width='50%',fig.cap="Gene expression values for different patients. Certain patients have similar gene expression values to each other."}
 
 library(ggplot2)
 df2=tidyr::gather(cbind(patient=rownames(df),df),key="gene",value="expression",IRX4,PAX6,OCT4)
@@ -47,7 +47,7 @@ Now let's see how we can calculate these distance in R. First, we have our gene 
 df
 ```
 Next, we calculate the distance metrics using `dist` function and `1-cor()`. 
-```{r}
+```{r distMethodChp4}
 dist(df,method="manhattan")
 dist(df,method="euclidean")
 as.dist(1-cor(t(df)))
@@ -65,7 +65,7 @@ scale(df)
 
 ### Hiearchical clustering
 This is one of the most ubiqutous clustering algorithms. Using this algorithm you can see the relationship of individual data points and relationships of clusters. This is achieved successively joining small clusters to each other based on the intercluster distance. Eventually, you get a tree structure or a dendrogram that shows the relationship between the individual data points and clusters. The height of the dendrogram is the distance between clusters. Here we can show how to use this on our toy data set from four patients. The base function in R to do hierarchical clustering in `hclust()`. Below, we apply that function on Euclidean distances between patients.
-```{r toyClust,fig.cap="Dendrogram of distance matrix",out.width='60%'}
+```{r toyClust,fig.cap="Dendrogram of distance matrix",out.width='50%'}
 d=dist(df)
 hc=hclust(d,method="complete")
 plot(hc)
@@ -89,9 +89,10 @@ mat=readRDS("leukemiaExpressionSubset.rds")
 
 In real life, we would get expression profiles from thousands of genes and we will typically have many more patients than our toy example. One such data set is gene expression values from 60 bone marrow samples of patients with one of the four main types of leukemia (ALL, AML, CLL, CML) or no-leukemia controls. We trimmed that data set down to top 1000 most variable genes to be able to work with it easier and in addition genes that are not very variable do not contribute much to the distances between patients. We will now use this data set to cluster the patients and display the values as a heatmap and a dendrogram. The heatmap shows the expression values of genes across patients in a color coded manner. The heatmap function, `pheatmap()`, we will use performs the clustering as well. The matrix that contains gene expressions has the genes in the rows and the patients in the columns. Therefore, we will also use a column-side color code to mark the patients based on their leukemia type. For the hierarchical clustering, we will use Ward's method designated by `clustering_method` argument to `pheatmap()` function.
 
-```{r heatmap1,eval=TRUE}
+```{r heatmap1,eval=TRUE,out.width='50%',fig.cap=""}
 library(pheatmap)
-expFile=system.file("extdata","leukemiaExpressionSubset.rds",package="compGenomRData")
+expFile=system.file("extdata","leukemiaExpressionSubset.rds",
+                    package="compGenomRData")
 mat=readRDS(expFile)
 
 # set the leukemia type annotation for each sample
@@ -100,14 +101,17 @@ annotation_col = data.frame(
 rownames(annotation_col)=colnames(mat)
   
 
-pheatmap(mat,show_rownames=FALSE,show_colnames=FALSE,annotation_col=annotation_col,scale = "none",clustering_method="ward.D2",clustering_distance_cols="euclidean")
+pheatmap(mat,show_rownames=FALSE,show_colnames=FALSE,
+         annotation_col=annotation_col,
+         scale = "none",clustering_method="ward.D2",
+         clustering_distance_cols="euclidean")
 ```
 
 As we can observe in the heatmap each cluster has a distinct set of expression values. The main clusters almost perfectly distinguish the leukemia types. Only one CML patient is clustered as a non-leukemia sample. This could mean that gene expression profiles are enough to classify leukemia type. More detailed analysis and experiments are needed to verify that but by looking at this exploratory analysis we can decide where to focus our efforts next.
 
 #### where to cut the tree ?
 The example above seems like a clear cut example where we can pick by eye clusters from the dendrogram. This is mostly due to the Ward's method where compact clusters are preffered. However, as it is usually the case we do not have patient labels and it would be difficult to tell which leaves (patients) in the dendrogram we should consider as part of the same cluster. In other words, how deep we should cut the dendrogram so that every patient sample still connected via the remaining sub-dendrograms constitute clusters. The `cutree()` function provides the functionality to output either desired number of clusters or clusters obtained from cutting the dendrogram at a certain height. Below, we will cluster the patients with hierarchical clustering using the default method "complete linkage" and cut the dendrogram at a certain height. In this case, you will also observe that, changing from Ward's distance to complete linkage had an effect on clustering. Now two clusters that are defined by Ward's distance are closer to each other and harder to separate from each other.
-```{r hclustNcut}
+```{r hclustNcut,out.width='50%',fig.cap=""}
 hcl=hclust(dist(t(mat)))
 plot(hcl,labels = FALSE, hang= -1)
 rect.hclust(hcl, h = 80, border = "red")
@@ -138,7 +142,7 @@ kclu=kmeans(t(mat),centers=5)
 table(kclu$cluster)
 ```
 Now let us check the percentage of each leukemia type in each cluster. We can visualize this as a table. Looking at the table below, we see that each of the 5 clusters are predominantly representing one of the 4 leukemia types or the control patients without leukemia.
-```{r,}
+```{r type2kclu}
 type2kclu = data.frame(
                     LeukemiaType =substr(colnames(mat),1,3),
                     cluster=kclu$cluster)
@@ -159,9 +163,9 @@ type2kmclu = data.frame(
 table(type2kmclu)
 ```
 
-We can not visualize the clustering from partioning methods with a tree like we did for hierarchical clustering. Even if we can get the distances between patients the algorithm does not return the distances between clusters out of the box. However, if we had a way to visualize the distances between patients in 2 dimensions we could see the how patients and clusters relate each other. It turns out, that there is a way to compress between patient distances to a 2-dimensional plot. There are many ways to do this and we introduce these dimension reduction methods including the one we will use now later in this chapter. For now, we are going to use a method called "multi-dimensional scaling" and plot the patients in a 2D plot color coded by their cluster assignments.
+We can not visualize the clustering from partioning methods with a tree like we did for hierarchical clustering. Even if we can get the distances between patients the algorithm does not return the distances between clusters out of the box. However, if we had a way to visualize the distances between patients in 2 dimensions we could see the how patients and clusters relate each other. It turns out, that there is a way to compress between patient distances to a 2-dimensional plot. There are many ways to do this and we introduce these dimension reduction methods including the one we will use now later in this chapter. For now, we are going to use a method called "multi-dimensional scaling" and plot the patients in a 2D plot color coded by their cluster assignments. We will explain this method in more detail at [Multi-dimensional scaling] section below.
 
-```{r, kmeansmds}
+```{r, kmeansmds,out.width='50%',fig.cap="K-means cluster memberships are shown in multi-dimensional scaling plot"}
 # Calculate distances
 dists=dist(t(mat))
 
@@ -195,14 +199,14 @@ $s(i) = \frac{b(i) - a(i)}{\max\{a(i),b(i)\}}$
 As described, this quantity is positive when $b(i)$ is high and $a(i)$ is low, meaning that the data point $i$ is self-similar to its cluster. And the silhouette value, $s(i)$, is negative if it is more similar to its neighbours than its assigned cluster. 
 
 In R, we can calculate silhouette values using `cluster::silhouette()` function. Below, we calculate the silhouette values for k-medoids clustering with `pam()` function with `k=5`.
-```{r sill}
+```{r sill,out.width='50%',fig.cap="Silhouette values for k-medoids with `k=5`"}
 library(cluster)
 set.seed(101)
 pamclu=cluster::pam(t(mat),k=5)
 plot(silhouette(pamclu),main=NULL)
 ```
-Now, let us calculate average silhouette value different $k$ values and compare. We will use `sapply()` function to get average silhouette values accross $k$ values between 2 and 7. Within `sapply()` there is an anonymous function that that does the clustering and calculates average silhouette values for each $k$. 
-```{r sillav}
+Now, let us calculate average silhouette value different $k$ values and compare. We will use `sapply()` function to get average silhouette values accross $k$ values between 2 and 7. Within `sapply()` there is an anonymous function that that does the clustering and calculates average silhouette values for each $k$.
+```{r sillav,out.width='40%',fig.cap="Average silhouette values for k-medoids clustering for `k` values between 2 and 7"}
 
 Ks=sapply(2:7,
     function(i) 
@@ -221,7 +225,7 @@ Where $\mathrm{x}_i$ is data point in cluster $k$, and $\mu_k$ is the cluster me
 $\displaystyle \mathrm{Gap}_n(k) = E_n^*\{\log W_k\} - \log W_k$, where $E_n^*\{\log W_k\}$ is the expected variation in log-scale under a sample size $n$ from the reference distribution and $\log W_k$ is the observed variation. Our aim is choose the $k$, number of clusters, that maximizes $\mathrm{Gap}_n(k)$.
 
 We can easily calculate the gap statistic with `cluster::clusGap()` function. We will now use that function to calculate the gap statistic for our patient gene expression data.
-```{r clusGap,fig.cap="Gap Statistic for clustering leukemia dataset with k-medoids (pam) algorithm"}
+```{r clusGap,out.width='50%',fig.cap="Gap Statistic for clustering leukemia dataset with k-medoids (pam) algorithm"}
 library(cluster)
 set.seed(101)
 # define the clustering function

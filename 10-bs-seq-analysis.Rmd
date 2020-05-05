@@ -432,5 +432,3 @@ The main objective of this exercise is to learn how to do methylome segmentation
 - Do segmentation on hESC methylome. you can only do chr1 if it takes too much time. 
 - Annotate segments, what kind of gene-based features each segment class overlaps with (promoter/exon/intron)
 - For each segment type, annotate the segments with chromHMM annotations from Roadmap Epigenome database available (here)[https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html#core_15state], the specific file you should use is (here)[https://egg2.wustl.edu/roadmap/data/byFileType/chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final/E003_15_coreMarks_mnemonics.bed.gz]. This is a bed file with chromHMM annotations. chromHMM annotations are parts of the genome identified by a hidden-markov-model based machine-learning algorithm. The segments correspond to active promoters, enhancers, active transcription, insulators. etc. The chromHMM model uses histone modification ChIP-seq and potentially other ChIP-seq data sets to annotate the genome.
-
-## References

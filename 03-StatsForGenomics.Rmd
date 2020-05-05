@@ -18,14 +18,14 @@ The nature of the experiments and natural variation in biology makes
 it impossible to get the same exact measurements every time you measure something. 
 For example, if you are measuring gene expression values for 
 a certain gene, say PAX6, and let's assume you are measuring expression
-per sample and cell with any method( microarrays, rt-qPCR, etc.). You will not 
+per sample and cell with any method( microarrays, rt-qPCR, etc.). You will not \index{gene expression}
 get the same expression value even if your samples are homogeneous. Due
 to technical bias in experiments or natural variation in the samples. Instead, 
 we would like to describe this collection of data some other way
 that represents the general properties of the data. The figure shows a sample of
 20 expression values from PAX6 gene.
 
-```{r,fig.align='center',  out.width='60%',echo=FALSE,warning=FALSE,fig.height=5.6,fig.cap="Expression of PAX6 gene in 20 replicate experiments"}
+```{r pax6ReplicatesChp3,fig.align='center',  out.width='50%',echo=FALSE,warning=FALSE,fig.height=5.6,fig.cap="Expression of PAX6 gene in 20 replicate experiments"}
 set.seed(1)
 old.par <- par()
 a=rnorm(20,mean=6,sd=0.7)
@@ -56,7 +56,7 @@ In the figure above, we see that all the values are spread around 6.13 (red line
 and that is indeed what we call mean value of this sample of expression values. 
 It can be calculated with the following formula $\overline{X}=\sum_{i=1}^n x_i/n$, 
 where $x_i$ is the expression value of an experiment and $n$ is the number of 
-expression value obtained from the experiments. In R, `mean()` function will calculate the 
+expression value obtained from the experiments. In R, `mean()` function will calculate the \index{mean}
 mean of a provided vector of numbers. This is called a "sample mean". In reality 
 the possible values of PAX6 expression for all cells (provided each cell is of the 
 identical cell type and is in identical conditions) are much much more than 20.
@@ -66,7 +66,7 @@ our case the population will look like the left hand side of the figure below. W
 our 20 data points is that we took a sample of PAX6 expression values from this
 population, and calculated the sample mean.
 
-```{r,out.width='75%',fig.width=6.5,echo=FALSE,warning=FALSE,fig.cap="Expression of all possible PAX6 gene expressions measures on all available biological samples (left). Expression of PAX6 gene from statistical sample, a random subset, from the population of biological samples (Right). "}
+```{r pax6MorereplicatesChp3,out.width='75%',fig.width=6.5,echo=FALSE,warning=FALSE,fig.cap="Expression of all possible PAX6 gene expressions measures on all available biological samples (left). Expression of PAX6 gene from statistical sample, a random subset, from the population of biological samples (Right). "}
 
 df=data.frame(x=rnorm(10000,6,0.7))
 
@@ -96,7 +96,7 @@ idea behind statistical inference which we will see this in action in later
 sections as well. We
 estimate the population parameters from the sample parameters and there is some
 uncertainty associated with those estimates. We will be trying to assess those
-uncertainties and make decisions in the presence of those uncertainties. 
+uncertainties and make decisions in the presence of those uncertainties. \index{mean}
 
 We are not yet done with measuring central tendency.
 There are other ways to describe it, such as the median value. 
@@ -105,11 +105,11 @@ If certain values are very high or low from the
 bulk of the sample this will shift mean towards those outliers. However, median 
 is not affected by outliers. It is simply the value in a distribution where half 
 of the values are above and the other half is below. In R, `median()` function 
-will calculate the mean of a provided vector of numbers. 
+will calculate the mean of a provided vector of numbers.  \index{median}
 
 Let's create a set of random numbers and calculate their mean and median using
 R. 
-```{r}
+```{r runifMeanMedChp3}
 #create 10 random numbers from uniform distribution 
 x=runif(10)
 # calculate mean
@@ -128,8 +128,8 @@ called "standard deviation" or the related quantity called "variance". This is a
 quantity that shows how variable the values are, a value around zero indicates 
 there is not much variation in the values of the data points, and a high value 
 indicates high variation in the values. The variance is the squared distance of 
-data points from the mean. Population variance is again a quantity we usually
-do not have access to and is simply calculate as follows $\sigma^2=\sum_{i=1}^n \frac{(x_i-\mu)^2}{n}$, where $\mu$ is the population mean, $x_i$ is the ith 
+data points from the mean. Population variance\index{variance} is again a quantity we usually
+do not have access to and is simply calculate as follows $\sigma^2=\sum_{i=1}^n \frac{(x_i-\mu)^2}{n}$, where $\mu$ is the population mean, $x_i$ is the $i$th 
 data point in the population and $n$ is the population size. However, when the
 we have only access to a sample this formulation is biased. It means that it
 underestimates the population variance, so we make a small adjustment when we
@@ -142,16 +142,16 @@ $\overline{X}$ is the sample mean.}
 $$
 
 
-The sample standard deviation is simply the square-root of the sample variance.
+The sample standard deviation is simply the square-root of the sample variance, $s=\sqrt{\sum_{i=1}^n \frac{(x_i-\overline{X})^2}{n-1}}$.
 The good thing about standard deviation is that it has the same unit as the mean
 so it is more intuitive.  
-$$s=\sqrt{\sum_{i=1}^n \frac{(x_i-\overline{X})^2}{n-1}}$$
+
 
 We can calculate sample standard deviation and variation with `sd()` and `var()`
 functions in R. These functions take vector of numeric values as input and 
 calculate the desired quantities. Below we use those functions on a randomly
 generated vector of numbers.
-```{r}
+```{r varSdChp3}
 x=rnorm(20,mean=6,sd=0.7)
 var(x)
 sd(x)
@@ -165,24 +165,24 @@ looking at where bulk of the distribution is. How do we define where the bulk is
 One common way is to look at the the difference between 75th percentile and 25th 
 percentile, this effectively removes a lot of potential outliers which will be
 towards the edges of the range of values. 
-This is called interquartile range , and 
+This is called interquartile range \index{interquartile range} , and 
 can be easily calculated using R via `IQR()` function and the quantiles of a vector
 is calculated with `quantile()` function.
 
 Let us plot the boxplot for a random vector and also calculate IQR using R. 
 In the boxplot below, 25th and 75th percentiles are the edges of the box, and 
 the median is marked with a thick line going through roughly middle the box.
-```{r}
+```{r IQRChp3}
 x=rnorm(20,mean=6,sd=0.7)
 IQR(x)
 quantile(x)
 ```
 
-```{r,eval=FALSE}
+```{r boxplotChp3,eval=FALSE}
 boxplot(x,horizontal = T)
 ```
 
-```{r,out.width='60%',echo=FALSE,warnings=FALSE,message=FALSE,fig.cap="Boxplot showing 25th percentile and 75th percentile and median for a set of points sample from a normal distribution with mean=6 and standard deviation=0.7"}
+```{r boxplot2Chp3,fig.height=5.1,out.width='50%',echo=FALSE,warnings=FALSE,message=FALSE,fig.cap="Boxplot showing 25th percentile and 75th percentile and median for a set of points sample from a normal distribution with mean=6 and standard deviation=0.7"}
 
 a=quantile(x)[c(2:4)]
 boxplot(x,horizontal = T)
@@ -192,7 +192,7 @@ text(a[3],1.25,"75th percentile")
 
 #### Frequently used statistical distributions
 The distributions have parameters (such as mean and variance) that 
-summarizes them but also they are functions that assigns each outcome of a 
+summarizes them but also they are functions that assigns each outcome of a \index{normal distribution}
 statistical experiment to its probability of occurrence.
 One distribution that you 
 will frequently encounter is the normal distribution or Gaussian distribution.
@@ -208,7 +208,7 @@ The effect
 of the parameters for normal distribution can be observed in the following 
 plot.
 
-```{r,echo=FALSE,out.width='60%',fig.cap="Different parameters for normal distribution and effect of those on the shape of the distribution"}
+```{r normDistChp3,echo=FALSE,out.width='50%',fig.width=5.1, fig.cap="Different parameters for normal distribution and effect of those on the shape of the distribution"}
 plot(function(x) dnorm(x,0,0.5), -5,5,
      main = "",col="red",lwd=2,ylab="P(x)")
 curve(dnorm(x,0,1),add=TRUE,col="blue",lwd=2)
@@ -256,7 +256,7 @@ tables are outdated.
 Below we are showing the Z-score and the associated probabilities derived
 from the calculation above for $P(X <= -2 \; | \;  \mu=0,\sigma=2)$.
 
-```{r zscore,echo=FALSE,message=FALSE,out.width='60%',fig.cap='Z-score and associated probabilities for Z= -1'}
+```{r zscore,echo=FALSE,message=FALSE,out.width='50%',fig.width=5.1,fig.cap='Z-score and associated probabilities for Z= -1'}
 
 require(mosaic)
 xpnorm(c(-2), mean=0, sd=2,lower.tail = TRUE,invisible=T,verbose=FALSE)
@@ -268,7 +268,7 @@ be used to
 operate with normal distribution, such as calculating probabilities and 
 generating random numbers drawn from normal distribution. 
 
-```{r}
+```{r drnormChp3}
 # get the value of probability density function when X= -2,
 # where mean=0 and sd=2
 dnorm(-2, mean=0, sd=2)
@@ -292,23 +292,23 @@ way. You have to enter the distribution specific parameters along
 with your critical value, quantiles or number of random numbers depending
 on which function you are using in the family.We will list some of those functions below.
 
-- `dbinom` is for binomial distribution. This distribution is usually used
+- `dbinom` is for binomial distribution \index{binomial disdistribution}. This distribution is usually used
 to model fractional data and binary data. Examples from genomics includes
 methylation data.
 
 - `dpois` is used for Poisson distribution and `dnbinom` is used for
-negative binomial distribution. These distributions are used to model count
+negative binomial distribution. These distributions are used to model count \index{Poisson distribution}
 data such as sequencing read counts.
 
-- `df` (F distribution) and `dchisq` (Chi-Squared distribution) are used
-in relation to distribution of variation. F distribution is used to model
+- `df` (F distribution) and `dchisq` (Chi-Squared distribution) are used \index{F distribution}
+in relation to distribution of variation. F distribution is used to model  \index{Chi-Squared distribution}
 ratios of variation and Chi-Squared distribution is used to model 
 distribution of variations. You will frequently encounter these in linear models and generalized linear models.
 
 
 ### Precision of estimates: Confidence intervals
 When we take a random sample from a population and compute a statistic, such as
-the mean, we are trying to approximate the mean of the population. How well this 
+the mean, we are trying to approximate the mean of the population. How well this \index{confidence intervals}
 sample statistic estimates the population value will always be a
 concern. A confidence interval addresses this concern because it provides a 
 range of values which is plausible to contain the population parameter of interest.
@@ -323,14 +323,14 @@ original sample. Then, we calculate the parameter of interest, in this case mean
 repeat this step a large number of times, such as 1000. At this point, we would have a distribution of re-sampled
 means, we can then calculate the 2.5th and 97.5th percentiles and these will
 be our so-called 95% confidence interval. This procedure, resampling with replacement to
-estimate the precision of population parameter estimates, is known as the __bootstrap__.
+estimate the precision of population parameter estimates, is known as the __bootstrap__.\index{bootstrap resampling}
 
 Let's see how we can do this in practice. We simulate a sample
 coming from a normal distribution (but we pretend we don't know the 
 population parameters). We will try to estimate the precision
 of the mean of the sample using bootstrap to build confidence intervals.
 
-```{r,out.width='70%',fig.cap="Precision estimate of the sample mean using 1000 bootstrap samples. Confidence intervals derived from the bootstrap samples are shown with red lines."}
+```{r bootstrapChp3,out.width='55%',fig.width=5.1,fig.cap="Precision estimate of the sample mean using 1000 bootstrap samples. Confidence intervals derived from the bootstrap samples are shown with red lines."}
 library(mosaic)
 set.seed(21)
 sample1= rnorm(50,20,5) # simulate a sample
@@ -379,7 +379,7 @@ confint=[\overline{X}-1.96\sigma/\sqrt{n},\overline{X}+1.96\sigma/\sqrt{n}]
 
 
 A 95% confidence interval for population mean is the most common
-common interval to use, and would 
+common interval to use, and would \index{confidence interval}
 mean that we would expect 95% of the interval estimates to include the 
 population parameter, in this case the mean. However, we can pick any value 
 such as 99% or 90%. We can generalize the confidence interval for 
@@ -391,7 +391,7 @@ $$\overline{X} \pm Z_{\alpha/2}\sigma/\sqrt{n}$$
 In R, we can do this using `qnorm()` function to get Z-scores associated
 with ${\alpha/2}$ and ${1-\alpha/2}$. As you can see, the confidence intervals we calculated using CLT are very
 similar to the ones we got from bootstrap for the same sample. For bootstrap we got $[19.21, 21.989]$ and for the CLT based estimate we got $[19.23638, 22.00819]$.
-```{r}
+```{r qnormchp3}
 alpha=0.05
 sd=5
 n=50
@@ -399,14 +399,14 @@ mean(sample1)+qnorm(c(alpha/2,1-alpha/2))*sd/sqrt(n)
 
 ```
 
-The good thing about CLT as long as the sample size is large regardless of 
+The good thing about CLT as long as the sample size is large regardless of \index{central limit theorem (CLT)}
 the population distribution, the distribution of sample means drawn from
 that population will always be normal. Here we are repeatedly 
 drawing samples 1000 times with sample size $n$=10,30, and 100 from a bimodal,
 exponential and a uniform distribution and we are getting sample mean distributions
 following normal distribution.
 
-```{r,echo=FALSE,message=FALSE,warning=FALSE,fig.cap="Sample means are normally distributed regardless of the population distribution they are drawn from."}
+```{r sampleMeanschp3,echo=FALSE,message=FALSE,warning=FALSE,fig.cap="Sample means are normally distributed regardless of the population distribution they are drawn from."}
 set.seed(101)
 #require(mosaic)
 par(mfcol=c(4,3))
@@ -473,11 +473,11 @@ hist(unif100,xlim=c(0,1),main="",xlab="",ylab="",breaks=20,col="gray",
 
 
 However, we should note that how we constructed the confidence interval
-using standard normal distribution, $N(0,1)$, only works when the when we know the 
+using standard normal distribution, $N(0,1)$, only works when the when we know the \index{normal distribution}
 population standard deviation. In reality, we usually have only access
 to a sample and have no idea about the population standard deviation. If
 this is the case we should use estimate the standard deviation using
-sample standard deviation and use something called _t distribution_ instead 
+sample standard deviation and use something called _t distribution_ instead  \index{t distribution}
 of standard normal distribution in our interval calculation.  Our confidence interval becomes 
 $\overline{X} \pm t_{\alpha/2}s/\sqrt{n}$, with t distribution
 parameter $d.f=n-1$, since now  the following quantity is t distributed $\frac{\overline{X}-\mu}{s/\sqrt{n}}$ instead of standard normal distribution.
@@ -485,9 +485,9 @@ parameter $d.f=n-1$, since now  the following quantity is t distributed $\frac{\
 The t distribution is similar to standard normal distribution has mean 0 but its spread is larger than the normal distribution
 especially when sample size is small,  and has one parameter $v$ for
 the degrees of freedom, which is $n-1$ in this case. Degrees of freedom
-is simply number of data points minus number of parameters estimated. Here
+is simply number of data points minus number of parameters estimated.\index{degrees of freedom} Here
 we are estimating the mean from the data and the distribution is for the means, therefore degrees of freedom is $n-1$.
-```{r,echo=FALSE,warning=FALSE,message=FALSE,out.width='60%',fig.cap="Normal distribution and t distribution with different degrees of freedom. With increasing degrees of freedom, t distribution approximates the normal distribution better."}
+```{r tdistChp3,echo=FALSE,warning=FALSE,message=FALSE,out.width='60%',fig.cap="Normal distribution and t distribution with different degrees of freedom. With increasing degrees of freedom, t distribution approximates the normal distribution better."}
 plot(function(x) dnorm(x,0,1), -4,4,
      main = "",col="red",lwd=2,ylab="P(x)")
 curve(dt(x,1),add=TRUE,col="orange",lwd=2)
@@ -515,7 +515,7 @@ sampling. That means we need to compare the difference we get to a value that
 is typical to get if the difference between two group means were only due to 
 sampling. If you followed the logic above, here we actually introduced two core 
 ideas of something called "hypothesis testing", this is simply using 
-statistics to 
+statistics to \index{hypothesis testing}
 determine the probability that a given hypothesis (if two sample sets
 are from the same population or not) is true. Formally, those two core 
 ideas are as follows:
@@ -551,7 +551,7 @@ often we would get the original difference we calculated under the
 assumption that $H_0$ is true.
 
 
-```{r,out.width='60%',fig.cap="The null distribution for differences of means obtained via randomization. The original difference is marked via blue line. The red line marks the value that corresponds to P-value of 0.05"}
+```{r randomTestchp3,out.width='60%',fig.cap="The null distribution for differences of means obtained via randomization. The original difference is marked via blue line. The red line marks the value that corresponds to P-value of 0.05"}
 set.seed(100)
 gene1=rnorm(30,mean=4,sd=2)
 gene2=rnorm(30,mean=2,sd=2)
@@ -579,9 +579,9 @@ directly related to the P-value calculation above.
 
 
 ### Using t-test for difference of the means between two samples
-We can also calculate the difference between means using a t-test. Sometimes we will have too few data points in a sample to do meaningful
+We can also calculate the difference between means using a t-test\index{t-test}. Sometimes we will have too few data points in a sample to do meaningful
 randomization test, also randomization takes more time than doing a t-test.
-This is a test that depends on the t distribution. The line of thought follows
+This is a test that depends on the t distribution\index{t distribution}. The line of thought follows
 from the CLT and we can show differences in means are t distributed.
 There are couple of variants of the t-test for this purpose. If we assume
 the variances are equal we can use the following version
@@ -605,7 +605,7 @@ $$
 
 Luckily, R does all those calculations for us. Below we will show the use of `t.test()` function in R. We will use it on the samples we simulated 
 above.
-```{r,welchTtest}
+```{r welchTtest}
 # Welch's t-test
 stats::t.test(gene1,gene2)
 
@@ -623,7 +623,7 @@ if sample sizes are large.
 
 ### multiple testing correction
 
-We should think of hypothesis testing as a non-error-free method of making
+We should think of hypothesis testing as a non-error-free method of making \index{multiple testing correction}
 decisions. There will be times when we declare something significant and accept 
 $H_1$ but we will be wrong. 
 These decisions are also called "false positives" or "false discoveries", this
@@ -683,7 +683,7 @@ P-value ($p_i$) with the number of tests ($m$): $m \cdot p_i$, this is
 called "Bonferroni correction". However, this is too harsh if you have thousands
 of tests. Other methods are developed to remedy this. Those methods 
 rely on ranking the P-values and dividing  $m \cdot p_i$ by the 
-rank,$i$, :$\frac{m \cdot p_i }{i}$, this is derived from  Benjamini–Hochberg 
+rank,$i$, :$\frac{m \cdot p_i }{i}$, this is derived from  Benjamini–Hochberg \index{P-value}
 procedure. This procedure is developed to control for "False Discovery Rate (FDR)"
 , which is proportion of false positives among all significant tests. And in
 practical terms, we get the "FDR adjusted P-value" from the procedure described
@@ -693,9 +693,9 @@ test. To elaborate, p-value of 0.05 implies that 5% of all tests will be false p
 One final method that is also popular is called the "q-value" 
 method and related to the method above. This procedure relies on estimating the proportion of true null 
 hypotheses from the distribution of raw p-values and using that quantity
-to come up with what is called a "q-value", which is also an FDR adjusted P-value . That can be practically defined
+to come up with what is called a "q-value", which is also an FDR adjusted P-value [@Storey2003-nv]. That can be practically defined
 as "the proportion of significant features that turn out to be false
-leads." A q-value 0.01 would mean 1% of the tests called significant at this 
+leads." A q-value 0.01 would mean 1% of the tests called significant at this \index{q-value}
 level will be truly null on average. Within the genomics community
 q-value and FDR adjusted P-value are synonymous although they can be 
 calculated differently.
@@ -706,7 +706,7 @@ Bioconductor. Below we are demonstrating how to use them on a set of simulated
 p-values.The plot shows that Bonferroni correction does a terrible job. FDR(BH) and q-value
 approach are better but q-value approach is more permissive than FDR(BH).
 
-```{r,multtest,out.width='60%',fig.cap="Adjusted P-values via different methods and their relationship to raw P-values"}
+```{r multtest,out.width='60%',fig.cap="Adjusted P-values via different methods and their relationship to raw P-values"}
 library(qvalue)
 data(hedenfalk)
 
@@ -755,7 +755,7 @@ $$ \hat{V_g} = (V_0 + V_g)/2 $$
 
 In the code below, we are avoiding for loops or apply family functions
 by using vectorized operations.
-```{r, out.width='60%',fig.width=8,fig.cap="The distributions of P-values obtained by t-tests and moderated t-tests"}
+```{r modTtestChp3, out.width='60%',fig.width=8,fig.cap="The distributions of P-values obtained by t-tests and moderated t-tests"}
 set.seed(100)
 
 #sample data matrix from normal distribution
@@ -773,13 +773,14 @@ dx=rowMeans(data[,group1])-rowMeans(data[,group2])
 require(matrixStats)
 
 # get the esimate of pooled variance 
-stderr <- sqrt( (rowVars(data[,group1])*(n1-1) + rowVars(data[,group2])*(n2-1)) / (n1+n2-2) * ( 1/n1 + 1/n2 ))
+stderr = sqrt( (rowVars(data[,group1])*(n1-1) + 
+       rowVars(data[,group2])*(n2-1)) / (n1+n2-2) * ( 1/n1 + 1/n2 ))
 
 # do the shrinking towards median
-mod.stderr <- (stderr + median(stderr)) / 2 # moderation in variation
+mod.stderr = (stderr + median(stderr)) / 2 # moderation in variation
 
 # esimate t statistic with moderated variance
-t.mod = dx / mod.stderr
+t.mod <- dx / mod.stderr
 
 # calculate P-value of rejecting null 
 p.mod = 2*pt( -abs(t.mod), n1+n2-2 )
@@ -793,7 +794,8 @@ p = 2*pt( -abs(t), n1+n2-2 )
 par(mfrow=c(1,2))
 hist(p,col="cornflowerblue",border="white",main="",xlab="P-values t-test")
 mtext(paste("signifcant tests:",sum(p<0.05))  )
-hist(p.mod,col="cornflowerblue",border="white",main="",xlab="P-values mod. t-test")
+hist(p.mod,col="cornflowerblue",border="white",main="",
+     xlab="P-values mod. t-test")
 mtext(paste("signifcant tests:",sum(p.mod<0.05))  )
 
 ```
@@ -804,13 +806,13 @@ mtext(paste("signifcant tests:",sum(p.mod<0.05))  )
 __Want to know more ?__
 
 - basic statistical concepts  
-    - "Cartoon guide to statistics" by Gonick & Smith
-    - "Introduction to statistics" by Mine Rundel, et al. (Free e-book)
+    - "Cartoon guide to statistics" by Gonick & Smith [@gonick2005cartoon]. Provides central concepts are depicted as cartoons in funny but clear and accurate manner.
+    - "OpenIntro Statistics" [@diez2015openintro] (Free e-book http://openintro.org). This book provides fundamental statistical concepts in a clear and easy way. It includes R code.
 - Hands-on statistics recipes with R
-    - "The R book" by Crawley
+    - "The R book" [@crawley2012r]. This is the main R book for anyone interested in statistical concepts and their application in R. It requires some background in statistics since the main focus is applications in R.
 - moderated tests
-    - comparison of moderated tests for differential expression http://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-17
-    - limma method: Smyth, G. K. (2004). Linear models and empirical Bayes methods for assessing differential expression in microarray experiments. Statistical Applications in Genetics and Molecular Biology, 3, No. 1, Article 3. http://www.statsci.org/smyth/pubs/ebayes.pdf
+    - comparison of moderated tests for differential expression [@de2010benchmark] http://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-17
+    - limma method developed for testing differential expression between genes using a moderated test [@smyth2004linear] http://www.statsci.org/smyth/pubs/ebayes.pdf
 
 ```
 
@@ -821,11 +823,11 @@ variables. We might want to know about expression of a particular gene in liver
 in relation to the dosage of a drug that patient receives. Or, we may want to know 
 DNA methylation of certain locus in the genome in relation to age of the sample 
 donor's. Or, we might be interested in the relationship between histone
-modifications and gene expression. Is there a linear relationship, the more 
+modifications and gene expression\index{histone modification}. Is there a linear relationship, the more \index{gene expression}
 histone modification the more the gene is expressed ? 
 
 In these
-situations and many more, linear regression or linear models can be used to 
+situations and many more, linear regression or linear models can be used to \index{linear regression}
 model the relationship with a "dependent" or "response" variable (expression or 
 methylation
 in the above examples) and one or more "independent"" or "explanatory" variables (age, drug dosage or histone modification in the above examples). Our simple linear model has the 
@@ -850,7 +852,7 @@ $$  Y= \beta_0+\beta_1X + \epsilon $$
  $\beta_1$, and $\hat{y}$ indicates the prediction). The red lines indicate the individual
  errors per data point, indicated as $\epsilon$ in the formula above. 
  
-```{r,echo=FALSE,warning=FALSE,message=FALSE,error=FALSE,results='hide',out.width='60%',fig.cap="Relationship between histone modification score and gene expression. Increasing histone modification, H3K4me3, seems to be associated with increasing gene expression. Each dot is a gene"}
+```{r histoneLmChp3,echo=FALSE,warning=FALSE,message=FALSE,error=FALSE,results='hide',out.width='60%',fig.cap="Relationship between histone modification score and gene expression. Increasing histone modification, H3K4me3, seems to be associated with increasing gene expression. Each dot is a gene"}
 set.seed(31)
 x1 <- runif(100,10,200)
 
@@ -887,9 +889,9 @@ In this case, we will be fitting a plane rather than a line. However, the fittin
 process which we will describe in the later sections will not change. For our 
 gene expression problem. We can introduce one more histone modification, H3K27me3. We will then have a linear model with 2 explanatory variables and the 
 fitted plane will look like the one below. The gene expression values are shown
-as dots below and above the fitted plane.
+as dots below and above the fitted plane. Linear regression or linear models and their extensions which makes use of other distributions are central in computational genomics for statistical tests. We will see more of how regression is used in statistical hypothesis testing for computational genomics in Chapters \@ref(rnaseqanalysis) and  \@ref(bsseq).
 
-```{r,echo=FALSE,out.width='70%',warning=FALSE,message=FALSE,fig.cap="Association of Gene expression with H3K4me3 and H27Kme3 histone modifications."}
+```{r histoneLm2chp3,echo=FALSE,out.width='65%',warning=FALSE,message=FALSE,fig.cap="Association of Gene expression with H3K4me3 and H27Kme3 histone modifications."}
 set.seed(32)
 x2 <- runif(100,10,200)
 
@@ -1002,11 +1004,11 @@ to do this, all of which converges to the same
 end point. We will describe them one by one.
 
 #### The cost or loss function approach
-This is the first approach and in my opinion is easiest to understand. 
-We try to optimize a function, often called "cost function" or "loss function". 
+This is the first approach and in my opinion is easiest to understand. \index{cost function}
+We try to optimize a function, often called "cost function" or "loss function". \index{loss function}
 The cost function
 is the sum of squared differences between the predicted $\hat{Y}$ values from our model
-and the original $Y$ values. The optimization procedure tries to find $\beta$ values
+and the original $Y$ values. The optimization procedure tries to find $\beta$ values \index{optimization}
 that minimizes this difference between reality and the predicted values.
  
  $$min \sum{(y_i-(\beta_0+\beta_1x_i))^2}$$
@@ -1023,14 +1025,15 @@ The rough algorithm is as follows:
     - step size is parameter to choose, there are many variants.
 4. repeat step 2,3 until convergence.
 
-This is the basis of "gradient descent" algorithm. With the help of partial 
+This is the basis of "gradient descent" algorithm.\index{gradient descent} With the help of partial 
 derivatives we define a "gradient" on the cost function and follow that through
 multiple iterations and until convergence, meaning until the results do not 
 improve defined by a margin. The algorithm usually converges to optimum $\beta$
-values. Below, we show the cost function over various $\beta_0$ and $\beta_1$
+values. In Figure \@ref(fig:3dcostfunc), we show the cost function over various $\beta_0$ and $\beta_1$
 values for the histone modification and gene expression data set. The algorithm
 will pick a point on this graph and traverse it incrementally based on the 
-derivatives and converge on the bottom of the cost function "well".
+derivatives and converge on the bottom of the cost function "well". Such optimization methods is the core of machine learning methods we will cover later in Chapters \@ref(unsupervisedLearning) and
+\@ref(supervisedLearning).
 
 
 ```{r 3dcostfunc,fig.height=3,echo=FALSE,warning=FALSE,message=FALSE,fig.cap="Cost function landscape for linear regression with changing beta values. The optimization process tries to find the lowest point in this landscape by implementing a strategy for updating beta values towards the lowest point in the landscape."}
@@ -1075,16 +1078,16 @@ par(mfrow=c(1,1))
 
 
 #### Not cost function but maximum likelihood function
-We can also think of this problem from more a statistical point of view. In 
+We can also think of this problem from more a statistical point of view. In \index{maximum likelihood estimation}
 essence, we are looking for best statistical parameters, in this 
 case $\beta$ values, for our model that are most likely to produce such a 
 scatter of data points given the explanatory variables.This is called
-"Maximum likelihood" approach. The approach assumes that a given response variable $y_i$ follows a normal distribution with mean $\beta_0+\beta_1x_i$ and variance $s^2$. Therefore probability of observing any given $y_i$ value is dependent on  $\beta_0$ and  $\beta_1$ values. Since $x_i$, the explanatory variable, is fixed within our data set, by varying  $\beta_0$ and  $\beta_1$ values we can maximize the probability of observing any given $y_i$. The trick is to find $\beta_0$ and  $\beta_1$ values that maximizes the probability of observing all the response variables in the dataset given the explanatory variables. The probability of observing a response variable $y_i$ with assumptions we described above is shown below. Note that this assumes variance is constant and $s^2=\frac{\sum{\epsilon_i}}{n-2}$ is an unbiased estimation for population variance, $\sigma^2$.
+"Maximum likelihood" approach. The approach assumes that a given response variable $y_i$ follows a normal distribution with mean $\beta_0+\beta_1x_i$ and \index{variance} variance $s^2$. Therefore probability of observing any given $y_i$ value is dependent on  $\beta_0$ and  $\beta_1$ values. Since $x_i$, the explanatory variable, is fixed within our data set, by varying  $\beta_0$ and  $\beta_1$ values we can maximize the probability of observing any given $y_i$. The trick is to find $\beta_0$ and  $\beta_1$ values that maximizes the probability of observing all the response variables in the dataset given the explanatory variables. The probability of observing a response variable $y_i$ with assumptions we described above is shown below. Note that this assumes variance is constant and $s^2=\frac{\sum{\epsilon_i}}{n-2}$ is an unbiased estimation for population variance, $\sigma^2$.\index{variance}
 
  $$P(y_{i})=\frac{1}{s\sqrt{2\pi} }e^{-\frac{1}{2}\left(\frac{y_i-(\beta_0 + \beta_1x_i)}{s}\right)^2}$$
  
 Following from the probability equation above, the likelihood function (shown as $L$ below) for 
-linear regression is multiplication of $P(y_{i})$ for all data points.
+linear regression is \index{linear regression} multiplication of $P(y_{i})$ for all data points.
 
 $$L=P(y_1)P(y_2)P(y_3)..P(y_n)=\prod\limits_{i=1}^n{P_i}$$
 
@@ -1107,11 +1110,11 @@ iterative approach.
 
 
 #### Linear algebra and closed-form solution to linear regression
-The last approach we will describe is the minimization process using linear 
+The last approach we will describe is the minimization process using linear \index{linear regression}
 algebra. If you find this concept challenging, feel free to skip it but scientific publications and other books frequently use matrix notation and linear algebra to define and solve regression problems. In this case, we do not use an iterative approach. Instead, we will
 minimize cost function by explicitly taking its derivatives with respect to 
 $\beta$'s and setting them to zero. This is doable by employing linear algebra 
-and matrix calculus. This approach is also called "ordinary least squares". We 
+and matrix calculus. This approach is also called "ordinary least squares". We \index{ordinary least squares regression}
 will not 
 show the whole derivation here but the following expression
 is what we are trying to minimize in matrix notation, this is basically a
@@ -1137,7 +1140,7 @@ derivatives will be faster for larger problems.
 The linear algebra notation is something you will see in the papers 
 or other resources often. If you input the data matrix X and solve the $(X^TX)^{-1}$
 , 
-you get the following values for $\beta_0$ and $\beta_1$ for simple regression
+you get the following values for $\beta_0$ and $\beta_1$ for simple regression \index{linear regression}
 . However, we should note that this simple linear regression case can easily 
 be solved algebraically without the need for matrix operations. This can be done
 by taking the derivative of $\sum{(y_i-(\beta_0+\beta_1x_i))^2}$ with respect to
@@ -1152,11 +1155,11 @@ After all this theory, you will be surprised how easy it is to fit lines in R.
 This is achieved just by `lm()` command, stands for linear models. Let's do this
 for a simulated data set and plot the fit. First step is to simulate the 
 data, we will decide on $\beta_0$ and $\beta_1$ values. The we will decide
-on the variance parameter,$\sigma$ to be used in simulation of error terms,
+on the variance parameter,$\sigma$ to be used in simulation of error terms,\index{variance}
 $\epsilon$. We will first find $Y$ values, just using the linear equation
 $Y=\beta0+\beta_1X$, for 
 a set of $X$ values. Then, we will add the error terms get our simulated values.
-```{r}
+```{r getFittinLineData}
 # set random number seed, so that the random numbers from the text
 # is the same when you run the code.
 set.seed(32)
@@ -1175,10 +1178,10 @@ y = b0 + b1*x+ eps
 
 
 ```
-Now let us fit a line using lm() function. The function requires a formula, and
+Now let us fit a line using `lm()` function. The function requires a formula, and
 optionally a data frame. We need the pass the following expression within the
-lm function, `y~x`, where `y` is the simulated $Y$ values and `x` is the explanatory variables $X$. We will then use `abline()` function to draw the fit.
-```{r,out.width='60%',fig.cap="Gene expression and histone modification score modelled by linear regression"}
+`lm()` function, `y~x`, where `y` is the simulated $Y$ values and `x` is the explanatory variables $X$. We will then use `abline()` function to draw the fit.
+```{r geneExpLinearModel,out.width='60%',fig.cap="Gene expression and histone modification score modelled by linear regression"}
 mod1=lm(y~x)
 
 # plot the data points
@@ -1197,11 +1200,11 @@ sample, with each sample the lines slightly change.We are overlaying the
 points and the lines for each sample on top of the other samples
 .When we take 200 samples and fit lines for each of them,the lines fit are 
 variable. And,
-we get a normal-like distribution of $\beta$ values with a defined mean
+we get a normal-like distribution of $\beta$ values with a defined mean \index{linear regression}
 and standard deviation a, which is called standard error of the
 coefficients.
 
-```{r,message=FALSE,warning=FALSE,echo=FALSE,fig.cap="Regression coefficients vary with every random sample. The figure illustrates the variability of regression coefficients when regression is done using a sample of data points. Histograms depict this variability for $b_0$ and $b_1$ coefficients."}
+```{r regCoeffRandomSamples,message=FALSE,warning=FALSE,echo=FALSE,fig.cap="Regression coefficients vary with every random sample. The figure illustrates the variability of regression coefficients when regression is done using a sample of data points. Histograms depict this variability for $b_0$ and $b_1$ coefficients."}
 set.seed(31)
 b0 <- 17
 b1 <- 0.5
@@ -1212,7 +1215,8 @@ y <- b0 + b1*x + eps
 
 par(mfrow=c(2,3))
 require(scales)
-plot(x,y,ylim=c(0,160),xlim=c(0,220),pch=20,col=alpha("blue", 0.1),main="1 sample")
+plot(x,y,ylim=c(0,160),xlim=c(0,220),pch=20,
+     col=scales::alpha("blue", 0.1),main="1 sample")
 
 mod1=lm(y~x)
 abline(mod1,col="red")
@@ -1224,28 +1228,28 @@ simXY<-function(b1,b0,sigma){
   list(x1,y)
 }
 
-plot(x,y,ylim=c(0,160),xlim=c(0,220),pch=20,col=alpha("blue", 0.1),main="2 samples")
+plot(x,y,ylim=c(0,160),xlim=c(0,220),pch=20,col=scales::alpha("blue", 0.1),main="2 samples")
 abline(lm(y~x),col="red")
 xy=simXY(b1,b0,sigma)
-points(xy[[1]],xy[[2]],pch=20,col=alpha("blue", 0.1))
+points(xy[[1]],xy[[2]],pch=20,col=scales::alpha("blue", 0.1))
 abline(lm(xy[[2]]~xy[[1]]),col="red")
 
-plot(x,y,ylim=c(0,160),xlim=c(0,220),pch=20,col=alpha("blue", 0.1),main="10 samples")
+plot(x,y,ylim=c(0,160),xlim=c(0,220),pch=20,col=scales::alpha("blue", 0.1),main="10 samples")
 abline(lm(y~x),col="red")
 for(i in 1:9){
 xy=simXY(b1,b0,sigma)
-points(xy[[1]],xy[[2]],pch=20,col=alpha("blue", 0.05))
+points(xy[[1]],xy[[2]],pch=20,col=scales::alpha("blue", 0.05))
 abline(lm(xy[[2]]~xy[[1]]),col="red")
 }
 
-plot(x,y,ylim=c(0,160),xlim=c(0,220),pch=20,col=alpha("blue", 0.1),main="200 samples")
+plot(x,y,ylim=c(0,160),xlim=c(0,220),pch=20,col=scales::alpha("blue", 0.1),main="200 samples")
 abline(lm(y~x),col="red")
 b0s=numeric(200)
 b1s=numeric(200)
 
 for(i in 1:200){
   xy=simXY(b1,b0,sigma)
-  points(xy[[1]],xy[[2]],pch=20,col=alpha("blue", 0.01))
+  points(xy[[1]],xy[[2]],pch=20,col=scales::alpha("blue", 0.01))
   modxy=lm(xy[[2]]~xy[[1]])
   abline(modxy,col="red")
   b0s[i]=coef(modxy)[1]
@@ -1272,7 +1276,7 @@ model fitting and estimation of the standard error for the coefficients. But
 there is statistical theory that helps us infer the population properties from
 the sample. When we assume that error terms have constant variance and mean zero
 , we can model the uncertainty in the regression coefficients, $\beta$s. 
-The estimates for standard errors of $\beta$s for simple regression are as 
+The estimates for standard errors of $\beta$s for simple regression are as \index{linear regression}
 follows and shown without derivation.
 
 $$
@@ -1284,8 +1288,8 @@ SE(\hat{\beta_0})=s\sqrt{ \frac{1}{n} + \frac{\overline{X}^2}{\sum{(x_i-\overlin
 $$
 
 Notice that that $SE(\beta_1)$ depends on the estimate of variance of
-residuals shown as $s$ or __Residual Standard Error (RSE)__.
-Notice alsos standard error depends on the spread of $X$. If $X$ values have more 
+residuals shown as $s$ or __Residual Standard Error (RSE)__.\index{variance} \index{residuals}
+Notice also standard error depends on the spread of $X$. If $X$ values have more \index{Residual Standard Error (RSE)}
 variation, the standard error will be lower. This intuitively makes sense since if the 
 spread of the $X$ is low, the regression line will be able to wiggle more 
 compared to a regression line that is fit to the same number of points but
@@ -1318,9 +1322,9 @@ the t-distribution with $d.f. = n – p$.
 In R, `summary()` function will test all the coefficients for the null hypothesis
 $\beta_i=0$. The function takes the model output obtained from the `lm()` 
 function. To demonstrate this, let us first get some data. The procedure below
-simulates data to be used in a regression setting and it is useful to examine
+simulates data to be used in a regression setting and it is useful to examine \index{linear regression}
 what the linear model expect to model the data.
-```{r,echo=FALSE,warning=FALSE,message=FALSE}
+```{r extraLinarModelDataGeneration,echo=FALSE,warning=FALSE,message=FALSE}
 # set random number seed, so that the random numbers from the text
 # is the same when you run the code.
 set.seed(32)
@@ -1343,7 +1347,7 @@ Since we have the data, we can build our model and call the `summary` function.
 We will then use `confint()` function to get the confidence intervals on the 
 coefficients and `coef()` function to pull out the estimated coefficients from
 the model.
-```{r}
+```{r confintLM}
 mod1=lm(y~x)
 summary(mod1)
 
@@ -1370,10 +1374,10 @@ If you have observed the table output by `summary()` function, you must have not
 "Multiple R-squared" and "F-statistic". These are metrics that are useful 
 for assessing the accuracy of the model. We will explain them one by one. 
 
-_  (RSE)_ simply is the square-root of the 
+_  (RSE)_ simply is the square-root of the \index{Residual Standard Error (RSE)}
 the sum of squared error terms, divided by degrees of freedom, $n-p$, for simple 
 linear regression case, $n-2$. Sum of of the squares of the error terms is also
-called __"Residual sum of squares"__, RSS. So RSE is 
+called __"Residual sum of squares"__, RSS. \index{Residual sum of squares (RSS)}So RSE is 
 calculated as follows:
 
 $$ s=RSE=\sqrt{\frac{\sum{(y_i-\hat{Y_i})^2 }}{n-p}}=\sqrt{\frac{RSS}{n-p}}$$
@@ -1398,11 +1402,11 @@ the "explained variability" better the model. For simple linear regression
 with one explanatory variable, the square root of $R^2$ is a quantity known
 as absolute value of the correlation coefficient, which can be calculated for any pair of variables, not only 
 the
-response and the explanatory variables. _Correlation_ is a general measure of 
+response and the explanatory variables. _Correlation_ is a general measure of \index{correlation}
 linear
 relationship between two variables. One 
 of the most popular flavors of correlation is the Pearson correlation coefficient. Formally, It is the 
-_covariance_ of X and Y divided by multiplication of standard deviations of 
+_covariance_ of X and Y divided by multiplication of standard deviations of \index{covariance}
 X and Y. In R, it can be calculated with `cor()` function.
 
 $$ 
@@ -1410,19 +1414,19 @@ r_{xy}=\frac{cov(X,Y)}{\sigma_x\sigma_y}
       =\frac{\sum\limits_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})}
             {\sqrt{\sum\limits_{i=1}^n (x_i-\bar{x})^2 \sum\limits_{i=1}^n (y_i-\bar{y})^2}}
 $$
-In the equation above, cov is the covariance, this is again a measure of 
-how much two variables change together, like correlation. If two variables
+In the equation above, $cov$ is the covariance, this is again a measure of 
+how much two variables change together, like correlation. If two variables \index{covariance}
 show similar behavior they will usually have positive covariance value, if they have opposite behavior, the covariance will have negative value.
 However, these values are boundless. A normalized way of looking at
 covariance is to divide covariance by the multiplication of standard
 errors of X and Y. This bounds the values to -1 and 1, and as mentioned
-above called Pearson correlation coefficient. The values that change in a similar manner will have a positive coefficient, the values that change in
+above called Pearson correlation coefficient. The values that change in a similar manner will have a positive coefficient, the values that change in \index{correlation}
 opposite manner will have negative coefficient, and pairs do not have
 a linear relationship will have 0 or near 0 correlation. In 
 the figure below, we are showing $R^2$, correlation 
 coefficient and covariance for different scatter plots.
 
-```{r,fig.width=9,fig.height=5,echo=FALSE,warning=FALSE,message=FALSE, fig.cap="Correlation and covariance for different scatter plots"}
+```{r CorCovar,fig.width=9,fig.height=3,echo=FALSE,warning=FALSE,message=FALSE, fig.cap="Correlation and covariance for different scatter plots"}
 set.seed(32)
 x=runif(50,min=5,max=75)
 eps=rnorm(50,sd=50)
@@ -1460,8 +1464,8 @@ if the there are more than one explanatory
 variable as in multiple linear regression. In that case, $R^2$ is a measure 
 of accuracy for the model. Interestingly, square of the 
 correlation of predicted values
-and original response variables ($(cor(Y,\hat{Y}))^2$ ) equals to $R^2$ for 
-multiple linear regression.
+and original response variables ($(cor(Y,\hat{Y}))^2$ ) equals to $R^2$ for \index{$R^2$}
+multiple linear regression.\index{linear regression}
 
 
 The last accuracy measure or the model fit in general we are going to explain is _F-statistic_. This is a quantity that depends on RSS and TSS again. It can also answer one important question that other metrics can 
@@ -1495,7 +1499,7 @@ ratio. Benefit of the F-test over
 looking at significance of coefficients one by one is that we circumvent
 multiple testing problem. If there are lots of explanatory variables
 at least 5% of the time (assuming we use 0.05 as P-value significance 
-cutoff), p-values from coefficient t-tests will be wrong. In summary, 
+cutoff), p-values from coefficient t-tests will be wrong\index{t-test}. In summary, 
 F-test is a better choice for testing if there is any association
 between the explanatory variables and the response variable.
 
@@ -1506,11 +1510,11 @@ between the explanatory variables and the response variable.
 An important feature of linear regression is that categorical variables can
 be used as explanatory variables, this feature is very useful in genomics
 where explanatory variables often could be categorical. To put it in 
-context, in our histone modification example we can also include if 
+context, in our histone modification \index{histone modification} example we can also include if 
 promoters have CpG islands or not as a variable. In addition, in 
 differential gene expression, we usually test the difference between
 different condition which can be encoded as categorical variables in
-a linear regression. We can sure use t-test for that as well if there 
+a linear regression.\index{linear regression} We can sure use t-test for that as well if there 
 are only 2 conditions, but if there are more conditions and other variables
 to control for such as Age or sex of the samples, we need to take those 
 into account for our statistics, and t-test alone can not handle such 
@@ -1520,7 +1524,7 @@ only one type of variable in a model.
 
 The simplest model with categorical variables include two levels that
 can be encoded in 0 and 1.
-```{r,fig.cap="Linear model with a categorical variable coded as 0 and 1"}
+```{r LMcategorical,out.width='50%',fig.cap="Linear model with a categorical variable coded as 0 and 1"}
 set.seed(100)
 gene1=rnorm(30,mean=4,sd=2)
 gene2=rnorm(30,mean=2,sd=2)
@@ -1535,7 +1539,7 @@ plotModel(mod2)
 
 we can even compare more levels, we do not even have to encode them
 ourselves. We can pass categorical variables to `lm()` function.
-```{r}
+```{r LMcatcompare}
 
 gene.df=data.frame(exp=c(gene1,gene2,gene2),
                   group=c( rep("A",30),rep("B",30),rep("C",30) ) 
@@ -1549,7 +1553,7 @@ summary(mod3)
 ### Regression pitfalls
 In most cases one should look at the error terms (residuals) vs fitted
 values plot. Any structure in this plot indicates problems such as 
-non-linearity, correlation of error terms, non-constant variance or
+non-linearity, correlation of error terms \index{correlation}, non-constant variance or
 unusual values driving the fit. Below we briefly explain the potential
 issues with the linear regression.
 
@@ -1560,7 +1564,7 @@ transforming the data with $logX$, $\sqrt{X}$ and $X^2$ could resolve
 the issue.
 
 ##### correlation of explanatory variables
-If the explanatory variables are correlated that could lead to something 
+If the explanatory variables are correlated that could lead to something  
 known as multicolinearity. When this happens SE estimates of the coefficients will be too large. This is usually observed in time-course
 data.
 
@@ -1587,9 +1591,9 @@ removed from the data for a better fit.
 __Want to know more ?__
 
 - linear models and derivations of equations including matrix notation
-    - Applied Linear Statistical Models by Kutner, Nachtsheim, et al.
-    - Elements of statistical learning by Hastie & Tibshirani
-    - An Introduction to statistical learning by James, Witten, et al.
+    - Applied Linear Statistical Models by Kutner, Nachtsheim, et al. [@kutner2003applied]
+    - Elements of statistical learning by Hastie & Tibshirani [@friedman2001elements]
+    - An Introduction to statistical learning by James, Witten, et al.[@james2013introduction]
 
 ```
 
@@ -1597,11 +1601,10 @@ __Want to know more ?__
 
 ### How to summarize collection of data points: The idea behind statistical distributions
 
-####
-Calculate the means and variances 
+1. Calculate the means and variances 
 of the rows of the following simulated data set, plot the distributions
-of means and variances using `hist()` and `boxplot()` functions.
-```{r,eval=FALSE}
+of means and variances using `hist()` and `boxplot()` functions. [Difficulty: **Beginner/Intermediate**]  
+```{r getDataChp3Ex,eval=FALSE}
 set.seed(100)
 
 #sample data matrix from normal distribution
@@ -1609,50 +1612,28 @@ gset=rnorm(600,mean=200,sd=70)
 data=matrix(gset,ncol=6)
 ```
 
-```{r,eval=FALSE,echo=FALSE}
 
-require(matrixStats)
-means=rowMeans(data)
-vars=rowVars(data)
-hist(means)
-hist(vars)
-```
-
-#### 
-Using the data generated above, calculate the standard deviation of the
+2. Using the data generated above, calculate the standard deviation of the
 distribution of the means using `sd()` function. Compare that to the expected
-standard error obtained from central limit theorem keeping in mind the 
-population parameters were  $\sigma=70$ and $n=6$. How does the estimate
-from the random samples change if we simulate more data with
-`data=matrix(rnorm(6000,mean=200,sd=70),ncol=6)`
-```{r,eval=FALSE,echo=FALSE}
+standard error obtained from central limit theorem keeping in mind the
+population parameters were  $\sigma=70$ and $n=6$. How does the estimate from the random samples change if we simulate more data with
+`data=matrix(rnorm(6000,mean=200,sd=70),ncol=6)`? [Difficulty: **Beginner/Intermediate**] 
 
-
-samples=sd(means)
-
-clt.se=70/sqrt(6)
-
-```
-
-####
-0. simulate 30 random variables using `rpois()` function, do this 1000 times and calculate means of sample. Plot the sampling distributions of the means
+3. simulate 30 random variables using `rpois()` function, do this 1000 times and calculate means of each sample. Plot the sampling distributions of the means
 using a histogram. Get the 2.5th and 97.5th percentiles of the
-distribution. 
-1. Use `t.test` function to calculate confidence intervals
-of the first random sample `pois1` simulated from`rpois()` function below.
-2. Use bootstrap confidence interval for the mean on `pois1`
-3. compare all the estimates
-```{r,eval=FALSE}
+distribution. [Difficulty: **Beginner/Intermediate**] 
+4. Use `t.test` function to calculate confidence intervals
+of the mean on the first random sample `pois1` simulated from`rpois()` function below.[Difficulty: **Intermediate**] 
+```{r exRpoisChp3,eval=FALSE}
 set.seed(100)
 
 #sample 30 values from poisson dist with lamda paramater =30
 pois1=rpois(30,lambda=5)
 
 ```
-
-####
-Optional exercise:
-Try to recreate the following figure, which demonstrates the CLT concept.
+5. Use bootstrap confidence interval for the mean on `pois1`[Difficulty: **Intermediate/Advanced**] 
+6. compare the theoretical confidence interval of the mean from `t.test` and the bootstrap confidence interval. Are they similar ?[Difficulty: **Intermediate/Advanced**]  
+7. Try to recreate the following figure, which demonstrates the CLT concept.[Difficulty: **Advanced**] 
 ```{r,echo=FALSE,message=FALSE,warning=FALSE}
 set.seed(101)
 require(mosaic)
@@ -1719,57 +1700,40 @@ hist(unif100,xlim=c(0,1),main="",xlab="",ylab="",breaks=20,col="gray",
 ```
 
 ### How to test for differences in samples
-
-#### 
-Test the difference of means of the following simulated genes
+1. Test the difference of means of the following simulated genes
 using the randomization, t-test and `wilcox.test()` functions.
-Plot the distributions using histograms and boxplots.
-```{r,eval=FALSE}
+Plot the distributions using histograms and boxplots.[Difficulty: **Intermediate/Advanced**] 
+```{r exRnorm1chp3,eval=FALSE}
 set.seed(101)
 gene1=rnorm(30,mean=4,sd=3)
 gene2=rnorm(30,mean=3,sd=3)
 
 ```
 
-
-####
-Test the difference of means of the following simulated genes
+2. Test the difference of means of the following simulated genes
 using the randomization, t-test and `wilcox.test()` functions.
-Plot the distributions using histograms and boxplots.
-```{r,eval=FALSE}
+Plot the distributions using histograms and boxplots.[Difficulty: **Intermediate/Advanced**] 
+```{r exRnorm2chp3,eval=FALSE}
 set.seed(100)
 gene1=rnorm(30,mean=4,sd=2)
 gene2=rnorm(30,mean=2,sd=2)
 
 ```
 
-####
-read the gene expression data set with `data=readRDS("StatisticsForGenomics/geneExpMat.rds")`. 
-The data has 100 differentially expressed genes.First 3 columns
-are the test samples, and the last 3 are the control samples. Do 
+3. We need an extra data set for this exercise. Read the gene expression data set as follows:
+`gexpFile=system.file("extdata","geneExpMat.rds",package="compGenomRData") data=readRDS(gexpFile)` The data has 100 differentially expressed genes.First 3 columns are the test samples, and the last 3 are the control samples. Do 
 a t-test for each gene (each row is a gene), record the p-values.
 Then, do a moderated t-test, as shown in the lecture notes and record 
-the p-values. Do a p-value histogram and compare two approaches in terms
-of the number of significant tests with 0.05 threshold.
-On the p-values use FDR (BH), bonferroni and q-value adjustment methods.
+the p-values. Do a p-value histogram and compare two approaches in terms of the number of significant tests with 0.05 threshold.
+On the p-values use FDR (BH), Bonferroni and q-value adjustment methods.
 Calculate how many adjusted p-values are below 0.05 for each approach.
-
+[Difficulty: **Intermediate/Advanced**] 
 
 ### Relationship between variables: linear models and correlation
 
-#### 
-Below we are going to simulate X and Y values. 
-
-1. Run the code then fit a line to predict Y based on X. 
-2. Plot the scatter plot and the fitted line.
-3. Calculate correlation and R^2. 
-4. Run the `summary()` function and 
-try to extract P-values for the model from the object
-returned by `summary`. see `?summary.lm`
-5. Plot the residuals vs fitted values plot, by calling `plot` 
-function with `which=1` as the second argument. First argument
-is the model returned by `lm`.
-```{r,eval=FALSE}
+Below we are going to simulate X and Y values that are needed for the 
+rest of the exercise.
+```{r exLM1chp3,eval=FALSE}
 # set random number seed, so that the random numbers from the text
 # is the same when you run the code.
 set.seed(32)
@@ -1787,22 +1751,31 @@ eps = rnorm(50,0,sigma)
 y = b0 + b1*x+ eps
 ```
 
-####
-Read the data set histone modification data set with using a variation of:
-`df=readRDS("StatisticsForGenomics_data/HistoneModeVSgeneExp.rds")`. There 
-are 3 columns in the data set these are measured levels of H3K4me3,
-H3K27me3 and gene expression per gene.
 
-1. plot the scatter plot for H3K4me3 vs expression
-2. plot the scatter plot for H3K27me3 vs expression
-3. fit the model model for prediction of expression data using:
+1. Run the code then fit a line to predict Y based on X. [Difficulty:**Intermediate**] 
+2. Plot the scatter plot and the fitted line.[Difficulty:**Intermediate**] 
+3. Calculate correlation and R^2. [Difficulty:**Intermediate**] 
+4. Run the `summary()` function and 
+try to extract P-values for the model from the object
+returned by `summary`. see `?summary.lm`.[Difficulty:**Intermediate/Advanced**] 
+5. Plot the residuals vs fitted values plot, by calling `plot` 
+function with `which=1` as the second argument. First argument
+is the model returned by `lm`.[Difficulty:**Advanced**] 
+
+
+6. For the next exercises, read the data set histone modification data set. Use the following to get the path to the file:
+`hmodFile=system.file("extdata","HistoneModeVSgeneExp.rds",package="compGenomRData")`. There 
+are 3 columns in the data set these are measured levels of H3K4me3,
+H3K27me3 and gene expression per gene. Once you read in the data, plot the scatter plot for H3K4me3 vs expression.[Difficulty:**Beginner**] 
+7. plot the scatter plot for H3K27me3 vs expression. [Difficulty:**Beginner**] 
+8. fit the model model for prediction of expression data using:
       - only H3K4me3 as explanatory variable
       - only H3K27me3 as explanatory variable
-      - using both H3K4me3 and H3K27me3 as explanatory variables
-4. inspect summary() function output in each case, which terms are significant
-5. Is using H3K4me3 and H3K27me3 better than the model with only H3K4me3.
-6. Plot H3k4me3 vs H3k27me3. Inspect the points that does not
+      - using both H3K4me3 and H3K27me3 as explanatory variables 
+Inspect summary() function output in each case, which terms are significant. [Difficulty:**Beginner/Intermediate**] 
+10. Is using H3K4me3 and H3K27me3 better than the model with only H3K4me3. [Difficulty:**Intermediate**] 
+11. Plot H3k4me3 vs H3k27me3. Inspect the points that does not
 follow a linear trend. Are they clustered at certain segments 
 of the plot. Bonus: Is there any biological or technical interpretation
-for those points ?
+for those points ?[Difficulty:**Intermediate/Advanced**] 
 

@@ -11,3 +11,4 @@ fastqc_results
 compgenomr.Rproj
 output_file
 compgenomrReloaded.log
+compgenomrReloaded_cache/

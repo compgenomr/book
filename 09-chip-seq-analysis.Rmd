@@ -1414,7 +1414,7 @@ chip_profiles = lapply(chip_files, rtracklayer::import.bw)
 
 We fetch the reference annotation for human chromosome 21.
 
-```{r chip_type.annotation, message = FALSE, error=FALSE}
+```{r chip_type.annotation, message = FALSE, error=FALSE,cache=TRUE}
 library(AnnotationHub)
 hub = AnnotationHub()
 gtf = hub[['AH61126']]

@@ -339,7 +339,7 @@ repressive chromatin domains, thus the gene is silenced if its promoter has
 methylated CG dinucleotides.  DNA methylation usually occurs in repeat
 sequences to repress transposable elements, these elements when active can
 jump around and insert them to random parts of the genome, potentially disrupting
-the genomic functions.
+the genomic functions.\index{CpG island}
 
 DNA methylation is also related to a
 key core and proximal promoter element: CpG islands. CpG islands are usually
@@ -372,7 +372,7 @@ their tails, histones interact with neighboring nucleosomes and the
 modifications on the tail affect the nucleosomes affinity to bind DNA and
 therefore influence DNA packaging around nucleosomes. Different modifications on
 histones are used in different combinations to program the activity of the genes
-during differentiation. Histone modifications have a distinct nomenclature, for
+during differentiation. Histone modifications have a distinct nomenclature, for \index{histone modification}
 example: H3K4me3 means the lysine (K) on the 4th position of histone H3 is
 tri-methylated.
 
@@ -403,7 +403,7 @@ of developmental genes, and trithorax group proteins (trxG) for maintaining
 their active state [@henikoff2008nucleosome ; @schwartz2007polycomb]. PcGs and trxGs induce repressed or active states by
 catalyzing histone modifications or DNA methylation. Both the proteins bind PREs
 that can be on promoters or several kilobases away. Another protein
-that induces histone modifications is CTCF. CTCF is associated with boundaries between active and repressive histone marks [@phillips2009ctcf]. This is due to the role of CTCF in regulating the 3D genome structure. Two CTCF binding sites that are far away from each other in linear distance can bound together in 3D space thus forming chromatin loops.
+that induces histone modifications is CTCF. CTCF is associated with boundaries between active and repressive histone marks \index{CTCF protein} [@phillips2009ctcf]. This is due to the role of CTCF in regulating the 3D genome structure. Two CTCF binding sites that are far away from each other in linear distance can bound together in 3D space thus forming chromatin loops.
 
 ```{block2, transReg, type='rmdtip'}
 
@@ -437,16 +437,16 @@ RNA (ncRNA)-related research \index{non-coding RNA (ncRNA)}. Many publications i
 regulatory elements. Plants and animals produce many
 different types of ncRNAs such as long non-coding RNAs (lncRNAs),
 small-interferring RNAs (siRNAs), microRNAs (miRNAs), promoter-associated RNAs
-(PARs) and small nucleolar RNAs (snoRNAs). lncRNAs are typically >200 bp long,
+(PARs) and small nucleolar RNAs (snoRNAs) [@morris2014rise]. lncRNAs are typically >200 bp long,
 they are involved in epigenetic regulation by interacting with chromatin
 remodeling factors and they function in gene regulation. siRNAs are short
 double-stranded RNAs which are involved in gene-regulation and transposon
 control, they silence their target genes by cooperating with Argonaute proteins. miRNAs are short single-stranded RNA molecules that interact with their
 target genes by using their complementary sequence and mark them for quicker
 degradation. PARs may regulate gene expression as well: they are ~18-200bp
-long ncRNAs originating from promoters of coding genes. snoRNAs are also shown
+long ncRNAs originating from promoters of coding genes [@morris2014rise]. snoRNAs are also shown
 to play roles in gene regulation, although they are mostly believed to guide
-ribosomal RNA modifications.
+ribosomal RNA modifications [@morris2014rise].
 
 
 #### Splicing regulation
@@ -463,24 +463,21 @@ or introns. Depending of their activity and their locations there are four types
 The majority of splicing repressors are heterogeneous nuclear ribonucleoproteins (hnRNPs). If splicing repressor protein bind
 silencer elements they reduce the chance of nearby site to be
 used as splice junction. On the contrary, splicing enhancers are sites to which splicing activator proteins bind and binding
-on that region increases the probability that a nearby site will be used as a splice junction. Most of the activator proteins that bind to splicing enhancers are members of the SR protein family. Such proteins can recognize specific RNA recognition motifs. By regulating splicing exons can be skipped or included
-which creates protein diversity.
+on that region increases the probability that a nearby site will be used as a splice junction [@wang2008splicing]. Most of the activator proteins that bind to splicing enhancers are members of the SR protein family. Such proteins can recognize specific RNA recognition motifs. By regulating splicing exons can be skipped or included
+which creates protein diversity [@wang2008splicing].
 
 
 ```{block2, postTranscriptreg, type='rmdtip'}
 
 __Want to know more?__
 
-- On miRNAs: Their genesis and modes of regulation
+- On miRNAs, Their genesis and modes of regulation [@bartel2004micrornas]:
 http://www.sciencedirect.com/science/article/pii/S0092867404000455
 
-- Functions of small RNAs
-http://www.nature.com/nrg/journal/v15/n9/abs/nrg3765.html
-
-- Functions of non coding RNAs
+- Functions of non coding RNAs [@morris2014rise] :
 http://www.nature.com/nrg/journal/v15/n6/abs/nrg3722.html
 
-- On splicing: Wang, Zefeng; Christopher B. Burge (May 2008). "Splicing regulation: From a parts list of regulatory elements to an integrated splicing code". RNA 14 (5): 802–813. doi:10.1261/rna.876308. ISSN 1355-8382. PMC 2327353. PMID 18369186. Retrieved 2013-08-15.
+- On splicing and its regulation [@wang2008splicing]:  https://www.ncbi.nlm.nih.gov/pmc/articles/pmid/18369186/
 
 ```
 
@@ -765,7 +762,7 @@ that helps you visualize the genome and all the available data associated
 
 __UCSC genome browser:__ This is an online browser hosted by University of 
 California, Santa Cruz at http://genome.ucsc.edu/. 
-This is an interactive website that contains genomes
+This is an interactive website that contains genomes \index{UCSC genome browser}
 and annotations for many species. You can search for genes or genome coordinates
 for the species of your interest. It is usually very responsive and allows 
 you to visualize large amounts of data. In addition, it has multiple other tools
@@ -782,8 +779,8 @@ European Bioinformatics Institute and the Wellcome Trust Sanger Institute in
 the UK, http://www.ensembl.org. 
 Similar to UCSC browser, users can visualize genes or genomic coordinates
 from multiple species and it also comes with auxiliary data. Ensembl is 
-associated with _Biomart_ tool which is similar to UCSC Table browser, can
-download genome data including all the auxiliary data set in multiple formats.
+associated with _Biomart_ \index{Biomart} tool which is similar to UCSC Table browser, can
+download genome data including all the auxiliary data set in multiple formats.\index{Ensembl Genome Browser}
 
 
 __IGV:__ Integrated genomics viewer (IGV) is a desktop application developed
@@ -793,7 +790,7 @@ is harder to view in online browsers. IGV can integrate your local sequencing
 results with online annotation on your desktop machine. This is useful when 
 viewing sequencing data, especially alignments. Other browsers mentioned above
 have similar features however you will need to make your large 
-sequencing data available online somewhere before it can be viewed by browsers.
+sequencing data available online somewhere before it can be viewed by browsers. \index{IGV Browser}
 
 
 #### Data repositories for high-throughput assays
@@ -821,4 +818,6 @@ Consortium | what is it for?
 [The cancer genome atlas (TCGA)](http://cancergenome.nih.gov/) | Expression, mutation and epigenomics data for multiple cancer types
 [1000 genomes project](http://www.1000genomes.org/) |  Human genetic variation data obtained by sequencing 1000s of individuals 
 
-
+\index{ENCODE}
+\index{Epigenomics Roadmap}
+\index{The cancer genome atlas (TCGA)}

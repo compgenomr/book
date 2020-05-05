@@ -93,15 +93,16 @@ Chapter \@ref(genomicIntervals): "Operations on Genomic Intervals and Genome Ari
 
 The next chapters deals with specific analysis of high-throughput sequencing data and integrating different kinds of data sets. Chapter \@ref(processingReads): "Quality Check, Processing and Alignment of High-throughput Sequencing Reads" introduces quality checks that need to be done on sequencing reads and different ways to process them further. The chapters \@ref(rnaseqanalysis), \@ref(chipseq) and \@ref(bsseq) deals with RNA-seq analysis, ChIP-seq analysis and BS-seq analysis. The last chapter, Chapter \@ref(multiomics):"Multi-omics Analysis" deals with methods for integrating multiple omics data sets.
 
+Most chapters have exercises that reinforces some of the important points introduced in the chapters. The exercises are classfied into "Beginner", "Intermediate" and "Advanced" categories. If you are well versed in a certain subject you might want to skip "Beginner" level exercises.
 
 To sum it up, this book is a comprehensive guide for computational genomics. Some sections are there for the sake of the wide interdisciplinary audience and completeness, and not all sections will be equally useful to all readers of this broad audience. 
 
 ## Software information and conventions {-}
 
-Package names are in bold text (e.g., **methylKit**), and inline code and file names are formatted in a typewriter font. Function names are followed by parentheses (e.g., `genomation::ScoreMatrix()`). The double-colon operator `::` means accessing an object from a package.
+Package names and inline code and file names are formatted in a typewriter font (e.g., `methylKit`). Function names are followed by parentheses (e.g., `genomation::ScoreMatrix()`). The double-colon operator `::` means accessing an object from a package.
 
 ### Assignment operator convention {-}
-Traditionally, `<-` is the preferred assignment operator. However, throughout the book we use `=` and `<-` as the assignment operator interchangeably.
+Traditionally, `<-` is the preferred assignment operator. However, throughout the book we use `=` and `<-` as the assignment operator interchangeably. 
 
 ### Packages needed to run the book code {-}
 This book is primarily about using R packages to analyze genomics data, therefore if you want to reproduce the analysis in this book you need to install the relevant packages in each chapter using `install.packages` or `BiocManager::install` functions. In each chapter, we load the necessary packages with the `library()` or `require()` function when we use the needed functions from respective packages. By looking at that calls, you can see which packages are needed for that code chunk or chapter. If you need to install all the package dependencies for the book, you can run the following command and have a cup of tea while waiting.
