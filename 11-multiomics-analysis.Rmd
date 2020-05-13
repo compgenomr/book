@@ -5,8 +5,9 @@ knitr::opts_chunk$set(echo      = TRUE,
                       message   = FALSE, 
                       error     = FALSE,
                       cache     = TRUE,
-                      out.width = "60%",
-                      fig.width = 5)
+                      out.width = "55%",
+                      fig.width = 5,
+                      fig.align = 'center')
 ```
 
 Living cells are a symphony of complex processes. Modern sequencing technology has lead to many comprehensive assays being routinely available to experimenters, giving us different ways to peek at the internal doings of the cells, each experiment revealing a different part of some underlying processes. As an example, most cells have the same DNA, but sequencing the genome of a cell allows us to find mutations and structural alterations that drive tumerogenesis in cancer. If we treat the DNA with bisulfite prior to sequencing, cytosine residues are converted to uracil, but 5-methylcytosine residues are unaffected. This allows us to probe the methylation patterns of the genome, or its methylome. By sequencing the mRNA molecules in a cell, we can calculate the abundance, in different samples, of different mRNA transcripts, or uncover its transcriptome. Performing different experiments on the same samples, for instance RNA-seq, DNA-seq, and BS-seq, results in multi-dimensional omics datasets, which enable the study of relationships between different biological processes, e.g. DNA methylation, mutations, and gene expression, and the leveraging of multiple data types to draw inferences about biological systems. This chapter provides an overview of some of the available methods for such analyses, focusing on matrix factorization approaches. In the examples in this chapter we will demonstrate how these methods are applicable to cancer subtyping, i.e. finding tumors which are driven by the same oncogenic processes.
@@ -295,14 +296,14 @@ x3.featnorm.frobnorm.nonneg <- t(split_neg_columns(t(x3.featnorm.frobnorm)))
 
 # this hack is here because of an NMF / DelayedArray incompatibility
 # https://github.com/renozao/NMF/issues/85
-detach("package:Rqc")
-detach("package:RUVSeq")
-detach("package:EDASeq")
-detach("package:ShortRead")
-detach("package:GenomicAlignments")
-detach("package:DESeq2")
-detach("package:SummarizedExperiment")
-detach("package:DelayedArray")
+#detach("package:Rqc")
+#detach("package:RUVSeq")
+#detach("package:EDASeq")
+#detach("package:ShortRead")
+#detach("package:GenomicAlignments")
+#detach("package:DESeq2")
+#detach("package:SummarizedExperiment")
+#detach("package:DelayedArray")
 # end hack
 
 require(NMF)

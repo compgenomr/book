@@ -7,7 +7,8 @@ knitr::opts_chunk$set(echo      = TRUE,
                       error     = FALSE,
                       cache     = TRUE,
                       out.width = "60%",
-                      fig.width = 5)
+                      fig.width = 5,
+                      fig.align = 'center')
 ```
 
 Protein-DNA interactions are responsible for a large part of the gene expression regulation. Proteins such as transcription factors as well as histones are directly related to how much and in which contexts the genes are expressed. Some of these concepts are already introduced in Chapter \@ref(intro) if readers need a more in depth introduction. In this chapter, we will introduce how to process and analyze ChIP-seq data in order to identify genome-wide protein binding sites and to discover underlying sequence context via transcription factor binding-site motifs.

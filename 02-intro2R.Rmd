@@ -6,8 +6,9 @@ knitr::opts_chunk$set(echo      = TRUE,
                       message   = FALSE, 
                       error     = FALSE,
                       cache     = TRUE,
-                      out.width = "50%",
-                      fig.width = 5)
+                      out.width = "55%",
+                      fig.width = 5,
+                      fig.align = 'center')
 ```
 
 
@@ -346,7 +347,7 @@ head(x)
 One important thing is that with `save()` you can save many objects at a time and when they are loaded into memory with `load(` they retain their variable names. For example, in the above code when you use `load("mydata.RData")` in a fresh R session, an object names `cpg.df` will be created. That means you have to figure out what name you gave it to the objects before saving them. On the contrary to that, when you save an object by `saveRDS()` and read by `readRDS()` the name of the object is not retained, you need to assign the output of `readRDS()` to a new variable (`x` in the above code chunk).\index{R Programming Language!writing data}
 
 ### Reading large files
-Reading large files that contain tables with base R function `read.table()` might take a very long time. Therefore, there are additional packages that provide faster functions to read the files. `data.table` \index{R packages!\texttt{data.table}} and `readr` \index{R packages!\texttt{readr}}packages provide this functionality. Below, we show how to use them. These functions with provided parameters will return equivalent output to `read.table()` function.
+Reading large files that contain tables with base R function `read.table()` might take a very long time. Therefore, there are additional packages that provide faster functions to read the files. `data.table` \index{R Packages!\texttt{data.table}} and `readr` \index{R Packages!\texttt{readr}}packages provide this functionality. Below, we show how to use them. These functions with provided parameters will return equivalent output to `read.table()` function.
 ```{r fastreader, eval=FALSE}
 library(data.table)
 df.f=d(enhancerFilePath, header = FALSE,data.table=FALSE)

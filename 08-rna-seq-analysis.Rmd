@@ -1,5 +1,8 @@
 ```{r setup_rnaseq, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,message   = FALSE, 
+                      error     = FALSE,
+                      cache     = TRUE,out.width = "50%",
+                      fig.width = 5,fig.align = 'center')
 suppressMessages(suppressWarnings(library(DESeq2)))
 suppressMessages(suppressWarnings(library(RUVSeq)))
 suppressMessages(suppressWarnings(library(gProfileR)))
@@ -11,6 +14,8 @@ suppressMessages(suppressWarnings(library(gage)))
 ```
 
 # RNA-seq Analysis {#rnaseqanalysis}
+
+**Chapter Author: Bora Uyar**
 
 RNA sequencing (RNA-seq) has proven as a revolutionary tool since the time it has been introduced. The throughput, accuracy, and resolution of data produced with RNA-seq has been instrumental in the study of transcriptomics in the last decade [@wang_rna-seq:_2009]. There is a variety of applications of transcriptome sequencing and each application may consist of different chains of tools each with many alternatives [@conesa_survey_2016]. In this chapter, we are going to demonstrate a common workflow of how to do differential expression analysis with downstream applications such as GO term and gene set enrichment analysis. We assume that the sequencing data was generated using one of the NGS sequencing platforms. Where applicable, we will try to provide alternatives to the reader in terms of both the tools to carry out a demonstrated analysis and also the other applications of the same sequencing data depending on the different biological questions. 
 

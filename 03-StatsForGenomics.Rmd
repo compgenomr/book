@@ -1,6 +1,14 @@
 # Statistics for Genomics {#stats}
 
-
+```{r setup_statGenomics, include=FALSE}
+knitr::opts_chunk$set(echo      = TRUE,
+                      message   = FALSE, 
+                      error     = FALSE,
+                      cache     = TRUE,
+                      out.width = "55%",
+                      fig.width = 5,
+                      fig.align = 'center')
+```
 
 This chapter will summarize statistics methods frequently used
 in computational genomics. As these fields are continuously evolving,  the
@@ -100,7 +108,7 @@ uncertainties and make decisions in the presence of those uncertainties. \index{
 
 We are not yet done with measuring central tendency.
 There are other ways to describe it, such as the median value. 
-Mean can be affected by outliers easily. 
+Mean can be affected by outliers easily\index{outliers}. 
 If certain values are very high or low from the 
 bulk of the sample this will shift mean towards those outliers. However, median 
 is not affected by outliers. It is simply the value in a distribution where half 
@@ -158,12 +166,12 @@ sd(x)
 ```
 
 One potential problem with the variance is that it could be affected by 
-outliers. The points that are too far away from the mean will have a large 
+outliers.\index{outliers} The points that are too far away from the mean will have a large 
 affect on the variance even though there might be few of them.
 A way to measure variance that could be less affected by outliers is 
 looking at where bulk of the distribution is. How do we define where the bulk is? 
 One common way is to look at the the difference between 75th percentile and 25th 
-percentile, this effectively removes a lot of potential outliers which will be
+percentile, this effectively removes a lot of potential outliers which will be\index{outliers}
 towards the edges of the range of values. 
 This is called interquartile range \index{interquartile range} , and 
 can be easily calculated using R via `IQR()` function and the quantiles of a vector
@@ -1194,7 +1202,7 @@ abline(mod1,col="blue")
 
 ### How to estimate the error of the coefficients  
 Since we are using a sample to estimate the coefficients they are
-not exact, with every random sample they will vary. Below, we
+not exact, with every random sample they will vary. Below in Figure \@ref(fig:regCoeffRandomSamples), we
 are taking multiple samples from the population and fitting lines to each 
 sample, with each sample the lines slightly change.We are overlaying the
 points and the lines for each sample on top of the other samples
@@ -1581,7 +1589,7 @@ assumes constant variance. Transformation of data, such as
 $logX$ and $\sqrt{X}$ could help in some cases.
 
 ##### outliers and high leverage points
-Outliers are extreme values for Y and high leverage points are unusual
+Outliers are extreme values for Y and high leverage points are unusual\index{outliers}
 X values. Both of these extremes have power to affect the fitted line
 and the standard errors. In some cases (measurement error), they can be 
 removed from the data for a better fit.

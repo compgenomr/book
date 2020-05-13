@@ -1,8 +1,13 @@
 # Quality Check, Processing and Alignment of High-throughput Sequencing Reads {#processingReads}
 
 ```{r,setupProcessingReads,echo=FALSE}
-library(knitr)
-opts_chunk$set(echo = TRUE,out.width='65%',fig.width=5.1, cache=TRUE,warning=FALSE,message=FALSE)
+knitr::opts_chunk$set(echo      = TRUE,
+                      message   = FALSE, 
+                      error     = FALSE,
+                      cache     = TRUE,
+                      out.width = "55%",
+                      fig.width = 5,
+                      fig.align = 'center')
 
 ```
 
@@ -242,8 +247,8 @@ It is good to explain what is going on here as the `qAlign()` function makes thi
 __Want to know more ?__
 
 - More on hash tables and Burrows-Wheeler based aligners
-    - [A survey of sequence alignment algorithms for next-generation sequencing](https://academic.oup.com/bib/article/11/5/473/264166) H Li, N Homer - Briefings in bioinformatics, 2010
-- [More on QuasR](https://bioconductor.org/packages/release/bioc/vignettes/QuasR/inst/doc/QuasR.html) and all the alignment and post-processing capabilities.
+    - A survey of sequence alignment algorithms for next-generation sequencin](https://academic.oup.com/bib/article/11/5/473/264166) H Li, N Homer - Briefings in bioinformatics, 2010
+- More on QuasR and all the alignment and post-processing capabilities.(https://bioconductor.org/packages/release/bioc/vignettes/QuasR/inst/doc/QuasR.html) 
 
 ```
 
@@ -258,8 +263,8 @@ For this set of we will use the `chip_1_1.fq.bz2` and `chip_2_1.fq.bz2` files fr
 folder=(system.file(package="QuasR", "extdata"))
 dir(folder) # will show the contents of the folder
 ```
-1. Plot base quality distributions of chip-seq samples **Rqc** package.[Difficulty: **Beginner/Intermediate**]
-**HINT**: You need to provide a regular expression pattern for extracting the right files from the folder. `"^chip"` matches the files begining with "chip".
+1. Plot base quality distributions of chip-seq samples **Rqc** package.
+**HINT**: You need to provide a regular expression pattern for extracting the right files from the folder. `"^chip"` matches the files begining with "chip".[Difficulty: **Beginner/Intermediate**]
 
 ```{r seqProcessEx2,eval=FALSE,echo=FALSE}
 folder=(system.file(package="QuasR", "extdata"))

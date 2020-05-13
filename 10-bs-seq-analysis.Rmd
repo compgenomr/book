@@ -4,7 +4,13 @@
 
 ```{r, bssetup, include=FALSE}
 library(knitr)
-opts_chunk$set(echo = TRUE,out.width='65%',fig.width=5.1, cache=TRUE,warning=FALSE,message=FALSE)
+knitr::opts_chunk$set(echo      = TRUE,
+                      message   = FALSE, 
+                      error     = FALSE,
+                      cache     = TRUE,
+                      out.width = "55%",
+                      fig.width = 5,
+                      fig.align = 'center')
 ```
 
 Epigenome consists of chemical modifications of DNA and histones. These modifications are shown to be associated with gene regulation in various settings (see Chapter \@ref(intro) for an intro). These modifications in turn have specific importance for cell type identification. There are many different ways of measuring such modifications. We have shown how histone modifications can be measured in a genome-wide manner in Chapter \@ref(chipseq) using ChIP-seq. In this chapter we will focus on the analysis of DNA methylation data using data from a technique called Bisulfite sequencing (BS-seq). We will introduce how to process data and data quality checks, as well as statistical analysis relevant for BS-seq data.

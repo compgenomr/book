@@ -1,5 +1,14 @@
 \mainmatter
 
+```{r setupintroGenomics, include=FALSE}
+knitr::opts_chunk$set(echo      = TRUE,
+                      message   = FALSE, 
+                      error     = FALSE,
+                      cache     = TRUE,
+                      out.width = "55%",
+                      fig.width = 5,
+                      fig.align = 'center')
+```
 
 # Introduction to Genomics {#intro}
 
@@ -527,7 +536,7 @@ Mutations can also be classified by their size as follows:
 
 - __Point mutations__: mutations that involve one base. Substitutions, deletions and
   insertions are point mutations. They are also termed as single nucleotide
-  polymorphisms (__SNPs__).
+  polymorphisms (__SNPs__).\index{SNP}
 - __Small-scale mutations__: mutations that involve several bases.
 - __Large-scale mutations__: mutations which involve larger chromosomal regions.
   Transposable element insertions (where a segment of the genome
@@ -597,9 +606,9 @@ the biological feature (expressed genes, binding sites, etc.) of interest.
 Most of the methods rely on some sort of enrichment of the targeted
 biological feature. For example, if you want to measure expression of protein coding
 genes you need to be able to extract mRNA molecules with special post-transcriptional
-alterations that protein-coding genes acquire. If you are looking for transcription factor 
+alterations that protein-coding genes acquire, as done in many RNA sequencing (RNA-seq) experiments\index{RNA-seq}. If you are looking for transcription factor 
 binding, you need to enrich
-for the DNA fragments that are bound by the protein of interest.This part depends on available molecular biology and chemistry techniques, and the final 
+for the DNA fragments that are bound by the protein of interest, as it is done in ChIP-seq experiments.\index{ChIP-seq}This part depends on available molecular biology and chemistry techniques, and the final 
 product of this part is RNA or DNA fragments. 
 
 Next, you need to be able to 
@@ -667,7 +676,7 @@ on the library preparation protocol different strategies are applied for analysi
 are depicted in Figure \@ref(fig:HTseq).\index{high-throughput sequencing}
 For example, we maybe interested to quantify the gene expression.
 The experimental protocol, called RNA sequencing-
-RNA-seq, enriches for fragments of RNA that are coming from protein coding genes.
+RNA-seq, enriches for fragments of RNA that are coming from protein coding genes.\index{RNA-seq}
 Upon alignment, we can calculate the coverage profile which gives us a read count
 per base along the genome. This information can be stored in a text file or 
 specialized file formats to be used in subsequent analysis or visualization.
@@ -682,7 +691,7 @@ a tabular format with the information of position and mismatch type and
 number of reads supporting the mismatch. The original algorithms are a bit 
 more complicated than just counting mismatches but the general idea is the 
 same, what they are doing differently is trying to minimize false positive
-rates by using filters, so that not every mismatch is recorded as SNP.
+rates by using filters, so that not every mismatch is recorded as SNP.\index{SNP}
 
 
 
@@ -726,7 +735,7 @@ __Want to know more?__
 ## Visualization and data repositories for genomics
 There are ~100 animal genomes sequenced as of 2016. On top these, there are many
 research projects from either individual labs or consortia that 
-produce petabytes of auxiliary genomics data, such as ChIP-seq, RNA-seq, etc. 
+produce petabytes of auxiliary genomics data, such as ChIP-seq, RNA-seq, etc. \index{ChIP-seq}  \index{RNA-seq}
 
 There are two requirements to be able to visualize genomes and its associated
 data,  1) you need to be able to work with a species
@@ -762,7 +771,7 @@ that helps you visualize the genome and all the available data associated
 
 __UCSC genome browser:__ This is an online browser hosted by University of 
 California, Santa Cruz at http://genome.ucsc.edu/. 
-This is an interactive website that contains genomes \index{UCSC genome browser}
+This is an interactive website that contains genomes \index{UCSC Genome Browser}
 and annotations for many species. You can search for genes or genome coordinates
 for the species of your interest. It is usually very responsive and allows 
 you to visualize large amounts of data. In addition, it has multiple other tools
@@ -815,9 +824,9 @@ Consortium | what is it for?
 ------------------- | -------------------------------------  
 [ENCODE](https://www.encodeproject.org/) | Transcription factor binding sites, gene expression and epigenomics data for cell lines | https://www.encodeproject.org/
 [Epigenomics Roadmap](http://www.roadmapepigenomics.org/) | Epigenomics data for multiple cell types | 
-[The cancer genome atlas (TCGA)](http://cancergenome.nih.gov/) | Expression, mutation and epigenomics data for multiple cancer types
+[The Cancer Genome Atlas (TCGA)](http://cancergenome.nih.gov/) | Expression, mutation and epigenomics data for multiple cancer types
 [1000 genomes project](http://www.1000genomes.org/) |  Human genetic variation data obtained by sequencing 1000s of individuals 
 
 \index{ENCODE}
 \index{Epigenomics Roadmap}
-\index{The cancer genome atlas (TCGA)}
+\index{The Cancer Genome Atlas (TCGA)}
