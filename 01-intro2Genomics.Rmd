@@ -233,7 +233,7 @@ knitr::include_graphics("images/regulationSummary.png" )
 
 #####  Core and proximal promoters
 Core promoters are the immediate neighboring regions around \index{promoter}
-the transcription start site (TSS) that serves as a docking site for the
+the transcription start site (TSS) \index{transcription start site (TSS)} that serves as a docking site for the
 transcriptional machinery and pre-initiation complex (PIC) assembly. The
 textbook model for transcription initiation is as follows: The core promoter has
 a TATA motif (referred as TATA-box) 30 bp upstream of an initiator sequence

@@ -5,8 +5,9 @@ library(knitr)
 knitr::opts_chunk$set(echo      = TRUE,
                       message   = FALSE, 
                       error     = FALSE,
+                      warning = FALSE,
                       cache     = TRUE,
-                      out.width = "55%",
+                      out.width = "50%",
                       fig.width = 5,
                       fig.align = 'center')
 ```
@@ -36,7 +37,7 @@ The [Bioconductor](http://bioconductor.org) project has a dedicated package call
 
 ### How to create and manipulate a GRanges object
 
-`GRanges` (from GenomicRanges package) is the main object that holds the genomic intervals and extra information about those intervals. Here we will show how to create one. Conceptually, it is similar to a data frame and some operations such as using `[ ]` notation to subset the table will work also on GRanges, but keep in mind that not everything that works for data frames will work on GRanges objects.
+`GRanges` (from `GenomicRanges` package) is the main object that holds the genomic intervals and extra information about those intervals. Here we will show how to create one. Conceptually, it is similar to a data frame and some operations such as using `[ ]` notation to subset the table will work also on `GRanges`, but keep in mind that not everything that works for data frames will work on `GRanges` objects.
 
 ```{r,createGR}
 library(GenomicRanges)
@@ -49,9 +50,9 @@ gr
 # subset like a data frame
 gr[1:2,]
 ```
-As you can see it looks a bit like a data frame. Also, note that the peculiar second argument “ranges” which basically contains start and end positions of the genomic intervals. However, you can not just give start and end positions you actually have to provide another object of IRanges. Do not let this confuse you, GRanges actually depends on another object that is very similar to itself called `IRanges` and you have to provide the “ranges” argument as an IRanges object. In its simplest for, an IRanges object can be constructed by providing start and end positions to `IRanges()` function. Think of it as something you just have to provide in order to construct the GRanges object.
+As you can see it looks a bit like a data frame. Also, note that the peculiar second argument “ranges” which basically contains start and end positions of the genomic intervals. However, you can not just give start and end positions you actually have to provide another object of `IRanges`. Do not let this confuse you, `GRanges` actually depends on another object that is very similar to itself called `IRanges` and you have to provide the “ranges” argument as an `IRanges` object. In its simplest for, an `IRanges` object can be constructed by providing start and end positions to `IRanges()` function. Think of it as something you just have to provide in order to construct the `GRanges` object.
 
-GRanges can also contain other information about the genomic interval such as scores, names, etc. You can provide extra information at the time of the construction or you can add it later. Here is how you can do those:
+`GRanges` can also contain other information about the genomic interval such as scores, names, etc. You can provide extra information at the time of the construction or you can add it later. Here is how you can do those:
 
 ```{r,createGRwMetadata}
 gr=GRanges(seqnames=c("chr1","chr2","chr2"),
@@ -86,7 +87,7 @@ gr
 
 ### Getting genomic regions into R as GRanges objects
 
-There are multiple ways you can read in your genomic features into R and create a GRanges object. Most genomic interval data comes as a tabular format that has the basic information about the location of the interval and some other information. We already showed how to read BED files as a data frame in Chapter \@ref(Rintro). Now we will show how to convert it to GRanges object. This is one way of doing it, but there are more convenient ways described further in the text.
+There are multiple ways you can read in your genomic features into R and create a `GRanges` object. Most genomic interval data comes as a tabular format that has the basic information about the location of the interval and some other information. We already showed how to read BED files as a data frame in Chapter \@ref(Rintro). Now we will show how to convert it to `GRanges` object. This is one way of doing it, but there are more convenient ways described further in the text.
 
 ```{r,convertDataframe2gr}
 # read CpGi data set
@@ -103,7 +104,7 @@ cpgi.gr=GRanges(seqnames=cpgi.df[,1],
                               end=cpgi.df[,3]))
 ```
 
-You may need to do some pre-processing before/after reading in the BED file\index{BED file}. Below is an example of getting transcription start sites from BED files containing refseq transcript locations.
+You may need to do some pre-processing before/after reading in the BED file\index{BED file}. Below is an example of getting transcription start sites from BED files containing RefSeq transcript locations.
 
 ```{r,convertDataframe2grTSS}
 # read refseq file
@@ -133,7 +134,7 @@ Another way of doing this is from a BED file is to use `readTranscriptfeatures()
 function from the `genomation` package. This function takes care of the steps described in the code chunk above.
 
 
-Reading the genomic features as text files and converting to GRanges is not the only way to create GRanges object. With the help of the [`rtracklayer`](http://www.bioconductor.org/packages/release/bioc/html/rtracklayer.html) package we can directly import BED files.\index{R Packages!\texttt{rtracklayer}}
+Reading the genomic features as text files and converting to `GRanges` is not the only way to create `GRanges` object. With the help of the [`rtracklayer`](http://www.bioconductor.org/packages/release/bioc/html/rtracklayer.html) package we can directly import BED files.\index{R Packages!\texttt{rtracklayer}}
 
 ```{r,importbed_rtracklayer,eval=FALSE}
 require(rtracklayer)
@@ -144,7 +145,7 @@ import.bed(filePathRefseq)
 
 ```
 
-Next, we will show how to use other methods to automatically obtain the data in GRanges format from online databases. But you will not be able to use these methods for every data set so it is good to now how to read data from flat files as well. We will use `rtracklayer` package to download data from the UCSC Genome Browser \index{UCSC Genome Browser}. We will download CpG islands as GRanges objects. The `rtracklayer` workflow we show below works like using the UCSC table browser. You need to select which species you are working with, then you need to select which dataset you need to download and lastly you download the UCSC dataset or track as `GRanges` object.
+Next, we will show how to use other methods to automatically obtain the data in `GRanges` format from online databases. But you will not be able to use these methods for every data set so it is good to now how to read data from flat files as well. We will use `rtracklayer` package to download data from the UCSC Genome Browser \index{UCSC Genome Browser}. We will download CpG islands as `GRanges` objects. The `rtracklayer` workflow we show below works like using the UCSC table browser. You need to select which species you are working with, then you need to select which dataset you need to download and lastly you download the UCSC dataset or track as `GRanges` object.
 
 ```{r,importFromUCSC,eval=FALSE}
 require(rtracklayer)
@@ -160,8 +161,8 @@ There is also an interface to Ensembl database called [biomaRt](https://biocondu
 This package will enable you to access and import all of the datasets included
 in Ensembl. Another similar package is [AnnotationHub](https://bioconductor.org/packages/release/bioc/html/AnnotationHub.html).\index{R Packages!\texttt{AnnotationHub}}
 This package is an aggregator for different datasets from various sources. 
-Using AnnotationHub one can access data sets from UCSC browser, Ensembl browser
-and data sets from genomics consortiums such as ENCODE and Roadmap Epigenomics\index{ENCODE}.\index{Roadmap Epigenomics} 
+Using `AnnotationHub` one can access data sets from UCSC browser, Ensembl browser
+and data sets from genomics consortia such as ENCODE and Roadmap Epigenomics\index{ENCODE}.\index{Roadmap Epigenomics} 
 We provide examples of using `Biomart` package further into the chapter. In addition, `AnnotationHub` package is used in Chapter  \@ref(chipseq).
 
 
@@ -182,7 +183,7 @@ it is a more flexible format than BED, which makes it harder to parse at times. 
     - `genomation::gffToGranges()`
     - `rtracklayer::impot.gff()`
 
-3) **BAM/SAM**: BAM format is compressed and indexed tabular file format designed for aligned sequencing reads. SAM is the uncompressed version of BAM file. We will touch upon BAM files in this chapter. The uncompressed SAM file is similar in sprit to BED file where you have the basic location on chromosome information plus additional columns that are related to the quality of alignment or other relevant information. We will introduce this format in detail later in this chapter.\index{BAM file} 
+3) **BAM/SAM**: BAM format is compressed and indexed tabular file format designed for aligned sequencing reads. SAM is the uncompressed version of BAM file. We will touch upon BAM files in this chapter. The uncompressed SAM file is similar in spirit to BED file where you have the basic location on chromosome information plus additional columns that are related to the quality of alignment or other relevant information. We will introduce this format in detail later in this chapter.\index{BAM file} 
 \index{SAM file}
     - `GenomicAlignments::readGAlignments`
     - `Rsamtools::scanBam` returns a data frame with columns from SAM/BAM file.
@@ -235,7 +236,7 @@ findOverlaps(pk1.gr,cpgi.gr)
 
 ```
 
-Another interesting thing would be to look at the distances to nearest CpG islands for each peak. In addition, just finding the nearest CpG island could also be interesting. Often times, you will need to find nearest TSS or gene to your regions of interest, and the code below is handy for doing that using `nearest()` and `distanceToNearest()` functions.
+Another interesting thing would be to look at the distances to nearest CpG islands for each peak. In addition, just finding the nearest CpG island could also be interesting. Often times, you will need to find nearest TSS\index{transcription start site (TSS)} or gene to your regions of interest, and the code below is handy for doing that using `nearest()` and `distanceToNearest()` functions, the resulting plot is shown in Figure \@ref(fig:findNearest).
 
 ```{r,findNearest,fig.cap="histogram of distances"}
 # find nearest CpGi to each TSS
@@ -318,7 +319,7 @@ bwFile=system.file("extdata",
 bw.gr=import(bwFile, which=promoter.gr) # get coverage vectors
 bw.gr
 ```
-Following this we can create an `RleList` object from the GRanges with `coverage()` function.
+Following this we can create an `RleList` object from the `GRanges` with `coverage()` function.
 ```{r,BigWigCov}
 cov.bw=coverage(bw.gr,weight = "score")
 
@@ -327,13 +328,13 @@ cov.bw=import(bwFile, which=promoter.gr,as = "RleList")
 
 ```
 ### Extracting subsections of Rle and RleList objects 
-Frequently, we will need to extract subsections of the Rle vectors or RleList objects.
+Frequently, we will need to extract subsections of the Rle vectors or `RleList` objects.
 We will need to do this to visualize that subsection or get some statistics out 
 of those sections. For example, we could be interested in average coverage per 
 base for the regions we are interested in. We have to extract those regions 
-from RleList object and apply summary statistics. Below, we show how to extract
-subsections of RleList object. We are extracting promoter regions from ChIP-seq\index{ChIP-seq}
-read coverage RleList. Following that, we will plot the one of the promoters associated coverage values.
+from `RleList` object and apply summary statistics. Below, we show how to extract
+subsections of `RleList` object. We are extracting promoter regions from ChIP-seq\index{ChIP-seq}
+read coverage `RleList`. Following that, we will plot the one of the promoters associated coverage values.
 ```{r,getViews,fig.cap="Coverage vector extracted from RleList via Views() function is plotted as a line plot."}
 myViews=Views(cov.bw,as(promoter.gr,"IRangesList")) # get subsets of coverage
 # there is a views object for each chromosome
@@ -370,10 +371,10 @@ have additional annotation that can not be contained by row or column names.
 For these cases, `SummarizedExperiment` class is ideal. It can hold multi-layered
 tabular data associated with each genomic interval and the meta-data associated with
 rows and columns, or associated with each table. For example, genomic intervals
-associated with the SummarizedExperiment object can be gene locations, and 
+associated with the `SummarizedExperiment` object can be gene locations, and 
 each tabular data structure can be RNA-seq read counts in a time course experiment.
 Each table could represent different conditions in which experiments performed. 
-The SummarizedExperiment class is outlined in the figure below (Figure \@ref(fig:SumExpOv) ).
+The `SummarizedExperiment` class is outlined in the figure below (Figure \@ref(fig:SumExpOv) ).
 
 
 
@@ -382,9 +383,9 @@ knitr::include_graphics("images/Summarized.Experiment.png" )
 ```
 
 ### Create a SummarizedExperiment object
-Here we show how to create a basic SummarizedExperiment object. We will first
+Here we show how to create a basic `SummarizedExperiment` object. We will first
 create a matrix of read counts. This matrix will represent read counts from
-a series RNA-seq experiments from different timepoints. Following that, 
+a series RNA-seq experiments from different time points. Following that, 
 we create `GRanges` object to represent the locations of the genes, and a table
 for column annotations. This will include the names for the columns and any 
 other value we want to represent. Finally, we will create a `SummarizedExperiment`
@@ -416,7 +417,7 @@ se
 ```
 
 ### Subset and manipulate the SummarizedExperiment object
-Now that we have a SummarizedExperiment object, we can subset it and extract/change
+Now that we have a `SummarizedExperiment` object, we can subset it and extract/change
 parts of it. 
 
 #### Extracting parts of the object
@@ -430,12 +431,12 @@ rowData(se) # extrac row associated data
 
 To extract the main table or tables that contain the values of interest such 
 as read counts. We must use the `assays()` function. This returns a list of 
-DataFrame objects associated with the object.
+`DataFrame` objects associated with the object.
 ```{r,assaysSe}
 assays(se) # extract list of assays
 
 ```
- You can use names with `$` or `[]` notaion to extract specific tables from the list.
+ You can use names with `$` or `[]` notation to extract specific tables from the list.
 ```{r,assaysSe2,eval=FALSE}
 
 assays(se)$counts # get the table named "counts"
@@ -453,13 +454,13 @@ subset data frames or matrices.
 se[1:5, 1:3]
 ```
 
-One can also use `$` operator to subset based on colData() columns. You can 
+One can also use `$` operator to subset based on `colData()` columns. You can 
 extract certain samples or in our case time points.
 ```{r,subsetSe2,eval=FALSE}
 se[, se$timepoint == 1]
 ```
 
-In addition, as `SummarizedExperiment` objects are `GRanges` objects on streoids,
+In addition, as `SummarizedExperiment` objects are `GRanges` objects on steroids,
 they support all of the `findOverlaps()` methods and associated functions that
 work on `GRanges` objects. 
 ```{r,subsetByolapSE}
@@ -480,11 +481,11 @@ different genomic datasets over that locus. This is similar to looking at the da
 over one of the genome browsers. Below we will display genes, GpG islands and read \index{R Packages!\texttt{Gviz}}
 coverage from a ChIP-seq experiment using `Gviz` package\index{ChIP-seq}.For `Gviz` package, we first need to 
 set the tracks to display. The tracks can be in various formats. They can be R 
-objects such as IRanges,GRanges and data.frame, or  they can be in flat file formats
+objects such as `IRanges`,`GRanges` and `data.frame`, or  they can be in flat file formats
 such as BigWig,BED and BAM. After the tracks are set, we can display them with
-`plotTracks` function.
+`plotTracks` function, the resulting plot is shown in Figure \@ref(fig:GvizExchp6).
 
-```{r,fig.cap="tracks visualized using Gviz"}
+```{r GvizExchp6,fig.cap="tracks visualized using Gviz"}
 library(Gviz)
 # set tracks to display
 
@@ -520,8 +521,8 @@ different data sets over thousands of regions of interest and identify patterns.
 This summaries can include different data types such as motifs, read coverage 
 and other scores associated with genomic intervals. The `genomation` package can 
 summarize and help identify patterns in the datasets. The datasets can have
-different kinds of information and multiple file types can be used such as BED, GFF, BAM and bigWig. We will look at H3K4me3 ChIP-seq \index{ChIP-seq} and DNAse-seq signals from H1 embryonic stem cell line. H3K4me3 is usually associated with promoters and regions with high DNAse-seq signal are associated with accessible regions, that means mostly regulatory regions. We will summarize those datasets around the transcription start sites (TSS) of genes on chromosome 20 of human hg19 assembly. We will first read the genes and extract the region around TSS, 500bp upstream and downstream. We will then create a matrix of ChIP-seq scores for those regions, each row will represent a region around a specific TSS and columns will be the scores per base. We will then plot, average enrichment values around the TSSes of genes on chromosome 20.
-```{r,fig.cap="meta region plot using genomation"}
+different kinds of information and multiple file types can be used such as BED, GFF, BAM and bigWig. We will look at H3K4me3 ChIP-seq \index{ChIP-seq} \index{histone modification}and DNAse-seq signals from H1 embryonic stem cell line. H3K4me3 is usually associated with promoters and regions with high DNAse-seq signal are associated with accessible regions, that means mostly regulatory regions. We will summarize those datasets around the transcription start sites (TSS)\index{transcription start site (TSS)} of genes on chromosome 20 of human hg19 assembly. We will first read the genes and extract the region around TSS, 500bp upstream and downstream. We will then create a matrix of ChIP-seq scores for those regions, each row will represent a region around a specific TSS and columns will be the scores per base. We will then plot, average enrichment values around the TSSes of genes on chromosome 20.
+```{r metaRegionchp6,fig.cap="meta region plot using genomation"}
 
 # get transcription start sites on chr20
 library(genomation)
@@ -550,21 +551,23 @@ plotMeta(sm, profile.names = "H3K4me3", xcoords = c(-500,500),
          xlab="bases around TSS")
 
 ```
+The resulting plot is shown in Figure \@ref(fig:metaRegionchp6). The pattern we see is expected, there is a dip just around TSS \index{transcription start site (TSS)}and signal is more 
+intense on the downstream of the TSS. 
 
-The pattern we see is expected, there is a dip just around TSS and signal is more 
-intense on the downstream of the TSS. We can also plot a heatmap where each row is a
+We can also plot a heatmap where each row is a
 region around TSS and color coded by enrichment. This can show us not only the
 general pattern as in the meta-region 
-plot but also how many of the regions produce such a pattern. 
-```{r,fig.cap="Heatmap of enrichment of H3K4me2 around TSS"}
-heatMatrix(sm,order=TRUE,xcoords = c(-500,500),xlab="bases around TSS")
+plot but also how many of the regions produce such a pattern. The `heatMatrix()` function shown below achieves that. The resulting heatmap plot is shown in Figure \@ref(fig:heatmatrix1Chp6).
+```{r heatmatrix1Chp6,fig.cap="Heatmap of enrichment of H3K4me2 around TSS"}
+heatMatrix(sm,order=TRUE,xcoords = c(-500,500),
+           xlab="bases around TSS")
 ```
 
-Here we saw that about half of the regions do not have any signal. In addition it seems the multi-modal profile we have observed earlier is more complicated. Certain regions seems to have signal on both sides of the TSS, whereas others have signal mostly on the downstream side.
+Here we saw that about half of the regions do not have any signal. In addition it seems the multi-modal profile we have observed earlier is more complicated. Certain regions seems to have signal on both sides of the TSS, \index{transcription start site (TSS)}whereas others have signal mostly on the downstream side.
 
 Normally, there would be more than one experiment or we can integrate datasets from
-public repositories. In this case, we can see how different signals look like on the regions we are interested in. Now, we will also use DNAse-seq data and create a list of matrices with our datasets and plot the average profile of the signals from both datasets.  
-```{r,fig.cap= "Average profiles of DNAse and H3K4me3 ChIP-seq",out.width='60%'}
+public repositories. In this case, we can see how different signals look like on the regions we are interested in. Now, we will also use DNAse-seq data and create a list of matrices with our datasets and plot the average profile of the signals from both datasets. The resulting meta-region plot is shown in Figure \@ref(fig:heatmatrixlistchp6) 
+```{r heatmatrixlistchp6,fig.cap= "Average profiles of DNAse and H3K4me3 ChIP-seq",out.width='50%'}
 
 DNAseFile=system.file("extdata",
                       "H1.ESC.dnase.chr20.bw",
@@ -577,11 +580,11 @@ plotMeta(sml)
 
 ```
 
-We should now look at the heatmaps side by side and we should also cluster the rows
-based on their similarity. We will be using `multiHeatMatrix` since we have multiple ScoreMatrix objects in the list. In this case, we will also use `winsorize` argument to limit extreme values, 
+ We should now look at the heatmaps side by side and we should also cluster the rows
+based on their similarity. We will be using `multiHeatMatrix` since we have multiple `ScoreMatrix` objects in the list. In this case, we will also use `winsorize` argument to limit extreme values, 
 every score above 95th percentile will be equalized the the value of the 95th percentile. In addition, `heatMatrix` and `multiHeatMatrix` can cluster the rows.
 Below, we will be using k-means clustering with 3 clusters.
-```{r,multiHeatMatrix,fig.cap= "Heatmaps of H3K4me3 and DNAse data",out.width='50%'}
+```{r,multiHeatMatrix,fig.cap= "Heatmaps of H3K4me3 and DNAse data",out.width='40%'}
 set.seed(1029)
 multiHeatMatrix(sml,order=TRUE,xcoords = c(-500,500),
                 xlab="bases around TSS",winsorize = c(0,95),
@@ -591,7 +594,7 @@ multiHeatMatrix(sml,order=TRUE,xcoords = c(-500,500),
 
 ```
 
-This revealed a different picture than we have observed before. Almost half of the promoters have no signal for DNAse or H3K4me3; these regions are probably not active and associated genes are not expressed. For regions with H3K4me3 signal, there are two major patterns. One pattern where both downstream and upstream of the TSS are enriched. On the other pattern, mostly downstream of the TSS is enriched.
+The resulting heatmaps are shown in \@ref(fig:multiHeatMatrix). These plots revealed a different picture than we have observed before. Almost half of the promoters have no signal for DNAse or H3K4me3; these\index{histone modification} regions are probably not active and associated genes are not expressed. For regions with H3K4me3 signal, there are two major patterns. One pattern where both downstream and upstream of the TSS are enriched. On the other pattern, mostly downstream of the TSS is enriched.\index{transcription start site (TSS)}
 
 ### Making karyograms and circos plots
 Chromosomal karyograms  and circos plots are beneficial for displaying data over the 
@@ -606,7 +609,7 @@ and transformations in order to achieve the final output. In `ggbio`, things are
 relatively easy since a high-level function `autoplot` function will recognize \index{R Packages!\texttt{ggbio}}
 most of the datatypes and guess the most appropriate plot type. You can change
 it is behavior by applying low-level functions. We first get  the sizes of chromosomes
-and make a karyogram template. 
+and make a karyogram template. The empty karyogram is shown in \@ref(fig:karyo1).
 
 ```{r,karyo1,fig.cap= "Karyogram example"}
 library(ggbio)
@@ -616,7 +619,7 @@ p
 ```
 
 Next, we would like to plot CpG islands on this Karyogram. We simply do this
-by adding a layer with `layout_karyogram` function.
+by adding a layer with `layout_karyogram` function. The resulting karyogram is shown in \@ref(fig:karyo2).
 ```{r,karyo2,fig.cap= "Karyogram of CpG islands over the human genome"}
 # read CpG islands from a generic text file
 
@@ -632,11 +635,11 @@ p + layout_karyogram(cpgi.gr)
 
 ```
 
-Next, we would like to plot some data over the chromosomes. This could be ChIP-seq 
+Next, we would like to plot some data over the chromosomes. This could be ChIP-seq \index{ChIP-seq}
 signal
 or any other signal over the genome, we will use CpG island scores from the data set
 we read earlier. We will plot a point proportional to "obsExp" column in the data set. We use `ylim` argument to squish the chromosomal rectangles and plot on top of those. `aes` argument defines how the data is mapped to geometry. In this case,
-it says the points will have x coordinate from CpG island start positions and y coordinate from obsExp score of CpG islands.
+the argument indicates that the points will have x coordinate from CpG island start positions and y coordinate from obsExp score of CpG islands. The resulting karyogram is shown in \@ref(fig:karyoCpG).
 ```{r,karyoCpG,fig.cap="Karyogram of CpG islands and their observed/expected scores over the human genome"}
 
 p + layout_karyogram(cpgi.gr, aes(x= start, y = obsExp),
@@ -648,7 +651,7 @@ p + layout_karyogram(cpgi.gr, aes(x= start, y = obsExp),
 
 ```
 
-Another way to depict regions or quantitative signals on the chromosomes is circos plots. These are circular plots usually used for showing chromosomal rearrangements, but can also be used for depicting signals.`ggbio` package can produce all kinds of circos plots. Below, we will show how to use that for our CpG island score example.
+Another way to depict regions or quantitative signals on the chromosomes is circos plots. These are circular plots usually used for showing chromosomal rearrangements, but can also be used for depicting signals.`ggbio` package can produce all kinds of circos plots. Below, we will show how to use that for our CpG island score example, and the resulting plot is shown in \@ref(fig:circosCpG).
 
 ```{r,"circosCpG",fig.cap="circos plot for CpG islands scores"}
 
@@ -674,17 +677,18 @@ p
 
 
 ## Exercises
-The data for the exercises is within `compGenomRData` package.
+The data for the exercises is within `compGenomRData` package. 
 
-Run the following to see the data files.
+Run the following to see the data files. 
 ```
-dir("GenomicIntervals_data/data")
+dir(system.file("extdata",
+             package="compGenomRData"))
 ```
+You will need some of those files to complete the exercises.
 
 ### Operations on Genomic Intervals with GenomicRanges package
 
-####
-Create a GRanges object using the information in the table below:
+1. Create a `GRanges` object using the information in the table below:
 
 | chr  | start | end  |strand | score | 
 | :--- |:------| :-----| :-----|:-----|
@@ -692,233 +696,62 @@ Create a GRanges object using the information in the table below:
 | chr1 | 11100 | 11500 |  -    | 20 |
 | chr2 | 20000 | 20030 |  +    | 15 |
 
-####
-use `start()`, `end()`, `strand()`,`seqnames()` and `width()` functions on the GRanges
-object you created. Figure out what they are doing. Can you get a subset of GRanges object for intervals that are only on + strand? If you can do that, try getting intervals that are on chr1. *HINT:* GRanges objects can be subset using [ ] operator similar to data.frames but you may need
-to use `start()`, `end()` and `strand()`,`seqnames()` within the [ ].
-
-```{r,eval=FALSE,echo=FALSE}
-gr0=GRanges(seqnames=c("chr1","chr1","chr2"),
-        range=IRanges(start=c(10000,11100,2000),
-                      end=c(10300,11500,20030)),
-        score=c(10,20,15))
-
-start(gr0)
-end(gr0)
-strand(gr0)
-seqnames(gr0)
-width(gr0)
-
-gr0[seqnames(gr0)=="chr1",]
-
-```
+[Difficulty: Beginner]
+2. use `start()`, `end()`, `strand()`,`seqnames()` and `width()` functions on the `GRanges`
+object you created. Figure out what they are doing. Can you get a subset of `GRanges` object for intervals that are only on + strand? If you can do that, try getting intervals that are on chr1. *HINT:* `GRanges` objects can be subset using `[ ]` operator similar to data frames but you may need
+to use `start()`, `end()` and `strand()`,`seqnames()` within the `[]`.[Difficulty: Beginner/Intermediate]
 
 
-####
-Import mouse (mm9 assembly) CpG islands and refseq transcripts for chr12 from UCSC browser as `GRanges` objects using `rtracklayer` functions. HINT: Check the lecture material and modify the code there as necessary. If that somehow does not work, go to UCSC browser and download it as a BED file. The trackname for Refseq genes is "RefSeq Genes" and table name is "refGene". 
 
-```{r,eval=FALSE,echo=FALSE}
-
-require(rtracklayer)
-session <- browserSession("UCSC",url='http://genome-euro.ucsc.edu/cgi-bin/')
-genome(session) <- "mm9"
-
-## choose CpG island track on chr12
-cpgi <- ucscTableQuery(session, track="CpG Islands",table="cpgIslandExt",
-        range=GRangesForUCSCGenome("mm9", "chr12"))
-
-## get the GRanges object for the track
-cpgi.gr=track(cpgi)
-
-## choose CpG island track on chr12
-query <- ucscTableQuery(session, track="RefSeq Genes",table="refGene",
-        range=GRangesForUCSCGenome("mm9", "chr12"))
-## get the GRanges object for the track
-ref.gr=track(query)
+3. Import mouse (mm9 assembly) CpG islands and RefSeq transcripts for chr12 from UCSC browser as `GRanges` objects using `rtracklayer` functions. HINT: Check chapter content and modify the code there as necessary. If that somehow does not work, go to UCSC browser and download it as a BED file. The track name for Refseq genes is "RefSeq Genes" and table name is "refGene". [Difficulty: Beginner/Intermediate]
 
 
-```
-
-####
-Following from the exercise above, get the promoters of Refseq transcripts (-1000bp and +1000 bp of the TSS) and calculate what percentage of them overlap with CpG islands. HINT: You have to get the promoter coordinates and use `findOverlaps()` or `subsetByOverlaps()` from `GenomicRanges` package. To get promoters, type `?promoters` on the R console and see how to use  that function to get promoters or calculate their coordinates as shown in the lecture material.
-
-```{r,eval=FALSE,echo=FALSE}
-proms=promoters(ref.gr, upstream=1000, downstream=1000)
-sub.cpgi=subsetByOverlaps(cpgi.gr,proms)
-
-100*length(sub.cpgi)/length(cpgi.gr)
-
-```
+4. Following from the exercise above, get the promoters of Refseq transcripts (-1000bp and +1000 bp of the TSS) and calculate what percentage of them overlap with CpG islands. HINT: You have to get the promoter coordinates and use `findOverlaps()` or `subsetByOverlaps()` from `GenomicRanges` package. To get promoters, type `?promoters` on the R console and see how to use  that function to get promoters or calculate their coordinates as shown in the lecture material.[Difficulty: Beginner/Intermediate]
 
 
-#### 
-Plot the distribution of CpG island lengths for CpG islands that overlap with the 
-promoters.
-
-```{r,eval=FALSE,echo=FALSE}
-hist(width(sub.cpgi))
-median(width(sub.cpgi))
-
-```
+5. Plot the distribution of CpG island lengths for CpG islands that overlap with the 
+promoters.[Difficulty: Beginner/Intermediate]
 
 
-####
-Get canonical peaks for SP1 (peaks that are in both replicates) on chr21. Peaks for each replicate are located in `GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep1.broadPeak.gz` and `GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep2.broadPeak.gz` files. HINT: You need to use `findOverlaps()` or `subsetByOverlaps()` to get the subset of peaks that occur in both replicates. You can try to read *broadPeak.gz files using genomation function `readBroadPeak`, broadPeak is just an extended BED format.
-EXTRA credit: Try use `coverage()` and slice`()` functions to get canonical peaks.
+6. Get canonical peaks for SP1 (peaks that are in both replicates) on chr21. Peaks for each replicate are located in `wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep1.broadPeak.gz` and `wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep2.broadPeak.gz` files. HINT: You need to use `findOverlaps()` or `subsetByOverlaps()` to get the subset of peaks that occur in both replicates (canonical peaks). You can try to read *broadPeak.gz files using genomation function `readBroadPeak`, broadPeak is just an extended BED format. In addition, you can try to use `coverage()` and `slice()` functions to get more precise canonical peak locations.[Difficulty: Intermediate/Advanced]
 
-```{r,eval=FALSE}
-library(genomation)
-rep1=readBroadPeak("GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep1.broadPeak.gz")
-rep2=readBroadPeak("GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep2.broadPeak.gz")
-```
-
-```{r,eval=FALSE,echo=FALSE}
-subsetByOverlaps(rep1,rep2)
-```
 
 ### Dealing with mapped high-throughput sequencing reads
 
-#### 
-Count the reads overlapping with canonical Sp1 peaks using the BAM file for one of the replicates: `GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam`. **HINT**: 
-Use functions from `GenomicAlignments`, see [lecture notes](GenomicIntervals_data/lectures/genomicIntervalsTutorial.html).
+1.  Count the reads overlapping with canonical SP1 peaks using the BAM file for one of the replicates. The following file in `compGenomRData` package contains the alignments for SP1 ChIP-seq reads: `wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam`. **HINT**: Use functions from `GenomicAlignments` package.[Difficulty: Beginner/Intermediate]
 
-```{r,eval=FALSE,echo=FALSE}
-
-canon=subsetByOverlaps(rep1,rep2)
-
-library(Rsamtools)
-bamfile="GenomicIntervals_data/data/wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam"
-
-# get reads for regions of interest from the bam file
-param <- ScanBamParam(which=canon)
-counts=countBam(bamfile, param=param)
-
-```
 
 ### Dealing with contiguous scores over the genome
 
-#### 
-Extract Views object for the promoters on chr20 from `H1.ESC.H3K4me1.chr20.bw` file available at **CompGenomRData** package. Plot the first "View" as a line plot. **HINT**: see the code in the relevant section and adapt the code from there.
+1. Extract Views object for the promoters on chr20 from `H1.ESC.H3K4me1.chr20.bw` file available at `CompGenomRData` package. Plot the first "View" as a line plot. **HINT**: see the code in the relevant section in the chapter and adapt the code from there.[Difficulty: Beginner/Intermediate]
 
-#### 
-Make a histogram of the maximum signal for the Views in the object you extracted above. You can use any of the view summary functions or use lapply() and write your own summary function.
+2. Make a histogram of the maximum signal for the Views in the object you extracted above. You can use any of the view summary functions or use `lapply()` and write your own summary function.[Difficulty: Beginner/Intermediate]
 
-#### 
-Get the genomic positions of maximum signal in each view and make a GRanges object. **HINT**: See ?viewRangeMaxs help page. Try to make a GRanges object out of the returned object.
+3. Get the genomic positions of maximum signal in each view and make a `GRanges` object. **HINT**: See `?viewRangeMaxs` help page. Try to make a `GRanges` object out of the returned object.[Difficulty: Intermediate]
 
 ### Visualizing and summarizing genomic intervals
 
-####
-Extract -500,+500 bp regions around TSSes on chr21, there are refseq files in the compGenomRData package or you can
-pull the data out of UCSC browser. Use SP1 ChIP-seq data in the compGenomRData package, access the file path via `system.file() `command
-(`wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam` ) to create an average profile of read coverage around TSSes. Following that, visualize the read coverage with a heatmap. **HINT**: All of these possible using `genomation` package functions. Check `help(ScoreMatrix)` to see how you can use bam files.
-
-```{r,eval=FALSE,echo=FALSE}
+1. Extract -500,+500 bp regions around TSSes on chr21, there are refseq files for hg19 human genome assembly. in the `compGenomRData` package. As an example here is how you can get the file path to refseq annotation on chr21.
+```{r example,eval=FALSE}
 transcriptFilechr21=system.file("extdata",
                       "refseq.hg19.chr21.bed",
                       package="compGenomRData")
-gene.chr21=readTranscriptFeatures(transcriptFilechr21,
-                                  up.flank = 500,down.flank = 500)
-prom.chr21=gene.chr21$promoters
-
-bamFile=system.file("extdata",
-                    "wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam",
-                    package="compGenomRData")
-sm=ScoreMatrix(bamFile,prom.chr21,
-               type="bam",strand.aware = TRUE)
-plotMeta(sm)
-
 ```
-
-####
-Extract -500,+500 bp regions around TSSes on chr20. Use H3K4me3 (`H1.ESC.H3K4me3.chr20.bw`) and H3K27ac (`H1.ESC.H3K27ac.chr20.bw`) ChIP-seq enrichment data in the compGenomRData package and create heatmaps and average signal profiles for regions around the TSSes.
-
-```{r,eval=FALSE,echo=FALSE}
-transcriptFile=system.file("extdata",
-                      "refseq.hg19.chr20.bed",
-                      package="compGenomRData")
-gene.chr20=readTranscriptFeatures(transcriptFile,up.flank = 500,down.flank = 500)
-prom.chr20=gene.chr20$promoters
+Use SP1 ChIP-seq data in the `compGenomRData` package, access the file path via `system.file()` command, the file name is:
+`wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam`. Create an average profile of read coverage around TSSes. Following that, visualize the read coverage with a heatmap. **HINT**: All of these possible using `genomation` package functions. Check `help(ScoreMatrix)` to see how you can use bam files.[Difficulty: Intermediate/Advanced]
 
 
-h3k4me3File=system.file("extdata",
-                      "H1.ESC.H3K4me3.chr20.bw",
-                      package="compGenomRData")
-
-H3K27acFile=system.file("extdata",
-                      "H1.ESC.H3K27ac.chr20.bw",
-                      package="compGenomRData")
-
-sml=ScoreMatrixList(c(h3k4me3File,
-                      H3K27acFile),prom.chr20,
-                      type="bigWig",strand.aware = TRUE)
-
-# look for the average enrichment
-plotMeta(sml, profile.names = c("H3K4me3","H3K27ac"), xcoords = c(-500,500),
-         ylab="log2enrichment",dispersion = "se",
-         xlab="bases around TSS")
-
-multiHeatMatrix(sml,order=TRUE,winsorize = c(0,95),
-                matrix.main = c("H3K4me3","H3K27ac"))
-
-```
-
-####
-Download P300 ChIP-seq peaks data from UCSC browser. The peaks are locations where P300 binds. The P300 binding marks enhancer regions in the genome. (HINT:  group: "regulation", track: "Txn Factor ChIP", table:"wgEncodeRegTfbsClusteredV3", you need to filter the rows for "EP300" name )
-
-Check enrichment of H3K4me3, H3K27ac and DNase-seq (`H1.ESC.dnase.chr20.bw`) experiments on chr20, use data from compGenomRData package. Make multi-heatmaps and metaplots, what is different from TSS profiles ? 
-
-```{r,eval=FALSE}
-library(genomation)
-peaks=readBed("~/Downloads/chip.peaks.bed")
-p300.gr=peaks[mcols(peaks)$name=="EP300",]
-
-rs.p300.gr=resize(p300.gr,width=1000,fix="center" )
-
-rs.p300.gr=rs.p300.gr[seqnames(rs.p300.gr)=="chr20",]
-
-dnaseFile=system.file("extdata",
-                      "H1.ESC.dnase.chr20.bw",
-                      package="compGenomRData")
-  
-sml=ScoreMatrixList(c(h3k4me3File,
-                      H3K27acFile,dnaseFile),rs.p300.gr,
-                      type="bigWig",strand.aware = FALSE)
-
-plotMeta(sml)
-multiHeatMatrix(sml,
-                winsorize = c(0,95),
-                matrix.main=c("H3K4me3","H3K27ac","DNase"),
-               clustfun=function(x) kmeans(x, centers=3)$cluster)
-```
-
-####
-Cluster the rows of multi-heatmaps? Are there obvious clusters ? HINT: check arguments of multiHeatMatrix() function.
+2. Extract -500,+500 bp regions around TSSes on chr20. Use H3K4me3 (`H1.ESC.H3K4me3.chr20.bw`) and H3K27ac (`H1.ESC.H3K27ac.chr20.bw`) ChIP-seq enrichment data in the `compGenomRData` package and create heatmaps and average signal profiles for regions around the TSSes.[Difficulty: Intermediate/Advanced]
 
 
+3. Download P300 ChIP-seq peaks data from UCSC browser. The peaks are locations where P300 binds. The P300 binding marks enhancer regions in the genome. (HINT:  group: "regulation", track: "Txn Factor ChIP", table:"wgEncodeRegTfbsClusteredV3", you need to filter the rows for "EP300" name )
 
-#### 
-Visualize one of the -500,+500 bp regions around TSS using `Gviz` functions. You should visualize both H3K4me3 and H3K27ac and the gene models.
+Check enrichment of H3K4me3, H3K27ac and DNase-seq (`H1.ESC.dnase.chr20.bw`) experiments on chr20, use data from `compGenomRData` package. Make multi-heatmaps and metaplots, what is different from TSS profiles ? [Difficulty: Advanced]
 
-```{r,eval=FALSE,echo=FALSE}
-library(Gviz)
-H3K4me3.track=DataTrack("GenomicIntervals_data/data/H1.ESC.H3K4me3.chr20.bw",type ="l",
-                        chromosome = "chr20",
-                          name="H3K4me3")
-
-H3K27ac.track=DataTrack("GenomicIntervals_data/data/H1.ESC.H3K27ac.chr20.bw",type = "l",
-                    name="H3K27ac")
-
-track.list=list(H3K4me3.track,H3K27ac.track)
-
-prom.chr20[1,]
-prom.chr20[2,]
-prom.chr20[729,]
-plotTracks(track.list,from=49547020,to=49548020,
-           chromosome="chr20")
+4. Cluster the rows of multi-heatmaps? Are there obvious clusters ? HINT: check arguments of `multiHeatMatrix()` function.[Difficulty: Advanced]
 
 
+5. Visualize one of the -500,+500 bp regions around TSS using `Gviz` functions. You should visualize both H3K4me3 and H3K27ac and the gene models.[Difficulty: Advanced]
 
-```
 
 

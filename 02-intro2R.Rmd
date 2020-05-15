@@ -573,49 +573,49 @@ However, remember that not every function is vectorized in R, use the ones that 
 
 ### Computations in R
 
-1. Sum 2 and 3, use `+` operator. [difficulty: **Beginner**]
+1. Sum 2 and 3, use `+` operator. [Difficulty: **Beginner**]
 
-2. Take the square root of 36, use `sqrt()`. [difficulty: **Beginner**]
+2. Take the square root of 36, use `sqrt()`. [Difficulty: **Beginner**]
 
-3. Take the log10 of 1000, use function `log10()`.[difficulty: **Beginner**]
+3. Take the log10 of 1000, use function `log10()`.[Difficulty: **Beginner**]
 
-4. Take the log2 of 32, use function `log2()`.[difficulty: **Beginner**]
+4. Take the log2 of 32, use function `log2()`.[Difficulty: **Beginner**]
 
-5. Assign the sum of 2,3 and 4 to variable x. [difficulty: **Beginner**]
+5. Assign the sum of 2,3 and 4 to variable x. [Difficulty: **Beginner**]
 
-6. Find the absolute value of  `5 - 145` using `abs()` function. [difficulty: **Beginner**]
+6. Find the absolute value of  `5 - 145` using `abs()` function. [Difficulty: **Beginner**]
 
 7. Calculate the square root of 625, divide it by 5 and assign it to variable `x`.
 Ex: `y= log10(1000)/5`, the previous statement takes log10 of 1000, divides it 
-by 5 and assigns the value to variable y. [difficulty: **Beginner**]
+by 5 and assigns the value to variable y. [Difficulty: **Beginner**]
 
 8. Multiply the value you get from previous exercise with 10000, assign it variable x
 Ex: `y=y*5`, multiplies y with 5 and assigns the value to y. 
 **KEY CONCEPT:** results of computations or arbitrary values can be stored in variables we can re-use those variables later on and over-write them with new values. 
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
 ### Data structures in R 
 
 
-10. Make a vector of 1,2,3,5 and 10 using `c()`, assign it to `vec` variable. [difficulty: **Beginner**]
+10. Make a vector of 1,2,3,5 and 10 using `c()`, assign it to `vec` variable. [Difficulty: **Beginner**]
 Ex: `vec1=c(1,3,4)` makes a vector out of 1,3,4.
 
 11. Check the length of your vector with length(). 
-Ex: `length(vec1)` should return 3. [difficulty: **Beginner**]
+Ex: `length(vec1)` should return 3. [Difficulty: **Beginner**]
 
 12. Make a vector of all numbers between 2 and 15.
-Ex: `vec=1:6` makes a vector of numbers between 1 and 6, assigns to `vec` variable. [difficulty: **Beginner**]
+Ex: `vec=1:6` makes a vector of numbers between 1 and 6, assigns to `vec` variable. [Difficulty: **Beginner**]
 
-13. Make a vector of  4s repeated 10 times using `rep()` function. Ex: `rep(x=2,times=5)` makes a vector of 2s repeated 5 times. [difficulty: **Beginner**]
+13. Make a vector of  4s repeated 10 times using `rep()` function. Ex: `rep(x=2,times=5)` makes a vector of 2s repeated 5 times. [Difficulty: **Beginner**]
 
 14. Make a logical vector with TRUE, FALSE values of length 4, use `c()`.
-Ex: `c(TRUE,FALSE)`. [difficulty: **Beginner**]
+Ex: `c(TRUE,FALSE)`. [Difficulty: **Beginner**]
 
 15. Make a character vector of gene names PAX6,ZIC2,OCT4 and SOX2.
-Ex: `avec=c("a","b","c")` a makes a character vector of a,b and c. [difficulty: **Beginner**]
+Ex: `avec=c("a","b","c")` a makes a character vector of a,b and c. [Difficulty: **Beginner**]
 
 16. Subset the vector using `[]` notation, get 5th and 6th elements. 
-Ex: `vec1[1]` gets the first element. `vec1[c(1,3)]` gets 1st and 3rd elements. [difficulty: **Beginner**]
+Ex: `vec1[1]` gets the first element. `vec1[c(1,3)]` gets 1st and 3rd elements. [Difficulty: **Beginner**]
 
 17. You can also subset any vector using a logical vector in `[]`. Run the following:
 
@@ -626,7 +626,7 @@ myvec=1:5
 myvec[c(TRUE,TRUE,FALSE,FALSE,FALSE)] 
 myvec[c(TRUE,FALSE,FALSE,FALSE,TRUE)]
 ``` 
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
 18. `==,>,<, >=, <=` operators create logical vectors. See the results of the following operations:
 
@@ -636,68 +636,68 @@ myvec == 4
 myvec <= 2
 myvec != 4
 ```
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
-19.  Use `>` operator in `myvec[ ]` to get elements larger than 2 in `myvec` which is described above. [difficulty: **Beginner**]
+19.  Use `>` operator in `myvec[ ]` to get elements larger than 2 in `myvec` which is described above. [Difficulty: **Beginner**]
 
 
 20. make a 5x3 matrix (5 rows, 3 columns) using `matrix()`.
-Ex: `matrix(1:6,nrow=3,ncol=2)` makes a 3x2 matrix using numbers between 1 and 6. [difficulty: **Beginner**]
+Ex: `matrix(1:6,nrow=3,ncol=2)` makes a 3x2 matrix using numbers between 1 and 6. [Difficulty: **Beginner**]
 
 21. What happens when you use `byrow = TRUE` in your matrix() as an additional argument?
-Ex: `mat=matrix(1:6,nrow=3,ncol=2,byrow = TRUE)`. [difficulty: **Beginner**]
+Ex: `mat=matrix(1:6,nrow=3,ncol=2,byrow = TRUE)`. [Difficulty: **Beginner**]
 
-22. Extract first 3 columns and first 3 rows of your matrix using `[]` notation.[difficulty: **Beginner**]
+22. Extract first 3 columns and first 3 rows of your matrix using `[]` notation.[Difficulty: **Beginner**]
 
 23. Extract last two rows of the matrix you created earlier.
 Ex: `mat[2:3,]` or `mat[c(2,3),]` extracts 2nd and 3rd rows.
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
 
 24. Extract the first two columns and run `class()` on the result.
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
 25. Extract first column and run `class()` on the result, compare with the above exercise.
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
 26. Make a data frame with 3 columns and 5 rows, make sure first column is sequence
 of numbers 1:5, and second column is a character vector.
 Ex: `df=data.frame(col1=1:3,col2=c("a","b","c"),col3=3:1) # 3x3 data frame`.
-Remember you need to make 3x5 data frame. [difficulty: **Beginner**]
+Remember you need to make 3x5 data frame. [Difficulty: **Beginner**]
 
 27. Extract first two columns and first two rows. 
-**HINT:** Use the same notation as matrices. [difficulty: **Beginner**]
+**HINT:** Use the same notation as matrices. [Difficulty: **Beginner**]
 
 28. Extract last two rows of the data frame you made.
-**HINT:** Same notation as matrices. [difficulty: **Beginner**]
+**HINT:** Same notation as matrices. [Difficulty: **Beginner**]
 
-29. Extract last two columns using column names of the data frame you made. [difficulty: **Beginner**]
+29. Extract last two columns using column names of the data frame you made. [Difficulty: **Beginner**]
 
 
 30. Extract second column using column names.
-You can use `[]` or `$` as in lists, use both in two different answers. [difficulty: **Beginner**]
+You can use `[]` or `$` as in lists, use both in two different answers. [Difficulty: **Beginner**]
 
 31. Extract rows where 1st column is larger than 3.
 **HINT:** you can get a logical vector using `>` operator
-,logical vectors can be used in `[]` when subsetting. [difficulty: **Beginner**]
+,logical vectors can be used in `[]` when subsetting. [Difficulty: **Beginner**]
 
 32. Extract rows where 1st column is larger than or equal to 3.
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
 33. Convert data frame to the matrix. **HINT:** use `as.matrix()`.
-Observe what happens to numeric values in the data frame. [difficulty: **Beginner**]
+Observe what happens to numeric values in the data frame. [Difficulty: **Beginner**]
 
 
 34. Make a list using `list()` function, your list should have 4 elements
 the one below has 2. Ex: `mylist= list(a=c(1,2,3),b=c("apple,"orange"))`
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
 35. Select the 1st element of the list you made using `$` notation.
 Ex: `mylist$a` selects first element named "a".
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
 
-36. Select the 4th element of the list you made earlier using `$` notation. [difficulty: **Beginner**]
+36. Select the 4th element of the list you made earlier using `$` notation. [Difficulty: **Beginner**]
 
 ```{r,echo=FALSE,eval=FALSE}
 mylist$d
@@ -705,19 +705,19 @@ mylist$d
 
 37. Select the 1st element of your list using `[ ]` notation. 
 Ex: `mylist[1]` selects first element named "a", you get a list with one element. `mylist["a"]` selects first element named "a", you get a list with one element.
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
-38. select the 4th element of your list using `[ ]` notation. [difficulty: **Beginner**]
+38. select the 4th element of your list using `[ ]` notation. [Difficulty: **Beginner**]
 
 
 39. Make a factor using factor(), with 5 elements.
-Ex: `fa=factor(c("a","a","b"))`. [difficulty: **Beginner**]
+Ex: `fa=factor(c("a","a","b"))`. [Difficulty: **Beginner**]
 
 40. Convert a character vector to factor using `as.factor()`.
 First, make a character vector using `c()` then use `as.factor()`.
-[difficulty: **Intermediate**]
+[Difficulty: **Intermediate**]
 
-41. Convert the factor you made above to character using `as.character()`. [difficulty: **Beginner**]
+41. Convert the factor you made above to character using `as.character()`. [Difficulty: **Beginner**]
 
 
 
@@ -728,12 +728,12 @@ Use `cpgFilePath=system.file("extdata",
                 "CpGi.table.hg18.txt",
                 package="compGenomRData")`
 to get the file path within the installed `compGenomRData` package.
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
 2. Use `head()` on CpGi to see first few rows.
-[difficulty: **Beginner**]
+[Difficulty: **Beginner**]
 
-3. Why doesn't the following work? see `sep` argument at `help(read.table)`.[difficulty: **Beginner**]
+3. Why doesn't the following work? see `sep` argument at `help(read.table)`.[Difficulty: **Beginner**]
 
 ```{r readCpGex, eval=FALSE}
 cpgtFilePath=system.file("extdata",
@@ -750,42 +750,42 @@ cpgiHF=read.table("intro2R_data/data/CpGi.table.hg18.txt",
                      header=FALSE,sep="\t",
                      stringsAsFactors=FALSE)
 ```                
-[difficulty: **Beginner**]                  
+[Difficulty: **Beginner**]                  
 
-5. Read only first 10 rows of the CpGi table. [difficulty: **Beginner/Intermediate**]  
+5. Read only first 10 rows of the CpGi table. [Difficulty: **Beginner/Intermediate**]  
 
 6. Use `cpgFilePath=system.file("extdata","CpGi.table.hg18.txt",package="compGenomRData")` to get the file path, then use
-`read.table()` with argument `header=FALSE`. Use `head()` to see the results. [difficulty: **Beginner**]  
+`read.table()` with argument `header=FALSE`. Use `head()` to see the results. [Difficulty: **Beginner**]  
 
 
 7. Write CpG islands to a text file called "my.cpgi.file.txt". Write the file
 to your home folder, you can use `file="~/my.cpgi.file.txt"` in linux. `~/` denotes
-home folder.[difficulty: **Beginner**]  
+home folder.[Difficulty: **Beginner**]  
 
 
 8. Same as above but this time make sure use `quote=FALSE`,`sep="\t"` and `row.names=FALSE` arguments. 
-Save the file to "my.cpgi.file2.txt" and compare it with "my.cpgi.file.txt". [difficulty: **Beginner**]  
+Save the file to "my.cpgi.file2.txt" and compare it with "my.cpgi.file.txt". [Difficulty: **Beginner**]  
 
 
 9. Write out the first 10 rows of 'cpgi' data frame.
-**HINT:** use subsetting for data frames we learned before. [difficulty: **Beginner**]  
+**HINT:** use subsetting for data frames we learned before. [Difficulty: **Beginner**]  
 
 
 
-10. Write the first 3 columns of 'cpgi' data frame.[difficulty: **Beginner**] 
+10. Write the first 3 columns of 'cpgi' data frame.[Difficulty: **Beginner**] 
 
-11. Write CpG islands only on chr1. **HINT:** use subsetting with `[]`, feed a logical vector using `==` operator.[difficulty: **Beginner/Intermediate**] 
+11. Write CpG islands only on chr1. **HINT:** use subsetting with `[]`, feed a logical vector using `==` operator.[Difficulty: **Beginner/Intermediate**] 
 
 
 12. Read two other data sets "rn4.refseq.bed" and "rn4.refseq2name.txt"
 with `header=FALSE`, assign them to df1 and df2 respectively.
 They are again included in the compGenomRData package, and you
-can use `system.file()` function to get the file paths. [difficulty: **Beginner**] 
+can use `system.file()` function to get the file paths. [Difficulty: **Beginner**] 
 
 
-13. Use `head()` to see what is inside of the the data frames above.[difficulty: **Beginner**] 
+13. Use `head()` to see what is inside of the the data frames above.[Difficulty: **Beginner**] 
 
-14. Merge data sets using `merge()` and assign the results to variable named 'new.df', and use `head()` to see the results. [difficulty: **Intermediate**] 
+14. Merge data sets using `merge()` and assign the results to variable named 'new.df', and use `head()` to see the results. [Difficulty: **Intermediate**] 
 
 
 
@@ -799,16 +799,16 @@ x1=1:100+rnorm(100,mean=0,sd=15)
 y1=1:100
 ```
 
-1. Make a scatter plot using `x1` and `y1` vectors generated above. [difficulty: **Beginner**] 
+1. Make a scatter plot using `x1` and `y1` vectors generated above. [Difficulty: **Beginner**] 
 
 
-2. Use `main` argument to give a title to `plot()` as in `plot(x,y,main="title")`.[difficulty: **Beginner**] 
+2. Use `main` argument to give a title to `plot()` as in `plot(x,y,main="title")`.[Difficulty: **Beginner**] 
 
 
-3. Use `xlab` argument to set a label to x-axis.Use `ylab` argument to set a label to y-axis.[difficulty: **Beginner**] 
-4. Once you have the plot, run the following expression in R console. `mtext(side=3,text="hi there")` does. *HINT:* `mtext` stands for margin text. [difficulty: **Beginner**] 
+3. Use `xlab` argument to set a label to x-axis.Use `ylab` argument to set a label to y-axis.[Difficulty: **Beginner**] 
+4. Once you have the plot, run the following expression in R console. `mtext(side=3,text="hi there")` does. *HINT:* `mtext` stands for margin text. [Difficulty: **Beginner**] 
 
-5. See what `mtext(side=2,text="hi there")` does. check your plot after execution. [difficulty: **Beginner**] 
+5. See what `mtext(side=2,text="hi there")` does. check your plot after execution. [Difficulty: **Beginner**] 
 
 6. You can use `paste()` as 'text' argument in mtext() try that, you need to re-plot.
 your plot first. **HINT:** `mtext(side=3,text=paste(...))`
@@ -819,50 +819,50 @@ paste("Text","here")
 myText=paste("Text","here")
 myText
 ```
-Use *mtext()*  and *paste()* to put a margin text on the plot.  [difficulty: **Beginner/Intermediate**] 
+Use *mtext()*  and *paste()* to put a margin text on the plot.  [Difficulty: **Beginner/Intermediate**] 
 
 7. `cor()` calculates correlation between two vectors.
 Pearson correlation is a measure of the linear correlation (dependence) 
-between two variables X and Y. Try using `cor()` function on `x1` and `y1` variables. [difficulty: **Beginner/Intermediate**] 
+between two variables X and Y. Try using `cor()` function on `x1` and `y1` variables. [Difficulty: **Beginner/Intermediate**] 
 
-8. Try use `mtext()`,`cor()` and `paste()` to display correlation coefficient on your scatterplot ?  [difficulty: **Intermediate**] 
+8. Try use `mtext()`,`cor()` and `paste()` to display correlation coefficient on your scatterplot ?  [Difficulty: **Intermediate**] 
 
 9. Change the colors of your plot using `col` argument.
-Ex: `plot(x,y,col="red")`[difficulty: **Beginner**] 
+Ex: `plot(x,y,col="red")`[Difficulty: **Beginner**] 
 
-10. Use `pch=19` as an argument in your `plot()` command.[difficulty: **Beginner**] 
+10. Use `pch=19` as an argument in your `plot()` command.[Difficulty: **Beginner**] 
 
 
-11. Use `pch=18` as an argument to your `plot()` command.[difficulty: **Beginner**] 
+11. Use `pch=18` as an argument to your `plot()` command.[Difficulty: **Beginner**] 
 
-12. Make histogram of `x1` with `hist()` function.Histogram is a graphical representation of the data distribution.[difficulty: **Beginner**] 
+12. Make histogram of `x1` with `hist()` function.Histogram is a graphical representation of the data distribution.[Difficulty: **Beginner**] 
 
 
 13. You can change colors with 'col', add labels with 'xlab', 'ylab', and add a 'title' with 'main' arguments. Try all these in a histogram.
-[difficulty: **Beginner**]  
+[Difficulty: **Beginner**]  
  ```{r,echo=FALSE,eval=FALSE}
 hist(x1,main="title")
 ```
 
-14. Make boxplot of y1 with `boxplot()`.[difficulty: **Beginner**] 
+14. Make boxplot of y1 with `boxplot()`.[Difficulty: **Beginner**] 
 
-15. Make boxplots of `x1` and `y1` vectors in the same plot.[difficulty: **Beginner**] 
+15. Make boxplots of `x1` and `y1` vectors in the same plot.[Difficulty: **Beginner**] 
 
 
-16. In boxplot use `horizontal = TRUE`  argument. [difficulty: **Beginner**] 
+16. In boxplot use `horizontal = TRUE`  argument. [Difficulty: **Beginner**] 
 
 
 17. make multiple plots with `par(mfrow=c(2,1))`
     - run `par(mfrow=c(2,1))` 
     - make a boxplot 
     - make a histogram
-[difficulty: **Beginner/Intermediate**] 
+[Difficulty: **Beginner/Intermediate**] 
 
 
-18. Do the same as above but this time with `par(mfrow=c(1,2))`.[difficulty: **Beginner/Intermediate**] 
+18. Do the same as above but this time with `par(mfrow=c(1,2))`.[Difficulty: **Beginner/Intermediate**] 
 
 
-19. Save your plot using "Export" button in Rstudio.[difficulty: **Beginner**] 
+19. Save your plot using "Export" button in Rstudio.[Difficulty: **Beginner**] 
 
 20. You can make a scatter plot showing density
 of points rather than points themselves. If you use points it looks like this:
@@ -885,7 +885,7 @@ Now, plot with `colramp=heat.colors` argument and then use a custom color scale 
 ```
 colramp = colorRampPalette(c("white","blue", "green","yellow","red")))
 ```
-[difficulty: **Beginner/Intermediate**] 
+[Difficulty: **Beginner/Intermediate**] 
 
 ### Functions and control structures (for, if/else etc.)
 Read CpG island data as shown below for the rest of the exercises.
@@ -899,9 +899,9 @@ head(cpgi)
 ```
 
 1. Check values at perGc column using a histogram.
-'perGc' column in the data stands for GC percent => percentage of C+G nucleotides. [difficulty: **Beginner**] 
+'perGc' column in the data stands for GC percent => percentage of C+G nucleotides. [Difficulty: **Beginner**] 
 
-2. Make a boxplot for 'perGc' column. [difficulty: **Beginner**] 
+2. Make a boxplot for 'perGc' column. [Difficulty: **Beginner**] 
 
 
 
@@ -909,7 +909,7 @@ head(cpgi)
 If it is low, high, or medium. low < 60, high>75, medium is between 60 and 75
 use greater or less than operators <  or  > . 
 Fill in the values in the in code below, where it is written 'YOU_FILL_IN'
-[difficulty: **Intermediate**]
+[Difficulty: **Intermediate**]
 ```{r functionEvExchp2,echo=TRUE,eval=FALSE}
 
 GCper=65
@@ -934,7 +934,7 @@ result
 
 4. Write a function that takes a value of GC percent and decides
 if it is low, high, or medium. low < 60, high>75, medium is between 60 and 75.
-Fill in the values in the in code below, where it is written 'YOU_FILL_IN'. [difficulty: **Intermediate/Advanced**]
+Fill in the values in the in code below, where it is written 'YOU_FILL_IN'. [Difficulty: **Intermediate/Advanced**]
 
 
 ```
@@ -951,7 +951,7 @@ GCclass(65) # should return "medium"
 
 
 5. Use a for loop to get GC percentage classes for `gcValues` below. Use the function
-you wrote above.[difficulty: **Intermediate/Advanced**]
+you wrote above.[Difficulty: **Intermediate/Advanced**]
 
 ```
 gcValues=c(10,50,70,65,90)
@@ -968,13 +968,13 @@ vec=c(1,2,4,5)
 power2=function(x){ return(x^2)  }
     lapply(vec,power2)
 ```
-[difficulty: **Intermediate/Advanced**]
+[Difficulty: **Intermediate/Advanced**]
 
 
 
-7. Use sapply to get values to get GC percentage classes for `gcValues`. [difficulty: **Intermediate**]
+7. Use sapply to get values to get GC percentage classes for `gcValues`. [Difficulty: **Intermediate**]
 
 8. Is there a way to decide on the GC percentage class of given vector of `GCpercentages`
 without using if/else structure and loops ? if so, how can you do it?
 **HINT:** subsetting using < and > operators.
-[difficulty: **Intermediate**]
+[Difficulty: **Intermediate**]

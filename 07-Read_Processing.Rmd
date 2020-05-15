@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo      = TRUE,
 
 ```
 
-Advances in sequencing technology are helping researchers sequence the genome deeper than ever. These sequencing experiments typically yield millions of reads. These reads have to be further processed, quality checked and aligned before we can quantify the genomic signal of interest and apply statistics and/or machine learning methods. For example, you may want to count how many reads overlapping with your promoter set of interest or you may want to quantify RNA-seq reads overlapping with exons. Post-alignment operations are usually but not always similar to operations on genomic intervals. Dealing with mapped reads are described previously in chapter \@ref(genomicIntervals). In addition, we have introduced high-throughput sequencing and its applications in general in chapter \@ref(intro). In this chapter we will introduce the fundamentals of read processing and quality check, and we will show how to do those tasks in R. For a long time, quality check and mapping tasks were outside the R domain. However, nowadays certain packages in R/Bioconductor can accomplish those tasks. 
+Advances in sequencing technology are helping researchers sequence the genome deeper than ever. These sequencing experiments typically yield millions of reads. These reads have to be further processed, quality checked and aligned before we can quantify the genomic signal of interest and apply statistics and/or machine learning methods. For example, you may want to count how many reads overlapping with your promoter set of interest or you may want to quantify RNA-seq reads overlapping with exons. Post-alignment operations are usually but not always similar to operations on genomic intervals. Dealing with mapped reads are described previously in chapter \@ref(genomicIntervals). In addition, we have introduced high-throughput sequencing and its applications in general in chapter \@ref(intro). In this chapter we will introduce the fundamentals of read processing and quality check, and we will show how to do those tasks in R. The read quality check and processing is a fundemental step in all high-throughput sequencing analyses. For example, RNA-seq, ChIP-seq and BS-seq analyses shown in Chapters \@ref(rnaseqanalysis), \@ref(chipseq) and \@ref(bsseq) require these quality check and processing steps prior to further analysis.  For a long time, quality check and mapping tasks were outside the R domain. However, nowadays certain packages in R/Bioconductor can accomplish those tasks. 
 
 ## FASTA and FASTQ formats
 High-throughput sequencing reads are usually output from sequencing facilities as text files in a format called "FASTQ" or "fastq". This format depends on an earlier format called FASTA. The FASTA format is developed as a text-based format to represent nucleotide or protein sequences (See Figure \@ref(fig:fasta) for an example).
@@ -46,7 +46,7 @@ qcRes=rqc(path = folder, pattern = ".fastq.gz", openBrowser=FALSE)
 
 
 ### Sequence quality per base/cycle
-Now that we have `qcRes` object, we can plot various sequence quality metrics for our fastq files. We will first plot " sequence quality per base/cycle". This plot depicts the quality scores across all bases at each position in the reads.
+Now that we have `qcRes` object, we can plot various sequence quality metrics for our fastq files. We will first plot " sequence quality per base/cycle". This plot, shown in Figure \@ref(fig:CycleQualityBoxPlot),  depicts the quality scores across all bases at each position in the reads.
 
 ```{r,CycleQualityBoxPlot,fig.cap="Per base sequence quality boxplot",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE}
 rqcCycleQualityBoxPlot(qcRes)
@@ -59,9 +59,9 @@ Long sequences can have degraded quality towards the ends of the reads. Looking 
 
 
 ### Sequence content per base/cycle 
-Per base sequence content shows nucleotide proportions for each position. In a random sequencing library there should be no nucleotide bias and the lines should be almost parallel with each other. 
+Per base sequence content shows nucleotide proportions for each position. In a random sequencing library there should be no nucleotide bias and the lines should be almost parallel with each other. The code below shows how to get this plot. The resulting plot is shown in Figure \@ref(fig:baseCallFreq).
 
-```{r,baseCallFreq,fig.cap="Per base sequence quality boxplot",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE}
+```{r,baseCallFreq,fig.cap="Percentage of nucleotide bases per position accross different FASTQ files",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE}
 rqcCycleBaseCallsLinePlot(qcRes)
 
 ```
@@ -74,9 +74,9 @@ In addition, some libraries are inherently biased in their sequence composition.
 
 
 ### Read frequency plot
-This plot shows the degree of duplication for every read in the library. A high level of duplication, non-unique reads, is  likely to indicate an enrichment bias. Technical duplicates arising from PCR artefacts could cause this. PCR is a common step in library preparation which creates many copies of the sequence fragment. In RNA-seq data, non-unique read proportion can reach more than 20%. However, these duplications may stem from simply genes being expressed at high levels. This means that there will many copies of transcripts and many copies of the same fragment. Since, we can not be sure these duplicated reads are due to PCR bias or an effect of high transcription we should not remove duplicated reads in RNA-seq analysis. However, in ChIP-seq experiments duplicated reads are more likely to be due to PCR bias.
+This plot shows the degree of duplication for every read in the library. We show how to get this plot in the code snippet below and the resulting plot is in Figure \@ref(fig:ReadFrequencyPlot). A high level of duplication, non-unique reads, is  likely to indicate an enrichment bias. Technical duplicates arising from PCR artefacts could cause this. PCR is a common step in library preparation which creates many copies of the sequence fragment. In RNA-seq \index{RNA-seq}data, non-unique read proportion can reach more than 20%. However, these duplications may stem from simply genes being expressed at high levels. This means that there will many copies of transcripts and many copies of the same fragment. Since we can not be sure these duplicated reads are due to PCR bias or an effect of high transcription, we should not remove duplicated reads in RNA-seq analysis. However, in ChIP-seq experiments duplicated reads are more likely to be due to PCR bias.
 
-```{r,ReadFrequencyPlot,fig.cap="Per base sequence quality boxplot",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE}
+```{r,ReadFrequencyPlot,fig.height=3,fig.width=5,fig.cap="The percent of different duplication levels in FASTQ files. Most of the reads in all libraries have only one copy in this case. ",fig.align = 'center',out.width='60%',echo=TRUE, warning=FALSE}
 rqcReadFrequencyPlot(qcRes)
 
 ```
@@ -240,7 +240,7 @@ sampleFile <- "extdata/samples_chip_single.txt"
 proj <- qAlign(sampleFile, genomeFile)
 ```
 
-It is good to explain what is going on here as the `qAlign()` function makes things look simple. This function is designed to be easy. For example, it creates a genome index automatically if it does not exist, and will look for existing indices before it creates one. We provided only two arguments, a text file containing sample names and fastq file paths and a reference genome file. In fact, this function also has many knobs and you can change its behavior by supplying different arguments in order to affect the behavior of Bowtie. For example, you can supply parameters to Bowtie using `alignmentParameter` argument. However the `qAlign()` function is optimized for different types of alignment problems and selects alignment parameters automatically. It is designed to work with alignment and quantification tasks for RNA-seq, ChIP-seq, small-RNA sequencing, Bisulfite sequencing (DNA methylation) and allele specific analysis. If you want to change default bowtie parameters only do it for simple alignment problems such as ChIP-seq and RNA-seq.
+It is good to explain what is going on here as the `qAlign()` function makes things look simple. This function is designed to be easy. For example, it creates a genome index automatically if it does not exist, and will look for existing indices before it creates one. We provided only two arguments, a text file containing sample names and fastq file paths and a reference genome file. In fact, this function also has many knobs and you can change its behavior by supplying different arguments in order to affect the behavior of Bowtie. For example, you can supply parameters to Bowtie using `alignmentParameter` argument. However the `qAlign()` function is optimized for different types of alignment problems and selects alignment parameters automatically. It is designed to work with alignment and quantification tasks for RNA-seq\index{RNA-seq}, ChIP-seq\index{ChIP-seq}, small-RNA sequencing, Bisulfite sequencing (DNA methylation)\index{Bisulfite sequencing} and allele specific analysis. If you want to change default bowtie parameters only do it for simple alignment problems such as ChIP-seq and RNA-seq.
 
 ```{block2, mappingKnowledge, type='rmdtip'}
 
@@ -254,7 +254,7 @@ __Want to know more ?__
 
 
 ## Further processing of aligned reads
-After alignment some further processing might be necessary. However, these steps are usually sequencing protocol specific. For example, for methylation C->T mismatches should be counted. For gene expression measurements, reads that overlap with transcripts should be counted. These further processing tasks are either done by specialized alignment related software or can be done in R in some cases. We will explain these further processing steps when they become relevant in the context of following chapters.
+After alignment some further processing might be necessary. However, these steps are usually sequencing protocol specific. For example, for methylation obtained via bisulfite sequencing C->T mismatches should be counted \index{Bisulfite sequencing}. For gene expression measurements, reads that overlap with transcripts should be counted. These further processing tasks are either done by specialized alignment related software or can be done in R in some cases. We will explain these further processing steps when they become relevant in the context of following chapters.
 
 
 ## Exercises 

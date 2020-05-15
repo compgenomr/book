@@ -178,7 +178,7 @@ can be easily calculated using R via `IQR()` function and the quantiles of a vec
 is calculated with `quantile()` function.
 
 Let us plot the boxplot for a random vector and also calculate IQR using R. 
-In the boxplot below, 25th and 75th percentiles are the edges of the box, and 
+In the boxplot (Figure \@ref(fig:boxplot2Chp3)), 25th and 75th percentiles are the edges of the box, and 
 the median is marked with a thick line going through roughly middle the box.
 ```{r IQRChp3}
 x=rnorm(20,mean=6,sd=0.7)
@@ -261,7 +261,7 @@ we can go look up in a table, that contains the area under the curve for
 the left and right side of the Z-score, but again we use software for that
 tables are outdated.
 
-Below we are showing the Z-score and the associated probabilities derived
+Below in Figure \@ref(fig:zscore),  we are showing the Z-score and the associated probabilities derived
 from the calculation above for $P(X <= -2 \; | \;  \mu=0,\sigma=2)$.
 
 ```{r zscore,echo=FALSE,message=FALSE,out.width='50%',fig.width=5.1,fig.cap='Z-score and associated probabilities for Z= -1'}
@@ -335,8 +335,8 @@ estimate the precision of population parameter estimates, is known as the __boot
 
 Let's see how we can do this in practice. We simulate a sample
 coming from a normal distribution (but we pretend we don't know the 
-population parameters). We will try to estimate the precision
-of the mean of the sample using bootstrap to build confidence intervals.
+population parameters). We will estimate the precision
+of the mean of the sample using bootstrap to build confidence intervals, the resulting plot after this procedure is shown in Figure \@ref(fig:bootstrapChp3).
 
 ```{r bootstrapChp3,out.width='55%',fig.width=5.1,fig.cap="Precision estimate of the sample mean using 1000 bootstrap samples. Confidence intervals derived from the bootstrap samples are shown with red lines."}
 library(mosaic)
@@ -409,7 +409,7 @@ mean(sample1)+qnorm(c(alpha/2,1-alpha/2))*sd/sqrt(n)
 
 The good thing about CLT as long as the sample size is large regardless of \index{central limit theorem (CLT)}
 the population distribution, the distribution of sample means drawn from
-that population will always be normal. Here we are repeatedly 
+that population will always be normal. In Figure \@ref(fig:sampleMeanschp3), we are repeatedly 
 drawing samples 1000 times with sample size $n$=10,30, and 100 from a bimodal,
 exponential and a uniform distribution and we are getting sample mean distributions
 following normal distribution.
@@ -494,7 +494,7 @@ The t distribution is similar to standard normal distribution has mean 0 but its
 especially when sample size is small,  and has one parameter $v$ for
 the degrees of freedom, which is $n-1$ in this case. Degrees of freedom
 is simply number of data points minus number of parameters estimated.\index{degrees of freedom} Here
-we are estimating the mean from the data and the distribution is for the means, therefore degrees of freedom is $n-1$.
+we are estimating the mean from the data and the distribution is for the means, therefore degrees of freedom is $n-1$. The resulting distributions are shown in Figure \@ref(fig:tdistChp3).
 ```{r tdistChp3,echo=FALSE,warning=FALSE,message=FALSE,out.width='60%',fig.cap="Normal distribution and t distribution with different degrees of freedom. With increasing degrees of freedom, t distribution approximates the normal distribution better."}
 plot(function(x) dnorm(x,0,1), -4,4,
      main = "",col="red",lwd=2,ylab="P(x)")
@@ -556,7 +556,7 @@ different conditions. Then, we calculate the differences in the means
 and do the randomization procedure to get a null distribution when we 
 assume there is no difference between samples, $H_0$. We then calculate how
 often we would get the original difference we calculated under the 
-assumption that $H_0$ is true.
+assumption that $H_0$ is true. The resulting null distribution and the original value is shown in Figure \@ref(fig:randomTestchp3).
 
 
 ```{r randomTestchp3,out.width='60%',fig.cap="The null distribution for differences of means obtained via randomization. The original difference is marked via blue line. The red line marks the value that corresponds to P-value of 0.05"}
@@ -582,7 +582,7 @@ p.val
 ```
 
 After doing random permutations and getting a null distribution, it is possible to get a confidence interval for the distribution of difference in means.
-This is simply the 2.5th and 97.5th percentiles of the null distribution, and 
+This is simply the $2.5th$ and $97.5th$ percentiles of the null distribution, and 
 directly related to the P-value calculation above.
 
 
@@ -711,7 +711,7 @@ calculated differently.
 In R, the base function `p.adjust()` implements most of the p-value correction 
 methods described above. For the q-value, we can use the `qvalue` package from 
 Bioconductor. Below we are demonstrating how to use them on a set of simulated 
-p-values.The plot shows that Bonferroni correction does a terrible job. FDR(BH) and q-value
+p-values.The plot in Figure \@ref(fig:multtest) shows that Bonferroni correction does a terrible job. FDR(BH) and q-value
 approach are better but q-value approach is more permissive than FDR(BH).
 
 ```{r multtest,out.width='60%',fig.cap="Adjusted P-values via different methods and their relationship to raw P-values"}
@@ -762,7 +762,7 @@ So if we plug that in the to the above formula what we do is:
 $$ \hat{V_g} = (V_0 + V_g)/2 $$
 
 In the code below, we are avoiding for loops or apply family functions
-by using vectorized operations.
+by using vectorized operations. The code below samples gene expression values from a hypotethical distribution. Since all the values come from the same distribution we do not expect differences between groups. We then calculate moderated and unmoderated t-test statistics and plot the P-value distributions for tests, the results are shown in Figure \@ref(fig:modTtestChp3).
 ```{r modTtestChp3, out.width='60%',fig.width=8,fig.cap="The distributions of P-values obtained by t-tests and moderated t-tests"}
 set.seed(100)
 
@@ -852,7 +852,7 @@ $$  Y= \beta_0+\beta_1X + \epsilon $$
  follows to emphasize that the model approximates $Y$, in this case notice that we removed the $\epsilon$ term: $Y \sim \beta_0+\beta_1X$ 
  
  
- The graph below shows the relationship between
+ The plot below in Figure \@ref(fig:histoneLmChp3) shows the relationship between
  histone modification (trimethylated forms of histone H3 at lysine 4, aka H3K4me3)
  and gene expression for 100 genes. The blue line is our model with estimated
  coefficients ($\hat{y}=\hat{\beta}_0 + \hat{\beta}_1X$, where $\hat{\beta}_0$
@@ -896,7 +896,7 @@ will look like this:
 In this case, we will be fitting a plane rather than a line. However, the fitting
 process which we will describe in the later sections will not change. For our 
 gene expression problem. We can introduce one more histone modification, H3K27me3. We will then have a linear model with 2 explanatory variables and the 
-fitted plane will look like the one below. The gene expression values are shown
+fitted plane will look like the one below in Figure \@ref(fig:histoneLm2chp3). The gene expression values are shown
 as dots below and above the fitted plane. Linear regression or linear models and their extensions which makes use of other distributions are central in computational genomics for statistical tests. We will see more of how regression is used in statistical hypothesis testing for computational genomics in Chapters \@ref(rnaseqanalysis) and  \@ref(bsseq).
 
 ```{r histoneLm2chp3,echo=FALSE,out.width='65%',warning=FALSE,message=FALSE,fig.cap="Association of Gene expression with H3K4me3 and H27Kme3 histone modifications."}
@@ -1188,7 +1188,7 @@ y = b0 + b1*x+ eps
 ```
 Now let us fit a line using `lm()` function. The function requires a formula, and
 optionally a data frame. We need the pass the following expression within the
-`lm()` function, `y~x`, where `y` is the simulated $Y$ values and `x` is the explanatory variables $X$. We will then use `abline()` function to draw the fit.
+`lm()` function, `y~x`, where `y` is the simulated $Y$ values and `x` is the explanatory variables $X$. We will then use `abline()` function to draw the fit. The resulting plot is shown in Figure \@ref(fig:geneExpLinearModel).
 ```{r geneExpLinearModel,out.width='60%',fig.cap="Gene expression and histone modification score modelled by linear regression"}
 mod1=lm(y~x)
 
@@ -1279,7 +1279,7 @@ hist(b1s,breaks=10,xlab=expression(beta[1]),
 
 ```
 
-As usually we will not have access to the population to do repeated sampling, 
+Normally, we will not have access to the population to do repeated sampling, 
 model fitting and estimation of the standard error for the coefficients. But
 there is statistical theory that helps us infer the population properties from
 the sample. When we assume that error terms have constant variance and mean zero
@@ -1431,7 +1431,7 @@ errors of X and Y. This bounds the values to -1 and 1, and as mentioned
 above called Pearson correlation coefficient. The values that change in a similar manner will have a positive coefficient, the values that change in \index{correlation}
 opposite manner will have negative coefficient, and pairs do not have
 a linear relationship will have 0 or near 0 correlation. In 
-the figure below, we are showing $R^2$, correlation 
+the Figure \@ref(fig:CorCovar), we are showing $R^2$, correlation 
 coefficient and covariance for different scatter plots.
 
 ```{r CorCovar,fig.width=9,fig.height=3,echo=FALSE,warning=FALSE,message=FALSE, fig.cap="Correlation and covariance for different scatter plots"}
@@ -1531,7 +1531,7 @@ have numeric variables in the model and we certainly do not have to include
 only one type of variable in a model. 
 
 The simplest model with categorical variables include two levels that
-can be encoded in 0 and 1.
+can be encoded in 0 and 1. Below, we are showing linear regression with categorical variable. We then plot the fitted line. This plot is shown in Figure \@ref(fig:LMcategorical).
 ```{r LMcategorical,out.width='50%',fig.cap="Linear model with a categorical variable coded as 0 and 1"}
 set.seed(100)
 gene1=rnorm(30,mean=4,sd=2)

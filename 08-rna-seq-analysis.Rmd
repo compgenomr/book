@@ -17,6 +17,8 @@ suppressMessages(suppressWarnings(library(gage)))
 
 **Chapter Author: Bora Uyar**
 
+
+
 RNA sequencing (RNA-seq) has proven as a revolutionary tool since the time it has been introduced. The throughput, accuracy, and resolution of data produced with RNA-seq has been instrumental in the study of transcriptomics in the last decade [@wang_rna-seq:_2009]. There is a variety of applications of transcriptome sequencing and each application may consist of different chains of tools each with many alternatives [@conesa_survey_2016]. In this chapter, we are going to demonstrate a common workflow of how to do differential expression analysis with downstream applications such as GO term and gene set enrichment analysis. We assume that the sequencing data was generated using one of the NGS sequencing platforms. Where applicable, we will try to provide alternatives to the reader in terms of both the tools to carry out a demonstrated analysis and also the other applications of the same sequencing data depending on the different biological questions. 
 
 ## What is gene expression?
@@ -97,8 +99,10 @@ Here we will assume that there is an RNA-seq count table comprising of raw-count
 
 ```{r crc_counts}
 #colorectal cancer
-counts_file <- system.file("extdata/rna-seq/SRP029880.raw_counts.tsv", package = "compGenomRData")
-coldata_file <- system.file("extdata/rna-seq/SRP029880.colData.tsv", package = "compGenomRData")
+counts_file <- system.file("extdata/rna-seq/SRP029880.raw_counts.tsv",
+                           package = "compGenomRData")
+coldata_file <- system.file("extdata/rna-seq/SRP029880.colData.tsv",
+                            package = "compGenomRData")
 
 counts <- as.matrix(read.table(counts_file, header = T, sep = '\t'))
 ```
@@ -764,22 +768,21 @@ RNA-seq generates valuable data that contains information not only at the gene l
 
 Here, import an example count table and do some exploration of the expression data. 
 
-```
-counts_file <- system.file("extdata/rna-seq/SRP029880.raw_counts.tsv", package = "compGenomRData")
-coldata_file <- system.file("extdata/rna-seq/SRP029880.colData.tsv", package = "compGenomRData")
+```{r exSetup1, eval=FALSE}
+counts_file <- system.file("extdata/rna-seq/SRP029880.raw_counts.tsv",
+                           package = "compGenomRData")
+coldata_file <- system.file("extdata/rna-seq/SRP029880.colData.tsv", 
+                            package = "compGenomRData")
 ```
 
-1. Basic: 
-  - Normalize the counts using the TPM approach. 
-  - Plot a heatmap of the top 500 most variable genes. Compare with the heatmap obtained using 100 most variable genes. 
-  - Re-do the heatmaps setting `scale` argument to `none`, and `column`. Compare the results with `scale = 'row'`. 
-  - Draw a correlation plot for the samples depicting the sample differences as 'ellipses', drawing only the upper end of the matrix, order samples by hierarchical clustering results based on `average` linkage clustering method. 
-2. Intermediate:
-  - How else could the count matrix be subsetted to obtain quick and accurate clusters? Try selecting top 100 genes that have the highest total expression in all samples and re-draw the cluster heatmaps and PCA plots. 
-  - Add an additional column to the annotation data.frame object to annotate the samples and use the updated annotation data.frame to plot the heatmaps. (Hint: assign different batch values to CASE and CTRL samples). Make a PCA plot and color samples by the added variable (e.g. batch). 
-3. Advanced: 
-  - Try making the heatmaps using all the genes in the count table, rather than sub-selecting. 
-  - Use [tsne package](https://cran.r-project.org/web/packages/tsne/tsne.pdf) to draw a t-SNE plot of the expression values. Color the points by sample group. Compare the results with the PCA plots. 
+1. Normalize the counts using the TPM approach. 
+2. Plot a heatmap of the top 500 most variable genes. Compare with the heatmap obtained using 100 most variable genes. [Difficulty: Beginner]
+3. Re-do the heatmaps setting `scale` argument to `none`, and `column`. Compare the results with `scale = 'row'`. [Difficulty: Beginner]
+4. Draw a correlation plot for the samples depicting the sample differences as 'ellipses', drawing only the upper end of the matrix, order samples by hierarchical clustering results based on `average` linkage clustering method. [Difficulty: Beginner]
+5. How else could the count matrix be subsetted to obtain quick and accurate clusters? Try selecting top 100 genes that have the highest total expression in all samples and re-draw the cluster heatmaps and PCA plots. [Difficulty: Intermediate]
+6. Add an additional column to the annotation data.frame object to annotate the samples and use the updated annotation data.frame to plot the heatmaps. (Hint: assign different batch values to CASE and CTRL samples). Make a PCA plot and color samples by the added variable (e.g. batch). [Difficulty: Intermediate]
+7. Try making the heatmaps using all the genes in the count table, rather than sub-selecting. [Difficulty: Advanced]
+8. Use [Rtsne package](https://cran.r-project.org/web/packages/Rtsne/Rtsne.pdf) to draw a t-SNE plot of the expression values. Color the points by sample group. Compare the results with the PCA plots. [Difficulty: Advanced]
 
 
 ### Differential expression analysis
@@ -847,17 +850,8 @@ counts_file <- system.file('extdata/rna-seq/SRP049988.raw_counts.tsv', package =
 colData_file <- system.file('extdata/rna-seq/SRP049988.colData.tsv', package = 'compGenomRData')
 ```
 
-1. Basic:
-
-- Run RUVSeq using multiple values of `k` from 1 to 10 and compare and contrast the PCA plots obtained from the normalized counts of each RUVSeq run. 
-
-2. Intermediate:
-
-- Re-run RUVSeq using the `RUVr` function. Compare PCA plots from `RUVs`, `RUVg` and `RUVr` using the same `k` values and find out which one performs the best. 
-
-- Do the necessary diagnostic plots using the differential expression results from the EHF count table. 
-
-3. Advanced: 
-
-- Use the `sva package` to discover sources of unwanted variation and re-do the differential expression analysis using variables from the output of `sva` and compare the results with DESeq2 results using RUVSeq corrected normalization counts. 
+1. Run RUVSeq using multiple values of `k` from 1 to 10 and compare and contrast the PCA plots obtained from the normalized counts of each RUVSeq run. [difficulty: Beginner]
+2. Re-run RUVSeq using the `RUVr` function. Compare PCA plots from `RUVs`, `RUVg` and `RUVr` using the same `k` values and find out which one performs the best. [difficulty: Intermediate]
+3. Do the necessary diagnostic plots using the differential expression results from the EHF count table. [difficulty: Intermediate]
+4. Use the `sva package` to discover sources of unwanted variation and re-do the differential expression analysis using variables from the output of `sva` and compare the results with DESeq2 results using RUVSeq corrected normalization counts. [difficulty: Advanced]
 

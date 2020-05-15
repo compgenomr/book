@@ -5,6 +5,7 @@ In this chapter, we will focus on using some of the machine learning techniques 
 knitr::opts_chunk$set(echo      = TRUE,
                       message   = FALSE, 
                       error     = FALSE,
+                      warning = FALSE,
                       cache     = TRUE,
                       out.width = "55%",
                       fig.width = 5,
@@ -20,7 +21,7 @@ Take the last question for example. We need to define a distance or similarity m
 
 ### Distance metrics
 
-The first required step for clustering is the distance metric. This is simply a measurement of how similar gene expressions to each other are. There are many options for distance metrics and the choice of the metric is quite important for clustering. Consider a simple example where we have four patients and expression of three genes measured. Which patients look similar to each other based on their gene expression profiles \index{gene expression}? 
+The first required step for clustering is the distance metric. This is simply a measurement of how similar gene expressions to each other are. There are many options for distance metrics and the choice of the metric is quite important for clustering. Consider a simple example where we have four patients and expression of three genes measured in Table \@ref(tab:expTable). Which patients look similar to each other based on their gene expression profiles \index{gene expression}? 
 
 ```{r expTable,echo=FALSE}
 df=data.frame(
@@ -36,7 +37,7 @@ knitr::kable(
 )
 ```
 
-It may not be obvious from the table at first sight but if we plot the gene expression profile for each patient, we will see that expression profiles of patient 1 and patient 2 is more similar to each other than patient 3 or patient 4. 
+It may not be obvious from the table at first sight but if we plot the gene expression profile for each patient (shown in Figure \@ref(fig:expPlot)), we will see that expression profiles of patient 1 and patient 2 is more similar to each other than patient 3 or patient 4. 
 
 ```{r expPlot,echo=FALSE,out.width='50%',fig.cap="Gene expression values for different patients. Certain patients have similar gene expression values to each other."}
 
@@ -75,7 +76,7 @@ scale(df)
 
 
 ### Hiearchical clustering
-This is one of the most ubiquitous clustering algorithms. Using this algorithm you can see the relationship of individual data points and relationships of clusters. This is achieved successively joining small clusters to each other based on the inter-cluster distance. Eventually, you get a tree structure or a dendrogram that shows the relationship between the individual data points and clusters. The height of the dendrogram is the distance between clusters. Here we can show how to use this on our toy data set from four patients. The base function in R to do hierarchical clustering in `hclust()`. Below, we apply that function on Euclidean distances between patients.\index{clustering!hierarchical clustering}
+This is one of the most ubiquitous clustering algorithms. Using this algorithm you can see the relationship of individual data points and relationships of clusters. This is achieved successively joining small clusters to each other based on the inter-cluster distance. Eventually, you get a tree structure or a dendrogram that shows the relationship between the individual data points and clusters. The height of the dendrogram is the distance between clusters. Here we can show how to use this on our toy data set from four patients. The base function in R to do hierarchical clustering in `hclust()`. Below, we apply that function on Euclidean distances between patients.The resulting clustering tree or dendrogram is shown in Figure \@ref(fig:expPlot).\index{clustering!hierarchical clustering}
 ```{r toyClust,fig.cap="Dendrogram of distance matrix",out.width='50%'}
 d=dist(df)
 hc=hclust(d,method="complete")
@@ -98,7 +99,7 @@ saveRDS(mat,"leukemiaExpression.rds")
 mat=readRDS("leukemiaExpressionSubset.rds")
 ```
 
-In real life, we would get expression profiles from thousands of genes and we will typically have many more patients than our toy example. One such data set is gene expression values from 60 bone marrow samples of patients with one of the four main types of leukemia (ALL, AML, CLL, CML) or no-leukemia controls. We trimmed that data set down to top 1000 most variable genes to be able to work with it easier and in addition genes that are not very variable do not contribute much to the distances between patients. We will now use this data set to cluster the patients and display the values as a heatmap and a dendrogram. The heatmap shows the expression values of genes across patients in a color coded manner. The heatmap function, `pheatmap()`, we will use performs the clustering as well. The matrix that contains gene expressions has the genes in the rows and the patients in the columns. Therefore, we will also use a column-side color code to mark the patients based on their leukemia type. For the hierarchical clustering, we will use Ward's method designated by `clustering_method` argument to `pheatmap()` function.\index{heatmap}
+In real life, we would get expression profiles from thousands of genes and we will typically have many more patients than our toy example. One such data set is gene expression values from 60 bone marrow samples of patients with one of the four main types of leukemia (ALL, AML, CLL, CML) or no-leukemia controls. We trimmed that data set down to top 1000 most variable genes to be able to work with it easier and in addition genes that are not very variable do not contribute much to the distances between patients. We will now use this data set to cluster the patients and display the values as a heatmap and a dendrogram. The heatmap shows the expression values of genes across patients in a color coded manner. The heatmap function, `pheatmap()`, we will use performs the clustering as well. The matrix that contains gene expressions has the genes in the rows and the patients in the columns. Therefore, we will also use a column-side color code to mark the patients based on their leukemia type. For the hierarchical clustering, we will use Ward's method designated by `clustering_method` argument to `pheatmap()` function. The resulting heatmap is shown in Figure \@ref(fig:heatmap1). \index{heatmap}
 
 ```{r heatmap1,eval=TRUE,out.width='50%',fig.cap="Heatmap of gene expression values from Leukemia patients. Each column represents a patient. Columns are clustered using gene expression and color coded by disease type:ALL, AML, CLL, CML or no-leukemia "}
 library(pheatmap)
@@ -121,7 +122,7 @@ pheatmap(mat,show_rownames=FALSE,show_colnames=FALSE,
 As we can observe in the heatmap each cluster has a distinct set of expression values. The main clusters almost perfectly distinguish the leukemia types. Only one CML patient is clustered as a non-leukemia sample. This could mean that gene expression profiles are enough to classify leukemia type. More detailed analysis and experiments are needed to verify that but by looking at this exploratory analysis we can decide where to focus our efforts next.
 
 #### where to cut the tree ?
-The example above seems like a clear cut example where we can pick by eye clusters from the dendrogram. This is mostly due to the Ward's method where compact clusters are preferred. However, as it is usually the case we do not have patient labels and it would be difficult to tell which leaves (patients) in the dendrogram we should consider as part of the same cluster. In other words, how deep we should cut the dendrogram so that every patient sample still connected via the remaining sub-dendrograms constitute clusters. The `cutree()` function provides the functionality to output either desired number of clusters or clusters obtained from cutting the dendrogram at a certain height. Below, we will cluster the patients with hierarchical clustering using the default method "complete linkage" and cut the dendrogram at a certain height. In this case, you will also observe that, changing from Ward's distance to complete linkage had an effect on clustering. Now two clusters that are defined by Ward's distance are closer to each other and harder to separate from each other.
+The example above seems like a clear cut example where we can pick by eye clusters from the dendrogram. This is mostly due to the Ward's method where compact clusters are preferred. However, as it is usually the case we do not have patient labels and it would be difficult to tell which leaves (patients) in the dendrogram we should consider as part of the same cluster. In other words, how deep we should cut the dendrogram so that every patient sample still connected via the remaining sub-dendrograms constitute clusters. The `cutree()` function provides the functionality to output either desired number of clusters or clusters obtained from cutting the dendrogram at a certain height. Below, we will cluster the patients with hierarchical clustering using the default method "complete linkage" and cut the dendrogram at a certain height. In this case, you will also observe that, changing from Ward's distance to complete linkage had an effect on clustering. Now the two clusters that are defined by Ward's distance are closer to each other and harder to separate from each other, shown in Figure \@ref(fig:hclustNcut).
 ```{r hclustNcut,out.width='50%',fig.cap="Dendrogram of Leukemia patients clustered by hieararchical clustering. Rectangles show the cluster we will get if we cut the tree at `height=80`"}
 hcl=hclust(dist(t(mat)))
 plot(hcl,labels = FALSE, hang= -1)
@@ -174,7 +175,7 @@ type2kmclu = data.frame(
 table(type2kmclu)
 ```
 
-We can not visualize the clustering from partitioning methods with a tree like we did for hierarchical clustering. Even if we can get the distances between patients the algorithm does not return the distances between clusters out of the box. However, if we had a way to visualize the distances between patients in 2 dimensions we could see the how patients and clusters relate each other. It turns out, that there is a way to compress between patient distances to a 2-dimensional plot. There are many ways to do this and we introduce these dimension reduction methods including the one we will use now later in this chapter. For now, we are going to use a method called "multi-dimensional scaling" and plot the patients in a 2D plot color coded by their cluster assignments. We will explain this method in more detail at [Multi-dimensional scaling] section below.
+We can not visualize the clustering from partitioning methods with a tree like we did for hierarchical clustering. Even if we can get the distances between patients the algorithm does not return the distances between clusters out of the box. However, if we had a way to visualize the distances between patients in 2 dimensions we could see the how patients and clusters relate each other. It turns out, that there is a way to compress between patient distances to a 2-dimensional plot. There are many ways to do this and we introduce these dimension reduction methods including the one we will use now later in this chapter. For now, we are going to use a method called "multi-dimensional scaling" and plot the patients in a 2D plot color coded by their cluster assignments shown in Figure \@ref(fig:kmeansmds). We will explain this method in more detail at [Multi-dimensional scaling] section below.
 
 ```{r, kmeansmds,out.width='50%',fig.cap="K-means cluster memberships are shown in multi-dimensional scaling plot"}
 # Calculate distances
@@ -197,11 +198,11 @@ The plot we obtained shows the separation between clusters. However, it does not
 
 ### how to choose "k", the number of clusters
 Up to this point, we have avoided the question of selecting optimal number clusters. How do we know where to cut our dendrogram or which k to choose ? 
-First of all, this is a difficult question. Usually, clusters have different granularity. Some clusters are tight and compact and some are wide,and both these types of clusters can be in the same data set. When visualized, some large clusters may look like they may have sub-clusters. So should we consider the large cluster as one cluster or should we consider the sub-clusters as individual clusters ? There are some metrics to help but there is no definite answer. We will show a couple of them below.
+First of all, this is a difficult question. Usually, clusters have different granularity. Some clusters are tight and compact and some are wide,and both these types of clusters can be in the same data set. When visualized, some large clusters may look like they may have sub-clusters. So should we consider the large cluster as one cluster or should we consider the sub-clusters as individual clusters? There are some metrics to help but there is no definite answer. We will show a couple of them below.
 
 #### Silhouhette 
 One way to determine how well the clustering is to measure the expected self-similar nature of the points in a set of clusters. The silhouette value does just that and it is a measure of how similar a data point is to its own cluster  compared to other clusters [@rousseeuw1987silhouettes]. The silhouette value ranges from -1 to +1, where values that are positive indicates that the data point is well matched to its own cluster, if the value is zero it is a borderline case and if the value is minus it means that the data point might be mis-clustered because it is more similar to a neighboring cluster. If most data points have a high value, then the clustering is appropriate. Ideally, one can create many different clusterings with different parameters such as $k$,number of clusters and assess their appropriateness using the average 
-silhouette values. In R, silhouette values are referred to as silhouette widths in the documentation.\index{Silhouhette}
+silhouette values. In R, silhouette values are referred to as silhouette widths in the documentation.\index{silhouhette}
 
 A silhouette value is calculated for each data point. In our working example, each patient will get silhouette values showing how well they are matched to their assigned clusters. Formally this calculated as follows. For each data point $i$, we calculate ${\displaystyle a(i)}$, which denotes the average distance between $i$ and all other data points within the same cluster. This shows how well the point fits into that cluster. For the same data point, we also calculate ${\displaystyle b(i)}$ b(i) denotes the lowest average distance of ${\displaystyle i}$ to all points in any other cluster, of which ${\displaystyle i}$ is not a member. The cluster with this lowest average $b(i)$ is the "neighboring cluster" of data point ${\displaystyle i}$ since it is the next best fit cluster for that data point. Then, the silhouette value for a given data point is: 
 
@@ -209,14 +210,14 @@ $s(i) = \frac{b(i) - a(i)}{\max\{a(i),b(i)\}}$
 
 As described, this quantity is positive when $b(i)$ is high and $a(i)$ is low, meaning that the data point $i$ is self-similar to its cluster. And the silhouette value, $s(i)$, is negative if it is more similar to its neighbors than its assigned cluster. 
 
-In R, we can calculate silhouette values using `cluster::silhouette()` function. Below, we calculate the silhouette values for k-medoids clustering with `pam()` function with `k=5`.
+In R, we can calculate silhouette values using `cluster::silhouette()` function. Below, we calculate the silhouette values for k-medoids clustering with `pam()` function with `k=5`. The resulting silhouette values are shown in Figure \@ref(fig:sill).
 ```{r sill,out.width='50%',fig.cap="Silhouette values for k-medoids with `k=5`"}
 library(cluster)
 set.seed(101)
 pamclu=cluster::pam(t(mat),k=5)
 plot(silhouette(pamclu),main=NULL)
 ```
-Now, let us calculate average silhouette value different $k$ values and compare. We will use `sapply()` function to get average silhouette values across $k$ values between 2 and 7. Within `sapply()` there is an anonymous function that that does the clustering and calculates average silhouette values for each $k$.
+Now, let us calculate average silhouette value different $k$ values and compare. We will use `sapply()` function to get average silhouette values across $k$ values between 2 and 7. Within `sapply()` there is an anonymous function that that does the clustering and calculates average silhouette values for each $k$. The plot showing average  silhouette values for different $k$ values is shown in Figure \@ref(fig:sillav).
 ```{r sillav,out.width='40%',fig.cap="Average silhouette values for k-medoids clustering for `k` values between 2 and 7"}
 
 Ks=sapply(2:7,
@@ -235,7 +236,7 @@ $\displaystyle W_k = \sum_{k=1}^K \sum_{\mathrm{x}_i \in C_k} (\mathrm{x}_i - \m
 Where $\mathrm{x}_i$ is data point in cluster $k$, and $\mu_k$ is the cluster mean, and $W_k$ is the total within-cluster variation quantity we described. However, the problem is that the variation quantity decreases with number of clusters. The more centroids we have, the smaller the distances to the centroids get. A more reliable approach would be somehow calculating the expected variation from a reference null distribution and compare that to the observed variation for each $k$. In gap statistic approach, the expected distribution is calculated via sampling points from the boundaries of the original data and calculating within-cluster variation quantity for multiple rounds of sampling [@tibshirani2001estimating]. This way we have an expectation about the variability when there is no clustering, and then compare that expected variation to the observed within-cluster variation. The expected variation should also go down with increasing number of clusters, but for the optimal number of clusters the expected variation will be furthest away from observed variation. This distance is called the **"gap statistic"** and defined as follows:
 $\displaystyle \mathrm{Gap}_n(k) = E_n^*\{\log W_k\} - \log W_k$, where $E_n^*\{\log W_k\}$ is the expected variation in log-scale under a sample size $n$ from the reference distribution and $\log W_k$ is the observed variation. Our aim is choose the $k$, number of clusters, that maximizes $\mathrm{Gap}_n(k)$.
 
-We can easily calculate the gap statistic with `cluster::clusGap()` function. We will now use that function to calculate the gap statistic for our patient gene expression data.
+We can easily calculate the gap statistic with `cluster::clusGap()` function. We will now use that function to calculate the gap statistic for our patient gene expression data. The resulting gap statistics are shown in Figure \@ref(fig:clusGap).
 ```{r clusGap,out.width='50%',fig.cap="Gap Statistic for clustering leukemia dataset with k-medoids (pam) algorithm"}
 library(cluster)
 set.seed(101)
@@ -278,7 +279,7 @@ However, the readers should keep in mind that clustering is an exploratory techn
 In statistics, dimension reduction techniques are a set of processes for reducing the number of random variables by obtaining a set of principal variables. For example, in the context of a gene expression matrix across different patient samples, this might mean getting a set of new variables that cover the variation in sets of genes. This way samples can be represented by a couple of principal variables instead of thousands of genes. This is useful for visualization, clustering and predictive modeling.\index{dimensionality reduction}
 
 ### Principal component analysis 
-Principal component analysis (PCA)\index{principal component analysis (PCA)} is maybe the most popular technique to examine high-dimensional data. There are multiple interpretations of how PCA reduces dimensionality. We will first focus on geometrical interpretation, where this operation can be interpreted as rotating the original dimensions of the data. For this, we go back to our example gene expression data set. In this example, we will represent our patients with expression profiles of just two genes, CD33 (ENSG00000105383) and PYGL (ENSG00000100504) genes. This way we can visualize them in a scatterplot. 
+Principal component analysis (PCA)\index{principal component analysis (PCA)} is maybe the most popular technique to examine high-dimensional data. There are multiple interpretations of how PCA reduces dimensionality. We will first focus on geometrical interpretation, where this operation can be interpreted as rotating the original dimensions of the data. For this, we go back to our example gene expression data set. In this example, we will represent our patients with expression profiles of just two genes, CD33 (ENSG00000105383) and PYGL (ENSG00000100504) genes. This way we can visualize them in a scatterplot (See Figure \@ref(fig:scatterb4PCA)). 
 ```{r scatterb4PCA,out.width='60%',fig.width=5.5, fig.cap="Gene expression values of CD33 and PYGL genes across leukemia patients."}
 plot(mat[rownames(mat)=="ENSG00000100504",],
      mat[rownames(mat)=="ENSG00000105383",],pch=19,
@@ -286,7 +287,7 @@ plot(mat[rownames(mat)=="ENSG00000100504",],
      xlab="PYGL (ENSG00000100504)")
 
 ```
-PCA rotates the original data space such that the axes of the new coordinate system point into the directions of highest variance of the data. The axes or new variables are termed principal components (PCs) and are ordered by variance: The first component, PC 1, represents the direction of the highest variance of the data. The direction of the second component, PC 2, represents the highest of the remaining variance orthogonal to the first component. This can be naturally extended to obtain the required number of components which together span a component space covering the desired amount of variance. In our toy example with only two genes, the principal components are drawn over the original scatter plot and in the next plot we show the new coordinate system based on the principal components. We will calculate the PCA with the `princomp()` function, this function returns the new coordinates as well. These new coordinates are simply a projection of data over the new coordinates. We will decorate the scatter plots with eigenvectors showing the direction of greatest variation. Then, we will plot the new coordinates. These are automatically calculated by `princomp()` function. Notice that we are using the `scale()` function when plotting coordinates and also before calculating PCA. This function centers the data, meaning subtracts the mean of the each column vector from the elements in the vector. This essentially gives the columns a zero mean. It also divides the data by the standard deviation of the centered columns. These two operations helps bring the data to a common scale which is important for PCA not to be affected by different scales in the data.
+PCA rotates the original data space such that the axes of the new coordinate system point into the directions of highest variance of the data. The axes or new variables are termed principal components (PCs) and are ordered by variance: The first component, PC 1, represents the direction of the highest variance of the data. The direction of the second component, PC 2, represents the highest of the remaining variance orthogonal to the first component. This can be naturally extended to obtain the required number of components which together span a component space covering the desired amount of variance. In our toy example with only two genes, the principal components are drawn over the original scatter plot and in the next plot we show the new coordinate system based on the principal components. We will calculate the PCA with the `princomp()` function, this function returns the new coordinates as well. These new coordinates are simply a projection of data over the new coordinates. We will decorate the scatter plots with eigenvectors showing the direction of greatest variation. Then, we will plot the new coordinates (The resulting plot is shown in Figure \@ref(fig:pcaRot)). These are automatically calculated by `princomp()` function. Notice that we are using the `scale()` function when plotting coordinates and also before calculating PCA. This function centers the data, meaning subtracts the mean of the each column vector from the elements in the vector. This essentially gives the columns a zero mean. It also divides the data by the standard deviation of the centered columns. These two operations helps bring the data to a common scale which is important for PCA not to be affected by different scales in the data.
 ```{r pcaRot,out.width='60%',fig.width=8.5,fig.cap="Geometric interpretation of PCA finding eigenvectors that point to direction of highest variance. Eigenvectors can be used as a new coordinate system."}
 par(mfrow=c(1,2))
 
@@ -396,7 +397,7 @@ knitr::include_graphics("images/ICAcartoon.png")
 ```
 
 
-ICA requires that the columns of $S$ matrix, the "metagenes" in our example above to be statistical independent. This is a stronger constraint than uncorrelatedness. In this case, there should be no relationship between non-linear transformation of the data either. There are different ways of ensuring this statistical indepedence and this is the main constraint when finding the optimal $A$ and $S$ matrices. The various ICA algorithms use different proxies for statistical independence, and the definition of that proxy is the main difference between many ICA algorithms. The algorithm we are going to use requires that metagenes or sources in the $S$ matrix are non-gaussian (non-normal) as possible. Non-gaussianity is shown to be related to statistical independence [@hyvarinen2013independent]. Below, we are using `fastICA::fastICA()` function to extract 2 components and plot the rows of matrix $A$ which represents metagenes. This way, we can visualize samples in a 2D plot. If we wanted to plot the relationship between genes we would use the the columns of matrix $S$.
+ICA requires that the columns of $S$ matrix, the "metagenes" in our example above to be statistical independent. This is a stronger constraint than uncorrelatedness. In this case, there should be no relationship between non-linear transformation of the data either. There are different ways of ensuring this statistical indepedence and this is the main constraint when finding the optimal $A$ and $S$ matrices. The various ICA algorithms use different proxies for statistical independence, and the definition of that proxy is the main difference between many ICA algorithms. The algorithm we are going to use requires that metagenes or sources in the $S$ matrix are non-gaussian (non-normal) as possible. Non-gaussianity is shown to be related to statistical independence [@hyvarinen2013independent]. Below, we are using `fastICA::fastICA()` function to extract 2 components and plot the rows of matrix $A$ which represents metagenes shown in Figure \@ref(fig:fastICAex). This way, we can visualize samples in a 2D plot. If we wanted to plot the relationship between genes we would use the the columns of matrix $S$.
 ```{r fastICAex, out.width='50%',fig.width=5,fig.cap="Leukemia gene expression values per patient on reduced dimensions by ICA."}
 library(fastICA)
 ica.res=fastICA(t(mat),n.comp=2) # apply ICA
@@ -417,7 +418,7 @@ knitr::include_graphics("images/NMFcartoon.png")
 The algorithms that compute NMF tries to minimize the cost function $D(X,WH)$, which is the distance between $X$ and $WH$. The early algorithms just use the euclidean distance which translates to $\sum(X-WH)^2$, this is also known as Frobenious norm and you will see in the literature it is written as :$\||V-WH||_{F}$
 However this is not the only distance metric, other distance metrics are also used in NMF algorithms. In addition, there could be other parameters to optimize that relates to sparseness of the $W$ and $H$ matrices. With sparse $W$ and $H$, each entry in the $X$ matrix is expressed as the sum of a small number of components. This makes the interpretation easier, if the weights are 0 than there is not contribution from the corresponding factors.
 
-Below, we are plotting the values of metagenes (rows of $H$) for component 1 and 3. In this context, these values can also be interpreted as relationship between samples. If we wanted to plot the relationship between genes we would plot the columns of $W$ matrix.
+Below, we are plotting the values of metagenes (rows of $H$) for component 1 and 3, shown in Figure \@ref(fig:nmfCode). In this context, these values can also be interpreted as relationship between samples. If we wanted to plot the relationship between genes we would plot the columns of $W$ matrix.
 ```{r nmfCode,out.width='60%',fig.width=5,fig.cap="Leukemia gene expression values per patient on reduced dimensions by NMF. Components 1 and 3 is used for the plot."}
 library(NMF)
 res=nmf(mat,rank=3,seed="nndsvd") # nmf with 3 components/factors
@@ -479,7 +480,7 @@ plot(isomds$points,pch=19,col=annotation_col$LeukemiaType,
      main="isotonic MDS")
 
 ```
-In this example, there is not much difference between isotonic MDS and classical MDS. However, there might be cases where different MDS methods provides visible changes in the scatter plots.
+The resulting plot is shown in Figure \@ref(fig:mds2). In this example, there is not much difference between isotonic MDS and classical MDS. However, there might be cases where different MDS methods provides visible changes in the scatter plots.
 
 
 ### t-Distributed Stochastic Neighbor Embedding (t-SNE) 
@@ -509,7 +510,7 @@ $$
 Strictly speaking, KL-divergence measures how well the distribution $P$ which is observed using the original data points can be approximated by distribution $Q$, which is modeled using points on the lower dimension. If the distributions are identical KL-divergence would be 0. Naturally, the more divergent the distributions are the higher the KL-divergence will be.
 
 
-We will now show how to use t-SNE on our gene expression data set using `Rtsne` package \index{R Packages!\texttt{Rtsne}}. We are setting the random seed because again t-SNE optimization algorithm have random starting points and this might create non-identical results in every run. After calculating the t-SNE lower dimension embeddings we will plot the points in a 2D scatter plot.
+We will now show how to use t-SNE on our gene expression data set using `Rtsne` package \index{R Packages!\texttt{Rtsne}}. We are setting the random seed because again t-SNE optimization algorithm have random starting points and this might create non-identical results in every run. After calculating the t-SNE lower dimension embeddings we plot the points in a 2D scatter plot, shown in Figure \@ref(fig:tsne).
 ```{r tsne,eval=TRUE, out.width='60%',fig.width=5, fig.cap="t-SNE of leukemia expression dataset"}
 library("Rtsne")
 set.seed(42) # Set a seed if you want reproducible results

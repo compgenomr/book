@@ -10,6 +10,9 @@ knitr::opts_chunk$set(echo      = TRUE,
                       fig.width = 5,
                       fig.align = 'center')
 ```
+Chapter Author: Vedran Franke
+
+
 
 Protein-DNA interactions are responsible for a large part of the gene expression regulation. Proteins such as transcription factors as well as histones are directly related to how much and in which contexts the genes are expressed. Some of these concepts are already introduced in Chapter \@ref(intro) if readers need a more in depth introduction. In this chapter, we will introduce how to process and analyze ChIP-seq data in order to identify genome-wide protein binding sites and to discover underlying sequence context via transcription factor binding-site motifs.
 
@@ -875,7 +878,7 @@ The boolean vector contains the information of which genomic positions
 contained the DNA fragment ends.
 
 Similarity between two boolean vectors can be promptly computed  using the Jaccard index.
-Jaccard index is defined as an intersection between two boolean vectors, divided by their union as shown in Figure @\ref(fig:FigureJaccardSimilarity).
+Jaccard index is defined as an intersection between two boolean vectors, divided by their union as shown in Figure \@ref(fig:FigureJaccardSimilarity).
 
 ```{r, FigureJaccardSimilarity, echo=FALSE,fig.align = 'center', fig.cap="Jaccard similarity is defined as the ratio of the intersection and union of two sets."}
 knitr::include_graphics('./Figures/Jaccard.png')
@@ -2598,19 +2601,19 @@ Markov models [@ernst_2012,@hoffman_2012]), or machine learning algorithms [@mor
 
 ## Exercises:
 
-### Basic
+### 
 
 #### Quality control:
         
-1. Apply the fragment size estimation procedure to all ChIP and Input available data sets
+1. Apply the fragment size estimation procedure to all ChIP and Input available data sets [Difficulty: Beginner]
 
-2. Visualize the resulting distributions. 
+2. Visualize the resulting distributions. [Difficulty: Beginner]
 
-3. How does the Input sample distribution differ from the ChIP samples?
+3. How does the Input sample distribution differ from the ChIP samples? [Difficulty: Beginner]
 
 #### Genome Browser:
 
-1. Write a function which converts the bam files into bigWig files.
+1. Write a function which converts the bam files into bigWig files. [Difficulty: Beginner]
 
 2. Apply the function to all files, and visualize them in the Genome browser.
 Observe the signal profiles, what can you notice, about the similarity of the samples?
