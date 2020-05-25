@@ -1,14 +1,10 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
+
 ```{r setup_rnaseq, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,message   = FALSE, 
                       warning = FALSE,
                       error     = FALSE,
-                      cache     = TRUE, out.width = "90%",
-                      fig.width = 8, fig.align = 'center')
+                      cache     = TRUE, out.width = "50%",
+                      fig.width = 5, fig.align = 'center')
 suppressMessages(suppressWarnings(library(DESeq2)))
 suppressMessages(suppressWarnings(library(RUVSeq)))
 suppressMessages(suppressWarnings(library(gProfileR)))
@@ -21,7 +17,7 @@ suppressMessages(suppressWarnings(library(gage)))
 
 # RNA-seq Analysis {#rnaseqanalysis}
 
-**Chapter Author: Bora Uyar**
+*Chapter Author*: **Bora Uyar**
 
 RNA sequencing (RNA-seq) has proven as a revolutionary tool since the time it has been introduced. The throughput, accuracy, and resolution of data produced with RNA-seq has been instrumental in the study of transcriptomics in the last decade [@wang_rna-seq:_2009]. There is a variety of applications of transcriptome sequencing and each application may consist of different chains of tools each with many alternatives [@conesa_survey_2016]. In this chapter, we are going to demonstrate a common workflow of how to do differential expression analysis with downstream applications such as GO term and gene set enrichment analysis. We assume that the sequencing data was generated using one of the NGS sequencing platforms. Where applicable, we will try to provide alternatives to the reader in terms of both the tools to carry out a demonstrated analysis and also the other applications of the same sequencing data depending on the different biological questions. 
 
@@ -48,7 +44,7 @@ The first step in any experiment that involves high-throughput short-read sequen
 
 #### Improving the quality 
 
-The second step in the RNA-seq analysis workflow is to improve the quality of the input reads. This step could be regarded as an optional step when the sequencing quality is very good. However, even with the highest quality sequencing datasets, this step may still improve the quality of the input sequences. The most common technical artifacts that can be filtered out are the adapter sequences that contaminate the sequenced reads, and the low quality bases that are usually found at the ends of the sequences. Commonly used tools in the field (trimmomatic [@bolger_trimmomatic:_2014], trimGalore [@noauthor_babraham_nodate-1]) are again not written in R, however there are alternative R libraries for carrying out the same functionality, for instance, QuasR [@gaidatzis_quasr:_2015] (see `QuasR::preprocessReads` function) and ShortRead [@morgan_shortread:_2009] (see `ShortRead::filterFastq` function). Some of these approaches are introduced in Chapter \@ref(processingReads).
+The second step in the RNA-seq analysis workflow is to improve the quality of the input reads. This step could be regarded as an optional step when the sequencing quality is very good. However, even with the highest quality sequencing datasets, this step may still improve the quality of the input sequences. The most common technical artifacts that can be filtered out are the adapter sequences that contaminate the sequenced reads, and the low quality bases that are usually found at the ends of the sequences. Commonly used tools in the field (trimmomatic [@bolger_trimmomatic:_2014], trimGalore [@noauthor_babraham_nodate]) are again not written in R, however there are alternative R libraries for carrying out the same functionality, for instance, QuasR [@gaidatzis_quasr:_2015] (see `QuasR::preprocessReads` function) and ShortRead [@morgan_shortread:_2009] (see `ShortRead::filterFastq` function). Some of these approaches are introduced in Chapter \@ref(processingReads).
 
 The sequencing quality control and read pre-processing steps can be visited multiple times until achieving a satisfactory level of quality in the sequence data before moving onto the dowstream analysis steps. 
 
@@ -176,7 +172,7 @@ A typical quality control, in this case interrogating the RNA-seq experiment des
   
 #### Clustering
 
-We can combine clustering and visualization of the clustering results by using heatmap functions that are available in a variety of R libraries. The basic R installation comes with the `stats::heatmap` function. However, there are other libraries available in CRAN (e.g. pheatmap [@pheatmap]) or Bioconductor (e.g. ComplexHeatmap [@gu_complex_2016]) that come with more flexibility and more appealing visualisations. 
+We can combine clustering and visualization of the clustering results by using heatmap functions that are available in a variety of R libraries. The basic R installation comes with the `stats::heatmap` function. However, there are other libraries available in CRAN (e.g. `pheatmap` [@pheatmap]) or Bioconductor (e.g. `ComplexHeatmap` [@gu_complex_2016]) that come with more flexibility and more appealing visualisations. 
 
 Here we demonstrate a heatmap using `pheatmap` package and the previously calculated `tpm` matrix. 
 As these matrices can be quite large, both computing the clustering and rendering the heatmaps can take a lot of resources and time. Therefore, a quick and informative way to compare samples is to select a subset of genes that are, for instance, most variable across samples, and use that subset to do the clustering and visualization. 
@@ -191,18 +187,18 @@ V <- apply(tpm, 1, var)
 selectedGenes <- names(V[order(V, decreasing = T)][1:100])
 ```
 
-Now we can quickly produce a heatmap where samples and genes are clustered (See Figure \@ref(fig:tpm_hier_clust_1)).
+Now we can quickly produce a heatmap where samples and genes are clustered (See Figure \@ref(fig:tpmhierClust1) ).
 
-```{r tpm_hier_clust_1, fig.cap='Clustering and visualisation of top most variable genes as a heatmap'}
+```{r tpmhierClust1, fig.cap="Clustering and visualisation of top most variable genes as a heatmap",out.width = "50%"}
 library(pheatmap)
 pheatmap(tpm[selectedGenes,], scale = 'row', show_rownames = FALSE)
 ```
 
 We can also overlay some annotation tracks to observe the clusters. 
-Here it is important to observe whether the replicates of the same sample cluster most closely with each other, or not. Overlaying the heatmap with such annotation and displaying sample groups with distinct colors helps quickly see if there are samples that don't cluster as expected (See Figure \@ref(fig:tpm_hier_clust_2)).  
+Here it is important to observe whether the replicates of the same sample cluster most closely with each other, or not. Overlaying the heatmap with such annotation and displaying sample groups with distinct colors helps quickly see if there are samples that don't cluster as expected (See Figure \@ref(fig:tpmhierclust2) ).  
 
 
-```{r tpm_hier_clust_2, fig.cap='Clustering samples as a heatmap with sample annotations'}
+```{r tpmhierclust2, fig.cap='Clustering samples as a heatmap with sample annotations',out.width = "60%"}
 colData <- read.table(coldata_file, header = T, sep = '\t', 
                       stringsAsFactors = TRUE)
 pheatmap(tpm[selectedGenes,], scale = 'row', 
@@ -212,9 +208,9 @@ pheatmap(tpm[selectedGenes,], scale = 'row',
 
 #### PCA
 
-Let's make a PCA plot to see the clustering of replicates as a scatter plot in two dimensions (Figure \@ref(fig:pca_1)). 
+Let's make a PCA plot to see the clustering of replicates as a scatter plot in two dimensions (Figure \@ref(fig:pca1)). 
 
-```{r pca_1, fig.cap='PCA plot of samples using TPM counts'}
+```{r pca1, fig.cap='PCA plot of samples using TPM counts'}
 library(stats)
 library(ggplot2)
 #transpose the matrix 
@@ -248,21 +244,21 @@ library(stats)
 correlationMatrix <- cor(tpm)
 ```
 
-Let's have a look at how the correlation matrix looks (\@ref(tab:corrplot_2))
+Let's have a look at how the correlation matrix looks (\@ref(tab:corrplot2))
 (showing only two samples each of case and control samples):
 
-```{r corrplot_2, echo=FALSE}
+```{r corrplot2, echo=FALSE}
 library(knitr)
 samples <- c('CASE_1', 'CASE_2', 'CTRL_1', 'CTRL_2')
 kable(correlationMatrix[samples,samples], 
       booktabs = TRUE,  caption = "Correlation scores between samples")
 ```
 
-We can also draw more visually appealing correlation plots using the `corrplot` package (Figure \@ref(corrplot_3)). 
+We can also draw more visually appealing correlation plots using the `corrplot` package (Figure \@ref(fig:corrplot3)). 
 Using `addrect` argument, we can split clusters into groups and surround them with rectangles. 
 By setting the `addCoef.col` argument to 'white', we can display the correlation coefficients as numbers in white color. 
 
-```{r corrplot_3, fig.cap='Correlation plot of samples ordered by hierarchical clustering'}
+```{r corrplot3, fig.cap='Correlation plot of samples ordered by hierarchical clustering'}
 library(corrplot)
 corrplot(correlationMatrix, order = 'hclust', 
          addrect = 2, addCoef.col = 'white', 
@@ -272,11 +268,11 @@ corrplot(correlationMatrix, order = 'hclust',
 
 Here pairwise correlation levels are visualized as colored circles. `Blue` indicates positive correlation, while `Red` indicates negative correlation. 
 
-We could also plot this correlation matrix as a heatmap (Figure \@ref(fig:corrplot_4)). As all the samples have a high pairwise 
+We could also plot this correlation matrix as a heatmap (Figure \@ref(fig:corrplot4)). As all the samples have a high pairwise 
 correlation score, using a heatmap instead of a corrplot helps to see the differences between samples more easily. 
 `annotation_col` argument helps to display sample annotations and `cutree_cols` argument is set to 2 to split the clusters into two groups based on the hierarchical clustering results. 
 
-```{r corrplot_4, fig.cap='Pairwise correlation of samples displayed as a heatmap'}
+```{r corrplot4,fig.width=8, fig.cap='Pairwise correlation of samples displayed as a heatmap'}
 library(pheatmap)
 # split the clusters into two based on the clustering similarity 
 pheatmap(correlationMatrix,  
@@ -287,11 +283,11 @@ pheatmap(correlationMatrix,
 
 ### Differential expression analysis
 
-Differential expression analysis allows to test tens of thousands of hypotheses (one test for each gene) against the null hypothesis that the activity of the gene stays the same in two different conditions. There are multiple limiting factors that influence the power of detecting genes that have real changes between two biological conditions. Among these are the limited number of biological replicates, non-normality of the distribution of the read counts, and higher uncertainty of measurements for lowly expressed genes than highly expressed genes [@love_moderated_2014]. Tools such as edgeR and DESeq2 address these limitations using sophisticated statistical models in order to maximize the amount of knowledge that can be extracted from such noisy datasets.   
-DESeq2: 
+Differential expression analysis allows to test tens of thousands of hypotheses (one test for each gene) against the null hypothesis that the activity of the gene stays the same in two different conditions. There are multiple limiting factors that influence the power of detecting genes that have real changes between two biological conditions. Among these are the limited number of biological replicates, non-normality of the distribution of the read counts, and higher uncertainty of measurements for lowly expressed genes than highly expressed genes [@love_moderated_2014]. Tools such as `edgeR` and `DESeq2` address these limitations using sophisticated statistical models in order to maximize the amount of knowledge that can be extracted from such noisy datasets.   
+`DESeq2`workflow: 
 
 1. Normalizes the read counts by computing size factors, which addresses the differences not only in the library sizes, but also the library compositions. 
-2. For each gene, estimates the dispersion value of the gene among the biological replicates. The dispersion value computed by DESeq2 is equal to the squared coefficient of variation (variation divided by the mean).  
+2. For each gene, estimates the dispersion value of the gene among the biological replicates. The dispersion value computed by `DESeq2` is equal to the squared coefficient of variation (variation divided by the mean).  
 3. A line is fitted across the dispersion estimates of all genes computed in 2) versus the mean normalized counts of the genes. 
 4. Dispersion values of each gene is shrunken towards the fitted line in 3). 
 5. A Generalized Linear Model is fitted which considers additional confounding variables related to the experimental design such as sequencing batches, treatment, temperature, patient's age, sequencing technology etc. 
@@ -315,7 +311,7 @@ colData <- read.table(coldata_file, header = T, sep = '\t', stringsAsFactors = T
 designFormula <- "~ group"
 ```
 
-Now, we are ready to run DESeq2. 
+Now, we are ready to run `DESeq2`. 
 
 ```{r deseq_setup_2}
 library(DESeq2)
@@ -337,7 +333,7 @@ Remove genes that have almost no information in any of the given samples.
 dds <- dds[ rowSums(DESeq2::counts(dds)) > 1, ]
 ```
 
-Now, we can use the `DESeq` function of `DESeq2`, which is a wrapper function that implements estimation of size factors to normalize the counts, estimation of dispersion values, and computing a GLM model based on the experimental design formula. This function returns a `DESeqDataSet` object, which is an updated version of the `dds` variable that we pass to the function as input. 
+Now, we can use the `DESeq()` function of `DESeq2`, which is a wrapper function that implements estimation of size factors to normalize the counts, estimation of dispersion values, and computing a GLM model based on the experimental design formula. This function returns a `DESeqDataSet` object, which is an updated version of the `dds` variable that we pass to the function as input. 
 ```{r deseq_run}
 dds <- DESeq(dds)
 ```
@@ -369,30 +365,30 @@ The first three lines in this output shows the contrast and the statistical test
 
 At this point, before proceeding to do any downstream analysis and jumping to conclusions about the biological insights that are reachable with the experimental data at hand, it is important to do some more diagnostic tests to improve our confidence about the quality of the data and the experimental setup. 
 
-An MA plot is useful to observe if the data normalisation worked well (Figure \@ref(fig:DE_ma_plot)). MA plot is a scatterplot where x axis denotes the average of normalized counts across samples and the y axis denotes the log fold change in the given contrast. Most points are expected to be on the horizontal 0 line (most genes are expected to be not differentially expressed).
+An MA plot is useful to observe if the data normalisation worked well (Figure \@ref(fig:DEmaplot)). MA plot is a scatterplot where x axis denotes the average of normalized counts across samples and the y axis denotes the log fold change in the given contrast. Most points are expected to be on the horizontal 0 line (most genes are expected to be not differentially expressed).
 
 ##### MA plot
 
-```{r DE_ma_plot, fig.cap='MA plot of differential expression results'}
+```{r DEmaplot, fig.cap='MA plot of differential expression results'}
 library(DESeq2)
 DESeq2::plotMA(object = dds, ylim = c(-5, 5))
 ```
 
-It is also important to observe the distribution of raw p-values (Figure \@ref(fig:DE_pval_dist)). We expect to see a peak around low p-values and a uniform distribution at p-values above 0.1. Otherwise, adjustment for multiple testing does not work and the results are not meaningful.
+It is also important to observe the distribution of raw p-values (Figure \@ref(fig:DEpvaldist)). We expect to see a peak around low p-values and a uniform distribution at P-values above 0.1. Otherwise, adjustment for multiple testing does not work and the results are not meaningful.
 
 ##### p-value distribution
 
-```{r DE_pval_dist, fig.cap='p-value distribution genes before adjusting for multiple-testing'}
+```{r DEpvaldist, fig.cap='p-value distribution genes before adjusting for multiple-testing'}
 library(ggplot2)
 ggplot(data = as.data.frame(DEresults), aes(x = pvalue)) + 
   geom_histogram(bins = 100)
 ```
 
-A final diagnosis is to check the biological reproducibility of the sample replicates in a PCA plot or a heatmap. To plot the PCA results, we need to extract the normalized counts from the DESeqDataSet object. It is possible to color the points in the scatterplot by the variable of interest, which helps to see if the replicates cluster well (Figure \@ref(fig:DE_pca)). 
+A final diagnosis is to check the biological reproducibility of the sample replicates in a PCA plot or a heatmap. To plot the PCA results, we need to extract the normalized counts from the DESeqDataSet object. It is possible to color the points in the scatterplot by the variable of interest, which helps to see if the replicates cluster well (Figure \@ref(fig:DEpca)). 
 
 ##### PCA plot
 
-```{r DE_pca, fig.cap='Principle Component Analysis Plot based on top 500 most variable genes'}
+```{r DEpca, fig.cap='Principle Component Analysis Plot based on top 500 most variable genes'}
 library(DESeq2)
 # extract normalized counts from the DESeqDataSet object
 countsNormalized <- DESeq2::counts(dds, normalized = TRUE)
@@ -406,9 +402,9 @@ plotPCA(countsNormalized[selectedGenes,],
         xlim = c(-0.5, 0.5), ylim = c(-0.5, 0.6))
 ```
 
-Alternatively, the normalized counts can be transformed using `DESeq2::rlog` function and `DESeq2::plotPCA` can be readily used to plot the PCA results (Figure \@ref(fig:DE_rld_norm)). 
+Alternatively, the normalized counts can be transformed using `DESeq2::rlog` function and `DESeq2::plotPCA()` can be readily used to plot the PCA results (Figure \@ref(fig:DErldnorm)). 
 
-```{r DE_rld_norm, fig.cap='PCA plot of top 500 most variable genes '}
+```{r DErldnorm, fig.cap='PCA plot of top 500 most variable genes '}
 rld <- rlog(dds)
 DESeq2::plotPCA(rld, ntop = 500, intgroup = 'group') + 
   ylim(-50, 50) + theme_bw()
@@ -418,9 +414,9 @@ DESeq2::plotPCA(rld, ntop = 500, intgroup = 'group') +
 
 A similar plot to the MA plot is the RLE (Relative Log Expression) plot that is useful in finding out if the data at hand needs normalization [@gandolfo_rle_2018]. Sometimes, even the datasets normalized using the explained methods above may need further normalization due to unforeseen sources of variation that might stem from the library preparation, the person who carries out the experiment, the date of sequencing, the temperature changes in the laboratory at the time of library preparation, and so on and sofort. RLE plot is a quick diagnostic that can be applied on the raw or normalized count matrices to see if further processing is required. 
 
-Let's do RLE plots on the raw counts and normalized counts using the `EDASeq` package [@risso_gc-content_2011] (See Figure \@ref(fig:DE_rle_plot)). 
+Let's do RLE plots on the raw counts and normalized counts using the `EDASeq` package [@risso_gc-content_2011] (See Figure \@ref(fig:DErleplot)). 
 
-```{r DE_rle_plot, fig.cap='Relative Log Expression plots based on raw and normalized count matrices'}
+```{r DErleplot,fig.width=8, fig.cap='Relative Log Expression plots based on raw and normalized count matrices'}
 library(EDASeq)
 par(mfrow = c(1, 2))
 plotRLE(countData, outline=FALSE, ylim=c(-4, 4), 
@@ -471,9 +467,9 @@ goResults <- gprofiler(query = genesOfInterest,
                      hier_filtering = 'moderate')
 ```
 
-The top 10 detected GO terms are displayed in Table \@ref(tab:GO_analysis_table):
+The top 10 detected GO terms are displayed in Table \@ref(tab:GOanalysistable):
 
-```{r GO_analysis_table, echo = FALSE}
+```{r GOanalysistable, echo = FALSE}
 # sort the enriched GO terms by pvalue and print the top 10 terms 
 #  for the selected columns from the go results
 kable(goResults[order(goResults$p.value), 
@@ -535,7 +531,7 @@ kable(gseaResults$less,
 
 We can see that the random gene set shows no significant up or down-regulation (Tables \@ref(tab:gseaPost1) and (\@ref(tab:gseaPost2)), while the gene set we defined using the top GO term shows a significant up-regulation (adjusted p-value < 0.0007) (\@ref(tab:gseaPost1)). It is worthwhile to visualize these systematic changes in a heatmap as in Figure \@ref(fig:gseaPost3). 
 
-```{r gseaPost3, fig.cap='Heatmap of expression value from the genes with the top GO term'}
+```{r gseaPost3, fig.width=8,fig.cap='Heatmap of expression value from the genes with the top GO term'}
 library(pheatmap)
 # get the expression data for the gene set of interest
 M <- normalizedCounts[rownames(normalizedCounts) %in% geneSet1, ]
@@ -573,9 +569,9 @@ colData <- read.table(colData_file, header = T, sep = '\t',
                       stringsAsFactors = TRUE)
 ```
 
-Let's take a look at how the samples cluster by calculating the TPM counts as displayed as a heatmap in Figure \@ref(fig:batch_effects_2).  
+Let's take a look at how the samples cluster by calculating the TPM counts as displayed as a heatmap in Figure \@ref(fig:batcheffects2).  
 
-```{r batch_effects_2, fig.cap='Visualizing batch effects in an experiment'}
+```{r batcheffects2,fig.width=8, fig.cap='Visualizing batch effects in an experiment'}
 library(pheatmap)
 #find gene length normalized values 
 geneLengths <- counts$width
@@ -634,8 +630,8 @@ colData$source_name <- ifelse(colData$group == 'CASE',
                               'EHF_overexpression', 'Empty_Vector')
 ```
 
-Let's start by making heatmaps of the samples using TPM counts (See Figure \@ref(fig:ruv_diagnose_1))
-```{r ruv_diagnose_1, fig.cap='Diagnostic plot to observe' }
+Let's start by making heatmaps of the samples using TPM counts (See Figure \@ref(fig:ruvdiagnose1))
+```{r ruvdiagnose1,fig.width=8, fig.cap='Diagnostic plot to observe' }
 #find gene length normalized values 
 geneLengths <- counts$width
 rpk <- apply( subset(counts, select = c(-width)), 2, 
@@ -666,7 +662,7 @@ set <- newSeqExpressionSet(counts = countData,
 
 Next, let's make a diagnostic RLE plot on raw count table.
 
-```{r ruv_diagnose_2_p1, fig.cap='Diagnostic RLE and PCA plots based on raw count table'}
+```{r ruvdiagnose2p1,fig.width=8, fig.cap='Diagnostic RLE and PCA plots based on raw count table'}
 # make an RLE plot and a PCA plot on raw count data and color samples by group
 par(mfrow = c(1,2))
 plotRLE(set, outline=FALSE, ylim=c(-4, 4), col=as.numeric(colData$group))
@@ -674,7 +670,7 @@ plotPCA(set, col = as.numeric(colData$group), adj = 0.5,
         ylim = c(-0.7, 0.5), xlim = c(-0.5, 0.5))
 ```
 
-```{r ruv_diagnose_2_p2, fig.cap='Diagnostic RLE and PCA plots based on TPM normalized count table'}
+```{r ruvdiagnose2p2,fig.width=8, fig.cap='Diagnostic RLE and PCA plots based on TPM normalized count table'}
 ## make RLE and PCA plots on TPM matrix 
 par(mfrow = c(1,2))
 plotRLE(tpm, outline=FALSE, ylim=c(-4, 4), col=as.numeric(colData$group))
@@ -682,7 +678,7 @@ plotPCA(tpm, col=as.numeric(colData$group), adj = 0.5,
         ylim = c(-0.3, 1), xlim = c(-0.5, 0.5))
 ```
 
-Both RLE and PCA plots look better on normalized data (Figure \@ref(fig:ruv_diagnose_2_p2)) compared to raw data (Figure \@ref(fig:ruv_diagnose_2_p1)), but still suggest the necessity of further improvement, because the CASE_5 sample still clusters with the control samples. We haven't yet accounted for the source of unwanted variation. 
+Both RLE and PCA plots look better on normalized data (Figure \@ref(fig:ruvdiagnose2p2)) compared to raw data (Figure \@ref(fig:ruvdiagnose2p1)), but still suggest the necessity of further improvement, because the CASE_5 sample still clusters with the control samples. We haven't yet accounted for the source of unwanted variation. 
 
 #### Removing unwanted variation from the data 
 
@@ -694,7 +690,7 @@ One way of removing unwanted variation is dependent on using a set of reference 
 
 ```{r ruv_g}
 library(RUVSeq)
-unloadNamespace('mosaic')
+ 
 #source for house-keeping genes collection:
 #https://m.tau.ac.il/~elieis/HKG/HK_genes.txt
 HK_genes <- read.table(file = system.file("extdata/rna-seq/HK_genes.txt", 
@@ -704,13 +700,13 @@ HK_genes <- read.table(file = system.file("extdata/rna-seq/HK_genes.txt",
 # in the count table
 house_keeping_genes <- intersect(rownames(set), HK_genes$V1)
 ```
-
-```{r ruv_g_f1, fig.cap='PCA plots on RUVg normalized data with varying number of covariates (k)', fig.height=8}
-# now, we use these genes as the emprical set of genes as input to RUVg.
+We will now run `RUVg()` with different number of factors of unwanted variation. We will plot the PCA after removing the unwanted variation. We should be able to see which `k` values, number of factors, produce better separation between sample groups.
+```{r ruvgf1, fig.cap='PCA plots on RUVg normalized data with varying number of covariates (k)', fig.width=8,fig.height=8}
+# now, we use these genes as the empirical set of genes as input to RUVg.
 # we try different values of k and see how the PCA plots look 
-unloadNamespace('mosaic')
-par(mfrow = c(3, 2))
-for(k in 1:6) {
+ 
+par(mfrow = c(2, 2))
+for(k in 1:4) {
   set_g <- RUVg(x = set, cIdx = house_keeping_genes, k = k)
   plotPCA(set_g, col=as.numeric(colData$group), cex = 0.9, adj = 0.5, 
           main = paste0('with RUVg, k = ',k), 
@@ -718,20 +714,20 @@ for(k in 1:6) {
 }
 ```
 
-Based on the separation of case and control samples in the PCA plots in Figure \@ref(fig:ruv_g_f1), 
-we choose k = 1 and re-run `RUVg` function with the house keeping genes to do more diagnostic plots. 
+Based on the separation of case and control samples in the PCA plots in Figure \@ref(fig:ruvgf1), 
+we choose k = 1 and re-run `RUVg()` function with the house keeping genes to do more diagnostic plots. 
 
 ```{r ruv_g2}
 # choose k = 1
-unloadNamespace('mosaic')
+ 
 set_g <- RUVg(x = set, cIdx = house_keeping_genes, k = 1)
 ```
 
-Now let's do diagnostics: compare the count matrices with or without RUVg processing, comparing RLE plots (Figure \@ref(fig:ruv_g_f2)) and PCA plots (Figure \@ref(fig:ruv_g_f3)) to see the effect of RUVg on the normalisation and separation of case and control samples. 
+Now let's do diagnostics: compare the count matrices with or without RUVg processing, comparing RLE plots (Figure \@ref(fig:ruvgf2)) and PCA plots (Figure \@ref(fig:ruvgf3)) to see the effect of RUVg on the normalisation and separation of case and control samples. 
 
-```{r ruv_g_f2, fig.cap='RLE plots to observe the effect of RUVg'}
+```{r ruvgf2,fig.width=8, fig.cap='RLE plots to observe the effect of RUVg'}
 # RLE plots
-unloadNamespace('mosaic')
+ 
 par(mfrow = c(1,2))
 plotRLE(set, outline=FALSE, ylim=c(-4, 4), 
         col=as.numeric(colData$group), main = 'without RUVg')
@@ -739,9 +735,9 @@ plotRLE(set_g, outline=FALSE, ylim=c(-4, 4),
         col=as.numeric(colData$group), main = 'with RUVg')
 ```
 
-```{r ruv_g_f3, fig.cap='PCA plots to observe the effect of RUVg'}
+```{r ruvgf3,fig.width=8, fig.cap='PCA plots to observe the effect of RUVg'}
 # PCA plots
-unloadNamespace('mosaic')
+ 
 par(mfrow = c(1,2))
 plotPCA(set, col=as.numeric(colData$group), adj = 0.5,
         main = 'without RUVg', 
@@ -751,20 +747,20 @@ plotPCA(set_g, col=as.numeric(colData$group), adj = 0.5,
         ylim = c(-1, 0.5), xlim = c(-0.5, 0.5))
 ```
 
-We can observe that using RUVg with house-keeping genes as reference has improved the clusters, however not yielded ideal separation. Probably the effect that is causing the 'CASE_5' to cluster with the control samples still hasn't been completely eliminated. 
+We can observe that using `RUVg()` with house-keeping genes as reference has improved the clusters, however not yielded ideal separation. Probably the effect that is causing the 'CASE_5' to cluster with the control samples still hasn't been completely eliminated. 
 
 ##### Using RUVs
 
-There is another strategy of RUVSeq that works better in the presence of replicates in the absence of a confounded experimental design, which is the `RUVs` function. Let's see how that performs with this data. This time we don't use the house-keeping genes. We rather use all genes as input to RUVs. 
+There is another strategy of `RUVSeq` that works better in the presence of replicates in the absence of a confounded experimental design, which is the `RUVs()` function. Let's see how that performs with this data. This time we don't use the house-keeping genes. We rather use all genes as input to `RUVs()`. This function estimates the correction factor by assuming that replicates should have constant biological variation, rather the variation in the replicates are the unwanted variation.
 
-```{r ruv_s_f1, fig.cap='PCA plots on RUVs normalized data with varying number of covariates (k)', fig.height=8}
-unloadNamespace('mosaic')
+```{r ruvsf1, fig.cap='PCA plots on RUVs normalized data with varying number of covariates (k)', fig.height=8, fig.width=8}
+ 
 # make a table of sample groups from colData 
 differences <- makeGroups(colData$group)
 ## looking for two different sources of unwanted variation (k = 2)
 ## use information from all genes in the expression object
-par(mfrow = c(3, 2))
-for(k in 1:6) {
+par(mfrow = c(2, 2))
+for(k in 1:4) {
   set_s <- RUVs(set, unique(rownames(set)), 
                 k=k, differences) #all genes
   plotPCA(set_s, col=as.numeric(colData$group), 
@@ -774,22 +770,22 @@ for(k in 1:6) {
 }
 ```
 
-Based on the separation of case and control samples in the PCA plots in Figure \@ref(fig:ruv_s_f1), 
-we can see that the samples are better separated event at k = 2 when using `RUVs`. Here, we re-run `RUVs` function using k = 2,  
+Based on the separation of case and control samples in the PCA plots in Figure \@ref(fig:ruvsf1), 
+we can see that the samples are better separated event at k = 2 when using `RUVs()`. Here, we re-run `RUVs()` function using k = 2,  
 in order to do more diagnostic plots. We try to pick a value of k that is good enough to distinguish the samples by condition of interest. While setting the value of k to higher values could improve the percentage of explained variation by the first principle component to up to 61%, we try to avoid setting the value unnecessarily high to avoid removing factors that might also correlate with important biological differences between conditions. 
 
 ```{r ruv_s2}
-unloadNamespace('mosaic')
+ 
 # choose k = 2
 set_s <- RUVs(set, unique(rownames(set)), k=2, differences) #
 ```
 
-Now let's do diagnostics again: compare the count matrices with or without RUVs processing, comparing RLE plots (Figure \@ref(fig:ruv_s_f2)) and PCA plots (Figure \@ref(fig:ruv_s_f3)) to see the effect of RUVg on the normalisation and separation of case and control samples. 
+Now let's do diagnostics again: compare the count matrices with or without RUVs processing, comparing RLE plots (Figure \@ref(fig:ruvsf2)) and PCA plots (Figure \@ref(fig:ruvsf3)) to see the effect of RUVg on the normalisation and separation of case and control samples. 
 
-```{r ruv_s_f2, fig.cap='RLE plots to observe the effect of RUVs'}
+```{r ruvsf2,fig.width=8, fig.cap='RLE plots to observe the effect of RUVs'}
 ## compare the initial and processed objects
 ## RLE plots
-unloadNamespace('mosaic')
+ 
 par(mfrow = c(1,2))
 plotRLE(set, outline=FALSE, ylim=c(-4, 4), 
         col=as.numeric(colData$group), 
@@ -799,9 +795,9 @@ plotRLE(set_s, outline=FALSE, ylim=c(-4, 4),
         main = 'with RUVs')
 ```
 
-```{r ruv_s_f3, fig.cap='PCA plots to observe the effect of RUVs'}
+```{r ruvsf3,fig.width=8, fig.cap='PCA plots to observe the effect of RUVs'}
 ## PCA plots
-unloadNamespace('mosaic')
+ 
 par(mfrow = c(1,2))
 plotPCA(set, col=as.numeric(colData$group), 
         main = 'without RUVs', adj = 0.5,
@@ -811,9 +807,9 @@ plotPCA(set_s, col=as.numeric(colData$group),
         ylim = c(-0.75, 0.75), xlim = c(-0.75, 0.75))
 ```
 
-Let's compare PCA results from RUVs and RUVg with the initial raw counts matrix in Figure \@ref(fig:ruv_compare):
+Let's compare PCA results from RUVs and RUVg with the initial raw counts matrix. We will simply run `plotPCA()` function on different normalization schemes. The resulting plots are in Figure \@ref(fig:ruvcompare):
 
-```{r ruv_compare, fig.cap='PCA plots to observe the before/after effect of RUV functions'}
+```{r ruvcompare,fig.width=12,fig.height=5, fig.cap='PCA plots to observe the before/after effect of RUV functions',out.width="90%"}
 par(mfrow = c(1,3))
 plotPCA(countData, col=as.numeric(colData$group), 
         main = 'without RUV - raw counts', adj = 0.5,
@@ -826,9 +822,9 @@ plotPCA(set_s, col=as.numeric(colData$group),
         ylim = c(-0.75, 0.75), xlim = c(-0.75, 0.75))
 ```
 
-It looks like RUVs has performed better than RUVg in this case. So, let's use count data that is processed by RUVs to re-do the initial heatmap (See \@ref(fig:ruv_post)). 
+It looks like `RUVs()` has performed better than `RUVg()` in this case. So, let's use count data that is processed by `RUVs()` to re-do the initial heatmap. The resulting heatmap is in Figure \@ref(fig:ruvpost). 
 
-```{r ruv_post, fig.cap='Clustering samples using top 500 most variable genes normalized using RUVs (k = 2)'}
+```{r ruvpost,fig.width=8, fig.cap='Clustering samples using top 500 most variable genes normalized using RUVs (k = 2)'}
 library(EDASeq)
 library(pheatmap)
 # extract normalized counts that are cleared from unwanted variation using RUVs
@@ -842,11 +838,11 @@ pheatmap(normCountData[selectedGenes,],
          scale = 'row')
 ```
 
-As can be observed the replicates from different groups cluster much better with each other after processing with `RUVs`. It is important to note that RUVs uses information from replicates to shift the expression data and it would not work in a confounding design where the replicates of case samples and replicates of the control samples are sequenced in different batches.
+As can be observed the replicates from different groups cluster much better with each other after processing with `RUVs()`. It is important to note that RUVs uses information from replicates to shift the expression data and it would not work in a confounding design where the replicates of case samples and replicates of the control samples are sequenced in different batches.
 
 #### Re-run DESeq2 with the computed covariates
 
-Having computed the sources of variation using RUVs, we can actually integrate these variables with DESeq2 to re-do the differential expression analysis. 
+Having computed the sources of variation using `RUVs()`, we can actually integrate these variables with `DESeq2` to re-do the differential expression analysis. 
 
 ```{r ruv_deseq}
 library(DESeq2)
@@ -890,14 +886,14 @@ coldata_file <- system.file("extdata/rna-seq/SRP029880.colData.tsv",
                             package = "compGenomRData")
 ```
 
-1. Normalize the counts using the TPM approach. [Difficulty: Beginner]
-2. Plot a heatmap of the top 500 most variable genes. Compare with the heatmap obtained using 100 most variable genes. [Difficulty: Beginner]
-3. Re-do the heatmaps setting `scale` argument to `none`, and `column`. Compare the results with `scale = 'row'`. [Difficulty: Beginner]
-4. Draw a correlation plot for the samples depicting the sample differences as 'ellipses', drawing only the upper end of the matrix, order samples by hierarchical clustering results based on `average` linkage clustering method. [Difficulty: Beginner]
-5. How else could the count matrix be subsetted to obtain quick and accurate clusters? Try selecting top 100 genes that have the highest total expression in all samples and re-draw the cluster heatmaps and PCA plots. [Difficulty: Intermediate]
+1. Normalize the counts using the TPM approach. [Difficulty: **Beginner**]
+2. Plot a heatmap of the top 500 most variable genes. Compare with the heatmap obtained using 100 most variable genes. [Difficulty: **Beginner**]
+3. Re-do the heatmaps setting `scale` argument to `none`, and `column`. Compare the results with `scale = 'row'`. [Difficulty: **Beginner**]
+4. Draw a correlation plot for the samples depicting the sample differences as 'ellipses', drawing only the upper end of the matrix, order samples by hierarchical clustering results based on `average` linkage clustering method. [Difficulty: **Beginner**]
+5. How else could the count matrix be subsetted to obtain quick and accurate clusters? Try selecting top 100 genes that have the highest total expression in all samples and re-draw the cluster heatmaps and PCA plots. [Difficulty: **Intermediate**]
 6. Add an additional column to the annotation data.frame object to annotate the samples and use the updated annotation data.frame to plot the heatmaps. (Hint: assign different batch values to CASE and CTRL samples). Make a PCA plot and color samples by the added variable (e.g. batch). [Difficulty: Intermediate]
-7. Try making the heatmaps using all the genes in the count table, rather than sub-selecting. [Difficulty: Advanced]
-8. Use [Rtsne package](https://cran.r-project.org/web/packages/Rtsne/Rtsne.pdf) to draw a t-SNE plot of the expression values. Color the points by sample group. Compare the results with the PCA plots. [Difficulty: Advanced]
+7. Try making the heatmaps using all the genes in the count table, rather than sub-selecting. [Difficulty: **Advanced**]
+8. Use [Rtsne package](https://cran.r-project.org/web/packages/Rtsne/Rtsne.pdf) to draw a t-SNE plot of the expression values. Color the points by sample group. Compare the results with the PCA plots. [Difficulty: **Advanced**]
 
 
 ### Differential expression analysis
@@ -920,44 +916,24 @@ coldata_file <- system.file("extdata/rna-seq/SRP029880.colData.tsv",
 
 Now, you are ready to do the following exercises: 
 
-1. [difficulty: Beginner]
-
-- Make a volcano plot using the differential expression analysis results. (Hint: x axis denotes the log2FoldChange and the y-axis represents the -log10(pvalue)).  
-- Use DESeq2::plotDispEsts to make a dispersion plot and find out the meaning of this plot. (Hint: type ?DESeq2::plotDispEsts) 
-
-2. [difficulty: Intermediate]
-
-- Find out about `lfcThreshold` argument of `DESeq2::results` function. What is its default value? What does it mean to change the default value to, for instance, `1`? 
-
-- What is independent filtering? What happens if we don't use it? Google `independent filtering statquest` and watch the online video about independent filtering. 
-
-3. [difficulty: Advanced]
-
-- Re-do the differential expression analysis using edgeR package. Find out how much DESeq2 and edgeR agree on the list of differentially expressed genes. 
-
-- Use `compcodeR` package to run the differential expression analysis using at least three different tools and compare and contrast the results following the compcodeR vignette. 
+1. Make a volcano plot using the differential expression analysis results. (Hint: x axis denotes the log2FoldChange and the y-axis represents the -log10(pvalue)).[Difficulty: **Beginner**]  
+2. Use DESeq2::plotDispEsts to make a dispersion plot and find out the meaning of this plot. (Hint: type ?DESeq2::plotDispEsts) [Difficulty: **Beginner**]
+3. Find out about `lfcThreshold` argument of `DESeq2::results` function. What is its default value? What does it mean to change the default value to, for instance, `1`? [Difficulty: **Intermediate**]
+4. What is independent filtering? What happens if we don't use it? Google `independent filtering statquest` and watch the online video about independent filtering. [Difficulty: **Intermediate**]
+5. Re-do the differential expression analysis using `edgeR` package. Find out how much DESeq2 and edgeR agree on the list of differentially expressed genes.[Difficulty: **Advanced**] 
+6. Use `compcodeR` package to run the differential expression analysis using at least three different tools and compare and contrast the results following the compcodeR vignette. [Difficulty: **Advanced**]
 
 ### Functional enrichment analysis
 
-1. [difficulty: Beginner]: 
-
-- Re-run gProfileR, this time using pathway annotations such as KEGG, REACTOME, and protein complex databases such as CORUM, in addition to the GO terms. Sort the resulting tables by columns `precision` and/or `recall`. How do the top GO terms change when sorted for `precision`, `recall`, or `p.value`? 
-
-- Repeat the gene set enrichment analysis by trying different options for the `compare` argument of `GAGE:gage`
-function. How do the results differ?
-
-2. [difficulty: Intermediate]
-
-- Make a scatter plot of GO term sizes and obtained p-values by setting the `gProfiler::gprofiler` argument `significant = FALSE`. Is there a correlation of term sizes and p-values? (Hint: take -log10 of p-values). If so, how can this bias be mitigated?
-
-- Do a gene-set enrichment analysis using gene sets from top 10 GO terms. 
-- What are the other available R packages that can carry out gene set enrichment analysis for RNA-seq datasets? 
-
-3. [difficulty: Advanced]
-
-- Use the topGO package (https://bioconductor.org/packages/release/bioc/html/topGO.html) to re-do the GO term analysis. Compare and contrast the results with what has been obtained using gProfileR package. Which tool is faster? gProfileR or topGO? Why? 
-- Given a gene set annotated for human, how can it be utilized to work on C. elegans data? (Hint: see `biomaRt::getLDS`). 
-- Import curated pathway gene sets with Entrez identifiers from the [MSIGDB database](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) and re-do the GSEA for all curated gene sets. 
+1. Re-run gProfileR, this time using pathway annotations such as KEGG, REACTOME, and protein complex databases such as CORUM, in addition to the GO terms. Sort the resulting tables by columns `precision` and/or `recall`. How do the top GO terms change when sorted for `precision`, `recall`, or `p.value`? [Difficulty: **Beginner**]
+2. Repeat the gene set enrichment analysis by trying different options for the `compare` argument of `GAGE:gage`
+function. How do the results differ? [Difficulty: **Beginner**]
+3. Make a scatter plot of GO term sizes and obtained p-values by setting the `gProfiler::gprofiler` argument `significant = FALSE`. Is there a correlation of term sizes and p-values? (Hint: take -log10 of p-values). If so, how can this bias be mitigated? [Difficulty: **Intermediate**]
+4. Do a gene-set enrichment analysis using gene sets from top 10 GO terms. [Difficulty: **Intermediate**]
+5. What are the other available R packages that can carry out gene set enrichment analysis for RNA-seq datasets? [Difficulty: **Intermediate**]
+6.  Use the topGO package (https://bioconductor.org/packages/release/bioc/html/topGO.html) to re-do the GO term analysis. Compare and contrast the results with what has been obtained using gProfileR package. Which tool is faster? gProfileR or topGO? Why? [Difficulty: **Advanced**]
+7. Given a gene set annotated for human, how can it be utilized to work on C. elegans data? (Hint: see `biomaRt::getLDS`). [Difficulty: **Advanced**]
+8. Import curated pathway gene sets with Entrez identifiers from the [MSIGDB database](http://software.broadinstitute.org/gsea/msigdb/collections.jsp) and re-do the GSEA for all curated gene sets. [Difficulty: **Advanced**]
 
 ### Removing unwanted variation from the expression data
 
@@ -969,8 +945,8 @@ colData_file <- system.file('extdata/rna-seq/SRP049988.colData.tsv',
                            package = 'compGenomRData')
 ```
 
-1. Run RUVSeq using multiple values of `k` from 1 to 10 and compare and contrast the PCA plots obtained from the normalized counts of each RUVSeq run. [difficulty: Beginner]
-2. Re-run RUVSeq using the `RUVr` function. Compare PCA plots from `RUVs`, `RUVg` and `RUVr` using the same `k` values and find out which one performs the best. [difficulty: Intermediate]
+1. Run RUVSeq using multiple values of `k` from 1 to 10 and compare and contrast the PCA plots obtained from the normalized counts of each RUVSeq run. [Difficulty: **Beginner**]
+2. Re-run RUVSeq using the `RUVr()` function. Compare PCA plots from `RUVs`, `RUVg` and `RUVr` using the same `k` values and find out which one performs the best. [Difficulty: **Intermediate**]
 3. Do the necessary diagnostic plots using the differential expression results from the EHF count table. [difficulty: Intermediate]
-4. Use the `sva package` to discover sources of unwanted variation and re-do the differential expression analysis using variables from the output of `sva` and compare the results with DESeq2 results using RUVSeq corrected normalization counts. [difficulty: Advanced]
+4. Use the `sva` package to discover sources of unwanted variation and re-do the differential expression analysis using variables from the output of `sva` and compare the results with `DESeq2` results using `RUVSeq` corrected normalization counts. [Difficulty: **Advanced**]
 
