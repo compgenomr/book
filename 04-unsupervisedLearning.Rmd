@@ -302,7 +302,7 @@ plot(scale(mat[rownames(mat)=="ENSG00000100504",]),
      pch=19,
      ylab="CD33 (ENSG00000105383)",
      xlab="PYGL (ENSG00000100504)",
-     col=annotation_col$LeukemiaType,
+     col=as.factor(annotation_col$LeukemiaType),
      xlim=c(-2,2),ylim=c(-2,2))
 
 # create the legend for the Leukemia types
@@ -325,7 +325,7 @@ arrows(x0=0, y0=0, x1 = pr$loadings[1,2],
 
 # plot the samples in the new coordinate system
 plot(-pr$scores,pch=19,
-     col=annotation_col$LeukemiaType,
+     col=as.factor(annotation_col$LeukemiaType),
      ylim=c(-2,2),xlim=c(-4,4))
 
 # plot the new coordinate basis vectors
@@ -362,14 +362,14 @@ par(mfrow=c(1,2))
 d=svd(scale(mat)) # apply SVD
 assays=t(d$u) %*% scale(mat) # projection on eigenassays
 plot(assays[1,],assays[2,],pch=19,
-     col=annotation_col$LeukemiaType)
+     col=as.factor(annotation_col$LeukemiaType))
 #plot(d$v[,1],d$v[,2],pch=19,
 #     col=annotation_col$LeukemiaType)
 pr=prcomp(t(mat),center=TRUE,scale=TRUE) # apply PCA on transposed matrix
 
 # plot new coordinates from PCA, projections on eigenvectors
 # since the matrix is transposed eigenvectors represent 
-plot(pr$x[,1],pr$x[,2],col=annotation_col$LeukemiaType)
+plot(pr$x[,1],pr$x[,2],col=as.factor(annotation_col$LeukemiaType))
 
 ```
 As you can see in the figure \@ref(fig:svd), the two approaches yield separation of samples, although they are slightly different. The difference comes from the centering and scaling. In the first case, we scale and center columns and the second case we scale and center rows since the matrix is transposed. If we do not do any scaling or centering we would get identical plots.
@@ -403,7 +403,7 @@ library(fastICA)
 ica.res=fastICA(t(mat),n.comp=2) # apply ICA
 
 # plot reduced dimensions
-plot(ica.res$S[,1],ica.res$S[,2],col=annotation_col$LeukemiaType)
+plot(ica.res$S[,1],ica.res$S[,2],col=as.factor(annotation_col$LeukemiaType))
 ```
 
 
@@ -426,7 +426,7 @@ w <- basis(res) # get W
 h <- coef(res)  # get H
 
 # plot 1st factor against 3rd factor
-plot(h[1,],h[3,],col=annotation_col$LeukemiaType,pch=19)
+plot(h[1,],h[3,],col=as.factor(annotation_col$LeukemiaType),pch=19)
 
 ```
 
@@ -460,11 +460,12 @@ ${\displaystyle Stress_{D}(z_{1},z_{2},...,z_{N})={\Biggl (}{\frac {\sum _{i,j}{
 
 
 The core of a non-metric MDS algorithm is a twofold optimization process. First the optimal monotonic transformation of the distances has to be found, this is shown in the above formula as $\theta(d_{ij})$. Secondly, the points on a low dimension configuration have to be optimally arranged, so that their distances match the scaled distances as closely as possible. This two steps are repeated until some convergence criteria is reached. This usually means that the cost function does not improve much after certain number of iterations. The basic steps in a non-metric MDS algorithm are:
-1. Find a random low dimensional configuration of points, or in the variant we will be using below we start with the configuration returned by classical MDS
-2. Calculate the distances between the points in the low dimension $\|z_{i}-z_{j}\|, $z_{i}$ and $z_{j}$ are vector of positions for sample $i$ and $j$.
-3. Find the optimal monotonic transformation of the input distance, ${\textstyle \theta(d_{ij})}$, to approximate input distances to low-dimensional distances. This is achieved by isotonic regression, where a monotonically increasing free-form function is fit. This step practically ensures that ranking of low-dimensional distances are similar to rankings of input distances.
-4. Minimize the stress function by re-configuring low-dimensional space and keeping $\theta$ function constant.
-5. repeat from step 2 until convergence.
+
+1) Find a random low dimensional configuration of points, or in the variant we will be using below we start with the configuration returned by classical MDS
+2) Calculate the distances between the points in the low dimension $\|z_{i}-z_{j}\|$, $z_{i}$ and $z_{j}$ are vector of positions for sample $i$ and $j$.
+3) Find the optimal monotonic transformation of the input distance, ${\textstyle \theta(d_{ij})}$, to approximate input distances to low-dimensional distances. This is achieved by isotonic regression, where a monotonically increasing free-form function is fit. This step practically ensures that ranking of low-dimensional distances are similar to rankings of input distances.
+4) Minimize the stress function by re-configuring low-dimensional space and keeping $\theta$ function constant.
+5) repeat from step 2 until convergence.
 
 We will now demonstrate both classical MDS and Kruskal's isometric MDS.
 ```{r mds2,out.width='60%',fig.width=8.5,fig.cap="Leukemia gene expression values per patient on reduced dimensions by classical MDS and isometric MDS."}
@@ -474,9 +475,9 @@ isomds=MASS::isoMDS(dist(t(mat)))
 
 # plot the patients in the 2D space
 par(mfrow=c(1,2))
-plot(mds,pch=19,col=annotation_col$LeukemiaType,
+plot(mds,pch=19,col=as.factor(annotation_col$LeukemiaType),
      main="classical MDS")
-plot(isomds$points,pch=19,col=annotation_col$LeukemiaType,
+plot(isomds$points,pch=19,col=as.factor(annotation_col$LeukemiaType),
      main="isotonic MDS")
 
 ```
@@ -517,7 +518,7 @@ set.seed(42) # Set a seed if you want reproducible results
 tsne_out <- Rtsne(t(mat),perplexity = 10) # Run TSNE
  #image(t(as.matrix(dist(tsne_out$Y))))
 # Show the objects in the 2D tsne representation
-plot(tsne_out$Y,col=annotation_col$LeukemiaType,
+plot(tsne_out$Y,col=as.factor(annotation_col$LeukemiaType),
      pch=19)
 
 # create the legend for the Leukemia types

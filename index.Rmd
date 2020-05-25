@@ -109,8 +109,8 @@ This book is primarily about using R packages to analyze genomics data, therefor
 ```{r,installAllPackages,eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install(c('qvalue','plot3D','ggplot2','pheatmap',
-                      'cluster', 'NbClust', 'fastICA', 'NMF',
+BiocManager::install(c('qvalue','plot3D','ggplot2','pheatmap','cowplot',
+                      'cluster', 'NbClust', 'fastICA', 'NMF','matrixStats',
                       'Rtsne', 'mosaic', 'knitr', 'genomation',
                       'ggbio', 'Gviz', 'DESeq2', 'RUVSeq',
                       'gProfileR', 'ggfortify', 'corrplot',

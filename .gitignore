@@ -13,3 +13,4 @@ output_file
 compgenomrReloaded.log
 compgenomrReloaded.rds
 compgenomrReloaded_cache/
+.DS_Store

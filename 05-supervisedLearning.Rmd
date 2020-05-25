@@ -474,16 +474,17 @@ One simple method for variable importance is to correlate or apply statistical t
 If a variable important for prediction removing that variable before model training will cause a drop in performance. With this understanding, we can remove the variables one by one and train models without them and rank them by the loss of performance. The most important variables must cause the largest loss of performance. This strategy requires training and testing models as many times as the number of predictor variables. This will consume a lot of time. A related but more practical approach have been put forward to measure variable importance in a model independent manner but without re-training [@dalex; @mcr]. In this case, instead of removing the variables at training, variables are permuted at the test phase. The loss in prediction performance is calculated by comparing the labels/values from the original response variable to the labels/values obtained by running the permuted test data through the model. This is called "variable dropout loss". In this case, we are not really dropping out variables but by permuting them we destroy their relationship to the response variable. The dropout loss is compared to the "worst case" scenario where response variable is permuted and compared against the original response variables, this is called "baseline loss". The algorithm ranks the variables by their variable dropout loss or by their ratio of variable dropout to baseline loss. Both quantities are proportional but the second one contains information about the baseline loss.
 \index{variable importance}
 Below, we are running `DALEX::explain()` function to do the permutation drop-out strategy for the variables. The function needs the machine learning model, and new data and its labels to do the permutation-based dropout strategy. In this case, we are feeding the function with the data we used for training. 
-For visualization we use `DALEX::variable_importance()` function which plots the loss. The resulting variable importance plot is shown in Figure \@ref(fig:dalex).
-```{r dalex,eval=TRUE,out.width='50%',fig.cap="Variable importance as loss from variable drop out."}
+For visualization we can use `DALEX::feature_importance()` function which plots the loss. Although, in this case we are not plotting the results. In following sections, we will discuss method specific variable importance measures.
+```{r dalex,eval=FALSE,out.width='50%',fig.cap="Variable importance as loss from variable drop out."}
 library(DALEX)
 set.seed(102)
+# do permutation drop-out
 explainer_knn<- DALEX::explain(knn_fit, 
                                label="knn", 
                                data =training[,-1], 
                                y = as.numeric(training[,1]))
 
-viknn=variable_importance(explainer_knn,n_sample=-1,type="ratio")
+viknn=feature_importance(explainer_knn,n_sample=50,type="difference")
 plot(viknn)
 
 ```
