@@ -30,7 +30,7 @@ per sample and cell with any method( microarrays, rt-qPCR, etc.). You will not \
 get the same expression value even if your samples are homogeneous. Due
 to technical bias in experiments or natural variation in the samples. Instead, 
 we would like to describe this collection of data some other way
-that represents the general properties of the data. The figure shows a sample of
+that represents the general properties of the data. The Figure \@ref(fig:pax6ReplicatesChp3) shows a sample of
 20 expression values from PAX6 gene.
 
 ```{r pax6ReplicatesChp3,fig.align='center',  out.width='50%',echo=FALSE,warning=FALSE,fig.height=5.6,fig.cap="Expression of PAX6 gene in 20 replicate experiments"}
@@ -70,7 +70,7 @@ the possible values of PAX6 expression for all cells (provided each cell is of t
 identical cell type and is in identical conditions) are much much more than 20.
 If we had the time and the funding to sample all cells and measure PAX6 expression we would
 get a collection values that would be called, in statistics, a "population". In 
-our case the population will look like the left hand side of the figure below. What we have done with
+our case the population will look like the left hand side of the Figure \@ref(fig:pax6MorereplicatesChp3). What we have done with
 our 20 data points is that we took a sample of PAX6 expression values from this
 population, and calculated the sample mean.
 
@@ -142,6 +142,7 @@ data point in the population and $n$ is the population size. However, when the
 we have only access to a sample this formulation is biased. It means that it
 underestimates the population variance, so we make a small adjustment when we
 calculate the sample variance, denoted as $s^2$: 
+
 $$
 \begin{aligned}
 s^2=\sum_{i=1}^n \frac{(x_i-\overline{X})^2}{n-1} && \text{ where $x_i$ is the ith data point and

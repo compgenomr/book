@@ -216,6 +216,10 @@ length(r1)           #length of the vector
 class(r1)            # class of the vector
 a<-1                # this is actually a vector length one
 ```
+
+The standard assignment operator in R is `<-`. This operator is preferentially used in books and documentation. However, it is also possible to use `=` operator for the assignment. We have an example in 
+the above code snippet and throughout the book we use `<-` and `=` interchangeably for assignment.
+
 ### Matrices
 A matrix refers to a numeric array of rows and columns. You can think of it as a stacked version of vectors where each row or column is a vector. One of the easiest ways to create a matrix is to combine vectors of equal length using `cbind()`, meaning 'column bind'.\index{R Programming Language!matrix}
 
@@ -357,8 +361,8 @@ df.f2=read_table(enhancerFilePath, col_names = FALSE)
 
 ```
 
-## Plotting in R
-R has great support for plotting and customizing plots. We will show only a few below. Let us sample 50 values from normal distribution \index{normal distribution} and plot them as a histogram. Histogram is an aproximate representation of a distribution. Bars show how frequently we observe certain values in our sample.\index{R Programming Language!plotting}
+## Plotting in R with base graphics
+R has great support for plotting and customizing plots by default. This basic capability for plotting in R are referred to as "base graphics" or "R base graphics". We will show only a few below. Let us sample 50 values from normal distribution \index{normal distribution} and plot them as a histogram. Histogram is an aproximate representation of a distribution. Bars show how frequently we observe certain values in our sample.\index{R Programming Language!plotting}. The resulting histogram from the code chunk below is shown in Figure \@ref(fig:sampleForPlots).
 
 ```{r sampleForPlots,out.width='40%',fig.width=5,fig.cap="Histogram of values sampled from normal distribution"}
 # sample 50 values from normal distribution
@@ -367,13 +371,13 @@ x<-rnorm(50)
 hist(x) # plot the histogram of those values
 ```
 
-We can modify all the plots by providing certain arguments to the plotting function. Now let's give a title to the plot using `'main'` argument. We can also change the color of the bars using `'col'` argument. You can simply provide the name of the color. Below, we are using `'red'` for the color. See Figure below for the result this chunk.
+We can modify all the plots by providing certain arguments to the plotting function. Now let's give a title to the plot using `'main'` argument. We can also change the color of the bars using `'col'` argument. You can simply provide the name of the color. Below, we are using `'red'` for the color. See Figure \@ref(fig:makeHist) for the result this code chunk.
 
 ```{r makeHist,out.width='50%',fig.width=5, fig.cap="Histogram in red color"}
 hist(x,main="Hello histogram!!!",col="red")
 ```
 
-Next, we will make a scatter plot. Scatter plots are one  the most common plots you will encounter in data analysis. We will sample another set of 50 values and plotted those against the ones we sampled earlier. Scatterplot shows values of two variables for a set of data points. It is useful to visualize relationships between two variables. It is frequently used in connection with correlation and linear regression. There are other variants of scatter plots which show density of the points with different colors. We will show examples of those that in following chapters. The scatter plot from our sampling experiment is shown in the figure. Notice that, in addition to main we used `"xlab"` and `"ylab"` arguments to give labels to the plot. You can customize the plots even more than this. See `?plot` and `?par` for more arguments that can help you customize the plots.
+Next, we will make a scatter plot. Scatter plots are one  the most common plots you will encounter in data analysis. We will sample another set of 50 values and plotted those against the ones we sampled earlier. Scatterplot shows values of two variables for a set of data points. It is useful to visualize relationships between two variables. It is frequently used in connection with correlation and linear regression. There are other variants of scatter plots which show density of the points with different colors. We will show examples of those that in following chapters. The scatter plot from our sampling experiment is shown in the Figure \@ref(fig:makeScatter). Notice that, in addition to main we used `"xlab"` and `"ylab"` arguments to give labels to the plot. You can customize the plots even more than this. See `?plot` and `?par` for more arguments that can help you customize the plots.
 
 ```{r makeScatter,out.width='50%',fig.width=5, fig.cap="Scatterplot example"}
 # randomly sample 50 points from normal distribution
@@ -388,12 +392,12 @@ we can also plot boxplots for vectors x and y. Boxplots depict groups of numeric
 
 `lowerWhisker=Q1-1.5[IQR] and upperWhisker=Q1+1.5[IQR]`
 
-In addition, outliers can be depicted as dots. In this case, outliers are the values that remain outside the whiskers.
+In addition, outliers can be depicted as dots. In this case, outliers are the values that remain outside the whiskers. The resulting plot from the code snippet below is shown in Figure \@ref(fig:makeBoxplot).
 
 ```{r makeBoxplot,out.width='50%',fig.width=5,fig.cap="Boxplot example"}
  boxplot(x,y,main="boxplots of random samples")
 ```
-Next up is bar plot which you can plot by `barplot()` function. We are going to plot four imaginary percentage values and color them with two colors, and this time we will also show how to draw a legend on the plot using `legend()` function.
+Next up is bar plot which you can plot by `barplot()` function. We are going to plot four imaginary percentage values and color them with two colors, and this time we will also show how to draw a legend on the plot using `legend()` function. The resulting plot is in Figure \@ref(fig:makebarplot).
 
 ```{r makebarplot,out.width='50%',fig.width=5,tidy=FALSE,fig.cap="barplot example"}
 perc=c(50,70,35,25)
@@ -403,6 +407,19 @@ barplot(height=perc,
         col=c("red","red","blue","blue"))
 legend("topright",legend=c("test","control"),
        fill=c("red","blue"))
+```
+
+### Combining multiple plots
+In R, we can combine multiple plots in the same graphic. For this purpose, we use `par()` function for simple combinations. More complicated arrangements with different sizes of sub-plots can be created with `layout()` function. Below we will show how to combine two plot side-by-side using `par(mfrow=c(1,2))`. The `mfrow=c(nrows, ncols)` construct will create a matrix of `nrows` x `ncols` plots that are filled in by row. The following code will produce a histogram and a scatterplot stacked side by side. The results is shown in Figure \@ref(fig:combineBasePlots). If you want to see the plots on top of each other simply change `mfrow=c(1,2)` to `mfrow=c(2,1)`.
+
+```{r combineBasePlots,fig.cap="Combining two plots, a histogram and a scatterplot with `par()` function.",fig.height=3.5}
+par(mfrow=c(1,2)) # 
+
+# make the plots
+hist(x,main="Hello histogram!!!",col="red")
+plot(x,y,main="scatterplot",
+        ylab="y values",xlab="x values")
+
 ```
 
 ### Saving plots
@@ -423,10 +440,104 @@ dev.copy(pdf,"mygraphs/myplot.pdf",width=7,height=5)
 dev.off()
 ```
 
+## Plotting in R with ggplot2
+In R, there are other plotting systems besides “base graphics”, which is what we have shown until now. There is another popular plotting system called `ggplot2`\index{R Packages!\texttt{ggplot2}} which implements a different logic when constructing the plots. This system or logic is known as “grammar of graphics”. This system defines a plot or graphics as a combination of different components. For example, in the scatterplot in \@ref(fig:makeScatter), we have the points which are geometric shapes, we have the coordinate system and scales of data. In addition, data transformations are also part of a plot. In Figure \@ref(fig:makeHist), the histogram has a binning operation and it puts the data into bins before displaying it as geometric shapes, the bars. `ggplot2` system and its implementation of “grammar of graphics”^[This is a concept developed by Leland Wilkinson and popularized in R community by Hadley Wickham: https://doi.org/10.1198/jcgs.2009.07098] allows us to build the plot layer by layer using the predefined components. 
+
+
+Next we will see how this works in practice. Let’s start with a simple scatterplot using `ggplot2`. In order to make basic plots in `ggplot2` one needs to combine different components. First, we need the data and its transformation to a geometric object, for a scatter plot this would be mapping data to points, for histograms it would be binning the data and making bars. Second, we need the scales and coordinate system, this generates axes and legends so that we can see the values on the plot. And the last component is the plat annotation such as plot title and the background.
+
+
+The main `ggplot2` function, called `ggplot()`, requires a data frame to work with and this data frame is its first argument as shown in the code snippet below. The second thing you will notice is the `aes()` function in the `ggplot()` function. This functions defines which columns in the data frame maps to x and y coordinates and if they should be colored based on the values in different column or their shapes can be defined. These elements are the “aesthetic” elements, this is what we observe in the plot. The last line in the code represents the geometric object to be plotted. These geometric objects defines the type of the plot. In this case, the object is a point, indicated by `geom_point()`function. Another, peculiar thing in the code is the `+` operation. In `ggplot2`, this operation is used to add layers and modify the plot. The resulting scatter plot from the code snippet below can be seen in Figure \@ref(fig:ggScatterchp3). 
+
+```{r ggScatterchp3,fig.cap="Scatter plot with ggplot2"}
+
+library(ggplot2)
+
+myData=data.frame(col1=x,col2=y)
+
+ # the data is myData and I’m using col1 and col2 
+# columns on x and y axes
+ggplot(myData, aes(x=col1, y=col2)) +
+  geom_point() # map x and y as points
+
+```
+
+
+Now, let’s recreate the histogram we have created before. For this, we will start again with the `ggplot()` function, we are interested only in the x-axis in the histogram so we will only use one column of the data frame. Then, we will add the histogram layer with `geom_histogram()` function. In addition, we will be showing how to modify your plot further by adding additional layer with `labs()` function, which controls the axis lables and titles. The resulting plot from the code chunk below is shown in Figure \@ref(fig:ggHistChp3).
+
+```{r ggHistChp3,fig.cap="Histograms made with ggplot2, the left histogram contains additional modifications introduced by `labs()` function.",fig.width=5}
+ggplot(myData, aes(x=col1)) +
+  geom_histogram() + # map x and y as points
+  labs(title="Histogram for a random variable", x="my variable", y="Count")
+
+```
+
+We can also plot boxplots using `ggplot2`. Let's recreate the boxplot we did on Figure \@ref(fig:makeBoxplot). This time we will have to put all our data into a single data frame with extra columns denoting the group of our values. In the base graphics case, we could just input variables containing different vectors. However, `ggplot2` does not work like that and we need to create a data frame with the right format to use `ggplot()` function. Below, we are first concatanating the `x` and `y` vectors and creating a second column denoting the group for the vectors. In this case, x-axis will be the "group" variable which is just a character denoting the group and y-axis will be the numeric "values" for `x` and `y` vectors. You can see how this is passed to `aes()` function below. The resulting plot is shown in Figure \@ref(fig:ggBoxplotchp3).
+```{r ggBoxplotchp3,fig.cap="Boxplots using ggplot2"}
+
+# data frame with group column showing which 
+# groups the vector x and y belong
+myData2=rbind(data.frame(values=x,group="x"),
+              data.frame(values=y,group="y"))
+
+# x-axis will be group and y-axis will be values
+ggplot(myData2, aes(x=group,y=values)) + 
+         geom_boxplot()
+
+
+```
+
+### Combining multiple plots. 
+There are different options for combining multiple plots. If we are trying to make similar plots for the subsets of the same data set, we can use faceting. This is a built-in and very useful feature of `ggplot2`. This feature is frequently used when investigating whether patterns are the same or different in different conditions or subsets of the data. It can be used via `facet_grid()` function. Below, we will make two histograms facetted by the `group` variable in the input data frame. We will be using the same data frame we created for the boxplot in the previous section. The resulting plot is in Figure \@ref(fig:facetHistChp3).
+
+(ref:reffacetHistChp3) Combining two plots using `ggplot2::facet_grid()` function
+
+
+```{r facetHistChp3,fig.cap='(ref:reffacetHistChp3)',fig.height=3}
+
+ggplot(myData2, aes(x=values)) + 
+         geom_histogram() +facet_grid(.~group)
+```
+
+Facetting only works when you are using the subsets of the same data set. However, you may want to combine different type of plots from different data sets. The base R functions such as `par()` and `layout()` will not work with `ggplot2` because it uses a different graphics system and this system does not recognize base R functionality for plotting. However, there are multiple ways you can combine plots from `ggplot2`. One way is using the `cowplot` package. This package aligns the individual plots in a grid and will help you create publication ready compound plots. Below, we will show how to combine a histogram and a scatter plot side by side. The resulting plot is shown in Figure \@ref(fig:cowPlotChp3).
+
+
+(ref:refcowPlotChp3) Combining a histogram and scatterplot using `cowplot` package. The plots are labeled as A and B using the arguments in `plot_grid()` function
+
+```{r cowPlotChp3,fig.cap='(ref:refcowPlotChp3)',fig.height=3.5,fig.width=7}
+library(cowplot)
+# histogram
+p1 <- ggplot(myData2, aes(x=values,fill=group)) + 
+        geom_histogram()
+# scatterplot
+p2 <- ggplot(myData, aes(x=col1, y=col2)) +
+  geom_point() 
+
+# plot two plots in a grid and label them as A and B
+plot_grid(p1, p2, labels = c('A', 'B'), label_size = 12)
+
+```
+
+
+
+### ggplot2 and tidyverse
+`ggplot2` is actually part of a larger ecosystem. You will need packages from this ecosytem when you want to use `ggplot2` in a more sophisticated manner or if you need additional functionality that is not readily available in base R or other packages. For example, when you want to make more complicated plots using `ggplot2`, you will need to modify your data frames to the formats required by the `ggplot()` function, and you will need to learn about `dplyr`\index{R Packages!\texttt{dplyr}} and `tidyr`\index{R Packages!\texttt{tidyr}} packages for data formatting purposes. If you are working with strings `stringr` package might have functionality that is not available in base R. There are many more packages that users find it useful in `tidyverse` and it could be important to know about this ecosystem of R packages.
+
+
+
+```{block2, ggplotNote, type='rmdtip'}
+
+__Want to know more ?__
+
+- `ggplot2` has a free online book written by Hadley Wickham: https://ggplot2-book.org/  
+- The `tidyverse` packages and the ecosystem is described in their website: https://www.tidyverse.org/. There you will find extensive documentation and resources on `tidyverse` packages. 
+
+```
+
 ## Functions and control structures (for, if/else etc.)
 
 ### User defined functions
-Functions are useful for transforming larger chunks of code to re-usable pieces of code. Generally, if you need to execute certain tasks with variable parameters then it is time you write a function. A function in R takes different arguments and returns a definite output, much like mathematical functions. Here is a simple function takes two arguments, x and y, and returns the sum of their squares \index{R Programming Language!functions}.
+Functions are useful for transforming larger chunks of code to re-usable pieces of code. Generally, if you need to execute certain tasks with variable parameters then it is time you write a function. A function in R takes different arguments and returns a definite output, much like mathematical functions. Here is a simple function takes two arguments, `x` and `y`, and returns the sum of their squares \index{R Programming Language!functions}.
 
 ```{r makeOwnFunc}
 sqSum<-function(x,y){
