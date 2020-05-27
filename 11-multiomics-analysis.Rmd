@@ -47,7 +47,7 @@ knitr::kable(head(t(head(x3))), caption="Copy number data (head)")
 
 Table  \@ref(tab:moloadMultiomicsGE) shows the head of the gene expression matrix. The rows correspond to patients, referred to by their TCGA identifier. Columns are gene names, and values are RPKM expression values. Similarly, table  \@ref(tab:moloadMultiomicsMUT) shows the mutation matrix. Here, each cell is a binary 1/0, indicating whether or not a tumor has a non-synonymous mutation in the gene indicated by the column. Finally, table \@ref(tab:moloadMultiomicsCNV) shows GISTIC scores for copy number alterations in these tumors. Each column corresponds to a chromosome segment.
 
-Each of the data types (gene expresion, mutations, copy number variation) on its own, provides some signal which allows to somewhat separate the samples into the two different subtypes. In order to explore these relations, we must first obtain the subtypes of these tumors. The following code snippet reads these, also from the companion package:
+Each of the data types (gene expression, mutations, copy number variation) on its own, provides some signal which allows to somewhat separate the samples into the two different subtypes. In order to explore these relations, we must first obtain the subtypes of these tumors. The following code snippet reads these, also from the companion package:
 
 ```{r,moloadCOREADSubsypes}
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_subtypes.csv",
@@ -79,7 +79,7 @@ pheatmap::pheatmap(x2,
                    main="Mutation data")
 ```
 
-An examination of Figure \@ref(fig:momutationsHeatmap) shows that tumors clustered and ordered by mutation data correspond very closely to their CMS subtypes. However, one should be careful in drawing conclusions about this result. Upon closer examination, you might notice that the separating factor seems to be that CMS1 tumors have significantly more mutations than do CMS3 tumors. This, rather than mutations in a specific genes, seems to be driving this clustering result. Nevertheless, this hypermutated status is an important indicator for this subtype.
+An examination of Figure \@ref(fig:momutationsHeatmap) shows that tumors clustered and ordered by mutation data correspond very closely to their CMS subtypes. However, one should be careful in drawing conclusions about this result. Upon closer examination, you might notice that the separating factor seems to be that CMS1 tumors have significantly more mutations than do CMS3 tumors. This, rather than mutations in a specific genes, seems to be driving this clustering result. Nevertheless, this hyper-mutated status is an important indicator for this subtype.
 
 Finally, we look into copy number variation data and try to see if clustered samples are in concordance with subtypes. The following code snippet generates Figure \@ref(fig:moCNVHeatmap):
 ```{r,moCNVHeatmap,fig.cap="Heatmap of copy number variation data, colorectal cancers"}
@@ -94,7 +94,7 @@ The interpretation of Figure \@ref(fig:moCNVHeatmap) is left as an exercise for 
 
 ## Latent variable models for multi-omics integration
 
-\index{unsupervised learning}Unupervised multi-omics integration methods are methods that look for patterns within and across data types, in a label-agnostic fashion, i.e. without knowledge of the identity or label of the analyzed samples (e.g. cell type, tumor/normal). This chapter focuses on latent variable models, a form of dimensionality reduction technique (see Chapter 4, Unsupervised Learning). Latent variable models make an assumption that the high dimensional data we observe (e.g. counts of tens of thousands of mRNA molecules) arrise from a lower dimension description. The variables in that lower dimensional description are termed _Latent Variables_, as they are believed to be latent in the data, but not directly observable through experimentation. Therefore, there is a need for methods to infer the latent variables from the data. For instance, (see Chapter 8, RNA-seq analysis) the relative abundance of different mRNA molecules in a cell is largely determined by the cell type. There are other experiments which may be used to discern the cell type of cells (e.g. looking at them under a microscope), but an RNA-seq experiment does not, directly, reveal whether the analyzed sample was taken from one organ or another. A latent variable model would set the cell type as a latent variable, and the observable abundance of mRNA molecules to be dependent on the value of the latent variable (e.g. if the latent variable is "Regulatory T-cell", we would expect to find high expression of CD4, FOXP3, and CD25).
+\index{unsupervised learning}Unsupervised multi-omics integration methods are methods that look for patterns within and across data types, in a label-agnostic fashion, i.e. without knowledge of the identity or label of the analyzed samples (e.g. cell type, tumor/normal). This chapter focuses on latent variable models, a form of dimensionality reduction technique (see Chapter 4, Unsupervised Learning). Latent variable models make an assumption that the high dimensional data we observe (e.g. counts of tens of thousands of mRNA molecules) arise from a lower dimension description. The variables in that lower dimensional description are termed _Latent Variables_, as they are believed to be latent in the data, but not directly observable through experimentation. Therefore, there is a need for methods to infer the latent variables from the data. For instance, (see Chapter 8, RNA-seq analysis) the relative abundance of different mRNA molecules in a cell is largely determined by the cell type. There are other experiments which may be used to discern the cell type of cells (e.g. looking at them under a microscope), but an RNA-seq experiment does not, directly, reveal whether the analyzed sample was taken from one organ or another. A latent variable model would set the cell type as a latent variable, and the observable abundance of mRNA molecules to be dependent on the value of the latent variable (e.g. if the latent variable is "Regulatory T-cell", we would expect to find high expression of CD4, FOXP3, and CD25).
   
 ## Matrix factorization methods for unsupervised multi-omics data integration
 
@@ -120,7 +120,7 @@ In Figure \@ref(fig:momatrixFactorization), the $5 \times 4$ data matrix $X$ is 
 
 ### Multiple Factor Analysis
 
-\index{multiple factor analysis}Multiple factor analysis is a natural starting point for a discussion about matrix factorization methods for intergrating multiple data types. It is a straightforward extension of PCA into the domain of multiple data types [^mfamca].
+\index{multiple factor analysis}Multiple factor analysis is a natural starting point for a discussion about matrix factorization methods for integrating multiple data types. It is a straightforward extension of PCA into the domain of multiple data types [^mfamca].
 
 Figure \@ref(fig:moMFA) sketches a naive extension of PCA to a multi-omics context.
 
@@ -139,7 +139,7 @@ X = \begin{bmatrix}
            X_{L}
          \end{bmatrix} = WH,
 $$
-a joint decomposition of the different data matrices ($X_i$) into the factor matrix $W$ and the latent variable matrix $H$. This way, we can leverage the ability of PCA to find the highest variance decomposition of the data, when the data consists of different omics types. As a reminder, PCA finds the linear combinations of the features which, when the data is projected onto them, preserve the most variance of any $K$ dimensional space. But because measurements from different experients have different scales, they will also have variance (and co-variance) at different scales. 
+a joint decomposition of the different data matrices ($X_i$) into the factor matrix $W$ and the latent variable matrix $H$. This way, we can leverage the ability of PCA to find the highest variance decomposition of the data, when the data consists of different omics types. As a reminder, PCA finds the linear combinations of the features which, when the data is projected onto them, preserve the most variance of any $K$ dimensional space. But because measurements from different experiments have different scales, they will also have variance (and co-variance) at different scales. 
 
 Multiple Factor Analysis addresses this issue and achieves balance among the data types by normalizing each of the data types, before stacking them and passing them on to PCA. Formally, MFA is given by
 
@@ -346,7 +346,7 @@ colnames(nmf_df) <- c("dim1", "dim2")
 nmf_df$subtype <- factor(covariates[rownames(nmf_df),]$cms_label)
 ggplot2::ggplot(nmf_df, ggplot2::aes(x=dim1, y=dim2, color=subtype)) +
 ggplot2::geom_point() +
-ggplot2::ggtitle("Scatterplot of 2-component NMF for multi-omics integration")
+ggplot2::ggtitle("Scatter plot of 2-component NMF for multi-omics integration")
 ```
 
 Again, should we choose to run NMF with more than two factors, a more useful plot might be the heatmap shown in Figure \@ref(fig:monmfheatmap), generated by the following code snippet:
@@ -379,13 +379,13 @@ knitr::include_graphics("images/icluster.png" )
 
 
 
-Note that with this construction, the omics measurements $X$ are expected to be the same for samples with the same latent variable representation, up to gaussian noise. Further, we assume a Gaussian prior distribution on the latent variables $Z \sim N(0,I)$, which means we assume $X_{(i)} \sim N \big( 0,W_{(i)} W_{(i)}^T + \Psi_{(i)} \big)$. In order to find suitable values for $W$, $Z$, and $\Psi$, we can write down the multivariate normal log-likelihood function and optimize it. For a multivariate normal distribution with mean $0$ and covariance $\Sigma$, the log-likelihood function is given by
+Note that with this construction, the omics measurements $X$ are expected to be the same for samples with the same latent variable representation, up to Gaussian noise. Further, we assume a Gaussian prior distribution on the latent variables $Z \sim N(0,I)$, which means we assume $X_{(i)} \sim N \big( 0,W_{(i)} W_{(i)}^T + \Psi_{(i)} \big)$. In order to find suitable values for $W$, $Z$, and $\Psi$, we can write down the multivariate normal log-likelihood function and optimize it. For a multivariate normal distribution with mean $0$ and covariance $\Sigma$, the log-likelihood function is given by
 
 $$
 \ell = -\frac{1}{2} \bigg( \ln (|\Sigma|) + X^T \Sigma^{-1} X + k\ln (2 \pi) \bigg)
 $$
 
-(this is simply the log of the Probability Density Function of a multivariate gaussian). For the multi-omics iCluster case, we have $X=\big( X_{(1)}, \dots, X_{(L)} \big)^T$, $W = \big( W_{(1)}, \dots, W_{(L)} \big)^T$, where $X$ is a multivariate normal with $0$-mean and $\Sigma = W W^T + \Psi$ covariance. Hence, the log-likelihood function for the iCluster modle is given by:
+(this is simply the log of the Probability Density Function of a multivariate Gaussian). For the multi-omics iCluster case, we have $X=\big( X_{(1)}, \dots, X_{(L)} \big)^T$, $W = \big( W_{(1)}, \dots, W_{(L)} \big)^T$, where $X$ is a multivariate normal with $0$-mean and $\Sigma = W W^T + \Psi$ covariance. Hence, the log-likelihood function for the iCluster model is given by:
 
 $$
 \ell_{iC}(W,\Sigma) = -\frac{1}{2} \bigg( \sum_{i=1}^L \ln (|\Sigma|) + X^T\Sigma^{-1}X + p_i \ln (2 \pi) \bigg)
@@ -397,7 +397,7 @@ $$
 \ell = \ell_{iC}(W,\Sigma) - \lambda\|W\|_1.
 $$
 
-The parameter $\lambda$ acts as a dial to weigh the tradeoff between better model fits (higher log-likelihood) and a sparser model, with more $w_{ij}$s set to $0$, which gives models which generalize better and are more interpretable.
+The parameter $\lambda$ acts as a dial to weigh the trade-off between better model fits (higher log-likelihood) and a sparser model, with more $w_{ij}$s set to $0$, which gives models which generalize better and are more interpretable.
 
 In order to solve this problem, iCluster employs the Expectation Maximization (EM) algorithm. The full details are beyond the scope of this textbook. We will introduce a short sketch instead. The intuition behind the EM algorithm is a more general case of the k-means clustering algorithm (Chapter 4).
 
@@ -410,14 +410,14 @@ In order to solve this problem, iCluster employs the Expectation Maximization (E
 
 #### iCluster+
 
-iCluster+ is an extension of the iCluster framework, which allows for omics types to arrise from other distributions than a gaussian. While normal distributions are a good assumption for log-transformed, centered gene expression data, it is a poor model for binary mutations data, or for copy number variation data, which can typically take the values $(-2, 1, 0, 1, 2)$ for for heterozygous / monozygous deletions or amplifications. iCluster+ allows the different $X$s to have different distributions:
+iCluster+ is an extension of the iCluster framework, which allows for omics types to arise from other distributions than a Gaussian. While normal distributions are a good assumption for log-transformed, centered gene expression data, it is a poor model for binary mutations data, or for copy number variation data, which can typically take the values $(-2, 1, 0, 1, 2)$ for for heterozygous / monozygous deletions or amplifications. iCluster+ allows the different $X$s to have different distributions:
 
 * for binary mutations, $X$ is drawn from a multivariate binomial
-* for normal, continuous data, $X$ is drawn from a multivariate gaussian
+* for normal, continuous data, $X$ is drawn from a multivariate Gaussian
 * for copy number variations, $X$ is drawn from a multinomial
-* for count data, $X$ is drawn from a poisson.
+* for count data, $X$ is drawn from a Poisson.
 
-In that way, iCluster+ allows us to explicitly model our assumptions about the distributions of our different omics data types, and leverage the strengths of Bayesian inferrence.
+In that way, iCluster+ allows us to explicitly model our assumptions about the distributions of our different omics data types, and leverage the strengths of Bayesian inference.
 
 Both iCluster and iCluster+ make use of sophisticated Bayesian inference algorithms (EM for iCluster, Metropolis-Hastings MCMC for iCluster+), which means they do not scale up trivially. Therefore, it is recommended to filter down the features to a manageable size before inputing data to the algorithm. The exact size of "manageable" data depends on your hardware, but a rule of thumb is that dimensions in the thousands are ok, but in the tens of thousands might be too slow.
 
@@ -437,7 +437,7 @@ rownames(icp_df) <- colnames(x1)
 icp_df$subtype <- factor(covariates[rownames(icp_df),]$cms_label)
 ```
 
-As with other methods, we examine the iCluster results by looking at the scatterplot in Figure \@ref(fig:moiclusterplusscatter) and the heatmap in Figure \@ref(fig:moiclusterplusheatmap). Both figures show that iCluster learns two factors which nearly perfectly discriminate between tumors of the two subtypes.
+As with other methods, we examine the iCluster results by looking at the scatter plot in Figure \@ref(fig:moiclusterplusscatter) and the heatmap in Figure \@ref(fig:moiclusterplusheatmap). Both figures show that iCluster learns two factors which nearly perfectly discriminate between tumors of the two subtypes.
 
 ```{r,moiclusterplusscatter,fig.cap="iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated.", echo=FALSE}
 ggplot2::ggplot(icp_df, ggplot2::aes(x=dim1, y=dim2, color=subtype)) +
@@ -487,7 +487,7 @@ pheatmap::pheatmap(t(nmf.h[order(nmf.clusters),]),
 
 We see that using one-hot clustering with Joint NMF, we were able to find two clusters in the data which correspond fairly well with the molecular subtype of the tumors.
 
-The one-hot clustering method does not lend itself very well to the other methods discussed above, i.e. iCluster and MFA. The latent variables produced by those other methods may be negative, and further, in the case of iCluster, are going to assume a multivariate gaussian shape. As such, it is not trivial to pick one "dominant factor" for them. For NMF variants, this is a very common way to assign clusters.
+The one-hot clustering method does not lend itself very well to the other methods discussed above, i.e. iCluster and MFA. The latent variables produced by those other methods may be negative, and further, in the case of iCluster, are going to assume a multivariate Gaussian shape. As such, it is not trivial to pick one "dominant factor" for them. For NMF variants, this is a very common way to assign clusters.
 
 ### K-means clustering
 
@@ -558,7 +558,7 @@ $$
 P(k) = \frac{{\binom{K}{k}} - \binom{N-K}{n-k}}{\binom{N}{n}}.
 $$
 
-the **hypergeometric test** \index{statistical test} uses the hypergeometric distribution to assess the statistical significance of the presense of genes belonging to a gene set in the latent factor. The null hypothesis is that there is no relationship between genes in a gene set, and genes in a latent factor. When testing for over-representation of gene set genes in a latent factor, the P value from the hypergeometric test is the probability of getting $k$ or more genes from a gene set in a latent factor
+the **hypergeometric test** \index{statistical test} uses the hypergeometric distribution to assess the statistical significance of the presence of genes belonging to a gene set in the latent factor. The null hypothesis is that there is no relationship between genes in a gene set, and genes in a latent factor. When testing for over-representation of gene set genes in a latent factor, the P value from the hypergeometric test is the probability of getting $k$ or more genes from a gene set in a latent factor
 
 $$
 p = \sum_{i=k}^K P(k=i).
@@ -623,7 +623,7 @@ Figures \@ref(fig:moNMFClinicalCovariates) and \@ref(fig:moNMFClinicalCovariates
 
 1. Find features associated with iCluster and MFA factors, and visualize the feature weights. [Difficulty: Beginner]
 
-2. Normalizing the data matrices by their $\lambda_1$'s as in MFA supposes we wish to assign each data type the same importance in the down-stream analysis. This leads to a natural generalizaiton whereby the different data types may be differently weighed. Provide an implementation of weighed-MFA where the different data types may be assigned individual weights. [Difficulty: Intermediate]
+2. Normalizing the data matrices by their $\lambda_1$'s as in MFA supposes we wish to assign each data type the same importance in the down-stream analysis. This leads to a natural generalization whereby the different data types may be differently weighed. Provide an implementation of weighed-MFA where the different data types may be assigned individual weights. [Difficulty: Intermediate]
 
 3. In order to use NMF algorithms on data which can be negative, we need to split each feature into two new features, one positive and one negative. Implement the following function, and see that the included test does not fail: [Difficulty: Intermediate/Advanced]
 
@@ -666,7 +666,7 @@ ggplot2::ggplot(cov_factor, ggplot2::aes(x=cimp, y=factor2, group=cimp)) + ggplo
 
 3. Figures \@ref(fig:moNMFClinicalCovariates) and \@ref(fig:moNMFClinicalCovariates2) show that MSI/MSS tumors have different values for NMF factors 1 and 2. Which NMF factor is associated with microsatellite instability? [Difficulty: Beginner]
 
-4. Microsatellite instability (MSI) is associated with hypermutated tumors. As seen in Figure \@ref(fig:momutationsHeatmap), one of the subtypes has tumors with significantly more mutations than the other. Which subtype is that? Which NMF factor is associated with that subtype? And which NMF factor is associated with MSI?
+4. Microsatellite instability (MSI) is associated with hyper-mutated tumors. As seen in Figure \@ref(fig:momutationsHeatmap), one of the subtypes has tumors with significantly more mutations than the other. Which subtype is that? Which NMF factor is associated with that subtype? And which NMF factor is associated with MSI?
 
 
-[^mfamca]: When dealing with categorical variables, MFA uses MCA (Multipe Correspondence Analysis). This is less relevant to biological data analysis and will not be discussed here
+[^mfamca]: When dealing with categorical variables, MFA uses MCA (Multiple Correspondence Analysis). This is less relevant to biological data analysis and will not be discussed here
