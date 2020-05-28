@@ -438,7 +438,7 @@ chromosome 21.
 library(GenomeInfoDb)
 
 # fetch the chromosome lengths for the human genome
-hg_chrs = fetchExtendedChromInfoFromUCSC('hg38')
+hg_chrs = getChromInfoFromUCSC('hg38')
 
 # find the length of chromosome 21
 hg_chrs = subset(hg_chrs, grepl('chr21$',UCSC_seqlevel))
@@ -904,7 +904,7 @@ cpm (count per million reads) value, for each tile.
 library(GenomeInfoDb)
 library(GenomicRanges)
 
-hg_chrs        = fetchExtendedChromInfoFromUCSC('hg38')
+hg_chrs        = getChromInfoFromUCSC('hg38')
 hg_chrs        = subset(hg_chrs, grepl('chr21$',UCSC_seqlevel))
 seqlengths     = with(hg_chrs, setNames(UCSC_seqlength, UCSC_seqlevel))
 tilling_window = unlist(tileGenome(seqlengths, tilewidth=1000))
@@ -1390,7 +1390,7 @@ which will show the exact coordinates.
 # load Gviz package
 library(Gviz)
 # fetches the chromosome length information
-hg_chrs = fetchExtendedChromInfoFromUCSC('hg38')
+hg_chrs = getChromInfoFromUCSC('hg38')
 hg_chrs = subset(hg_chrs, (grepl('chr21$',UCSC_seqlevel)))
 
 # convert data.frame to named vector
@@ -1467,7 +1467,7 @@ million sequenced reads.
 library(GenomicRanges)
 library(GenomicAlignments)
 
-hg_chrs = fetchExtendedChromInfoFromUCSC('hg38') 
+hg_chrs = getChromInfoFromUCSC('hg38') 
 hg_chrs = subset(hg_chrs, grepl('chr21$',UCSC_seqlevel))
 
 seqlengths = with(hg_chrs, setNames(UCSC_seqlength, UCSC_seqlevel))
@@ -1570,7 +1570,7 @@ ctcf_peaks = ctcf_peaks[order(ctcf_peaks$qvalue)]
 ```
 
 
-```{r, peak-calling.sharp.peak-calling.show, include=TRUE, echo=FALSE, eval=TRUEm R.options=list(digits=3)}
+```{r, peak-calling.sharp.peak-calling.show, include=TRUE, echo=FALSE, eval=TRUE, R.options=list(digits=3)}
 ctcf_peaks
 ```
 After stringent q value filtering we are left with 724 peaks.
@@ -1819,8 +1819,8 @@ plotTracks(c(chr_track, axis, gene_track, peak_track, data_tracks),
            to   = end)
 ```
 
-The figure shows a highly enriched H3K36me3 region covering the gene body, 
-as expected.
+The figure\@ref(fig:peak-calling-broad-gviz) shows a highly enriched H3K36me3 
+region covering the gene body, as expected.
 
 
 ### Peak quality control
@@ -1924,8 +1924,8 @@ ggplot(data = h3k36_counts_df, aes(experiment, percentage, fill=enriched)) +
     ggtitle('Percentage of reads in peaks for H3K36me3') +
     scale_fill_manual(values=c('gray','red'))
 ```
-The figure shows that the ChIP sample is clearly enriched
-in the peak regions.
+The figure\@ref(fig:peak-quality-counts-plot) shows that the ChIP sample is 
+clearly enriched in the peak regions.
 The percentage of read in peaks will depend on the quality of the antibody (strength of
 enrichment), and the size of peaks which are bound by the protein of interest.
 If the total size of peaks is small, relative to the genome size, we can expect that
@@ -1983,7 +1983,7 @@ a motif finding algorithm.
 
 
 
-```{r peak-quality.show, echo=FALSE, include=TRUE, eval=TRUE}
+```{r peak-quality.show, echo=FALSE, include=TRUE, eval=TRUE, R.options=list(digits=3)}
 ctcf_motif
 ```
 
@@ -2013,9 +2013,10 @@ entropy = -\sum\limits_{i=1}^n p_{i}\log_2(p_i)
 
 We will use now the **seqLogo** package to visualize the information content of the 
 CTCF motif.
-The figure shows which are the most important nucleotides for CTCF binding.
+The figure\@ref(fig:peak-quality-seqLogo) shows which are the most
+important nucleotides for CTCF binding.
 
-```{r peak-quality-seqLogo, fig.cap="CTCF sequence motif visualized as a sequence logo. Y axis ranges from zero to two, and corresponds to the amount of information each base in the motif contributes to the overall motif. The larger the letter the greater the probability of observing just one defined base on the designated position."}
+```{r peak-quality-seqLogo, fig.cap="CTCF sequence motif visualized as a sequence logo. Y axis ranges from zero to two, and corresponds to the amount of information each base in the motif contributes to the overall motif. The larger the letter the greater the probability of observing just one defined base on the designated position.", fig.width=6, fig.height=3}
 # plot the seqLogo of the CTCF motif
 seqLogo::seqLogo(ctcf_motif)
 ```
@@ -2031,7 +2032,8 @@ expected variation in the position of the true binding location.
 ctcf_peaks_resized = resize(ctcf_peaks, width = 400, fix='center')
 ```
 
-Now we use the **BSgenome** package to extract the sequences corresponding to the peak regions.
+Now we use the **BSgenome**\index{R Packages!\texttt{BSgenome}} package to 
+extract the sequences corresponding to the peak regions.
 
 
 ```{r peak-quality.scan.getSeq}
@@ -2048,12 +2050,12 @@ head(seq)
 
 Once we have extracted the sequences, we can use the CTCF motif to 
 scan each sequences and determine the probability of CTCF binding.
-For this we use the **TFBSTools** [@TFBSTools] package.
+For this we use the **TFBSTools**\index{R Packages!\texttt{TFBSTools}} [@TFBSTools] package.
 
 We first convert the raw probability matrix into a **PWMMatrix** object, 
 which can then be used for efficient scanning.
 
-```{r, peak-quality.scan.tfbs}
+```{r, peak-quality.scan.tfbs, R.options=list(digits=3)}
 # load the TFBS tools package
 library(TFBSTools)
 
@@ -2082,7 +2084,7 @@ hits = as.data.frame(hits)
 ```
 
 
-```{r, peak-quality.scan.scan.show, echo=FALSE, eval=TRUE, include=TRUE}
+```{r, peak-quality.scan.scan.show, echo=FALSE, eval=TRUE, include=TRUE, R.options=list(digits=3)}
 head(hits)
 ```
 
@@ -2102,7 +2104,9 @@ motif_hits_df$contains_motif = motif_hits_df$peak_order %in% hits$seqnames
 motif_hits_df = motif_hits_df[order(-motif_hits_df$peak_order),]
 
 # calculate the percentage of peaks with motif for peaks of descending strength
-motif_hits_df$perc_peaks = with(motif_hits_df, round(cumsum(contains_motif)/max(peak_order),2))
+motif_hits_df$perc_peaks = with(motif_hits_df, 
+                                cumsum(contains_motif) / max(peak_order))
+motif_hits_df$perc_peaks = round(motif_hits_df$perc_peaks, 2)
 
 # plot the cumulative distribution of motif hit percentages
 ggplot(motif_hits_df, aes(peak_order, perc_peaks)) +
@@ -2117,7 +2121,8 @@ ggplot(motif_hits_df, aes(peak_order, perc_peaks)) +
     ggtitle('Percentage of CTCF peaks with the CTCF motif')
 ```
 
-The figure shows that, when we take all peaks into account ~45% of
+The figure\@ref(fig:peak-quality-scan-dist-plot)
+ shows that, when we take all peaks into account ~45% of
 the peaks contain a CTCF motif.
 This is an excellent percentage and indicates a high quality ChIP experiment.
 Our inability to locate the motif in ~50% of the sequences does not
@@ -2177,8 +2182,9 @@ ggplot(data=hits, aes(position)) +
         plot.title = element_text(hjust = 0.5))
 ```
 
-We can see that the bulk of motif hits are found in a region of +/- 250 bp 
-around the peak centers. This means that the peak calling procedure was quite precise.
+We can in figure\@ref(fig:chip-quality-motifloc-plot) see that the bulk of motif
+hits are found in a region of +/- 250 bp around the peak centers. 
+This means that the peak calling procedure was quite precise.
 
 
 ### Peak Annotation
@@ -2207,18 +2213,35 @@ annotation_list = GRangesList(
 ```
 
 The following function finds the genomic location of each peak, annotates
-the peaks using the hierarchical prioritization, and calculates the summary statistics.
+the peaks using the hierarchical prioritization, 
+and calculates the summary statistics.
+
+The function contains four major parts:
+
+1. Creating a disjoint set of peak regions.
+
+2. Finding the overlapping annotation for each peak.
+
+3. Annotating each peak with the corresponding annotation class.
+
+4. Calculating summary statistics
 
 ```{r peak-annotation.function}
 # function which annotates the location of each peak
 annotatePeaks = function(peaks, annotation_list, name){
     
+    # ------------------------------------------------ #
+    # 1. Getting disjoint regions
     # collapse touching enriched regions
     peaks = reduce(peaks)
     
+    # ------------------------------------------------ #
+    # 2. Overlapping peaks and annotation
     # find overlaps between the peaks and annotation_list
     result = as.data.frame(suppressWarnings(findOverlaps(peaks, annotation_list)))
     
+    # ------------------------------------------------ #
+    # 3. Annotating peaks
     # fetch annotation names
     result$annotation = names(annotation_list)[result$subjectHits]
     
@@ -2227,7 +2250,9 @@ annotatePeaks = function(peaks, annotation_list, name){
     
     # remove overlapping annotations
     result = subset(result, !duplicated(queryHits))
-        
+    
+    # ------------------------------------------------ #
+    # 4. Calculating statistics
     # count the number of peaks in each annotation category
     result = group_by(.data = result, annotation)
     result = summarise(.data = result, counts = length(annotation))
@@ -2244,15 +2269,28 @@ annotatePeaks = function(peaks, annotation_list, name){
 }
 ```
 
+Using the above defined **annotatePeaks** function we will now annotate CTCF 
+and H3k36me3 peaks.
+
+Firstly we create a list which contains both CTCF and H3k36me3 peaks.
+
 ```{r peak-annotation.list}
 peak_list = list(CTCF     = ctcf_peaks, 
                  H3K36me3 = h3k36_peaks)
+```
 
+Using the **lapply** function we apply the **annotatePeaks** function
+on each element of the least.
+
+```{r peak-annotation.apply.function}
 # calculate the distribution of peaks in annotation for each experiment
 annot_peaks_list = lapply(names(peak_list), function(peak_name){
         annotatePeaks(peak_list[[peak_name]], annotation_list, peak_name)
     })
 ```
+
+We use the **bind_rows** function to combine the CTCF and H3K36me3 annotation
+statistics into one data frame. And visualize the results as barplots.
 
 ```{r peak-annotation-plot, fig.cap='Enrichment of transcription factor or histone modifications in functional genomic features'}
 # combine a list of data.frames into one data.frame
@@ -2272,8 +2310,9 @@ ggplot(data = annot_peaks_df, aes(experiment, frequency, fill=annotation)) +
     ylab('Frequency')
 ```
 
-The plot shows that the H3K36me3 peaks are located preferentially in gene bodies,
-as expected, while the CTCF peaks are found preferentially in introns.
+The plot\@ref(fig:peak-annotation-plot) shows that the H3K36me3 peaks are 
+located preferentially in gene bodies, as expected, while the CTCF peaks are 
+found preferentially in introns.
 
 
 
@@ -2298,7 +2337,8 @@ Due to the combinatorial nature of the procedure, motif discovery is
 computational expensive. It is therefore often performed on a subset of the
 highest quality peaks.
 
-In this tutorial we will use **rGADEM** [@rGADEM] for motif discovery.
+In this tutorial we will use **rGADEM**\index{R Packages!\texttt{rGADEM}} 
+[@rGADEM] for motif discovery.
 **rGADEM** is a stochastic motif discovery tools, which uses
 sampling with subsequent enrichment analysis to find over-represented sequence
 motifs.
@@ -2381,10 +2421,14 @@ We will use the plot function to visualize the most enriched DNA motif:
 plot(novel_motifs[1])
 ```
 
+The motif show in Figure\@ref(fig:motif-discovery.seqlogo) corresponds to the
+previously visualized CTCF motif. Nevertheless, we will now computationally
+annotate our motif by querying the JASPAR [@khan_2018] database.
+
 ### Motif annotation
 
-We will now compare our unknown motif with the JASPAR2018 database, to
-figure out to which transcription factor it corresponds.
+We will now compare our unknown motif with the JASPAR2018 [@khan_2018] database,
+to figure out to which transcription factor it corresponds.
 Firstly we convert the frequency matrix into a **PWMatrix** object, and
 then use this object to query the database.
 
