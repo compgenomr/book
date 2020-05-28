@@ -25,23 +25,32 @@ Chapter Author: Jonathan Ronen
 \index{multi-omics}\index{colorectal cancer}The examples in this chapter will use the following data: a set of 121 tumors from the TCGA [@tcga_pan_cancer] cohorts of Colon and Rectum adenocarcinoma. The tumors have been profiled for gene expression using RNA-seq, mutations using Exome-seq, and copy number variations using genotyping arrays. Projects such as TCGA have turbocharged efforts to sub-divide cancer into subtypes. Although two tumors arise in the colon, they may have distinct molecular profiles, which is important for treatment decisions. The subset of tumors used in this chapter belong to two distinct molecular subtypes defined by the Colorectal Cancer Subtyping Consortium [@cmscc], _CMS1_ and _CMS3_. The following code snippets load this multi-omics data from the companion package, starting with gene expression data from RNA-seq (see Chapter \@ref(rnaseqanalysis)):
 
 ```{r,moloadMultiomicsGE, tidy=FALSE}
+# read in the csv from the companion package as a data frame
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_gex.csv", 
                        package="compGenomRData")
 x1 <- read.csv(csvfile, row.names=1)
+# Fix the gene names in the data frame
 rownames(x1) <- sapply(strsplit(rownames(x1), "\\|"), function(x) x[1])
+# Output a table
 knitr::kable(head(t(head(x1))), caption="Gene expression data (head)")
 ```
 ```{r,moloadMultiomicsMUT, tidy=FALSE}
+# read in the csv from the companion package as a data frame
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_muts.csv", 
                        package="compGenomRData")
 x2 <- read.csv(csvfile, row.names=1)
+# Set mutation data to be binary (so if a gene has more than 1 mutation,
+# we only count one)
 x2[x2>0]=1
+# output a table
 knitr::kable(head(t(head(x2))), caption="Mutation data (head)")
 ```
 ```{r,moloadMultiomicsCNV, tidy=FALSE}
+# read in the csv from the companion package as a data frame
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_cnv.csv", 
                        package="compGenomRData")
 x3 <- read.csv(csvfile, row.names=1)
+# output a table
 knitr::kable(head(t(head(x3))), caption="Copy number data (head)")
 ```
 
@@ -50,11 +59,14 @@ Table  \@ref(tab:moloadMultiomicsGE) shows the head of the gene expression matri
 Each of the data types (gene expression, mutations, copy number variation) on its own, provides some signal which allows to somewhat separate the samples into the two different subtypes. In order to explore these relations, we must first obtain the subtypes of these tumors. The following code snippet reads these, also from the companion package:
 
 ```{r,moloadCOREADSubsypes}
+# read in the csv from the companion package as a data frame
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_subtypes.csv",
                        package="compGenomRData")
 covariates <- read.csv(csvfile, row.names=1)
+# Fix the TCGA identifiers so they match up with the omics data
 rownames(covariates) <- gsub(pattern = '-', replacement = '\\.', rownames(covariates))
 covariates <- covariates[colnames(x1),]
+# create a dataframe which will be used to annotate later graphs
 anno_col <- data.frame(cms=as.factor(covariates$cms_label))
 rownames(anno_col) <- rownames(covariates)
 ```
@@ -166,18 +178,24 @@ Following this normalization step, we apply PCA to $X_n$. From there on, MFA ana
 
 MFA is available through the CRAN package `FactoMineR`. The code snippet below shows how to run it:
 ```{r,momultiomicsFactoMineR}
-r.mfa <- FactoMineR::MFA(t(rbind(x1,x2,x3)), 
-                         c(dim(x1)[1], dim(x2)[1], dim(x3)[1]),
-                         graph=FALSE)
+# run the MFA function from the FactoMineR package
+r.mfa <- FactoMineR::MFA(
+  t(rbind(x1,x2,x3)), # binding the omics types together
+  c(dim(x1)[1], dim(x2)[1], dim(x3)[1]), # specifying the dimensions of each
+  graph=FALSE)
 ```
 
 Since this generates a two-dimensional factorization of the multi-omcis data, we can now plot each tumor as a dot in a 2D scatter plot to see how well the MFA factors separate the cancer subtypes. The following code snippet generates Figure \@ref(fig:momfascatterplot):
 ```{r,momfascatterplot,fig.cap="Scatter plot of 2-dimensional MFA for multi-omics data shows separation between the subtypes."}
+# first, extract the H and W matrices from the MFA run result
 mfa.h <- r.mfa$global.pca$ind$coord
 mfa.w <- r.mfa$quanti.var$coord
 
+# create a dataframe with the H matrix and the CMS label
 mfa_df <- as.data.frame(mfa.h)
 mfa_df$subtype <- factor(covariates[rownames(mfa_df),]$cms_label)
+
+# create the plot
 ggplot2::ggplot(mfa_df, ggplot2::aes(x=Dim.1, y=Dim.2, color=subtype)) +
 ggplot2::geom_point() + ggplot2::ggtitle("Scatter plot of MFA")
 ```
@@ -284,13 +302,15 @@ Many NMF algorithms are available through the CRAN package `NMF`. The following 
 
 ```{r,mohiddenNMFPreprocessingFunctions,echo=FALSE}
 # For NMF to be usable on data types which allow negativity, we'll use a trick,
-# where we split each column into two non-negative columns, one for the negative numbers
-# and one for the positive numbers. Here's a function that does that:
+# where we split each column into two non-negative columns, one for the negative
+# numbers and one for the positive numbers. Here's a function that does that:
 split_neg_columns <- function(x) {
     new_cols <- list()
     for(i in seq_len(dim(x)[2])) {
-        new_cols[[paste0(colnames(x)[i],'+')]] <- sapply(X = x[,i], function(x) max(0,x))
-        new_cols[[paste0(colnames(x)[i],'-')]] <- sapply(X = -x[,i], function(x) max(0,x))
+        new_cols[[paste0(colnames(x)[i],'+')]] <- sapply(X = x[,i], 
+                                                         function(x) max(0,x))
+        new_cols[[paste0(colnames(x)[i],'-')]] <- sapply(X = -x[,i],
+                                                         function(x) max(0,x))
     }
     new_cols
     return(do.call(cbind, new_cols))
@@ -299,14 +319,19 @@ split_neg_columns <- function(x) {
 # and here's a test that shows the function above works
 test_split_neg_columns <- function() {
     test.input <- as.data.frame(cbind(c(1,2,1),c(0,1,-2)))
-    expected.output <- as.data.frame(cbind(c(1,2,1), c(0,0,0), c(0,1,0), c(0,0,2)))
-    stopifnot(all(as.matrix(expected.output) == as.matrix(split_neg_columns(test.input))))
+    expected.output <- as.data.frame(cbind(c(1,2,1),
+                                           c(0,0,0),
+                                           c(0,1,0),
+                                           c(0,0,2)))
+    stopifnot(all(as.matrix(expected.output) == as.matrix(split_neg_columns(
+      test.input))))
 }
 test_split_neg_columns()
 
 # Here's a function that undoes the previous transformation,
-# so it takes each pair of columns and merges them to one, where the values from the first column
-# are taken as positives, and the values from the second column as negatives.
+# so it takes each pair of columns and merges them to one, where the values
+# from the first column are taken as positives, and the values from the second
+# column as negatives.
 merge_neg_columns <- function(x) {
     new_cols <- list()
     for(i in seq_len(dim(x)[2]/2)) {
@@ -344,21 +369,28 @@ x3.featnorm.frobnorm <- x3.featnorm / norm(as.matrix(x3.featnorm), type="F")
 # Split the features of the CNV matrix into two non-negative features each
 x3.featnorm.frobnorm.nonneg <- t(split_neg_columns(t(x3.featnorm.frobnorm)))
 
+# run the nmf function from the NMF package
 require(NMF)
 r.nmf <- nmf(t(rbind(x1.featnorm.frobnorm,
                      x2.featnorm.frobnorm,
                      x3.featnorm.frobnorm.nonneg)),
              2,
              method='Frobenius')
+
+# exctract the H and W matrices from the nmf run result
 nmf.h <- NMF::basis(r.nmf)
 nmf.w <- NMF::coef(r.nmf)
+nmfw <- t(nmf.w)
 ```
 
 As with MFA, we can examine how well 2-factor NMF splits tumors into subtypes by looking at the scatter plot in Figure \@ref(fig:monmfscatterplot), generated by the following code chunk:
 ```{r,monmfscatterplot,fig.cap="NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned form multi-omics data."}
+# create a dataframe with the H matrix and the CMS label (subtype)
 nmf_df <- as.data.frame(nmf.h)
 colnames(nmf_df) <- c("dim1", "dim2")
 nmf_df$subtype <- factor(covariates[rownames(nmf_df),]$cms_label)
+
+# create the scatter plot
 ggplot2::ggplot(nmf_df, ggplot2::aes(x=dim1, y=dim2, color=subtype)) +
 ggplot2::geom_point() +
 ggplot2::ggtitle("Scatter plot of 2-component NMF for multi-omics integration")
@@ -446,12 +478,24 @@ Both iCluster and iCluster+ make use of sophisticated Bayesian inference algorit
 
 iCluster+ is available through the BioConductor package `iClusterPlus`. The following code snippet demonstrates how it can be run with two components:
 ```{r,momultiOmicsiclusterplus}
-r.icluster <- iClusterPlus::iClusterPlus(t(x1), t(x2), t(x3), type=c("gaussian", "binomial", "multinomial"), K=2, alpha=c(1,1,1), lambda=c(.03,.03,.03))
+# run the iClusterPlus function
+r.icluster <- iClusterPlus::iClusterPlus(
+  t(x1), # Providing each omics type
+  t(x2),
+  t(x3),
+  type=c("gaussian", "binomial", "multinomial"), # Providing the distributions
+  K=2, # provide the number of factors to learn
+  alpha=c(1,1,1), # as well as other model parameters
+  lambda=c(.03,.03,.03))
 
+# extract the H and W matrices from the run result
+# here, we refer to H as z, to keep with iCluster terminology
 icluster.z <- r.icluster$meanZ
+rownames(icluster.z) <- rownames(covariates) # fix the row names
 icluster.ws <- r.icluster$beta
-icluster.clusters <- r.icluster$clusters
 
+# construct a dataframe with the H matrix (z) and the cancer subtypes
+# for later plotting
 icp_df <- as.data.frame(icluster.z)
 colnames(icp_df) <- c("dim1", "dim2")
 rownames(icp_df) <- colnames(x1)
@@ -498,12 +542,20 @@ A specific clustering method for NMF data is to assume each sample is driven by 
 The two rows are the two latent variables, and the columns are the 72 tumors. We can observe that most tumors are indeed driven mainly by one of the factors, and not a combination of the two. We can use this to assign each tumor a cluster label based on its dominant factor, shown in the following code snippet, which also produces the heatmap in Figure \@ref(fig:moNMFClustering).
 
 ```{r,moNMFClustering,fig.cap="Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types."}
+# one-hot clustering in one line of code:
+# assign each sample the cluster according to its dominant NMF factor
+# easily accessible using the max.col function
 nmf.clusters <- max.col(nmf.h)
 names(nmf.clusters) <- rownames(nmf.h)
+
+# create an annotation data frame indicating the NMF one-hot clusters
+# as well as the cancer subtypes, for the heatmap plot below
 anno_nmf_cl <- data.frame(
   nmf.cluster=factor(nmf.clusters),
   cms.subtype=factor(covariates[rownames(nmf.h),]$cms_label)
 )
+
+# generate the plot
 pheatmap::pheatmap(t(nmf.h[order(nmf.clusters),]),
   cluster_cols=FALSE, cluster_rows=FALSE,
   annotation_col = anno_nmf_cl,
@@ -520,17 +572,22 @@ The one-hot clustering method does not lend itself very well to the other method
 K-means clustering was introduced in Chapter \@ref(unsupervisedLearning). K-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step. The following code snippet shows how to pull K-means clusters out of the iCluster results, and produces the heatmap in Figure \@ref(fig:moiClusterHeatmap), which shows how well these clusters correspond to cancer subtypes.
 
 ```{r,moiClusterHeatmap,fig.cap="K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types."}
-rownames(icluster.z) <- rownames(covariates)
+# use the kmeans function to cluster the iCluster H matrix (here, z)
+# using 2 as the number of clusters.
 icluster.clusters <- kmeans(icluster.z, 2)$cluster
 names(icluster.clusters) <- rownames(icluster.z)
+
+# create an annotation dataframe for the heatmap plot
+# containing the kmeans cluster assignments and the cancer subtypes
 anno_icluster_cl <- data.frame(
   iCluster=factor(icluster.clusters),
   cms.subtype=factor(covariates$cms_label))
 
+# generate the figure
 pheatmap::pheatmap(
-  t(icluster.z[order(icluster.clusters),]),
-  cluster_cols=FALSE,
-  cluster_rows=FALSE,
+  t(icluster.z[order(icluster.clusters),]), # order z by the kmeans clusters
+  cluster_cols=FALSE, # use cluster_cols and cluster_rows=FALSE
+  cluster_rows=FALSE, # as we want the ordering by k-means clusters to hold
   show_colnames = FALSE,
   annotation_col = anno_icluster_cl,
   main="iCluster factors\nwith clusters and molecular subtypes")
@@ -545,8 +602,8 @@ This demonstrates the ability of iClusterPlus to find clusters which correspond 
 
 The most straightforward way to go about interpreting the latent factors in a biological context, is to look at the coefficients which are associated with them. The latent variable models introduced above all take the linear form $X \approx WH$, where $W$ is a factor matrix, with coefficients tying each latent variable with each of the features in the $L$ original multi-omics data matrices. By inspecting these coefficients, we can get a sense of which multi-omics features are co-regulated. The code snippet below generates Figure \@ref(fig:moNMFHeatmap), which shows the coefficients of the Joint NMF analysis above:
 ```{r,moNMFHeatmap,fig.cap="Heatmap showing the association of input features from multi-omics data (gene expression, copy number variation, and mutations), with JNMF factors. Gene expression features dominate both factors, but copy numbers and mutations mostly affect only one factor each."}
-nmfw <- t(nmf.w)
-
+# create an annotation dataframe for the heatmap
+# for each feature, indicating its omics-type
 data_anno <- data.frame(
   omics=c(rep('expression',dim(x1)[1]),
           rep('mut',dim(x2)[1]),
@@ -556,6 +613,7 @@ rownames(data_anno) <- c(rownames(x1),
                          rownames(x3.featnorm.frobnorm.nonneg))
 rownames(nmfw) <- rownames(data_anno)
 
+# generate the heat map
 pheatmap::pheatmap(nmfw,
                    cluster_cols = FALSE,
                    annotation_row = data_anno,
@@ -598,9 +656,14 @@ In R, we can do this analysis using the `enrichR` package, which gives us access
 
 ```{r,moenrichr}
 require(enrichR)
+
+# select genes associated preferentially with each factor
+# by their relative loading in the W matrix
 genes.factor.1 <- names(which(nmfw[1:dim(x1)[1],1] > nmfw[1:dim(x1)[1],2]))
 genes.factor.2 <- names(which(nmfw[1:dim(x1)[1],1] < nmfw[1:dim(x1)[1],2]))
 
+# call the enrichr function to find gene sets enriched
+# in each latent factor in the GO Biological Processes 2018 library
 go.factor.1 <- enrichR::enrichr(genes.factor.1,
                                 databases = c("GO_Biological_Process_2018")
                                 )$GO_Biological_Process_2018
@@ -610,7 +673,7 @@ go.factor.2 <- enrichR::enrichr(genes.factor.2,
 ```
 
 The top GO terms associated with NMF factor 2 are shown in Table \@ref(tab:moNMFGOTerms):
-```{r,moNMFGOTerms,fig.cap="Top GO-terms associated with NMF factor 2.",echo=FALSE}
+```{r,moNMFGOTerms,caption="Top GO-terms associated with NMF factor 2.",echo=FALSE}
 go.factor.2$Genes <- gsub(";", "; ", go.factor.2$Genes)
 
 the.table <- knitr::kable(head(go.factor.2, 3)[,c("Term", "Adjusted.P.value", "Combined.Score", "Genes")],
@@ -627,12 +690,17 @@ the.table
 Another way to ascribe biological significance to the latent variables is by correlating them with additional covariates we might have about the samples. In our example, the Colorectal cancer tumors have also been characterized for Microsattelite Instability status, using an external test (typically PCR-based). By examining the latent variable values as they relate to a tumor's MSI status, we might discover that we've learned latent factors that are related to it. The following code snippet demonstrates how this might be looked into, by generating Figures \@ref(fig:moNMFClinicalCovariates) and \@ref(fig:moNMFClinicalCovariates2):
 
 ```{r,moNMFClinicalCovariates,fig.cap="Box plot showing MSI/MSS status distribution and NMF factor 1 values."}
+# create a data frame holding covariates (age, gender, MSI status)
 a <- data.frame(age=covariates$age,
                 gender=as.numeric(covariates$gender),
                 msi=covariates$msi)
 b <- nmf.h
 colnames(b) <- c('factor1', 'factor2')
+
+# concatenate the covariate dataframe with the H matrix
 cov_factor <- cbind(a,b)
+
+# generate the figure
 ggplot2::ggplot(cov_factor, ggplot2::aes(x=msi, y=factor1, group=msi)) +
   ggplot2::geom_boxplot() +
   ggplot2::ggtitle("NMF factor 1 microsatellite instability")
@@ -656,6 +724,7 @@ Figures \@ref(fig:moNMFClinicalCovariates) and \@ref(fig:moNMFClinicalCovariates
 3. In order to use NMF algorithms on data which can be negative, we need to split each feature into two new features, one positive and one negative. Implement the following function, and see that the included test does not fail: [Difficulty: Intermediate/Advanced]
 
 ```{r,moNMFExerciseColumnSplitting,eval=FALSE, echo=TRUE}
+# Implement this function
 split_neg_columns <- function(x) {
     # your code here
 }
@@ -666,6 +735,8 @@ test_split_neg_columns <- function() {
     output <- as.data.frame(cbind(c(1,2,1), c(0,0,0), c(0,1,0), c(0,0,2)))
     stopifnot(all(output == split_neg_columns(input)))
 }
+
+# run the test to verify your solution
 test_split_neg_columns()
 ```
 
