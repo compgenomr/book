@@ -333,17 +333,16 @@ such regions for the most commonly used model organism species.
 
 The following tutorial presumes that the user is already familiar with 
 the following technical and conceptual knowledge in computational data processing.
-From \@ref(processingReads) you should be familiar with \@ref(read filtering)
-\@ref(read mapping), the concept of multi-mapping reads, 
-and the following file formats \@ref(bed), \@ref(gtf), \@ref(wig)
-\@ref(bigWig), \@ref(bam). You should also know what PCR is, what
-are PCR duplicates, positive and negative strand, and technical and biological 
+From \@ref(processingReads) you should be familiar with \index{read filtering}
+\index{read mapping}, the concept of multi-mapping reads, 
+and the following file formats BED\index{BED file}, GTF\index{GTF file}, 
+WIG\index{WIG file}, bigWig\index{bigWig file}, BAM\index{BAM file}. 
+You should also know what PCR\index{PCR} is, what
+are PCR duplicates, positive and negative DNA strands, and technical and biological 
 replicates.
 
 
-
 ## ChIP Quality Control
-
 
 While the goal of the read quality assessment is to check whether the sequencing
 produced high enough number of high quality reads;
@@ -371,8 +370,8 @@ average GC content in the corresponding genomic bin.
 
 Here we will familiarize ourselves with the datasets that will be used in the
 chapter.
-Experimental data was downloaded from the public ENCODE (ref) database of 
-ChIP-seq experiments.
+Experimental data was downloaded from the public ENCODE [@ENCODE_Project_Consortium2012-wf] 
+database of ChIP-seq experiments.
 The experiments were performed on a Lymphoblastoid cell line GM12878, and mapped
 to the GRCh38 (hg38) version of the Human genome, using the standard ENCODE
 ChIP-seq pipeline.
@@ -582,7 +581,8 @@ Heatmap(correlation_matrix,
         col = heatmap_col)
 ```
 
-Here we can see a perfect example of why quality control is important. 
+In figure\@ref(fig:sample-clustering-complex-heatmap) we can see a 
+perfect example of why quality control is important. 
 **CTCF** is a zinc finger protein which co-localizes with the Cohesin complex.
 **SMC3** is a sub unit of the Cohesin complex, and we would therefore expect to
 see that the **SMC3** signal profile has high correlation with the **CTCF** signal profile.
@@ -720,10 +720,11 @@ export.bw(cov, 'output_file')
 ```
 
 
-#### Gviz
+#### Vizualization of track data using Gviz
 
-We can create Genome browser like visualizations using the **Gviz** package.
-Gviz is a too which enables exhaustive customized visualization of 
+We can create Genome browser like visualizations using the **Gviz** package, 
+which was introduced in chapter \@(genomicIntervals).
+Gviz is a tool which enables exhaustive customized visualization of 
 genomics experiments.
 The basic usage principle is to define tracks, where each track can represent
 genomic annotation, or a signal profile; subsequently we define the order
@@ -747,9 +748,11 @@ track_list = list(axis,dtrack)
 
 Tracks are plotted with the **plotTracks** function.
 **sizes** argument needs to be the same size as the track_list, and defines the 
-relative size of each track.
+relative size of each track. 
+Figure\@ref(fig:genome-browser-gviz-show) shows the output of the
+**plotTracks** function.
 
-```{r genome-browser-gviz-show, fig.cap='ChIP-seq signal visualized as a browser track using Gviz'}
+```{r genome-browser-gviz-show, fig.cap='ChIP-seq signal visualized as a browser track using Gviz', width=6, height = 3}
 # plot the list of browser tracks
 # sizes argument defines the relative sizes of tracks
 # background title defines the color for the track labels
@@ -849,14 +852,15 @@ wsize = 1:400
 # defines the jaccard similarity
 jaccard = function(x,y)sum((x & y)) / sum((x | y))
 
-# shifts the + vector by 1 - 400 nucleotides and calculates the correlation coefficient
+# shifts the + vector by 1 - 400 nucleotides and 
+# calculates the correlation coefficient
 cc = shiftApply(wsize, cov[['+']], cov[['-']], FUN=jaccard)
 
 # converts the results into a data frame
 cc = data.frame(fragment_size = wsize, cross_correlation = cc)
 ```
 
-We can finally plot the shift Vs the correlation coefficient:
+We can finally plot the shift Vs the correlation coefficient: 
 
 ```{r correlation-plot, fig.cap='The figure shows the correlation coefficient between the ChIP-seq signal on + and - strands. The peak of the distribution designates the fragment size'}
 library(ggplot2)
@@ -874,7 +878,8 @@ ggplot(data = cc, aes(fragment_size, cross_correlation)) +
 
 ```
 
-The shift in base pairs which corresponds to the  maximum value of the correlation coefficient 
+Figure\@ref(fig:correlation-plot) shows the shift in base pairs, 
+which corresponds to the  maximum value of the correlation coefficient 
 gives us an approximation to the expected average DNA fragment length. 
 Because this value is not 0, or monotonically decreasing, we can conclude
 that there was substantial enrichment of certain fragments in the ChIP samples.
@@ -985,19 +990,22 @@ ggplot(data = gc, aes(GC, GM12878_hg38_CTCF_r1.chr21.bam)) +
     ggtitle('CTCF Replicate 1')
 ```
 
-CPM Vs GC content plot gives us two important pieces of information.
-The first one is whether there was a specific amplification of regions
+Figure\@ref(fig:gc-plot) visualizes the CPM Vs GC content, and
+gives us two important pieces of information.
+Firstly, it shows whether there was a specific amplification of regions
 with extremely high or extremely low GC content. This would be strong indication
 that the either the PCR or the size selection procedure were not successfully
 executed.
 The second piece of information comes by comparison of plots 
 corresponding to multiple experiments. If different ChIP-samples have
-highly diverging enrichment of different ChIP regions, this implies that
+highly diverging enrichment of different ChIP regions, then
 some of the samples were affected by unknown batch affects. Such effects
 need to be taken into account in downstream analysis.
 
 Firstly, we will reorder the columns of the data.frame using the gather 
-function from the tidyr package
+function from the tidyr package.
+Figure\@ref(fig:gc.tidy) compares the GC content dependency on the CPM between
+the first and the second CTCF replicate.
 
 ```{r gc.tidy}
 # load the tidyr package
@@ -1093,7 +1101,7 @@ hub = AnnotationHub()
 
 The **hub** variable contains the programming interface towards the online database.
 We can use the **query** function to find out the ID of the
-ENSEMBL gene annotation.
+ENSEMBL\index{ENSEMBL} gene annotation.
 
 ```{r read-annot.query}
 # query the hub for the human annotation
@@ -1103,7 +1111,7 @@ AnnotationHub::query(hub, c('ENSEMBL','Homo','GRCh38','chr','gtf'))
 We are interested in the version GRCh38.92, which is available under **AH61126**.
 To download the data from the hub, we use the **[[** operator on the
 hub API.
-We will download the annotation in the **.gtf** format, into a **GRanges** object.
+We will download the annotation in the **GTF**\index{GTF file} format, into a`GRanges` object.
 
 ```{r read-annot.fetch}
 # retrieve the human gene annotation
@@ -1118,6 +1126,8 @@ gtf[1:6,1:3]
 By default the ENSEMBL project labels chromosomes using numeric identifiers (i.e. 1,2,3 ... X), 
 without the __chr__ prefix.
 We need to therefore append the prefix to the chromosome names (seqlevels).
+`pruning.mode = 'coarse'` designates that the chromosome names will be replaced
+in the gtf object.
 
 ```{r read-annot.seqlevels}
 # paste the chr prefix to chromosome names
@@ -1154,9 +1164,11 @@ annotation_list = GRangesList(
 
 #### Annotating reads
 
-To annotate the reads we will define a function that takes as input a **.bam** file, 
-and an annotation list, and returns the frequency of reads in each genomic category.
-We will then loop over all of the **.bam** files to annotate each experiment.
+To annotate the reads we will define a function that takes as input a 
+**.bam**\index{BAM file} file, and an annotation list, and returns the frequency of 
+reads in each genomic category.
+We will then loop over all of the **.bam**\index{BAM file} 
+files to annotate each experiment.
 
 **annotateReads** function works in the following way:
 
@@ -1249,9 +1261,9 @@ ggplot(data = annot_reads_df, aes(experiment, frequency, fill=annotation)) +
     ggtitle('Percentage of reads in annotation')
 ```
 
-We can observe a slight increase of H3K36me3 on the exons and introns, and H3K4me3
-on the TSS. Interestingly, both replicates of the ZNF143 transcription factor show increased
-read abundance around the TSS.
+Figure\@ref(fig:read-annot-plot) shows a slight increase of H3K36me3 on the exons
+and introns, and H3K4me3 on the TSS. Interestingly, both replicates of the ZNF143
+transcription factor show increased read abundance around the TSS.
 
 ## Peak Calling
 
@@ -1265,7 +1277,7 @@ The procedure requires mapped reads, and outputs a set of regions, which
 represent the putative binding locations. Each region is usually associated 
 with a significance score which is an indicator of enrichment.
 
-For peak calling we will use the **normR** (ref) Bioconductor package.
+For peak calling we will use the **normR**\index{R Packages!\texttt{normR}} Bioconductor package.
 **normR** uses a binomial mixture model, and performs simultaneous
 normalization and peak finding. Due to the nature of the model, it is
 quite plastic and can be used for different types of ChIP experiments.
