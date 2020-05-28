@@ -1435,7 +1435,7 @@ plotTracks(c(chr_track, axis, gene_track, data_tracks),
            to   = end   + 5000)
 ```
 
-The figure shows the signal profile around the URB1 gene.
+Figure\@ref(fig:chip-type-plot-gviz) shows the signal profile around the URB1 gene.
 H3K4me3 signal profile contains a strong narrow peak on the transcription start site.
 H3K36me3 shows strong enrichment in the gene body, wile the POL2 ChIP shows
 a mixed profile, with a strong peak at the TSS and an enrichment over the gene body.
@@ -1501,8 +1501,9 @@ ggplot(data = cpm, aes(GM12878_hg38_Input_r5.chr21.bam, GM12878_hg38_CTCF_r1.chr
     ggtitle('ChIP Vs Input')
     
 ```
-Regions above the diagonal show higher enrichment in the ChIP samples, while
-the regions below the diagonal show higher enrichment in the Input samples.
+Regions above the diagonal, in figure\@ref(fig:peak-calling-sharp-plot) show 
+higher enrichment in the ChIP samples, while the regions below the diagonal 
+show higher enrichment in the Input samples.
 
 
 Let us now perform for peak calling.
@@ -1569,7 +1570,7 @@ ctcf_peaks = ctcf_peaks[order(ctcf_peaks$qvalue)]
 ```
 
 
-```{r, peak-calling.sharp.peak-calling.show, include=TRUE, echo=FALSE, eval=TRUE}
+```{r, peak-calling.sharp.peak-calling.show, include=TRUE, echo=FALSE, eval=TRUEm R.options=list(digits=3)}
 ctcf_peaks
 ```
 After stringent q value filtering we are left with 724 peaks.
@@ -1620,9 +1621,10 @@ ggplot(data = cpm, aes(GM12878_hg38_Input_r5.chr21.bam, GM12878_hg38_CTCF_r1.chr
     scale_color_manual(values=c('gray','red'))
 ```
 
-We can see that **normR** identified all of the regions above the diagonal
-as statistically significant. It has, however, labeled a significant
-number of regions below the diagonal. Because the sophisticated statistical model, 
+Figure\@ref(fig:peak-calling-sharp-peak-calling-plot) shows see that **normR** 
+identified all of the regions above the diagonal as statistically significant. 
+It has, however, labeled a significant number of regions below the diagonal. 
+Because the sophisticated statistical model, 
 **normR** has greater sensitivity, and these peaks might really be enriched regions,
 it is worth investigating the nature of these regions. This is left as an exercise
 to the reader.
@@ -1714,7 +1716,8 @@ plotTracks(list(chr_track,
            to   = end(ctcf_peaks)[1]   + 1000)
 ```
 
-The ChIP sample looks as expected. Although the Input sample shows an enrichment, 
+Figure\@ref(fig:peak-calling-signal-profile-plot) ChIP sample looks as expected.
+Although the Input sample shows an enrichment, 
 it is important to compare the scales on both samples. The normalized ChIP signal goes up 
 to 2500, while the maximum value in the input sample is only 60.
 
