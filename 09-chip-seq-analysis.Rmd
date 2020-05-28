@@ -331,91 +331,46 @@ Such regions are called **blacklisted** regions and should be removed from the
 downstream analysis. The UCSC browser database (ref) contains tables with
 such regions for the most commonly used model organism species.
 
-## Computational Analysis of ChIP-seq data
-
 The following tutorial presumes that the user is already familiar with 
-the following technical and conceptual knowledge:
+the following technical and conceptual knowledge in computational data processing.
+From \@ref(processingReads) you should be familiar with \@ref(read filtering)
+\@ref(read mapping), the concept of multi-mapping reads, 
+and the following file formats \@ref(bed), \@ref(gtf), \@ref(wig)
+\@ref(bigWig), \@ref(bam). You should also know what PCR is, what
+are PCR duplicates, positive and negative strand, and technical and biological 
+replicates.
 
-#### Technical requirements
 
-The practical section presumes that the user knows how to use the following **R** tools:
 
-- ggplot2 package 
+## ChIP Quality Control
 
-- R objects, and classes, and object conversion (list, data.frame, matrix, vector)
 
-- construction, and usage of functions
+While the goal of the read quality assessment is to check whether the sequencing
+produced high enough number of high quality reads;
+the goal of the ChIP quality control to ascertaining whether the chromatin immunoprecipitation
+enrichment was successful.
+This is a crucial step in the ChIP-seq analysis because it can help us
+identify low quality ChIP samples, and give information about which experimental
+steps went wrong.
 
-- GenomicRanges, GenomicFeatures, and GenomicAlignment Bioconductor packages
+There are four steps in the ChIP quality control:
 
-- Rle, coverage
+1. Sample correlation clustering - clustering of the pair-wise correlations between
+genome-wide signal profiles.
 
-#### Knowledge requirements for the tutorial
+2. Data visualization in a genomic browser.
 
-By this chapter you should be familiar with the following terms:
+3. Average fragment length determination - determining whether the ChIP enriched
+for fragments of a certain length.
 
-- Read filtering
-
-- Read mapping
-
-- File format
-
-- Structure of **bed**, **gtf**, **wig**, **bigWig**, **bam**
-
-- Uniquely-mapping and multi-mapping reads
-
-- PCR duplicates
-
-- biological and technical replicates
-
-- + and - strand
-
-- PCR - polymerase chain reaction
-
-### Prerequisites
-
-Please install the following **R** packages
-
-Firstly, we will install the Bioconductor package manager **BiocManager**
-
-```{r BiocManager, eval=FALSE, echo = TRUE, include=TRUE}
-install.packages(BiocManager)
-```
-
-Using **BiocManager** we can install rest of the dependencies: 
-
-```{r install, eval=FALSE, echo=TRUE, include=TRUE}
-packages = c(
-    'AnnotationHub',
-    'Biostrings',
-    'BSgenome',
-    'BSgenome.Hsapiens.UCSC.hg38',
-    'circlize',
-    'ComplexHeatmap',
-    'dplyr',
-    'GenomicAlignments',
-    'GenomicFeatures',
-    'GenomicRanges',
-    'GenomeInfoDB',
-    'ggplot2',
-    'Gviz',
-    'JASPAR2018',
-    'MotifDb',
-    'motifStack',
-    'normr',
-    'RCAS',
-    'rtracklayer',
-    'seqLogo',
-    'TFBSTools',
-    'tidyr',
-    'compgenomr/compGenomRData')
-BiocManager::install(packages)
-```
-
+4. Visualization of GC bias. Here we will plot the ChIP enrichment Vs the 
+average GC content in the corresponding genomic bin.
 
 
 ### The Data
 
+Here we will familiarize ourselves with the datasets that will be used in the
+chapter.
 Experimental data was downloaded from the public ENCODE (ref) database of 
 ChIP-seq experiments.
 The experiments were performed on a Lymphoblastoid cell line GM12878, and mapped
@@ -452,30 +407,6 @@ The data set consist of the following ChIP experiments:
 3. Various input samples
 
 The first step in the ChIP-seq data analysis is to perform ChIP quality control
-
-## ChIP Quality Control
-
-
-While the goal of the read quality assessment is to check whether the sequencing
-produced high enough number of high quality reads;
-the goal of the ChIP quality control to ascertaining whether the chromatin immunoprecipitation
-enrichment was successful.
-This is a crucial step in the ChIP-seq analysis because it can help us
-identify low quality ChIP samples, and give information about which experimental
-steps went wrong.
-
-There are four steps in the ChIP quality control:
-
-1. Sample correlation clustering - clustering of the pair-wise correlations between
-genome-wide signal profiles.
-
-2. Data visualization in a genomic browser.
-
-3. Average fragment length determination - determining whether the ChIP enriched
-for fragments of a certain length.
-
-4. Visualization of GC bias. Here we will plot the ChIP enrichment Vs the 
-average GC content in the corresponding genomic bin.
 
 ### Sample Clustering
 
