@@ -1,8 +1,4 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
+
 # Multi-omics Analysis {#multiomics}
 
 ```{r setup_mo_seq, include=FALSE}
@@ -14,16 +10,17 @@ knitr::opts_chunk$set(echo      = TRUE,
                       fig.width = 5,
                       fig.align = 'center')
 ```
-Chapter Author: Jonathan Ronen
+Chapter Author: **Jonathan Ronen**
 
 
 
-\index{multi-omics}Living cells are a symphony of complex processes. Modern sequencing technology has lead to many comprehensive assays being routinely available to experimenters, giving us different ways to peek at the internal doings of the cells, each experiment revealing a different part of some underlying processes. As an example, most cells have the same DNA, but sequencing the genome of a cell allows us to find mutations and structural alterations that drive tumerogenesis in cancer. If we treat the DNA with bisulfite prior to sequencing, cytosine residues are converted to uracil, but 5-methylcytosine residues are unaffected. This allows us to probe the methylation patterns of the genome, or its methylome. By sequencing the mRNA molecules in a cell, we can calculate the abundance, in different samples, of different mRNA transcripts, or uncover its transcriptome. Performing different experiments on the same samples, for instance RNA-seq, DNA-seq, and BS-seq, results in multi-dimensional omics datasets, which enable the study of relationships between different biological processes, e.g. DNA methylation, mutations, and gene expression, and the leveraging of multiple data types to draw inferences about biological systems. This chapter provides an overview of some of the available methods for such analyses, focusing on matrix factorization approaches. In the examples in this chapter we will demonstrate how these methods are applicable to cancer subtyping, i.e. finding tumors which are driven by the same oncogenic processes.
+\index{multi-omics}Living cells are a symphony of complex processes. Modern sequencing technology has lead to many comprehensive assays being routinely available to experimenters, giving us different ways to peek at the internal doings of the cells, each experiment revealing a different part of some underlying processes. As an example, most cells have the same DNA, but sequencing the genome of a cell allows us to find mutations and structural alterations that drive tumerogenesis in cancer. If we treat the DNA with bisulfite prior to sequencing, cytosine residues are converted to uracil, but 5-methylcytosine residues are unaffected. This allows us to probe the methylation patterns of the genome, or its methylome. By sequencing the mRNA molecules in a cell, we can calculate the abundance, in different samples, of different mRNA transcripts, or uncover its transcriptome. Performing different experiments on the same samples, for instance RNA-seq, DNA-seq, and BS-seq, results in multi-dimensional omics datasets, which enable the study of relationships between different biological processes, e.g. DNA methylation, mutations, and gene expression, and the leveraging of multiple data types to draw inferences about biological systems. This chapter provides an overview of some of the available methods for such analyses, focusing on matrix factorization approaches. In the examples in this chapter we will demonstrate how these methods are applicable to cancer molecular subtyping, i.e. finding tumors which are driven by the same molecular processes.
 
 ### Use case: Multi-omics data from colorectal cancer
 
 \index{multi-omics}\index{colorectal cancer}The examples in this chapter will use the following data: a set of 121 tumors from the TCGA [@tcga_pan_cancer] cohorts of Colon and Rectum adenocarcinoma. The tumors have been profiled for gene expression using RNA-seq, mutations using Exome-seq, and copy number variations using genotyping arrays. Projects such as TCGA have turbocharged efforts to sub-divide cancer into subtypes. Although two tumors arise in the colon, they may have distinct molecular profiles, which is important for treatment decisions. The subset of tumors used in this chapter belong to two distinct molecular subtypes defined by the Colorectal Cancer Subtyping Consortium [@cmscc], _CMS1_ and _CMS3_. The following code snippets load this multi-omics data from the companion package, starting with gene expression data from RNA-seq (see Chapter \@ref(rnaseqanalysis)):
 
+**read RNA-seq data**:
 ```{r,moloadMultiomicsGE, tidy=FALSE}
 # read in the csv from the companion package as a data frame
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_gex.csv", 
@@ -32,8 +29,13 @@ x1 <- read.csv(csvfile, row.names=1)
 # Fix the gene names in the data frame
 rownames(x1) <- sapply(strsplit(rownames(x1), "\\|"), function(x) x[1])
 # Output a table
-knitr::kable(head(t(head(x1))), caption="Gene expression data (head)")
+knitr::kable(head(t(head(x1))), caption="Example gene expression data (head)")
 ```
+Table \@ref(tab:moloadMultiomicsGE) shows the head of the gene expression matrix. The rows correspond to patients, referred to by their TCGA identifier as the first column of the table. Columns represent the genes, and values are RPKM expression values. The column names are the names or symbols of the genes.
+The details about how these expression values are calculated are in Chapter \@ref(rnaseqanalysis).
+
+
+**read mutation data**:
 ```{r,moloadMultiomicsMUT, tidy=FALSE}
 # read in the csv from the companion package as a data frame
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_muts.csv", 
@@ -43,18 +45,21 @@ x2 <- read.csv(csvfile, row.names=1)
 # we only count one)
 x2[x2>0]=1
 # output a table
-knitr::kable(head(t(head(x2))), caption="Mutation data (head)")
+knitr::kable(head(t(head(x2))), caption="Example mutation data (head)")
 ```
+Table \@ref(tab:moloadMultiomicsMUT) shows the mutations of these tumors (mutations were introduced in Chapter \@ref(intro)). In the mutation matrix, each cell is a binary 1/0, indicating whether or not a tumor has a non-synonymous mutation in the gene indicated by the column. These types of mutations change the aminoacid sequence therefore they are likely to change the function of the protein.
+
+**read copy number data**:
 ```{r,moloadMultiomicsCNV, tidy=FALSE}
 # read in the csv from the companion package as a data frame
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_cnv.csv", 
                        package="compGenomRData")
 x3 <- read.csv(csvfile, row.names=1)
 # output a table
-knitr::kable(head(t(head(x3))), caption="Copy number data (head)")
+knitr::kable(head(t(head(x3))), 
+             caption="Example copy number data for CRC samples")
 ```
-
-Table  \@ref(tab:moloadMultiomicsGE) shows the head of the gene expression matrix. The rows correspond to patients, referred to by their TCGA identifier. Columns are gene names, and values are RPKM expression values. Similarly, table  \@ref(tab:moloadMultiomicsMUT) shows the mutations of these tumors (mutations were introduced in Chapter \@ref(intro)). In the mutation matrix, each cell is a binary 1/0, indicating whether or not a tumor has a non-synonymous mutation in the gene indicated by the column. Finally, table \@ref(tab:moloadMultiomicsCNV) shows GISTIC scores for copy number alterations in these tumors. During transformation from healthy cells to cancer cells, the genome sometimes undergoes large-scale instability; large segments of the genome might be replicated or lost. This will be reflected in each segment's "copy number". In this matrix, each column corresponds to a chromosome segment, and the value of the cell is a real-valued score indicating if this segment has been amplified (copied more) or lost, relative to a non-cancer control from the same patient.
+Finally, table \@ref(tab:moloadMultiomicsCNV) shows GISTIC scores [@mermel2011gistic2] for copy number alterations in these tumors. During transformation from healthy cells to cancer cells, the genome sometimes undergoes large-scale instability; large segments of the genome might be replicated or lost. This will be reflected in each segment's "copy number". In this matrix, each column corresponds to a chromosome segment, and the value of the cell is a real-valued score indicating if this segment has been amplified (copied more) or lost, relative to a non-cancer control from the same patient.
 
 Each of the data types (gene expression, mutations, copy number variation) on its own, provides some signal which allows to somewhat separate the samples into the two different subtypes. In order to explore these relations, we must first obtain the subtypes of these tumors. The following code snippet reads these, also from the companion package:
 
@@ -112,7 +117,7 @@ The next section will describe latent variable models for multi-omics integratio
 
 ## Latent variable models for multi-omics integration
 
-\index{unsupervised learning}Unsupervised multi-omics integration methods are methods that look for patterns within and across data types, in a label-agnostic fashion, i.e. without knowledge of the identity or label of the analyzed samples (e.g. cell type, tumor/normal). This chapter focuses on latent variable models, a form of dimensionality reduction technique (see Chapter \@ref(unsupervisedLearning)). Latent variable models make an assumption that the high dimensional data we observe (e.g. counts of tens of thousands of mRNA molecules) arise from a lower dimension description. The variables in that lower dimensional description are termed _Latent Variables_, as they are believed to be latent in the data, but not directly observable through experimentation. Therefore, there is a need for methods to infer the latent variables from the data. For instance, (see Chapter 8, RNA-seq analysis) the relative abundance of different mRNA molecules in a cell is largely determined by the cell type. There are other experiments which may be used to discern the cell type of cells (e.g. looking at them under a microscope), but an RNA-seq experiment does not, directly, reveal whether the analyzed sample was taken from one organ or another. A latent variable model would set the cell type as a latent variable, and the observable abundance of mRNA molecules to be dependent on the value of the latent variable (e.g. if the latent variable is "Regulatory T-cell", we would expect to find high expression of CD4, FOXP3, and CD25).
+\index{unsupervised learning}Unsupervised multi-omics integration methods are methods that look for patterns within and across data types, in a label-agnostic fashion, i.e. without knowledge of the identity or label of the analyzed samples (e.g. cell type, tumor/normal). This chapter focuses on latent variable models, a form of dimensionality reduction technique (see Chapter \@ref(unsupervisedLearning)). Latent variable models make an assumption that the high dimensional data we observe (e.g. counts of tens of thousands of mRNA molecules) arise from a lower dimension description. The variables in that lower dimensional description are termed _Latent Variables_, as they are believed to be latent in the data, but not directly observable through experimentation. Therefore, there is a need for methods to infer the latent variables from the data. For instance, (see Chapter \@ref(rnaseqanalysis) for details of RNA-seq analysis) the relative abundance of different mRNA molecules in a cell is largely determined by the cell type. There are other experiments which may be used to discern the cell type of cells (e.g. looking at them under a microscope), but an RNA-seq experiment does not, directly, reveal whether the analyzed sample was taken from one organ or another. A latent variable model would set the cell type as a latent variable, and the observable abundance of mRNA molecules to be dependent on the value of the latent variable (e.g. if the latent variable is "Regulatory T-cell", we would expect to find high expression of CD4, FOXP3, and CD25).
   
 ## Matrix factorization methods for unsupervised multi-omics data integration
 
@@ -143,7 +148,7 @@ In Figure \@ref(fig:momatrixFactorization), the $5 \times 4$ data matrix $X$ is 
 
 Figure \@ref(fig:moMFA) sketches a naive extension of PCA to a multi-omics context.
 
-```{r,moMFA,fig.cap="A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.",fig.align = 'center',out.width='75%',echo=FALSE}
+```{r,moMFA,fig.cap="A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.",fig.align = 'center',out.width='50%',echo=FALSE}
 knitr::include_graphics("images/mfa.png" )
 ```
 
@@ -203,7 +208,7 @@ ggplot2::geom_point() + ggplot2::ggtitle("Scatter plot of MFA")
 Figure \@ref(fig:momfascatterplot) shows remarkable separation between the cancer subtypes; it is easy enough to draw a line separating the tumors to CMS subtypes with good accuracy.
 
 Another way to examine the MFA factors, which is also useful for factor models with more than two components, is a heatmap, as shown in Figure \@ref(fig:momfaheatmap), generated by the following code snippet:
-```{r,momfaheatmap,fig.cap="A heatmap of the two MFA components shows separation between the cancer subtypes."}
+```{r,momfaheatmap,fig.cap="A heatmap of the two MFA components shows separation between the cancer subtypes.",fig.height=3}
 pheatmap::pheatmap(t(mfa.h)[1:2,], annotation_col = anno_col,
                   show_colnames = FALSE,
                   main="MFA for multi-omics integration")
@@ -510,10 +515,10 @@ ggplot2::geom_point() +
 ggplot2::ggtitle("Scatter plot of iCluster+ factors")
 ```
 
-```{r,moiclusterplusheatmap,fig.cap="iCluster+ factors shown in a heatmap separate tumors into their subtypes well.", echo=FALSE}
+```{r,moiclusterplusheatmap,fig.cap="iCluster+ factors, shown in a heatmap, separate tumors into their subtypes well.", echo=FALSE,fig.height=3}
 pheatmap::pheatmap(t(icp_df[,1:2]),
                    annotation_col = anno_col, 
-                   show_colnames = FALSE,
+                   show_colnames = FALSE,border_color = NA,
                    main="Heatmap of iCluster+ factors")
 ```
 
@@ -541,7 +546,7 @@ A specific clustering method for NMF data is to assume each sample is driven by 
 
 The two rows are the two latent variables, and the columns are the 72 tumors. We can observe that most tumors are indeed driven mainly by one of the factors, and not a combination of the two. We can use this to assign each tumor a cluster label based on its dominant factor, shown in the following code snippet, which also produces the heatmap in Figure \@ref(fig:moNMFClustering).
 
-```{r,moNMFClustering,fig.cap="Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types."}
+```{r,moNMFClustering,fig.cap="Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types.",fig.height=3}
 # one-hot clustering in one line of code:
 # assign each sample the cluster according to its dominant NMF factor
 # easily accessible using the max.col function
@@ -559,7 +564,7 @@ anno_nmf_cl <- data.frame(
 pheatmap::pheatmap(t(nmf.h[order(nmf.clusters),]),
   cluster_cols=FALSE, cluster_rows=FALSE,
   annotation_col = anno_nmf_cl,
-  show_colnames = FALSE,
+  show_colnames = FALSE,border_color=NA,
   main="Joint NMF factors\nwith clusters and molecular subtypes")
 ```
 
@@ -571,7 +576,7 @@ The one-hot clustering method does not lend itself very well to the other method
 
 K-means clustering was introduced in Chapter \@ref(unsupervisedLearning). K-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step. The following code snippet shows how to pull K-means clusters out of the iCluster results, and produces the heatmap in Figure \@ref(fig:moiClusterHeatmap), which shows how well these clusters correspond to cancer subtypes.
 
-```{r,moiClusterHeatmap,fig.cap="K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types."}
+```{r,moiClusterHeatmap,fig.cap="K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types.",fig.height=3}
 # use the kmeans function to cluster the iCluster H matrix (here, z)
 # using 2 as the number of clusters.
 icluster.clusters <- kmeans(icluster.z, 2)$cluster
@@ -588,7 +593,7 @@ pheatmap::pheatmap(
   t(icluster.z[order(icluster.clusters),]), # order z by the kmeans clusters
   cluster_cols=FALSE, # use cluster_cols and cluster_rows=FALSE
   cluster_rows=FALSE, # as we want the ordering by k-means clusters to hold
-  show_colnames = FALSE,
+  show_colnames = FALSE,border_color=NA,
   annotation_col = anno_icluster_cl,
   main="iCluster factors\nwith clusters and molecular subtypes")
 ```
@@ -652,9 +657,9 @@ The hypergeometric enrichment test is also referred to as _Fisher's one-sided ex
 
 #### Example in R
 
-In R, we can do this analysis using the `enrichR` package, which gives us access to many gene set libraries. In the example below, we'll find the genes associated with preferentially NMF factor 1 or NMF factor 2, by the contribution of those genes' expression values to the factor. Then, we'll use `enrichR` to query the Gene Ontology terms which might be overlapping:
+In R, we can do this analysis using the `enrichR` package, which gives us access to many gene set libraries. In the example below, we will find the genes associated with preferentially NMF factor 1 or NMF factor 2, by the contribution of those genes' expression values to the factor. Then, we'll use `enrichR` to query the Gene Ontology terms which might be overlapping:
 
-```{r,moenrichr}
+```{r,moenrichr,message=FALSE,warning=FALSE,results='hide',error=FALSE}
 require(enrichR)
 
 # select genes associated preferentially with each factor
@@ -673,13 +678,18 @@ go.factor.2 <- enrichR::enrichr(genes.factor.2,
 ```
 
 The top GO terms associated with NMF factor 2 are shown in Table \@ref(tab:moNMFGOTerms):
-```{r,moNMFGOTerms,caption="Top GO-terms associated with NMF factor 2.",echo=FALSE}
+```{r,moNMFGOTerms,caption="Top GO-terms associated with NMF factor 2.",echo=FALSE,results='as.is'}
+library(kableExtra)
+
 go.factor.2$Genes <- gsub(";", "; ", go.factor.2$Genes)
 
-the.table <- knitr::kable(head(go.factor.2, 3)[,c("Term", "Adjusted.P.value", "Combined.Score", "Genes")],
-                 caption="GO-terms associated with NMF factor 2")
-the.table <- kableExtra::column_spec(the.table, 1, width="10em")
-the.table <- kableExtra::column_spec(the.table, 4, width="10em")
+the.table <- knitr::kable(head(go.factor.2, 3)[,c("Term", "Adjusted.P.value", "Combined.Score")],
+                 caption="GO-terms associated with NMF factor 2",
+                 format="latex")
+#the.table <- kableExtra::column_spec(the.table, 1, width="10em")
+
+the.table <- kableExtra::kable_styling(the.table ,latex_options = c( "scale_down"))
+#the.table <- kableExtra::column_spec(the.table, 4, width="10em")
 the.table
 ```
 

@@ -302,7 +302,7 @@ with your critical value, quantiles or number of random numbers depending
 on which function you are using in the family.We will list some of those functions below.
 
 - `dbinom` is for binomial distribution \index{binomial disdistribution}. This distribution is usually used
-to model fractional data and binary data. Examples from genomics includes
+to model fractional data and binary data. Examples from genomics include
 methylation data.
 
 - `dpois` is used for Poisson distribution and `dnbinom` is used for
@@ -733,7 +733,7 @@ legend("bottomright",legend=c("q-value","FDR (BH)","Bonferroni"),
 ```
 
 ### moderated t-tests: using information from multiple comparisons
-In genomics, we usually do not do one test but many, as described above. That means we
+In genomics, we usually do not do one test but many, as described above. That means we\index{moderated t-test}
 may be able to use the information from the parameters obtained from all 
 comparisons to influence the individual parameters. For example, if you have many variances
 calculated for thousands of genes across samples, you can force individual 
@@ -743,12 +743,13 @@ estimates and therefore better performance in significance testing which
 depends on variance estimates. How much the values be shrunk towards a common
 value comes in many flavors. These tests in general are called moderated
 t-tests or shrinkage t-tests. One approach popularized by Limma software is
-to use so-called "Empirical Bayesian methods". The main formulation in these
+to use so-called "Empirical Bayes methods"
+\index{empirical Bayes methods}. The main formulation in these
 methods is $\hat{V_g} = aV_0 + bV_g$, where $V_0$ is the background variability  
 and $V_g$ is the individual variability. Then, these methods estimate $a$ and $b$
-in various ways to come up with shrunk version of variability, $\hat{V_g}$. In a Bayesian viewpoint,
-the prior knowledge is used to calculate the variability of an individual gene. In this
-case, $V_0$ would be the prior knowledge we have on variability of 
+in various ways to come up with shrunk version of variability, $\hat{V_g}$. Bayesian inference can make use of prior knowledge to make inference about properties of the data. In a Bayesian viewpoint,
+the prior knowledge, in this case variability of other genes, can be used to calculate the variability of an individual gene. In our
+case, $V_0$ would be the prior knowledge we have on the variability of 
 the genes and we
 use that knowledge to influence our estimate for the individual genes.
 
@@ -827,6 +828,7 @@ __Want to know more ?__
 ```
 
 
+
 ## Relationship between variables: linear models and correlation
 In genomics, we would often need to measure or model the relationship between 
 variables. We might want to know about expression of a particular gene in liver 
@@ -899,7 +901,7 @@ In this case, we will be fitting a plane rather than a line. However, the fittin
 process which we will describe in the later sections will not change. For our 
 gene expression problem. We can introduce one more histone modification, H3K27me3. We will then have a linear model with 2 explanatory variables and the 
 fitted plane will look like the one below in Figure \@ref(fig:histoneLm2chp3). The gene expression values are shown
-as dots below and above the fitted plane. Linear regression or linear models and their extensions which makes use of other distributions are central in computational genomics for statistical tests. We will see more of how regression is used in statistical hypothesis testing for computational genomics in Chapters \@ref(rnaseqanalysis) and  \@ref(bsseq).
+as dots below and above the fitted plane. Linear regression or linear models and their extensions which makes use of other distributions, generalized linear models,\index{generalized linear model} are central in computational genomics for statistical tests. We will see more of how regression is used in statistical hypothesis testing for computational genomics in Chapters \@ref(rnaseqanalysis) and  \@ref(bsseq).
 
 ```{r histoneLm2chp3,echo=FALSE,out.width='65%',warning=FALSE,message=FALSE,fig.cap="Association of Gene expression with H3K4me3 and H27Kme3 histone modifications."}
 set.seed(32)
@@ -1101,7 +1103,7 @@ linear regression is \index{linear regression} multiplication of $P(y_{i})$ for 
 
 $$L=P(y_1)P(y_2)P(y_3)..P(y_n)=\prod\limits_{i=1}^n{P_i}$$
 
-This can be simplified to this by some algebra and taking logs (since it is 
+This can be simplified to the following equation by some algebra, assumption of normal distribution and taking logs (since it is 
 easier to add than multiply)
 
 $$ln(L) = -nln(s\sqrt{2\pi}) - \frac{1}{2s^2} \sum\limits_{i=1}^n{(y_i-(\beta_0 + \beta_1x_i))^2} $$
@@ -1115,6 +1117,9 @@ result as the cost function approach. The difference is that we defined our
 problem
 within the domain of statistics. This particular function has still to be optimized. This can be done with some calculus without the need for an 
 iterative approach. 
+
+The maximum likelihood approach also opens up other possibilities for regression. For the case above we assumed that the points around the mean are distributed by normal distribution. However, there are other cases where this assumption may not hold. For example, the for the count data the mean and variance relationship is not constant, the higher the mean counts the higher the variance. In this cases, the regression framework with maximum likelihood estimation can still be used. We simply change the underlying assumptions about the distribution and calculate the likelihood with a new distribution in mind,
+and maximize the parameters for that likelihood. This gives way to "generalized linear model"\index{generalized linear model} approach where errors for the response variables can have other distributions than normal distribution. We will see examples of these generalized linear models in Chapter \@ref(rnaseqanalysis) and \@ref(bsseq).
 
 
 
