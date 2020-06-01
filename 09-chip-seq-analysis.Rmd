@@ -6,6 +6,7 @@ knitr::opts_chunk$set(echo      = TRUE,
                       message   = FALSE, 
                       error     = FALSE,
                       cache     = TRUE,
+                      warning   = FALSE,
                       out.width = "60%",
                       fig.width = 5,
                       fig.align = 'center')
@@ -379,7 +380,7 @@ ChIP-seq pipeline.
 In this tutorial, for performance considerations, we have taken a subset of the
 data which corresponds to the human chromosome 21 (chr21).
 
-The data sets are located in the **compGenomRData** package.
+The data sets are located in the **compGenomRData**\index{R Packages!\texttt{compGenomRData}} package.
 The location of the data sets can be accessed using the **system.file** command,
 in the following way:
 
@@ -1005,13 +1006,13 @@ cpm     = t(t(counts)*(1000000/colSums(counts)))
 cpm_log = log10(cpm+1)
 ```
 
-Combine the cpm values with the GC content, and plot the results.
+Combine the cpm values with the GC content,
 
 ```{r gc-combine}
 gc = cbind(data.frame(cpm_log), GC = nuc['GC'])
 ```
 
-
+and plot the results.
 
 ```{r gc-plot, fig.cap='GC content abundance in a ChIP-seq experiment'}
 ggplot(
@@ -1043,16 +1044,21 @@ highly diverging enrichment of different ChIP regions, then
 some of the samples were affected by unknown batch affects. Such effects
 need to be taken into account in downstream analysis.
 
-Firstly, we will reorder the columns of the data.frame using the gather 
+Firstly, we will reorder the columns of the data.frame using the **pivot_longer** 
 function from the tidyr package.
 
 ```{r gc-tidy}
 # load the tidyr package
 library(tidyr)
 
-# gather converts a fat data.frame into a tall data.frame, 
+# pivot_longer converts a fat data.frame into a tall data.frame, 
 # which is the format used by the ggplot package
-gcd = pivot_longer(data = gc, experiment, cpm, -GC)
+gcd = pivot_longer(
+    data      = gc, 
+    cols      = -GC,
+    names_to  = 'experiment',
+    values_to = 'cpm'
+)
 
 # we select the ChIP files corresponding to the ctcf experiment
 gcd = subset(gcd, grepl('CTCF', experiment))
@@ -1065,7 +1071,7 @@ Now we can visualize the relationship using  a scatterplot.
 Figure \@ref(fig:gc-tidy-plot) compares the GC content dependency on the CPM between
 the first and the second CTCF replicate.
 
-```{r gc-tidy-plot}
+```{r gc-tidy-plot, warning = FALSE, fig.cap='Comparison of GC content and signal abundance between two CTCF biological replicates'}
 ggplot(data = gcd, aes(GC, log10(cpm+1))) +
   geom_point(size=2, alpha=.05) +
   theme_bw() +
@@ -1259,7 +1265,7 @@ annotateReads = function(bam_file, annotation_list){
     
     # find overlaps between reads and annotation
     result = as.data.frame(
-        findOverlaps(bam, annotation_list))
+        findOverlaps(bam, annotation_list)
     ) 
     
     # appends to the annotation index the corresponding
@@ -1302,7 +1308,7 @@ annotateReads = function(bam_file, annotation_list){
 
 We execute the annotation function on all files.
 
-```{r read-annot.loop}
+```{r read-annot.loop, warning = FALSE}
 # list all bam files in the folder
 bam_files   = list.files(data_path, full.names=TRUE, pattern='bam$')
 
@@ -1331,8 +1337,13 @@ annot_reads_df$experiment = experiment_name
 
 And plot the results.
 
-```{r read-annot-plot}
-ggplot(data = annot_reads_df, aes(experiment, frequency, fill=annotation)) +
+```{r read-annotation-plot, eval=TRUE, warning = FALSE, fig.cap='Read distribution in genomice functional annotation categories'}
+ggplot(data = annot_reads_df, 
+       aes(
+           x    = experiment, 
+           y    = frequency, 
+           fill = annotation
+        )) +
     geom_bar(stat='identity') +
     theme_bw() +
     scale_fill_brewer(palette='Set2') +
@@ -1346,9 +1357,10 @@ ggplot(data = annot_reads_df, aes(experiment, frequency, fill=annotation)) +
     ggtitle('Percentage of reads in annotation')
 ```
 
-Figure \@ref(fig:read-annot-plot) shows a slight increase of **H3K36me3** on the exons
+Figure \@ref(fig:read-annotation-plot) shows a slight increase of **H3K36me3** on the exons
 and introns, and **H3K4me3** on the **TSS**. Interestingly, both replicates of the **ZNF143**
 transcription factor show increased read abundance around the TSS.
+
 
 ## Peak calling\index{Peak calling}
 
@@ -1862,14 +1874,13 @@ cont_track  = DataTrack(
 
 
 ```{r peak-calling-signal-profile-plot, fig.cap='ChIP and Input signal profile in around the peak centers.'}
-plotTracks(list(chr_track,
-                axis, 
-                peaks_track, 
-                chip_track,
-                cont_track), 
-           sizes=c(.2,.5,.5,1,1), background.title = "black",
-           from = start(ctcf_peaks)[1] - 1000,
-           to   = end(ctcf_peaks)[1]   + 1000)
+plotTracks(
+    trackList = list(chr_track, axis, peaks_track, chip_track, cont_track), 
+    sizes     = c(.2,.5,.5,1,1), 
+    background.title = "black",
+    from = start(ctcf_peaks)[1] - 1000,
+    to   = end(ctcf_peaks)[1]   + 1000
+)
 ```
 
 Figure \@ref(fig:peak-calling-signal-profile-plot) ChIP sample looks as expected.
@@ -1970,8 +1981,8 @@ peak_track = AnnotationTrack(reduce(h3k36_peaks), name='H3K36me3')
 
 # plots the enriched region
 plotTracks(
-    plotTracks  = c(chr_track, axis, gene_track, peak_track, data_tracks),
-    sizes       = c(.5,.5,.5,.1,1,1), 
+    trackList = c(chr_track, axis, gene_track, peak_track, data_tracks),
+    sizes     = c(.5,.5,.5,.1,1,1), 
     background.title     = "black",
     collapseTranscripts  = "longest", 
     transcriptAnnotation = "symbol",
@@ -2054,7 +2065,11 @@ h3k36_counts$qvalue = NULL
     
 # reshape the data.frame into a long format
 h3k36_counts_df = tidyr::pivot_longer(
-    data = h3k36_counts, experiment, counts, -enriched)
+    data      = h3k36_counts, 
+    cols      = -enriched,
+    names_to  = 'experiment',
+    values_to = 'counts'
+)
     
 # sum the number of reads in the Peak and Not Peak regions
 h3k36_counts_df = group_by(.data = h3k36_counts_df, experiment, enriched)
@@ -2135,6 +2150,9 @@ motifs
 We will extract the CTCF from the [@khan_2018] database.
 
 ```{r, peak-quality.jaspar}
+# based on the MotifDB version, the location of the CTCF motif
+# might change, if you do not get the expected results please try
+# to subset with different indices
 ctcf_motif  = motifs[[1]]
 ```
 
@@ -2614,12 +2632,12 @@ motif visualization.
 
 We will use the plot function to visualize the most enriched DNA motif:
 
-```{r motif-discovery.seqlogo, fig.cap='Motif with highest enrichment in top 500 CTCF peaks', width = 6, height = 3}
+```{r motif-discovery-logo, fig.cap='Motif with highest enrichment in top 500 CTCF peaks', width = 6, height = 3}
 # visualize the resulting motif
 plot(novel_motifs[1])
 ```
 
-The motif show in Figure \@ref(fig:motif-discovery.seqlogo) corresponds to the
+The motif show in Figure \@ref(fig:motif-discovery-logo) corresponds to the
 previously visualized CTCF motif. Nevertheless, we will now computationally
 annotate our motif by querying the JASPAR [@khan_2018] database.
 
@@ -2721,7 +2739,7 @@ expression, or assays of 3D genome structure.
 The choice of downstream analysis is guided by the biological question of interest.
 Often we want to compare our samples to other available ChIP-seq experiments.
 It is possible to look at the pairwise differences between samples using 
-differential peak calling [@zhang_2014,@lun_2014,@allhoff_2014,@allhoff_2016].
+differential peak calling [@zhang_2014; @lun_2014; @allhoff_2014; @allhoff_2016].
 It is a procedure analogous to the differential expression analysis, except it 
 results in sets of coordinates that are differentially bound in two biological 
 conditions. We can then search for specific DNA binding motif in such regions, 
@@ -2730,7 +2748,7 @@ With an increase in number of ChIP experiment, pairwise comparisons becomes
 combinatorially complex. In this case we can segment the genome into multiple classes, where
 each class corresponds to a combination of bound transcription factors.
 Genome segmentation is usually done using probabilistic models (such as hidden
-Markov models [@ernst_2012,@hoffman_2012]), or machine learning algorithms [@mortazavi_2013].
+Markov models [@ernst_2012; @hoffman_2012]), or machine learning algorithms [@mortazavi_2013].
 
 
 ## Exercises:
@@ -2797,7 +2815,8 @@ How many motifs do you observe? How do the motifs look like (visualize the motif
 Where are the motifs located? [Difficulty: Advanced]
 
 3. Scan the CTCF peaks with top motifs identified in **ZNF143** peaks.
-Where are the motifs located?
+Where are the motifs located? What can you conclude from the previous exercises?
+[Difficulty: Advanced]
 
 ```{r include=FALSE, eval=TRUE, echo=FALSE}
 rm(list=ls())
