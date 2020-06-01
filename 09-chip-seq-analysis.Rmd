@@ -6,6 +6,7 @@ knitr::opts_chunk$set(echo      = TRUE,
                       message   = FALSE, 
                       error     = FALSE,
                       cache     = TRUE,
+                      warning   = FALSE,
                       out.width = "60%",
                       fig.width = 5,
                       fig.align = 'center')
@@ -16,7 +17,7 @@ Chapter Author: Vedran Franke
 
 Protein-DNA interactions are responsible for a large part of the gene expression regulation. Proteins such as transcription factors as well as histones are directly related to how much and in which contexts the genes are expressed. Some of these concepts are already introduced in Chapter \@ref(intro) if readers need a more in depth introduction. In this chapter, we will introduce how to process and analyze ChIP-seq data in order to identify genome-wide protein binding sites and to discover underlying sequence context via transcription factor binding-site motifs.
 
-## Regulatory Protein-DNA Interactions
+## Regulatory protein-DNA interactions
 One of the most fascinating biological phenomena is the fact that a myriad of  different cell types, in a multicellular organisms, are encoded by one single genome. How exactly this is achieved is still a
 major unanswered question in biology. 
 Cell types differ based on a multitude of features:
@@ -35,7 +36,7 @@ can bind to the DNA, and control whether a certain part of DNA will be
 transcribed (expressed), or stay silent (repressed). 
 They program the expression patterns in each cell.
 Transcription factors contain DNA binding domains - specifically folded protein sequences
-which recognize specific DNA motifs (a short nucleotides sequence).
+which recognize specific DNA motifs (a short nucleotide sequence).
 Such sequence binding imparts transcription factors with specificity - 
 transcription factors do not bind everywhere on the DNA, rather they are localized to 
 short stretches which contain the corresponding DNA motif.
@@ -52,7 +53,7 @@ and how it controls the gene expression we need to where on the DNA is the
 transcription factor located. 
 
 
-## Measuring Protein-DNA interactions with ChIP-seq 
+## Measuring protein-DNA interactions with ChIP-seq 
 
 ChIP-seq, stands for chromatin immunoprecipitation followed by sequencing, is an experimental method for finding locations on DNA which are bound by proteins. It has been extensively used to study 
 in-vivo binding preferences of transcription factors, and genomic distribution of modified histones.
@@ -78,7 +79,8 @@ The DNA fragments are then sequenced, mapped onto the corresponding
 reference genome, and computationally analyzed to discriminate regions which
 were really bound by the protein, from the background regions.
 
-The experimental methodology consists of the following steps:
+The experimental methodology is depicted in 
+Figure \@ref(fig:ChIP-seq-Protocol-plot), and consists of the following steps:
 
 1. Cross linking of cells with formaldehyde, to bind the proteins to the DNA.
 This process covalently links the proteins to the DNA.
@@ -201,7 +203,7 @@ If we encounter and experimental setup which does not include biological
 replicates, we should be extremely skeptical about all conclusions derived
 from such analysis.
 
-### Control experiments
+### Control experiments\index{Peak calling}
 
 There are three types of control experiments which can be performed to control
 for known and unknown experimental biases:
@@ -264,33 +266,11 @@ of the protein, and therefore the experimental conclusions.
 
 The focus of ChIP preprocessing is to check the quality of the sequencing
 experiment, remove sequencing artifact, and find the genomic location of 
-sequenced fragments using read mapping.
+sequenced fragments using read mapping. 
+The quality control consists of the read quality control and adapter trimming.
+These methods are described in depth in  chapter \@ref(processingReads).
 
-### Read quality control
-
-The most frequently used tool for read quality control is FastQC (https://www.bioinformatics.babraham.ac.uk/projects/fastqc/). 
-Regarding ChIP-seq analysis it provides three useful sets of information:
-
-1. Per position read quality distribution
-
-2. GC content content distribution, and comparison with genomic GC content distribution
-
-3. Adapter contamination - information on the percentage of reads which contain
-adapter sequences.
-
-Due to the chemistry Illumina sequencing procedure, most of the artifacts are 
-present in the 3' ends of reads.
-
-### Adapter and Quality trimming
-
-If the read quality distribution is not uniformly high, or the reads are contaminated
-with sequencing adapters, the reads need to be trimmed.
-This can be efficiently done using command following line tools: trimmomatic [@bolger_2014],
-and flexbar[@dodt_2012].
-
-After the reads have been cleaned, they are ready for mapping.
-
-### Mapping
+### Mapping of ChIP-seq data
 
 Mapping is a procedure of trying to locate the exact genomic location which
 created each genomic fragment - each sequenced read. 
@@ -352,121 +332,18 @@ Such regions are called **blacklisted** regions and should be removed from the
 downstream analysis. The UCSC browser database (ref) contains tables with
 such regions for the most commonly used model organism species.
 
-## Computational Analysis of ChIP-seq data
-
 The following tutorial presumes that the user is already familiar with 
-the following technical and conceptual knowledge:
-
-#### Technical requirements
-
-The practical section presumes that the user knows how to use the following **R** tools:
-
-- ggplot2 package 
-
-- R objects, and classes, and object conversion (list, data.frame, matrix, vector)
-
-- construction, and usage of functions
-
-- GenomicRanges, GenomicFeatures, and GenomicAlignment Bioconductor packages
-
-- Rle, coverage
-
-#### Knowledge requirements for the tutorial
-
-By this chapter you should be familiar with the following terms:
-
-- Read filtering
-
-- Read mapping
-
-- File format
-
-- Structure of **bed**, **gtf**, **wig**, **bigWig**, **bam**
-
-- Uniquely-mapping and multi-mapping reads
-
-- PCR duplicates
-
-- biological and technical replicates
-
-- + and - strand
-
-- PCR - polymerase chain reaction
-
-### Prerequisites
-
-Please install the following **R** packages
-
-```{r install, eval=FALSE, echo=TRUE, include=TRUE}
-packages = c(
-    'AnnotationHub',
-    'Biostrings',
-    'BSgenome',
-    'BSgenome.Hsapiens.UCSC.hg38',
-    'circlize',
-    'ComplexHeatmap',
-    'dplyr',
-    'GenomicAlignments',
-    'GenomicFeatures',
-    'GenomicRanges',
-    'GenomeInfoDB',
-    'ggplot2',
-    'Gviz',
-    'JASPAR2018',
-    'MotifDb',
-    'motifRG',
-    'motifStack',
-    'normr',
-    'rtracklayer',
-    'seqLogo',
-    'TFBSTools',
-    'tidyr')
-BiocManager::install(packages)
-```
+the following technical and conceptual knowledge in computational data processing.
+From \@ref(processingReads) you should be familiar with \index{read filtering}
+\index{read mapping}, the concept of multi-mapping reads, 
+and the following file formats BED\index{BED file}, GTF\index{GTF file}, 
+WIG\index{WIG file}, bigWig\index{bigWig file}, BAM\index{BAM file}. 
+You should also know what PCR\index{PCR} is, what
+are PCR duplicates, positive and negative DNA strands, and technical and biological 
+replicates.
 
 
-
-### The Data
-
-Experimental data was downloaded from the public ENCODE (ref) database of 
-ChIP-seq experiments.
-The experiments were performed on a Lymphoblastoid cell line GM12878, and mapped
-to the GRCh38 (hg38) version of the Human genome, using the standard ENCODE
-ChIP-seq pipeline.
-
-In this tutorial, for performance considerations, we have taken a subset of the
-data which corresponds to the human chromosome 21 (chr21).
-
-The data sets are located in the **compGenomRData** package.
-The location of the data sets can be accessed using the **system.file** command,
-in the following way:
-
-```{r data_path}
-data_path = system.file('extdata/chip-seq',package='compGenomRData')
-```
-
-The available data sets can be listed using the **list.files** command:
-
-```{r Load_data, echo=TRUE, eval=TRUE, include=TRUE}
-chip_files = list.files(data_path, full.names=TRUE)
-```
-
-```{r data_path.show, echo=FALSE, eval=TRUE, include=TRUE}
-head(chip_files)
-```
-
-The data set consist of the following ChIP experiments:
-
-1. Transcription factors: CTCF, SMC3, ZNF143, PolII (RNA polymerase 2)
-
-2. Histone modifications: H3k4me3, H3k36me3, H3k27ac, H3k27me3
-
-3. Various input samples
-
-The first step in the ChIP-seq data analysis is to perform ChIP quality control
-
-## ChIP Quality Control
-
+## ChIP quality control
 
 While the goal of the read quality assessment is to check whether the sequencing
 produced high enough number of high quality reads;
@@ -489,10 +366,54 @@ for fragments of a certain length.
 4. Visualization of GC bias. Here we will plot the ChIP enrichment Vs the 
 average GC content in the corresponding genomic bin.
 
-### Sample Clustering
+
+### The data
+
+Here we will familiarize ourselves with the datasets that will be used in the
+chapter.
+Experimental data was downloaded from the public ENCODE [@ENCODE_Project_Consortium2012-wf] 
+database of ChIP-seq experiments.
+The experiments were performed on a Lymphoblastoid cell line GM12878, and mapped
+to the GRCh38 (hg38) version of the Human genome, using the standard ENCODE
+ChIP-seq pipeline.
+
+In this tutorial, for performance considerations, we have taken a subset of the
+data which corresponds to the human chromosome 21 (chr21).
+
+The data sets are located in the **compGenomRData**\index{R Packages!\texttt{compGenomRData}} package.
+The location of the data sets can be accessed using the **system.file** command,
+in the following way:
+
+```{r data.path}
+data_path = system.file('extdata/chip-seq',package='compGenomRData')
+```
+
+The available data sets can be listed using the **list.files** command:
+
+```{r load.data, echo=TRUE, eval=TRUE, include=TRUE}
+chip_files = list.files(data_path, full.names=TRUE)
+```
+
+```{r data.path.show, echo=FALSE, eval=FALSE, include=TRUE}
+head(chip_files)
+```
+
+The data set consist of the following ChIP experiments:
+
+1. Transcription factors: CTCF\index{CTCF protein}, SMC3, ZNF143, PolII 
+(RNA polymerase 2)
+
+2. Histone modifications\index{histone modification}: H3K4me3, H3K36me3, H3k27ac, H3k27me3
+
+3. Various input samples
+
+The first step in the ChIP-seq data analysis is to perform ChIP quality control
+
+### Sample clustering
 
 Clustering is an ordering procedure which groups samples by similarity -
 the more similar samples are grouped closer to one another.
+The details of clustering methodologies are described in \@ref(unsupervisedLearning).
 Clustering of ChIP signal profiles is used for two purposes:
 The first one is to ascertain whether there is concordance between
 biological replicates - biological replicates should show greater similarity
@@ -514,15 +435,15 @@ to the hg38 version of the human genome, and filter the length for human
 chromosome 21.
 
 
-```{r sample_clustering.seqlen, message=FALSE, warning=FALSE}
+```{r sample-clustering.seqlen, message=FALSE, warning=FALSE}
 # load the chromosome info package
 library(GenomeInfoDb)
 
 # fetch the chromosome lengths for the human genome
-hg_chrs = fetchExtendedChromInfoFromUCSC('hg38')
+hg_chrs = getChromInfoFromUCSC('hg38')
 
 # find the length of chromosome 21
-hg_chrs = subset(hg_chrs, grepl('chr21$',UCSC_seqlevel))
+hg_chrs = subset(hg_chrs, grepl('chr21$',chrom))
     
 ```
 
@@ -537,27 +458,27 @@ The function takes two arguments:
 Firstly, we convert the chromosome lengths _data.frame_ into a _named vector_
 
 
-```{r sample_clustering.seqlen_vector}
-# downloaded hg_chrs is a data.frame object, we need to convert the data.frame
-# into a named vector
-seqlengths = with(hg_chrs, setNames(UCSC_seqlength, UCSC_seqlevel))
+```{r sample-clustering.seqlen_vector}
+# downloaded hg_chrs is a data.frame object,
+# we need to convert the data.frame into a named vector
+seqlengths = with(hg_chrs, setNames(size, chrom))
 ```
 
 Then we construct the windows.
 
-```{r sample_clustering.tilling_window}
+```{r sample-clustering.tilling_window}
 # load the genomic ranges package
 library(GenomicRanges)
 
-# tileGenome function returns a list of GRanges of a given width, spanning
-# the whole chromosome
+# tileGenome function returns a list of GRanges of a given width, 
+# spanning the whole chromosome
 tilling_window = tileGenome(seqlengths, tilewidth=1000)
 
 # unlist converts the list to one GRanges object
 tilling_window = unlist(tilling_window)
 ```
 
-```{r sample_clustering.show_tilling_window, include=TRUE, echo=FALSE, eval=TRUE}
+```{r sample-clustering.show_tilling_window, include=TRUE, echo=FALSE, eval=TRUE}
 tilling_window
 ```
 
@@ -568,12 +489,16 @@ The function will do the counting automatically for all our experiments.
 The object contains the counts, genomic ranges which were used for the quantification,
 and the sample descriptions.
 
-```{r sample_clustering.GenomicAlignments}
+```{r sample-clustering.GenomicAlignments, warning=FALSE, message=FALSE}
 # load GenomicAlignments
 library(GenomicAlignments)
 
 # fetch bam files from the data folder
-bam_files = list.files(data_path, full.names=TRUE, pattern='bam$')
+bam_files = list.files(
+    path       = data_path, 
+    full.names = TRUE, 
+    pattern    = 'bam$'
+)
 
 # use summarizeOverlaps to count the reads
 so = summarizeOverlaps(tilling_window, bam_files)
@@ -589,7 +514,7 @@ depth on the quantification, the samples need to be normalized.
 Standard normalization procedure, for ChIP data, is to divide the 
 counts in each tilling window by the total number of sequenced reads, and
 multiply it with a constant factor (to avoid extremely small numbers).
-This normalization procedure is called the **cpm** - counts per million.
+This normalization procedure is called the **cpm**\index{cpm} - counts per million.
 
 \[
 CPM = counts * (10^{6} / total\>number\>of\>reads)
@@ -597,9 +522,10 @@ CPM = counts * (10^{6} / total\>number\>of\>reads)
 
 
 
-```{r sample_clustering.norm}
+```{r sample-clustering.norm}
 # calculate the cpm from the counts matrix
-# the following command works because R calculates everything by columns
+# the following command works because 
+# R calculates everything by columns
 cpm = t(t(counts)*(1000000/colSums(counts)))
 ```
 
@@ -609,14 +535,14 @@ they introduce artificial similarity between the samples (i.e. samples with
 a only a handful of bound regions will have a lot of tiles with 0 counts, while
 they do not have to have any overlapping enriched tiles).
 
-```{r sample_clustering.filter_cpm}
+```{r sample-clustering.filter_cpm}
 # remove all tiles which do not contain reads
 cpm = cpm[rowSums(cpm) > 0,]
 ```
 
 We use the sub function to shorten the column names of the cpm matrix.
 
-```{r sample_clustering.change_colnames}
+```{r sample-clustering.change_colnames}
 # change the formatting of the column names
 # remove the .chr21.bam suffix
 colnames(cpm) = sub('.chr21.bam','',   colnames(cpm))
@@ -625,7 +551,7 @@ colnames(cpm) = sub('.chr21.bam','',   colnames(cpm))
 colnames(cpm) = sub('GM12878_hg38_','',colnames(cpm))
 ```
 
-```{r sample_clustering.colnames, include=FALSE, eval=TRUE, echo=TRUE}
+```{r sample-clustering.colnames, include=FALSE, eval=TRUE, echo=TRUE}
 colnames(cpm)
 ```
 
@@ -636,7 +562,7 @@ The function takes as input an region X sample count matrix, and returns
 a sample X sample matrix, where each field contains the correlation coefficient
 between two samples.
 
-```{r sample_clustering.correlation}
+```{r sample-clustering.correlation}
 # calculates the pearson correlation coefficient between the samples
 correlation_matrix = cor(cpm, method='pearson')
 ```
@@ -652,17 +578,23 @@ The diagonal represents the correlation of each sample with itself.
 # load ComplexHeatmap
 library(ComplexHeatmap)
 
-# load the circlize package, and define the color palette which will be
-# used in the heatmap
+# load the circlize package, and define 
+# the color palette which will be used in the heatmap
 library(circlize)
-heatmap_col = circlize::colorRamp2(c(-1,0,1),c('blue','white','red'))
+heatmap_col = circlize::colorRamp2(
+    breaks = c(-1,0,1),
+    colors = c('blue','white','red')
+)
 
 # plot the heatmap using the Heatmap function
-Heatmap(correlation_matrix, 
-        col = heatmap_col)
+Heatmap(
+    matrix = correlation_matrix, 
+    col    = heatmap_col
+)
 ```
 
-Here we can see a perfect example of why quality control is important. 
+In figure \@ref(fig:sample-clustering-complex-heatmap) we can see a 
+perfect example of why quality control is important. 
 **CTCF** is a zinc finger protein which co-localizes with the Cohesin complex.
 **SMC3** is a sub unit of the Cohesin complex, and we would therefore expect to
 see that the **SMC3** signal profile has high correlation with the **CTCF** signal profile.
@@ -684,7 +616,7 @@ experiment, and start seeing preliminary correlations between the samples, which
 we can use to guide our analysis.
 This can be achieved either by plotting signal profiles around
 regions of interest, or by loading data into a genome browser 
-(such as IGV, or UCSC genome browsers).
+(such as IGV\index{IGV Browser}, or UCSC genome browsers\index{UCSC Genome Browser}).
 
 Genome browsers are standalone applications which represent the genome
 as a one dimensional (1D) coordinate systems. The browsers enable
@@ -692,7 +624,7 @@ simultaneous visualization and comparison of multiple types of annotations and e
 
 
 Genome browsers can visualize most of the commonly used bioinformatics data formats:
-bam, bed, wig, bigWig ...
+BAM\index{BAM file}, BED\index{BED file}, wig\index{wig file}, bigWig\index{bigWig file} ...
 The easiest way to access our data would be to load the .bam files into the browser.
 This will show us the sequence, and position of every mapped read. If we want to
 view multiple samples in parallel, loading every mapped read can be restrictive -
@@ -713,10 +645,14 @@ vector as a **.bigWig** file.
 
 First we select one of the ChIP samples.
 
-```{r genome_browser.file}
+```{r genome-browser.file}
 # list the bam files in the directory
-# The '$' sign tells the pattern recognizer to omit bam.bai files
-bam_files = list.files(data_path, full.names=TRUE, pattern='bam$')
+# the '$' sign tells the pattern recognizer to omit bam.bai files
+bam_files = list.files(
+    path       = data_path, 
+    full.names = TRUE, 
+    pattern    = 'bam$'
+)
 
 # select the first bam file
 chip_file = bam_files[1]
@@ -726,7 +662,7 @@ We will use the **readGAlignemnts** function from the **GenomicAlignemnts**
 package to load the reads into **R**, and then the **granges** function
 to convert them into a **GRanges** object.
 
-```{r genome_browser.alignments}
+```{r genome-browser.alignments}
 # load the genomic alignments package
 library(GenomicAlignments)
 
@@ -758,7 +694,7 @@ the reads will be extended towards the __3'__ end, if fix is set to end, they wi
 be extended towards the __5'__ end)
 
 
-```{r genome_browser.resize}
+```{r genome-browser.resize}
 # extends the reads towards the 3' end
 reads = resize(reads, width=200, fix='start')
 
@@ -772,18 +708,19 @@ The function takes only one argument (**width**), which corresponds to chromosom
 For this purpose we can use the, previously created, **seqlengths** variable.
 The **coverage** function converts the reads into a compressed **Rle** object
 
-```{r genome_browser.coverage}
+```{r genome-browser.coverage}
 # convert the reads into a signal profile
 cov = coverage(reads, width = seqlengths)
 ```
 
-```{r genome_browser.coverage.show, include=TRUE, echo=FALSE, eval=TRUE}
-head(cov)
+```{r genome-browser.coverage.show, include=TRUE, echo=FALSE, eval=TRUE}
+head(cov, 5)
 ```
 
-The name of the output file is created by changing the file suffix from *.bam* to *.bigWig*
+The name of the output file is created by changing the file suffix from **.bam** 
+to **.bigWig**
 
-```{r genome_browser.rename}
+```{r genome-browser.rename}
 # change the file extension from .bam to .bigWig
 output_file = sub('.bam','.bigWig', chip_file)
 ```
@@ -791,7 +728,7 @@ output_file = sub('.bam','.bigWig', chip_file)
 Now we can use the **export.bw** function from the rtracklayer package to
 write the bigWig file.
 
-```{r genome_browser.export}
+```{r genome-browser.export}
 # load the rtracklayer package
 library(rtracklayer)
 
@@ -800,10 +737,11 @@ export.bw(cov, 'output_file')
 ```
 
 
-#### Gviz
+#### Vizualization of track data using Gviz
 
-We can create Genome browser like visualizations using the **Gviz** package.
-Gviz is a too which enables exhaustive customized visualization of 
+We can create Genome browser like visualizations using the **Gviz** package, 
+which was introduced in chapter \@(genomicIntervals).
+Gviz is a tool which enables exhaustive customized visualization of 
 genomics experiments.
 The basic usage principle is to define tracks, where each track can represent
 genomic annotation, or a signal profile; subsequently we define the order
@@ -812,10 +750,12 @@ of the tracks and plot them.
 Here we will define two tracks, a genome axis, which will show the position
 along the human chromosome 21; and a signal track from our CTCF experiment.
 
-```{r genome_browser.gviz}
+```{r genome-browser.gviz}
 library(Gviz)
 # define the genome axis track
-axis   = GenomeAxisTrack(GRanges('chr21', IRanges(1, width=seqlengths)))
+axis   = GenomeAxisTrack(
+    range = GRanges('chr21', IRanges(1, width=seqlengths))
+)
 
 # convert the signal into genomic ranges and define the signal track
 gcov   = as(cov, 'GRanges')
@@ -827,13 +767,19 @@ track_list = list(axis,dtrack)
 
 Tracks are plotted with the **plotTracks** function.
 **sizes** argument needs to be the same size as the track_list, and defines the 
-relative size of each track.
+relative size of each track. 
+Figure \@ref(fig:genome-browser-gviz-show) shows the output of the
+**plotTracks** function.
 
-```{r genome-browser-gviz-show, fig.cap='ChIP-seq signal visualized as a browser track using Gviz'}
+```{r genome-browser-gviz-show, fig.cap='ChIP-seq signal visualized as a browser track using Gviz', width=8, height = 3}
 # plot the list of browser tracks
 # sizes argument defines the relative sizes of tracks
 # background title defines the color for the track labels
-plotTracks(track_list, sizes=c(.1,1), background.title = "black")
+plotTracks(
+    trackList        = track_list, 
+    sizes            = c(.1,1), 
+    background.title = "black"
+)
 ```
 
 
@@ -845,7 +791,7 @@ a certain length.
 
 Similarity between the plus and minus strands defined as the correlation of
 the signal profiles for the reads that map to the **+** and the **-** strands.
-The distribution of reads is shown on \@ref(fig:Figure_BrowserScreenshot)
+The distribution of reads is shown on \@ref(fig:Figure-BrowserScreenshot)
 
 ```{r Figure-BrowserScreenshot, echo=FALSE, include=TRUE, fig.cap='Browser screenshot of aligned reads for one ChIP, and control sample. ChIP samples have an assymetric distribution of reads - reads mapping to the + strand are located on the left side of the peak, while the reads mapping to the - strand are found on the right side of the peak'}
 knitr::include_graphics('./Figures/BrowserScreenshot.png')
@@ -878,13 +824,12 @@ The boolean vector contains the information of which genomic positions
 contained the DNA fragment ends.
 
 Similarity between two boolean vectors can be promptly computed  using the Jaccard index.
-Jaccard index is defined as an intersection between two boolean vectors, divided by their union as shown in Figure \@ref(fig:FigureJaccardSimilarity).
+Jaccard index is defined as an intersection between two boolean vectors, 
+divided by their union as shown in Figure \@ref(fig:FigureJaccardSimilarity).
 
 ```{r, FigureJaccardSimilarity, echo=FALSE,fig.align = 'center', fig.cap="Jaccard similarity is defined as the ratio of the intersection and union of two sets."}
 knitr::include_graphics('./Figures/Jaccard.png')
 ```
-
-
 
 Firstly we load the reads for one of the CTCF ChIP experiments.
 Then we create signal profiles, separately for reads on the  **+**, and  **-** 
@@ -892,7 +837,7 @@ strands.
 Unlike before, we do not extend the reads to the average expected fragment
 length (200 base pairs); we keep only the starting position of each read.
 
-```{r correlatio.load}
+```{r correlation.load}
 # load the reads
 reads = readGAlignments(chip_file)
 reads = granges(reads)
@@ -911,9 +856,12 @@ asking which genomic positions have coverage > 0.
 # calculate the coverage profile for plus and minus strand
 reads = split(reads, strand(reads))
 
-# coverage(x, width = seqlengths)[[1]] > 0 calculates the coverage and
-# converts the coverage vector into a boolean
-cov   = lapply(reads, function(x)coverage(x, width = seqlengths)[[1]] > 0)
+# coverage(x, width = seqlengths)[[1]] > 0 
+# calculates the coverage and converts
+# the coverage vector into a boolean
+cov   = lapply(reads, function(x){
+    coverage(x, width = seqlengths)[[1]] > 0
+})
 cov   = lapply(cov, as.vector)
 ```
 
@@ -928,14 +876,20 @@ wsize = 1:400
 # defines the jaccard similarity
 jaccard = function(x,y)sum((x & y)) / sum((x | y))
 
-# shifts the + vector by 1 - 400 nucleotides and calculates the correlation coefficient
-cc = shiftApply(wsize, cov[['+']], cov[['-']], FUN=jaccard)
+# shifts the + vector by 1 - 400 nucleotides and 
+# calculates the correlation coefficient
+cc = shiftApply(
+    SHIFT = wsize, 
+    X     = cov[['+']], 
+    Y     = cov[['-']], 
+    FUN   = jaccard
+)
 
 # converts the results into a data frame
 cc = data.frame(fragment_size = wsize, cross_correlation = cc)
 ```
 
-We can finally plot the shift Vs the correlation coefficient:
+We can finally plot the shift Vs the correlation coefficient: 
 
 ```{r correlation-plot, fig.cap='The figure shows the correlation coefficient between the ChIP-seq signal on + and - strands. The peak of the distribution designates the fragment size'}
 library(ggplot2)
@@ -953,10 +907,13 @@ ggplot(data = cc, aes(fragment_size, cross_correlation)) +
 
 ```
 
-The shift in base pairs which corresponds to the  maximum value of the correlation coefficient 
+Figure \@ref(fig:correlation-plot) shows the shift in base pairs, 
+which corresponds to the  maximum value of the correlation coefficient 
 gives us an approximation to the expected average DNA fragment length. 
 Because this value is not 0, or monotonically decreasing, we can conclude
 that there was substantial enrichment of certain fragments in the ChIP samples.
+
+\pagebreak
 
 ### GC bias quantification
 
@@ -970,7 +927,7 @@ differing GC composition were equally enriched in all experiments.
 
 We will do the following: Firstly we will calculate the GC content of each
 of the tilling windows, and then we will compare the GC content with the corresponding
-cpm (count per million reads) value, for each tile.
+cpm\index{cpm} (count per million reads) value, for each tile.
 
 
 ```{r gc.tile}
@@ -978,10 +935,17 @@ cpm (count per million reads) value, for each tile.
 library(GenomeInfoDb)
 library(GenomicRanges)
 
-hg_chrs        = fetchExtendedChromInfoFromUCSC('hg38')
-hg_chrs        = subset(hg_chrs, grepl('chr21$',UCSC_seqlevel))
-seqlengths     = with(hg_chrs, setNames(UCSC_seqlength, UCSC_seqlevel))
-tilling_window = unlist(tileGenome(seqlengths, tilewidth=1000))
+hg_chrs        = getChromInfoFromUCSC('hg38')
+hg_chrs        = subset(hg_chrs, grepl('chr21$',chrom))
+seqlengths     = with(hg_chrs, setNames(size, chrom))
+
+# tileGenome produces a list per chromosome
+# unlist combines the elemenents of the list 
+# into one GRanges object
+tilling_window = unlist(tileGenome(
+    seqlengths = seqlengths, 
+    tilewidth  = 1000
+))
 ```
 
 We will extract the sequence information from the **BSgenome.Hsapiens.UCSC.hg38**
@@ -1000,10 +964,6 @@ library(BSgenome.Hsapiens.UCSC.hg38)
 seq = getSeq(BSgenome.Hsapiens.UCSC.hg38, tilling_window)
 ```
 
-```{r gc.getseq.head, include=TRUE, echo=FALSE, eval=TRUE}
-head(seq[20000:20006])
-```
-
 
 To calculate the GC content, we will use the **oligonucleotideFrequency** on the
 **DNAString** object. By setting the width parameter to 2 we will 
@@ -1012,11 +972,13 @@ Each row in the resulting table will contain the number of all possible
 dinucleotides observed in each tilling window.
 Because we have tilling windows of same length we do not 
 necessarily need to normalize the counts by the window length.
-If all of the windows do not have the same length (i.e. when looking
-at the ChIP-seq peaks), then the normalization is a prerequisite.
+If all of the windows do not have the same length (i.e. when at the ChIP-seq peaks), 
+then the normalization is a prerequisite.
+
 
 ```{r gc.oligo}
-# calculates the frequency of all possible dimers in our sequence set
+# calculates the frequency of all possible dimers 
+# in our sequence set
 nuc = oligonucleotideFrequency(seq, width = 2)
 
 # converts the matrix into a data.frame
@@ -1026,84 +988,104 @@ nuc = as.data.frame(nuc)
 nuc = round(nuc/1000,3)
 ```
 
-```{r gc.oligo.head, include=TRUE, echo=FALSE, eval=TRUE}
-head(nuc[20000:20006,])
-```
-
 Now we can combine the GC frequency with the cpm values.
 We will convert the cpm values to the log10 scale. To avoid
 taking the log(0), we add a pseudo count of 1 to cpm.
 
-```{r gc.cpm, cache=TRUE}
-# counts the number of reads per tilling window for each experiment
+```{r gc.cpm, cache=TRUE, warning=FALSE}
+# counts the number of reads per tilling window 
+# for each experiment
 so = summarizeOverlaps(tilling_window, bam_files)
 
 # converts the raw counts to cpm values
 counts  = assays(so)[[1]]
 cpm     = t(t(counts)*(1000000/colSums(counts)))
+
+# because the cpm scale has a large dynamic range
+# we transform it using the log function
 cpm_log = log10(cpm+1)
 ```
 
-Combine the cpm values with the GC content, and plot the results.
+Combine the cpm values with the GC content,
 
-```{r}
-gc   = cbind(data.frame(cpm_log), GC = nuc['GC'])
+```{r gc-combine}
+gc = cbind(data.frame(cpm_log), GC = nuc['GC'])
 ```
 
+and plot the results.
 
 ```{r gc-plot, fig.cap='GC content abundance in a ChIP-seq experiment'}
-ggplot(data = gc, aes(GC, GM12878_hg38_CTCF_r1.chr21.bam)) +
-    geom_point(size=2, alpha=.3) +
-    theme_bw() +
-    theme(
-        axis.text  = element_text(size=10, face='bold'),
-        axis.title = element_text(size=14,face="bold"),
-        plot.title = element_text(hjust = 0.5)) +
-    xlab('GC content in one kilobase windows') +
-    ylab('log10( cpm + 1 )') +
-    ggtitle('CTCF Replicate 1')
+ggplot(
+    data = gc, 
+    aes(
+        x = GC, 
+        y = GM12878_hg38_CTCF_r1.chr21.bam
+    )) +
+  geom_point(size=2, alpha=.3) +
+  theme_bw() +
+  theme(
+    axis.text  = element_text(size=10, face='bold'),
+    axis.title = element_text(size=14,face="bold"),
+    plot.title = element_text(hjust = 0.5)) +
+  xlab('GC content in one kilobase windows') +
+  ylab('log10( cpm + 1 )') +
+  ggtitle('CTCF Replicate 1')
 ```
 
-CPM Vs GC content plot gives us two important pieces of information.
-The first one is whether there was a specific amplification of regions
+Figure \@ref(fig:gc-plot) visualizes the CPM Vs GC content, and
+gives us two important pieces of information.
+Firstly, it shows whether there was a specific amplification of regions
 with extremely high or extremely low GC content. This would be strong indication
 that the either the PCR or the size selection procedure were not successfully
 executed.
 The second piece of information comes by comparison of plots 
 corresponding to multiple experiments. If different ChIP-samples have
-highly diverging enrichment of different ChIP regions, this implies that
+highly diverging enrichment of different ChIP regions, then
 some of the samples were affected by unknown batch affects. Such effects
 need to be taken into account in downstream analysis.
 
-Firstly, we will reorder the columns of the data.frame using the gather 
-function from the tidyr package
+Firstly, we will reorder the columns of the data.frame using the **pivot_longer** 
+function from the tidyr package.
 
-```{r gc.tidy}
+```{r gc-tidy}
 # load the tidyr package
 library(tidyr)
 
-# gather converts a fat data.frame into a tall data.frame, which is
-# the format used by the ggplot package
-gcd = gather(data = gc, experiment, cpm, -GC)
+# pivot_longer converts a fat data.frame into a tall data.frame, 
+# which is the format used by the ggplot package
+gcd = pivot_longer(
+    data      = gc, 
+    cols      = -GC,
+    names_to  = 'experiment',
+    values_to = 'cpm'
+)
 
 # we select the ChIP files corresponding to the ctcf experiment
 gcd = subset(gcd, grepl('CTCF', experiment))
 
 # remove the chr21 suffix
 gcd$experiment = sub('chr21.','',gcd$experiment)     
-
-ggplot(data = gcd, aes(GC, log10(cpm+1))) +
-    geom_point(size=2, alpha=.05) +
-    theme_bw() +
-    facet_wrap(~experiment, nrow=1)+
-    theme(
-        axis.text = element_text(size=10, face='bold'),
-        axis.title = element_text(size=14,face="bold"),
-        plot.title = element_text(hjust = 0.5)) +
-    xlab('GC content in one kilobase windows') +
-    ylab('log10( cpm + 1 )') +
-    ggtitle('CTCF Replicates 1 and 2')
 ```
+
+Now we can visualize the relationship using  a scatterplot.
+Figure \@ref(fig:gc-tidy-plot) compares the GC content dependency on the CPM between
+the first and the second CTCF replicate.
+
+```{r gc-tidy-plot, warning = FALSE, fig.cap='Comparison of GC content and signal abundance between two CTCF biological replicates'}
+ggplot(data = gcd, aes(GC, log10(cpm+1))) +
+  geom_point(size=2, alpha=.05) +
+  theme_bw() +
+  facet_wrap(~experiment, nrow=1)+
+  theme(
+    axis.text = element_text(size=10, face='bold'),
+    axis.title = element_text(size=14,face="bold"),
+    plot.title = element_text(hjust = 0.5)) +
+  xlab('GC content in one kilobase windows') +
+  ylab('log10( cpm + 1 )') +
+  ggtitle('CTCF Replicates 1 and 2')
+```
+
+
 
 
 ### Sequence read genomic distribution
@@ -1114,9 +1096,9 @@ If the ChIP samples have the same distribution of reads as the Input samples,
 this implies a lack of specific enrichment. Additionally, if we have
 prior knowledge of where our proteins should be located, we can use
 the visualization to judge how well the genomic distributions conform to our priors.
-For example, the trimethylation of histone H3 on lysine 36 - H3K36me3 is associated
+For example, the trimethylation of histone H3 on lysine 36 - **H3K36me3** is associated
 with elongating polymerase and productive transcription. If we performed a 
-successful ChIP experiment with an anti-H3K36me3 antibody, we would expect most of the reads
+successful ChIP experiment with an anti-**H3K36me3** antibody, we would expect most of the reads
 to fall within gene bodies (introns and exons).
 
 #### Hierarchical annotation of genomic features
@@ -1132,13 +1114,16 @@ We can then look, for each read, which functional categories it overlaps, and
 if it within multiple categories, we assign the read to the topmost category.
 As an example, let's say that we have 4 genomic categories:
 
-TSS (transcription start sites), exon, intron, intergenic, with the following 
+TSS (transcription start sites)
+\index{transcription start site (TSS)}, exon, intron, intergenic, 
 
-hierarchy:
+with the following hierarchy:
 
-TSS -> exon -> intron -> intergenic
+**TSS -> exon -> intron -> intergenic**
 
-If a read overlaps a TSS and an intron, it will be annotates as TSS \@ref(fig:Figure_Hierarchical_Annotation).
+If a read overlaps a TSS \index{transcription start site (TSS)} and an intron, 
+it will be annotates as TSS. 
+\@ref(fig:Figure-Hierarchical-Annotation).
 
 ```{r Figure-Hierarchical-Annotation, echo=FALSE, include=TRUE, fig.cap='Principle of hierarchical annotation. The region of interest is annotated as the topmost ranked category that it overlaps. In this case, our region overlaps a TSS, an exon, and a intergenic regions. Because the TSS has the topmost rank, it is annotated as a TSS.'}
 knitr::include_graphics('./Figures/Hierarchical_Annotation.png')
@@ -1148,20 +1133,20 @@ knitr::include_graphics('./Figures/Hierarchical_Annotation.png')
 Now we will construct the set of functional genomic regions, and annotate
 the reads.
 
-#### Finding Annotations
+#### Finding annotations
 
-There are multiple sources of genomic annotation. UCSC, Genbank, and
-ENSEMBL databases represent stable resources, from which the annotation
-can be easily obtained.
+There are multiple sources of genomic annotation. **UCSC**\index{UCSC Genome Browse}, 
+**Genbank**, and **Ensembl**\index{Ensembl} databases represent stable resources, 
+from which the annotation can be easily obtained.
 
-**AnnotationHub** is a Bioconductor based online resource which contains a large
-amount of experiments from various sources. 
-We will use the AnnotationHub to download the location of genes corresponding
-to the hg38 genome.
+**AnnotationHub**\index{R Packages!\texttt{AnnotationHub}} is a Bioconductor 
+based online resource which contains a large amount of experiments from various
+sources. We will use the AnnotationHub to download the location of 
+genes corresponding to the **hg38** genome.
 
 The hub is accessed in the following way:
 
-```{r read_annot.hub}
+```{r read-annot.hub}
 # load the AnnotationHub package
 library(AnnotationHub)
 
@@ -1171,60 +1156,76 @@ hub = AnnotationHub()
 
 The **hub** variable contains the programming interface towards the online database.
 We can use the **query** function to find out the ID of the
-ENSEMBL gene annotation.
+ENSEMBL\index{ENSEMBL} gene annotation.
 
-```{r read_annot.query}
+```{r read-annot.query}
 # query the hub for the human annotation
-AnnotationHub::query(hub, c('ENSEMBL','Homo','GRCh38','chr','gtf'))
+AnnotationHub::query(
+    x       = hub, 
+    pattern = c('ENSEMBL','Homo','GRCh38','chr','gtf')
+)
 ```
 
-We are interested in the version GRCh38.92, which is available under **AH61126**.
+We are interested in the version **GRCh38.92**, which is available under **AH61126**.
 To download the data from the hub, we use the **[[** operator on the
 hub API.
-We will download the annotation in the **.gtf** format, into a **GRanges** object.
+We will download the annotation in the **GTF**\index{GTF file} format, into a`GRanges` object.
 
-```{r read_annot.fetch}
+```{r read-annot.fetch}
 # retrieve the human gene annotation
 gtf = hub[['AH61126']]
 ```
 
-
-```{r read_annot.show, eval=TRUE, include=TRUE, echo=FALSE}
-head(gtf)
+```{r read-annot.show, eval=TRUE, include=TRUE, echo=FALSE}
+gtf[1:6,1:3]
 ```
 
 By default the ENSEMBL project labels chromosomes using numeric identifiers (i.e. 1,2,3 ... X), 
 without the __chr__ prefix.
 We need to therefore append the prefix to the chromosome names (seqlevels).
+`pruning.mode = 'coarse'` designates that the chromosome names will be replaced
+in the gtf object.
 
-```{r read_annot.seqlevels}
-# paste the chr prefix to chromosome names
-seqlevels(gtf, pruning.mode='coarse') = paste0('chr', seqlevels(gtf))
+```{r read-annot.seqlevels}
+# extract ensemel chromosome names
+ensembl_seqlevels = seqlevels(gtf)
+
+# paste the chr prefix to the chromosome names
+ucsc_seqlevels    = paste0('chr', ensembl_seqlevels)
+
+# replace ensembl with ucsc chromosome names
+seqlevels(gtf, pruning.mode='coarse') = ucsc_seqlevels
 ```
 
 And finally we subset only regions which correspond to chromosome 21.
 
-```{r read_annot.subset}
+```{r read-annot.subset}
 # keep only chromosome 21
 gtf = gtf[seqnames(gtf) == 'chr21']
 ```
 
 #### Constructing genomic annotation
 
-Once we have downloaded the annotation we can define the functional hierarchy.
+Once we have downloaded the annotation we can define the functional hierarchy\index{annotation hierarchy}.
 We will use the previously mentioned ordering:
 
-TSS -> exon -> intron -> intergenic
+**TSS -> exon -> intron -> intergenic**
 
-With TSS having the highest priority and the intergenic regions having the lowest priority.
+With **TSS**
+\index{transcription start site (TSS)} having the highest priority and the 
+intergenic regions having the lowest priority.
 
 
-```{r read_annot.hierarchy}
+```{r read-annot.hierarchy}
 # construct a GRangesList with human annotation
 annotation_list = GRangesList(
     
-    # promoters function extends the gtf around the TSS by an upstream and downstream amounts
-    tss    = promoters(subset(gtf, type=='gene'), upstream=1000, downstream=1000),
+    # promoters function extends the gtf around the TSS 
+    # by an upstream and downstream amounts
+    tss    = promoters(
+        x = subset(gtf, type=='gene'), 
+        upstream   = 1000, 
+        downstream = 1000),
     exon   = subset(gtf, type=='exon'),
     intron = subset(gtf, type=='gene')
 )
@@ -1232,9 +1233,11 @@ annotation_list = GRangesList(
 
 #### Annotating reads
 
-To annotate the reads we will define a function that takes as input a **.bam** file, 
-and an annotation list, and returns the frequency of reads in each genomic category.
-We will then loop over all of the **.bam** files to annotate each experiment.
+To annotate the reads we will define a function that takes as input a 
+**.bam**\index{BAM file} file, and an annotation list, and returns the frequency of 
+reads in each genomic category.
+We will then loop over all of the **.bam**\index{BAM file} 
+files to annotate each experiment.
 
 **annotateReads** function works in the following way:
 
@@ -1242,7 +1245,7 @@ We will then loop over all of the **.bam** files to annotate each experiment.
 
 2. Find overlaps between the reads and the annotation categories
 
-3. Arrange the annotated reads based on the hierarchy, and remove duplicated assignments
+3. Arrange the annotated reads based on the hierarchy\index{annotation hierarchy}, and remove duplicated assignments
 
 4. Count the number of reads in each category.
 
@@ -1251,7 +1254,7 @@ The crucial step to understand here is using the **arrange** and **filter** func
 to keep only one annotated category per read.
 
 
-```{r read_annot.annotateReads}
+```{r read-annot.annotateReads, warnings=FALSE}
 annotateReads = function(bam_file, annotation_list){
     
     library(dplyr)
@@ -1261,9 +1264,15 @@ annotateReads = function(bam_file, annotation_list){
     bam    = readGAlignments(bam_file)
     
     # find overlaps between reads and annotation
-    result = as.data.frame(suppressWarnings(findOverlaps(bam, annotation_list))) 
-    result$annotation = names(annotation_list)[result$subjectHits]
-        
+    result = as.data.frame(
+        findOverlaps(bam, annotation_list)
+    ) 
+    
+    # appends to the annotation index the corresponding
+    # annotation name
+    annotation_name   = names(annotation_list)[result$subjectHits]
+    result$annotation = annotation_name
+    
     # order the overlaps based on the hierarchy
     result = result[order(result$subjectHits),]
         
@@ -1277,10 +1286,15 @@ annotateReads = function(bam_file, annotation_list){
     # count the number of reads in each category
     result = summarise(.data = result, counts = length(annotation))
     
-    # classify all reads which are outside of the annotation as intergenic
-    result = rbind(result, data.frame(
-                    annotation = 'intergenic',
-                    counts     = length(bam) - sum(result$counts)))
+    # classify all reads which are outside of 
+    # the annotation as intergenic
+    result = rbind(
+        result, 
+        data.frame(
+                annotation = 'intergenic',
+                counts     = length(bam) - sum(result$counts)
+            )
+        )
     
     # calculate the frequency
     result$frequency  = with(result, round(counts/sum(counts),2))
@@ -1294,26 +1308,42 @@ annotateReads = function(bam_file, annotation_list){
 
 We execute the annotation function on all files.
 
-```{r read_annot.loop}
+```{r read-annot.loop, warning = FALSE}
 # list all bam files in the folder
 bam_files   = list.files(data_path, full.names=TRUE, pattern='bam$')
 
 # calculate the read distribution for every file
-annot_reads_list = lapply(bam_files, function(x)annotateReads(x, annotation_list))
+annot_reads_list = lapply(bam_files, function(x){
+    annotateReads(
+        bam_file        = x, 
+        annotation_list = annotation_list
+    )
+})
 ```
 
-And plot the results.
+First, we combine the results in one data frame, and
+reformat the experiment names.
 
-```{r read-annot-plot, fig.cap='ChIP-seq signal distribution over functional genomic features'}
+```{r read-annot-format, fig.cap='ChIP-seq signal distribution over functional genomic features'}
 # collapse the per-file read distributions into one data.frame
 annot_reads_df = dplyr::bind_rows(annot_reads_list)
 
 # format the experiment names
-annot_reads_df$experiment = sub('.chr21.bam','',annot_reads_df$experiment)
-annot_reads_df$experiment = sub('GM12878_hg38_','',annot_reads_df$experiment)
+experiment_name = annot_reads_df$experiment
+experiment_name = sub('.chr21.bam','', experiment_name)
+experiment_name = sub('GM12878_hg38_','',experiment_name)
+annot_reads_df$experiment = experiment_name
+```
 
+And plot the results.
 
-ggplot(data = annot_reads_df, aes(experiment, frequency, fill=annotation)) +
+```{r read-annotation-plot, eval=TRUE, warning = FALSE, fig.cap='Read distribution in genomice functional annotation categories'}
+ggplot(data = annot_reads_df, 
+       aes(
+           x    = experiment, 
+           y    = frequency, 
+           fill = annotation
+        )) +
     geom_bar(stat='identity') +
     theme_bw() +
     scale_fill_brewer(palette='Set2') +
@@ -1327,11 +1357,12 @@ ggplot(data = annot_reads_df, aes(experiment, frequency, fill=annotation)) +
     ggtitle('Percentage of reads in annotation')
 ```
 
-We can observe a slight increase of H3K36me3 on the exons and introns, and H3K4me3
-on the TSS. Interestingly, both replicates of the ZNF143 transcription factor show increased
-read abundance around the TSS.
+Figure \@ref(fig:read-annotation-plot) shows a slight increase of **H3K36me3** on the exons
+and introns, and **H3K4me3** on the **TSS**. Interestingly, both replicates of the **ZNF143**
+transcription factor show increased read abundance around the TSS.
 
-## Peak Calling
+
+## Peak calling\index{Peak calling}
 
 After we are convinced that the data is of sufficient quality, we can 
 proceed with the downstream analysis.
@@ -1343,7 +1374,7 @@ The procedure requires mapped reads, and outputs a set of regions, which
 represent the putative binding locations. Each region is usually associated 
 with a significance score which is an indicator of enrichment.
 
-For peak calling we will use the **normR** (ref) Bioconductor package.
+For peak calling we will use the **normR**\index{R Packages!\texttt{normR}} Bioconductor package.
 **normR** uses a binomial mixture model, and performs simultaneous
 normalization and peak finding. Due to the nature of the model, it is
 quite plastic and can be used for different types of ChIP experiments.
@@ -1365,7 +1396,7 @@ It is usually obtained from transcription factors, or highly localized posttrans
 (H3K4me3, which is found on gene promoters).
 
 2. **Broad** (wide signal) - The signal covers broad genomic domains spanning up to several kilobases.
-Usually produced by disperse histone modifications (H3K36me3, located
+Usually produced by disperse histone modifications\index{histone modification} (H3K36me3, located
 on gene bodies, or H3K23me3, which is deposited by the Polycomb complex in large genomic regions).
 
 3. **Mixed** - The signal consists of a mixture of sharp and broad regions. 
@@ -1373,8 +1404,8 @@ It is produced by proteins which have dynamic behavior. Most often these are ChI
 of RNA Polymerase 2. 
 
 Different types of ChIP experiment usually require specialized analysis tools - 
-some peak callers are developed to specifically detect narrow peaks[@zhang_2008; @xu_2010,@shao_2012], while others
-detect enrichment in diffuse broad regions [@zang_2009; @micsinai_2012; @beck_2012,@song_2011 @xing_2012], 
+some peak callers are developed to specifically detect narrow peaks[@zhang_2008; @xu_2010; @shao_2012], while others
+detect enrichment in diffuse broad regions [@zang_2009; @micsinai_2012; @beck_2012; @song_2011; @xing_2012], 
 or mixed (Polymerase 2) signals [@han_2012].
 Recent developments in peak calling methods (such as **normR**) can however accommodate
 multiple types of ChIP experiments [@rashid_2011].
@@ -1384,7 +1415,7 @@ results, and the peculiarities of the experimental design and execution [@laajal
 If you are not certain what kind of signal profile to expect from a ChIP-seq 
 experiment, the best solution is to visualize the data.
 
-We will now use the data from H3K3me36 (Sharp), H3K36me3 (Broad), and POL2 (Mixed)
+We will now use the data from **H3K4me3** (Sharp), **H3K36me3** (Broad), and **POL2** (Mixed)
 ChIP experiments to show the differences in the signal profiles.
 
 We will use the the bigWig files to visualize the signal profiles around a
@@ -1393,7 +1424,7 @@ of how the profiles for different types of ChIP experiments differ.
 
 First we select the files of interest:
 
-```{r chip_type.file}
+```{r chip-type.file}
 # set names for chip-seq bigWig files
 chip_files = list(
     H3K4me3  = 'GM12878_hg38_H3K4me3.chr21.bw',
@@ -1403,12 +1434,14 @@ chip_files = list(
     POL2     = 'GM12878_hg38_POLR2A.chr21.bw'
 )
 # get full paths to the files
-chip_files = lapply(chip_files, function(x)file.path(data_path, x))
+chip_files = lapply(chip_files, function(x){
+    file.path(data_path, x)
+})
 ```
 
 Next we import the coverage profiles into **R**:
 
-```{r chip_type.import}
+```{r chip-type.import}
 # load rtracklayer
 library(rtracklayer)
 
@@ -1418,17 +1451,27 @@ chip_profiles = lapply(chip_files, rtracklayer::import.bw)
 
 We fetch the reference annotation for human chromosome 21.
 
-```{r chip_type.annotation, message = FALSE, error=FALSE,cache=TRUE}
+```{r chip-type.annotation, message = FALSE, error=FALSE,cache=TRUE}
 library(AnnotationHub)
 hub = AnnotationHub()
 gtf = hub[['AH61126']]
+
+# select only chromosome 21
 seqlevels(gtf, pruning.mode='coarse') = '21'
-seqlevels(gtf, pruning.mode='coarse') = paste0('chr', seqlevels(gtf))
+
+# extract chromosome names
+ensembl_seqlevels = seqlevels(gtf)
+
+# paste the chr prefix to the chromosome names
+ucsc_seqlevels    = paste0('chr', ensembl_seqlevels)
+
+# replace ensembl with ucsc chromosome names
+seqlevels(gtf, pruning.mode='coarse') = ucsc_seqlevels
 ```
 To enable Gviz to work with genomic annotation we will convert the **GRanges**
 object into a transcript database using the following function:
 
-```{r chip_type.txdb, warning=FALSE}
+```{r chip-type.txdb, warning=FALSE}
 # load the GenomicFeatures object
 library(GenomicFeatures)
 
@@ -1438,7 +1481,7 @@ txdb         = makeTxDbFromGRanges(gtf)
 
 And convert the transcript database into a Gviz track.
 
-```{r chip_type.gene}
+```{r chip-type.gene}
 # define the gene track object
 gene_track  = GeneRegionTrack(txdb, chr='chr21', genome='hg38')
 ```
@@ -1452,33 +1495,48 @@ We firstly define the coordinate system - the ideogram track which will show
 the position of our current viewpoint on the chromosome, and a genome axis track,
 which will show the exact coordinates.
 
-```{r chip_type.ideo}
+```{r chip-type.ideo}
 # load Gviz package
 library(Gviz)
 # fetches the chromosome length information
-hg_chrs = fetchExtendedChromInfoFromUCSC('hg38')
-hg_chrs = subset(hg_chrs, (grepl('chr21$',UCSC_seqlevel)))
+hg_chrs = getChromInfoFromUCSC('hg38')
+hg_chrs = subset(hg_chrs, (grepl('chr21$',chrom)))
 
 # convert data.frame to named vector
-seqlengths = with(hg_chrs, setNames(UCSC_seqlength, UCSC_seqlevel))
+seqlengths = with(hg_chrs, setNames(size, chrom))
 
 # constructs the ideogram track
-chr_track   = IdeogramTrack('chr21', 'hg38')
+chr_track   = IdeogramTrack(
+    chromosome = 'chr21', 
+    genome     = 'hg38'
+)
 
 # constructs the coordinate system
-axis        = GenomeAxisTrack(GRanges('chr21', IRanges(1, width=seqlengths)))
+axis = GenomeAxisTrack(
+    range = GRanges('chr21', IRanges(1, width=seqlengths))
+)
 ```
 
 We use a loop to convert the signal profiles into a **DataTrack** object.
 
-```{r chip_type.profile}
+```{r chip-type.profile}
 # use a lapply on the imported bw files to create the track objects
 # we loop over experiment names, and select the corresponding object
 # within the function
 data_tracks = lapply(names(chip_profiles), function(exp_name){
     
-    # chip_profiles[[exp_name]] - selects the proper experiment using the name
-    DataTrack(chip_profiles[[exp_name]],   name = exp_name,  type='h', lwd=5)
+    # chip_profiles[[exp_name]] - selects the 
+    # proper experiment using the exp_name
+    DataTrack(
+        range = chip_profiles[[exp_name]],   
+        name  = exp_name,  
+        
+        # type of the track
+        type  = 'h', 
+        
+        # line width parameter
+        lwd   = 5
+    )
 })
 ```
 
@@ -1494,27 +1552,40 @@ start = min(start(subset(gtf, gene_name == 'URB1')))
 end   = max(end(subset(gtf, gene_name == 'URB1')))
 
 # plot the signal profiles around the URB1 gene
-plotTracks(c(chr_track, axis, gene_track, data_tracks),
-           sizes=c(1,1,1,1,1,1), background.title = "black",
-           collapseTranscripts = "longest", transcriptAnnotation="symbol",
-           from = start - 5000,
-           to   = end   + 5000)
+plotTracks(
+    trackList = c(chr_track, axis, gene_track, data_tracks),
+    
+    # relative track sizes
+    sizes     = c(1,1,1,1,1,1), 
+    
+    # background color
+    background.title     = "black",
+    
+    # controls visualization of gene sets
+    collapseTranscripts  = "longest", 
+    transcriptAnnotation = "symbol",
+    
+    # coordinates to visualize 
+    from = start - 5000,
+    to   = end   + 5000
+)
 ```
 
-The figure shows the signal profile around the URB1 gene.
+Figure \@ref(fig:chip-type-plot-gviz) shows the signal profile around the URB1 gene.
 H3K4me3 signal profile contains a strong narrow peak on the transcription start site.
 H3K36me3 shows strong enrichment in the gene body, wile the POL2 ChIP shows
 a mixed profile, with a strong peak at the TSS and an enrichment over the gene body.
 
 
-### Peak Calling - Sharp Experiments
+
+### Peak calling - sharp Experiments\index{Peak calling}
 
 We will now use use **normR** [@helmuth_2016] for peak calling in sharp and broad peak experiments.
 
 Select the input files. Since **normR** does not support the usage of biological
 replicates, we will showcase the peak calling on one of the CTCF samples.
 
-```{r peak_calling.sharp.files}
+```{r peak-calling.sharp.files}
 # full path to the ChIP data file
 chip_file    = file.path(data_path, 'GM12878_hg38_CTCF_r1.chr21.bam')
 
@@ -1528,20 +1599,28 @@ showing the strength of signal in the CTCF and Input.
 Let us first count the reads in 1kb windows, and normalize them to counts per
 million sequenced reads.
 
-```{r peak_calling.sharp.count}
+```{r peak-calling.sharp.count, warning=FALSE}
 # as previously done, we calculate the cpm for each experiment
 library(GenomicRanges)
 library(GenomicAlignments)
 
-hg_chrs = fetchExtendedChromInfoFromUCSC('hg38') 
-hg_chrs = subset(hg_chrs, grepl('chr21$',UCSC_seqlevel))
+# select the chromosome
+hg_chrs = getChromInfoFromUCSC('hg38') 
+hg_chrs = subset(hg_chrs, grepl('chr21$',chrom))
 
-seqlengths = with(hg_chrs, setNames(UCSC_seqlength, UCSC_seqlevel))
+seqlengths = with(hg_chrs, setNames(size, chrom))
 
+# define the windows
 tilling_window = unlist(tileGenome(seqlengths, tilewidth=1000))
-counts         = summarizeOverlaps(tilling_window, c(chip_file, control_file))
-counts         = assays(counts)[[1]]
 
+# count the reads
+counts         = summarizeOverlaps(
+    features = tilling_window, 
+    reads    = c(chip_file, control_file)
+)
+
+# normalize read counts
+counts         = assays(counts)[[1]]
 cpm = t(t(counts)*(1000000/colSums(counts)))
 ```
 
@@ -1551,24 +1630,30 @@ We can now plot the ChIP Vs Input signal:
 library(ggplot2)
 # convert the matrix into a data.frame for ggplot
 cpm = data.frame(cpm)
-ggplot(data = cpm, aes(GM12878_hg38_Input_r5.chr21.bam, GM12878_hg38_CTCF_r1.chr21.bam)) +
+ggplot(
+    data = cpm, 
+    aes(
+        x = GM12878_hg38_Input_r5.chr21.bam, 
+        y = GM12878_hg38_CTCF_r1.chr21.bam)
+    ) +
     geom_point() +
     geom_abline(slope = 1) +
     theme_bw() +
     theme_bw() +
     scale_fill_brewer(palette='Set2') +
     theme(
-        axis.text = element_text(size=10, face='bold'),
-        axis.title = element_text(size=14,face="bold"),
-        plot.title = element_text(hjust = 0.5),
+        axis.text   = element_text(size=10, face='bold'),
+        axis.title  = element_text(size=14,face="bold"),
+        plot.title  = element_text(hjust = 0.5),
         axis.text.x = element_text(angle = 90, hjust = 1)) +
     xlab('Input CPM') +
     ylab('CTCF CPM') +
     ggtitle('ChIP Vs Input')
     
 ```
-Regions above the diagonal show higher enrichment in the ChIP samples, while
-the regions below the diagonal show higher enrichment in the Input samples.
+Regions above the diagonal, in figure \@ref(fig:peak-calling-sharp-plot) show 
+higher enrichment in the ChIP samples, while the regions below the diagonal 
+show higher enrichment in the Input samples.
 
 
 Let us now perform for peak calling.
@@ -1579,7 +1664,7 @@ count the number of reads in each window, and fit a mixture of
 binomial distributions.
 
 
-```{r, peak_calling.sharp.peak_calling, message=FALSE, warning=FALSE}
+```{r, peak-calling.sharp.peak-calling, message=FALSE, warning=FALSE}
 library(normr)
 # peak calling using chip and control
 ctcf_fit = enrichR(
@@ -1599,7 +1684,7 @@ ctcf_fit = enrichR(
 
 With the summary function we can take look at the results:
 
-```{r peak_calling.summary}
+```{r peak-calling.summary}
 summary(ctcf_fit)
 ```
 
@@ -1614,20 +1699,20 @@ the statistical significance and calculated enrichment.
 In order to identify only highly significant regions, 
 we keep only ranges where the false discovery rate (q value) is below 0.01.
 
-```{r peak_calling.sharp.peak_calling.ranges, cache=TRUE}
+```{r peak-calling.sharp.peak-calling.ranges, cache=TRUE}
 # extracts the ranges
 ctcf_peaks = getRanges(ctcf_fit)
     
 # annotates the ranges with the supporting p value
 ctcf_peaks$qvalue     = getQvalues(ctcf_fit)
     
-    # annotates the ranges with the calculated enrichment
+# annotates the ranges with the calculated enrichment
 ctcf_peaks$enrichment = getEnrichment(ctcf_fit)
     
 # selects the ranges which correspond to the enriched class
 ctcf_peaks = subset(ctcf_peaks, !is.na(component))
     
-# Filter by a stringent q value threshold
+# filter by a stringent q value threshold
 ctcf_peaks = subset(ctcf_peaks, qvalue < 0.01)
     
 # order the peaks based on the q value
@@ -1635,20 +1720,20 @@ ctcf_peaks = ctcf_peaks[order(ctcf_peaks$qvalue)]
 ```
 
 
-```{r, peak_calling.sharp.peak_calling.show, include=TRUE, echo=FALSE, eval=TRUE}
+```{r, peak-calling.sharp.peak-calling.show, include=TRUE, echo=FALSE, eval=TRUE, R.options=list(digits=3)}
 ctcf_peaks
 ```
 After stringent q value filtering we are left with 724 peaks.
 
 For the ease of downstream analysis, we will limit the sequence levels to
 chromosome 21.
-```{r peak_calling.sharp.peak_calling.seqlevels}
+```{r peak-calling.sharp.peak-calling.seqlevels}
 seqlevels(ctcf_peaks, pruning.mode='coarse') = 'chr21'
 ```
 
 Let's export the peaks into a .txt file which we can use downstream in the analysis.
 
-```{r peak_calling.write_table, include=T, eval=T, echo=T}
+```{r peak-calling.write_table, include=T, eval=T, echo=T}
 # write the peaks loacations into a txt table
 write.table(ctcf_peaks, file.path(data_path, 'CTCF_peaks.txt'), 
             row.names=F, col.names=T, quote=F, sep='\t')
@@ -1659,7 +1744,7 @@ We can now repeat the CTCF Vs Input plot, and label significantly marked peaks.
 
 Using the count overlaps we mark which of our 1kb regions contained significant peaks.
 
-```{r peak_calling.sharp.peak_calling.countOvlaps}
+```{r peak-calling.sharp.peak-calling.countOvlaps}
 # find enriched tilling windows
 enriched_regions = countOverlaps(tilling_window, ctcf_peaks) > 0
 ```
@@ -1668,27 +1753,33 @@ enriched_regions = countOverlaps(tilling_window, ctcf_peaks) > 0
 ```{r peak-calling-sharp-peak-calling-plot, fig.cap='Comparison of signal between ChIP and input samples. Red labeled dots correspond to called peaks.'}
 library(ggplot2)
 cpm$enriched_regions = enriched_regions 
-    
-ggplot(data = cpm, aes(GM12878_hg38_Input_r5.chr21.bam, GM12878_hg38_CTCF_r1.chr21.bam, 
-               color=enriched_regions)) +
-    geom_point() +
-    geom_abline(slope = 1) +
-    theme_bw() +
-    scale_fill_brewer(palette='Set2') +
-    theme(
-        axis.text = element_text(size=10, face='bold'),
-        axis.title = element_text(size=14,face="bold"),
-        plot.title = element_text(hjust = 0.5),
-        axis.text.x = element_text(angle = 90, hjust = 1)) +
-    xlab('Input CPM') +
-    ylab('CTCF CPM') +
-    ggtitle('ChIP Vs Input') +
-    scale_color_manual(values=c('gray','red'))
+
+ggplot(
+    data = cpm, 
+    aes(
+        x = GM12878_hg38_Input_r5.chr21.bam, 
+        y = GM12878_hg38_CTCF_r1.chr21.bam, 
+        color = enriched_regions
+    )) +
+  geom_point() +
+  geom_abline(slope = 1) +
+  theme_bw() +
+  scale_fill_brewer(palette='Set2') +
+  theme(
+    axis.text   = element_text(size=10, face='bold'),
+    axis.title  = element_text(size=14,face="bold"),
+    plot.title  = element_text(hjust = 0.5),
+    axis.text.x = element_text(angle = 90, hjust = 1)) +
+  xlab('Input CPM') +
+  ylab('CTCF CPM') +
+  ggtitle('ChIP Vs Input') +
+  scale_color_manual(values=c('gray','red'))
 ```
 
-We can see that **normR** identified all of the regions above the diagonal
-as statistically significant. It has, however, labeled a significant
-number of regions below the diagonal. Because the sophisticated statistical model, 
+Figure \@ref(fig:peak-calling-sharp-peak-calling-plot) shows see that **normR** 
+  identified all of the regions above the diagonal as statistically significant. 
+It has, however, labeled a significant number of regions below the diagonal. 
+Because the sophisticated statistical model, 
 **normR** has greater sensitivity, and these peaks might really be enriched regions,
 it is worth investigating the nature of these regions. This is left as an exercise
 to the reader.
@@ -1699,44 +1790,44 @@ We would expect to see a strong, bell shaped, enrichment in the ChIP sample, and
 uniform noise in the Input sample.
 
 Let us now visualize the signal around the most enriched peak:
-
-The following function takes as input a **.bam** file, and loads the bam into R.
+  
+  The following function takes as input a **.bam** file, and loads the bam into R.
 It extends the reads to a size of 200 bp, and creates the coverage vector.
 
-```{r peak_calling.sharp.peak_calling.coverage,function}
-# clauclate the coverage for one bam file
+```{r peak-calling.sharp.peak-calling.coverage,function}
+# calculate the coverage for one bam file
 calculateCoverage = function(
-    bam_file,
-    extend = 200
+  bam_file,
+  extend = 200
 ){
-
-    # load reads into R
-    reads = readGAlignments(bam_file)
-    
-    # convert reads into a GRanges object
-    reads = granges(reads)
-    
-    # resize the reads to 200bp
-    reads = resize(reads, width=extend, fix='start')
-    
-    # get the coverage vector
-    cov   = coverage(reads)
-    
-    # normalize the coverage vector to the sequencing depth
-    cov = round(cov * (1000000/length(reads)),2)
-    
-    # convert the coverate go a GRanges object
-    cov   = as(cov, 'GRanges')
-    
-    # keep only chromosome 21
-    seqlevels(cov, pruning.mode='coarse') = 'chr21'
-    return(cov)
+  
+  # load reads into R
+  reads = readGAlignments(bam_file)
+  
+  # convert reads into a GRanges object
+  reads = granges(reads)
+  
+  # resize the reads to 200bp
+  reads = resize(reads, width=extend, fix='start')
+  
+  # get the coverage vector
+  cov   = coverage(reads)
+  
+  # normalize the coverage vector to the sequencing depth
+  cov = round(cov * (1000000/length(reads)),2)
+  
+  # convert the coverage go a GRanges object
+  cov   = as(cov, 'GRanges')
+  
+  # keep only chromosome 21
+  seqlevels(cov, pruning.mode='coarse') = 'chr21'
+  return(cov)
 }
 ```
 
 Let's apply the function to the ChIP and input samples.
 
-```{r peak_calling.sharp.peak_calling.coverage}
+```{r peak-calling.sharp.peak-calling.coverage}
 # calculate coverage for the ChIP file
 ctcf_cov = calculateCoverage(chip_file)
 
@@ -1747,53 +1838,66 @@ cont_cov = calculateCoverage(control_file)
 Using Gviz, we will construct the layered tracks.
 First the genome coordinates
 
-```{r peak_calling.sharp.peak_calling.gviz.axis}
+```{r peak-calling.sharp.peak-calling.gviz.axis}
 # load Gviz and get the chromosome coordinates
 library(Gviz)
 chr_track  = IdeogramTrack('chr21', 'hg38')
-axis       = GenomeAxisTrack(GRanges('chr21', IRanges(1, width=seqlengths)))
+axis       = GenomeAxisTrack(
+    range = GRanges('chr21', IRanges(1, width=seqlengths))
+)
 ```
 
 Then the peak locations
 
-```{r peak_calling.sharp.peak_calling.gviz.peaks}
+```{r peak-calling.sharp.peak-calling.gviz.peaks}
 # peaks track
 peaks_track = AnnotationTrack(ctcf_peaks, name = "CTCF Peaks")
 ```
 
 And finally, the signal files
 
-```{r peak_calling.sharp.peak_calling.gviz.signal}
-chip_track  = DataTrack(ctcf_cov,   name = "CTCF",  type='h', lwd=3)
-cont_track  = DataTrack(cont_cov,   name = "Input", type='h', lwd=3)
+```{r peak-calling.sharp.peak-calling.gviz.signal}
+chip_track  = DataTrack(
+    range = ctcf_cov,   
+    name  = "CTCF",  
+    type  = 'h', 
+    lwd   = 3
+)
+
+cont_track  = DataTrack(
+    range = cont_cov,   
+    name  = "Input", 
+    type  = 'h', 
+    lwd=3
+)
 ```
 
 
 ```{r peak-calling-signal-profile-plot, fig.cap='ChIP and Input signal profile in around the peak centers.'}
-plotTracks(list(chr_track,
-                axis, 
-                peaks_track, 
-                chip_track,
-                cont_track), 
-           sizes=c(.2,.5,.5,1,1), background.title = "black",
-           from = start(ctcf_peaks)[1] - 1000,
-           to   = end(ctcf_peaks)[1]   + 1000)
+plotTracks(
+    trackList = list(chr_track, axis, peaks_track, chip_track, cont_track), 
+    sizes     = c(.2,.5,.5,1,1), 
+    background.title = "black",
+    from = start(ctcf_peaks)[1] - 1000,
+    to   = end(ctcf_peaks)[1]   + 1000
+)
 ```
 
-The ChIP sample looks as expected. Although the Input sample shows an enrichment, 
+Figure \@ref(fig:peak-calling-signal-profile-plot) ChIP sample looks as expected.
+Although the Input sample shows an enrichment, 
 it is important to compare the scales on both samples. The normalized ChIP signal goes up 
 to 2500, while the maximum value in the input sample is only 60.
 
- 
-### Broad regions
+
+### Broad regions\index{Peak calling}
 
 We will now use **normR** to call peaks for the H3K36me3 histone modification, 
 which is associated with gene bodies of expressed genes.
 
 We define the ChIP and Input files:
 
-```{r peak_calling.broad.files}
-# fetch the ChIP-file for H3k36me3
+```{r peak-calling.broad.files}
+# fetch the ChIP-file for H3K36me3
 chip_file    = file.path(data_path, 'GM12878_hg38_H3K36me3.chr21.bam')
 
 # fetch the corresponding input file
@@ -1805,14 +1909,14 @@ tilling window size which will be used for counting.
 Using the **countConfiguration** function we will set the tilling window size
 to 5000 base pairs.
 
-```{r peak_calling.broad.config}
+```{r peak-calling.broad.config}
 library(normr)
 # define the window width for the counting
 countConfiguration = countConfigSingleEnd(binsize = 5000)
 ```
 
 
-```{r peak_calling.broad.normr, message=FALSE, warning=FALSE}
+```{r peak-calling.broad.normr, message=FALSE, warning=FALSE}
 # find broad peaks using enrichR
 h3k36_fit = enrichR(
             
@@ -1822,7 +1926,7 @@ h3k36_fit = enrichR(
             # control file
             control     = control_file,
             
-            # Genome version
+            # genome version
             genome      = "hg38",
             verbose     = FALSE,
             
@@ -1831,7 +1935,7 @@ h3k36_fit = enrichR(
 
 ```
 
-```{r peak_calling.broad.summary}
+```{r peak-calling.broad.summary}
 summary(h3k36_fit)
 ```
 
@@ -1840,7 +1944,7 @@ The summary function shows that we get `r 1005+314+381+237` enriched regions.
 We will extract enriched regions, and plot them in the same way we did for the
 CTCF.
 
-```{r peak_calling.broad.ranges}
+```{r peak-calling.broad.ranges}
 # get the locations of broad peaks
 h3k36_peaks            = getRanges(h3k36_fit)
 
@@ -1853,16 +1957,17 @@ h3k36_peaks = subset(h3k36_peaks, !is.na(component))
 h3k36_peaks = subset(h3k36_peaks, qvalue < 0.01)
 h3k36_peaks = h3k36_peaks[order(h3k36_peaks$qvalue)]
 
-# collapse nearby enriched reginos
+# collapse nearby enriched regions
 h3k36_peaks = reduce(h3k36_peaks)
 ```
 
-```{r peak_calling.broad.tracks}
-# construct the data tracks for the H3k36me3 and Input files
+```{r peak-calling.broad.tracks}
+# construct the data tracks for the H3K36me3 and Input files
 h3k36_cov = calculateCoverage(chip_file)
 data_tracks = list(
     h3k36 = DataTrack(h3k36_cov,  name = 'h3k36_cov',  type='h', lwd=3),
-    input = DataTrack(cont_cov,   name = 'Input',  type='h', lwd=3))
+    input = DataTrack(cont_cov,   name = 'Input',      type='h', lwd=3)
+)
 ```
 
 
@@ -1872,18 +1977,22 @@ start = min(start(h3k36_peaks[2])) - 25000
 end   = max(end(h3k36_peaks[2])) + 25000
 
 # create the peak track
-peak_track = AnnotationTrack(reduce(h3k36_peaks), name='h3k36me3')
+peak_track = AnnotationTrack(reduce(h3k36_peaks), name='H3K36me3')
 
 # plots the enriched region
-plotTracks(c(chr_track, axis, gene_track, peak_track, data_tracks),
-           sizes=c(.5,.5,.5,.1,1,1), background.title = "black",
-           collapseTranscripts = "longest", transcriptAnnotation="symbol",
-           from = start,
-           to   = end)
+plotTracks(
+    trackList = c(chr_track, axis, gene_track, peak_track, data_tracks),
+    sizes     = c(.5,.5,.5,.1,1,1), 
+    background.title     = "black",
+    collapseTranscripts  = "longest", 
+    transcriptAnnotation = "symbol",
+    from = start,
+    to   = end
+)
 ```
 
-The figure shows a highly enriched H3K36me3 region covering the gene body, 
-as expected.
+The figure \@ref(fig:peak-calling-broad-gviz) shows a highly enriched H3K36me3 
+region covering the gene body, as expected.
 
 
 ### Peak quality control
@@ -1936,7 +2045,7 @@ We will then use the q value to define which tilling windows correspond
 to peaks, and count the number of reads within and outside peaks.
 
 
-```{r peak_quality.counts}
+```{r peak-quality.counts}
 # extract, per tilling window, counts from the fit object
 h3k36_counts = data.frame(getCounts(h3k36_fit))
     
@@ -1955,7 +2064,12 @@ h3k36_counts$enriched[h3k36_counts$qvalue <= 0.05] = 'Peak'
 h3k36_counts$qvalue = NULL 
     
 # reshape the data.frame into a long format
-h3k36_counts_df = tidyr::gather(data=h3k36_counts, experiment, counts, -enriched)
+h3k36_counts_df = tidyr::pivot_longer(
+    data      = h3k36_counts, 
+    cols      = -enriched,
+    names_to  = 'experiment',
+    values_to = 'counts'
+)
     
 # sum the number of reads in the Peak and Not Peak regions
 h3k36_counts_df = group_by(.data = h3k36_counts_df, experiment, enriched)
@@ -1968,14 +2082,20 @@ h3k36_counts_df$percentage = with(h3k36_counts_df, round(num_of_reads/total,2))
 ```
 
 
-```{r, peak_quality.counts.show, eval=TRUE, echo=FALSE, include=TRUE}
+```{r, peak-quality.counts.show, eval=TRUE, echo=FALSE, include=TRUE}
 h3k36_counts_df
 ```
 
 We can now plot the percentage of reads in peaks:
 
 ```{r peak-quality-counts-plot, fig.cap='Percentage of ChIP read in called peaks. Higher percentage indicates higher ChIP quality.'}
-ggplot(data = h3k36_counts_df, aes(experiment, percentage, fill=enriched)) +
+ggplot(
+    data = h3k36_counts_df, 
+    aes(
+        x = experiment, 
+        y = percentage, 
+        fill = enriched
+    )) +
     geom_bar(stat='identity', position='dodge') +
     theme_bw() +
     theme(
@@ -1987,8 +2107,9 @@ ggplot(data = h3k36_counts_df, aes(experiment, percentage, fill=enriched)) +
     ggtitle('Percentage of reads in peaks for H3K36me3') +
     scale_fill_manual(values=c('gray','red'))
 ```
-The figure shows that the ChIP sample is clearly enriched
-in the peak regions.
+
+The figure \@ref(fig:peak-quality-counts-plot) shows that the ChIP sample is 
+clearly enriched in the peak regions.
 The percentage of read in peaks will depend on the quality of the antibody (strength of
 enrichment), and the size of peaks which are bound by the protein of interest.
 If the total size of peaks is small, relative to the genome size, we can expect that
@@ -1996,7 +2117,7 @@ the percentage of reads in peaks will be small.
 For in depth consideration about the appropriate percentage thresholds see (ref)
 
 
-#### DNA Motifs
+#### DNA motifs\index{DNA motif}
 
 Well studied transcription factor have publicly available transcription
 factor binding motifs.
@@ -2015,8 +2136,8 @@ We will firstly calculate the percentage of CTCF peaks which contain a know CTCF
 motif. DNA binding motifs can be extracted from the **MotifDB** Bioconductor
 database. The **MotifDB** is an agglomeration of multiple motif databases.
 
-```{r peak_quality.motifdb}
-# load the MotifDB packge
+```{r peak-quality.motifdb}
+# load the MotifDB package
 library(MotifDb)
 
 # fetch the CTCF motif from the data base
@@ -2028,8 +2149,11 @@ motifs
 
 We will extract the CTCF from the [@khan_2018] database.
 
-```{r, peak_quality.jaspar}
-ctcf_motif  = motifs[[9]]
+```{r, peak-quality.jaspar}
+# based on the MotifDB version, the location of the CTCF motif
+# might change, if you do not get the expected results please try
+# to subset with different indices
+ctcf_motif  = motifs[[1]]
 ```
 
 The downloaded motif is a matrix with dimensions 4 X N. The matrix
@@ -2040,18 +2164,17 @@ nucleotide on this position.
 For example, for following the CTCF matrix, the probability of observing a thymine at
 the first position of the motif is 0.57 (1st column, 4th row).
 Such a matrix, where each column is a probability distribution of over a sequence of nucleotides
-is called a position frequency matrix - PFM.
+is called a position frequency matrix - PFM\index{PFM}.
 Such matrices are constructed from sequences which were experimentally verified sequences, using
 a motif finding algorithm.
 
 
-
-```{r peak_quality.show, echo=FALSE, include=TRUE, eval=TRUE}
+```{r peak-quality.show, echo=FALSE, include=TRUE, eval=TRUE, R.options=list(digits=2)}
 ctcf_motif
 ```
 
 Each path through the matrix calculates the probability that the transcription factor
-will bind one sequence \@ref(fig:Figure_PWMScanning).
+will bind one sequence \@ref(fig:Figure-PWMScanning).
 
 ```{r Figure-PWMScanning, echo=FALSE, include=TRUE, fig.cap='PWM scanning principle. A genomic sequence is scanned by a scoring matrix. The scoring matrix defines how likely is that the transcription factor will bind each nucelotide in each position. Here we are looking at how likely it is that our TF will bind to the sequence ACACT. The score for this sequence is 1.1. The maximal score obtainable by the PWM is 2.7. Because 1.1 / 2.7 = 0.4, and 0.4 is lower than our designated threshold of 0.8, we conclude that the ACACT sequence will not be bound by our TF of interest.'}
 knitr::include_graphics('./Figures/PWMScanning.png')
@@ -2060,7 +2183,6 @@ knitr::include_graphics('./Figures/PWMScanning.png')
 
 Such a matrix can be used to calculate the probability that the transcription
 factor will any sequence. 
-
 
 Using the PFM, we can calculate the information content of each position in the matrix.
 The information content quantifies the contribution of each nucleotide to the
@@ -2076,52 +2198,63 @@ entropy = -\sum\limits_{i=1}^n p_{i}\log_2(p_i)
 
 We will use now the **seqLogo** package to visualize the information content of the 
 CTCF motif.
-The figure shows which are the most important nucleotides for CTCF binding.
+The figure \@ref(fig:peak-quality-seqLogo-plot) shows which are the most
+important nucleotides for CTCF binding.
 
-```{r peak-quality-seqLogo, fig.cap="CTCF sequence motif visualized as a sequence logo. Y axis ranges from zero to two, and corresponds to the amount of information each base in the motif contributes to the overall motif. The larger the letter the greater the probability of observing just one defined base on the designated position."}
+```{r peak-quality-seqLogo-command, eval = FALSE, echo = FALSE, include = TRUE}
 # plot the seqLogo of the CTCF motif
 seqLogo::seqLogo(ctcf_motif)
 ```
 
+```{r peak-quality-seqLogo-plot, echo=FALSE, include=TRUE, fig.cap="CTCF sequence motif visualized as a sequence logo. Y axis ranges from zero to two, and corresponds to the amount of information each base in the motif contributes to the overall motif. The larger the letter the greater the probability of observing just one defined base on the designated position.", fig.width=6, fig.height=3}
+knitr::include_graphics('./Figures/CTCF_Motif.png')
+```
 
 To annotate the CTCF peaks with the motif, we will firstly extend the peak
 regions to +/- 200 bp around the peak center.
 Because the average fragment size is 200 bp, 400 nucleotides is the
 expected variation in the position of the true binding location.
 
-```{r peak_quality.scan.resize}
+```{r peak-quality.scan.resize}
 # extend the peak regions
-ctcf_peaks_resized = resize(ctcf_peaks, width = 400, fix='center')
+ctcf_peaks_resized = resize(ctcf_peaks, width = 400, fix = 'center')
 ```
 
-Now we use the **BSgenome** package to extract the sequences corresponding to the peak regions.
+Now we use the **BSgenome**\index{R Packages!\texttt{BSgenome}} package to 
+extract the sequences corresponding to the peak regions.
 
 
-```{r peak_quality.scan.getSeq}
-# load the human genome sequenct
+```{r peak-quality.scan.getSeq}
+# load the human genome sequence
 library(BSgenome.Hsapiens.UCSC.hg38)
 
 # extract the sequences around the peaks
 seq = getSeq(BSgenome.Hsapiens.UCSC.hg38, ctcf_peaks_resized)
 ```
 
-```{r peak_quality.scan.show, include=TRUE, echo=FALSE, eval=TRUE}
+```{r peak-quality.scan.show, include=TRUE, echo=FALSE, eval=FALSE}
+# this function is not evaluated because it causes PDF compilation error
+# on windows
 head(seq)
 ```
 
+
 Once we have extracted the sequences, we can use the CTCF motif to 
 scan each sequences and determine the probability of CTCF binding.
-For this we use the **TFBSTools** [@TFBSTools] package.
+For this we use the **TFBSTools**\index{R Packages!\texttt{TFBSTools}} [@TFBSTools] package.
 
 We first convert the raw probability matrix into a **PWMMatrix** object, 
 which can then be used for efficient scanning.
 
-```{r, peak_quallity.scan.tfbs}
+```{r, peak-quality.scan.tfbs, R.options=list(digits=3)}
 # load the TFBS tools package
 library(TFBSTools)
 
-# Convert the matrix into a PWM object
-ctcf_pwm = PWMatrix(ID='CTCF', profileMatrix = ctcf_motif)
+# convert the matrix into a PWM object
+ctcf_pwm = PWMatrix(
+    ID = 'CTCF', 
+    profileMatrix = ctcf_motif
+)
 ```
 
 We can now use the **searchSeq** function to scan each sequence for the motif occurrence.
@@ -2136,7 +2269,7 @@ scores less that 1.12 would not be marked as being bound by the protein.
 For the CTCF, we mark any peak containing a sequence with > 80% of the maximal
 score as a positive hit.
 
-```{r peak_quality.scan.scan, include=TRUE, echo=FALSE, eval=TRUE}
+```{r peak-quality.scan.scan, include=TRUE, echo=FALSE, eval=TRUE}
 # scan the CTCF peaks to find the locations of the motif around peaks
 hits = searchSeq(ctcf_pwm, seq, min.score="80%", strand="*")
 
@@ -2145,8 +2278,8 @@ hits = as.data.frame(hits)
 ```
 
 
-```{r, peak_quality.scan.scan.show, echo=FALSE, eval=TRUE, include=TRUE}
-head(hits)
+```{r, peak-quality.scan.scan.show, echo=FALSE, eval=TRUE, include=TRUE, R.options=list(digits=3)}
+head(hits)[,1:9]
 ```
 
 A common diagnostic plot is to graph a reverse cumulative distribution of 
@@ -2156,31 +2289,43 @@ first position, and the least enriched peak on the last position.
 We then walk from the lowest to the highest ranking and measure the
 percentage of peaks containing the motif.
 
-```{r, peak-quality-scan-dist-plot, fig.cap="Percentage of peaks containing the motif'. Higher percentage indicates a better ChIP-experiment, and a better peak calling procedure."}
+```{r, peak-quality-scan-dist-perc}
 # label which peaks contain CTCF motifs
 motif_hits_df = data.frame(
-    peak_order     = 1:length(ctcf_peaks)
+  peak_order     = 1:length(ctcf_peaks)
 )
 motif_hits_df$contains_motif = motif_hits_df$peak_order %in% hits$seqnames
 motif_hits_df = motif_hits_df[order(-motif_hits_df$peak_order),]
 
-# calculate the percentage of peaks with motif for peaks of descenting strength
-motif_hits_df$perc_peaks = with(motif_hits_df, round(cumsum(contains_motif)/max(peak_order),2))
-
-# plot the cumulative distribution of motif hit percentages
-ggplot(motif_hits_df, aes(peak_order, perc_peaks)) +
-    geom_line(size=2) +
-    theme_bw() +
-    theme(
-        axis.text = element_text(size=10, face='bold'),
-        axis.title = element_text(size=14,face="bold"),
-        plot.title = element_text(hjust = 0.5)) +
-    xlab('Peak rank') +
-    ylab('Percetage of peaks with motif') +
-    ggtitle('Percentage of CTCF peaks with the CTCF motif')
+# calculate the percentage of peaks with motif for peaks of descending strength
+motif_hits_df$perc_peaks = with(motif_hits_df, 
+                                cumsum(contains_motif) / max(peak_order))
+motif_hits_df$perc_peaks = round(motif_hits_df$perc_peaks, 2)
 ```
 
-The figure shows that, when we take all peaks into account ~45% of
+We can now visualize the percentage of peaks with matching CTCF motif.
+
+```{r, peak-quality-scan-dist-plot, fig.cap="Percentage of peaks containing the motif'. Higher percentage indicates a better ChIP-experiment, and a better peak calling procedure."}
+# plot the cumulative distribution of motif hit percentages
+ggplot(
+    motif_hits_df, 
+    aes(
+        x = peak_order, 
+        y = perc_peaks
+    )) +
+  geom_line(size=2) +
+  theme_bw() +
+  theme(
+    axis.text = element_text(size=10, face='bold'),
+    axis.title = element_text(size=14,face="bold"),
+    plot.title = element_text(hjust = 0.5)) +
+  xlab('Peak rank') +
+  ylab('Percetage of peaks with motif') +
+  ggtitle('Percentage of CTCF peaks with the CTCF motif')
+```
+
+The figure \@ref(fig:peak-quality-scan-dist-plot)
+shows that, when we take all peaks into account ~45% of
 the peaks contain a CTCF motif.
 This is an excellent percentage and indicates a high quality ChIP experiment.
 Our inability to locate the motif in ~50% of the sequences does not
@@ -2192,7 +2337,7 @@ a subset of regions, through
 an interacting partner, we do not have to observe a motif.
 
 
-#### Motif Localization
+#### Motif localization
 
 If the ChIP experiment was performed properly, we would expect the motif
 to be localized just below the summit of each peak.
@@ -2202,19 +2347,19 @@ the uncertainty in peak location.
 We will firstly resize our peaks into regions around +/- 1kb around the peak
 center.
 
-```{r chip_quality.motifloc.resize}
+```{r chip-quality.motifloc.resize}
 # resize the region around peaks to +/- 1kb
 ctcf_peaks_resized = resize(ctcf_peaks, width = 2000, fix='center')
 ```
 
 Now we perform the motif localization, as before.
 
-```{r chip_quality.motifloc.scan}
+```{r chip-quality.motifloc.scan, warning = FALSE}
 # fetch the sequence
 seq = getSeq(BSgenome.Hsapiens.UCSC.hg38,ctcf_peaks_resized)
 
-# convert the motiv matrix to PWM, and scan the peaks
-ctcf_pwm    = PWMatrix(ID='CTCF', profileMatrix = ctcf_motif)
+# convert the motif matrix to PWM, and scan the peaks
+ctcf_pwm    = PWMatrix(ID = 'CTCF', profileMatrix = ctcf_motif)
 hits = searchSeq(ctcf_pwm, seq, min.score="80%", strand="*")
 hits = as.data.frame(hits)
 ```
@@ -2223,28 +2368,29 @@ We now construct a plot, where the
 X axis represents the +/ 1000 nucleotides around the peak, while the
 Y axis shows the motif enrichment at each position.
 
-```{r chip-quality-motifloc-plot, fig.cap='Transcription factor sequence motif localization with respect to the defined binding sites.'}
+```{r chip-quality-motifloc-plot, fig.cap='Transcription factor sequence motif localization with respect to the defined binding sites.', warning = FALSE}
 # set the position relative to the start
 hits$position = hits$start - 1000 
 
 # plot the motif hits around peaks
 ggplot(data=hits, aes(position)) +
-    geom_density(size=2) +
-    theme_bw() +
-    geom_vline(xintercept = 0, linetype=2, color='red', size=2) +
-    xlab('Position around the CTCF peaks') +
-    ylab('Per position percentage\nof motif occurence') +
-    theme(
-        axis.text = element_text(size=10, face='bold'),
-        axis.title = element_text(size=14,face="bold"),
-        plot.title = element_text(hjust = 0.5))
+  geom_density(size=2) +
+  theme_bw() +
+  geom_vline(xintercept = 0, linetype=2, color='red', size=2) +
+  xlab('Position around the CTCF peaks') +
+  ylab('Per position percentage\nof motif occurence') +
+  theme(
+    axis.text = element_text(size=10, face='bold'),
+    axis.title = element_text(size=14,face="bold"),
+    plot.title = element_text(hjust = 0.5))
 ```
 
-We can see that the bulk of motif hits are found in a region of +/- 250 bp 
-around the peak centers. This means that the peak calling procedure was quite precise.
+We can in figure \@ref(fig:chip-quality-motifloc-plot) see that the bulk of motif
+hits are found in a region of +/- 250 bp around the peak centers. 
+This means that the peak calling procedure was quite precise.
 
 
-### Peak Annotation
+### Peak annotation
 
 As the final step of quality control we will visualize the distribution
 of peaks in different functional genomic regions.
@@ -2252,95 +2398,139 @@ The purpose of the analysis is to check whether the location of the peaks
 conforms with our prior knowledge.
 This analysis is equivalent to constructing distributions for reads.
 
-Firstly we download the human gene models and construct the annotation hierarchy.
+Firstly we download the human gene models and construct the annotation hierarchy\index{annotation hierarchy}.
 
-```{r peak_annotation.hub}
-# Download the annotation
+```{r peak-annotation.hub}
+# download the annotation
 hub = AnnotationHub()
 gtf = hub[['AH61126']]
 seqlevels(gtf, pruning.mode='coarse') = '21'
 seqlevels(gtf, pruning.mode='coarse') = paste0('chr', seqlevels(gtf))
 
-# Create the annotation hierarchy
+# create the annotation hierarchy
 annotation_list = GRangesList(
-    tss    = promoters(subset(gtf, type=='gene'), 1000, 1000),
-    exon   = subset(gtf, type=='exon'),
-    intron = subset(gtf, type=='gene')
+  tss    = promoters(subset(gtf, type=='gene'), 1000, 1000),
+  exon   = subset(gtf, type=='exon'),
+  intron = subset(gtf, type=='gene')
 )
 ```
 
 The following function finds the genomic location of each peak, annotates
-the peaks using the hierarchical prioritization, and calculates the summary statistics.
+the peaks using the hierarchical prioritization, 
+and calculates the summary statistics.
 
-```{r peak_annotation.function}
+The function contains four major parts:
+  
+1. Creating a disjoint set of peak regions.
+
+2. Finding the overlapping annotation for each peak.
+
+3. Annotating each peak with the corresponding annotation class.
+
+4. Calculating summary statistics
+
+```{r peak-annotation.function, warning=FALSE}
 # function which annotates the location of each peak
 annotatePeaks = function(peaks, annotation_list, name){
-    
-    # collapse touching enriched regions
-    peaks = reduce(peaks)
-    
-    # find overlaps between the peaks and annotation_list
-    result = as.data.frame(suppressWarnings(findOverlaps(peaks, annotation_list)))
-    
-    # fetch annotation names
-    result$annotation = names(annotation_list)[result$subjectHits]
-    
-    # rank by annotation precedence
-    result = result[order(result$subjectHits),]    
-    
-    # remove overlapping annotations
-    result = subset(result, !duplicated(queryHits))
-        
-    # count the number of peaks in each annotation category
-    result = group_by(.data = result, annotation)
-    result = summarise(.data = result, counts = length(annotation))
-    
-    # fetch the number of intergenic peaks
-    result = rbind(result, 
-                   data.frame(annotation = 'intergenic', 
-                              counts     = length(peaks) - sum(result$counts)))
-        
-    result$frequency  = with(result, round(counts/sum(counts),2))
-    result$experiment = name
-        
-    return(result)
+  
+  # ------------------------------------------------ #
+  # 1. getting disjoint regions
+  # collapse touching enriched regions
+  peaks = reduce(peaks)
+  
+  # ------------------------------------------------ #
+  # 2. overlapping peaks and annotation
+  # find overlaps between the peaks and annotation_list
+  result = as.data.frame(findOverlaps(peaks, annotation_list))
+  
+  # ------------------------------------------------ #
+  # 3. annotating peaks
+  # fetch annotation names
+  result$annotation = names(annotation_list)[result$subjectHits]
+  
+  # rank by annotation precedence
+  result = result[order(result$subjectHits),]    
+  
+  # remove overlapping annotations
+  result = subset(result, !duplicated(queryHits))
+  
+  # ------------------------------------------------ #
+  # 4. calculating statistics
+  # count the number of peaks in each annotation category
+  result = group_by(.data = result, annotation)
+  result = summarise(.data = result, counts = length(annotation))
+  
+  # fetch the number of intergenic peaks
+  result = rbind(result, 
+                 data.frame(annotation = 'intergenic', 
+                            counts     = length(peaks) - sum(result$counts)))
+  
+  result$frequency  = with(result, round(counts/sum(counts),2))
+  result$experiment = name
+  
+  return(result)
 }
 ```
 
-```{r peak_annotation.list}
-peak_list = list(CTCF     = ctcf_peaks, 
-                 H3K36me3 = h3k36_peaks)
+Using the above defined **annotatePeaks** function we will now annotate CTCF 
+and H3K36me3 peaks.
 
+Firstly we create a list which contains both CTCF and H3K36me3 peaks.
+
+```{r peak-annotation.list}
+peak_list = list(
+    CTCF     = ctcf_peaks, 
+    H3K36me3 = h3k36_peaks
+)
+```
+
+Using the **lapply** function we apply the **annotatePeaks** function
+on each element of the least.
+
+```{r peak-annotation.apply.function}
 # calculate the distribution of peaks in annotation for each experiment
 annot_peaks_list = lapply(names(peak_list), function(peak_name){
-        annotatePeaks(peak_list[[peak_name]], annotation_list, peak_name)
-    })
+  annotatePeaks(peak_list[[peak_name]], annotation_list, peak_name)
+})
 ```
 
-```{r peak-annotation-plot, fig.cap='Enrichment of transcription factor or histone modifications in functional genomic features'}
+We use the **bind_rows** function to combine the CTCF and H3K36me3 annotation
+statistics into one data frame. 
+
+```{r peak-annotation-bind}
 # combine a list of data.frames into one data.frame
 annot_peaks_df = dplyr::bind_rows(annot_peaks_list)
-
-# plot the distrubtion of peaks in genomic features
-ggplot(data = annot_peaks_df, aes(experiment, frequency, fill=annotation)) +
-    geom_bar(stat='identity') +
-    scale_fill_brewer(palette='Set2') +
-    theme_bw()+
-    theme(
-        axis.text = element_text(size=18, face='bold'),
-        axis.title = element_text(size=14,face="bold"),
-        plot.title = element_text(hjust = 0.5))  +
-    ggtitle('Peak distribution in\ngenomic regions') +
-    xlab('Experiment') +
-    ylab('Frequency')
 ```
 
-The plot shows that the H3K36me3 peaks are located preferentially in gene bodies,
-as expected, while the CTCF peaks are found preferentially in introns.
+And visualize the results as bar plots.
+
+```{r, peak-annotation-plot, fig.cap='Enrichment of transcription factor or histone modifications in functional genomic features'}
+# plot the distribution of peaks in genomic features
+ggplot(data = annot_peaks_df, 
+       aes(
+           x    = experiment, 
+           y    = frequency, 
+           fill = annotation
+        )) +
+  geom_bar(stat='identity') +
+  scale_fill_brewer(palette='Set2') +
+  theme_bw()+
+  theme(
+    axis.text = element_text(size=18, face='bold'),
+    axis.title = element_text(size=14,face="bold"),
+    plot.title = element_text(hjust = 0.5))  +
+  ggtitle('Peak distribution in\ngenomic regions') +
+  xlab('Experiment') +
+  ylab('Frequency')
+```
+
+The plot\@ref(fig:peak-annotation-plot) shows that the H3K36me3 peaks are 
+located preferentially in gene bodies, as expected, while the CTCF peaks are 
+found preferentially in introns.
 
 
 
-## Motif Discovery
+## Motif discovery
 
 The first analysis step downstream of peak calling is motif discovery.
 Motif discovery is a procedure of finding enriched sets of similar short sequences
@@ -2361,21 +2551,24 @@ Due to the combinatorial nature of the procedure, motif discovery is
 computational expensive. It is therefore often performed on a subset of the
 highest quality peaks.
 
-In this tutorial we will use **motifRG** [@MotifRG] for motif discovery.
-**motifRG** is a supervised motif discovery tools, which therefore uses
-two sets of sequences: a foreground and a background data set.
-The method uses logistic regression to find enriched short motifs.
+In this tutorial we will use **rGADEM**\index{R Packages!\texttt{rGADEM}} 
+[@rGADEM] for motif discovery.
+**rGADEM** is a unsupervised, stochastic motif discovery tools, which uses
+sampling with subsequent enrichment analysis to find over-represented sequence
+motifs.
 
 We will firstly load our CTCF peaks, and convert them to a GRanges object.
-We will then select the top 250 peaks, and extract the DNA sequence, which
-will be used as the foreground.
-The background set will be constructed by shifting the peaks by 5kb.
-Once we have identified the enriched motifs, they we will annotate them, 
-by comparing them with a database of motifs.
+We will then select the top 500 peaks, and extract the DNA sequence, which
+will be used as input for the motif discovery.
 
-Load the CTCF peaks, and select the top 250 peaks.
+Load the CTCF peaks, and select the top 500 peaks.
+Nearby ChIP peaks can have overlapping coordinates.
+After selection, overlapping CTCF peaks have to be merged using
+the **reduce** function. If we do not execute this step, we will
+include the same sequence multiple times in the sequence set, and
+artificially enrich DNA patterns.
 
-```{r motif_discovery.peak}
+```{r motif-discovery.peak}
 # read the CTCF peaks created in the peak calling part of the tutorial
 ctcf_peaks = read.table(file.path(data_path, 'CTCF_peaks.txt'), header=TRUE)
 
@@ -2384,139 +2577,97 @@ ctcf_peaks = makeGRangesFromDataFrame(ctcf_peaks, keep.extra.columns = TRUE)
 
 # order the peaks by qvalue, and take top 250 peaks
 ctcf_peaks = ctcf_peaks[order(ctcf_peaks$qvalue)]
-ctcf_peaks = head(ctcf_peaks, n = 250)
+ctcf_peaks = head(ctcf_peaks, n = 500)
 
 # merge nearby CTCF peaks
 ctcf_peaks = reduce(ctcf_peaks)
 ```
 
-Create a region of +/- 100 bp around the center of the peaks, 
+Create a region of +/- 50 bp around the center of the peaks, 
 
-```{r motif_discovery.resize}
+```{r motif-discovery.resize}
 # expand the CTCF peaks
-ctcf_peaks_resized = resize(ctcf_peaks, width = 200, fix='center')
+ctcf_peaks_resized = resize(ctcf_peaks, width = 50, fix='center')
 ```
 
 and extract the genomic sequence.
 
-```{r motif_discovery.foreground}
-# fetch the sequence around the peaks
+```{r motif-discovery.foreground, echo = FALSE}
+# load the human genome sequence
 library(BSgenome.Hsapiens.UCSC.hg38)
+
+# fetch the DNA sequence surrounding the ChIP peaks
 ctcf_seq = getSeq(BSgenome.Hsapiens.UCSC.hg38, ctcf_peaks_resized)
 ```
 
-We construct the background set randomly shuffling the CTCF sequences.
-This can be achieved using the **sample** function on a **DNAString** object.
-Before the **sample** function, we set the seed for the random number generator.
+We are now ready to run the motif discovery.
+Firstly we load the  **rGADEM** [@rGADEM] package:
 
-```{r motif_discovery.background}
-# set the seed for the random number generator
-set.seed(1)
-
-# shuffle the ctcf sequences
-back_seq = DNAStringSet(lapply(ctcf_seq, sample))
+```{r, rgadem.library, include=TRUE, eval=TRUE, echo=FALSE, warning = FALSE}
+# load the rGADEM package
+library(rGADEM)
 ```
 
-We are finally ready to do motif discovery.
-This is executed using the **findMotifFgBg** function.
-The primary two arguments are the foreground and the background sequence 
-data sets.
-We additionally define the maximal number of motifs, that
-we are interested only in motifs which are enriched in the foreground data sets, 
-and that the motif width should be at least 15 base pairs.
-**both.strand** parameter designates that the motifs could be located both
-on the supplied sequences and their reverse complements.
+To run the motif discovery, we call the **GADEM** function. with the
+extracted DNA sequences. In addition to the DNA sequences, we need to
+specify two parameters:
+  
+1. **seed** - the random number generator seed, which will make the analysis 
+reproducible.
 
-```{r motif_discovery.motifrg, warning=FALSE, message=FALSE, results = 'hide', include=FALSE, eval=TRUE, echo=FALSE, cache=TRUE}
-# load the motifRG package for calling peaks
-library(motifRG)
+2. **nmotifs** - the number of motifs to look for
 
-# make the analysis deterministic by fixing the random number generator
-set.seed(1)
 
-# do the motif discovery
-motifs = findMotifFgBg(
-    
-    # chip peaks
-    fg.seq        = ctcf_seq,
-    
-    # background regions
-    bg.seq        = back_seq,
-    
-    # number of motifs
-    max.motif     = 1,
-    
-    # find only enriched motifs
-    enriched.only = TRUE,
-    
-    # maximal motif width
-    max.width     = 15,
-    
-    # should the motif be located on only one or both strands
-    both.strand   = TRUE
+```{r rgadem.run, include=TRUE, eval=TRUE, echo=FALSE}
+# run the rGADEM motif discovery
+novel_motifs = GADEM(
+  Sequences = ctcf_seq,
+  seed      = 1,
+  nmotifs   = 5
 )
 ```
 
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
-library(motifRG)
-set.seed(1)
-motifs = findMotifFgBg(
-    fg.seq        = ctcf_seq,
-    bg.seq        = back_seq,
-    max.motif     = 1,
-    enriched.only = TRUE,
-    max.width     = 15,
-    both.strand   = TRUE
-)
-```
+**rGADEM** package contains a convenient **plot** function for
+motif visualization.
 
+We will use the plot function to visualize the most enriched DNA motif:
 
-Once the motif finding procedure is done, we need to refine the motif edges.
-This is done using the **refinePWMMotifExtend** function.
-
-```{r motif_discovery.motifrefine, warning=FALSE, message=FALSE, results = 'hide', include=FALSE, eval=TRUE, echo=FALSE}
-# use the refine function to trim low information content positions
-refined_motifs = lapply(motifs$motifs, function(x){
-    motifRG::refinePWMMotifExtend(motifs = x@match$pattern, seqs = ctcf_seq)
-    })
-
-```
-
-```{r, warning=FALSE, message=FALSE, results = 'hide', eval=FALSE}
-refined_motifs = lapply(motifs$motifs, function(x){
-    motifRG::refinePWMMotifExtend(motifs = x@match$pattern, seqs = ctcf_seq)
-})
-```
-
-
-We will visualize the refined motif using the **seqLogo** function
-from the same package,
-
-```{r motif_discovery.seqlogo}
+```{r motif-discovery-logo, fig.cap='Motif with highest enrichment in top 500 CTCF peaks', width = 6, height = 3}
 # visualize the resulting motif
-seqLogo::seqLogo(refined_motifs[[1]]$model$prob)
+plot(novel_motifs[1])
 ```
+
+The motif show in Figure \@ref(fig:motif-discovery-logo) corresponds to the
+previously visualized CTCF motif. Nevertheless, we will now computationally
+annotate our motif by querying the JASPAR [@khan_2018] database.
 
 
 ### Motif annotation
 
-We will now compare our unknown motif with the JASPAR2018 database, to
-figure out to which transcription factor it corresponds.
+We will now compare our unknown motif with the JASPAR2018 [@khan_2018] database,
+to figure out to which transcription factor it corresponds.
 Firstly we convert the frequency matrix into a **PWMatrix** object, and
 then use this object to query the database.
 
-```{r motif_annotation.pwm}
-# convert the novel motif into a PWMatrix object
+```{r motif-annotation.pwm}
+# load the TFBSTools library
 library(TFBSTools)
-unknown_motif = refined_motifs[[1]]$model$prob
-unknown_pwm   = PWMatrix(ID = 'unk', 
-                         profileMatrix = unknown_motif)
+
+# extract the motif of interest from the GADEM object
+unknown_motif = getPWM(novel_motifs)[[1]]
+
+# convert the motif to a PWM matrix
+unknown_pwm   = PWMatrix(
+    ID = 'unknown', 
+    profileMatrix = unknown_motif
+)
 ```
 
 Using the **getMatrixSet** function we extract all motifs which 
 correspond to known human transcription factors.
+**opts** parameter defines which **PWM** database to use for comparison.
 
-```{r motif_annotation.jaspar}
+```{r motif-annotation.jaspar}
 # load the JASPAR motif database
 library(JASPAR2018)
 
@@ -2533,29 +2684,30 @@ pwm_library = getMatrixSet(
 The **PWMSimilarity** function calculates the Pearson correlation between
 the database, and our unknown motif.
 
-```{r motif_annotation.similarity}
+```{r motif-annotation.similarity}
 # find the most similar motif to our motif
 pwm_sim = PWMSimilarity(
-    
-    # JASPAR library
-    pwm_library, 
-    
-    # out motif
-    unknown_pwm,
-    
-    # measure for comparison
-    method = 'Pearson')
+  
+  # JASPAR library
+  pwm_library, 
+  
+  # out motif
+  unknown_pwm,
+  
+  # measure for comparison
+  method = 'Pearson')
 ```
 
 We extract the motif names from the PWM library. For each motif
 in the library we append the Pearson correlation with our unknown motif, and
 look at the topmost candidates.
 
-```{r motif_annotation.table, message=FALSE, warning=FALSE}
+```{r motif-annotation.table, message=FALSE, warning=FALSE}
 # extract the motif names from the pwm library
 pwm_library_list = lapply(pwm_library, function(x){
-    data.frame(ID = ID(x), name = name(x))
+  data.frame(ID = ID(x), name = name(x))
 })
+
 # combine the list into one data frame
 pwm_library_dt = dplyr::bind_rows(pwm_library_list)
 
@@ -2566,7 +2718,7 @@ pwm_library_dt$similarity = pwm_sim[pwm_library_dt$ID]
 pwm_library_dt = pwm_library_dt[order(-pwm_library_dt$similarity),]
 ```
 
-```{r motif_annotation.head}
+```{r motif-annotation.head}
 head(pwm_library_dt)
 ```
 
@@ -2587,7 +2739,7 @@ expression, or assays of 3D genome structure.
 The choice of downstream analysis is guided by the biological question of interest.
 Often we want to compare our samples to other available ChIP-seq experiments.
 It is possible to look at the pairwise differences between samples using 
-differential peak calling [@zhang_2014,@lun_2014,@allhoff_2014,@allhoff_2016].
+differential peak calling [@zhang_2014; @lun_2014; @allhoff_2014; @allhoff_2016].
 It is a procedure analogous to the differential expression analysis, except it 
 results in sets of coordinates that are differentially bound in two biological 
 conditions. We can then search for specific DNA binding motif in such regions, 
@@ -2596,69 +2748,75 @@ With an increase in number of ChIP experiment, pairwise comparisons becomes
 combinatorially complex. In this case we can segment the genome into multiple classes, where
 each class corresponds to a combination of bound transcription factors.
 Genome segmentation is usually done using probabilistic models (such as hidden
-Markov models [@ernst_2012,@hoffman_2012]), or machine learning algorithms [@mortazavi_2013].
+Markov models [@ernst_2012; @hoffman_2012]), or machine learning algorithms [@mortazavi_2013].
 
 
 ## Exercises:
 
-### 
-
 #### Quality control:
-        
+
 1. Apply the fragment size estimation procedure to all ChIP and Input available data sets [Difficulty: Beginner]
 
 2. Visualize the resulting distributions. [Difficulty: Beginner]
 
 3. How does the Input sample distribution differ from the ChIP samples? [Difficulty: Beginner]
 
-#### Genome Browser:
+#### Genome browser:
 
 1. Write a function which converts the bam files into bigWig files. [Difficulty: Beginner]
 
 2. Apply the function to all files, and visualize them in the Genome browser.
-Observe the signal profiles, what can you notice, about the similarity of the samples?
-        
-3. Use GViz to visualize the profiles for CTCF, SMC3 and ZNF143
-        
+Observe the signal profiles, what can you notice, about the similarity of the samples? [Difficulty: Beginner]
+  
+3. Use GViz to visualize the profiles for CTCF, SMC3 and ZNF143 [Difficulty: Beginner]
+
 #### Cross correlation:
-    
+
 1. Calculate the cross correlation for the both CTCF replicates, and
-the input samples. How does the profile look for the control samples?
-
+the input samples. How does the profile look for the control samples? [Difficulty: Intermediate]
+  
 2. Calculate the cross correlation coefficients for all samples and 
-visualize them as a heatmap.
+visualize them as a heatmap. [Difficulty: Intermediate]
 
-### Intermediate
+#### Peak calling
 
+1. Use normR to call peaks for all SMC3, CTCF, and ZNF143 samples. [Difficulty: Beginner]
 
-1. Use normR to call peaks for all SMC3, CTCF, and ZNF143 samples.
-
-2. Calculate the percentage of reads in peaks for the CTCF experiment
+2. Calculate the percentage of reads in peaks for the CTCF experiment. [Difficulty: Intermediate]
 
 3. Download the blacklisted regions corresponding to the hg38 human genome, and calculate
-the percentage of CTCF peaks falling in such regions.
+the percentage of CTCF peaks falling in such regions. [Difficulty: Advanced]
 
-### Advanced
+4. Unify the biological replicates by taking an intersection of peaks.
+How many peaks are specific to each biological replicate, and how many peaks overlap. [Difficulty: Intermediate]
 
-1. Unify the biological replicates by taking an intersection of peaks.
-How many peaks are specific to each biological replicate, and how many peaks overlap.
-    
-2. Plot a scatter plot of signal strengths for biological replicates. Do intersecting
-peaks have equal signal strength in both samples.
+5. Plot a scatter plot of signal strengths for biological replicates. Do intersecting
+peaks have equal signal strength in both samples. [Difficulty: Intermediate]
 
-3. Quantify the combinatorial binding of all three proteins. Find
+6. Quantify the combinatorial binding of all three proteins. Find
 the number of places which are bound by all three proteins, by 
 a combination of two proteins, and exclusively by one protein.
-Annotate the different regions based on their genomic location.
+Annotate the different regions based on their genomic location. [Difficulty: Advanced]
 
-4. Correlate the normR enrichment score for CTCF with peak presence/absence.
-(create boxplots of enrichment for peaks which contain and do not contain CTCF motifs)
+7. Correlate the normR enrichment score for CTCF with peak presence/absence.
+(create boxplots of enrichment for peaks which contain and do not contain CTCF motifs) [Difficulty: Advanced]
 
-5. Explore the co-localization of CTCF and ZNF143. Where are the co-bound
+8. Explore the co-localization of CTCF and ZNF143. Where are the co-bound
 regions located? Which sequence motifs do they contain? Download the ChIA-pet
 data for the GM12878 cell line, and look at the 3D interaction between different
-classes of binding sites.
+classes of binding sites. [Difficulty: Advanced]
 
+#### Motif discovery
+
+1. Repeat the motif discovery analysis on peaks from ZNF143 transcription factor.
+How many motifs do you observe? How do the motifs look like (visualize the motif logs)? [Difficulty: Intermediat]
+
+2. Scan the ZNF143 peaks with the top motifs found in the previous exercise. 
+Where are the motifs located? [Difficulty: Advanced]
+
+3. Scan the CTCF peaks with top motifs identified in **ZNF143** peaks.
+Where are the motifs located? What can you conclude from the previous exercises?
+[Difficulty: Advanced]
 
 ```{r include=FALSE, eval=TRUE, echo=FALSE}
 rm(list=ls())
