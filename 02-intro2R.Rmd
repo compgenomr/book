@@ -146,8 +146,9 @@ You  can also update CRAN and Bioconductor packages.
 update.packages()
 
 # updating bioconductor packages
-source("http://bioconductor.org/biocLite.R")
-biocLite("BiocUpgrade")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install()
 ```
 
 ### Installing packages in custom locations
