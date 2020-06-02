@@ -121,9 +121,10 @@ BiocManager::install(c('qvalue','plot3D','ggplot2','pheatmap','cowplot',
                       'DALEX','kernlab','pROC','nnet','RANN',
                       'ranger','GenomeInfoDb', 'GenomicRanges',
                       'GenomicAlignments', 'ComplexHeatmap', 'circlize', 
-                      'rtracklayer', 'BSgenome.Hsapiens.UCSC.hg38', 'tidyr',
+                      'rtracklayer', 'BSgenome.Hsapiens.UCSC.hg38',
+                      'BSgenome.Hsapiens.UCSC.hg19','tidyr',
                       'AnnotationHub', 'GenomicFeatures', 'normr',
-                      'MotifDb', 'TFBSTools', 'motifRG', 'JASPAR2018'
+                      'MotifDb', 'TFBSTools', 'rGADEM', 'JASPAR2018'
                      ))
 ```
 
@@ -134,11 +135,19 @@ We rely on data from different R and Bioconductor packages through out the book.
 
 ## Acknowledgements {-}
 
-We wish to thank R and Bioconductor community for developing and maintaining libraries for genomic data analysis. Without their constant work and dedication, writing such a book will not be possible. 
+I wish to thank R and Bioconductor community for developing and maintaining libraries for genomic data analysis. Without their constant work and dedication, writing such a book will not be possible.
+
+I also wish to thank all the past and present mentors, colleagues and employers.
+The interaction with them provided the motivation to write such as book and organize and teach hands-on courses on computational genomics.
+
+John Kimmel, the editor from Chapman & Hall/CRC, helped me publish this book. It was a pleasure to work with him again. He generously agreed to let me keep the online version of this book, so I can continue updating it after it is printed.
 
 The following people kindly contributed fixes for typos and code, and various suggestions: Thomas Schalch, Alex Gosdschan, Rodrigo Ogava, Fei Zhao, Janathan Kitt, Janani Ravi, Christian Schudoma, Samuel Sledzieski and Dania Hamo, Sarvesh Nikumbh.
  
-
+```{block2, type='flushright', html.tag='p'}
+Altuna Akalin  
+Berlin, Germany
+```
 
 ```{r contributions,child = if (knitr::is_html_output()) 'addons/how-to-contribute.Rmd'}
 ```

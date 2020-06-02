@@ -604,9 +604,9 @@ which is the default t-test in R and also works well when variances and
 the sample sizes are the same. For this test we calculate the following 
 quantity:
 
-$$t = {\overline{X}_1 - \overline{X}_2 \over s_{\overline{X}_1 - \overline{X}_2}}$$
+$$t = \frac{\overline{X}_1 - \overline{X}_2}{s_{\overline{X}_1 - \overline{X}_2}}$$
 where 
-$$s_{\overline{X}_1 - \overline{X}_2} = \sqrt{{s_1^2 \over n_1} + {s_2^2  \over n_2}}$$
+$$s_{\overline{X}_1 - \overline{X}_2} = \sqrt{\frac{s_1^2 }{ n_1} + \frac{s_2^2 }{n_2}}$$
 
 and the degrees of freedom equals to:
 
@@ -623,7 +623,7 @@ stats::t.test(gene1,gene2)
 stats::t.test(gene1,gene2,var.equal=TRUE)
 ```
 
-A final word on t-tests: they generally assume population where samples coming 
+A final word on t-tests: they generally assume a population where samples coming 
 from have normal
 distribution, however it is been shown t-test can tolerate deviations from
 normality. Especially, when two distributions are moderately skewed in the 
