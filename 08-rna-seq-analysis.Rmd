@@ -3,7 +3,7 @@
 knitr::opts_chunk$set(echo = TRUE,message   = FALSE, 
                       warning = FALSE,
                       error     = FALSE,
-                      cache     = TRUE, out.width = "50%",
+                      cache     = TRUE, out.width = "55%",
                       fig.width = 5, fig.align = 'center')
 suppressMessages(suppressWarnings(library(DESeq2)))
 suppressMessages(suppressWarnings(library(RUVSeq)))
@@ -208,7 +208,7 @@ pheatmap(tpm[selectedGenes,], scale = 'row',
 
 #### PCA
 
-Let's make a PCA plot \index{Principal Component Analysis (PCA)} to see the clustering of replicates as a scatter plot in two dimensions (Figure \@ref(fig:pca1)). 
+Let's make a PCA plot \index{principal component analysis (PCA)} to see the clustering of replicates as a scatter plot in two dimensions (Figure \@ref(fig:pca1)). 
 
 ```{r pca1, fig.cap='PCA plot of samples using TPM counts'}
 library(stats)

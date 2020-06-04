@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo      = TRUE,
                       fig.width = 5,
                       fig.align = 'center')
 ```
-Chapter Author: **Jonathan Ronen**
+*Chapter Author*: **Jonathan Ronen**
 
 
 
@@ -18,9 +18,7 @@ Chapter Author: **Jonathan Ronen**
 
 ### Use case: Multi-omics data from colorectal cancer
 
-\index{multi-omics}\index{colorectal cancer}The examples in this chapter will use the following data: a set of 121 tumors from the TCGA [@tcga_pan_cancer] cohorts of Colon and Rectum adenocarcinoma. The tumors have been profiled for gene expression using RNA-seq, mutations using Exome-seq, and copy number variations using genotyping arrays. Projects such as TCGA have turbocharged efforts to sub-divide cancer into subtypes. Although two tumors arise in the colon, they may have distinct molecular profiles, which is important for treatment decisions. The subset of tumors used in this chapter belong to two distinct molecular subtypes defined by the Colorectal Cancer Subtyping Consortium [@cmscc], _CMS1_ and _CMS3_. The following code snippets load this multi-omics data from the companion package, starting with gene expression data from RNA-seq (see Chapter \@ref(rnaseqanalysis)):
-
-**read RNA-seq data**:
+\index{multi-omics}\index{colorectal cancer}The examples in this chapter will use the following data: a set of 121 tumors from the TCGA [@tcga_pan_cancer] cohorts of Colon and Rectum adenocarcinoma. The tumors have been profiled for gene expression using RNA-seq, mutations using Exome-seq, and copy number variations using genotyping arrays. Projects such as TCGA have turbocharged efforts to sub-divide cancer into subtypes. Although two tumors arise in the colon, they may have distinct molecular profiles, which is important for treatment decisions. The subset of tumors used in this chapter belong to two distinct molecular subtypes defined by the Colorectal Cancer Subtyping Consortium [@cmscc], _CMS1_ and _CMS3_. The following code snippets load this multi-omics data from the companion package, starting with gene expression data from RNA-seq (see Chapter \@ref(rnaseqanalysis)). Below we are reading the RNA-seq data from the `compGenomRData` package.
 ```{r,moloadMultiomicsGE, tidy=FALSE}
 # read in the csv from the companion package as a data frame
 csvfile <- system.file("extdata", "multi-omics", "COREAD_CMS13_gex.csv", 
@@ -229,7 +227,7 @@ __Want to know more ?__
 
 ### Joint Non-negative Matrix Factorization
 
-\index{non-negative matrix factorization}As introduced in Chapter \@ref(unsupervisedLearning), NMF (Non-negative Matrix Factorization) is an algorithm from 2000 that seeks to find a non-negative additive decomposition for a non-negative data matrix. It takes the familiar form $X \approx WH$, with $X \ge 0$, $W \ge 0$, and $H \ge 0$. The non-negative constraints make a lossless decomposition (i.e. $X=WH$) generally impossible. Hence, NMF attempts to find a solution which minimizes the Frobenius norm of the reconstruction:
+\index{non-negative matrix factorization (NMF)}As introduced in Chapter \@ref(unsupervisedLearning), NMF (Non-negative Matrix Factorization) is an algorithm from 2000 that seeks to find a non-negative additive decomposition for a non-negative data matrix. It takes the familiar form $X \approx WH$, with $X \ge 0$, $W \ge 0$, and $H \ge 0$. The non-negative constraints make a lossless decomposition (i.e. $X=WH$) generally impossible. Hence, NMF attempts to find a solution which minimizes the Frobenius norm of the reconstruction:
 
 $$
 min~\|X-WH\|_F \\
@@ -574,7 +572,7 @@ The one-hot clustering method does not lend itself very well to the other method
 
 ### K-means clustering
 
-K-means clustering was introduced in Chapter \@ref(unsupervisedLearning). K-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step. The following code snippet shows how to pull K-means clusters out of the iCluster results, and produces the heatmap in Figure \@ref(fig:moiClusterHeatmap), which shows how well these clusters correspond to cancer subtypes.
+K-means \index{clustering!k-means} clustering was introduced in Chapter \@ref(unsupervisedLearning). Briefly, k-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step. The following code snippet shows how to pull K-means clusters out of the iCluster results, and produces the heatmap in Figure \@ref(fig:moiClusterHeatmap), which shows how well these clusters correspond to cancer subtypes.
 
 ```{r,moiClusterHeatmap,fig.cap="K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types.",fig.height=3}
 # use the kmeans function to cluster the iCluster H matrix (here, z)

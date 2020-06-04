@@ -185,7 +185,7 @@ Clustering is used for grouping data points by their similarity. It is a general
 
 The following function will cluster the samples and draw a dendrogram.
 It will use correlation distance which is $1-\rho$ , where $\rho$ is the correlation coefficient between two pairs of samples. The cluster tree will be drawn using the "ward" method. \index{clustering!
-hierarchicalclustering}This specific variant uses a "bottom up" approach: each data point starts in its own cluster, and pairs of clusters are merged as one moves up the hierarchy. In Ward's method, two clusters are merged if the variance is minimized compared to other possible merge operations. This bottom up approach helps build the dendrogram showing the relationship between clusters. The result of the clustering is shown in Figure \@ref(fig:clusterMethPlot).
+hierarchical clustering}This specific variant uses a "bottom up" approach: each data point starts in its own cluster, and pairs of clusters are merged as one moves up the hierarchy. In Ward's method, two clusters are merged if the variance is minimized compared to other possible merge operations. This bottom up approach helps build the dendrogram showing the relationship between clusters. The result of the clustering is shown in Figure \@ref(fig:clusterMethPlot).
 ```{r clusterMethPlot, fig.cap="Dendrogram for samples using correlation distance and Ward's method for hierarchical clustering"}
 clusterSamples(meth, dist="correlation", method="ward", plot=TRUE)
 ```

@@ -33,7 +33,7 @@ __Line 1__ begins with a '@' character and is followed by a sequence identifier 
 ## Quality check on sequencing reads 
 The sequencing technologies usually produce basecalls with varying quality. In addition, there could be sample specific issues in your sequencing run, such as adapter contamination. It is standard procedure to check the quality of the reads and identify problems before doing further analysis. Checking the quality and making some decisions for the downstream analysis can influence the outcome of your project.
 
-Below, we will walk you through the quality check steps using [**Rqc**](https://bioconductor.org/packages/release/bioc/html/Rqc.html) package. First, we need to feed fastq files to `rqc()` function and obtain an object with sequence quality related results. We are using example fastq files from **ShortRead** package.
+Below, we will walk you through the quality check steps using [`Rqc`](https://bioconductor.org/packages/release/bioc/html/Rqc.html) package\index{R Packages!\texttt{Rqc}}. First, we need to feed fastq files to `rqc()` function and obtain an object with sequence quality related results. We are using example fastq files from `ShortRead` package{R Packages!\texttt{ShortRead}}.
 ```{r,rqcStart,echo=TRUE, warning=FALSE}
 library(Rqc)
 folder = system.file(package="ShortRead", "extdata/E-MTAB-1147")
@@ -48,7 +48,7 @@ qcRes=rqc(path = folder, pattern = ".fastq.gz", openBrowser=FALSE)
 ### Sequence quality per base/cycle
 Now that we have `qcRes` object, we can plot various sequence quality metrics for our fastq files. We will first plot " sequence quality per base/cycle". This plot, shown in Figure \@ref(fig:CycleQualityBoxPlot),  depicts the quality scores across all bases at each position in the reads.
 
-```{r,CycleQualityBoxPlot,fig.cap="Per base sequence quality boxplot",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE}
+```{r,CycleQualityBoxPlot,fig.cap="Per base sequence quality boxplot",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE,fig.height=3,fig.width=5}
 rqcCycleQualityBoxPlot(qcRes)
 
 ```
@@ -61,7 +61,7 @@ Long sequences can have degraded quality towards the ends of the reads. Looking 
 ### Sequence content per base/cycle 
 Per base sequence content shows nucleotide proportions for each position. In a random sequencing library there should be no nucleotide bias and the lines should be almost parallel with each other. The code below shows how to get this plot. The resulting plot is shown in Figure \@ref(fig:baseCallFreq).
 
-```{r,baseCallFreq,fig.cap="Percentage of nucleotide bases per position accross different FASTQ files",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE}
+```{r,baseCallFreq,fig.cap="Percentage of nucleotide bases per position accross different FASTQ files",fig.align = 'center',out.width='80%',echo=TRUE, warning=FALSE,fig.height=3,fig.width=5}
 rqcCycleBaseCallsLinePlot(qcRes)
 
 ```
@@ -82,7 +82,7 @@ rqcReadFrequencyPlot(qcRes)
 ```
 
 ### Other quality metrics and QC tools
-Over-represented k-mers along the reads can be an additional check. If there are such sequences it may point to adapter contamination and should be trimmed. Adapters are known sequences that are added to the ends of the reads. This kind of contamination could also be visible at "sequence content per base" plots. In addition, if you know the adapter sequences you can match it to the end of the reads and trim them. The most popular tool for sequencing quality control is the fastQC tool [@noauthor_babraham_nodate], which is written in Java. It produces the plots that we described above in addition to k-mer overrepresentation and adapter overrepresentation plots. The R package [fastqcr](https://cran.r-project.org/web/packages/fastqcr/index.html) can run this Java tool and produce R based plots and reports. This package simply calls the Java tool and parses its results. Below, we are showing how to do that.
+Over-represented k-mers along the reads can be an additional check. If there are such sequences it may point to adapter contamination and should be trimmed. Adapters are known sequences that are added to the ends of the reads. This kind of contamination could also be visible at "sequence content per base" plots. In addition, if you know the adapter sequences you can match it to the end of the reads and trim them. The most popular tool for sequencing quality control is the fastQC tool [@noauthor_babraham_nodate], which is written in Java. It produces the plots that we described above in addition to k-mer overrepresentation and adapter overrepresentation plots. The R package [fastqcr](https://cran.r-project.org/web/packages/fastqcr/index.html) can run this Java tool\index{R Packages!\texttt{fastqcr}} and produce R based plots and reports. This package simply calls the Java tool and parses its results. Below, we are showing how to do that.
 
 ```{r,fastqcr,eval=FALSE}
 library(fastqcr)
@@ -115,7 +115,7 @@ qc_plot(qc, "Per base sequence quality")
 Apart from this, the bioconductor packages Rqc [@Rqc] (see `Rqc::rqcReport` function), QuasR [@gaidatzis_quasr:_2015] (see `QuasR::qQCReport` function), systemPipeR [@backman_systempiper:_2016] (see `systemPipeR::seeFastq` function), and ShortRead [@morgan_shortread:_2009] (see `ShortRead::report` function) packages can all generate quality reports in a similar fashion to FastQC with some differences in plot content and number.
 
 ## Filtering and trimming reads
-Based on the results of the quality check, you may want to trim or filter the reads. Quality check might have shown number of reads that have low quality scores. These reads will probably not align very well because of the potential mistakes in base calling, or they may align to wrong places in the genome. Therefore, you may want to remove these reads from your fastq file. Another potential scenario is that part of your reads needs to be trimmed in order align the read. In some cases, adapters will be present in either side of the read, in other cases technical errors will lead to decreasing base quality towards the ends of the reads. Both in these cases, portion of the read should be trimmed so that read can align or better align the genome. We will show how to use **QuasR** package to trim the reads. Other packages such as **ShortRead** also have capabilities to trim and filter reads. However, `QuasR::preprocessReads()` function provides a single interface to multiple preprocessing possibilities. With this function, we match adapter sequences and remove them. We can remove  low-complexity reads (reads containing repetitive sequences). We can trim start or ends of the reads by a pre-defined length. 
+Based on the results of the quality check, you may want to trim or filter the reads. Quality check might have shown number of reads that have low quality scores. These reads will probably not align very well because of the potential mistakes in base calling, or they may align to wrong places in the genome. Therefore, you may want to remove these reads from your fastq file. Another potential scenario is that part of your reads needs to be trimmed in order align the read. In some cases, adapters will be present in either side of the read, in other cases technical errors will lead to decreasing base quality towards the ends of the reads. Both in these cases, portion of the read should be trimmed so that read can align or better align the genome. We will show how to use `QuasR` package to trim the reads. Other packages such as `ShortRead` also have capabilities to trim and filter reads. However, `QuasR::preprocessReads()` function provides a single interface to multiple preprocessing possibilities. With this function, we match adapter sequences and remove them. We can remove  low-complexity reads (reads containing repetitive sequences). We can trim start or ends of the reads by a pre-defined length. 
 
 Below we will first set up the file paths to fastq files and filter them based on their length and whether or not they contain "N" character, which stands for unidentified base. With the same function we will also trim 3 bases from the end of the reads and also trim segments from the start of the reads if they match the "ACCCGGGA" sequence.
 
@@ -146,7 +146,7 @@ preprocessReads(fastqFiles, outfiles,
 
 ```
 
-As we have mentioned, **ShortRead** package has low-level functions, which `QuasR::preprocessReads()` also depends on. We can use these low level functions to filter reads in ways that are not possible using `QuasR::preprocessReads()` function. Below we are going to read in a fastq file and filter the reads where every quality score is below 20.
+As we have mentioned, `ShortRead` package has low-level functions, which `QuasR::preprocessReads()` also depends on. We can use these low level functions to filter reads in ways that are not possible using `QuasR::preprocessReads()` function. Below we are going to read in a fastq file and filter the reads where every quality score is below 20.
 
 ```{r,shortreadQual}
 library(ShortRead)
@@ -214,9 +214,9 @@ After quality check and potential pre-processing, the reads are ready to be mapp
 Another class of algorithms build genome indices by creating Burrows-Wheeler transformation of the genome. This in essence creates a compact and searchable data structure for all reads. Although, details are out of scope for this section, these alignment tools provide faster alignment and use less memory. BWA[@li2009fast], Bowtie1/2[@langmead2012fast] and SOAP[@li2009soap2] are examples of such algorithms.
 
 
-The read mapping in R can be done with `gmapR` [@gmapR], `QuasR` [@gaidatzis_quasr:_2015], `Rsubread` [@liao_subread_2013], and `systemPipeR` [@backman_systempiper:_2016] packages. We will demonstrate read mapping with QuasR which uses **Rbowtie** package, which wraps the Bowtie aligner. Below, we show how to map reads from a ChIP-seq experiment using QuasR/bowtie. 
+The read mapping in R can be done with `gmapR` [@gmapR], `QuasR` [@gaidatzis_quasr:_2015], `Rsubread` [@liao_subread_2013], and `systemPipeR` [@backman_systempiper:_2016] packages. We will demonstrate read mapping with QuasR which uses `Rbowtie` package, which wraps the Bowtie aligner. Below, we show how to map reads from a ChIP-seq experiment using QuasR/bowtie. 
 
-We will use `qAlign()` function which requires two mandatory arugments: 1) a genome file either in fasta format or as a **BSgenome** package  2) a sample file which is a text file and contains file paths to fastq files and sample names. In the case, below sample file looks like this:
+We will use `qAlign()` function which requires two mandatory arugments: 1) a genome file either in fasta format or as a `BSgenome` package  2) a sample file which is a text file and contains file paths to fastq files and sample names. In the case, below sample file looks like this:
 
 ```
 FileName	SampleName
@@ -258,12 +258,12 @@ After alignment some further processing might be necessary. However, these steps
 
 
 ## Exercises 
-For this set of we will use the `chip_1_1.fq.bz2` and `chip_2_1.fq.bz2` files from the **QuasR** package. You can reach the folder that contains the files as follows, you need to:
+For this set of we will use the `chip_1_1.fq.bz2` and `chip_2_1.fq.bz2` files from the `QuasR` package. You can reach the folder that contains the files as follows, you need to:
 ```{r seqProcessEx,eval=FALSE}
 folder=(system.file(package="QuasR", "extdata"))
 dir(folder) # will show the contents of the folder
 ```
-1. Plot base quality distributions of chip-seq samples **Rqc** package.
+1. Plot base quality distributions of chip-seq samples `Rqc` package.
 **HINT**: You need to provide a regular expression pattern for extracting the right files from the folder. `"^chip"` matches the files begining with "chip".[Difficulty: **Beginner/Intermediate**]
 
 ```{r seqProcessEx2,eval=FALSE,echo=FALSE}
@@ -279,4 +279,4 @@ rqcCycleQualityBoxPlot(qcRes)
 
 2. Now we will trim the reads based on the quality scores. Let's trim 2-4 bases on the 3' end depending on the quality scores. You can use  Trim the ends of the samples `QuasR::preprocessReads()` function for this purpose.[Difficulty: **Beginner/Intermediate**]
 
-3. Align the trimmed and untrimmed reads using **QuasR** and plot alignment statistics, did the trimming improve alignments? [Difficulty: **Intermediate/Advanced**]
+3. Align the trimmed and untrimmed reads using `QuasR` and plot alignment statistics, did the trimming improve alignments? [Difficulty: **Intermediate/Advanced**]

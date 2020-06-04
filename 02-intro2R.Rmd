@@ -316,7 +316,7 @@ class(x)
 
 
 ## Reading and writing data
-Most of the genomics data sets are in the form of genomic intervals associated with a score. That means mostly the data will be in table format with columns denoting chromosome, start positions, end positions, strand and score. One of the popular formats is BED format used primarily by UCSC genome browser \index{UCSC Genome Browser} but most other genome browsers and tools will support BED format \index{BED format}. We have all the annotation data in BED format. You will read more about data formats in Chapter \@ref(genomicIntervals). In R, you can easily read tabular format data with `read.table()` function. \index{R Programming Language!reading in data}
+Most of the genomics data sets are in the form of genomic intervals associated with a score. That means mostly the data will be in table format with columns denoting chromosome, start positions, end positions, strand and score. One of the popular formats is BED format used primarily by UCSC genome browser \index{UCSC Genome Browser} but most other genome browsers and tools will support BED file format \index{BED file}. We have all the annotation data in BED format. You will read more about data formats in Chapter \@ref(genomicIntervals). In R, you can easily read tabular format data with `read.table()` function. \index{R Programming Language!reading in data}
 ```{r readData}
 enhancerFilePath=system.file("extdata",
                 "subset.enhancers.hg18.bed",

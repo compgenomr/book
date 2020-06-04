@@ -1116,8 +1116,8 @@ the reads.
 
 #### Finding annotations
 
-There are multiple sources of genomic annotation. **UCSC**\index{UCSC Genome Browse}, 
-**Genbank**, and **Ensembl**\index{Ensembl} databases represent stable resources, 
+There are multiple sources of genomic annotation. **UCSC**\index{UCSC Genome Browser}, 
+**Genbank**, and **Ensembl**\index{Ensembl Genome Browser} databases represent stable resources, 
 from which the annotation can be easily obtained.
 
 `AnnotationHub`\index{R Packages!\texttt{AnnotationHub}} is a Bioconductor 
@@ -1137,7 +1137,7 @@ hub = AnnotationHub()
 
 The `hub` variable contains the programming interface towards the online database.
 We can use the `query()` function to find out the ID of the
-ENSEMBL\index{ENSEMBL} gene annotation.
+"ENSEMBL"\index{Ensembl Genome Browser} gene annotation.
 
 ```{r read-annot.query}
 # query the hub for the human annotation
@@ -2088,7 +2088,7 @@ If the total size of peaks is small, relative to the genome size, we can expect 
 the percentage of reads in peaks will be small.
 
 
-#### DNA motifs
+#### DNA motifs on peaks
 \index{DNA motif}
 
 Well studied transcription factor have publicly available transcription
@@ -2102,10 +2102,10 @@ Two common measures are used for this purpose:
 2. Positional distribution of the motif - the distribution of motif locations should be
 centered on the peak centers.
 
-##### Percentage of peaks with motif
+##### Representing motifs as matrices
 
-We will firstly calculate the percentage of CTCF peaks which contain a know CTCF
-motif. DNA binding motifs can be extracted from the `MotifDB` Bioconductor
+In order to calculate the percentage of CTCF peaks which contain a know CTCF
+motif. We need to find the CTCF motif and have the computational tools to search for that motif. The DNA binding motifs can be extracted from the `MotifDB` Bioconductor
 database\index{R Packages!\texttt{MotifDB}}. The `MotifDB` is an agglomeration of multiple motif databases.
 
 ```{r peak-quality.motifdb}
@@ -2119,7 +2119,7 @@ motifs = query(query(MotifDb, 'Hsapiens'), 'CTCF')
 motifs
 ```
 
-We will extract the CTCF from the [@khan_2018] database.
+We will extract the CTCF from the `MotifDB` [@khan_2018] database.
 
 ```{r, peak-quality.jaspar}
 # based on the MotifDB version, the location of the CTCF motif
@@ -2128,61 +2128,70 @@ We will extract the CTCF from the [@khan_2018] database.
 ctcf_motif  = motifs[[1]]
 ```
 
-The downloaded motif is a matrix with dimensions 4 X N. The matrix
-contains 4 rows where each row corresponds to one nucleotide (A, C, G, T). 
-The number of columns designates the width of the region bound by the transcription factor.
+The motifs are usually represented as matrices of 4-by-N dimensions. In the matrix, 4 rows corresponds to one nucleotide (A, C, G, T). 
+The number of columns designates the width of the region bound by the transcription factor or the length of the motif that the protein recognizes.
 Each element of the matrix contains the probability of observing the corresponding
 nucleotide on this position.
-For example, for following the CTCF matrix, the probability of observing a thymine at
-the first position of the motif is 0.57 (1st column, 4th row).
+For example, for following the CTCF matrix in Table \@ref(tab:peakqualityshow), the probability of observing a thymine at
+the first position of the motif,$p_{i=1,k=4}$ , is 0.57 (1st column, 4th row).
 Such a matrix, where each column is a probability distribution of over a sequence of nucleotides
-is called a position frequency matrix - PFM\index{PFM}.
-Such matrices are constructed from sequences which were experimentally verified sequences, using
-a motif finding algorithm.
+is called a position frequency matrix - PFM\index{position frequency matrix (PFM)}. In some sources, this matrix is also called as "position probability matrix (PPM)". One way to construct such matrices is to get experimentally verified sequences that are bound by the protein of interest and then to use a motif finding algorithm. 
 
-
-```{r peak-quality.show, echo=FALSE, include=TRUE, eval=TRUE, R.options=list(digits=2)}
-ctcf_motif
+```{r peakqualityshow, echo=FALSE, R.options=list(digits=2)}
+the.table =knitr::kable(ctcf_motif,booktabs = TRUE,
+                        caption="Position Frequency Matrix (PFM) for the CTCF motif")
+the.table <- kableExtra::kable_styling(the.table ,latex_options = c( "scale_down"))
+the.table
 ```
 
-Each path through the matrix calculates the probability that the transcription factor
-will bind one sequence \@ref(fig:Figure-PWMScanning).
+Such a matrix can be used to calculate the probability that the transcription
+factor will bind to any given sequence. However, computationally, it is easier to work with summation rather than multiplication. In addition, the simple probabilistic model does not take the background probability of observing a certain base in a given position. We can correct for background base frequencies by the dividing the individual probability, $p_{i,k}$ in each cell of the matrix by the background base probability for a given base, $B_k$. We can then take the logarithm of that quantity to calculate a log-likelihood and bring everything to log-scale as follows $Score_{i,k}=log_2(p_{i,k}/B_k)$. We can now calculate a score for any given
+sequence by summing up the the base position specific scores we obtain from this log scaled matrix. This matrix is formally called "position specific scoring matrix (PSSM) or position specific weight matrix (PWM). We can use this matrix to scan the genome in a sliding window manner and calculate a score for each window. Usually, a cutoff value is needed to call a motif hit. The higher the score you get from the PWM for a particular sequence the better it is. Traditional algorithms we will use in the following sections use 80% of the maximum rescaled score you can obtain from a PWM as the default cutoff for a hit. The rescaling is simple min-max rescaling where you rescale the score by subtracting the minimum score and dividing that by $max(PWMscore)-min(PWMscore)$. The motif scanning approach is illustrated in Figure \@ref(fig:FigurePWMScanning). In this example, ACACT is not considered a hit because its score only corresponds to only $15.6$ % of the rescaled maximum score.
 
-```{r Figure-PWMScanning, echo=FALSE, include=TRUE, fig.cap='PWM scanning principle. A genomic sequence is scanned by a scoring matrix. The scoring matrix defines how likely is that the transcription factor will bind each nucelotide in each position. Here we are looking at how likely it is that our TF will bind to the sequence ACACT. The score for this sequence is 1.1. The maximal score obtainable by the PWM is 2.7. Because 1.1 / 2.7 = 0.4, and 0.4 is lower than our designated threshold of 0.8, we conclude that the ACACT sequence will not be bound by our TF of interest.'}
+(ref:FigurePWMScanning) PWM scanning principle. A genomic sequence is scanned by a PWM  matrix. This matrix used to measure how likely is that the transcription factor will bind each nucelotide in each position. Here we are looking at how likely it is that our TF will bind to the sequence ACACT. The score for this sequence is -3.6. The maximal score obtainable by the PWM is 7.2 and minimun is -5.6. After min-max rescaling, -3.6 corresponds to 15% score and ACACT is not considered a hit
+
+```{r FigurePWMScanning, echo=FALSE, include=TRUE, fig.cap='(ref:FigurePWMScanning)'}
 knitr::include_graphics('./Figures/PWMScanning.png')
 ```
 
 
-Such a matrix can be used to calculate the probability that the transcription
-factor will any sequence. 
+
+##### Representing motifs as sequence logos
 
 Using the PFM, we can calculate the information content of each position in the matrix.
 The information content quantifies the contribution of each nucleotide to the
-cumulative binding preference (how important each nucleotide is for the binding).
-It additionally allows us to visually represent the probability matrices as sequence logos.
-The information content is quantified as Shannon entropy. It ranges from 0 - no information,
-to 2 - maximal information
+cumulative binding preference. This tells us how important is each nucleotide  for the binding. It additionally allows us to visually represent the probability matrices as sequence logos.
+The information content is quantified as relative entropy. It ranges from $0$ - no information,
+to $2$ - maximal information. For a column in the PFM, the entropy is calculated as follows: 
 
-Shannon entropy formula:
-\[
-entropy = -\sum\limits_{i=1}^n p_{i}\log_2(p_i) 
-\]
+$$
+entropy = -\sum\limits_{k=1}^n p_{i,k}\log_2(p_{i,k}) 
+$$ 
+$p_{i,k}$ is the probability of observing base $k$ in the column $i$ of the PFM. In other words, $p_{i,k}$ is simply the value of the cell in the PFM. The entropy value is high when the probabilities of each base is similar and low when one base is much more probable to occur in a given column. The relative portion comes from the fact that we compare the entropy we calculated for a column to the maximum entropy we can obtain. If the all bases are equally likely for a position in the PFM then we will have the maximum entropy and we compare our original entropy to that maximum entropy. The maximum entropy is simply $log_2{n}$ where $n$ is number of letters in the alphabet. In our case we have  4 letters A,C,G and T. The information content is then simply subtracting the observed entropy for a column from the maximum entropy, which translates to the following equation: 
 
-We will use now the `seqLogo` package to visualize the information content of the 
-CTCF motif.
-The figure \@ref(fig:peak-quality-seqLogo-plot) shows which are the most
-important nucleotides for CTCF binding.
+$$
+IC=log_2(n)+\sum\limits_{k=1}^n p_{i,k}\log_2(p_{i,k}) 
+$$ 
+The information content, $IC$ in the preceding equation, will be high if a base have a high probability of occurrence and low if all bases are more or less equally likely to occur.  
+
+
+We can visualize the matrix by visualizing the letters weighted by their probabilities in the PFM. This approach has been shown on the left handside of the Figure \@ref(fig:peak-quality-seqLogo-plot). In addition, we can also the information content per column to weight the probabilities. This means that the columns that have very frequent letters will be higher.This approach is shown  on the right handside of the Figure \@ref(fig:peak-quality-seqLogo-plot).We will use below the `seqLogo` package to visualize CTCF motif in two different ways we described above.
+
 
 ```{r peak-quality-seqLogo-command, eval = FALSE, echo = FALSE, include = TRUE}
 # plot the seqLogo of the CTCF motif
-seqLogo::seqLogo(ctcf_motif)
+seqLogo::seqLogo(ctcf_motif) # probabilities
+seqLogo::seqLogo(ctcf_motif,ic.scale=TRUE) # scaled by IC
 ```
 
-```{r peak-quality-seqLogo-plot, echo=FALSE, include=TRUE, fig.cap="CTCF sequence motif visualized as a sequence logo. Y axis ranges from zero to two, and corresponds to the amount of information each base in the motif contributes to the overall motif. The larger the letter the greater the probability of observing just one defined base on the designated position.", fig.width=6, fig.height=3}
+```{r peak-quality-seqLogo-plot, echo=FALSE, include=TRUE, fig.cap="CTCF sequence motif visualized as a sequence logo. Y axis ranges from zero to two, and corresponds to the amount of information each base in the motif contributes to the overall motif. The larger the letter the greater the probability of observing just one defined base on the designated position.", out.width='70%'}
 knitr::include_graphics('./Figures/CTCF_Motif.png')
 ```
 
-To annotate the CTCF peaks with the motif, we will firstly extend the peak
+
+##### Percentage of peaks with the motif
+
+Since we now understand how DNA motifs are used we can start annotating the CTCF peaks with the motif. First, we will extend the peak
 regions to +/- 200 bp around the peak center.
 Because the average fragment size is 200 bp, 400 nucleotides is the
 expected variation in the position of the true binding location.
@@ -2238,8 +2247,7 @@ For example, if the best sequence would have a score of 1.4 of being bound,
 then we define a threshold of 80% of 1.4, which is 1.12; and any sequence which
 scores less that 1.12 would not be marked as being bound by the protein.
 
-For the CTCF, we mark any peak containing a sequence with > 80% of the maximal
-score as a positive hit.
+For the CTCF, we mark any peak containing a sequence with > 80% of the maximal rescaled score or "relative score" as a positive hit.
 
 ```{r peak-quality.scan.scan, include=TRUE, echo=FALSE, eval=TRUE}
 # scan the CTCF peaks to find the locations of the motif around peaks
@@ -2256,7 +2264,7 @@ head(hits)[,1:9]
 
 A common diagnostic plot is to graph a reverse cumulative distribution of 
 peak occurrences.
-On the X axis we rank the peaks, with the most highly enriched peak on the
+On the x-axis we rank the peaks, with the most highly enriched peak on the
 first position, and the least enriched peak on the last position.
 We then walk from the lowest to the highest ranking and measure the
 percentage of peaks containing the motif.
@@ -2684,7 +2692,7 @@ As expected, the topmost candidate is CTCF.
 
 
 ## What to do next?
-One of the first next steps you have your peaks is to find out what kind of genes they might be associated with. This is very similar to gene set analysis \index{gene set analysis} we have introduced for RNA-seq in Chapter \@ref(rnaseqanalysis). The same tools such as `gProfileR` package\index{R Packages!\texttt{gProfileR}} can be used on the genes associated with the peaks. However, associating peaks to genes is not always trivial due to long range gene regulation. Many enhancers can regulate genes that are far away and their targets are not always the nearest gene. However, associating peaks to nearest genes is a generally practiced strategy in ChIP-seq analysis. We have introduced how to gene the nearest genes in Chapter \@ref(genomicIntervals). There are also other R packages that will do the association and gene set analysis in a single workflow. One useful such package is `rGREAT` from Bioconductor. This package relies on web tool called [_GREAT_](http://great.stanford.edu/public/html/).
+One of the first next steps you have your peaks is to find out what kind of genes they might be associated with. This is very similar to gene set analysis \index{gene set analysis} we have introduced for RNA-seq in Chapter \@ref(rnaseqanalysis). The same tools such as `gProfileR` package\index{R Packages!\texttt{gProfileR}} can be used on the genes associated with the peaks. However, associating peaks to genes is not always trivial due to long range gene regulation. Many enhancers can regulate genes that are far away and their targets are not always the nearest gene. However, associating peaks to nearest genes is a generally practiced strategy in ChIP-seq analysis. We have introduced how to gene the nearest genes in Chapter \@ref(genomicIntervals). There are also other R packages that will do the association to genes and the gene set analysis in a single workflow. One such package is `rGREAT` from Bioconductor. This package relies on a web-based tool called [_GREAT_](http://great.stanford.edu/public/html/).
 
 Knowing every location in the genome bound by a protein can provide a lot
 of mechanistic information, however, quite often it is hard to make

@@ -93,7 +93,7 @@ Chapter \@ref(genomicIntervals): "Operations on Genomic Intervals and Genome Ari
 
 The next chapters deals with specific analysis of high-throughput sequencing data and integrating different kinds of data sets. Chapter \@ref(processingReads): "Quality Check, Processing and Alignment of High-throughput Sequencing Reads" introduces quality checks that need to be done on sequencing reads and different ways to process them further. The chapters \@ref(rnaseqanalysis), \@ref(chipseq) and \@ref(bsseq) deals with RNA-seq analysis, ChIP-seq analysis and BS-seq analysis. The last chapter, Chapter \@ref(multiomics):"Multi-omics Analysis" deals with methods for integrating multiple omics data sets.
 
-Most chapters have exercises that reinforces some of the important points introduced in the chapters. The exercises are classfied into "Beginner", "Intermediate" and "Advanced" categories. If you are well versed in a certain subject you might want to skip "Beginner" level exercises.
+Most chapters have exercises that reinforces some of the important points introduced in the chapters. The exercises are classified into "Beginner", "Intermediate" and "Advanced" categories. If you are well versed in a certain subject you might want to skip "Beginner" level exercises.
 
 To sum it up, this book is a comprehensive guide for computational genomics. Some sections are there for the sake of the wide interdisciplinary audience and completeness, and not all sections will be equally useful to all readers of this broad audience. 
 
@@ -132,15 +132,27 @@ BiocManager::install(c('qvalue','plot3D','ggplot2','pheatmap','cowplot',
 ## Data for the book {-}
 We rely on data from different R and Bioconductor packages through out the book. For the datasets that do not ship with those packages, we created our own package [**compGenomRData**](https://github.com/compgenomr/compGenomRData). You can install this package via `devtools::install_github("compgenomr/compGenomRData")`. We use `system.file()` function to get the path to the files. We noticed many inexperienced users are confused about this function. This function just outputs full path to the file that is installed with the data package. 
 
+## Exercises in the book {-}
+There are a set of exercises at the end of each chapter. The exercises are 
+separated in thematic sections that follow the major sections in the chapter.
+In addition, each exercise is classified based on its difficulty as "Beginner",
+"Intermediate" and "Advanced". Beginner level exercises can be usually done
+by refactoring the code in the chapter. Advanced level exercises usually requires
+combination of code from different sections or chapters. The intermediate level
+is somewhere in between. The solutions to the exercises are available at
+https://github.com/compgenomr/exercises. 
+
 
 ## Acknowledgements {-}
 
 I wish to thank R and Bioconductor community for developing and maintaining libraries for genomic data analysis. Without their constant work and dedication, writing such a book will not be possible.
 
 I also wish to thank all the past and present mentors, colleagues and employers.
-The interaction with them provided the motivation to write such as book and organize and teach hands-on courses on computational genomics.
+The interaction with them provided the motivation to write such as book, and organize and teach hands-on courses on computational genomics.
 
-John Kimmel, the editor from Chapman & Hall/CRC, helped me publish this book. It was a pleasure to work with him again. He generously agreed to let me keep the online version of this book, so I can continue updating it after it is printed.
+I wish to thank John Kimmel, the editor from Chapman & Hall/CRC, who helped me publish this book. It was a pleasure to work with him. He generously agreed to let me keep the online version of this book, so I can continue updating it after it is printed.
+
+This has been a long journey for me. I started writing parts of this book as early as 2013. If it wasn't for Vedran Franke, Bora Uyar and Jonathan Ronen it would have taken even longer. They kindly agreed to contribute the missing chapters and they did a great job. I am thankful for their contributions.
 
 The following people kindly contributed fixes for typos and code, and various suggestions: Thomas Schalch, Alex Gosdschan, Rodrigo Ogava, Fei Zhao, Janathan Kitt, Janani Ravi, Christian Schudoma, Samuel Sledzieski and Dania Hamo, Sarvesh Nikumbh.
  
