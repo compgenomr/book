@@ -185,7 +185,7 @@ all living organisms as they dictate where and how much of a gene product (may
 it be protein or ncRNA) should be manufactured. This regulation could occur
 at the pre- and co-transcriptional level by controlling how many transcripts should be produced and/or which version of the transcript should be produced by regulating
 splicing. Different versions of the same gene could encode for proteins by
-regulating splicing the process can decide which parts will go into the final
+regulating splicing. This process can decide which parts will go into the final
 mRNA that will code for the protein.
 In addition, gene products can be regulated post-transcriptionally where certain
 molecules bind to RNA and mark them for degradation even before they can be used
