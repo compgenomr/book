@@ -216,7 +216,7 @@ altered protein-protein interactions.
 ####   Regulation by transcription factors through regulatory regions
  Transcription factors are proteins that \index{transcription factors (TFs)}
 recognize a specific DNA motif to bind on a regulatory region and regulate the transcription rate of \index{DNA motif}
-the gene associated with that regulatory region (See Figure \@ref(fig:regSummary))
+the gene associated with that regulatory region (See Figure \@ref(fig:regSummary)
 for an illustration). These factors bind to a variety of regulatory regions summarized in
 Figure \@ref(fig:regSummary), and their concerted action
 controls the transcription rate. Apart from their binding preference, their
