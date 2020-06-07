@@ -412,7 +412,7 @@ of developmental genes, and trithorax group proteins (trxG) for maintaining
 their active state [@henikoff2008nucleosome ; @schwartz2007polycomb]. PcGs and trxGs induce repressed or active states by
 catalyzing histone modifications or DNA methylation. Both the proteins bind PREs
 that can be on promoters or several kilobases away. Another protein
-that induces histone modifications is CTCF. CTCF is associated with boundaries between active and repressive histone marks \index{CTCF protein} [@phillips2009ctcf]. This is due to the role of CTCF in regulating the 3D genome structure. Two CTCF binding sites that are far away from each other in linear distance can bound together in 3D space thus forming chromatin loops.
+that induces histone modifications is CTCF. CTCF is associated with boundaries between active and repressive histone marks \index{CTCF protein} [@phillips2009ctcf]. This is due to the role of CTCF in regulating the 3D genome structure. Two CTCF binding sites that are far away from each other in linear distance can bind together in 3D space thus forming chromatin loops.
 
 ```{block2, transReg, type='rmdtip'}
 
