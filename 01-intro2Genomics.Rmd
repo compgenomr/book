@@ -367,8 +367,8 @@ all studied species [@sood2019dnamod].
 
 ##### Histone modifications:
 Histones are proteins that constitute \index{histone} nucleosome. In
-eukaryotes, eight histones nucleosomes are wrapped around by DNA and build
-nucleosome. They help super-coiling of DNA and inducing high-order structure
+eukaryotes, "eight histones nucleosomes are wrapped around by DNA and build
+nucleosome." They help super-coiling of DNA and inducing high-order structure
 called chromatin. In chromatin, DNA is either densely packed (called
 heterochromatin or closed chromatin), or it is loosely packed (called
 euchromatin or open chromatin). Heterochromatin is thought to harbor
