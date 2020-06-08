@@ -463,7 +463,7 @@ Splicing is regulated by regulatory elements on the pre-mRNA and proteins \index
 binding to those elements. Regulatory elements are categorized
 as splicing
 enhancers and repressors. They can be located either in exons
-or introns. Depending of their activity and their locations there are four types of regulatory elements:
+or introns. Depending on their activity and their locations there are four types of regulatory elements:
  -  exonic splicing enhancers (ESEs)
  -  exonic splicing silencers (ESSs)
  -  intronic splicing enhancers (ISEs)
