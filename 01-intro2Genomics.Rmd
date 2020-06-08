@@ -519,7 +519,7 @@ error-free, depending on which DNA repair mechanism is used (there are multiple)
 mistakes will be made at varying rates.
 
 
-Mutations are classified by how many bases they effect, their effect on
+Mutations are classified by how many bases they affect, their effect on
 DNA structure and gene function. By their effect on DNA structure
 the mutations \index{mutation} are classified as follows:
 
