@@ -560,7 +560,7 @@ __Want to know more?__
 
 - Interactive tutorial on mutations: http://www.dnaftb.org/27/
 
-- Tutorial on mutation and health maintained by NIH:https://ghr.nlm.nih.gov/primer#mutationsanddisorders
+- Tutorial on mutation and health maintained by NIH: https://ghr.nlm.nih.gov/primer#mutationsanddisorders
     
 - Visualizations for different types of mutations: https://www.yourgenome.org/facts/what-types-of-mutation-are-there
 
