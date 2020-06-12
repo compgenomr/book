@@ -630,7 +630,7 @@ to genome, see where they are coming from and count them. This is a better
 technology where the quantification is based on the real identity of fragments 
 rather than based on hybridization to designed probes.
 
-In summary HT techniques have the following steps, and this also summarized in
+In summary HT techniques have the following steps, and this is also summarized in
 Figure \@ref(fig:HTassays):
 
 - Extraction: This is the step where you extract the genetic
