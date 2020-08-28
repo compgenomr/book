@@ -576,7 +576,7 @@ Most of the biological phenomena described above relating to transcription
 , gene regulation or DNA mutation can be measured over the entire genome using
 high-throughput experimental techniques, which are quickly becoming
 the standard for studying genome biology. In addition, their
-applications in the clinic are also gaining momemntum: there are already diagnostic
+applications in the clinic are also gaining momentum: there are already diagnostic
 tests that are based on these techniques.
 
 Some of the things that can be measured by high-throughput assays are as follows:
