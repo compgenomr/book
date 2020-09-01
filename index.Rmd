@@ -154,7 +154,7 @@ I wish to thank John Kimmel, the editor from Chapman & Hall/CRC, who helped me p
 
 This has been a long journey for me. I started writing parts of this book as early as 2013. If it wasn't for Vedran Franke, Bora Uyar and Jonathan Ronen it would have taken even longer. They kindly agreed to contribute the missing chapters and they did a great job. I am thankful for their contributions.
 
-The following people kindly contributed fixes for typos and code, and various suggestions: Thomas Schalch, Alex Gosdschan, Rodrigo Ogava, Fei Zhao, Janathan Kitt, Janani Ravi, Christian Schudoma, Samuel Sledzieski and Dania Hamo, Sarvesh Nikumbh.
+The following people kindly contributed fixes for typos and code, and various suggestions: Thomas Schalch, Alex Gosdschan, Rodrigo Ogava, Fei Zhao, Jonathan Kitt, Janani Ravi, Christian Schudoma, Samuel Sledzieski and Dania Hamo, Sarvesh Nikumbh.
  
 ```{block2, type='flushright', html.tag='p'}
 Altuna Akalin  
