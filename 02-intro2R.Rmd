@@ -209,7 +209,7 @@ y+2                 #scalar addition
 2*y                 #scalar multiplication
 y^2                 #raise each component to the second power
 2^y                 #raise 2 to the first through fifth power
-y                   #y itself has not been unchanged
+y                   #y itself is unchanged
 y<-y*2
 y                   #it is now changed
 r1<-rep(1,3)        # create a vector of 1s, length 3
