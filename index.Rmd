@@ -141,6 +141,40 @@ a combination of code from different sections or chapters. The intermediate leve
 is somewhere in between. The solutions to the exercises are available at
 https://github.com/compgenomr/exercises. 
 
+## Reproducibility statement {-}
+This book is compiled with R `r getRversion()` and the following packages. We only list the main packages and their versions but not their dependencies. 
+
+```{r reproStatement, echo=FALSE, eval=TRUE,collapse = TRUE}
+packagesUsed=c('qvalue','plot3D','ggplot2','pheatmap','cowplot',
+                      'cluster', 'NbClust', 'fastICA', 'NMF','matrixStats',
+                      'Rtsne', 'mosaic', 'knitr', 'genomation',
+                      'ggbio', 'Gviz', 'DESeq2', 'RUVSeq',
+                      'gProfileR', 'ggfortify', 'corrplot',
+                      'gage', 'EDASeq', 'citr', 'formatR',
+                      'svglite', 'Rqc', 'ShortRead', 'QuasR',
+                      'methylKit','FactoMineR', 'iClusterPlus',
+                      'enrichR','caret','xgboost','glmnet',
+                      'DALEX','kernlab','pROC','nnet','RANN',
+                      'ranger','GenomeInfoDb', 'GenomicRanges',
+                      'GenomicAlignments', 'ComplexHeatmap', 'circlize', 
+                      'rtracklayer','tidyr',
+                      'AnnotationHub', 'GenomicFeatures', 'normr',
+                      'MotifDb', 'TFBSTools', 'rGADEM', 'JASPAR2018',
+                      'BSgenome.Hsapiens.UCSC.hg38',
+                      'BSgenome.Hsapiens.UCSC.hg19')
+pVer=sapply( packagesUsed,function(x) paste(x,packageVersion(x),sep="_"))
+names(pVer)=c()
+#pVer
+for( i in seq(1,length(pVer),4)){
+  my.end=i+3
+  if( (i+3) > length(pVer) ){
+    my.end=length(pVer)
+  }
+  cat(pVer[i:my.end],sep = " | ")
+  cat("\n")
+}
+#cat(pVer,sep = " | ")
+```
 
 ## Acknowledgements {-}
 

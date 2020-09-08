@@ -12,13 +12,13 @@ knitr::opts_chunk$set(echo      = TRUE,
 
 In this chapter we will introduce supervised machine learning applications for predictive modeling. In genomics, we are often faced with biological questions to answer using lots of data. Some of those questions can easily fit in the domain of machine learning, where algorithms will learn a mathematical model of the input data in order to make decisions about similar data, previously unseen by the model. Often we are trying to predict a medical or biological variable of interest using molecular signatures obtained via genomics methods. To give you a better idea, we listed some of the machine learning applications in genomics:
 
-- predicting gene expression from epigenetic modifications (@pmid22950368)
-- predicting gene locations (@pmid12364589)
-- predicting enhancer or other regulatory regions (@pmid22328731)
-- predicting drug response based on genomics (@pmid21428770)
-- predicting healthy/disease status or disease subtypes based on genomics (@pmid25750696)
-- predicting the effect of SNPs on gene regulation (@pmid26301843)
-- calling SNPs (@pmid30247488)
+- Predicting gene expression from epigenetic modifications [@pmid22950368].
+- Predicting gene locations [@pmid12364589].
+- Predicting enhancer or other regulatory regions [@pmid22328731].
+- Predicting drug response based on genomics [@pmid21428770].
+- Predicting healthy/disease status or disease subtypes based on genomics [@pmid25750696].
+- Predicting the effect of SNPs on gene regulation [@pmid26301843].
+- Calling SNPs [@pmid30247488].
 
 Apart from prediction of an outcome, machine learning can be used to understand which predictor variables are the most important for prediction performance. This often gives insights into the biology as well. Many machine learning algorithms have either built-in variable importance assessment or can be wrapped around a model-agnostic variable importance method. For example, we may want to find which epigenetic modifications are most important for gene expression prediction. Although decades of molecular biology gives a pretty good idea for this, we could arrive at similar conclusions by building a machine learning model to predict gene expression using histone modifications H3K27ac, H3K27me, H3K4me1, H3K4me3, and DNA methylation. \index{histone modification} \index{DNA methylation} We can then check which of these are most important for gene expression prediction using variable importance metrics. 
 
