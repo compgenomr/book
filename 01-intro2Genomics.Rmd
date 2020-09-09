@@ -395,10 +395,10 @@ Modifications                 Effect
     H3K27me3/me2/me1          Silent promoters
     H3K9me3/me2/me1           Silent promoters
 
-Table:  Table 1 Histone modifications and their effects. If more than one histone modification has the same effect, they are separated by commas.
+Table: (\#tab:histoneMod) Histone modifications and their effects. If more than one histone modification has the same effect, they are separated by commas.
 
 Histone modifications are associated with a number of different
-transcription-related conditions; some of them are summarized in Table 1.
+transcription-related conditions; some of them are summarized in Table \@ref(tab:histoneMod).
 Histone modifications can indicate where the regulatory regions are and they can
 also indicate activity of the genes. From a gene regulatory perspective, maybe
 the most important modifications are the ones associated with enhancers and

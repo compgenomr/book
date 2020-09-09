@@ -6,7 +6,8 @@ knit: "bookdown::render_book"
 documentclass: krantz
 classoption: numberinsequence,krantz2
 bibliography: [book.bib]
-biblio-style: apalike
+biblio-style: [apalike.bst]
+csl: chicago-manual.csl
 link-citations: yes
 colorlinks: yes
 fontsize: 12pt
