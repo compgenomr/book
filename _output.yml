@@ -10,7 +10,7 @@ bookdown::gitbook:
         <li><a href="./">Computational Genomics with R</a></li>
       after: |
         <li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
-    download: [pdf]
+    download: no
     edit: https://github.com/compgenomr/book/edit/master/%s
     sharing:
       github: yes

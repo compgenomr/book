@@ -127,7 +127,7 @@ The example above seems like a clear-cut example where we can pick clusters from
 hcl=hclust(dist(t(mat)))
 plot(hcl,labels = FALSE, hang= -1)
 rect.hclust(hcl, h = 80, border = "red")
-clu.k5=cutree(hcl,k=5) # cut tree so that there are 4 clusters
+clu.k5=cutree(hcl,k=5) # cut tree so that there are 5 clusters
 
 clu.h80=cutree(hcl,h=80) # cut tree/dendrogram from height 80
 table(clu.k5) # number of samples for each cluster
@@ -353,7 +353,7 @@ knitr::include_graphics("images/SVDcartoon.png")
 ```
 One thing that is new in Figure \@ref(fig:SVDcartoon) is the concept of eigenarrays. The eigenarrays, sometimes called eigenassays, represent the sample space and can be used to plot the relationship between samples rather than genes. In this way, SVD offers additional information than the PCA using the covariance matrix. It offers us a way to summarize both genes and samples. As we can project the gene expression profiles over the top two eigengenes and get a 2D representation of genes, but with the SVD, we can also project the samples over the top two eigenarrays and get a representation of samples in 2D scatter plot. The eigenvector could represent independent expression programs across samples, such as cell-cycle, if we had time-based expression profiles. However, there is no guarantee that each eigenvector will be biologically meaningful. Similarly each eigenarray represents samples with specific expression characteristics. For example, the samples that have a particular pathway activated might be correlated to an eigenarray returned by SVD. 
 
-Previously, in order to map samples to the reduced 2D space we had to transpose the genes-by-samples matrix before using the `princomp()` function. We will now first use SVD on the genes-by-samples matrix to get eigenarrays and use that to plot samples on the reduced dimensions. We will project the columns in our original expression data on eigenarrays and use the first two dimensions in the scatter plot. If you look at the code you will see that for the projection we use $U^T  X$ operation, which is just $V^T$ if you follow the linear algebra. We will also perform the PCA this time with the `prcomp()` function on the transposed genes-by-samples matrix to get similar information, and plot the samples on the reduced coordinates.
+Previously, in order to map samples to the reduced 2D space we had to transpose the genes-by-samples matrix before using the `princomp()` function. We will now first use SVD on the genes-by-samples matrix to get eigenarrays and use that to plot samples on the reduced dimensions. We will project the columns in our original expression data on eigenarrays and use the first two dimensions in the scatter plot. If you look at the code you will see that for the projection we use $U^T  X$ operation, which is just $S V^T$ if you follow the linear algebra. We will also perform the PCA this time with the `prcomp()` function on the transposed genes-by-samples matrix to get similar information, and plot the samples on the reduced coordinates.
 
 ```{r svd,out.width='65%',fig.width=8.5,fig.cap="SVD on the matrix and its transpose"}
 par(mfrow=c(1,2))
