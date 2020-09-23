@@ -83,7 +83,7 @@ After reading:
 ## Structure of the book {-}
 The book is designed with the idea that practical and conceptual
 understanding of data analysis methods is as important, if not more important, than the theoretical understanding, such as detailed derivation of equations in statistics or machine learning. That is why we first try to give a conceptual explanation of the concepts then we try to give essential parts of the mathematical formulas for more detailed understanding. In this spirit, we always show the code and 
-explain the code for a particular data analysis task. We also give additional references such as books, websites , video lectures and scientific papers for readers who desire to gain deeper theoretical understanding of data-analysis-related methods or concepts.
+explain the code for a particular data analysis task. We also give additional references such as books, websites, video lectures and scientific papers for readers who desire to gain deeper theoretical understanding of data-analysis-related methods or concepts.
 
 Chapter \@ref(intro): "Introduction to Genomics" introduces the basic concepts in genome biology and genomics. Understanding these concepts is important for computational genomics. 
 
