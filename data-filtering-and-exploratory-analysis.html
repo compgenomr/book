@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -508,23 +508,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 5 chr21.9849022 chr21 9849022      F      124 72.58  27.42</code></pre>
 <p>Most of the time bisulfite sequencing experiments have test and control samples. The test samples can be from a disease tissue while the control samples can be from a healthy tissue. You can read a set of methylation call files that have test/control conditions giving a <code>treatment</code> vector option. The treatment vector defines the sample groups and it is very important for the differential methylation analysis. For the sake of subsequent analysis, file.list, sample.id and treatment option should have the same order. In the following example, the first two files have the sample IDs “test1” and “test2” and as determined by the treatment vector they belong to the same group. The third and fourth files have sample IDs “ctrl1” and “ctrl2” and they belong to the same group as indicated by the treatment vector. We will first get a list of file paths and have a look at the content.</p>
 <p>If you look what is inside the <code>file.list</code> variable, you will see that it is a simple list of file paths. Each file contains methylation calls for a given sample. Now, we can read the files with the <code>methRead()</code> function.</p>
-<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="data-filtering-and-exploratory-analysis.html#cb557-1"></a><span class="co"># read the files to a methylRawList object: myobj</span></span>
-<span id="cb557-2"><a href="data-filtering-and-exploratory-analysis.html#cb557-2"></a>myobj=<span class="kw">methRead</span>(file.list,</span>
-<span id="cb557-3"><a href="data-filtering-and-exploratory-analysis.html#cb557-3"></a>           <span class="dt">sample.id=</span><span class="kw">list</span>(<span class="st">&quot;test1&quot;</span>,<span class="st">&quot;test2&quot;</span>,<span class="st">&quot;ctrl1&quot;</span>,<span class="st">&quot;ctrl2&quot;</span>),</span>
-<span id="cb557-4"><a href="data-filtering-and-exploratory-analysis.html#cb557-4"></a>           <span class="dt">assembly=</span><span class="st">&quot;hg18&quot;</span>,</span>
-<span id="cb557-5"><a href="data-filtering-and-exploratory-analysis.html#cb557-5"></a>           <span class="dt">treatment=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
-<span id="cb557-6"><a href="data-filtering-and-exploratory-analysis.html#cb557-6"></a>           <span class="dt">context=</span><span class="st">&quot;CpG&quot;</span></span>
-<span id="cb557-7"><a href="data-filtering-and-exploratory-analysis.html#cb557-7"></a>           )</span></code></pre></div>
+<div class="sourceCode" id="cb556"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb556-1"><a href="data-filtering-and-exploratory-analysis.html#cb556-1"></a><span class="co"># read the files to a methylRawList object: myobj</span></span>
+<span id="cb556-2"><a href="data-filtering-and-exploratory-analysis.html#cb556-2"></a>myobj=<span class="kw">methRead</span>(file.list,</span>
+<span id="cb556-3"><a href="data-filtering-and-exploratory-analysis.html#cb556-3"></a>           <span class="dt">sample.id=</span><span class="kw">list</span>(<span class="st">&quot;test1&quot;</span>,<span class="st">&quot;test2&quot;</span>,<span class="st">&quot;ctrl1&quot;</span>,<span class="st">&quot;ctrl2&quot;</span>),</span>
+<span id="cb556-4"><a href="data-filtering-and-exploratory-analysis.html#cb556-4"></a>           <span class="dt">assembly=</span><span class="st">&quot;hg18&quot;</span>,</span>
+<span id="cb556-5"><a href="data-filtering-and-exploratory-analysis.html#cb556-5"></a>           <span class="dt">treatment=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb556-6"><a href="data-filtering-and-exploratory-analysis.html#cb556-6"></a>           <span class="dt">context=</span><span class="st">&quot;CpG&quot;</span></span>
+<span id="cb556-7"><a href="data-filtering-and-exploratory-analysis.html#cb556-7"></a>           )</span></code></pre></div>
 <p>Tab-separated bedgraph like formats from Bismark methylation caller can also be read in by methylkit. In those cases, we have to provide either <code>pipeline="bismarkCoverage"</code> or <code>pipeline="bismarkCytosineReport"</code> to the <code>methRead()</code> function. In addition to the options we mentioned above,
 any tab-separated text file with a generic format can be read in using methylKit,
 such as methylation ratio files from <a href="http://code.google.com/p/bsmap/">BSMAP</a>.
 See <a href="http://zvfak.blogspot.com/2012/10/how-to-read-bsmap-methylation-ratio.html">here</a> for an example.</p>
 <p>Before we move on, let us have a look at what kind of information is stored in <code>myobj</code>. This is technically a <code>methylRawList</code> object, which is essentially a list of <code>methylRaw</code> objects. These objects hold
 the information for the genomic location of Cs, and methylated Cs and unmethylated Cs.</p>
-<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="data-filtering-and-exploratory-analysis.html#cb558-1"></a><span class="co">## inside the methylRawList object</span></span>
-<span id="cb558-2"><a href="data-filtering-and-exploratory-analysis.html#cb558-2"></a><span class="kw">length</span>(myobj)</span></code></pre></div>
+<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="data-filtering-and-exploratory-analysis.html#cb557-1"></a><span class="co">## inside the methylRawList object</span></span>
+<span id="cb557-2"><a href="data-filtering-and-exploratory-analysis.html#cb557-2"></a><span class="kw">length</span>(myobj)</span></code></pre></div>
 <pre><code>## [1] 4</code></pre>
-<div class="sourceCode" id="cb560"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb560-1"><a href="data-filtering-and-exploratory-analysis.html#cb560-1"></a><span class="kw">head</span>(myobj[[<span class="dv">1</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb559"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb559-1"><a href="data-filtering-and-exploratory-analysis.html#cb559-1"></a><span class="kw">head</span>(myobj[[<span class="dv">1</span>]])</span></code></pre></div>
 <pre><code>##     chr   start     end strand coverage numCs numTs
 ## 1 chr21 9764513 9764513      -       12     0    12
 ## 2 chr21 9764539 9764539      -       12     3     9
@@ -537,8 +537,8 @@ the information for the genomic location of Cs, and methylated Cs and unmethylat
 <h3><span class="header-section-number">10.4.2</span> Further quality check</h3>
 <p>It is always a good idea to check how the data looks before proceeding further. For example, the methylation values should have bimodal distribution generally. This can be checked via the
 <code>getMethylationStats()</code> function. Normally, we should see bimodal
-distributions. Strong deviations from the bimodality may be due poor experimental quality, such as problems with bisulfite treatment. Below we show how to get these plots using the <code>getMethylationStats()</code> function. The result is shown in Figure <a href="data-filtering-and-exploratory-analysis.html#fig:methStats">10.1</a>. As expected, it has a bimodal distribution where most CpGs have either high methylation or low methylation.</p>
-<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="data-filtering-and-exploratory-analysis.html#cb562-1"></a><span class="kw">getMethylationStats</span>(myobj[[<span class="dv">2</span>]],<span class="dt">plot=</span><span class="ot">TRUE</span>,<span class="dt">both.strands=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+distributions. Strong deviations from the bimodality may be due to poor experimental quality, such as problems with bisulfite treatment. Below we show how to get these plots using the <code>getMethylationStats()</code> function. The result is shown in Figure <a href="data-filtering-and-exploratory-analysis.html#fig:methStats">10.1</a>. As expected, it has a bimodal distribution where most CpGs have either high methylation or low methylation.</p>
+<div class="sourceCode" id="cb561"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb561-1"><a href="data-filtering-and-exploratory-analysis.html#cb561-1"></a><span class="kw">getMethylationStats</span>(myobj[[<span class="dv">2</span>]],<span class="dt">plot=</span><span class="ot">TRUE</span>,<span class="dt">both.strands=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:methStats"></span>
 <img src="10-bs-seq-analysis_files/figure-html/methStats-1.png" alt="Histogram for methylation values for all CpGs in the dataset." width="55%" />
 <p class="caption">
@@ -547,7 +547,7 @@ FIGURE 10.1: Histogram for methylation values for all CpGs in the dataset.
 </div>
 <p>In addition, we might want to see coverage values. By default, methylkit handles bases with at least 10X coverage but that can be changed. The bases with unusually high coverage are usually alarming. It might indicate a PCR bias issue in the experimental procedure. The general coverage statistics can be checked with the
 <code>getCoverageStats()</code> function shown below. The resulting plot is shown in Figure <a href="data-filtering-and-exploratory-analysis.html#fig:coverageStats">10.2</a>.</p>
-<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="data-filtering-and-exploratory-analysis.html#cb563-1"></a><span class="kw">getCoverageStats</span>(myobj[[<span class="dv">2</span>]],<span class="dt">plot=</span><span class="ot">TRUE</span>,<span class="dt">both.strands=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb562"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb562-1"><a href="data-filtering-and-exploratory-analysis.html#cb562-1"></a><span class="kw">getCoverageStats</span>(myobj[[<span class="dv">2</span>]],<span class="dt">plot=</span><span class="ot">TRUE</span>,<span class="dt">both.strands=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:coverageStats"></span>
 <img src="10-bs-seq-analysis_files/figure-html/coverageStats-1.png" alt="Histogram for log10 read counts per CpG." width="55%" />
 <p class="caption">
@@ -555,16 +555,16 @@ FIGURE 10.2: Histogram for log10 read counts per CpG.
 </p>
 </div>
 <p>It might be useful to filter samples based on coverage. Particularly, if our samples are suffering from PCR bias, it would be useful to discard bases with very high read coverage. Furthermore, we would also like to discard bases that have low read coverage; a high enough read coverage will increase the power of the statistical tests. The code below filters a <code>methylRawList</code>, discards bases that have coverage below 10X, and also discards the bases that have more than 99.9th percentile of coverage in each sample.</p>
-<div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="data-filtering-and-exploratory-analysis.html#cb564-1"></a>filtered.myobj=<span class="kw">filterByCoverage</span>(myobj,<span class="dt">lo.count=</span><span class="dv">10</span>,<span class="dt">lo.perc=</span><span class="ot">NULL</span>,</span>
-<span id="cb564-2"><a href="data-filtering-and-exploratory-analysis.html#cb564-2"></a>                                      <span class="dt">hi.count=</span><span class="ot">NULL</span>,<span class="dt">hi.perc=</span><span class="fl">99.9</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb563"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb563-1"><a href="data-filtering-and-exploratory-analysis.html#cb563-1"></a>filtered.myobj=<span class="kw">filterByCoverage</span>(myobj,<span class="dt">lo.count=</span><span class="dv">10</span>,<span class="dt">lo.perc=</span><span class="ot">NULL</span>,</span>
+<span id="cb563-2"><a href="data-filtering-and-exploratory-analysis.html#cb563-2"></a>                                      <span class="dt">hi.count=</span><span class="ot">NULL</span>,<span class="dt">hi.perc=</span><span class="fl">99.9</span>)</span></code></pre></div>
 </div>
 <div id="merging-samples-into-a-single-table" class="section level3">
 <h3><span class="header-section-number">10.4.3</span> Merging samples into a single table</h3>
 <p>When we first read the files, each file is stored as its own entity. If we want to compare samples in any way, we need to make a unified data structure that contains CpGs that are covered in most samples. The <code>unite()</code> function creates a new object using the CpGs covered in each sample.</p>
-<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="data-filtering-and-exploratory-analysis.html#cb565-1"></a><span class="co">## we use :: notation to make sure unite() function from methylKit is called</span></span>
-<span id="cb565-2"><a href="data-filtering-and-exploratory-analysis.html#cb565-2"></a>meth=methylKit<span class="op">::</span><span class="kw">unite</span>(myobj, <span class="dt">destrand=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb564"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb564-1"><a href="data-filtering-and-exploratory-analysis.html#cb564-1"></a><span class="co">## we use :: notation to make sure unite() function from methylKit is called</span></span>
+<span id="cb564-2"><a href="data-filtering-and-exploratory-analysis.html#cb564-2"></a>meth=methylKit<span class="op">::</span><span class="kw">unite</span>(myobj, <span class="dt">destrand=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <p>Let us take a look at the data content of the <code>methylBase</code> object:</p>
-<div class="sourceCode" id="cb566"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb566-1"><a href="data-filtering-and-exploratory-analysis.html#cb566-1"></a><span class="kw">head</span>(meth)</span></code></pre></div>
+<div class="sourceCode" id="cb565"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb565-1"><a href="data-filtering-and-exploratory-analysis.html#cb565-1"></a><span class="kw">head</span>(meth)</span></code></pre></div>
 <pre><code>##     chr   start     end strand coverage1 numCs1 numTs1 coverage2 numCs2 numTs2
 ## 1 chr21 9853296 9853296      +        17     10      7       333    268     65
 ## 2 chr21 9853326 9853326      +        17     12      5       329    249     79
@@ -580,20 +580,20 @@ FIGURE 10.2: Histogram for log10 read counts per CpG.
 ## 5        23     14      9        37     27     10
 ## 6        22     18      4        37     29      8</code></pre>
 <p>By default, the <code>unite()</code> function produces bases/regions covered in all samples. That requirement can be relaxed using the <code>min.per.group</code> option in the <code>unite()</code> function.</p>
-<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="data-filtering-and-exploratory-analysis.html#cb568-1"></a><span class="co"># creates a methylBase object, </span></span>
-<span id="cb568-2"><a href="data-filtering-and-exploratory-analysis.html#cb568-2"></a><span class="co"># where only CpGs covered with at least 1 sample per group will be returned</span></span>
-<span id="cb568-3"><a href="data-filtering-and-exploratory-analysis.html#cb568-3"></a></span>
-<span id="cb568-4"><a href="data-filtering-and-exploratory-analysis.html#cb568-4"></a><span class="co"># there were two groups defined by the treatment vector, </span></span>
-<span id="cb568-5"><a href="data-filtering-and-exploratory-analysis.html#cb568-5"></a><span class="co"># given during the creation of myobj: treatment=c(1,1,0,0)</span></span>
-<span id="cb568-6"><a href="data-filtering-and-exploratory-analysis.html#cb568-6"></a>meth.min=<span class="kw">unite</span>(myobj,<span class="dt">min.per.group=</span>1L)</span></code></pre></div>
+<div class="sourceCode" id="cb567"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb567-1"><a href="data-filtering-and-exploratory-analysis.html#cb567-1"></a><span class="co"># creates a methylBase object, </span></span>
+<span id="cb567-2"><a href="data-filtering-and-exploratory-analysis.html#cb567-2"></a><span class="co"># where only CpGs covered with at least 1 sample per group will be returned</span></span>
+<span id="cb567-3"><a href="data-filtering-and-exploratory-analysis.html#cb567-3"></a></span>
+<span id="cb567-4"><a href="data-filtering-and-exploratory-analysis.html#cb567-4"></a><span class="co"># there were two groups defined by the treatment vector, </span></span>
+<span id="cb567-5"><a href="data-filtering-and-exploratory-analysis.html#cb567-5"></a><span class="co"># given during the creation of myobj: treatment=c(1,1,0,0)</span></span>
+<span id="cb567-6"><a href="data-filtering-and-exploratory-analysis.html#cb567-6"></a>meth.min=<span class="kw">unite</span>(myobj,<span class="dt">min.per.group=</span>1L)</span></code></pre></div>
 </div>
 <div id="filtering-cpgs" class="section level3">
 <h3><span class="header-section-number">10.4.4</span> Filtering CpGs</h3>
 <p>We might need to filter the CpGs further before exploratory analysis or even before the downstream analysis such as differential methylation. For exploratory analysis, it is of general interest to see how samples relate to each other and we might want to remove CpGs that are not variable before doing that. Or we might remove Cs that are potentially C-&gt;T mutations. First, we show how to
 filter based on variation. Below, we extract percent methylation values from CpGs as a matrix. Calculate the standard deviation for each CpG and filter based on standard deviation. We also plot the distribution of per-CpG standard deviations with the <code>hist()</code> function. The resulting plot is shown in Figure <a href="data-filtering-and-exploratory-analysis.html#fig:methVar">10.3</a>.</p>
-<div class="sourceCode" id="cb569"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb569-1"><a href="data-filtering-and-exploratory-analysis.html#cb569-1"></a>pm=<span class="kw">percMethylation</span>(meth) <span class="co"># get percent methylation matrix</span></span>
-<span id="cb569-2"><a href="data-filtering-and-exploratory-analysis.html#cb569-2"></a>mds=matrixStats<span class="op">::</span><span class="kw">rowSds</span>(pm) <span class="co"># calculate standard deviation of CpGs</span></span>
-<span id="cb569-3"><a href="data-filtering-and-exploratory-analysis.html#cb569-3"></a><span class="kw">head</span>(meth[mds<span class="op">&gt;</span><span class="dv">20</span>,])</span></code></pre></div>
+<div class="sourceCode" id="cb568"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb568-1"><a href="data-filtering-and-exploratory-analysis.html#cb568-1"></a>pm=<span class="kw">percMethylation</span>(meth) <span class="co"># get percent methylation matrix</span></span>
+<span id="cb568-2"><a href="data-filtering-and-exploratory-analysis.html#cb568-2"></a>mds=matrixStats<span class="op">::</span><span class="kw">rowSds</span>(pm) <span class="co"># calculate standard deviation of CpGs</span></span>
+<span id="cb568-3"><a href="data-filtering-and-exploratory-analysis.html#cb568-3"></a><span class="kw">head</span>(meth[mds<span class="op">&gt;</span><span class="dv">20</span>,])</span></code></pre></div>
 <pre><code>##      chr   start     end strand coverage1 numCs1 numTs1 coverage2 numCs2 numTs2
 ## 11 chr21 9906681 9906681      +        21     12      9        60     56      4
 ## 12 chr21 9906694 9906694      +        21      9     12        60     53      7
@@ -608,7 +608,7 @@ filter based on variation. Below, we extract percent methylation values from CpG
 ## 14        25     19      6        21     19      2
 ## 18        15      4     11        22      7     15
 ## 23        32     32      0        14     11      3</code></pre>
-<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="data-filtering-and-exploratory-analysis.html#cb571-1"></a><span class="kw">hist</span>(mds,<span class="dt">col=</span><span class="st">&quot;cornflowerblue&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Std. dev. per CpG&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb570"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb570-1"><a href="data-filtering-and-exploratory-analysis.html#cb570-1"></a><span class="kw">hist</span>(mds,<span class="dt">col=</span><span class="st">&quot;cornflowerblue&quot;</span>,<span class="dt">xlab=</span><span class="st">&quot;Std. dev. per CpG&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:methVar"></span>
 <img src="10-bs-seq-analysis_files/figure-html/methVar-1.png" alt="Histogram of per-CpG standard deviations." width="55%" />
 <p class="caption">
@@ -619,17 +619,17 @@ FIGURE 10.3: Histogram of per-CpG standard deviations.
 bisulfite-treatment-associated conversions. Mutation locations are
 stored in a <code>GRanges</code> object, and we can use that to remove CpGs
 overlapping with mutations. In order to do the overlap operation, we will convert the methylKit object to a <code>GRanges</code> object and do the filtering with the <code>%over%</code> function within <code>[ ]</code>. The returned object will still be a methylKit object.</p>
-<div class="sourceCode" id="cb572"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb572-1"><a href="data-filtering-and-exploratory-analysis.html#cb572-1"></a><span class="kw">library</span>(GenomicRanges)</span>
-<span id="cb572-2"><a href="data-filtering-and-exploratory-analysis.html#cb572-2"></a><span class="co"># example SNP</span></span>
-<span id="cb572-3"><a href="data-filtering-and-exploratory-analysis.html#cb572-3"></a>mut=<span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr21&quot;</span>,<span class="st">&quot;chr21&quot;</span>),</span>
-<span id="cb572-4"><a href="data-filtering-and-exploratory-analysis.html#cb572-4"></a>            <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">9853296</span>, <span class="dv">9853326</span>),</span>
-<span id="cb572-5"><a href="data-filtering-and-exploratory-analysis.html#cb572-5"></a>                           <span class="dt">end=</span><span class="kw">c</span>( <span class="dv">9853296</span>,<span class="dv">9853326</span>)))</span>
-<span id="cb572-6"><a href="data-filtering-and-exploratory-analysis.html#cb572-6"></a></span>
-<span id="cb572-7"><a href="data-filtering-and-exploratory-analysis.html#cb572-7"></a><span class="co"># select CpGs that do not overlap with mutations</span></span>
-<span id="cb572-8"><a href="data-filtering-and-exploratory-analysis.html#cb572-8"></a>sub.meth=meth[<span class="op">!</span><span class="st"> </span><span class="kw">as</span>(meth,<span class="st">&quot;GRanges&quot;</span>) <span class="op">%over%</span><span class="st"> </span>mut,]</span>
-<span id="cb572-9"><a href="data-filtering-and-exploratory-analysis.html#cb572-9"></a><span class="kw">nrow</span>(meth)</span></code></pre></div>
+<div class="sourceCode" id="cb571"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb571-1"><a href="data-filtering-and-exploratory-analysis.html#cb571-1"></a><span class="kw">library</span>(GenomicRanges)</span>
+<span id="cb571-2"><a href="data-filtering-and-exploratory-analysis.html#cb571-2"></a><span class="co"># example SNP</span></span>
+<span id="cb571-3"><a href="data-filtering-and-exploratory-analysis.html#cb571-3"></a>mut=<span class="kw">GRanges</span>(<span class="dt">seqnames=</span><span class="kw">c</span>(<span class="st">&quot;chr21&quot;</span>,<span class="st">&quot;chr21&quot;</span>),</span>
+<span id="cb571-4"><a href="data-filtering-and-exploratory-analysis.html#cb571-4"></a>            <span class="dt">ranges=</span><span class="kw">IRanges</span>(<span class="dt">start=</span><span class="kw">c</span>(<span class="dv">9853296</span>, <span class="dv">9853326</span>),</span>
+<span id="cb571-5"><a href="data-filtering-and-exploratory-analysis.html#cb571-5"></a>                           <span class="dt">end=</span><span class="kw">c</span>( <span class="dv">9853296</span>,<span class="dv">9853326</span>)))</span>
+<span id="cb571-6"><a href="data-filtering-and-exploratory-analysis.html#cb571-6"></a></span>
+<span id="cb571-7"><a href="data-filtering-and-exploratory-analysis.html#cb571-7"></a><span class="co"># select CpGs that do not overlap with mutations</span></span>
+<span id="cb571-8"><a href="data-filtering-and-exploratory-analysis.html#cb571-8"></a>sub.meth=meth[<span class="op">!</span><span class="st"> </span><span class="kw">as</span>(meth,<span class="st">&quot;GRanges&quot;</span>) <span class="op">%over%</span><span class="st"> </span>mut,]</span>
+<span id="cb571-9"><a href="data-filtering-and-exploratory-analysis.html#cb571-9"></a><span class="kw">nrow</span>(meth)</span></code></pre></div>
 <pre><code>## [1] 963</code></pre>
-<div class="sourceCode" id="cb574"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb574-1"><a href="data-filtering-and-exploratory-analysis.html#cb574-1"></a><span class="kw">nrow</span>(sub.meth)</span></code></pre></div>
+<div class="sourceCode" id="cb573"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb573-1"><a href="data-filtering-and-exploratory-analysis.html#cb573-1"></a><span class="kw">nrow</span>(sub.meth)</span></code></pre></div>
 <pre><code>## [1] 961</code></pre>
 </div>
 <div id="clustering-samples" class="section level3">
@@ -637,7 +637,7 @@ overlapping with mutations. In order to do the overlap operation, we will conver
 <p>Clustering is used for grouping data points by their similarity. It is a general concept that can be achieved by many different algorithms and we introduced clustering and multiple prominent clustering algorithms in Chapter <a href="unsupervisedLearning.html#unsupervisedLearning">4</a>. In the context of DNA methylation, we are trying to find samples that are similar to each other. For example, if we sequenced 3 heart samples and 4 liver samples, we would expect liver samples will be more similar to each other than heart samples on the DNA methylation space.</p>
 <p>The following function will cluster the samples and draw a dendrogram.
 It will use correlation distance, which is <span class="math inline">\(1-\rho\)</span> , where <span class="math inline">\(\rho\)</span> is the correlation coefficient between two pairs of samples. The cluster tree will be drawn using the “ward” method. This specific variant uses a “bottom up” approach: each data point starts in its own cluster, and pairs of clusters are merged as one moves up the hierarchy. In Ward’s method, two clusters are merged if the variance is minimized compared to other possible merge operations. This bottom up approach helps build the dendrogram showing the relationship between clusters. The result of the clustering is shown in Figure <a href="data-filtering-and-exploratory-analysis.html#fig:clusterMethPlot">10.4</a>.</p>
-<div class="sourceCode" id="cb576"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb576-1"><a href="data-filtering-and-exploratory-analysis.html#cb576-1"></a><span class="kw">clusterSamples</span>(meth, <span class="dt">dist=</span><span class="st">&quot;correlation&quot;</span>, <span class="dt">method=</span><span class="st">&quot;ward&quot;</span>, <span class="dt">plot=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="data-filtering-and-exploratory-analysis.html#cb575-1"></a><span class="kw">clusterSamples</span>(meth, <span class="dt">dist=</span><span class="st">&quot;correlation&quot;</span>, <span class="dt">method=</span><span class="st">&quot;ward&quot;</span>, <span class="dt">plot=</span><span class="ot">TRUE</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:clusterMethPlot"></span>
 <img src="10-bs-seq-analysis_files/figure-html/clusterMethPlot-1.png" alt="Dendrogram for samples using correlation distance and Ward's method for hierarchical clustering." width="55%" />
 <p class="caption">
@@ -652,12 +652,12 @@ FIGURE 10.4: Dendrogram for samples using correlation distance and Ward’s meth
 ## Distance         : pearson 
 ## Number of objects: 4</code></pre>
 <p>Setting the <code>plot=FALSE</code> will return a dendrogram object which can be manipulated by users or fed in to other user functions that can work with dendrograms.</p>
-<div class="sourceCode" id="cb578"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb578-1"><a href="data-filtering-and-exploratory-analysis.html#cb578-1"></a>hc =<span class="st"> </span><span class="kw">clusterSamples</span>(meth, <span class="dt">dist=</span><span class="st">&quot;correlation&quot;</span>, <span class="dt">method=</span><span class="st">&quot;ward&quot;</span>, <span class="dt">plot=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb577"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb577-1"><a href="data-filtering-and-exploratory-analysis.html#cb577-1"></a>hc =<span class="st"> </span><span class="kw">clusterSamples</span>(meth, <span class="dt">dist=</span><span class="st">&quot;correlation&quot;</span>, <span class="dt">method=</span><span class="st">&quot;ward&quot;</span>, <span class="dt">plot=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 </div>
 <div id="principal-component-analysis-1" class="section level3">
 <h3><span class="header-section-number">10.4.6</span> Principal component analysis</h3>
-<p>Principal component analysis (PCA) is a mathematical transformation of (possibly) correlated variables into a number of uncorrelated variables called principal components. The resulting components from this transformation is defined in such a way that the first principal component has the highest variance and accounts for as most of the variability in the data. We have introduced PCA and other similar methods in Chapter <a href="unsupervisedLearning.html#unsupervisedLearning">4</a>. The following function will plot a scree plot for importance of components and the result is shown in Figure <a href="data-filtering-and-exploratory-analysis.html#fig:pcaMethScree">10.5</a>.</p>
-<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb579-1"><a href="data-filtering-and-exploratory-analysis.html#cb579-1"></a><span class="kw">PCASamples</span>(meth, <span class="dt">screeplot=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<p>Principal component analysis (PCA) is a mathematical transformation of (possibly) correlated variables into a number of uncorrelated variables called principal components. The resulting components from this transformation are defined in such a way that the first principal component has the highest variance and accounts for most of the variability in the data. We have introduced PCA and other similar methods in Chapter <a href="unsupervisedLearning.html#unsupervisedLearning">4</a>. The following function will plot a scree plot for importance of components and the result is shown in Figure <a href="data-filtering-and-exploratory-analysis.html#fig:pcaMethScree">10.5</a>.</p>
+<div class="sourceCode" id="cb578"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb578-1"><a href="data-filtering-and-exploratory-analysis.html#cb578-1"></a><span class="kw">PCASamples</span>(meth, <span class="dt">screeplot=</span><span class="ot">TRUE</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:pcaMethScree"></span>
 <img src="10-bs-seq-analysis_files/figure-html/pcaMethScree-1.png" alt="Scree plot for explained variance for principal components." width="55%" />
 <p class="caption">
@@ -665,7 +665,7 @@ FIGURE 10.5: Scree plot for explained variance for principal components.
 </p>
 </div>
 <p>We can also plot the PC1 and PC2 axes and a scatter plot of our samples on those axes which will reveal how they cluster within these new dimensions. Similar to the clustering dendrogram, we would like to see samples that are similar to be close to each other on the scatter plot. If they are not, it might indicate problems with the experiment such as batch effects. The function below plots the samples in such a scatter plot on principal component axes. The resulting plot is shown in Figure <a href="data-filtering-and-exploratory-analysis.html#fig:pcaMethScatter">10.6</a>.</p>
-<div class="sourceCode" id="cb580"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb580-1"><a href="data-filtering-and-exploratory-analysis.html#cb580-1"></a>pc=<span class="kw">PCASamples</span>(meth,<span class="dt">obj.return =</span> <span class="ot">TRUE</span>, <span class="dt">adj.lim=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb579"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb579-1"><a href="data-filtering-and-exploratory-analysis.html#cb579-1"></a>pc=<span class="kw">PCASamples</span>(meth,<span class="dt">obj.return =</span> <span class="ot">TRUE</span>, <span class="dt">adj.lim=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:pcaMethScatter"></span>
 <img src="10-bs-seq-analysis_files/figure-html/pcaMethScatter-1.png" alt="Samples plotted on principal components." width="55%" />
 <p class="caption">

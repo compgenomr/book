@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -503,20 +503,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Normalizing the data matrices by their <span class="math inline">\(\lambda_1\)</span>’s as in MFA supposes we wish to assign each data type the same importance in the down-stream analysis. This leads to a natural generalization whereby the different data types may be differently weighted. Provide an implementation of weighed-MFA where the different data types may be assigned individual weights. [Difficulty: <strong>Intermediate</strong>]</p></li>
 <li><p>In order to use NMF algorithms on data which can be negative, we need to split each feature into two new features, one positive and one negative. Implement the following function, and see that the included test does not fail: [Difficulty: <strong>Intermediate/Advanced</strong>]</p></li>
 </ol>
-<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb625-1"><a href="exercises-9.html#cb625-1"></a><span class="co"># Implement this function</span></span>
-<span id="cb625-2"><a href="exercises-9.html#cb625-2"></a>split_neg_columns &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
-<span id="cb625-3"><a href="exercises-9.html#cb625-3"></a>    <span class="co"># your code here</span></span>
-<span id="cb625-4"><a href="exercises-9.html#cb625-4"></a>}</span>
-<span id="cb625-5"><a href="exercises-9.html#cb625-5"></a></span>
-<span id="cb625-6"><a href="exercises-9.html#cb625-6"></a><span class="co"># a test that shows the function above works</span></span>
-<span id="cb625-7"><a href="exercises-9.html#cb625-7"></a>test_split_neg_columns &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
-<span id="cb625-8"><a href="exercises-9.html#cb625-8"></a>    input &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>),<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">2</span>)))</span>
-<span id="cb625-9"><a href="exercises-9.html#cb625-9"></a>    output &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>)))</span>
-<span id="cb625-10"><a href="exercises-9.html#cb625-10"></a>    <span class="kw">stopifnot</span>(<span class="kw">all</span>(output <span class="op">==</span><span class="st"> </span><span class="kw">split_neg_columns</span>(input)))</span>
-<span id="cb625-11"><a href="exercises-9.html#cb625-11"></a>}</span>
-<span id="cb625-12"><a href="exercises-9.html#cb625-12"></a></span>
-<span id="cb625-13"><a href="exercises-9.html#cb625-13"></a><span class="co"># run the test to verify your solution</span></span>
-<span id="cb625-14"><a href="exercises-9.html#cb625-14"></a><span class="kw">test_split_neg_columns</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb624-1"><a href="exercises-9.html#cb624-1"></a><span class="co"># Implement this function</span></span>
+<span id="cb624-2"><a href="exercises-9.html#cb624-2"></a>split_neg_columns &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb624-3"><a href="exercises-9.html#cb624-3"></a>    <span class="co"># your code here</span></span>
+<span id="cb624-4"><a href="exercises-9.html#cb624-4"></a>}</span>
+<span id="cb624-5"><a href="exercises-9.html#cb624-5"></a></span>
+<span id="cb624-6"><a href="exercises-9.html#cb624-6"></a><span class="co"># a test that shows the function above works</span></span>
+<span id="cb624-7"><a href="exercises-9.html#cb624-7"></a>test_split_neg_columns &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb624-8"><a href="exercises-9.html#cb624-8"></a>    input &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>),<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="op">-</span><span class="dv">2</span>)))</span>
+<span id="cb624-9"><a href="exercises-9.html#cb624-9"></a>    output &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>)))</span>
+<span id="cb624-10"><a href="exercises-9.html#cb624-10"></a>    <span class="kw">stopifnot</span>(<span class="kw">all</span>(output <span class="op">==</span><span class="st"> </span><span class="kw">split_neg_columns</span>(input)))</span>
+<span id="cb624-11"><a href="exercises-9.html#cb624-11"></a>}</span>
+<span id="cb624-12"><a href="exercises-9.html#cb624-12"></a></span>
+<span id="cb624-13"><a href="exercises-9.html#cb624-13"></a><span class="co"># run the test to verify your solution</span></span>
+<span id="cb624-14"><a href="exercises-9.html#cb624-14"></a><span class="kw">test_split_neg_columns</span>()</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>The iCluster+ algorithm has some parameters which may be tuned for maximum performance. The <code>iClusterPlus</code> package has a method, <code>iClusterPlus::tune.iClusterPlus</code>, which does this automatically based on the Bayesian Information Criterion (BIC). Run this method on the data from the examples above and find the optimal lambda and alpha values. [Difficulty: <strong>Beginner/Intermediate</strong>]</li>
 </ol>

@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -513,7 +513,7 @@ The left-hand side is termed the logit, which stands for “logistic unit”. It
  \operatorname{\ln} (L)=\sum_{i=1}^N\bigg[{\ln(1-p_i)+y_i\ln \left({\frac {p_i}{1-p_i}}\right)\bigg]}
  \tag{5.1}
 \end{equation}\]</span></p>
-<p>In order to maximize this equation we have to find optimum <span class="math inline">\(p_i\)</span> values which are dependent on parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, and also dependent on the values of predictor variables <span class="math inline">\(x_i\)</span>. We can rearrange the equation replacing <span class="math inline">\(p_i\)</span> with the logistic equation. In addition, many optimization functions minimize rather than maximize. Therefore, we will be using negative log likelihood, which also called the “log loss” or “logistic loss” function. The function below is the “log loss” function. We substituted <span class="math inline">\(p_i\)</span> with the logistic equation and simplified the expression.</p>
+<p>In order to maximize this equation we have to find optimum <span class="math inline">\(p_i\)</span> values which are dependent on parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, and also dependent on the values of predictor variables <span class="math inline">\(x_i\)</span>. We can rearrange the equation replacing <span class="math inline">\(p_i\)</span> with the logistic equation. In addition, many optimization functions minimize rather than maximize. Therefore, we will be using negative log likelihood, which is also called the “log loss” or “logistic loss” function. The function below is the “log loss” function. We substituted <span class="math inline">\(p_i\)</span> with the logistic equation and simplified the expression.</p>
 <p><span class="math display" id="eq:llog">\[\begin{equation}
 \operatorname L_{log}=-{\ln}(L)=-\sum_{i=1}^N\bigg[-{\ln(1+e^{(\beta _{0}+\beta _{1}x_i)})+y_i \left(\beta _{0}+\beta _{1}x_i\right)\bigg]}
  \tag{5.2}
@@ -541,9 +541,9 @@ in R.</p>
 <span id="cb271-19"><a href="logistic-regression-and-regularization.html#cb271-19"></a>     <span class="dt">ylab=</span><span class="st">&quot;subtype as 0 or 1&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;PDPN expression&quot;</span>)</span>
 <span id="cb271-20"><a href="logistic-regression-and-regularization.html#cb271-20"></a><span class="kw">lines</span>(subtype <span class="op">~</span><span class="st"> </span>PDPN, newdat, <span class="dt">col=</span><span class="st">&quot;green4&quot;</span>, <span class="dt">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:logReg1"></span>
-<img src="05-supervisedLearning_files/figure-html/logReg1-1.png" alt="Sigmoid curve for prediction of subtype based on one predictor variable" width="60%" />
+<img src="05-supervisedLearning_files/figure-html/logReg1-1.png" alt="Sigmoid curve for prediction of subtype based on one predictor variable." width="60%" />
 <p class="caption">
-FIGURE 5.11: Sigmoid curve for prediction of subtype based on one predictor variable
+FIGURE 5.11: Sigmoid curve for prediction of subtype based on one predictor variable.
 </p>
 </div>
 <p>Figure <a href="logistic-regression-and-regularization.html#fig:logReg1">5.11</a> shows the sigmoidal curve that is fitted by the logistic regression. “noCIMP” subtype has higher expression of the PDPN gene than the “CIMP” subtype. In other words, the higher the values of PDPN, the more likely that the tumor sample will be classified as “noCIMP”. We can also assess the performance of our model with the test set and the training set. Let us try to do that again with the <code>caret::predict()</code> and <code>caret::confusionMatrix()</code> functions.</p>
@@ -624,9 +624,9 @@ L_{log}+\lambda\sum_{j=1}^p{(\alpha\beta_j^2+(1-\alpha)|\beta_j}|)
 <p>The variable importance of the penalized regression, especially for lasso and elastic net, is more or less out of the box. As discussed, these methods will set regression coefficients for irrelevant variables to zero. This provides a system for selecting important variables but it does not necessarily provide a way to rank them. Using the size of the regression coefficients is a way to rank predictor variables, however if the data is not normalized, you will get different scales for different variables. In our case, we normalized the data and we know that the variables have the same scale before they went into the training. We can use this fact and rank them based on the regression coefficients. The <code>caret::varImp()</code> function uses the coefficients to rank the variables from the elastic net model. Below, were going to plot the top 10 important variables which are normalized to the importance of the most important variable.</p>
 <div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="logistic-regression-and-regularization.html#cb284-1"></a><span class="kw">plot</span>(<span class="kw">varImp</span>(enetFit),<span class="dt">top=</span><span class="dv">10</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:varImpEnet"></span>
-<img src="05-supervisedLearning_files/figure-html/varImpEnet-1.png" alt="Variable importance metric for elastic net. This metric uses regression coefficients as importance" width="60%" />
+<img src="05-supervisedLearning_files/figure-html/varImpEnet-1.png" alt="Variable importance metric for elastic net. This metric uses regression coefficients as importance." width="60%" />
 <p class="caption">
-FIGURE 5.12: Variable importance metric for elastic net. This metric uses regression coefficients as importance
+FIGURE 5.12: Variable importance metric for elastic net. This metric uses regression coefficients as importance.
 </p>
 </div>
 

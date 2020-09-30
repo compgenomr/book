@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -517,23 +517,23 @@ motifs.</p>
 <p>We will firstly load our CTCF peaks, and convert them to a GRanges object.
 We will then select the top 500 peaks, and extract the DNA sequence, which
 will be used as input for the motif discovery. Nearby ChIP peaks can have overlapping coordinates. After selection, overlapping CTCF peaks have to be merged using the <code>reduce()</code> function from the <code>GenomicRanges</code> package. If we do not execute this step, we will include the same sequence multiple times in the sequence set, and artificially enrich DNA patterns.</p>
-<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="motif-discovery.html#cb546-1"></a><span class="co"># read the CTCF peaks created in the peak calling part of the tutorial</span></span>
-<span id="cb546-2"><a href="motif-discovery.html#cb546-2"></a>ctcf_peaks =<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">file.path</span>(data_path, <span class="st">&#39;CTCF_peaks.txt&#39;</span>), <span class="dt">header=</span><span class="ot">TRUE</span>)</span>
-<span id="cb546-3"><a href="motif-discovery.html#cb546-3"></a></span>
-<span id="cb546-4"><a href="motif-discovery.html#cb546-4"></a><span class="co"># convert the peaks into a GRanges object</span></span>
-<span id="cb546-5"><a href="motif-discovery.html#cb546-5"></a>ctcf_peaks =<span class="st"> </span><span class="kw">makeGRangesFromDataFrame</span>(ctcf_peaks, <span class="dt">keep.extra.columns =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb546-6"><a href="motif-discovery.html#cb546-6"></a></span>
-<span id="cb546-7"><a href="motif-discovery.html#cb546-7"></a><span class="co"># order the peaks by qvalue, and take top 250 peaks</span></span>
-<span id="cb546-8"><a href="motif-discovery.html#cb546-8"></a>ctcf_peaks =<span class="st"> </span>ctcf_peaks[<span class="kw">order</span>(ctcf_peaks<span class="op">$</span>qvalue)]</span>
-<span id="cb546-9"><a href="motif-discovery.html#cb546-9"></a>ctcf_peaks =<span class="st"> </span><span class="kw">head</span>(ctcf_peaks, <span class="dt">n =</span> <span class="dv">500</span>)</span>
-<span id="cb546-10"><a href="motif-discovery.html#cb546-10"></a></span>
-<span id="cb546-11"><a href="motif-discovery.html#cb546-11"></a><span class="co"># merge nearby CTCF peaks</span></span>
-<span id="cb546-12"><a href="motif-discovery.html#cb546-12"></a>ctcf_peaks =<span class="st"> </span><span class="kw">reduce</span>(ctcf_peaks)</span></code></pre></div>
+<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="motif-discovery.html#cb545-1"></a><span class="co"># read the CTCF peaks created in the peak calling part of the tutorial</span></span>
+<span id="cb545-2"><a href="motif-discovery.html#cb545-2"></a>ctcf_peaks =<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">file.path</span>(data_path, <span class="st">&#39;CTCF_peaks.txt&#39;</span>), <span class="dt">header=</span><span class="ot">TRUE</span>)</span>
+<span id="cb545-3"><a href="motif-discovery.html#cb545-3"></a></span>
+<span id="cb545-4"><a href="motif-discovery.html#cb545-4"></a><span class="co"># convert the peaks into a GRanges object</span></span>
+<span id="cb545-5"><a href="motif-discovery.html#cb545-5"></a>ctcf_peaks =<span class="st"> </span><span class="kw">makeGRangesFromDataFrame</span>(ctcf_peaks, <span class="dt">keep.extra.columns =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb545-6"><a href="motif-discovery.html#cb545-6"></a></span>
+<span id="cb545-7"><a href="motif-discovery.html#cb545-7"></a><span class="co"># order the peaks by qvalue, and take top 250 peaks</span></span>
+<span id="cb545-8"><a href="motif-discovery.html#cb545-8"></a>ctcf_peaks =<span class="st"> </span>ctcf_peaks[<span class="kw">order</span>(ctcf_peaks<span class="op">$</span>qvalue)]</span>
+<span id="cb545-9"><a href="motif-discovery.html#cb545-9"></a>ctcf_peaks =<span class="st"> </span><span class="kw">head</span>(ctcf_peaks, <span class="dt">n =</span> <span class="dv">500</span>)</span>
+<span id="cb545-10"><a href="motif-discovery.html#cb545-10"></a></span>
+<span id="cb545-11"><a href="motif-discovery.html#cb545-11"></a><span class="co"># merge nearby CTCF peaks</span></span>
+<span id="cb545-12"><a href="motif-discovery.html#cb545-12"></a>ctcf_peaks =<span class="st"> </span><span class="kw">reduce</span>(ctcf_peaks)</span></code></pre></div>
 <p>Create a region of <span class="math inline">\(+/-\)</span> 50 bp around the center of the peaks,</p>
-<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="motif-discovery.html#cb547-1"></a><span class="co"># expand the CTCF peaks</span></span>
-<span id="cb547-2"><a href="motif-discovery.html#cb547-2"></a>ctcf_peaks_resized =<span class="st"> </span><span class="kw">resize</span>(ctcf_peaks, <span class="dt">width =</span> <span class="dv">50</span>, <span class="dt">fix=</span><span class="st">&#39;center&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="motif-discovery.html#cb546-1"></a><span class="co"># expand the CTCF peaks</span></span>
+<span id="cb546-2"><a href="motif-discovery.html#cb546-2"></a>ctcf_peaks_resized =<span class="st"> </span><span class="kw">resize</span>(ctcf_peaks, <span class="dt">width =</span> <span class="dv">50</span>, <span class="dt">fix=</span><span class="st">&#39;center&#39;</span>)</span></code></pre></div>
 <p>and extract the genomic sequence.</p>
-<p>We are now ready to run the motif discovery.Firstly we load the <code>rGADEM</code> package:</p>
+<p>We are now ready to run the motif discovery. Firstly we load the <code>rGADEM</code> package:</p>
 <p>To run the motif discovery, we call the <code>GADEM()</code> function. with the
 extracted DNA sequences. In addition to the DNA sequences, we need to
 specify two parameters:</p>
@@ -546,8 +546,8 @@ reproducible.</li>
 ## top 3  4, 5-mers: 12 36 42</code></pre>
 <p>The <code>rGADEM</code> package contains a convenient <code>plot()</code> function for
 motif visualization. We will use the plot function to visualize the most enriched DNA motif:</p>
-<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="motif-discovery.html#cb549-1"></a><span class="co"># visualize the resulting motif</span></span>
-<span id="cb549-2"><a href="motif-discovery.html#cb549-2"></a><span class="kw">plot</span>(novel_motifs[<span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="motif-discovery.html#cb548-1"></a><span class="co"># visualize the resulting motif</span></span>
+<span id="cb548-2"><a href="motif-discovery.html#cb548-2"></a><span class="kw">plot</span>(novel_motifs[<span class="dv">1</span>])</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:motif-discovery-logo"></span>
 <img src="09-chip-seq-analysis_files/figure-html/motif-discovery-logo-1.png" alt="Motif with highest enrichment in top 500 CTCF peaks." width="50%" />
 <p class="caption">
@@ -563,61 +563,61 @@ annotate our motif by querying the JASPAR <span class="citation">(Khan, Fornes, 
 to figure out to which transcription factor it corresponds.
 Firstly we convert the frequency matrix into a <code>PWMatrix</code> object, and
 then use this object to query the database.</p>
-<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="motif-discovery.html#cb550-1"></a><span class="co"># load the TFBSTools library</span></span>
-<span id="cb550-2"><a href="motif-discovery.html#cb550-2"></a><span class="kw">library</span>(TFBSTools)</span>
-<span id="cb550-3"><a href="motif-discovery.html#cb550-3"></a></span>
-<span id="cb550-4"><a href="motif-discovery.html#cb550-4"></a><span class="co"># extract the motif of interest from the GADEM object</span></span>
-<span id="cb550-5"><a href="motif-discovery.html#cb550-5"></a>unknown_motif =<span class="st"> </span><span class="kw">getPWM</span>(novel_motifs)[[<span class="dv">1</span>]]</span>
-<span id="cb550-6"><a href="motif-discovery.html#cb550-6"></a></span>
-<span id="cb550-7"><a href="motif-discovery.html#cb550-7"></a><span class="co"># convert the motif to a PWM matrix</span></span>
-<span id="cb550-8"><a href="motif-discovery.html#cb550-8"></a>unknown_pwm   =<span class="st"> </span><span class="kw">PWMatrix</span>(</span>
-<span id="cb550-9"><a href="motif-discovery.html#cb550-9"></a>    <span class="dt">ID =</span> <span class="st">&#39;unknown&#39;</span>, </span>
-<span id="cb550-10"><a href="motif-discovery.html#cb550-10"></a>    <span class="dt">profileMatrix =</span> unknown_motif</span>
-<span id="cb550-11"><a href="motif-discovery.html#cb550-11"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="motif-discovery.html#cb549-1"></a><span class="co"># load the TFBSTools library</span></span>
+<span id="cb549-2"><a href="motif-discovery.html#cb549-2"></a><span class="kw">library</span>(TFBSTools)</span>
+<span id="cb549-3"><a href="motif-discovery.html#cb549-3"></a></span>
+<span id="cb549-4"><a href="motif-discovery.html#cb549-4"></a><span class="co"># extract the motif of interest from the GADEM object</span></span>
+<span id="cb549-5"><a href="motif-discovery.html#cb549-5"></a>unknown_motif =<span class="st"> </span><span class="kw">getPWM</span>(novel_motifs)[[<span class="dv">1</span>]]</span>
+<span id="cb549-6"><a href="motif-discovery.html#cb549-6"></a></span>
+<span id="cb549-7"><a href="motif-discovery.html#cb549-7"></a><span class="co"># convert the motif to a PWM matrix</span></span>
+<span id="cb549-8"><a href="motif-discovery.html#cb549-8"></a>unknown_pwm   =<span class="st"> </span><span class="kw">PWMatrix</span>(</span>
+<span id="cb549-9"><a href="motif-discovery.html#cb549-9"></a>    <span class="dt">ID =</span> <span class="st">&#39;unknown&#39;</span>, </span>
+<span id="cb549-10"><a href="motif-discovery.html#cb549-10"></a>    <span class="dt">profileMatrix =</span> unknown_motif</span>
+<span id="cb549-11"><a href="motif-discovery.html#cb549-11"></a>)</span></code></pre></div>
 <p>Using the <code>getMatrixSet()</code> function we extract all motifs which
 correspond to known human transcription factors.
 The <code>opts</code> parameter defines which <code>PWM</code> database to use for comparison.</p>
-<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="motif-discovery.html#cb551-1"></a><span class="co"># load the JASPAR motif database</span></span>
-<span id="cb551-2"><a href="motif-discovery.html#cb551-2"></a><span class="kw">library</span>(JASPAR2018)</span>
-<span id="cb551-3"><a href="motif-discovery.html#cb551-3"></a></span>
-<span id="cb551-4"><a href="motif-discovery.html#cb551-4"></a><span class="co"># extract motifs corresponding to human transcription factors</span></span>
-<span id="cb551-5"><a href="motif-discovery.html#cb551-5"></a>pwm_library =<span class="st"> </span><span class="kw">getMatrixSet</span>(</span>
-<span id="cb551-6"><a href="motif-discovery.html#cb551-6"></a>  JASPAR2018,</span>
-<span id="cb551-7"><a href="motif-discovery.html#cb551-7"></a>  <span class="dt">opts=</span><span class="kw">list</span>(</span>
-<span id="cb551-8"><a href="motif-discovery.html#cb551-8"></a>    <span class="dt">collection =</span> <span class="st">&#39;CORE&#39;</span>,</span>
-<span id="cb551-9"><a href="motif-discovery.html#cb551-9"></a>    <span class="dt">species    =</span> <span class="st">&#39;Homo sapiens&#39;</span>,</span>
-<span id="cb551-10"><a href="motif-discovery.html#cb551-10"></a>    <span class="dt">matrixtype =</span> <span class="st">&#39;PWM&#39;</span></span>
-<span id="cb551-11"><a href="motif-discovery.html#cb551-11"></a>  ))</span></code></pre></div>
+<div class="sourceCode" id="cb550"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb550-1"><a href="motif-discovery.html#cb550-1"></a><span class="co"># load the JASPAR motif database</span></span>
+<span id="cb550-2"><a href="motif-discovery.html#cb550-2"></a><span class="kw">library</span>(JASPAR2018)</span>
+<span id="cb550-3"><a href="motif-discovery.html#cb550-3"></a></span>
+<span id="cb550-4"><a href="motif-discovery.html#cb550-4"></a><span class="co"># extract motifs corresponding to human transcription factors</span></span>
+<span id="cb550-5"><a href="motif-discovery.html#cb550-5"></a>pwm_library =<span class="st"> </span><span class="kw">getMatrixSet</span>(</span>
+<span id="cb550-6"><a href="motif-discovery.html#cb550-6"></a>  JASPAR2018,</span>
+<span id="cb550-7"><a href="motif-discovery.html#cb550-7"></a>  <span class="dt">opts=</span><span class="kw">list</span>(</span>
+<span id="cb550-8"><a href="motif-discovery.html#cb550-8"></a>    <span class="dt">collection =</span> <span class="st">&#39;CORE&#39;</span>,</span>
+<span id="cb550-9"><a href="motif-discovery.html#cb550-9"></a>    <span class="dt">species    =</span> <span class="st">&#39;Homo sapiens&#39;</span>,</span>
+<span id="cb550-10"><a href="motif-discovery.html#cb550-10"></a>    <span class="dt">matrixtype =</span> <span class="st">&#39;PWM&#39;</span></span>
+<span id="cb550-11"><a href="motif-discovery.html#cb550-11"></a>  ))</span></code></pre></div>
 <p>The <code>PWMSimilarity()</code> function calculates the Pearson correlation between
 the database, and our discovered motif via <code>rGADEM</code>.</p>
-<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="motif-discovery.html#cb552-1"></a><span class="co"># find the most similar motif to our motif</span></span>
-<span id="cb552-2"><a href="motif-discovery.html#cb552-2"></a>pwm_sim =<span class="st"> </span><span class="kw">PWMSimilarity</span>(</span>
-<span id="cb552-3"><a href="motif-discovery.html#cb552-3"></a>  </span>
-<span id="cb552-4"><a href="motif-discovery.html#cb552-4"></a>  <span class="co"># JASPAR library</span></span>
-<span id="cb552-5"><a href="motif-discovery.html#cb552-5"></a>  pwm_library, </span>
-<span id="cb552-6"><a href="motif-discovery.html#cb552-6"></a>  </span>
-<span id="cb552-7"><a href="motif-discovery.html#cb552-7"></a>  <span class="co"># out motif</span></span>
-<span id="cb552-8"><a href="motif-discovery.html#cb552-8"></a>  unknown_pwm,</span>
-<span id="cb552-9"><a href="motif-discovery.html#cb552-9"></a>  </span>
-<span id="cb552-10"><a href="motif-discovery.html#cb552-10"></a>  <span class="co"># measure for comparison</span></span>
-<span id="cb552-11"><a href="motif-discovery.html#cb552-11"></a>  <span class="dt">method =</span> <span class="st">&#39;Pearson&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="motif-discovery.html#cb551-1"></a><span class="co"># find the most similar motif to our motif</span></span>
+<span id="cb551-2"><a href="motif-discovery.html#cb551-2"></a>pwm_sim =<span class="st"> </span><span class="kw">PWMSimilarity</span>(</span>
+<span id="cb551-3"><a href="motif-discovery.html#cb551-3"></a>  </span>
+<span id="cb551-4"><a href="motif-discovery.html#cb551-4"></a>  <span class="co"># JASPAR library</span></span>
+<span id="cb551-5"><a href="motif-discovery.html#cb551-5"></a>  pwm_library, </span>
+<span id="cb551-6"><a href="motif-discovery.html#cb551-6"></a>  </span>
+<span id="cb551-7"><a href="motif-discovery.html#cb551-7"></a>  <span class="co"># out motif</span></span>
+<span id="cb551-8"><a href="motif-discovery.html#cb551-8"></a>  unknown_pwm,</span>
+<span id="cb551-9"><a href="motif-discovery.html#cb551-9"></a>  </span>
+<span id="cb551-10"><a href="motif-discovery.html#cb551-10"></a>  <span class="co"># measure for comparison</span></span>
+<span id="cb551-11"><a href="motif-discovery.html#cb551-11"></a>  <span class="dt">method =</span> <span class="st">&#39;Pearson&#39;</span>)</span></code></pre></div>
 <p>We extract the motif names from the PWM library. For each motif
 in the library we append the Pearson correlation with our unknown motif, and
 look at the topmost candidates.</p>
-<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="motif-discovery.html#cb553-1"></a><span class="co"># extract the motif names from the pwm library</span></span>
-<span id="cb553-2"><a href="motif-discovery.html#cb553-2"></a>pwm_library_list =<span class="st"> </span><span class="kw">lapply</span>(pwm_library, <span class="cf">function</span>(x){</span>
-<span id="cb553-3"><a href="motif-discovery.html#cb553-3"></a>  <span class="kw">data.frame</span>(<span class="dt">ID =</span> <span class="kw">ID</span>(x), <span class="dt">name =</span> <span class="kw">name</span>(x))</span>
-<span id="cb553-4"><a href="motif-discovery.html#cb553-4"></a>})</span>
-<span id="cb553-5"><a href="motif-discovery.html#cb553-5"></a></span>
-<span id="cb553-6"><a href="motif-discovery.html#cb553-6"></a><span class="co"># combine the list into one data frame</span></span>
-<span id="cb553-7"><a href="motif-discovery.html#cb553-7"></a>pwm_library_dt =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">bind_rows</span>(pwm_library_list)</span>
-<span id="cb553-8"><a href="motif-discovery.html#cb553-8"></a></span>
-<span id="cb553-9"><a href="motif-discovery.html#cb553-9"></a><span class="co"># fetch the similarity of each motif to our unknown motif</span></span>
-<span id="cb553-10"><a href="motif-discovery.html#cb553-10"></a>pwm_library_dt<span class="op">$</span>similarity =<span class="st"> </span>pwm_sim[pwm_library_dt<span class="op">$</span>ID]</span>
-<span id="cb553-11"><a href="motif-discovery.html#cb553-11"></a></span>
-<span id="cb553-12"><a href="motif-discovery.html#cb553-12"></a><span class="co"># find the most similar motif in the library</span></span>
-<span id="cb553-13"><a href="motif-discovery.html#cb553-13"></a>pwm_library_dt =<span class="st"> </span>pwm_library_dt[<span class="kw">order</span>(<span class="op">-</span>pwm_library_dt<span class="op">$</span>similarity),]</span></code></pre></div>
-<div class="sourceCode" id="cb554"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb554-1"><a href="motif-discovery.html#cb554-1"></a><span class="kw">head</span>(pwm_library_dt)</span></code></pre></div>
+<div class="sourceCode" id="cb552"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb552-1"><a href="motif-discovery.html#cb552-1"></a><span class="co"># extract the motif names from the pwm library</span></span>
+<span id="cb552-2"><a href="motif-discovery.html#cb552-2"></a>pwm_library_list =<span class="st"> </span><span class="kw">lapply</span>(pwm_library, <span class="cf">function</span>(x){</span>
+<span id="cb552-3"><a href="motif-discovery.html#cb552-3"></a>  <span class="kw">data.frame</span>(<span class="dt">ID =</span> <span class="kw">ID</span>(x), <span class="dt">name =</span> <span class="kw">name</span>(x))</span>
+<span id="cb552-4"><a href="motif-discovery.html#cb552-4"></a>})</span>
+<span id="cb552-5"><a href="motif-discovery.html#cb552-5"></a></span>
+<span id="cb552-6"><a href="motif-discovery.html#cb552-6"></a><span class="co"># combine the list into one data frame</span></span>
+<span id="cb552-7"><a href="motif-discovery.html#cb552-7"></a>pwm_library_dt =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">bind_rows</span>(pwm_library_list)</span>
+<span id="cb552-8"><a href="motif-discovery.html#cb552-8"></a></span>
+<span id="cb552-9"><a href="motif-discovery.html#cb552-9"></a><span class="co"># fetch the similarity of each motif to our unknown motif</span></span>
+<span id="cb552-10"><a href="motif-discovery.html#cb552-10"></a>pwm_library_dt<span class="op">$</span>similarity =<span class="st"> </span>pwm_sim[pwm_library_dt<span class="op">$</span>ID]</span>
+<span id="cb552-11"><a href="motif-discovery.html#cb552-11"></a></span>
+<span id="cb552-12"><a href="motif-discovery.html#cb552-12"></a><span class="co"># find the most similar motif in the library</span></span>
+<span id="cb552-13"><a href="motif-discovery.html#cb552-13"></a>pwm_library_dt =<span class="st"> </span>pwm_library_dt[<span class="kw">order</span>(<span class="op">-</span>pwm_library_dt<span class="op">$</span>similarity),]</span></code></pre></div>
+<div class="sourceCode" id="cb553"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb553-1"><a href="motif-discovery.html#cb553-1"></a><span class="kw">head</span>(pwm_library_dt)</span></code></pre></div>
 <pre><code>##           ID  name similarity
 ## 24  MA0139.1  CTCF  0.7033789
 ## 370 MA1100.1 ASCL1  0.4769023

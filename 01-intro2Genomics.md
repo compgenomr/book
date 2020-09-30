@@ -714,7 +714,7 @@ __Want to know more?__
 
 - Current and the future high-throughput sequencing technologies: http://www.sciencedirect.com/science/article/pii/S1097276515003408
 
-- Illumina repository for different library preparation protocols for sequencingL http://www.illumina.com/techniques/sequencing/ngs-library-prep/library-prep-methods.html
+- Illumina repository for different library preparation protocols for sequencing: http://www.illumina.com/techniques/sequencing/ngs-library-prep/library-prep-methods.html
 
 </div>\EndKnitrBlock{rmdtip}
 
@@ -736,7 +736,7 @@ known gene sequences are mapped on to them, and you can also
 have conservation to other species to filter functional elements. If you
 are working with a model organism or human, you will also have a lot of
 auxiliary information to help demarcate the functional regions such
-as regulatory regions, ncRNAs,and SNPs that are common in the population.
+as regulatory regions, ncRNAs, and SNPs that are common in the population.
 Or you might have disease- or tissue-specific data available.
 The more the organism is worked on, the more auxiliary data you will have.
 

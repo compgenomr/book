@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -536,11 +536,11 @@ will look like this:</p>
 process which we will describe in the later sections will not change for our
 gene expression problem. We can introduce one more histone modification, H3K27me3. We will then have a linear model with 2 explanatory variables and the
 fitted plane will look like the one in Figure <a href="relationship-between-variables-linear-models-and-correlation.html#fig:histoneLm2chp3">3.13</a>. The gene expression values are shown
-as dots below and above the fitted plane. Linear regression and its extensions which makes use of other distributions (generalized linear models)  are central in computational genomics for statistical tests. We will see more of how regression is used in statistical hypothesis testing for computational genomics in Chapters <a href="rnaseqanalysis.html#rnaseqanalysis">8</a> and <a href="bsseq.html#bsseq">10</a>.</p>
+as dots below and above the fitted plane. Linear regression and its extensions which make use of other distributions (generalized linear models)  are central in computational genomics for statistical tests. We will see more of how regression is used in statistical hypothesis testing for computational genomics in Chapters <a href="rnaseqanalysis.html#rnaseqanalysis">8</a> and <a href="bsseq.html#bsseq">10</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:histoneLm2chp3"></span>
-<img src="03-statsForGenomics_files/figure-html/histoneLm2chp3-1.png" alt="Association of Gene expression with H3K4me3 and H27Kme3 histone modifications." width="65%" />
+<img src="03-statsForGenomics_files/figure-html/histoneLm2chp3-1.png" alt="Association of gene expression with H3K4me3 and H3K27me3 histone modifications." width="65%" />
 <p class="caption">
-FIGURE 3.13: Association of Gene expression with H3K4me3 and H27Kme3 histone modifications.
+FIGURE 3.13: Association of gene expression with H3K4me3 and H3K27me3 histone modifications.
 </p>
 </div>
 <div id="matrix-notation-for-linear-models" class="section level4">
@@ -577,7 +577,7 @@ values. We also add a vector of error terms, <span class="math inline">\(\epsilo
 \end{array}\right]
 \]</span></p>
 <p>The multiplication of the data matrix and <span class="math inline">\(\beta\)</span> vector and addition of the
-error terms simply results in the the following set of equations per data point:</p>
+error terms simply results in the following set of equations per data point:</p>
 <p><span class="math display">\[
 \begin{aligned}
 Y_1= \beta_0+\beta_1X_{1,1}+\beta_2X_{1,2} +\epsilon_1 \\
@@ -590,7 +590,7 @@ Y_4= \beta_0+\beta_1X_{4,1}+\beta_2X_{4,2} +\epsilon_4
 <span class="math inline">\(\beta\)</span> vector and vector of error terms (<span class="math inline">\(\epsilon\)</span>)
 could be simply written as follows.</p>
 <p><span class="math display">\[Y=X\beta + \epsilon\]</span></p>
-<p>In the equatin, above <span class="math inline">\(Y\)</span> is the vector of response variables, <span class="math inline">\(X\)</span> is the
+<p>In the equation, above <span class="math inline">\(Y\)</span> is the vector of response variables, <span class="math inline">\(X\)</span> is the
 data matrix, and <span class="math inline">\(\beta\)</span> is the vector of coefficients.
 This notation is more concise and often used in scientific papers. However, this
 also means you need some understanding of linear algebra to follow the math
@@ -624,7 +624,7 @@ the way to go in the cost function.</li>
 <ul>
 <li>Step size is a parameter to choose, there are many variants.</li>
 </ul></li>
-<li>repeat step 2,3 until convergence.</li>
+<li>Repeat step 2,3 until convergence.</li>
 </ol>
 <p>This is the basis of the “gradient descent” algorithm. With the help of partial
 derivatives we define a “gradient” on the cost function and follow that through
@@ -647,7 +647,7 @@ FIGURE 3.14: Cost function landscape for linear regression with changing beta va
 <p>We can also think of this problem from a more statistical point of view. In 
 essence, we are looking for best statistical parameters, in this
 case <span class="math inline">\(\beta\)</span> values, for our model that are most likely to produce such a
-scatter of data points given the explanatory variables.This is called the
+scatter of data points given the explanatory variables. This is called the
 “maximum likelihood” approach. The approach assumes that a given response variable <span class="math inline">\(y_i\)</span> follows a normal distribution with mean <span class="math inline">\(\beta_0+\beta_1x_i\)</span> and  variance <span class="math inline">\(s^2\)</span>. Therefore the probability of observing any given <span class="math inline">\(y_i\)</span> value is dependent on the <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> values. Since <span class="math inline">\(x_i\)</span>, the explanatory variable, is fixed within our data set, we can maximize the probability of observing any given <span class="math inline">\(y_i\)</span> by varying <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> values. The trick is to find <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> values that maximizes the probability of observing all the response variables in the dataset given the explanatory variables. The probability of observing a response variable <span class="math inline">\(y_i\)</span> with assumptions we described above is shown below. Note that this assumes variance is constant and <span class="math inline">\(s^2=\frac{\sum{\epsilon_i}}{n-2}\)</span> is an unbiased estimation for population variance, <span class="math inline">\(\sigma^2\)</span>.</p>
 <p><span class="math display">\[P(y_{i})=\frac{1}{s\sqrt{2\pi} }e^{-\frac{1}{2}\left(\frac{y_i-(\beta_0 + \beta_1x_i)}{s}\right)^2}\]</span></p>
 <p>Following from the probability equation above, the likelihood function (shown as <span class="math inline">\(L\)</span> below) for
@@ -665,7 +665,7 @@ result as the cost function approach. The difference is that we defined our
 problem
 within the domain of statistics. This particular function has still to be optimized. This can be done with some calculus without the need for an
 iterative approach.</p>
-<p>The maximum likelihood approach also opens up other possibilities for regression. For the case, above we assumed that the points around the mean are distributed by normal distribution. However, there are other cases where this assumption may not hold. For example, for the count data the mean and variance relationship is not constant; the higher the mean counts, the higher the variance. In these cases, the regression framework with maximum likelihood estimation can still be used. We simply change the underlying assumptions about the distribution and calculate the likelihood with a new distribution in mind,
+<p>The maximum likelihood approach also opens up other possibilities for regression. For the case above, we assumed that the points around the mean are distributed by normal distribution. However, there are other cases where this assumption may not hold. For example, for the count data the mean and variance relationship is not constant; the higher the mean counts, the higher the variance. In these cases, the regression framework with maximum likelihood estimation can still be used. We simply change the underlying assumptions about the distribution and calculate the likelihood with a new distribution in mind,
 and maximize the parameters for that likelihood. This gives way to “generalized linear model” approach where errors for the response variables can have other distributions than normal distribution. We will see examples of these generalized linear models in Chapter <a href="rnaseqanalysis.html#rnaseqanalysis">8</a> and <a href="bsseq.html#bsseq">10</a>.</p>
 </div>
 <div id="linear-algebra-and-closed-form-solution-to-linear-regression" class="section level4">
@@ -709,7 +709,7 @@ by taking the derivative of <span class="math inline">\(\sum{(y_i-(\beta_0+\beta
 This is achieved just by the <code>lm()</code> function, which stands for linear models. Let’s do this
 for a simulated data set and plot the fit. The first step is to simulate the
 data. We will decide on <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> values. Then we will decide
-on the variance parameter, <span class="math inline">\(\sigma\)</span> to be used in simulation of error terms,
+on the variance parameter, <span class="math inline">\(\sigma\)</span>, to be used in simulation of error terms,
 <span class="math inline">\(\epsilon\)</span>. We will first find <span class="math inline">\(Y\)</span> values, just using the linear equation
 <span class="math inline">\(Y=\beta0+\beta_1X\)</span>, for
 a set of <span class="math inline">\(X\)</span> values. Then, we will add the error terms to get our simulated values.</p>
@@ -720,7 +720,7 @@ a set of <span class="math inline">\(X\)</span> values. Then, we will add the er
 <span id="cb172-5"><a href="relationship-between-variables-linear-models-and-correlation.html#cb172-5"></a><span class="co"># get 50 X values between 1 and 100</span></span>
 <span id="cb172-6"><a href="relationship-between-variables-linear-models-and-correlation.html#cb172-6"></a>x =<span class="st"> </span><span class="kw">runif</span>(<span class="dv">50</span>,<span class="dv">1</span>,<span class="dv">100</span>)</span>
 <span id="cb172-7"><a href="relationship-between-variables-linear-models-and-correlation.html#cb172-7"></a></span>
-<span id="cb172-8"><a href="relationship-between-variables-linear-models-and-correlation.html#cb172-8"></a><span class="co"># set b0,b1 and varience (sigma)</span></span>
+<span id="cb172-8"><a href="relationship-between-variables-linear-models-and-correlation.html#cb172-8"></a><span class="co"># set b0,b1 and variance (sigma)</span></span>
 <span id="cb172-9"><a href="relationship-between-variables-linear-models-and-correlation.html#cb172-9"></a>b0 =<span class="st"> </span><span class="dv">10</span></span>
 <span id="cb172-10"><a href="relationship-between-variables-linear-models-and-correlation.html#cb172-10"></a>b1 =<span class="st"> </span><span class="dv">2</span></span>
 <span id="cb172-11"><a href="relationship-between-variables-linear-models-and-correlation.html#cb172-11"></a>sigma =<span class="st"> </span><span class="dv">20</span></span>
@@ -844,7 +844,7 @@ The “Coefficients” section has the estimates, their standard error, t score,
 and the p-value from the hypothesis test <span class="math inline">\(H_0:\beta_i=0\)</span>. As you can see, the
 estimate we get for the coefficients and their standard errors are close to
 the ones we get from repeatedly sampling and getting a distribution of
-coefficients. This is statistical inference at work, we can estimate the
+coefficients. This is statistical inference at work, so we can estimate the
 population properties within a certain error using just a sample.</p>
 </div>
 <div id="accuracy-of-the-model" class="section level3">
@@ -869,7 +869,7 @@ a model the intercept will be equal to <span class="math inline">\(\overline{Y}\
 just the intercept is called the <em>“Total Sum of Squares” or TSS</em>. A good model will have a low <span class="math inline">\(RSS/TSS\)</span>. The metric <span class="math inline">\(R^2\)</span> uses these quantities to calculate a score between 0 and 1, and the closer to 1, the better the model. Here is how
 it is calculated:</p>
 <p><span class="math display">\[R^2=1-\frac{RSS}{TSS}=\frac{TSS-RSS}{TSS}=1-\frac{RSS}{TSS}\]</span></p>
-<p>The <span class="math inline">\(TSS-RSS\)</span> part of the formula often referred to as “explained variability” in
+<p>The <span class="math inline">\(TSS-RSS\)</span> part of the formula is often referred to as “explained variability” in
 the model. The bottom part is for “total variability”. With this interpretation, the higher
 the “explained variability”, the better the model. For simple linear regression
 with one explanatory variable, the square root of <span class="math inline">\(R^2\)</span> is a quantity known
@@ -895,8 +895,8 @@ errors of X and Y. This bounds the values to -1 and 1, and as mentioned
 above, is called Pearson correlation coefficient. The values that change in a similar manner will have a positive coefficient, the values that change in 
 an opposite manner will have a negative coefficient, and pairs that do not have
 a linear relationship will have <span class="math inline">\(0\)</span> or near <span class="math inline">\(0\)</span> correlation. In
-Figure <a href="relationship-between-variables-linear-models-and-correlation.html#fig:CorCovar">3.17</a>, we are showing <span class="math inline">\(R^2\)</span>, correlation
-the coefficient, and covariance for different scatter plots.</p>
+Figure <a href="relationship-between-variables-linear-models-and-correlation.html#fig:CorCovar">3.17</a>, we are showing <span class="math inline">\(R^2\)</span>, the correlation
+coefficient, and covariance for different scatter plots.</p>
 <div class="figure" style="text-align: center"><span id="fig:CorCovar"></span>
 <img src="03-statsForGenomics_files/figure-html/CorCovar-1.png" alt="Correlation and covariance for different scatter plots." width="100%" />
 <p class="caption">
@@ -925,7 +925,7 @@ the degrees of freedom for the unexplained variance. The F-statistic for a linea
 <p>If the variances are the same, the ratio will be 1, and when <span class="math inline">\(H_0\)</span> is true, then
 it can be shown that expected value of <span class="math inline">\((TSS-RSS)/(p-1)\)</span> will be <span class="math inline">\(\sigma^2\)</span>, which is estimated by the RSE. So, if the variances are significantly different,
 the ratio will need to be significantly bigger than 1.
-If the ratio is large enough we can reject the null hypothesis. To asses that
+If the ratio is large enough we can reject the null hypothesis. To assess that,
 we need to use software or look up the tables for F statistics with calculated
 parameters. In R, function <code>qf()</code> can be used to calculate critical value of the
 ratio. Benefit of the F-test over
@@ -986,7 +986,7 @@ can be encoded in 0 and 1. Below, we show linear regression with categorical var
 FIGURE 3.18: Linear model with a categorical variable coded as 0 and 1.
 </p>
 </div>
-<p>We can even compare more levels,and we do not even have to encode them
+<p>We can even compare more levels, and we do not even have to encode them
 ourselves. We can pass categorical variables to the <code>lm()</code> function.</p>
 <div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb183-1"><a href="relationship-between-variables-linear-models-and-correlation.html#cb183-1"></a>gene.df=<span class="kw">data.frame</span>(<span class="dt">exp=</span><span class="kw">c</span>(gene1,gene2,gene2),</span>
 <span id="cb183-2"><a href="relationship-between-variables-linear-models-and-correlation.html#cb183-2"></a>                  <span class="dt">group=</span><span class="kw">c</span>( <span class="kw">rep</span>(<span class="st">&quot;A&quot;</span>,<span class="dv">30</span>),<span class="kw">rep</span>(<span class="st">&quot;B&quot;</span>,<span class="dv">30</span>),<span class="kw">rep</span>(<span class="st">&quot;C&quot;</span>,<span class="dv">30</span>) ) </span>
@@ -1037,12 +1037,12 @@ data.</p>
 <div id="correlation-of-error-terms" class="section level5">
 <h5><span class="header-section-number">3.3.5.0.3</span> Correlation of error terms</h5>
 <p>This assumes that the errors of the response variables are uncorrelated with each other. If they are, the confidence intervals of the coefficients
-might too narrow.</p>
+might be too narrow.</p>
 </div>
 <div id="non-constant-variance-of-error-terms" class="section level5">
 <h5><span class="header-section-number">3.3.5.0.4</span> Non-constant variance of error terms</h5>
 <p>This means that different response variables have the same variance in their errors, regardless of the values of the predictor variables. If
-the errors are not constant (Ex: the errors grow as X values increase), this
+the errors are not constant (ex: the errors grow as X values increase), this
 will result in unreliable estimates in standard errors as the model
 assumes constant variance. Transformation of data, such as
 <span class="math inline">\(logX\)</span> and <span class="math inline">\(\sqrt{X}\)</span>, could help in some cases.</p>

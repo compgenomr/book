@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -578,8 +578,7 @@ there is not much variation in the values of the data points, and a high value
 indicates high variation in the values. The variance is the squared distance of
 data points from the mean. Population variance is again a quantity we usually
 do not have access to and is simply calculated as follows <span class="math inline">\(\sigma^2=\sum_{i=1}^n \frac{(x_i-\mu)^2}{n}\)</span>, where <span class="math inline">\(\mu\)</span> is the population mean, <span class="math inline">\(x_i\)</span> is the <span class="math inline">\(i\)</span>th
-data point in the population and <span class="math inline">\(n\)</span> is the population size. However, when we
-we only have access to a sample this, formulation is biased. That means that it
+data point in the population and <span class="math inline">\(n\)</span> is the population size. However, when we only have access to a sample, this formulation is biased. That means that it
 underestimates the population variance, so we make a small adjustment when we
 calculate the sample variance, denoted as <span class="math inline">\(s^2\)</span>:</p>
 <p><span class="math display">\[
@@ -591,7 +590,7 @@ $\overline{X}$ is the sample mean.}
 <p>The sample standard deviation is simply the square root of the sample variance, <span class="math inline">\(s=\sqrt{\sum_{i=1}^n \frac{(x_i-\overline{X})^2}{n-1}}\)</span>.
 The good thing about standard deviation is that it has the same unit as the mean
 so it is more intuitive.</p>
-<p>We can calculate the sample standard deviation and variation with the<code>sd()</code> and <code>var()</code>
+<p>We can calculate the sample standard deviation and variation with the <code>sd()</code> and <code>var()</code>
 functions in R. These functions take a vector of numeric values as input and
 calculate the desired quantities. Below we use those functions on a randomly
 generated vector of numbers.</p>
@@ -605,10 +604,10 @@ outliers. The points that are too far away from the mean will have a large
 effect on the variance even though there might be few of them.
 A way to measure variance that could be less affected by outliers is
 looking at where the bulk of the distribution is. How do we define where the bulk is?
-One common way is to look at the the difference between 75th percentile and 25th
+One common way is to look at the difference between 75th percentile and 25th
 percentile, this effectively removes a lot of potential outliers which will be
 towards the edges of the range of values.
-This is called the interquartile range , and
+This is called the interquartile range, and
 can be easily calculated using R via the <code>IQR()</code> function and the quantiles of a vector
 are calculated with the <code>quantile()</code> function.</p>
 <p>Let us plot the boxplot for a random vector and also calculate IQR using R.
@@ -640,7 +639,7 @@ that
 follow normal distribution will mostly be close to the mean
 but spread around it, controlled by the standard deviation parameter. That
 means that if we sample data points from a normal distribution, we are more
-likely to sample data points nearby the mean and sometimes away from the mean.
+likely to sample data points near the mean and sometimes away from the mean.
 The probability of an event occurring is higher if it is nearby the mean.
 The effect
 of the parameters for the normal distribution can be observed in the following
@@ -723,7 +722,7 @@ distribution of variations. You will frequently encounter these in linear models
 the mean, we are trying to approximate the mean of the population. How well this 
 sample statistic estimates the population value will always be a
 concern. A confidence interval addresses this concern because it provides a
-range of values which will plausibly to contain the population parameter of interest.
+range of values which will plausibly contain the population parameter of interest.
 Normally, we would not have access to a population. If we did, we would not have to estimate the population parameters and their precision.</p>
 <p>When we do not have access
 to the population, one way to estimate intervals is to repeatedly take samples from the

@@ -72,7 +72,7 @@ On top of these, genomic data-specific processing and quality check can be achie
 
 #### General data analysis and exploration
 
-Most genomics data sets are suitable for application of general data analysis tools. In some cases, you may need to preprocess the data to get it to a state that is suitable for application of such tools. Here is a non-exhaustive list of what kind of things can be done via R. You will see popular data analysis methods in Chapters \@ref(stats),\@ref(unsupervisedLearning) and \@ref(supervisedLearning).
+Most genomics data sets are suitable for application of general data analysis tools. In some cases, you may need to preprocess the data to get it to a state that is suitable for application of such tools. Here is a non-exhaustive list of what kind of things can be done via R. You will see popular data analysis methods in Chapters \@ref(stats), \@ref(unsupervisedLearning) and \@ref(supervisedLearning).
 
  - Unsupervised data analysis: clustering (k-means, hierarchical), matrix factorization 
 (PCA, ICA, etc.)
@@ -748,7 +748,7 @@ In R, there are other plotting systems besides “base graphics”, which is wha
 Next we will see how this works in practice. Let’s start with a simple scatter plot using `ggplot2`. In order to make basic plots in `ggplot2`, one needs to combine different components. First, we need the data and its transformation to a geometric object; for a scatter plot this would be mapping data to points, for histograms it would be binning the data and making bars. Second, we need the scales and coordinate system, which generates axes and legends so that we can see the values on the plot. And the last component is the plot annotation such as plot title and the background.
 
 
-The main `ggplot2` function, called `ggplot()`, requires a data frame to work with, and this data frame is its first argument as shown in the code snippet below. The second thing you will notice is the `aes()` function in the `ggplot()` function. This function defines which columns in the data frame map to x and y coordinates and if they should be colored or have different shapes based on the values in a different column. These elements are the “aesthetic” elements, this is what we observe in the plot. The last line in the code represents the geometric object to be plotted. These geometric objects defines the type of the plot. In this case, the object is a point, indicated by the `geom_point()`function. Another, peculiar thing in the code is the `+` operation. In `ggplot2`, this operation is used to add layers and modify the plot. The resulting scatter plot from the code snippet below can be seen in Figure \@ref(fig:ggScatterchp3). 
+The main `ggplot2` function, called `ggplot()`, requires a data frame to work with, and this data frame is its first argument as shown in the code snippet below. The second thing you will notice is the `aes()` function in the `ggplot()` function. This function defines which columns in the data frame map to x and y coordinates and if they should be colored or have different shapes based on the values in a different column. These elements are the “aesthetic” elements, this is what we observe in the plot. The last line in the code represents the geometric object to be plotted. These geometric objects define the type of the plot. In this case, the object is a point, indicated by the `geom_point()`function. Another, peculiar thing in the code is the `+` operation. In `ggplot2`, this operation is used to add layers and modify the plot. The resulting scatter plot from the code snippet below can be seen in Figure \@ref(fig:ggScatterchp3). 
 
 
 ```r
@@ -1163,7 +1163,7 @@ Ex: `matrix(1:6,nrow=3,ncol=2)` makes a 3x2 matrix using numbers between 1 and 6
 21. What happens when you use `byrow = TRUE` in your matrix() as an additional argument?
 Ex: `mat=matrix(1:6,nrow=3,ncol=2,byrow = TRUE)`. [Difficulty: **Beginner**]
 
-22. Extract the first 3 columns and first 3 rows of your matrix using `[]` notation.[Difficulty: **Beginner**]
+22. Extract the first 3 columns and first 3 rows of your matrix using `[]` notation. [Difficulty: **Beginner**]
 
 23. Extract the last two rows of the matrix you created earlier.
 Ex: `mat[2:3,]` or `mat[c(2,3),]` extracts the 2nd and 3rd rows.
@@ -1247,7 +1247,7 @@ to get the file path within the installed `compGenomRData` package. [Difficulty:
 
 2. Use `head()` on CpGi to see the first few rows. [Difficulty: **Beginner**]
 
-3. Why doesn't the following work? see `sep` argument at `help(read.table)`. [Difficulty: **Beginner**]
+3. Why doesn't the following work? See `sep` argument at `help(read.table)`. [Difficulty: **Beginner**]
 
 
 ```r
@@ -1270,7 +1270,8 @@ cpgiHF=read.table("intro2R_data/data/CpGi.table.hg18.txt",
 
 5. Read only the first 10 rows of the CpGi table. [Difficulty: **Beginner/Intermediate**]  
 
-6. Use `cpgFilePath=system.file("extdata","CpGi.table.hg18.txt",package="compGenomRData")` to get the file path, then use
+6. Use `cpgFilePath=system.file("extdata","CpGi.table.hg18.txt",`
+`package="compGenomRData")` to get the file path, then use
 `read.table()` with argument `header=FALSE`. Use `head()` to see the results. [Difficulty: **Beginner**]  
 
 
@@ -1283,7 +1284,7 @@ home folder.[Difficulty: **Beginner**]
 
 
 9. Write out the first 10 rows of the `cpgi` data frame.
-**HINT:** use subsetting for data frames we learned before. [Difficulty: **Beginner**]  
+**HINT:** Use subsetting for data frames we learned before. [Difficulty: **Beginner**]  
 
 
 
@@ -1445,7 +1446,7 @@ The 'perGc' column in the data stands for GC percent => percentage of C+G nucleo
 
 3. Use if/else structure to decide if the given GC percent is high, low or medium.
 If it is low, high, or medium: low < 60, high>75, medium is between 60 and 75;
-use greater or less than operators, `<`  or ` >`. Fill in the values in the in code below, where it is written 'YOU_FILL_IN'. [Difficulty: **Intermediate**]
+use greater or less than operators, `<`  or ` >`. Fill in the values in the code below, where it is written 'YOU_FILL_IN'. [Difficulty: **Intermediate**]
 
 ```r
 GCper=65

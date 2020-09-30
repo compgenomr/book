@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -497,14 +497,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="use-case-multi-omics-data-from-colorectal-cancer" class="section level2">
 <h2><span class="header-section-number">11.1</span> Use case: Multi-omics data from colorectal cancer</h2>
 <p>The examples in this chapter will use the following data: a set of 121 tumors from the TCGA <span class="citation">(Weinstein, Collisson, Mills, et al. <a href="#ref-tcga_pan_cancer" role="doc-biblioref">2013</a>)</span> colorectal cancer cohort. The tumors have been profiled for gene expression using RNA-seq, mutations using Exome-seq, and copy number variations using genotyping arrays. Projects such as TCGA have turbocharged efforts to sub-divide cancer into subtypes. Although two tumors arise in the colon, they may have distinct molecular profiles, which is important for treatment decisions. The subset of tumors used in this chapter belong to two distinct molecular subtypes defined by the Colorectal Cancer Subtyping Consortium <span class="citation">(Guinney, Dienstmann, Wang, et al. <a href="#ref-cmscc" role="doc-biblioref">2015</a>)</span>, <em>CMS1</em> and <em>CMS3</em>. The following code snippets load this multi-omics data from the companion package, starting with gene expression data from RNA-seq (see Chapter <a href="rnaseqanalysis.html#rnaseqanalysis">8</a>). Below we are reading the RNA-seq data from the <code>compGenomRData</code> package.</p>
-<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
-<span id="cb601-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-2"></a>csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_gex.csv&quot;</span>, </span>
-<span id="cb601-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-3"></a>                       <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)</span>
-<span id="cb601-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-4"></a>x1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)</span>
-<span id="cb601-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-5"></a><span class="co"># Fix the gene names in the data frame</span></span>
-<span id="cb601-6"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-6"></a><span class="kw">rownames</span>(x1) &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(x1), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">|&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
-<span id="cb601-7"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-7"></a><span class="co"># Output a table</span></span>
-<span id="cb601-8"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-8"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x1))), <span class="dt">caption=</span><span class="st">&quot;Example gene expression data (head)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb600"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb600-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb600-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
+<span id="cb600-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb600-2"></a>csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_gex.csv&quot;</span>, </span>
+<span id="cb600-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb600-3"></a>                       <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)</span>
+<span id="cb600-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb600-4"></a>x1 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb600-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb600-5"></a><span class="co"># Fix the gene names in the data frame</span></span>
+<span id="cb600-6"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb600-6"></a><span class="kw">rownames</span>(x1) &lt;-<span class="st"> </span><span class="kw">sapply</span>(<span class="kw">strsplit</span>(<span class="kw">rownames</span>(x1), <span class="st">&quot;</span><span class="ch">\\</span><span class="st">|&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb600-7"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb600-7"></a><span class="co"># Output a table</span></span>
+<span id="cb600-8"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb600-8"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x1))), <span class="dt">caption=</span><span class="st">&quot;Example gene expression data (head)&quot;</span>)</span></code></pre></div>
 <table>
 <caption><span id="tab:moloadMultiomicsGE">TABLE 11.1: </span>Example gene expression data (head)</caption>
 <thead>
@@ -594,15 +594,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>We first <strong>read mutation data</strong> with the following code snippet.</p>
-<div class="sourceCode" id="cb602"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb602-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
-<span id="cb602-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-2"></a>csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_muts.csv&quot;</span>, </span>
-<span id="cb602-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-3"></a>                       <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)</span>
-<span id="cb602-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-4"></a>x2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)</span>
-<span id="cb602-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-5"></a><span class="co"># Set mutation data to be binary (so if a gene has more than 1 mutation,</span></span>
-<span id="cb602-6"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-6"></a><span class="co"># we only count one)</span></span>
-<span id="cb602-7"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-7"></a>x2[x2<span class="op">&gt;</span><span class="dv">0</span>]=<span class="dv">1</span></span>
-<span id="cb602-8"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-8"></a><span class="co"># output a table</span></span>
-<span id="cb602-9"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-9"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x2))), <span class="dt">caption=</span><span class="st">&quot;Example mutation data (head)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
+<span id="cb601-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-2"></a>csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_muts.csv&quot;</span>, </span>
+<span id="cb601-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-3"></a>                       <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)</span>
+<span id="cb601-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-4"></a>x2 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb601-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-5"></a><span class="co"># Set mutation data to be binary (so if a gene has more than 1 mutation,</span></span>
+<span id="cb601-6"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-6"></a><span class="co"># we only count one)</span></span>
+<span id="cb601-7"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-7"></a>x2[x2<span class="op">&gt;</span><span class="dv">0</span>]=<span class="dv">1</span></span>
+<span id="cb601-8"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-8"></a><span class="co"># output a table</span></span>
+<span id="cb601-9"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb601-9"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x2))), <span class="dt">caption=</span><span class="st">&quot;Example mutation data (head)&quot;</span>)</span></code></pre></div>
 <table>
 <caption><span id="tab:moloadMultiomicsMUT">TABLE 11.2: </span>Example mutation data (head)</caption>
 <thead>
@@ -683,13 +683,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Next, we <strong>read copy number data</strong> with the following code snippet.</p>
-<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb603-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
-<span id="cb603-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-2"></a>csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_cnv.csv&quot;</span>, </span>
-<span id="cb603-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-3"></a>                       <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)</span>
-<span id="cb603-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-4"></a>x3 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)</span>
-<span id="cb603-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-5"></a><span class="co"># output a table</span></span>
-<span id="cb603-6"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-6"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x3))), </span>
-<span id="cb603-7"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-7"></a>             <span class="dt">caption=</span><span class="st">&quot;Example copy number data for CRC samples&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb602"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb602-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
+<span id="cb602-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-2"></a>csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_cnv.csv&quot;</span>, </span>
+<span id="cb602-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-3"></a>                       <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)</span>
+<span id="cb602-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-4"></a>x3 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb602-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-5"></a><span class="co"># output a table</span></span>
+<span id="cb602-6"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-6"></a>knitr<span class="op">::</span><span class="kw">kable</span>(<span class="kw">head</span>(<span class="kw">t</span>(<span class="kw">head</span>(x3))), </span>
+<span id="cb602-7"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb602-7"></a>             <span class="dt">caption=</span><span class="st">&quot;Example copy number data for CRC samples&quot;</span>)</span></code></pre></div>
 <table>
 <caption><span id="tab:moloadMultiomicsCNV">TABLE 11.3: </span>Example copy number data for CRC samples</caption>
 <thead>
@@ -770,54 +770,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>Each of the data types (gene expression, mutations, copy number variation) on its own, provides some signal which allows us to somewhat separate the samples into the two different subtypes. In order to explore these relations, we must first obtain the subtypes of these tumors. The following code snippet reads these, also from the companion package:</p>
-<div class="sourceCode" id="cb604"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb604-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
-<span id="cb604-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-2"></a>csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_subtypes.csv&quot;</span>,</span>
-<span id="cb604-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-3"></a>                       <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)</span>
-<span id="cb604-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-4"></a>covariates &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)</span>
-<span id="cb604-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-5"></a><span class="co"># Fix the TCGA identifiers so they match up with the omics data</span></span>
-<span id="cb604-6"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-6"></a><span class="kw">rownames</span>(covariates) &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="dt">pattern =</span> <span class="st">&#39;-&#39;</span>, <span class="dt">replacement =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>,</span>
-<span id="cb604-7"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-7"></a>                             <span class="kw">rownames</span>(covariates))</span>
-<span id="cb604-8"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-8"></a>covariates &lt;-<span class="st"> </span>covariates[<span class="kw">colnames</span>(x1),]</span>
-<span id="cb604-9"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-9"></a><span class="co"># create a dataframe which will be used to annotate later graphs</span></span>
-<span id="cb604-10"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-10"></a>anno_col &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">cms=</span><span class="kw">as.factor</span>(covariates<span class="op">$</span>cms_label))</span>
-<span id="cb604-11"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-11"></a><span class="kw">rownames</span>(anno_col) &lt;-<span class="st"> </span><span class="kw">rownames</span>(covariates)</span></code></pre></div>
+<div class="sourceCode" id="cb603"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb603-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
+<span id="cb603-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-2"></a>csvfile &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;multi-omics&quot;</span>, <span class="st">&quot;COREAD_CMS13_subtypes.csv&quot;</span>,</span>
+<span id="cb603-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-3"></a>                       <span class="dt">package=</span><span class="st">&quot;compGenomRData&quot;</span>)</span>
+<span id="cb603-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-4"></a>covariates &lt;-<span class="st"> </span><span class="kw">read.csv</span>(csvfile, <span class="dt">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb603-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-5"></a><span class="co"># Fix the TCGA identifiers so they match up with the omics data</span></span>
+<span id="cb603-6"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-6"></a><span class="kw">rownames</span>(covariates) &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="dt">pattern =</span> <span class="st">&#39;-&#39;</span>, <span class="dt">replacement =</span> <span class="st">&#39;</span><span class="ch">\\</span><span class="st">.&#39;</span>,</span>
+<span id="cb603-7"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-7"></a>                             <span class="kw">rownames</span>(covariates))</span>
+<span id="cb603-8"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-8"></a>covariates &lt;-<span class="st"> </span>covariates[<span class="kw">colnames</span>(x1),]</span>
+<span id="cb603-9"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-9"></a><span class="co"># create a dataframe which will be used to annotate later graphs</span></span>
+<span id="cb603-10"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-10"></a>anno_col &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">cms=</span><span class="kw">as.factor</span>(covariates<span class="op">$</span>cms_label))</span>
+<span id="cb603-11"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb603-11"></a><span class="kw">rownames</span>(anno_col) &lt;-<span class="st"> </span><span class="kw">rownames</span>(covariates)</span></code></pre></div>
 <p>Before proceeding with any multi-omics integration analysis which might obscure the underlying data, it is important to take a look at each omic data type on its own, and in this case in particular, to examine their relation to the underlying condition, i.e. the cancer subtype. A great way to get an eagle-eye view of such large data is using heatmaps (see Chapter <a href="unsupervisedLearning.html#unsupervisedLearning">4</a> for more details).</p>
 <p>We will first check the gene expression data in relation to the subtypes. One way of doing that is plotting a heatmap and clustering the tumors, while displaying a color annotation atop the heatmap, indicating which subtype each tumor belongs to. This is shown in Figure <a href="use-case-multi-omics-data-from-colorectal-cancer.html#fig:mogeneExpressionHeatmap">11.1</a>, which is generated by the following code snippet:</p>
-<div class="sourceCode" id="cb605"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb605-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb605-1"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x1,</span>
-<span id="cb605-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb605-2"></a>                   <span class="dt">annotation_col =</span> anno_col,</span>
-<span id="cb605-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb605-3"></a>                   <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb605-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb605-4"></a>                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb605-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb605-5"></a>                   <span class="dt">main=</span><span class="st">&quot;Gene expression data&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb604"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb604-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-1"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x1,</span>
+<span id="cb604-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-2"></a>                   <span class="dt">annotation_col =</span> anno_col,</span>
+<span id="cb604-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-3"></a>                   <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb604-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-4"></a>                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb604-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb604-5"></a>                   <span class="dt">main=</span><span class="st">&quot;Gene expression data&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:mogeneExpressionHeatmap"></span>
-<img src="11-multiomics-analysis_files/figure-html/mogeneExpressionHeatmap-1.png" alt="Heatmap of gene expression data for colorectal cancers" width="60%" />
+<img src="11-multiomics-analysis_files/figure-html/mogeneExpressionHeatmap-1.png" alt="Heatmap of gene expression data for colorectal cancers." width="60%" />
 <p class="caption">
-FIGURE 11.1: Heatmap of gene expression data for colorectal cancers
+FIGURE 11.1: Heatmap of gene expression data for colorectal cancers.
 </p>
 </div>
 <p>In Figure <a href="use-case-multi-omics-data-from-colorectal-cancer.html#fig:mogeneExpressionHeatmap">11.1</a>, each column is a tumor, and each row is a gene. The values in the cells are FPKM values. There is another band above the heatmap annotating each column (tumor) with its corresponding subtype. The tumors are clustered using hierarchical clustering denoted by the dendrogram above the heatmap, according to which the columns (tumors) are ordered. While this ordering corresponds somewhat to the subtypes, it would not be possible to cut this dendrogram in a way which achieves perfect separation between the subtypes.</p>
 <p>Next we repeat the same exercise using the mutation data. The following snippet generates Figure <a href="use-case-multi-omics-data-from-colorectal-cancer.html#fig:momutationsHeatmap">11.2</a>:</p>
-<div class="sourceCode" id="cb606"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb606-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb606-1"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x2,</span>
-<span id="cb606-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb606-2"></a>                   <span class="dt">annotation_col =</span> anno_col,</span>
-<span id="cb606-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb606-3"></a>                   <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb606-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb606-4"></a>                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb606-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb606-5"></a>                   <span class="dt">main=</span><span class="st">&quot;Mutation data&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb605"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb605-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb605-1"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x2,</span>
+<span id="cb605-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb605-2"></a>                   <span class="dt">annotation_col =</span> anno_col,</span>
+<span id="cb605-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb605-3"></a>                   <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb605-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb605-4"></a>                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb605-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb605-5"></a>                   <span class="dt">main=</span><span class="st">&quot;Mutation data&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:momutationsHeatmap"></span>
-<img src="11-multiomics-analysis_files/figure-html/momutationsHeatmap-1.png" alt="Heatmap of mutation data for colorectal cancers" width="50%" />
+<img src="11-multiomics-analysis_files/figure-html/momutationsHeatmap-1.png" alt="Heatmap of mutation data for colorectal cancers." width="50%" />
 <p class="caption">
-FIGURE 11.2: Heatmap of mutation data for colorectal cancers
+FIGURE 11.2: Heatmap of mutation data for colorectal cancers.
 </p>
 </div>
 <p>An examination of Figure <a href="use-case-multi-omics-data-from-colorectal-cancer.html#fig:momutationsHeatmap">11.2</a> shows that tumors clustered and ordered by mutation data correspond very closely to their CMS subtypes. However, one should be careful in drawing conclusions about this result. Upon closer examination, you might notice that the separating factor seems to be that CMS1 tumors have significantly more mutations than do CMS3 tumors. This, rather than mutations in a specific genes, seems to be driving this clustering result. Nevertheless, this hyper-mutated status is an important indicator for this subtype.</p>
 <p>Finally, we look into copy number variation data and try to see if clustered samples are in concordance with subtypes. The following code snippet generates Figure <a href="use-case-multi-omics-data-from-colorectal-cancer.html#fig:moCNVHeatmap">11.3</a>:</p>
-<div class="sourceCode" id="cb607"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb607-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb607-1"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x3,</span>
-<span id="cb607-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb607-2"></a>                   <span class="dt">annotation_col =</span> anno_col,</span>
-<span id="cb607-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb607-3"></a>                   <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb607-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb607-4"></a>                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb607-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb607-5"></a>                   <span class="dt">main=</span><span class="st">&quot;Copy number data&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb606"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb606-1"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb606-1"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(x3,</span>
+<span id="cb606-2"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb606-2"></a>                   <span class="dt">annotation_col =</span> anno_col,</span>
+<span id="cb606-3"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb606-3"></a>                   <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb606-4"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb606-4"></a>                   <span class="dt">show_rownames =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb606-5"><a href="use-case-multi-omics-data-from-colorectal-cancer.html#cb606-5"></a>                   <span class="dt">main=</span><span class="st">&quot;Copy number data&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:moCNVHeatmap"></span>
-<img src="11-multiomics-analysis_files/figure-html/moCNVHeatmap-1.png" alt="Heatmap of copy number variation data, colorectal cancers" width="50%" />
+<img src="11-multiomics-analysis_files/figure-html/moCNVHeatmap-1.png" alt="Heatmap of copy number variation data, colorectal cancers." width="50%" />
 <p class="caption">
-FIGURE 11.3: Heatmap of copy number variation data, colorectal cancers
+FIGURE 11.3: Heatmap of copy number variation data, colorectal cancers.
 </p>
 </div>
 <p>The interpretation of Figure <a href="use-case-multi-omics-data-from-colorectal-cancer.html#fig:moCNVHeatmap">11.3</a> is left as an exercise for the reader.</p>

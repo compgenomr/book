@@ -843,7 +843,7 @@ for each strand), and converting the coverage vector into a Boolean vector.
 The Boolean vector contains the information of which genomic positions
 contained the DNA fragment ends.
 
-Similarity between two boolean vectors can be promptly computed  using the Jaccard index.
+Similarity between two Boolean vectors can be promptly computed  using the Jaccard index.
 The Jaccard index is defined as an intersection between two Boolean vectors, 
 divided by their union as shown in Figure \@ref(fig:FigureJaccardSimilarity).
 
@@ -871,7 +871,7 @@ reads = keepSeqlevels(reads, 'chr21', pruning.mode='coarse')
 ```
 
 Now we can calculate the coverage vector of the read starting position.
-The coverage vector is then automatically converted into a boolean vector by
+The coverage vector is then automatically converted into a Boolean vector by
 asking which genomic positions have $coverage > 0$.
 
 
@@ -1065,8 +1065,8 @@ ggplot(
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-chip-seq-analysis_files/figure-html/gc-plot-1.png" alt="GC content abundance in a ChIP-seq experiment" width="50%" />
-<p class="caption">(\#fig:gc-plot)GC content abundance in a ChIP-seq experiment</p>
+<img src="09-chip-seq-analysis_files/figure-html/gc-plot-1.png" alt="GC content abundance in a ChIP-seq experiment." width="50%" />
+<p class="caption">(\#fig:gc-plot)GC content abundance in a ChIP-seq experiment.</p>
 </div>
 
 Figure \@ref(fig:gc-plot) visualizes the CPM versus GC content, and
@@ -1156,7 +1156,7 @@ A heuristic solution is to organize the genomic annotation into a
 hierarchy which will imply prioritization. 
 We can then look, for each read, which functional categories it overlaps, and 
 if it is within multiple categories, we assign the read to the topmost category.
-As an example, let's say that we have 4 genomic categories: 1) TSS (transcription start sites)\index{transcription start site (TSS)}, 2) exon, 3) intron, and 4) intergenic with the following hierarchy: **TSS -> exon -> intron -> intergenic**. This means that if a read overlaps a TSS\index{transcription start site (TSS)} and an intron, it will be annotates as TSS. This approach is shown in Figure
+As an example, let's say that we have 4 genomic categories: 1) TSS (transcription start sites)\index{transcription start site (TSS)}, 2) exon, 3) intron, and 4) intergenic with the following hierarchy: **TSS -> exon -> intron -> intergenic**. This means that if a read overlaps a TSS\index{transcription start site (TSS)} and an intron, it will be annotated as TSS. This approach is shown in Figure
 \@ref(fig:Figure-Hierarchical-Annotation).
 
 <div class="figure" style="text-align: center">
@@ -1174,7 +1174,7 @@ There are multiple sources of genomic annotation. **UCSC**\index{UCSC Genome Bro
 **Genbank**, and **Ensembl**\index{Ensembl Genome Browser} databases represent stable resources, 
 from which the annotation can be easily obtained.
 
-`AnnotationHub`\index{R Packages!\texttt{AnnotationHub}} is a Bioconductor -based online resource which contains a large number of experiments from various
+`AnnotationHub`\index{R Packages!\texttt{AnnotationHub}} is a Bioconductor-based online resource which contains a large number of experiments from various
 sources. We will use the `AnnotationHub` to download the location of 
 genes corresponding to the **hg38** genome. The hub is accessed in the following way:
 
@@ -1896,8 +1896,8 @@ ggplot(
 ```
 
 <div class="figure" style="text-align: center">
-<img src="09-chip-seq-analysis_files/figure-html/peak-calling-sharp-peak-calling-plot-1.png" alt="Comparison of signal between ChIP and input samples. Red labeled dots correspond to called peaks.." width="50%" />
-<p class="caption">(\#fig:peak-calling-sharp-peak-calling-plot)Comparison of signal between ChIP and input samples. Red labeled dots correspond to called peaks..</p>
+<img src="09-chip-seq-analysis_files/figure-html/peak-calling-sharp-peak-calling-plot-1.png" alt="Comparison of signal between ChIP and input samples. Red labeled dots correspond to called peaks." width="50%" />
+<p class="caption">(\#fig:peak-calling-sharp-peak-calling-plot)Comparison of signal between ChIP and input samples. Red labeled dots correspond to called peaks.</p>
 </div>
 
 Figure \@ref(fig:peak-calling-sharp-peak-calling-plot) shows that `normR` 
@@ -2163,7 +2163,7 @@ plotTracks(
 <p class="caption">(\#fig:peak-calling-broad-gviz)Visualization of H3K36me3 ChIP signal on a called broad peak.</p>
 </div>
 
-The Figure \@ref(fig:peak-calling-broad-gviz) shows a highly enriched H3K36me3 
+Figure \@ref(fig:peak-calling-broad-gviz) shows a highly enriched H3K36me3 
 region covering the gene body, as expected.
 
 
@@ -2295,7 +2295,7 @@ ggplot(
 <p class="caption">(\#fig:peak-quality-counts-plot)Percentage of ChIP reads in called peaks. Higher percentage indicates higher ChIP quality.</p>
 </div>
 
-The Figure \@ref(fig:peak-quality-counts-plot) shows that the ChIP sample is 
+Figure \@ref(fig:peak-quality-counts-plot) shows that the ChIP sample is 
 clearly enriched in the peak regions.
 The percentage of reads in peaks will depend on the quality of the antibody (strength of
 enrichment), and the size of peaks which are bound by the protein of interest.
@@ -2370,7 +2370,7 @@ We will extract the CTCF from the `MotifDB` [@khan_2018] database.
 ctcf_motif  = motifs[[1]]
 ```
 
-The motifs are usually represented as matrices of 4-by-N dimensions. In the matrix, each of 4 rows corresponds to one nucleotide (A, C, G, T). 
+The motifs are usually represented as matrices of 4-by-N dimensions. In the matrix, each of 4 rows correspond to one nucleotide (A, C, G, T). 
 The number of columns designates the width of the region bound by the transcription factor or the length of the motif that the protein recognizes.
 Each element of the matrix contains the probability of observing the corresponding
 nucleotide on this position.
@@ -2391,7 +2391,7 @@ T     0.16   0.27   0.15   0.31   0.14   0.06   0.33   0.13   0.00    0   0.06  
 
 Such a matrix can be used to calculate the probability that the transcription
 factor will bind to any given sequence. However, computationally, it is easier to work with summation rather than multiplication. In addition, the simple probabilistic model does not take the background probability of observing a certain base in a given position. We can correct for background base frequencies by dividing the individual probability, $p_{i,k}$ in each cell of the matrix by the background base probability for a given base, $B_k$. We can then take the logarithm of that quantity to calculate a log-likelihood and bring everything to log-scale as follows $Score_{i,k}=log_2(p_{i,k}/B_k)$. We can now calculate a score for any given
-sequence by summing up the base-position-specific scores we obtain from the log-scaled matrix. This matrix is formally called "position-specific scoring matrix (PSSM) or position-specific weight matrix (PWM). We can use this matrix to scan the genome in a sliding window manner and calculate a score for each window. Usually, a cutoff value is needed to call a motif hit. The higher the score you get from the PWM for a particular sequence, the better it is. The traditional algorithms we will use in the following sections use 80% of the maximum rescaled score you can obtain from a PWM as the default cutoff for a hit. The rescaling is simple min-max rescaling where you rescale the score by subtracting the minimum score and dividing that by $max(PWMscore)-min(PWMscore)$. The motif scanning approach is illustrated in Figure \@ref(fig:FigurePWMScanning). In this example, ACACT is not considered a hit because its score only corresponds to only $15.6$ % of the rescaled maximum score.
+sequence by summing up the base-position-specific scores we obtain from the log-scaled matrix. This matrix is formally called position-specific scoring matrix (PSSM) or position-specific weight matrix (PWM). We can use this matrix to scan the genome in a sliding window manner and calculate a score for each window. Usually, a cutoff value is needed to call a motif hit. The higher the score you get from the PWM for a particular sequence, the better it is. The traditional algorithms we will use in the following sections use 80% of the maximum rescaled score you can obtain from a PWM as the default cutoff for a hit. The rescaling is simple min-max rescaling where you rescale the score by subtracting the minimum score and dividing that by $max(PWMscore)-min(PWMscore)$. The motif scanning approach is illustrated in Figure \@ref(fig:FigurePWMScanning). In this example, ACACT is not considered a hit because its score only corresponds to only $15.6$ % of the rescaled maximum score.
 
 (ref:FigurePWMScanning) PWM scanning principle. A genomic sequence is scanned by a PWM  matrix. This matrix is used to measure how likely it is that the transcription factor will bind each nucleotide in each position. Here we are looking at how likely it is that our TF will bind to the sequence ACACT. The score for this sequence is -3.6. The maximal score obtainable by the PWM is 7.2 and minimum is -5.6. After min-max rescaling, -3.6 corresponds to a 15% score and ACACT is not considered a hit.
 
@@ -2829,7 +2829,7 @@ and extract the genomic sequence.
 
 
 
-We are now ready to run the motif discovery.Firstly we load the  `rGADEM` package:
+We are now ready to run the motif discovery. Firstly we load the  `rGADEM` package:
 
 
 
@@ -3007,7 +3007,7 @@ Markov models [@ernst_2012; @hoffman_2012]), or machine learning algorithms [@mo
 5. Apply the function to all files, and visualize them in the genome browser.
 Observe the signal profiles. What can you notice, about the similarity of the samples? [Difficulty: **Beginner**]
   
-6. Use `GViz` to visualize the profiles for CTCF, SMC3 and ZNF143 [Difficulty: **Beginner/Intermediate**]
+6. Use `GViz` to visualize the profiles for CTCF, SMC3 and ZNF143. [Difficulty: **Beginner/Intermediate**]
 
 7. Calculate the cross correlation for both CTCF replicates, and
 the input samples. How does the profile look for the control samples? [Difficulty: **Intermediate**]

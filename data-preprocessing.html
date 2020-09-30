@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -497,7 +497,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="data-preprocessing" class="section level2">
 <h2><span class="header-section-number">5.4</span> Data preprocessing</h2>
 <p>We will have to preprocess the data before we start training. This might include exploratory data analysis to see how variables and samples relate to each other. For example, we might want to check the correlation between predictor variables and keep only one variable from that group. In addition, some training algorithms might be sensitive to data scales or outliers. We should deal with those issues in this step. In some cases, the data might have missing values. We can choose to remove the samples that have missing values or try to impute them. Many machine learning algorithms will not be able to deal with missing values.</p>
-<p>We will show how to do this in practice using the <code>caret::preProcess()</code> function and base R functions. Please note that there are more preprocessing options available than we will show here, There are more possibilities in <code>caret::preProcess()</code>function and base R functions, we are just going to cover a few basics in this section.</p>
+<p>We will show how to do this in practice using the <code>caret::preProcess()</code> function and base R functions. Please note that there are more preprocessing options available than we will show here. There are more possibilities in <code>caret::preProcess()</code>function and base R functions, we are just going to cover a few basics in this section.</p>
 <div id="data-transformation" class="section level3">
 <h3><span class="header-section-number">5.4.1</span> Data transformation</h3>
 <p>The first thing we will do is data normalization and transformation. We have to take care of data scale issues that might come from how the experiments are performed and the potential problems that might occur during data collection. Ideally, each tumor sample has a similar distribution of gene expression values. Systematic differences between tumor samples must be corrected. We check if there are such differences using box plots.
@@ -518,9 +518,9 @@ The resulting histograms are shown in Figure <a href="data-preprocessing.html#fi
 <span id="cb239-4"><a href="data-preprocessing.html#cb239-4"></a><span class="kw">hist</span>(<span class="kw">log10</span>(gexp<span class="op">+</span><span class="dv">1</span>)[,<span class="dv">5</span>], <span class="dt">xlab=</span><span class="st">&quot;gene expression log scale&quot;</span>,<span class="dt">main=</span><span class="st">&quot;&quot;</span>,</span>
 <span id="cb239-5"><a href="data-preprocessing.html#cb239-5"></a>     <span class="dt">border=</span><span class="st">&quot;blue4&quot;</span>,<span class="dt">col=</span><span class="st">&quot;cornflowerblue&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:logTransform"></span>
-<img src="05-supervisedLearning_files/figure-html/logTransform-1.png" alt="Gene expression distribution for the 5th patient (left). Log transformed gene expression distribution for the same patient (right)" width="60%" />
+<img src="05-supervisedLearning_files/figure-html/logTransform-1.png" alt="Gene expression distribution for the 5th patient (left). Log transformed gene expression distribution for the same patient (right)." width="60%" />
 <p class="caption">
-FIGURE 5.2: Gene expression distribution for the 5th patient (left). Log transformed gene expression distribution for the same patient (right)
+FIGURE 5.2: Gene expression distribution for the 5th patient (left). Log transformed gene expression distribution for the same patient (right).
 </p>
 </div>
 <p>Since taking a log seems to work to tame the extreme values, we do that below and also add <span class="math inline">\(1\)</span> pseudo-count to be able to deal with <span class="math inline">\(0\)</span> values:</p>

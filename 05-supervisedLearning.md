@@ -108,7 +108,7 @@ dim(patient)
 ## Data preprocessing
 We will have to preprocess the data before we start training. This might include exploratory data analysis to see how variables and samples relate to each other. For example, we might want to check the correlation between predictor variables and keep only one variable from that group. In addition, some training algorithms might be sensitive to data scales or outliers\index{outliers}. We should deal with those issues in this step. In some cases, the data might have missing values. We can choose to remove the samples that have missing values or try to impute them. Many machine learning algorithms will not be able to deal with missing values. 
 
-We will show how to do this in practice using the `caret::preProcess()` function and base R functions. Please note that there are more preprocessing options available than we will show here, There are more possibilities in `caret::preProcess()`function and base R functions, we are just going to cover a few basics in this section.
+We will show how to do this in practice using the `caret::preProcess()` function and base R functions. Please note that there are more preprocessing options available than we will show here. There are more possibilities in `caret::preProcess()`function and base R functions, we are just going to cover a few basics in this section.
 
 ### Data transformation
 The first thing we will do is data normalization and transformation. We have to take care of data scale issues that might come from how the experiments are performed and the potential problems that might occur during data collection. Ideally, each tumor sample has a similar distribution of gene expression values. Systematic differences between tumor samples must be corrected. We check if there are such differences using box plots.
@@ -135,8 +135,8 @@ hist(log10(gexp+1)[,5], xlab="gene expression log scale",main="",
 ```
 
 <div class="figure" style="text-align: center">
-<img src="05-supervisedLearning_files/figure-html/logTransform-1.png" alt="Gene expression distribution for the 5th patient (left). Log transformed gene expression distribution for the same patient (right)" width="60%" />
-<p class="caption">(\#fig:logTransform)Gene expression distribution for the 5th patient (left). Log transformed gene expression distribution for the same patient (right)</p>
+<img src="05-supervisedLearning_files/figure-html/logTransform-1.png" alt="Gene expression distribution for the 5th patient (left). Log transformed gene expression distribution for the same patient (right)." width="60%" />
+<p class="caption">(\#fig:logTransform)Gene expression distribution for the 5th patient (left). Log transformed gene expression distribution for the same patient (right).</p>
 </div>
 Since taking a log seems to work to tame the extreme values, we do that below and also add $1$ pseudo-count to be able to deal with $0$ values:
 
@@ -425,8 +425,8 @@ plot(rocCurve, legacy.axes = TRUE)
 ```
 
 <div class="figure" style="text-align: center">
-<img src="05-supervisedLearning_files/figure-html/ROC-1.png" alt="ROC curve for k-NN" width="60%" />
-<p class="caption">(\#fig:ROC)ROC curve for k-NN</p>
+<img src="05-supervisedLearning_files/figure-html/ROC-1.png" alt="ROC curve for k-NN." width="60%" />
+<p class="caption">(\#fig:ROC)ROC curve for k-NN.</p>
 </div>
 
 ```r
@@ -467,13 +467,13 @@ lines(loess.smooth(x=k, trainErr,degree=2),col="#CC0000")
 ```
 
 <div class="figure" style="text-align: center">
-<img src="05-supervisedLearning_files/figure-html/trainingErrork-1.png" alt="Training error for k-NN classification of glioma tumor samples" width="60%" />
-<p class="caption">(\#fig:trainingErrork)Training error for k-NN classification of glioma tumor samples</p>
+<img src="05-supervisedLearning_files/figure-html/trainingErrork-1.png" alt="Training error for k-NN classification of glioma tumor samples." width="60%" />
+<p class="caption">(\#fig:trainingErrork)Training error for k-NN classification of glioma tumor samples.</p>
 </div>
 
 The resulting training error plot is shown in Figure \@ref(fig:trainingErrork). We can see the effect of $k$ in the training error; as $k$ increases the model tends to be a bit worse on training. This makes sense because with large $k$ we take into account more and more neighbors, and at some point we start considering data points from the other classes as well and that decreases our accuracy.
 
-However, looking at the training accuracy is not the right way to test the model as we have mentioned. The models are generally tested on the datasets that are not used when building model. There are different strategies to do this. We have already split part of our dataset as test test, so let us see how we do it on the test data using the code below. The resulting plot is shown in Figure \@ref(fig:testTrainErr).
+However, looking at the training accuracy is not the right way to test the model as we have mentioned. The models are generally tested on the datasets that are not used when building model. There are different strategies to do this. We have already split part of our dataset as test set, so let us see how we do it on the test data using the code below. The resulting plot is shown in Figure \@ref(fig:testTrainErr).
 
 ```r
 set.seed(31)
@@ -508,14 +508,14 @@ legend("bottomright",fill=c("#CC0000","#00CC66"),
 ```
 
 <div class="figure" style="text-align: center">
-<img src="05-supervisedLearning_files/figure-html/testTrainErr-1.png" alt="Training and test error for k-NN classification of glioma tumor samples" width="60%" />
-<p class="caption">(\#fig:testTrainErr)Training and test error for k-NN classification of glioma tumor samples</p>
+<img src="05-supervisedLearning_files/figure-html/testTrainErr-1.png" alt="Training and test error for k-NN classification of glioma tumor samples." width="60%" />
+<p class="caption">(\#fig:testTrainErr)Training and test error for k-NN classification of glioma tumor samples.</p>
 </div>
 
 
 The test data show a different thing, of course. It is not the best strategy to increase the $k$ indefinitely. The test error rate increases after a while. Increasing $k$ results in too many data points influencing the decision about the class of the new sample, this may not be desirable since this strategy might include points from other classes eventually. On the other hand, if we set $k$ too low, we are restricting the model to only look for a few neighbors. 
 
-In addition, $k$ values that give the best performance for the training set are not the best $k$ for the test set. In fact, if we stick with $k=1$ as the best $k$ obtained from the training set, we would obtain a worse performance on the test set. In this case, we can talk about the concept of overfitting. This happens when our models fit the data in the training set extremely well but cannot perform well in the test datal; in other words, they cannot generalize. Similarly, underfitting could occur when our models do not learn well from the training data and they are overly simplistic. Ideally, we should use methods that help us estimate the real test error when tuning the models such as cross-validation, bootstrap or holdout test set. 
+In addition, $k$ values that give the best performance for the training set are not the best $k$ for the test set. In fact, if we stick with $k=1$ as the best $k$ obtained from the training set, we would obtain a worse performance on the test set. In this case, we can talk about the concept of overfitting. This happens when our models fit the data in the training set extremely well but cannot perform well in the test data; in other words, they cannot generalize. Similarly, underfitting could occur when our models do not learn well from the training data and they are overly simplistic. Ideally, we should use methods that help us estimate the real test error when tuning the models such as cross-validation, bootstrap or holdout test set. 
 
 
 ### Model complexity and bias variance trade-off 
@@ -531,16 +531,16 @@ The models that have high variance are generally more complex models that have m
 In reality, there is always a trade-off between bias and variance (See Figure \@ref(fig:varBias)). Increasing the variance with complex models will decrease the bias, but that might overfit. Conversely, simple models will increase the bias at the expense of the model variance, and that might underfit. There is an optimal point for model complexity, a balance between overfitting and underfitting.\index{overfitting} \index{underfitting} In practice, there is no analytical way to find this optimal complexity. Instead we must use an accurate measure of prediction error and explore different levels of model complexity and choose the complexity level that minimizes the overall error. Another approach to this is to use "the one standard error rule". Instead of choosing the parameter that minimizes the error estimate, we can choose the simplest model whose error estimate is within one standard error of the best model (see Chapter 7 of [@friedman2001elements]). The rationale behind that is to choose a simple model with the hope that it would perform better in the unseen data since its performance is not different from the best model in a statistically significant way. You might see the option to choose the "one-standard-error" model in some machine learning packages.
 
 <div class="figure" style="text-align: center">
-<img src="images/Variance-bias.png" alt="Variance-bias trade-off visualized as components of total prediction error in relation to model complexity" width="80%" />
-<p class="caption">(\#fig:varBias)Variance-bias trade-off visualized as components of total prediction error in relation to model complexity</p>
+<img src="images/Variance-bias.png" alt="Variance-bias trade-off visualized as components of total prediction error in relation to model complexity." width="80%" />
+<p class="caption">(\#fig:varBias)Variance-bias trade-off visualized as components of total prediction error in relation to model complexity.</p>
 </div>
 
 In our k-NN example\index{k-nearest neighbors (k-NN)}, lower $k$ values create a more flexible model. This might be counterintuitive, but as we have explained before having small $k$ values will fit the data in a very data-specific manner. It will probably not generalize well. Therefore in this respect, lower $k$ values will result in more complex models with high variance\index{model complexity}. On the other hand, higher $k$ values will result in less variance but higher bias. Figure \@ref(fig:kNNboundary) shows the decision boundary for two different k-NN models with $k=2$ and $k=12$. To be able to plot this in 2D we ran the model on principal component 1 and 2 of the training data set, and predicted the class label of many points in this 2D space. As you can see, $k=2$ creates a more variable model which tries aggressively to include all training samples in the correct class. This creates a high-variance model because the model could change drastically from dataset to dataset. On the other hand, setting $k=12$ creates a model with a smoother decision boundary. This model will have less variance since it considers many points for a decision, and therefore the decision boundary is smoother. 
 
 
 <div class="figure" style="text-align: center">
-<img src="images/knnDecisionBoundPCA.png" alt="Decision boundary for different k values in k-NN models. k=12 creates a smooth decision boundary and ignores certain data points on either side of the boundary. k=2 is less smooth and more variable" width="70%" />
-<p class="caption">(\#fig:kNNboundary)Decision boundary for different k values in k-NN models. k=12 creates a smooth decision boundary and ignores certain data points on either side of the boundary. k=2 is less smooth and more variable</p>
+<img src="images/knnDecisionBoundPCA.png" alt="Decision boundary for different k values in k-NN models. k=12 creates a smooth decision boundary and ignores certain data points on either side of the boundary. k=2 is less smooth and more variable." width="70%" />
+<p class="caption">(\#fig:kNNboundary)Decision boundary for different k values in k-NN models. k=12 creates a smooth decision boundary and ignores certain data points on either side of the boundary. k=2 is less smooth and more variable.</p>
 </div>
 
 ### Data split strategies for model tuning and testing
@@ -584,8 +584,8 @@ lines(loess.smooth(x=1:12,1-knn_fit$results[,2],degree=2),
 ```
 
 <div class="figure" style="text-align: center">
-<img src="05-supervisedLearning_files/figure-html/kknCv-1.png" alt="Cross-validated estimate of prediction error of k in k-NN models" width="60%" />
-<p class="caption">(\#fig:kknCv)Cross-validated estimate of prediction error of k in k-NN models</p>
+<img src="05-supervisedLearning_files/figure-html/kknCv-1.png" alt="Cross-validated estimate of prediction error of k in k-NN models." width="60%" />
+<p class="caption">(\#fig:kknCv)Cross-validated estimate of prediction error of k in k-NN models.</p>
 </div>
 Based on Figure \@ref(fig:kknCv) the cross-validation accuracy reveals that $k=5$ is the best $k$ value. On the other hand, we can also try bootstrap resampling and check the prediction error that way. We will again use the `caret::trainControl()` function to do the bootstrap sampling and estimate OOB-based error. However, for a small number of samples like we have in our example, the difference between the estimated and the true value of the prediction error can be large. Below we show how to use bootstrapping for the k-NN model.
 
@@ -683,17 +683,18 @@ For example, if a subset of data after split has 75% class A and 25% class B for
 ### Trees to forests
 Random forests are devised to counter the shortcomings of decision trees. They are simply ensembles of decision trees. Each tree is trained with a different randomly selected part of the data with randomly selected predictor variables. The goal of introducing randomness is to reduce the variance of the model so it does not overfit, at the expense of a small increase in the bias and some loss of interpretability. This strategy generally boosts the performance of the final model.\index{random forest}
 
-The random forests algorithm tries to decorrelate the trees so that they learn different things about the data. It does this by selecting a random subset of variables. If one or a few predictor variables are very strong predictors for the response variable, these features will be selected in many of the trees, causing them to become correlated. Random subsampling of predictor variables ensures that not always, the best predictors overall be selected for every tree and the model has a chance to learn other features of the data.
+The random forests algorithm tries to decorrelate the trees so that they learn different things about the data. It does this by selecting a random subset of variables. If one or a few predictor variables are very strong predictors for the response variable, these features will be selected in many of the trees, causing them to become correlated. Random subsampling of predictor variables ensures that not always the best predictors overall are selected for every tree and, the model does
+have a chance to learn other features of the data.
 
 Another sampling method introduced when building random forest models is bootstrap resampling before constructing each tree. This brings the advantage of out-of-the-bag (OOB) error prediction. In this case, the prediction error can be estimated for training samples that were OOB, meaning they were not used in the training, for some percentage of the trees. The prediction error for each sample can be estimated from the trees where that sample was OOB. OOB estimates claimed to be a good alternative to cross-validation estimated errors [@breiman2001random].
 
 <div class="figure" style="text-align: center">
-<img src="images/ml-random-forest-features.png" alt="Random forest concept. Individual decision trees are built with sampling strategies. Votes from each tree define the final class" width="70%" />
-<p class="caption">(\#fig:RFcartoon)Random forest concept. Individual decision trees are built with sampling strategies. Votes from each tree define the final class</p>
+<img src="images/ml-random-forest-features.png" alt="Random forest concept. Individual decision trees are built with sampling strategies. Votes from each tree define the final class." width="70%" />
+<p class="caption">(\#fig:RFcartoon)Random forest concept. Individual decision trees are built with sampling strategies. Votes from each tree define the final class.</p>
 </div>
 
 
-For demonstration purposes, we will use the `caret` \index{R Packages!\texttt{caret}}package interface to the `ranger` random forest package\index{R Packages!\texttt{ranger}}. This is a fast implementation of the original random forest algorithm. For random forests, we have two critical arguments. One of the most critical arguments for random forest is the number of predictor variables to sample in each split of the tree. This parameter controls the independence between the trees, and as explained before, this limits overfitting. Below, we are going to fit a random forest model to our tumor subtype problem. We will set `mtry=100` and do not select the training procedure to find the best `mtry` value for simplicity. However, it is good practice
+For demonstration purposes, we will use the `caret` \index{R Packages!\texttt{caret}}package interface to the `ranger` random forest package\index{R Packages!\texttt{ranger}}. This is a fast implementation of the original random forest algorithm. For random forests, we have two critical arguments. One of the most critical arguments for random forest is the number of predictor variables to sample in each split of the tree. This parameter controls the independence between the trees, and as explained before, this limits overfitting. Below, we are going to fit a random forest model to our tumor subtype problem. We will set `mtry=100` and not perform the training procedure to find the best `mtry` value for simplicity. However, it is good practice
 to run the model with cross-validation and let it pick the best parameters based on the cross-validation performance. It defaults to the square root of number of predictor variables. Another variable we can tune is the minimum node size of terminal nodes in the trees (`min.node.size`). This controls the depth of the trees grown. Setting this to larger numbers might cost a small loss in accuracy but the algorithm will run faster.
 
 ```r
@@ -732,8 +733,8 @@ plot(varImp(rfFit),top=10)
 ```
 
 <div class="figure" style="text-align: center">
-<img src="05-supervisedLearning_files/figure-html/RFvarImp-1.png" alt="Top 10 important variables based on permutation-based method for the random forest classification" width="50%" />
-<p class="caption">(\#fig:RFvarImp)Top 10 important variables based on permutation-based method for the random forest classification</p>
+<img src="05-supervisedLearning_files/figure-html/RFvarImp-1.png" alt="Top 10 important variables based on permutation-based method for the random forest classification." width="50%" />
+<p class="caption">(\#fig:RFvarImp)Top 10 important variables based on permutation-based method for the random forest classification.</p>
 </div>
 
 
@@ -762,7 +763,7 @@ In logistic regression, \index{logistic regression}the response variable is mode
  (\#eq:logLik)
 \end{equation}
 
-In order to maximize this equation we have to find optimum $p_i$ values which are dependent on parameters $\beta_0$ and $\beta_1$, and also dependent on the  values of predictor variables $x_i$. We can rearrange the equation replacing $p_i$ with the logistic equation. In addition, many optimization functions minimize rather than maximize. Therefore, we will be using negative log likelihood, which also called  the "log loss" or "logistic loss" function. The function below is the "log loss" function. We substituted $p_i$ with the logistic equation and simplified the expression.
+In order to maximize this equation we have to find optimum $p_i$ values which are dependent on parameters $\beta_0$ and $\beta_1$, and also dependent on the  values of predictor variables $x_i$. We can rearrange the equation replacing $p_i$ with the logistic equation. In addition, many optimization functions minimize rather than maximize. Therefore, we will be using negative log likelihood, which is also called  the "log loss" or "logistic loss" function. The function below is the "log loss" function. We substituted $p_i$ with the logistic equation and simplified the expression.
 
 \begin{equation}
 \operatorname L_{log}=-{\ln}(L)=-\sum_{i=1}^N\bigg[-{\ln(1+e^{(\beta _{0}+\beta _{1}x_i)})+y_i \left(\beta _{0}+\beta _{1}x_i\right)\bigg]}
@@ -797,8 +798,8 @@ lines(subtype ~ PDPN, newdat, col="green4", lwd=2)
 ```
 
 <div class="figure" style="text-align: center">
-<img src="05-supervisedLearning_files/figure-html/logReg1-1.png" alt="Sigmoid curve for prediction of subtype based on one predictor variable" width="60%" />
-<p class="caption">(\#fig:logReg1)Sigmoid curve for prediction of subtype based on one predictor variable</p>
+<img src="05-supervisedLearning_files/figure-html/logReg1-1.png" alt="Sigmoid curve for prediction of subtype based on one predictor variable." width="60%" />
+<p class="caption">(\#fig:logReg1)Sigmoid curve for prediction of subtype based on one predictor variable.</p>
 </div>
 
 Figure \@ref(fig:logReg1) shows the sigmoidal curve that is fitted by the logistic regression. "noCIMP" subtype has higher expression of the PDPN gene than the "CIMP" subtype. In other words, the higher the values of PDPN, the more likely that the tumor sample will be classified as "noCIMP". We can also assess the performance of our model with the test set and the training set. Let us try to do that again with the `caret::predict()` and `caret::confusionMatrix()` functions. 
@@ -924,8 +925,8 @@ plot(varImp(enetFit),top=10)
 ```
 
 <div class="figure" style="text-align: center">
-<img src="05-supervisedLearning_files/figure-html/varImpEnet-1.png" alt="Variable importance metric for elastic net. This metric uses regression coefficients as importance" width="60%" />
-<p class="caption">(\#fig:varImpEnet)Variable importance metric for elastic net. This metric uses regression coefficients as importance</p>
+<img src="05-supervisedLearning_files/figure-html/varImpEnet-1.png" alt="Variable importance metric for elastic net. This metric uses regression coefficients as importance." width="60%" />
+<p class="caption">(\#fig:varImpEnet)Variable importance metric for elastic net. This metric uses regression coefficients as importance.</p>
 </div>
 
 
@@ -944,8 +945,8 @@ Gradient boosting is a prediction model that uses an ensemble of decision trees 
 
 Generally, "boosting" \index{gradient boosting} refers to an iterative learning approach where each new model tries to focus on data points where the previous ensemble of simple models did not predict well. Gradient boosting is an improvement over that, where each new model tries to focus on the residual errors (prediction error for the current ensemble of models) of the previous model. Specifically in gradient boosting, the simple models are trees.  As in random forests, many trees are grown but in this case, trees are sequentially grown and each tree focuses on fixing the shortcomings of the previous trees. Figure \@ref(fig:GBMcartoon) shows this concept.  One of the most widely used algorithms for gradient boosting is `XGboost` which stands for "extreme gradient boosting" [@chen2016xgboost]. Below we will demonstrate how to use this on our problem. `XGboost`\index{R Packages!\texttt{XGboost}} as well as other gradient boosting methods has many parameters to regularize and optimize the complexity of the model. Finding the best parameters for your problem might take some time. However, this flexibility comes with benefits; methods depending on `XGboost` have won many machine learning competitions [@chen2016xgboost]. 
 <div class="figure" style="text-align: center">
-<img src="images/ml-GBM-features.png" alt="Gradient boosting machines concept. Individual decision trees are built sequentially in order to fix the errors from the previous trees" width="70%" />
-<p class="caption">(\#fig:GBMcartoon)Gradient boosting machines concept. Individual decision trees are built sequentially in order to fix the errors from the previous trees</p>
+<img src="images/ml-GBM-features.png" alt="Gradient boosting machines concept. Individual decision trees are built sequentially in order to fix the errors from the previous trees." width="70%" />
+<p class="caption">(\#fig:GBMcartoon)Gradient boosting machines concept. Individual decision trees are built sequentially in order to fix the errors from the previous trees.</p>
 </div>
 
 The most important parameters are number of trees (`nrounds`),  tree depth (`max_depth`), and learning rate or shrinkage (`eta`). Generally, the more trees we have, the better the algorithm will learn because each tree tries to fix classification errors that the previous tree ensemble could not perform. Having too many trees might cause overfitting. However, the learning rate parameter,  eta, combats that by shrinking the contribution of each new tree. This can be set to lower values if you have many trees. You can either set a large number of trees and then tune the model with the learning rate parameter or set the learning rate low, say to $0.01$ or $0.1$ and tune the number of trees. Similarly, tree depth also controls for overfitting. The deeper the tree, the more usually it will overfit. This has to be tuned as well; the default is at 6. You can try to explore a range around the default. Apart from these, as in random forests, you can subsample the training data and/or the predictive variables. These strategies can also help you counter overfitting.  
@@ -988,7 +989,7 @@ Similar to random forests, we can estimate the variable importance for gradient 
 \BeginKnitrBlock{rmdtip}<div class="rmdtip">
 __Want to know more ?__
 
-- More background on gradient boosting and XGboost:(https://xgboost.readthedocs.io/en/latest/tutorials/model.html). This explains the cost/loss function and regularization in more detail.
+- More background on gradient boosting and XGboost: (https://xgboost.readthedocs.io/en/latest/tutorials/model.html). This explains the cost/loss function and regularization in more detail.
 - Lecture on Gradient boosting and random forests by Trevor Hastie: (https://youtu.be/wPqtzj5VZus)
 </div>\EndKnitrBlock{rmdtip}
 
@@ -1037,13 +1038,13 @@ __Want to know more ?__
 Neural networks \index{neural network} are another popular machine learning method which is recently regaining popularity. The earlier versions of the algorithm were popularized in the 80s and 90s. The advantage of neural networks is like SVM, they can model non-linear decision boundaries. The basic idea of neural networks is to combine the predictor variables in order to model the response variable as a non-linear function. In a neural network, input variables pass through several layers that combine the variables and transform those combinations and recombine outputs depending on how many layers the network has. In the conceptual example in Figure \@ref(fig:neuralNetDiagram) the input nodes receive predictor variables and make linear combinations of them in the form of $\sum ( w_ixi +b)$. Simply put, the variables are multiplied with weights and summed up. This is what we call "linear combination". These quantities are further fed into another layer called the hidden layer where an activation function is applied on the sums. And these results are further fed into an output node which outputs class probabilities assuming we are working on a classification algorithm. There could be many more hidden layers that will even further combine the output from hidden layers before them. The algorithm in the end also has a cost function similar to the logistic regression  cost function, but it now has to estimate all the weight parameters: $w_i$. This is a more complicated problem than logistic regression because of the number of parameters to be estimated but neural networks are able to fit complex functions due their parameter space flexibility as well.
 
 <div class="figure" style="text-align: center">
-<img src="images/neuralNetDiagram.png" alt="Diagram for a simple neural network, their combinations pass through hidden layers and are combined again for the output. Predictor variables are fed to the network and weights are adjusted to optimize the cost function" width="80%" />
-<p class="caption">(\#fig:neuralNetDiagram)Diagram for a simple neural network, their combinations pass through hidden layers and are combined again for the output. Predictor variables are fed to the network and weights are adjusted to optimize the cost function</p>
+<img src="images/neuralNetDiagram.png" alt="Diagram for a simple neural network, their combinations pass through hidden layers and are combined again for the output. Predictor variables are fed to the network and weights are adjusted to optimize the cost function." width="80%" />
+<p class="caption">(\#fig:neuralNetDiagram)Diagram for a simple neural network, their combinations pass through hidden layers and are combined again for the output. Predictor variables are fed to the network and weights are adjusted to optimize the cost function.</p>
 </div>
 
 In a practical sense, the number of nodes in the hidden layer (size) and some regularization on the weights can be applied to control for overfitting. This is called the calculated (decay) parameter controls for overfitting. 
 
-We will train a simple neural network on our cancer data set. In this simple example, the network architecture is somewhat fixed. We can only the choose number of nodes (denoted by "size") in the hidden layer and a regularization parameter (denoted by "decay"). Increasing the number of nodes in hidden layer or in other implementations increasing the number of the hidden layers, will help model non-linear relationships but can overfit. One way to combat that is to limit the number of nodes in the hidden layer; another way is to regularize the weights. The decay parameter does just that, it penalizes the loss function by $decay(weigths^2)$. In the example below, we try 1 or 2 nodes in the hidden layer in the interest of simplicity and run-time. In addition, we set `decay=0`, which will correspond to not doing any regularization. 
+We will train a simple neural network on our cancer data set. In this simple example, the network architecture is somewhat fixed. We can only the choose number of nodes (denoted by "size") in the hidden layer and a regularization parameter (denoted by "decay"). Increasing the number of nodes in the hidden layer or in other implementations increasing the number of the hidden layers, will help model non-linear relationships but can overfit. One way to combat that is to limit the number of nodes in the hidden layer; another way is to regularize the weights. The decay parameter does just that, it penalizes the loss function by $decay(weigths^2)$. In the example below, we try 1 or 2 nodes in the hidden layer in the interest of simplicity and run-time. In addition, we set `decay=0`, which will correspond to not doing any regularization. 
 
 ```r
 #svm code here
@@ -1101,7 +1102,7 @@ confusionMatrix(data=testing[,1],
 ## 0.9814815
 ```
 
-In the test set, we were able to obtain perfect accuracy after voting. More complicated and accurate ways to build ensembles exist. We could also use the mean of class probabilities instead of voting for final class predictions. We can even combine models in a regression based scheme to assign weights to the votes or to the predicted class probabilities of each model. In these cases, the prediction performance of the ensembles can also be tested with sampling techniques such as cross-validation. You can think of this as another layer of optimization or modeling for combining results from different models. We will not pursue this further in this chapter but packages such as [`caretEnsemble`](https://cran.r-project.org/web/packages/caretEnsemble/), [`SuperLearner`](https://cran.r-project.org/web/packages/SuperLearner/index.html) or [`mlr`](https://mlr.mlr-org.com/) can combine models in various ways described above. \index{R Packages!\texttt{caretEnsemble}}
+In the test set, we were able to obtain perfect accuracy after voting. More complicated and accurate ways to build ensembles exist. We could also use the mean of class probabilities instead of voting for final class predictions. We can even combine models in a regression-based scheme to assign weights to the votes or to the predicted class probabilities of each model. In these cases, the prediction performance of the ensembles can also be tested with sampling techniques such as cross-validation. You can think of this as another layer of optimization or modeling for combining results from different models. We will not pursue this further in this chapter but packages such as [`caretEnsemble`](https://cran.r-project.org/web/packages/caretEnsemble/), [`SuperLearner`](https://cran.r-project.org/web/packages/SuperLearner/index.html) or [`mlr`](https://mlr.mlr-org.com/) can combine models in various ways described above. \index{R Packages!\texttt{caretEnsemble}}
 \index{R Packages!\texttt{SuperLearner}}
 \index{R Packages!\texttt{mlr}}
 
@@ -1157,7 +1158,7 @@ hist(unlist(ameth[,-1]),border="white",
 <p class="caption">(\#fig:readMethAge)Histogram of methylation values in the training set for age prediction.</p>
 </div>
 
-There are $~27000$ predictor variables. We can remove the ones that have low variation across samples. In this case, the methylation values are between $0$ and $1$.  Rhe CpGs that have low variation are not likely to have any association with age, they could simply be technical variation of the experiment. We will remove CpGs that have less than 0.1 standard deviation.
+There are $~27000$ predictor variables. We can remove the ones that have low variation across samples. In this case, the methylation values are between $0$ and $1$. The CpGs that have low variation are not likely to have any association with age; they could simply be technical variation of the experiment. We will remove CpGs that have less than 0.1 standard deviation.
 
 ```r
 ameth=ameth[,c(TRUE,matrixStats::colSds(as.matrix(ameth[,-1]))>0.1)]
@@ -1207,8 +1208,8 @@ abline(h=0,col="red4",lty=2)
 ```
 
 <div class="figure" style="text-align: center">
-<img src="05-supervisedLearning_files/figure-html/predictAge-1.png" alt="Observed vs. predicted age (Left). Residual plot showing that for older people the error increases (Right)" width="80%" />
-<p class="caption">(\#fig:predictAge)Observed vs. predicted age (Left). Residual plot showing that for older people the error increases (Right)</p>
+<img src="05-supervisedLearning_files/figure-html/predictAge-1.png" alt="Observed vs. predicted age (Left). Residual plot showing that for older people the error increases (Right)." width="80%" />
+<p class="caption">(\#fig:predictAge)Observed vs. predicted age (Left). Residual plot showing that for older people the error increases (Right).</p>
 </div>
 
 In this instance, we are using OOB errors and $R^2$ value which shows how the model performs on OOB samples. The model can capture the general trend and it has acceptable OOB performance. It is not perfect as it makes errors on average close to 10 years when predicting the age, and the errors are more severe for older people (Figure \@ref(fig:predictAge)). This could be due to having fewer older people to model or missing/inadequate predictor variables. However, everything we discussed in classification applies here. We had even fewer data points than the classification problem, so we did not do a split for a test data set. However, this should also be done for regression problems, especially when we are going to compare the performance of different models or want to have a better idea of the real-world performance of our model. We might also be interested in which variables are most important as in the classification problem; we can use the `caret:varImp()` function to get access to random-forest-specific variable importance metrics.

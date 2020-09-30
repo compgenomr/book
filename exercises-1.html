@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -518,7 +518,7 @@ population parameters were <span class="math inline">\(\sigma=70\)</span> and <s
 using a histogram. Get the 2.5th and 97.5th percentiles of the
 distribution. [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
 <li><p>Use the <code>t.test()</code> function to calculate confidence intervals
-of the mean on the first random sample <code>pois1</code> simulated from the<code>rpois()</code> function below. [Difficulty: <strong>Intermediate</strong>]</p></li>
+of the mean on the first random sample <code>pois1</code> simulated from the <code>rpois()</code> function below. [Difficulty: <strong>Intermediate</strong>]</p></li>
 </ol>
 <div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="exercises-1.html#cb186-1"></a><span class="co">#HINT</span></span>
 <span id="cb186-2"><a href="exercises-1.html#cb186-2"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
@@ -553,9 +553,9 @@ Plot the distributions using histograms and boxplots. [Difficulty: <strong>Inter
 <span id="cb188-3"><a href="exercises-1.html#cb188-3"></a>gene2=<span class="kw">rnorm</span>(<span class="dv">30</span>,<span class="dt">mean=</span><span class="dv">2</span>,<span class="dt">sd=</span><span class="dv">2</span>)</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>We need an extra data set for this exercise. Read the gene expression data set as follows:
-<code>gexpFile=system.file("extdata","geneExpMat.rds",package="compGenomRData") data=readRDS(gexpFile)</code> The data has 100 differentially expressed genes. The first 3 columns are the test samples, and the last 3 are the control samples. Do
+<code>gexpFile=system.file("extdata","geneExpMat.rds",package="compGenomRData") data=readRDS(gexpFile)</code>. The data has 100 differentially expressed genes. The first 3 columns are the test samples, and the last 3 are the control samples. Do
 a t-test for each gene (each row is a gene), and record the p-values.
-Then, do a moderated t-test, as shown in section “Moderated t-tests” inthis Capter, and record
+Then, do a moderated t-test, as shown in section “Moderated t-tests” in this chapter, and record
 the p-values. Make a p-value histogram and compare two approaches in terms of the number of significant tests with the <span class="math inline">\(0.05\)</span> threshold.
 On the p-values use FDR (BH), Bonferroni and q-value adjustment methods.
 Calculate how many adjusted p-values are below 0.05 for each approach.
@@ -596,12 +596,12 @@ is the model returned by <code>lm()</code>. [Difficulty:<strong>Advanced</strong
 <pre><code>hmodFile=system.file(&quot;extdata&quot;,
                     &quot;HistoneModeVSgeneExp.rds&quot;,
                      package=&quot;compGenomRData&quot;)`</code></pre>
-<p>There are 3 columns in the dataset these are measured levels of H3K4me3,
-H3K27me3 and gene expression per gene. Once you read in the data, plot the scatter plot for H3K4me3 vs. expression.[Difficulty:<strong>Beginner</strong>]</p>
+<p>There are 3 columns in the dataset. These are measured levels of H3K4me3,
+H3K27me3 and gene expression per gene. Once you read in the data, plot the scatter plot for H3K4me3 vs. expression. [Difficulty:<strong>Beginner</strong>]</p>
 <ol start="7" style="list-style-type: decimal">
 <li><p>Plot the scatter plot for H3K27me3 vs. expression. [Difficulty:<strong>Beginner</strong>]</p></li>
-<li><p>Fit the model for prediction of expression data using: 1) Only H3K4me3 as explanatory variable, 2) Only H3K27me3 as explanatory variable, and 3) Using both H3K4me3 and H3K27me3 as explanatory variables.Inspect the <code>summary()</code> function output in each case, which terms are significant. [Difficulty:<strong>Beginner/Intermediate</strong>]</p></li>
-<li><p>Is using H3K4me3 and H3K27me3 better than the model with only H3K4me3 ? [Difficulty:<strong>Intermediate</strong>]</p></li>
+<li><p>Fit the model for prediction of expression data using: 1) Only H3K4me3 as explanatory variable, 2) Only H3K27me3 as explanatory variable, and 3) Using both H3K4me3 and H3K27me3 as explanatory variables. Inspect the <code>summary()</code> function output in each case, which terms are significant. [Difficulty:<strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Is using H3K4me3 and H3K27me3 better than the model with only H3K4me3? [Difficulty:<strong>Intermediate</strong>]</p></li>
 <li><p>Plot H3k4me3 vs. H3k27me3. Inspect the points that do not
 follow a linear trend. Are they clustered at certain segments
 of the plot? Bonus: Is there any biological or technical interpretation

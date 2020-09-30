@@ -123,8 +123,8 @@ pheatmap::pheatmap(x1,
 ```
 
 <div class="figure" style="text-align: center">
-<img src="11-multiomics-analysis_files/figure-html/mogeneExpressionHeatmap-1.png" alt="Heatmap of gene expression data for colorectal cancers" width="60%" />
-<p class="caption">(\#fig:mogeneExpressionHeatmap)Heatmap of gene expression data for colorectal cancers</p>
+<img src="11-multiomics-analysis_files/figure-html/mogeneExpressionHeatmap-1.png" alt="Heatmap of gene expression data for colorectal cancers." width="60%" />
+<p class="caption">(\#fig:mogeneExpressionHeatmap)Heatmap of gene expression data for colorectal cancers.</p>
 </div>
 
 In Figure \@ref(fig:mogeneExpressionHeatmap), each column is a tumor, and each row is a gene. The values in the cells are FPKM values. There is another band above the heatmap annotating each column (tumor) with its corresponding subtype. The tumors are clustered using hierarchical clustering denoted by the dendrogram above the heatmap, according to which the columns (tumors) are ordered. While this ordering corresponds somewhat to the subtypes, it would not be possible to cut this dendrogram in a way which achieves perfect separation between the subtypes.
@@ -140,8 +140,8 @@ pheatmap::pheatmap(x2,
 ```
 
 <div class="figure" style="text-align: center">
-<img src="11-multiomics-analysis_files/figure-html/momutationsHeatmap-1.png" alt="Heatmap of mutation data for colorectal cancers" width="50%" />
-<p class="caption">(\#fig:momutationsHeatmap)Heatmap of mutation data for colorectal cancers</p>
+<img src="11-multiomics-analysis_files/figure-html/momutationsHeatmap-1.png" alt="Heatmap of mutation data for colorectal cancers." width="50%" />
+<p class="caption">(\#fig:momutationsHeatmap)Heatmap of mutation data for colorectal cancers.</p>
 </div>
 
 An examination of Figure \@ref(fig:momutationsHeatmap) shows that tumors clustered and ordered by mutation data correspond very closely to their CMS subtypes. However, one should be careful in drawing conclusions about this result. Upon closer examination, you might notice that the separating factor seems to be that CMS1 tumors have significantly more mutations than do CMS3 tumors. This, rather than mutations in a specific genes, seems to be driving this clustering result. Nevertheless, this hyper-mutated status is an important indicator for this subtype.
@@ -157,8 +157,8 @@ pheatmap::pheatmap(x3,
 ```
 
 <div class="figure" style="text-align: center">
-<img src="11-multiomics-analysis_files/figure-html/moCNVHeatmap-1.png" alt="Heatmap of copy number variation data, colorectal cancers" width="50%" />
-<p class="caption">(\#fig:moCNVHeatmap)Heatmap of copy number variation data, colorectal cancers</p>
+<img src="11-multiomics-analysis_files/figure-html/moCNVHeatmap-1.png" alt="Heatmap of copy number variation data, colorectal cancers." width="50%" />
+<p class="caption">(\#fig:moCNVHeatmap)Heatmap of copy number variation data, colorectal cancers.</p>
 </div>
 
 The interpretation of Figure \@ref(fig:moCNVHeatmap) is left as an exercise for the reader.
@@ -292,7 +292,7 @@ __Want to know more ?__
 
 
 
-### Joint non-negative matrix Factorization
+### Joint non-negative matrix factorization
 
 \index{non-negative matrix factorization (NMF)}As introduced in Chapter \@ref(unsupervisedLearning), NMF (Non-negative Matrix Factorization) is an algorithm from 2000 that seeks to find a non-negative additive decomposition for a non-negative data matrix. It takes the familiar form $X \approx WH$, with $X \ge 0$, $W \ge 0$, and $H \ge 0$. The non-negative constraints make a lossless decomposition (i.e. $X=WH$) generally impossible. Hence, NMF attempts to find a solution which minimizes the Frobenius norm of the reconstruction:
 
@@ -495,7 +495,7 @@ In order to solve this problem, iCluster employs the Expectation Maximization (E
 
 * Initialize $W$ and $\Psi$.
 * **Until convergence of $W$, $\Psi$**
-    - E-step: Calculate the expected value of $Z$ given the current estimates of $W$ and $\Psi$ and the data $X$
+    - E-step: Calculate the expected value of $Z$ given the current estimates of $W$ and $\Psi$ and the data $X$.
     - M-step: Calculate maximum likelihood estimates for the parameters $W$ and $\Psi$ based on the current estimate of $Z$ and the data $X$.
 
 #### iCluster+: Extending iCluster
@@ -559,8 +559,8 @@ __Want to know more ?__
 - Read the original iCluster paper: Shen R., Olshen A. B., Ladanyi M. (2009). Integrative clustering of multiple genomic data types using a joint latent variable model with application to breast and lung cancer subtype analysis. _Bioinformatics_ 25, 2906–2912. 10.1093/bioinformatics/btp543 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2800366/
 - Read the original iClusterPlus paper: an extension of iCluster: Shen R., Mo Q., Schultz N., Seshan V. E., Olshen A. B., Huse J., et al. (2012). Integrative subtype discovery in glioblastoma using iCluster. _PLoS ONE_ 7:e35236. 10.1371/journal.pone.0035236 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3335101/
 - Learn more about the LASSO for model regularization: Tibshirani, R. (1996). Regression shrinkage and selection via the lasso. _J. Royal. Statist. Soc B._, Vol. 58, No. 1, pages 267-288: http://www-stat.stanford.edu/%7Etibs/lasso/lasso.pdf
-- Learn more about the EM algorithm: Dempster, A. P., et al. “Maximum likelihood from incomplete data via the EM algorithm.” _Journal of the Royal Statistical Society. Series B (Methodological)_, vol. 39, no. 1, 1977, pp. 1–38. JSTOR, JSTOR: http://www.jstor.org/stable/2984875
-- Read about MCMC algorithms: Hastings, W.K. (1970). "Monte Carlo sampling methods using markov chains and their applications". _Biometrika._ 57 (1): 97–109. doi:10.1093/biomet/57.1.97: https://www.jstor.org/stable/2334940
+- Learn more about the EM algorithm: Dempster, A. P., et al. Maximum likelihood from incomplete data via the EM algorithm. _Journal of the Royal Statistical Society. Series B (Methodological)_, vol. 39, no. 1, 1977, pp. 1–38. JSTOR, JSTOR: http://www.jstor.org/stable/2984875
+- Read about MCMC algorithms: Hastings, W.K. (1970). Monte Carlo sampling methods using Markov chains and their applications. _Biometrika._ 57 (1): 97–109. doi:10.1093/biomet/57.1.97: https://www.jstor.org/stable/2334940
 </div>\EndKnitrBlock{rmdtip}
 
 
@@ -570,7 +570,7 @@ __Want to know more ?__
 
 ### One-hot clustering
 
-A specific clustering method for NMF data is to assume each sample is driven by one component, i.e. that the number of clusters $K$ is the same as the number of latent variables in the model and that each sample may be associated to one of those components. We assign each sample a cluster label based on the latent variable which affects it the most. Figure \@ref(fig:monmfheatmap) above (Heatmap of 2-component NMF) shows the latent variable values for the two latent variables, for the 72 tumors, obtained by Joint NMF.
+A specific clustering method for NMF data is to assume each sample is driven by one component, i.e. that the number of clusters $K$ is the same as the number of latent variables in the model and that each sample may be associated to one of those components. We assign each sample a cluster label based on the latent variable which affects it the most. Figure \@ref(fig:monmfheatmap) above (heatmap of 2-component NMF) shows the latent variable values for the two latent variables, for the 72 tumors, obtained by Joint NMF.
 
 The two rows are the two latent variables, and the columns are the 72 tumors. We can observe that most tumors are indeed driven mainly by one of the factors, and not a combination of the two. We can use this to assign each tumor a cluster label based on its dominant factor, shown in the following code snippet, which also produces the heatmap in Figure \@ref(fig:moNMFClustering).
 
@@ -598,8 +598,8 @@ pheatmap::pheatmap(t(nmf.h[order(nmf.clusters),]),
 ```
 
 <div class="figure" style="text-align: center">
-<img src="11-multiomics-analysis_files/figure-html/moNMFClustering-1.png" alt="Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types." width="50%" />
-<p class="caption">(\#fig:moNMFClustering)Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types.</p>
+<img src="11-multiomics-analysis_files/figure-html/moNMFClustering-1.png" alt="Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluster per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types." width="50%" />
+<p class="caption">(\#fig:moNMFClustering)Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluster per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types.</p>
 </div>
 
 We see that using one-hot clustering with Joint NMF, we were able to find two clusters in the data which correspond fairly well with the molecular subtype of the tumors.
@@ -842,4 +842,4 @@ test_split_neg_columns()
 4. Microsatellite instability (MSI) is associated with hyper-mutated tumors. As seen in Figure \@ref(fig:momutationsHeatmap), one of the subtypes has tumors with significantly more mutations than the other. Which subtype is that? Which NMF factor is associated with that subtype? And which NMF factor is associated with MSI? [Difficulty: **Advanced**]
 
 
-[^mfamca]: When dealing with categorical variables, MFA uses MCA (Multiple Correspondence Analysis). This is less relevant to biological data analysis and will not be discussed here
+[^mfamca]: When dealing with categorical variables, MFA uses MCA (Multiple Correspondence Analysis). This is less relevant to biological data analysis and will not be discussed here.

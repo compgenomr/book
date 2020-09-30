@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -499,24 +499,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="inspection-of-feature-weights-in-loading-vectors" class="section level3">
 <h3><span class="header-section-number">11.5.1</span> Inspection of feature weights in loading vectors</h3>
 <p>The most straightforward way to go about interpreting the latent factors in a biological context, is to look at the coefficients which are associated with them. The latent variable models introduced above all take the linear form <span class="math inline">\(X \approx WH\)</span>, where <span class="math inline">\(W\)</span> is a factor matrix, with coefficients tying each latent variable with each of the features in the <span class="math inline">\(L\)</span> original multi-omics data matrices. By inspecting these coefficients, we can get a sense of which multi-omics features are co-regulated. The code snippet below generates Figure <a href="biological-interpretation-of-latent-factors.html#fig:moNMFHeatmap">11.15</a>, which shows the coefficients of the Joint NMF analysis above:</p>
-<div class="sourceCode" id="cb619"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb619-1"><a href="biological-interpretation-of-latent-factors.html#cb619-1"></a><span class="co"># create an annotation dataframe for the heatmap</span></span>
-<span id="cb619-2"><a href="biological-interpretation-of-latent-factors.html#cb619-2"></a><span class="co"># for each feature, indicating its omics-type</span></span>
-<span id="cb619-3"><a href="biological-interpretation-of-latent-factors.html#cb619-3"></a>data_anno &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb619-4"><a href="biological-interpretation-of-latent-factors.html#cb619-4"></a>  <span class="dt">omics=</span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&#39;expression&#39;</span>,<span class="kw">dim</span>(x1)[<span class="dv">1</span>]),</span>
-<span id="cb619-5"><a href="biological-interpretation-of-latent-factors.html#cb619-5"></a>          <span class="kw">rep</span>(<span class="st">&#39;mut&#39;</span>,<span class="kw">dim</span>(x2)[<span class="dv">1</span>]),</span>
-<span id="cb619-6"><a href="biological-interpretation-of-latent-factors.html#cb619-6"></a>          <span class="kw">rep</span>(<span class="st">&#39;cnv&#39;</span>,<span class="kw">dim</span>(x3.featnorm.frobnorm.nonneg)[<span class="dv">1</span>])))</span>
-<span id="cb619-7"><a href="biological-interpretation-of-latent-factors.html#cb619-7"></a><span class="kw">rownames</span>(data_anno) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(x1),</span>
-<span id="cb619-8"><a href="biological-interpretation-of-latent-factors.html#cb619-8"></a>                         <span class="kw">paste0</span>(<span class="st">&quot;mut:&quot;</span>, <span class="kw">rownames</span>(x2)),</span>
-<span id="cb619-9"><a href="biological-interpretation-of-latent-factors.html#cb619-9"></a>                         <span class="kw">rownames</span>(x3.featnorm.frobnorm.nonneg))</span>
-<span id="cb619-10"><a href="biological-interpretation-of-latent-factors.html#cb619-10"></a><span class="kw">rownames</span>(nmfw) &lt;-<span class="st"> </span><span class="kw">rownames</span>(data_anno)</span>
-<span id="cb619-11"><a href="biological-interpretation-of-latent-factors.html#cb619-11"></a></span>
-<span id="cb619-12"><a href="biological-interpretation-of-latent-factors.html#cb619-12"></a><span class="co"># generate the heat map</span></span>
-<span id="cb619-13"><a href="biological-interpretation-of-latent-factors.html#cb619-13"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(nmfw,</span>
-<span id="cb619-14"><a href="biological-interpretation-of-latent-factors.html#cb619-14"></a>                   <span class="dt">cluster_cols =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb619-15"><a href="biological-interpretation-of-latent-factors.html#cb619-15"></a>                   <span class="dt">annotation_row =</span> data_anno,</span>
-<span id="cb619-16"><a href="biological-interpretation-of-latent-factors.html#cb619-16"></a>                   <span class="dt">main=</span><span class="st">&quot;NMF coefficients&quot;</span>,</span>
-<span id="cb619-17"><a href="biological-interpretation-of-latent-factors.html#cb619-17"></a>                   <span class="dt">clustering_distance_rows =</span> <span class="st">&quot;manhattan&quot;</span>,</span>
-<span id="cb619-18"><a href="biological-interpretation-of-latent-factors.html#cb619-18"></a>                   <span class="dt">fontsize_row =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb618-1"><a href="biological-interpretation-of-latent-factors.html#cb618-1"></a><span class="co"># create an annotation dataframe for the heatmap</span></span>
+<span id="cb618-2"><a href="biological-interpretation-of-latent-factors.html#cb618-2"></a><span class="co"># for each feature, indicating its omics-type</span></span>
+<span id="cb618-3"><a href="biological-interpretation-of-latent-factors.html#cb618-3"></a>data_anno &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb618-4"><a href="biological-interpretation-of-latent-factors.html#cb618-4"></a>  <span class="dt">omics=</span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&#39;expression&#39;</span>,<span class="kw">dim</span>(x1)[<span class="dv">1</span>]),</span>
+<span id="cb618-5"><a href="biological-interpretation-of-latent-factors.html#cb618-5"></a>          <span class="kw">rep</span>(<span class="st">&#39;mut&#39;</span>,<span class="kw">dim</span>(x2)[<span class="dv">1</span>]),</span>
+<span id="cb618-6"><a href="biological-interpretation-of-latent-factors.html#cb618-6"></a>          <span class="kw">rep</span>(<span class="st">&#39;cnv&#39;</span>,<span class="kw">dim</span>(x3.featnorm.frobnorm.nonneg)[<span class="dv">1</span>])))</span>
+<span id="cb618-7"><a href="biological-interpretation-of-latent-factors.html#cb618-7"></a><span class="kw">rownames</span>(data_anno) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rownames</span>(x1),</span>
+<span id="cb618-8"><a href="biological-interpretation-of-latent-factors.html#cb618-8"></a>                         <span class="kw">paste0</span>(<span class="st">&quot;mut:&quot;</span>, <span class="kw">rownames</span>(x2)),</span>
+<span id="cb618-9"><a href="biological-interpretation-of-latent-factors.html#cb618-9"></a>                         <span class="kw">rownames</span>(x3.featnorm.frobnorm.nonneg))</span>
+<span id="cb618-10"><a href="biological-interpretation-of-latent-factors.html#cb618-10"></a><span class="kw">rownames</span>(nmfw) &lt;-<span class="st"> </span><span class="kw">rownames</span>(data_anno)</span>
+<span id="cb618-11"><a href="biological-interpretation-of-latent-factors.html#cb618-11"></a></span>
+<span id="cb618-12"><a href="biological-interpretation-of-latent-factors.html#cb618-12"></a><span class="co"># generate the heat map</span></span>
+<span id="cb618-13"><a href="biological-interpretation-of-latent-factors.html#cb618-13"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(nmfw,</span>
+<span id="cb618-14"><a href="biological-interpretation-of-latent-factors.html#cb618-14"></a>                   <span class="dt">cluster_cols =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb618-15"><a href="biological-interpretation-of-latent-factors.html#cb618-15"></a>                   <span class="dt">annotation_row =</span> data_anno,</span>
+<span id="cb618-16"><a href="biological-interpretation-of-latent-factors.html#cb618-16"></a>                   <span class="dt">main=</span><span class="st">&quot;NMF coefficients&quot;</span>,</span>
+<span id="cb618-17"><a href="biological-interpretation-of-latent-factors.html#cb618-17"></a>                   <span class="dt">clustering_distance_rows =</span> <span class="st">&quot;manhattan&quot;</span>,</span>
+<span id="cb618-18"><a href="biological-interpretation-of-latent-factors.html#cb618-18"></a>                   <span class="dt">fontsize_row =</span> <span class="dv">1</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:moNMFHeatmap"></span>
 <img src="11-multiomics-analysis_files/figure-html/monmfheatmap-1.png" alt="Heatmap showing the association of input features from multi-omics data (gene expression, copy number variation, and mutations), with JNMF factors. Gene expression features dominate both factors, but copy numbers and mutations mostly affect only one factor each." width="50%" />
 <p class="caption">
@@ -548,21 +548,21 @@ p = \sum_{i=k}^K P(k=i).
 <div id="example-in-r" class="section level4">
 <h4><span class="header-section-number">11.5.2.2</span> Example in R</h4>
 <p>In R, we can do this analysis using the <code>enrichR</code> package, which gives us access to many gene set libraries. In the example below, we will find the genes associated with preferentially NMF factor 1 or NMF factor 2, by the contribution of those genes’ expression values to the factor. Then, we’ll use <code>enrichR</code> to query the Gene Ontology terms which might be overlapping:</p>
-<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="biological-interpretation-of-latent-factors.html#cb620-1"></a><span class="kw">require</span>(enrichR)</span>
-<span id="cb620-2"><a href="biological-interpretation-of-latent-factors.html#cb620-2"></a></span>
-<span id="cb620-3"><a href="biological-interpretation-of-latent-factors.html#cb620-3"></a><span class="co"># select genes associated preferentially with each factor</span></span>
-<span id="cb620-4"><a href="biological-interpretation-of-latent-factors.html#cb620-4"></a><span class="co"># by their relative loading in the W matrix</span></span>
-<span id="cb620-5"><a href="biological-interpretation-of-latent-factors.html#cb620-5"></a>genes.factor<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">which</span>(nmfw[<span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">1</span>] <span class="op">&gt;</span><span class="st"> </span>nmfw[<span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">2</span>]))</span>
-<span id="cb620-6"><a href="biological-interpretation-of-latent-factors.html#cb620-6"></a>genes.factor<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">which</span>(nmfw[<span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">1</span>] <span class="op">&lt;</span><span class="st"> </span>nmfw[<span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">2</span>]))</span>
-<span id="cb620-7"><a href="biological-interpretation-of-latent-factors.html#cb620-7"></a></span>
-<span id="cb620-8"><a href="biological-interpretation-of-latent-factors.html#cb620-8"></a><span class="co"># call the enrichr function to find gene sets enriched</span></span>
-<span id="cb620-9"><a href="biological-interpretation-of-latent-factors.html#cb620-9"></a><span class="co"># in each latent factor in the GO Biological Processes 2018 library</span></span>
-<span id="cb620-10"><a href="biological-interpretation-of-latent-factors.html#cb620-10"></a>go.factor<span class="fl">.1</span> &lt;-<span class="st"> </span>enrichR<span class="op">::</span><span class="kw">enrichr</span>(genes.factor<span class="fl">.1</span>,</span>
-<span id="cb620-11"><a href="biological-interpretation-of-latent-factors.html#cb620-11"></a>                                <span class="dt">databases =</span> <span class="kw">c</span>(<span class="st">&quot;GO_Biological_Process_2018&quot;</span>)</span>
-<span id="cb620-12"><a href="biological-interpretation-of-latent-factors.html#cb620-12"></a>                                )<span class="op">$</span>GO_Biological_Process_<span class="dv">2018</span></span>
-<span id="cb620-13"><a href="biological-interpretation-of-latent-factors.html#cb620-13"></a>go.factor<span class="fl">.2</span> &lt;-<span class="st"> </span>enrichR<span class="op">::</span><span class="kw">enrichr</span>(genes.factor<span class="fl">.2</span>,</span>
-<span id="cb620-14"><a href="biological-interpretation-of-latent-factors.html#cb620-14"></a>                                <span class="dt">databases =</span> <span class="kw">c</span>(<span class="st">&quot;GO_Biological_Process_2018&quot;</span>)</span>
-<span id="cb620-15"><a href="biological-interpretation-of-latent-factors.html#cb620-15"></a>                                )<span class="op">$</span>GO_Biological_Process_<span class="dv">2018</span></span></code></pre></div>
+<div class="sourceCode" id="cb619"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb619-1"><a href="biological-interpretation-of-latent-factors.html#cb619-1"></a><span class="kw">require</span>(enrichR)</span>
+<span id="cb619-2"><a href="biological-interpretation-of-latent-factors.html#cb619-2"></a></span>
+<span id="cb619-3"><a href="biological-interpretation-of-latent-factors.html#cb619-3"></a><span class="co"># select genes associated preferentially with each factor</span></span>
+<span id="cb619-4"><a href="biological-interpretation-of-latent-factors.html#cb619-4"></a><span class="co"># by their relative loading in the W matrix</span></span>
+<span id="cb619-5"><a href="biological-interpretation-of-latent-factors.html#cb619-5"></a>genes.factor<span class="fl">.1</span> &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">which</span>(nmfw[<span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">1</span>] <span class="op">&gt;</span><span class="st"> </span>nmfw[<span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">2</span>]))</span>
+<span id="cb619-6"><a href="biological-interpretation-of-latent-factors.html#cb619-6"></a>genes.factor<span class="fl">.2</span> &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">which</span>(nmfw[<span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">1</span>] <span class="op">&lt;</span><span class="st"> </span>nmfw[<span class="dv">1</span><span class="op">:</span><span class="kw">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">2</span>]))</span>
+<span id="cb619-7"><a href="biological-interpretation-of-latent-factors.html#cb619-7"></a></span>
+<span id="cb619-8"><a href="biological-interpretation-of-latent-factors.html#cb619-8"></a><span class="co"># call the enrichr function to find gene sets enriched</span></span>
+<span id="cb619-9"><a href="biological-interpretation-of-latent-factors.html#cb619-9"></a><span class="co"># in each latent factor in the GO Biological Processes 2018 library</span></span>
+<span id="cb619-10"><a href="biological-interpretation-of-latent-factors.html#cb619-10"></a>go.factor<span class="fl">.1</span> &lt;-<span class="st"> </span>enrichR<span class="op">::</span><span class="kw">enrichr</span>(genes.factor<span class="fl">.1</span>,</span>
+<span id="cb619-11"><a href="biological-interpretation-of-latent-factors.html#cb619-11"></a>                                <span class="dt">databases =</span> <span class="kw">c</span>(<span class="st">&quot;GO_Biological_Process_2018&quot;</span>)</span>
+<span id="cb619-12"><a href="biological-interpretation-of-latent-factors.html#cb619-12"></a>                                )<span class="op">$</span>GO_Biological_Process_<span class="dv">2018</span></span>
+<span id="cb619-13"><a href="biological-interpretation-of-latent-factors.html#cb619-13"></a>go.factor<span class="fl">.2</span> &lt;-<span class="st"> </span>enrichR<span class="op">::</span><span class="kw">enrichr</span>(genes.factor<span class="fl">.2</span>,</span>
+<span id="cb619-14"><a href="biological-interpretation-of-latent-factors.html#cb619-14"></a>                                <span class="dt">databases =</span> <span class="kw">c</span>(<span class="st">&quot;GO_Biological_Process_2018&quot;</span>)</span>
+<span id="cb619-15"><a href="biological-interpretation-of-latent-factors.html#cb619-15"></a>                                )<span class="op">$</span>GO_Biological_Process_<span class="dv">2018</span></span></code></pre></div>
 The top GO terms associated with NMF factor 2 are shown in Table <a href="#tab:moNMFGOTerms"><strong>??</strong></a>:
 
 </div>
@@ -570,31 +570,31 @@ The top GO terms associated with NMF factor 2 are shown in Table <a href="#tab:m
 <div id="interpretation-using-additional-covariates" class="section level3">
 <h3><span class="header-section-number">11.5.3</span> Interpretation using additional covariates</h3>
 <p>Another way to ascribe biological significance to the latent variables is by correlating them with additional covariates we might have about the samples. In our example, the colorectal cancer tumors have also been characterized for microsatellite instability (MSI) status, using an external test (typically PCR-based). By examining the latent variable values as they relate to a tumor’s MSI status, we might discover that we’ve learned latent factors that are related to it. The following code snippet demonstrates how this might be looked into, by generating Figures <a href="biological-interpretation-of-latent-factors.html#fig:moNMFClinicalCovariates">11.16</a> and <a href="biological-interpretation-of-latent-factors.html#fig:moNMFClinicalCovariates2">11.17</a>:</p>
-<div class="sourceCode" id="cb621"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb621-1"><a href="biological-interpretation-of-latent-factors.html#cb621-1"></a><span class="co"># create a data frame holding covariates (age, gender, MSI status)</span></span>
-<span id="cb621-2"><a href="biological-interpretation-of-latent-factors.html#cb621-2"></a>a &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">age=</span>covariates<span class="op">$</span>age,</span>
-<span id="cb621-3"><a href="biological-interpretation-of-latent-factors.html#cb621-3"></a>                <span class="dt">gender=</span><span class="kw">as.numeric</span>(covariates<span class="op">$</span>gender),</span>
-<span id="cb621-4"><a href="biological-interpretation-of-latent-factors.html#cb621-4"></a>                <span class="dt">msi=</span>covariates<span class="op">$</span>msi)</span></code></pre></div>
+<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="biological-interpretation-of-latent-factors.html#cb620-1"></a><span class="co"># create a data frame holding covariates (age, gender, MSI status)</span></span>
+<span id="cb620-2"><a href="biological-interpretation-of-latent-factors.html#cb620-2"></a>a &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">age=</span>covariates<span class="op">$</span>age,</span>
+<span id="cb620-3"><a href="biological-interpretation-of-latent-factors.html#cb620-3"></a>                <span class="dt">gender=</span><span class="kw">as.numeric</span>(covariates<span class="op">$</span>gender),</span>
+<span id="cb620-4"><a href="biological-interpretation-of-latent-factors.html#cb620-4"></a>                <span class="dt">msi=</span>covariates<span class="op">$</span>msi)</span></code></pre></div>
 <pre><code>## Warning in data.frame(age = covariates$age, gender =
 ## as.numeric(covariates$gender), : NAs introduced by coercion</code></pre>
-<div class="sourceCode" id="cb623"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb623-1"><a href="biological-interpretation-of-latent-factors.html#cb623-1"></a>b &lt;-<span class="st"> </span>nmf.h</span>
-<span id="cb623-2"><a href="biological-interpretation-of-latent-factors.html#cb623-2"></a><span class="kw">colnames</span>(b) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;factor1&#39;</span>, <span class="st">&#39;factor2&#39;</span>)</span>
-<span id="cb623-3"><a href="biological-interpretation-of-latent-factors.html#cb623-3"></a></span>
-<span id="cb623-4"><a href="biological-interpretation-of-latent-factors.html#cb623-4"></a><span class="co"># concatenate the covariate dataframe with the H matrix</span></span>
-<span id="cb623-5"><a href="biological-interpretation-of-latent-factors.html#cb623-5"></a>cov_factor &lt;-<span class="st"> </span><span class="kw">cbind</span>(a,b)</span>
-<span id="cb623-6"><a href="biological-interpretation-of-latent-factors.html#cb623-6"></a></span>
-<span id="cb623-7"><a href="biological-interpretation-of-latent-factors.html#cb623-7"></a><span class="co"># generate the figure</span></span>
-<span id="cb623-8"><a href="biological-interpretation-of-latent-factors.html#cb623-8"></a>ggplot2<span class="op">::</span><span class="kw">ggplot</span>(cov_factor, ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x=</span>msi, <span class="dt">y=</span>factor1, <span class="dt">group=</span>msi)) <span class="op">+</span></span>
-<span id="cb623-9"><a href="biological-interpretation-of-latent-factors.html#cb623-9"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">geom_boxplot</span>() <span class="op">+</span></span>
-<span id="cb623-10"><a href="biological-interpretation-of-latent-factors.html#cb623-10"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">ggtitle</span>(<span class="st">&quot;NMF factor 1 microsatellite instability&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb622"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb622-1"><a href="biological-interpretation-of-latent-factors.html#cb622-1"></a>b &lt;-<span class="st"> </span>nmf.h</span>
+<span id="cb622-2"><a href="biological-interpretation-of-latent-factors.html#cb622-2"></a><span class="kw">colnames</span>(b) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;factor1&#39;</span>, <span class="st">&#39;factor2&#39;</span>)</span>
+<span id="cb622-3"><a href="biological-interpretation-of-latent-factors.html#cb622-3"></a></span>
+<span id="cb622-4"><a href="biological-interpretation-of-latent-factors.html#cb622-4"></a><span class="co"># concatenate the covariate dataframe with the H matrix</span></span>
+<span id="cb622-5"><a href="biological-interpretation-of-latent-factors.html#cb622-5"></a>cov_factor &lt;-<span class="st"> </span><span class="kw">cbind</span>(a,b)</span>
+<span id="cb622-6"><a href="biological-interpretation-of-latent-factors.html#cb622-6"></a></span>
+<span id="cb622-7"><a href="biological-interpretation-of-latent-factors.html#cb622-7"></a><span class="co"># generate the figure</span></span>
+<span id="cb622-8"><a href="biological-interpretation-of-latent-factors.html#cb622-8"></a>ggplot2<span class="op">::</span><span class="kw">ggplot</span>(cov_factor, ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x=</span>msi, <span class="dt">y=</span>factor1, <span class="dt">group=</span>msi)) <span class="op">+</span></span>
+<span id="cb622-9"><a href="biological-interpretation-of-latent-factors.html#cb622-9"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">geom_boxplot</span>() <span class="op">+</span></span>
+<span id="cb622-10"><a href="biological-interpretation-of-latent-factors.html#cb622-10"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">ggtitle</span>(<span class="st">&quot;NMF factor 1 microsatellite instability&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:moNMFClinicalCovariates"></span>
 <img src="11-multiomics-analysis_files/figure-html/moNMFClinicalCovariates-1.png" alt="Box plot showing MSI/MSS status distribution and NMF factor 1 values." width="50%" />
 <p class="caption">
 FIGURE 11.16: Box plot showing MSI/MSS status distribution and NMF factor 1 values.
 </p>
 </div>
-<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb624-1"><a href="biological-interpretation-of-latent-factors.html#cb624-1"></a>ggplot2<span class="op">::</span><span class="kw">ggplot</span>(cov_factor, ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x=</span>msi, <span class="dt">y=</span>factor2, <span class="dt">group=</span>msi)) <span class="op">+</span></span>
-<span id="cb624-2"><a href="biological-interpretation-of-latent-factors.html#cb624-2"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">geom_boxplot</span>() <span class="op">+</span></span>
-<span id="cb624-3"><a href="biological-interpretation-of-latent-factors.html#cb624-3"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">ggtitle</span>(<span class="st">&quot;NMF factor 2 and microsatellite instability&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb623"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb623-1"><a href="biological-interpretation-of-latent-factors.html#cb623-1"></a>ggplot2<span class="op">::</span><span class="kw">ggplot</span>(cov_factor, ggplot2<span class="op">::</span><span class="kw">aes</span>(<span class="dt">x=</span>msi, <span class="dt">y=</span>factor2, <span class="dt">group=</span>msi)) <span class="op">+</span></span>
+<span id="cb623-2"><a href="biological-interpretation-of-latent-factors.html#cb623-2"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">geom_boxplot</span>() <span class="op">+</span></span>
+<span id="cb623-3"><a href="biological-interpretation-of-latent-factors.html#cb623-3"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw">ggtitle</span>(<span class="st">&quot;NMF factor 2 and microsatellite instability&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:moNMFClinicalCovariates2"></span>
 <img src="11-multiomics-analysis_files/figure-html/moNMFClinicalCovariates2-1.png" alt="Box plot showing MSI/MSS status distribution and NMF factor 2 values." width="50%" />
 <p class="caption">

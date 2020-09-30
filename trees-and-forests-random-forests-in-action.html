@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -509,15 +509,16 @@ There are many variants of tree-based machine learning algorithms. However, most
 <div id="trees-to-forests" class="section level3">
 <h3><span class="header-section-number">5.12.2</span> Trees to forests</h3>
 <p>Random forests are devised to counter the shortcomings of decision trees. They are simply ensembles of decision trees. Each tree is trained with a different randomly selected part of the data with randomly selected predictor variables. The goal of introducing randomness is to reduce the variance of the model so it does not overfit, at the expense of a small increase in the bias and some loss of interpretability. This strategy generally boosts the performance of the final model.</p>
-<p>The random forests algorithm tries to decorrelate the trees so that they learn different things about the data. It does this by selecting a random subset of variables. If one or a few predictor variables are very strong predictors for the response variable, these features will be selected in many of the trees, causing them to become correlated. Random subsampling of predictor variables ensures that not always, the best predictors overall be selected for every tree and the model has a chance to learn other features of the data.</p>
+<p>The random forests algorithm tries to decorrelate the trees so that they learn different things about the data. It does this by selecting a random subset of variables. If one or a few predictor variables are very strong predictors for the response variable, these features will be selected in many of the trees, causing them to become correlated. Random subsampling of predictor variables ensures that not always the best predictors overall are selected for every tree and, the model does
+have a chance to learn other features of the data.</p>
 <p>Another sampling method introduced when building random forest models is bootstrap resampling before constructing each tree. This brings the advantage of out-of-the-bag (OOB) error prediction. In this case, the prediction error can be estimated for training samples that were OOB, meaning they were not used in the training, for some percentage of the trees. The prediction error for each sample can be estimated from the trees where that sample was OOB. OOB estimates claimed to be a good alternative to cross-validation estimated errors <span class="citation">(Breiman <a href="#ref-breiman2001random" role="doc-biblioref">2001</a>)</span>.</p>
 <div class="figure" style="text-align: center"><span id="fig:RFcartoon"></span>
-<img src="images/ml-random-forest-features.png" alt="Random forest concept. Individual decision trees are built with sampling strategies. Votes from each tree define the final class" width="70%" />
+<img src="images/ml-random-forest-features.png" alt="Random forest concept. Individual decision trees are built with sampling strategies. Votes from each tree define the final class." width="70%" />
 <p class="caption">
-FIGURE 5.9: Random forest concept. Individual decision trees are built with sampling strategies. Votes from each tree define the final class
+FIGURE 5.9: Random forest concept. Individual decision trees are built with sampling strategies. Votes from each tree define the final class.
 </p>
 </div>
-<p>For demonstration purposes, we will use the <code>caret</code> package interface to the <code>ranger</code> random forest package. This is a fast implementation of the original random forest algorithm. For random forests, we have two critical arguments. One of the most critical arguments for random forest is the number of predictor variables to sample in each split of the tree. This parameter controls the independence between the trees, and as explained before, this limits overfitting. Below, we are going to fit a random forest model to our tumor subtype problem. We will set <code>mtry=100</code> and do not select the training procedure to find the best <code>mtry</code> value for simplicity. However, it is good practice
+<p>For demonstration purposes, we will use the <code>caret</code> package interface to the <code>ranger</code> random forest package. This is a fast implementation of the original random forest algorithm. For random forests, we have two critical arguments. One of the most critical arguments for random forest is the number of predictor variables to sample in each split of the tree. This parameter controls the independence between the trees, and as explained before, this limits overfitting. Below, we are going to fit a random forest model to our tumor subtype problem. We will set <code>mtry=100</code> and not perform the training procedure to find the best <code>mtry</code> value for simplicity. However, it is good practice
 to run the model with cross-validation and let it pick the best parameters based on the cross-validation performance. It defaults to the square root of number of predictor variables. Another variable we can tune is the minimum node size of terminal nodes in the trees (<code>min.node.size</code>). This controls the depth of the trees grown. Setting this to larger numbers might cost a small loss in accuracy but the algorithm will run faster.</p>
 <div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="trees-and-forests-random-forests-in-action.html#cb268-1"></a><span class="kw">set.seed</span>(<span class="dv">17</span>)</span>
 <span id="cb268-2"><a href="trees-and-forests-random-forests-in-action.html#cb268-2"></a></span>
@@ -545,9 +546,9 @@ to run the model with cross-validation and let it pick the best parameters based
 <p>A less costly method with similar performance is to use gini impurity. Every time a variable is used in a tree to make a split, the gini impurity is less than the parent node. This method adds up these gini impurity decreases for each individual variable across the trees and divides it by the number of the trees in the forest. This metric is often consistent with the permutation importance measure <span class="citation">(Breiman <a href="#ref-breiman2001random" role="doc-biblioref">2001</a>)</span>. Below, we are going to plot the permutation-based importance metric. This metric has been calculated during the run of the model above. We will use the <code>caret::varImp()</code> function to access the importance values and plot them using the <code>plot()</code> function; the result is shown in Figure <a href="trees-and-forests-random-forests-in-action.html#fig:RFvarImp">5.10</a>.</p>
 <div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="trees-and-forests-random-forests-in-action.html#cb270-1"></a><span class="kw">plot</span>(<span class="kw">varImp</span>(rfFit),<span class="dt">top=</span><span class="dv">10</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:RFvarImp"></span>
-<img src="05-supervisedLearning_files/figure-html/RFvarImp-1.png" alt="Top 10 important variables based on permutation-based method for the random forest classification" width="50%" />
+<img src="05-supervisedLearning_files/figure-html/RFvarImp-1.png" alt="Top 10 important variables based on permutation-based method for the random forest classification." width="50%" />
 <p class="caption">
-FIGURE 5.10: Top 10 important variables based on permutation-based method for the random forest classification
+FIGURE 5.10: Top 10 important variables based on permutation-based method for the random forest classification.
 </p>
 </div>
 </div>

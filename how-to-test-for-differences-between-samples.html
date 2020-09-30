@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -523,7 +523,7 @@ samples.</li>
 <h3><span class="header-section-number">3.2.1</span> Randomization-based testing for difference of the means</h3>
 <p>There is one intuitive way to go about this. If we believe there are no
 differences between samples, that means the sample labels (test vs. control or
-healthy vs. disease) has no meaning. So, if we randomly assign labels to the
+healthy vs. disease) have no meaning. So, if we randomly assign labels to the
 samples and calculate the difference of the means, this creates a null
 distribution for <span class="math inline">\(H_0\)</span> where we can compare the real difference and
 measure how unlikely it is to get such a value under the expectation of the
@@ -556,9 +556,9 @@ assumption that <span class="math inline">\(H_0\)</span> is true. The resulting 
 <span id="cb163-15"><a href="how-to-test-for-differences-between-samples.html#cb163-15"></a><span class="kw">text</span>(<span class="dt">x=</span><span class="kw">quantile</span>(exp.null[,<span class="dv">1</span>],<span class="fl">0.95</span>),<span class="dt">y=</span><span class="dv">200</span>,<span class="st">&quot;0.05&quot;</span>,<span class="dt">adj=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span>
 <span id="cb163-16"><a href="how-to-test-for-differences-between-samples.html#cb163-16"></a><span class="kw">text</span>(<span class="dt">x=</span>org.diff,<span class="dt">y=</span><span class="dv">200</span>,<span class="st">&quot;org. diff.&quot;</span>,<span class="dt">adj=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:randomTestchp3"></span>
-<img src="03-statsForGenomics_files/figure-html/randomTestchp3-1.png" alt="The null distribution for differences of means obtained via randomization. The original difference is marked via blue line. The red line marks the value that corresponds to P-value of 0.05" width="60%" />
+<img src="03-statsForGenomics_files/figure-html/randomTestchp3-1.png" alt="The null distribution for differences of means obtained via randomization. The original difference is marked via the blue line. The red line marks the value that corresponds to P-value of 0.05" width="60%" />
 <p class="caption">
-FIGURE 3.9: The null distribution for differences of means obtained via randomization. The original difference is marked via blue line. The red line marks the value that corresponds to P-value of 0.05
+FIGURE 3.9: The null distribution for differences of means obtained via randomization. The original difference is marked via the blue line. The red line marks the value that corresponds to P-value of 0.05
 </p>
 </div>
 <div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="how-to-test-for-differences-between-samples.html#cb164-1"></a>p.val=<span class="kw">sum</span>(exp.null[,<span class="dv">1</span>]<span class="op">&gt;</span>org.diff)<span class="op">/</span><span class="kw">length</span>(exp.null[,<span class="dv">1</span>])</span>
@@ -621,7 +621,7 @@ above.</p>
 <p>A final word on t-tests: they generally assume a population where samples coming
 from them have a normal
 distribution, however it is been shown t-test can tolerate deviations from
-normality. Especially, when two distributions are moderately skewed in the
+normality, especially, when two distributions are moderately skewed in the
 same direction. This is due to the central limit theorem, which says that the means of
 samples will be distributed normally no matter the population distribution
 if sample sizes are large.</p>
@@ -760,7 +760,7 @@ FIGURE 3.10: Adjusted P-values via different methods and their relationship to r
 may be able to use the information from the parameters obtained from all
 comparisons to influence the individual parameters. For example, if you have many variances
 calculated for thousands of genes across samples, you can force individual
-variance estimates to shrunk toward the mean or the median of the distribution
+variance estimates to shrink toward the mean or the median of the distribution
 of variances. This usually creates better performance in individual variance
 estimates and therefore better performance in significance testing, which
 depends on variance estimates. How much the values are shrunk toward a common
@@ -834,7 +834,7 @@ FIGURE 3.11: The distributions of P-values obtained by t-tests and moderated t-t
 <ul>
 <li>Basic statistical concepts
 <ul>
-<li>“Cartoon guide to statistics” by Gonick &amp; Smith <span class="citation">(Gonick and Smith <a href="#ref-gonick2005cartoon" role="doc-biblioref">2005</a>)</span>. Provides central concepts are depicted as cartoons in funny but clear and accurate manner.</li>
+<li>“Cartoon guide to statistics” by Gonick &amp; Smith <span class="citation">(Gonick and Smith <a href="#ref-gonick2005cartoon" role="doc-biblioref">2005</a>)</span>. Provides central concepts depicted as cartoons in a funny but clear and accurate manner.</li>
 <li>“OpenIntro Statistics” <span class="citation">(Diez, Barr, Çetinkaya-Rundel, et al. <a href="#ref-diez2015openintro" role="doc-biblioref">2015</a>)</span> (Free e-book <a href="http://openintro.org" class="uri">http://openintro.org</a>). This book provides fundamental statistical concepts in a clear and easy way. It includes R code.</li>
 </ul></li>
 <li>Hands-on statistics recipes with R

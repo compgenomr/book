@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -499,31 +499,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>A common analysis in biological investigations is clustering. This is often interesting in cancer studies as one hopes to find groups of tumors (clusters) which behave similarly, i.e. have similar risks and/or respond to the same drugs. PCA is a common step in clustering analyses, and so it is easy to see how the latent variable models above may all be a useful pre-processing step before clustering. In the examples below, we will use the latent variables inferred by the algorithms in the previous section on the set of colorectal cancer tumors from the TCGA. For a more complete introduction to clustering, see Chapter <a href="unsupervisedLearning.html#unsupervisedLearning">4</a>.</p>
 <div id="one-hot-clustering" class="section level3">
 <h3><span class="header-section-number">11.4.1</span> One-hot clustering</h3>
-<p>A specific clustering method for NMF data is to assume each sample is driven by one component, i.e. that the number of clusters <span class="math inline">\(K\)</span> is the same as the number of latent variables in the model and that each sample may be associated to one of those components. We assign each sample a cluster label based on the latent variable which affects it the most. Figure <a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#fig:monmfheatmap">11.9</a> above (Heatmap of 2-component NMF) shows the latent variable values for the two latent variables, for the 72 tumors, obtained by Joint NMF.</p>
+<p>A specific clustering method for NMF data is to assume each sample is driven by one component, i.e. that the number of clusters <span class="math inline">\(K\)</span> is the same as the number of latent variables in the model and that each sample may be associated to one of those components. We assign each sample a cluster label based on the latent variable which affects it the most. Figure <a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#fig:monmfheatmap">11.9</a> above (heatmap of 2-component NMF) shows the latent variable values for the two latent variables, for the 72 tumors, obtained by Joint NMF.</p>
 <p>The two rows are the two latent variables, and the columns are the 72 tumors. We can observe that most tumors are indeed driven mainly by one of the factors, and not a combination of the two. We can use this to assign each tumor a cluster label based on its dominant factor, shown in the following code snippet, which also produces the heatmap in Figure <a href="clustering-using-latent-factors.html#fig:moNMFClustering">11.13</a>.</p>
-<div class="sourceCode" id="cb617"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb617-1"><a href="clustering-using-latent-factors.html#cb617-1"></a><span class="co"># one-hot clustering in one line of code:</span></span>
-<span id="cb617-2"><a href="clustering-using-latent-factors.html#cb617-2"></a><span class="co"># assign each sample the cluster according to its dominant NMF factor</span></span>
-<span id="cb617-3"><a href="clustering-using-latent-factors.html#cb617-3"></a><span class="co"># easily accessible using the max.col function</span></span>
-<span id="cb617-4"><a href="clustering-using-latent-factors.html#cb617-4"></a>nmf.clusters &lt;-<span class="st"> </span><span class="kw">max.col</span>(nmf.h)</span>
-<span id="cb617-5"><a href="clustering-using-latent-factors.html#cb617-5"></a><span class="kw">names</span>(nmf.clusters) &lt;-<span class="st"> </span><span class="kw">rownames</span>(nmf.h)</span>
-<span id="cb617-6"><a href="clustering-using-latent-factors.html#cb617-6"></a></span>
-<span id="cb617-7"><a href="clustering-using-latent-factors.html#cb617-7"></a><span class="co"># create an annotation data frame indicating the NMF one-hot clusters</span></span>
-<span id="cb617-8"><a href="clustering-using-latent-factors.html#cb617-8"></a><span class="co"># as well as the cancer subtypes, for the heatmap plot below</span></span>
-<span id="cb617-9"><a href="clustering-using-latent-factors.html#cb617-9"></a>anno_nmf_cl &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb617-10"><a href="clustering-using-latent-factors.html#cb617-10"></a>  <span class="dt">nmf.cluster=</span><span class="kw">factor</span>(nmf.clusters),</span>
-<span id="cb617-11"><a href="clustering-using-latent-factors.html#cb617-11"></a>  <span class="dt">cms.subtype=</span><span class="kw">factor</span>(covariates[<span class="kw">rownames</span>(nmf.h),]<span class="op">$</span>cms_label)</span>
-<span id="cb617-12"><a href="clustering-using-latent-factors.html#cb617-12"></a>)</span>
-<span id="cb617-13"><a href="clustering-using-latent-factors.html#cb617-13"></a></span>
-<span id="cb617-14"><a href="clustering-using-latent-factors.html#cb617-14"></a><span class="co"># generate the plot</span></span>
-<span id="cb617-15"><a href="clustering-using-latent-factors.html#cb617-15"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(<span class="kw">t</span>(nmf.h[<span class="kw">order</span>(nmf.clusters),]),</span>
-<span id="cb617-16"><a href="clustering-using-latent-factors.html#cb617-16"></a>  <span class="dt">cluster_cols=</span><span class="ot">FALSE</span>, <span class="dt">cluster_rows=</span><span class="ot">FALSE</span>,</span>
-<span id="cb617-17"><a href="clustering-using-latent-factors.html#cb617-17"></a>  <span class="dt">annotation_col =</span> anno_nmf_cl,</span>
-<span id="cb617-18"><a href="clustering-using-latent-factors.html#cb617-18"></a>  <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,<span class="dt">border_color=</span><span class="ot">NA</span>,</span>
-<span id="cb617-19"><a href="clustering-using-latent-factors.html#cb617-19"></a>  <span class="dt">main=</span><span class="st">&quot;Joint NMF factors</span><span class="ch">\n</span><span class="st">with clusters and molecular subtypes&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb616"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb616-1"><a href="clustering-using-latent-factors.html#cb616-1"></a><span class="co"># one-hot clustering in one line of code:</span></span>
+<span id="cb616-2"><a href="clustering-using-latent-factors.html#cb616-2"></a><span class="co"># assign each sample the cluster according to its dominant NMF factor</span></span>
+<span id="cb616-3"><a href="clustering-using-latent-factors.html#cb616-3"></a><span class="co"># easily accessible using the max.col function</span></span>
+<span id="cb616-4"><a href="clustering-using-latent-factors.html#cb616-4"></a>nmf.clusters &lt;-<span class="st"> </span><span class="kw">max.col</span>(nmf.h)</span>
+<span id="cb616-5"><a href="clustering-using-latent-factors.html#cb616-5"></a><span class="kw">names</span>(nmf.clusters) &lt;-<span class="st"> </span><span class="kw">rownames</span>(nmf.h)</span>
+<span id="cb616-6"><a href="clustering-using-latent-factors.html#cb616-6"></a></span>
+<span id="cb616-7"><a href="clustering-using-latent-factors.html#cb616-7"></a><span class="co"># create an annotation data frame indicating the NMF one-hot clusters</span></span>
+<span id="cb616-8"><a href="clustering-using-latent-factors.html#cb616-8"></a><span class="co"># as well as the cancer subtypes, for the heatmap plot below</span></span>
+<span id="cb616-9"><a href="clustering-using-latent-factors.html#cb616-9"></a>anno_nmf_cl &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb616-10"><a href="clustering-using-latent-factors.html#cb616-10"></a>  <span class="dt">nmf.cluster=</span><span class="kw">factor</span>(nmf.clusters),</span>
+<span id="cb616-11"><a href="clustering-using-latent-factors.html#cb616-11"></a>  <span class="dt">cms.subtype=</span><span class="kw">factor</span>(covariates[<span class="kw">rownames</span>(nmf.h),]<span class="op">$</span>cms_label)</span>
+<span id="cb616-12"><a href="clustering-using-latent-factors.html#cb616-12"></a>)</span>
+<span id="cb616-13"><a href="clustering-using-latent-factors.html#cb616-13"></a></span>
+<span id="cb616-14"><a href="clustering-using-latent-factors.html#cb616-14"></a><span class="co"># generate the plot</span></span>
+<span id="cb616-15"><a href="clustering-using-latent-factors.html#cb616-15"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(<span class="kw">t</span>(nmf.h[<span class="kw">order</span>(nmf.clusters),]),</span>
+<span id="cb616-16"><a href="clustering-using-latent-factors.html#cb616-16"></a>  <span class="dt">cluster_cols=</span><span class="ot">FALSE</span>, <span class="dt">cluster_rows=</span><span class="ot">FALSE</span>,</span>
+<span id="cb616-17"><a href="clustering-using-latent-factors.html#cb616-17"></a>  <span class="dt">annotation_col =</span> anno_nmf_cl,</span>
+<span id="cb616-18"><a href="clustering-using-latent-factors.html#cb616-18"></a>  <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,<span class="dt">border_color=</span><span class="ot">NA</span>,</span>
+<span id="cb616-19"><a href="clustering-using-latent-factors.html#cb616-19"></a>  <span class="dt">main=</span><span class="st">&quot;Joint NMF factors</span><span class="ch">\n</span><span class="st">with clusters and molecular subtypes&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:moNMFClustering"></span>
-<img src="11-multiomics-analysis_files/figure-html/moNMFClustering-1.png" alt="Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types." width="50%" />
+<img src="11-multiomics-analysis_files/figure-html/moNMFClustering-1.png" alt="Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluster per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types." width="50%" />
 <p class="caption">
-FIGURE 11.13: Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluser per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types.
+FIGURE 11.13: Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluster per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types.
 </p>
 </div>
 <p>We see that using one-hot clustering with Joint NMF, we were able to find two clusters in the data which correspond fairly well with the molecular subtype of the tumors.</p>
@@ -532,25 +532,25 @@ FIGURE 11.13: Joint NMF factors with clusters, and molecular sub-types. One-hot 
 <div id="k-means-clustering-1" class="section level3">
 <h3><span class="header-section-number">11.4.2</span> K-means clustering</h3>
 <p>K-means  clustering was introduced in Chapter <a href="unsupervisedLearning.html#unsupervisedLearning">4</a>. Briefly, k-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step. The following code snippet shows how to pull K-means clusters out of the iCluster results, and produces the heatmap in Figure <a href="clustering-using-latent-factors.html#fig:moiClusterHeatmap">11.14</a>, which shows how well these clusters correspond to cancer subtypes.</p>
-<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb618-1"><a href="clustering-using-latent-factors.html#cb618-1"></a><span class="co"># use the kmeans function to cluster the iCluster H matrix (here, z)</span></span>
-<span id="cb618-2"><a href="clustering-using-latent-factors.html#cb618-2"></a><span class="co"># using 2 as the number of clusters.</span></span>
-<span id="cb618-3"><a href="clustering-using-latent-factors.html#cb618-3"></a>icluster.clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(icluster.z, <span class="dv">2</span>)<span class="op">$</span>cluster</span>
-<span id="cb618-4"><a href="clustering-using-latent-factors.html#cb618-4"></a><span class="kw">names</span>(icluster.clusters) &lt;-<span class="st"> </span><span class="kw">rownames</span>(icluster.z)</span>
-<span id="cb618-5"><a href="clustering-using-latent-factors.html#cb618-5"></a></span>
-<span id="cb618-6"><a href="clustering-using-latent-factors.html#cb618-6"></a><span class="co"># create an annotation dataframe for the heatmap plot</span></span>
-<span id="cb618-7"><a href="clustering-using-latent-factors.html#cb618-7"></a><span class="co"># containing the kmeans cluster assignments and the cancer subtypes</span></span>
-<span id="cb618-8"><a href="clustering-using-latent-factors.html#cb618-8"></a>anno_icluster_cl &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb618-9"><a href="clustering-using-latent-factors.html#cb618-9"></a>  <span class="dt">iCluster=</span><span class="kw">factor</span>(icluster.clusters),</span>
-<span id="cb618-10"><a href="clustering-using-latent-factors.html#cb618-10"></a>  <span class="dt">cms.subtype=</span><span class="kw">factor</span>(covariates<span class="op">$</span>cms_label))</span>
-<span id="cb618-11"><a href="clustering-using-latent-factors.html#cb618-11"></a></span>
-<span id="cb618-12"><a href="clustering-using-latent-factors.html#cb618-12"></a><span class="co"># generate the figure</span></span>
-<span id="cb618-13"><a href="clustering-using-latent-factors.html#cb618-13"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(</span>
-<span id="cb618-14"><a href="clustering-using-latent-factors.html#cb618-14"></a>  <span class="kw">t</span>(icluster.z[<span class="kw">order</span>(icluster.clusters),]), <span class="co"># order z by the kmeans clusters</span></span>
-<span id="cb618-15"><a href="clustering-using-latent-factors.html#cb618-15"></a>  <span class="dt">cluster_cols=</span><span class="ot">FALSE</span>, <span class="co"># use cluster_cols and cluster_rows=FALSE</span></span>
-<span id="cb618-16"><a href="clustering-using-latent-factors.html#cb618-16"></a>  <span class="dt">cluster_rows=</span><span class="ot">FALSE</span>, <span class="co"># as we want the ordering by k-means clusters to hold</span></span>
-<span id="cb618-17"><a href="clustering-using-latent-factors.html#cb618-17"></a>  <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,<span class="dt">border_color=</span><span class="ot">NA</span>,</span>
-<span id="cb618-18"><a href="clustering-using-latent-factors.html#cb618-18"></a>  <span class="dt">annotation_col =</span> anno_icluster_cl,</span>
-<span id="cb618-19"><a href="clustering-using-latent-factors.html#cb618-19"></a>  <span class="dt">main=</span><span class="st">&quot;iCluster factors</span><span class="ch">\n</span><span class="st">with clusters and molecular subtypes&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb617"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb617-1"><a href="clustering-using-latent-factors.html#cb617-1"></a><span class="co"># use the kmeans function to cluster the iCluster H matrix (here, z)</span></span>
+<span id="cb617-2"><a href="clustering-using-latent-factors.html#cb617-2"></a><span class="co"># using 2 as the number of clusters.</span></span>
+<span id="cb617-3"><a href="clustering-using-latent-factors.html#cb617-3"></a>icluster.clusters &lt;-<span class="st"> </span><span class="kw">kmeans</span>(icluster.z, <span class="dv">2</span>)<span class="op">$</span>cluster</span>
+<span id="cb617-4"><a href="clustering-using-latent-factors.html#cb617-4"></a><span class="kw">names</span>(icluster.clusters) &lt;-<span class="st"> </span><span class="kw">rownames</span>(icluster.z)</span>
+<span id="cb617-5"><a href="clustering-using-latent-factors.html#cb617-5"></a></span>
+<span id="cb617-6"><a href="clustering-using-latent-factors.html#cb617-6"></a><span class="co"># create an annotation dataframe for the heatmap plot</span></span>
+<span id="cb617-7"><a href="clustering-using-latent-factors.html#cb617-7"></a><span class="co"># containing the kmeans cluster assignments and the cancer subtypes</span></span>
+<span id="cb617-8"><a href="clustering-using-latent-factors.html#cb617-8"></a>anno_icluster_cl &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb617-9"><a href="clustering-using-latent-factors.html#cb617-9"></a>  <span class="dt">iCluster=</span><span class="kw">factor</span>(icluster.clusters),</span>
+<span id="cb617-10"><a href="clustering-using-latent-factors.html#cb617-10"></a>  <span class="dt">cms.subtype=</span><span class="kw">factor</span>(covariates<span class="op">$</span>cms_label))</span>
+<span id="cb617-11"><a href="clustering-using-latent-factors.html#cb617-11"></a></span>
+<span id="cb617-12"><a href="clustering-using-latent-factors.html#cb617-12"></a><span class="co"># generate the figure</span></span>
+<span id="cb617-13"><a href="clustering-using-latent-factors.html#cb617-13"></a>pheatmap<span class="op">::</span><span class="kw">pheatmap</span>(</span>
+<span id="cb617-14"><a href="clustering-using-latent-factors.html#cb617-14"></a>  <span class="kw">t</span>(icluster.z[<span class="kw">order</span>(icluster.clusters),]), <span class="co"># order z by the kmeans clusters</span></span>
+<span id="cb617-15"><a href="clustering-using-latent-factors.html#cb617-15"></a>  <span class="dt">cluster_cols=</span><span class="ot">FALSE</span>, <span class="co"># use cluster_cols and cluster_rows=FALSE</span></span>
+<span id="cb617-16"><a href="clustering-using-latent-factors.html#cb617-16"></a>  <span class="dt">cluster_rows=</span><span class="ot">FALSE</span>, <span class="co"># as we want the ordering by k-means clusters to hold</span></span>
+<span id="cb617-17"><a href="clustering-using-latent-factors.html#cb617-17"></a>  <span class="dt">show_colnames =</span> <span class="ot">FALSE</span>,<span class="dt">border_color=</span><span class="ot">NA</span>,</span>
+<span id="cb617-18"><a href="clustering-using-latent-factors.html#cb617-18"></a>  <span class="dt">annotation_col =</span> anno_icluster_cl,</span>
+<span id="cb617-19"><a href="clustering-using-latent-factors.html#cb617-19"></a>  <span class="dt">main=</span><span class="st">&quot;iCluster factors</span><span class="ch">\n</span><span class="st">with clusters and molecular subtypes&quot;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:moiClusterHeatmap"></span>
 <img src="11-multiomics-analysis_files/figure-html/moiClusterHeatmap-1.png" alt="K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types." width="50%" />
 <p class="caption">

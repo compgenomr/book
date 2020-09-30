@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -524,9 +524,9 @@ ChIP-seq pipeline. In this chapter, due to compute time considerations, we have 
 <p>The data sets are located in the <code>compGenomRData</code> package.
 The location of the data sets can be accessed using the <code>system.file()</code> command,
 in the following way:</p>
-<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="chip-quality-control.html#cb446-1"></a>data_path =<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&#39;extdata/chip-seq&#39;</span>,<span class="dt">package=</span><span class="st">&#39;compGenomRData&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="chip-quality-control.html#cb445-1"></a>data_path =<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&#39;extdata/chip-seq&#39;</span>,<span class="dt">package=</span><span class="st">&#39;compGenomRData&#39;</span>)</span></code></pre></div>
 <p>The available datasets can be listed using the <code>list.files()</code> function:</p>
-<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="chip-quality-control.html#cb447-1"></a>chip_files =<span class="st"> </span><span class="kw">list.files</span>(data_path, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="chip-quality-control.html#cb446-1"></a>chip_files =<span class="st"> </span><span class="kw">list.files</span>(data_path, <span class="dt">full.names=</span><span class="ot">TRUE</span>)</span></code></pre></div>
 <p>The dataset consists of the following ChIP experiments:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Transcription factors</strong>: CTCF, SMC3, ZNF143, PolII
@@ -555,14 +555,14 @@ information to ascertain the data quality.</p>
 <p>Using the <code>GenomeInfoDb</code> we will first fetch the chromosome lengths corresponding
 to the hg38 version of the human genome, and filter the length for human
 chromosome 21.</p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="chip-quality-control.html#cb448-1"></a><span class="co"># load the chromosome info package</span></span>
-<span id="cb448-2"><a href="chip-quality-control.html#cb448-2"></a><span class="kw">library</span>(GenomeInfoDb)</span>
-<span id="cb448-3"><a href="chip-quality-control.html#cb448-3"></a></span>
-<span id="cb448-4"><a href="chip-quality-control.html#cb448-4"></a><span class="co"># fetch the chromosome lengths for the human genome</span></span>
-<span id="cb448-5"><a href="chip-quality-control.html#cb448-5"></a>hg_chrs =<span class="st"> </span><span class="kw">getChromInfoFromUCSC</span>(<span class="st">&#39;hg38&#39;</span>)</span>
-<span id="cb448-6"><a href="chip-quality-control.html#cb448-6"></a></span>
-<span id="cb448-7"><a href="chip-quality-control.html#cb448-7"></a><span class="co"># find the length of chromosome 21</span></span>
-<span id="cb448-8"><a href="chip-quality-control.html#cb448-8"></a>hg_chrs =<span class="st"> </span><span class="kw">subset</span>(hg_chrs, <span class="kw">grepl</span>(<span class="st">&#39;chr21$&#39;</span>,chrom))</span></code></pre></div>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="chip-quality-control.html#cb447-1"></a><span class="co"># load the chromosome info package</span></span>
+<span id="cb447-2"><a href="chip-quality-control.html#cb447-2"></a><span class="kw">library</span>(GenomeInfoDb)</span>
+<span id="cb447-3"><a href="chip-quality-control.html#cb447-3"></a></span>
+<span id="cb447-4"><a href="chip-quality-control.html#cb447-4"></a><span class="co"># fetch the chromosome lengths for the human genome</span></span>
+<span id="cb447-5"><a href="chip-quality-control.html#cb447-5"></a>hg_chrs =<span class="st"> </span><span class="kw">getChromInfoFromUCSC</span>(<span class="st">&#39;hg38&#39;</span>)</span>
+<span id="cb447-6"><a href="chip-quality-control.html#cb447-6"></a></span>
+<span id="cb447-7"><a href="chip-quality-control.html#cb447-7"></a><span class="co"># find the length of chromosome 21</span></span>
+<span id="cb447-8"><a href="chip-quality-control.html#cb447-8"></a>hg_chrs =<span class="st"> </span><span class="kw">subset</span>(hg_chrs, <span class="kw">grepl</span>(<span class="st">&#39;chr21$&#39;</span>,chrom))</span></code></pre></div>
 <p>The <code>tileGenome()</code> function from the <code>GenomicRanges</code> package constructs equally sized
 windows over the genome of interest.
 The function takes two arguments:</p>
@@ -571,19 +571,19 @@ The function takes two arguments:</p>
 <li><p>Window size</p></li>
 </ol>
 <p>Firstly, we convert the chromosome lengths <em>data.frame</em> into a <em>named vector</em>.</p>
-<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="chip-quality-control.html#cb449-1"></a><span class="co"># downloaded hg_chrs is a data.frame object,</span></span>
-<span id="cb449-2"><a href="chip-quality-control.html#cb449-2"></a><span class="co"># we need to convert the data.frame into a named vector</span></span>
-<span id="cb449-3"><a href="chip-quality-control.html#cb449-3"></a>seqlengths =<span class="st"> </span><span class="kw">with</span>(hg_chrs, <span class="kw">setNames</span>(size, chrom))</span></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="chip-quality-control.html#cb448-1"></a><span class="co"># downloaded hg_chrs is a data.frame object,</span></span>
+<span id="cb448-2"><a href="chip-quality-control.html#cb448-2"></a><span class="co"># we need to convert the data.frame into a named vector</span></span>
+<span id="cb448-3"><a href="chip-quality-control.html#cb448-3"></a>seqlengths =<span class="st"> </span><span class="kw">with</span>(hg_chrs, <span class="kw">setNames</span>(size, chrom))</span></code></pre></div>
 <p>Then we construct the windows.</p>
-<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="chip-quality-control.html#cb450-1"></a><span class="co"># load the genomic ranges package</span></span>
-<span id="cb450-2"><a href="chip-quality-control.html#cb450-2"></a><span class="kw">library</span>(GenomicRanges)</span>
-<span id="cb450-3"><a href="chip-quality-control.html#cb450-3"></a></span>
-<span id="cb450-4"><a href="chip-quality-control.html#cb450-4"></a><span class="co"># tileGenome function returns a list of GRanges of a given width, </span></span>
-<span id="cb450-5"><a href="chip-quality-control.html#cb450-5"></a><span class="co"># spanning the whole chromosome</span></span>
-<span id="cb450-6"><a href="chip-quality-control.html#cb450-6"></a>tilling_window =<span class="st"> </span><span class="kw">tileGenome</span>(seqlengths, <span class="dt">tilewidth=</span><span class="dv">1000</span>)</span>
-<span id="cb450-7"><a href="chip-quality-control.html#cb450-7"></a></span>
-<span id="cb450-8"><a href="chip-quality-control.html#cb450-8"></a><span class="co"># unlist converts the list to one GRanges object</span></span>
-<span id="cb450-9"><a href="chip-quality-control.html#cb450-9"></a>tilling_window =<span class="st"> </span><span class="kw">unlist</span>(tilling_window)</span></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="chip-quality-control.html#cb449-1"></a><span class="co"># load the genomic ranges package</span></span>
+<span id="cb449-2"><a href="chip-quality-control.html#cb449-2"></a><span class="kw">library</span>(GenomicRanges)</span>
+<span id="cb449-3"><a href="chip-quality-control.html#cb449-3"></a></span>
+<span id="cb449-4"><a href="chip-quality-control.html#cb449-4"></a><span class="co"># tileGenome function returns a list of GRanges of a given width, </span></span>
+<span id="cb449-5"><a href="chip-quality-control.html#cb449-5"></a><span class="co"># spanning the whole chromosome</span></span>
+<span id="cb449-6"><a href="chip-quality-control.html#cb449-6"></a>tilling_window =<span class="st"> </span><span class="kw">tileGenome</span>(seqlengths, <span class="dt">tilewidth=</span><span class="dv">1000</span>)</span>
+<span id="cb449-7"><a href="chip-quality-control.html#cb449-7"></a></span>
+<span id="cb449-8"><a href="chip-quality-control.html#cb449-8"></a><span class="co"># unlist converts the list to one GRanges object</span></span>
+<span id="cb449-9"><a href="chip-quality-control.html#cb449-9"></a>tilling_window =<span class="st"> </span><span class="kw">unlist</span>(tilling_window)</span></code></pre></div>
 <pre><code>## GRanges object with 46710 ranges and 0 metadata columns:
 ##           seqnames            ranges strand
 ##              &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt;
@@ -606,21 +606,21 @@ The function will do the counting automatically for all our experiments.
 The <code>summarizeOverlaps()</code> function returns a <code>SummarizedExperiment</code> object.
 The object contains the counts, genomic ranges which were used for the quantification,
 and the sample descriptions.</p>
-<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="chip-quality-control.html#cb452-1"></a><span class="co"># load GenomicAlignments</span></span>
-<span id="cb452-2"><a href="chip-quality-control.html#cb452-2"></a><span class="kw">library</span>(GenomicAlignments)</span>
-<span id="cb452-3"><a href="chip-quality-control.html#cb452-3"></a></span>
-<span id="cb452-4"><a href="chip-quality-control.html#cb452-4"></a><span class="co"># fetch bam files from the data folder</span></span>
-<span id="cb452-5"><a href="chip-quality-control.html#cb452-5"></a>bam_files =<span class="st"> </span><span class="kw">list.files</span>(</span>
-<span id="cb452-6"><a href="chip-quality-control.html#cb452-6"></a>    <span class="dt">path       =</span> data_path, </span>
-<span id="cb452-7"><a href="chip-quality-control.html#cb452-7"></a>    <span class="dt">full.names =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb452-8"><a href="chip-quality-control.html#cb452-8"></a>    <span class="dt">pattern    =</span> <span class="st">&#39;bam$&#39;</span></span>
-<span id="cb452-9"><a href="chip-quality-control.html#cb452-9"></a>)</span>
-<span id="cb452-10"><a href="chip-quality-control.html#cb452-10"></a></span>
-<span id="cb452-11"><a href="chip-quality-control.html#cb452-11"></a><span class="co"># use summarizeOverlaps to count the reads</span></span>
-<span id="cb452-12"><a href="chip-quality-control.html#cb452-12"></a>so =<span class="st"> </span><span class="kw">summarizeOverlaps</span>(tilling_window, bam_files)</span>
-<span id="cb452-13"><a href="chip-quality-control.html#cb452-13"></a></span>
-<span id="cb452-14"><a href="chip-quality-control.html#cb452-14"></a><span class="co"># extract the counts from the SummarizedExperiment</span></span>
-<span id="cb452-15"><a href="chip-quality-control.html#cb452-15"></a>counts =<span class="st"> </span><span class="kw">assays</span>(so)[[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="chip-quality-control.html#cb451-1"></a><span class="co"># load GenomicAlignments</span></span>
+<span id="cb451-2"><a href="chip-quality-control.html#cb451-2"></a><span class="kw">library</span>(GenomicAlignments)</span>
+<span id="cb451-3"><a href="chip-quality-control.html#cb451-3"></a></span>
+<span id="cb451-4"><a href="chip-quality-control.html#cb451-4"></a><span class="co"># fetch bam files from the data folder</span></span>
+<span id="cb451-5"><a href="chip-quality-control.html#cb451-5"></a>bam_files =<span class="st"> </span><span class="kw">list.files</span>(</span>
+<span id="cb451-6"><a href="chip-quality-control.html#cb451-6"></a>    <span class="dt">path       =</span> data_path, </span>
+<span id="cb451-7"><a href="chip-quality-control.html#cb451-7"></a>    <span class="dt">full.names =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb451-8"><a href="chip-quality-control.html#cb451-8"></a>    <span class="dt">pattern    =</span> <span class="st">&#39;bam$&#39;</span></span>
+<span id="cb451-9"><a href="chip-quality-control.html#cb451-9"></a>)</span>
+<span id="cb451-10"><a href="chip-quality-control.html#cb451-10"></a></span>
+<span id="cb451-11"><a href="chip-quality-control.html#cb451-11"></a><span class="co"># use summarizeOverlaps to count the reads</span></span>
+<span id="cb451-12"><a href="chip-quality-control.html#cb451-12"></a>so =<span class="st"> </span><span class="kw">summarizeOverlaps</span>(tilling_window, bam_files)</span>
+<span id="cb451-13"><a href="chip-quality-control.html#cb451-13"></a></span>
+<span id="cb451-14"><a href="chip-quality-control.html#cb451-14"></a><span class="co"># extract the counts from the SummarizedExperiment</span></span>
+<span id="cb451-15"><a href="chip-quality-control.html#cb451-15"></a>counts =<span class="st"> </span><span class="kw">assays</span>(so)[[<span class="dv">1</span>]]</span></code></pre></div>
 <p>Different ChIP experiments were sequenced to different depths; each experiment
 contains a different number of reads. To remove the effect of the experimental
 depth on the quantification, the samples need to be normalized.
@@ -631,52 +631,52 @@ This normalization procedure is called the <strong>cpm</strong> - counts per mil
 <p><span class="math display">\[
 CPM = counts * (10^{6} / total\&gt;number\&gt;of\&gt;reads)
 \]</span></p>
-<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="chip-quality-control.html#cb453-1"></a><span class="co"># calculate the cpm from the counts matrix</span></span>
-<span id="cb453-2"><a href="chip-quality-control.html#cb453-2"></a><span class="co"># the following command works because </span></span>
-<span id="cb453-3"><a href="chip-quality-control.html#cb453-3"></a><span class="co"># R calculates everything by columns</span></span>
-<span id="cb453-4"><a href="chip-quality-control.html#cb453-4"></a>cpm =<span class="st"> </span><span class="kw">t</span>(<span class="kw">t</span>(counts)<span class="op">*</span>(<span class="dv">1000000</span><span class="op">/</span><span class="kw">colSums</span>(counts)))</span></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="chip-quality-control.html#cb452-1"></a><span class="co"># calculate the cpm from the counts matrix</span></span>
+<span id="cb452-2"><a href="chip-quality-control.html#cb452-2"></a><span class="co"># the following command works because </span></span>
+<span id="cb452-3"><a href="chip-quality-control.html#cb452-3"></a><span class="co"># R calculates everything by columns</span></span>
+<span id="cb452-4"><a href="chip-quality-control.html#cb452-4"></a>cpm =<span class="st"> </span><span class="kw">t</span>(<span class="kw">t</span>(counts)<span class="op">*</span>(<span class="dv">1000000</span><span class="op">/</span><span class="kw">colSums</span>(counts)))</span></code></pre></div>
 <p>We remove all tiles which do not have overlapping reads.
 Tiles with 0 counts do not provide any additional discriminatory power, rather,
 they introduce artificial similarity between the samples (i.e. samples with
 only a handful of bound regions will have a lot of tiles with <span class="math inline">\(0\)</span> counts, while
 they do not have to have any overlapping enriched tiles).</p>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="chip-quality-control.html#cb454-1"></a><span class="co"># remove all tiles which do not contain reads</span></span>
-<span id="cb454-2"><a href="chip-quality-control.html#cb454-2"></a>cpm =<span class="st"> </span>cpm[<span class="kw">rowSums</span>(cpm) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>,]</span></code></pre></div>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="chip-quality-control.html#cb453-1"></a><span class="co"># remove all tiles which do not contain reads</span></span>
+<span id="cb453-2"><a href="chip-quality-control.html#cb453-2"></a>cpm =<span class="st"> </span>cpm[<span class="kw">rowSums</span>(cpm) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>,]</span></code></pre></div>
 <p>We use the <code>sub()</code> function to shorten the column names of the cpm matrix.</p>
-<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="chip-quality-control.html#cb455-1"></a><span class="co"># change the formatting of the column names</span></span>
-<span id="cb455-2"><a href="chip-quality-control.html#cb455-2"></a><span class="co"># remove the .chr21.bam suffix</span></span>
-<span id="cb455-3"><a href="chip-quality-control.html#cb455-3"></a><span class="kw">colnames</span>(cpm) =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;.chr21.bam&#39;</span>,<span class="st">&#39;&#39;</span>,   <span class="kw">colnames</span>(cpm))</span>
-<span id="cb455-4"><a href="chip-quality-control.html#cb455-4"></a></span>
-<span id="cb455-5"><a href="chip-quality-control.html#cb455-5"></a><span class="co"># remove the GM12878_hg38 prefix</span></span>
-<span id="cb455-6"><a href="chip-quality-control.html#cb455-6"></a><span class="kw">colnames</span>(cpm) =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;GM12878_hg38_&#39;</span>,<span class="st">&#39;&#39;</span>,<span class="kw">colnames</span>(cpm))</span></code></pre></div>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="chip-quality-control.html#cb454-1"></a><span class="co"># change the formatting of the column names</span></span>
+<span id="cb454-2"><a href="chip-quality-control.html#cb454-2"></a><span class="co"># remove the .chr21.bam suffix</span></span>
+<span id="cb454-3"><a href="chip-quality-control.html#cb454-3"></a><span class="kw">colnames</span>(cpm) =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;.chr21.bam&#39;</span>,<span class="st">&#39;&#39;</span>,   <span class="kw">colnames</span>(cpm))</span>
+<span id="cb454-4"><a href="chip-quality-control.html#cb454-4"></a></span>
+<span id="cb454-5"><a href="chip-quality-control.html#cb454-5"></a><span class="co"># remove the GM12878_hg38 prefix</span></span>
+<span id="cb454-6"><a href="chip-quality-control.html#cb454-6"></a><span class="kw">colnames</span>(cpm) =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;GM12878_hg38_&#39;</span>,<span class="st">&#39;&#39;</span>,<span class="kw">colnames</span>(cpm))</span></code></pre></div>
 <p>Finally, we calculate the pairwise Pearson correlation coefficient using the
 <code>cor()</code> function.
 The function takes as input a region-by-sample count matrix, and returns
 a sample X sample matrix, where each field contains the correlation coefficient
 between two samples.</p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="chip-quality-control.html#cb456-1"></a><span class="co"># calculates the pearson correlation coefficient between the samples</span></span>
-<span id="cb456-2"><a href="chip-quality-control.html#cb456-2"></a>correlation_matrix =<span class="st"> </span><span class="kw">cor</span>(cpm, <span class="dt">method=</span><span class="st">&#39;pearson&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="chip-quality-control.html#cb455-1"></a><span class="co"># calculates the pearson correlation coefficient between the samples</span></span>
+<span id="cb455-2"><a href="chip-quality-control.html#cb455-2"></a>correlation_matrix =<span class="st"> </span><span class="kw">cor</span>(cpm, <span class="dt">method=</span><span class="st">&#39;pearson&#39;</span>)</span></code></pre></div>
 <p>The <code>Heatmap()</code> function from the <code>ComplexHeatmap</code> <span class="citation">(Z. Gu, Eils, and Schlesner <a href="#ref-Gu_2016" role="doc-biblioref">2016</a><a href="#ref-Gu_2016" role="doc-biblioref">b</a>)</span> package is used to visualize
 the correlation coefficient.
 The function automatically performs hierarchical clustering - it groups the
 samples which have the highest pairwise correlation.
 The diagonal represents the correlation of each sample with itself.</p>
-<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="chip-quality-control.html#cb457-1"></a><span class="co"># load ComplexHeatmap</span></span>
-<span id="cb457-2"><a href="chip-quality-control.html#cb457-2"></a><span class="kw">library</span>(ComplexHeatmap)</span>
-<span id="cb457-3"><a href="chip-quality-control.html#cb457-3"></a></span>
-<span id="cb457-4"><a href="chip-quality-control.html#cb457-4"></a><span class="co"># load the circlize package, and define </span></span>
-<span id="cb457-5"><a href="chip-quality-control.html#cb457-5"></a><span class="co"># the color palette which will be used in the heatmap</span></span>
-<span id="cb457-6"><a href="chip-quality-control.html#cb457-6"></a><span class="kw">library</span>(circlize)</span>
-<span id="cb457-7"><a href="chip-quality-control.html#cb457-7"></a>heatmap_col =<span class="st"> </span>circlize<span class="op">::</span><span class="kw">colorRamp2</span>(</span>
-<span id="cb457-8"><a href="chip-quality-control.html#cb457-8"></a>    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
-<span id="cb457-9"><a href="chip-quality-control.html#cb457-9"></a>    <span class="dt">colors =</span> <span class="kw">c</span>(<span class="st">&#39;blue&#39;</span>,<span class="st">&#39;white&#39;</span>,<span class="st">&#39;red&#39;</span>)</span>
-<span id="cb457-10"><a href="chip-quality-control.html#cb457-10"></a>)</span>
-<span id="cb457-11"><a href="chip-quality-control.html#cb457-11"></a></span>
-<span id="cb457-12"><a href="chip-quality-control.html#cb457-12"></a><span class="co"># plot the heatmap using the Heatmap function</span></span>
-<span id="cb457-13"><a href="chip-quality-control.html#cb457-13"></a><span class="kw">Heatmap</span>(</span>
-<span id="cb457-14"><a href="chip-quality-control.html#cb457-14"></a>    <span class="dt">matrix =</span> correlation_matrix, </span>
-<span id="cb457-15"><a href="chip-quality-control.html#cb457-15"></a>    <span class="dt">col    =</span> heatmap_col</span>
-<span id="cb457-16"><a href="chip-quality-control.html#cb457-16"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="chip-quality-control.html#cb456-1"></a><span class="co"># load ComplexHeatmap</span></span>
+<span id="cb456-2"><a href="chip-quality-control.html#cb456-2"></a><span class="kw">library</span>(ComplexHeatmap)</span>
+<span id="cb456-3"><a href="chip-quality-control.html#cb456-3"></a></span>
+<span id="cb456-4"><a href="chip-quality-control.html#cb456-4"></a><span class="co"># load the circlize package, and define </span></span>
+<span id="cb456-5"><a href="chip-quality-control.html#cb456-5"></a><span class="co"># the color palette which will be used in the heatmap</span></span>
+<span id="cb456-6"><a href="chip-quality-control.html#cb456-6"></a><span class="kw">library</span>(circlize)</span>
+<span id="cb456-7"><a href="chip-quality-control.html#cb456-7"></a>heatmap_col =<span class="st"> </span>circlize<span class="op">::</span><span class="kw">colorRamp2</span>(</span>
+<span id="cb456-8"><a href="chip-quality-control.html#cb456-8"></a>    <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb456-9"><a href="chip-quality-control.html#cb456-9"></a>    <span class="dt">colors =</span> <span class="kw">c</span>(<span class="st">&#39;blue&#39;</span>,<span class="st">&#39;white&#39;</span>,<span class="st">&#39;red&#39;</span>)</span>
+<span id="cb456-10"><a href="chip-quality-control.html#cb456-10"></a>)</span>
+<span id="cb456-11"><a href="chip-quality-control.html#cb456-11"></a></span>
+<span id="cb456-12"><a href="chip-quality-control.html#cb456-12"></a><span class="co"># plot the heatmap using the Heatmap function</span></span>
+<span id="cb456-13"><a href="chip-quality-control.html#cb456-13"></a><span class="kw">Heatmap</span>(</span>
+<span id="cb456-14"><a href="chip-quality-control.html#cb456-14"></a>    <span class="dt">matrix =</span> correlation_matrix, </span>
+<span id="cb456-15"><a href="chip-quality-control.html#cb456-15"></a>    <span class="dt">col    =</span> heatmap_col</span>
+<span id="cb456-16"><a href="chip-quality-control.html#cb456-16"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:sample-clustering-complex-heatmap"></span>
 <img src="09-chip-seq-analysis_files/figure-html/sample-clustering-complex-heatmap-1.png" alt="Heatmap showing ChIP-seq sample similarity using the Pearson correlation coefficient." width="50%" />
 <p class="caption">
@@ -721,27 +721,27 @@ The vector contains information on how many reads overlap each position
 in the genome.</p>
 <p>We will proceed as follows: Firstly, we will import a <strong>.bam</strong> file into <strong>R</strong>. Then we will calculate the signal profile (construct the coverage vector), and finally, we export the vector as a <strong>.bigWig</strong> file.</p>
 <p>First we select one of the ChIP samples.</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="chip-quality-control.html#cb458-1"></a><span class="co"># list the bam files in the directory</span></span>
-<span id="cb458-2"><a href="chip-quality-control.html#cb458-2"></a><span class="co"># the &#39;$&#39; sign tells the pattern recognizer to omit bam.bai files</span></span>
-<span id="cb458-3"><a href="chip-quality-control.html#cb458-3"></a>bam_files =<span class="st"> </span><span class="kw">list.files</span>(</span>
-<span id="cb458-4"><a href="chip-quality-control.html#cb458-4"></a>    <span class="dt">path       =</span> data_path, </span>
-<span id="cb458-5"><a href="chip-quality-control.html#cb458-5"></a>    <span class="dt">full.names =</span> <span class="ot">TRUE</span>, </span>
-<span id="cb458-6"><a href="chip-quality-control.html#cb458-6"></a>    <span class="dt">pattern    =</span> <span class="st">&#39;bam$&#39;</span></span>
-<span id="cb458-7"><a href="chip-quality-control.html#cb458-7"></a>)</span>
-<span id="cb458-8"><a href="chip-quality-control.html#cb458-8"></a></span>
-<span id="cb458-9"><a href="chip-quality-control.html#cb458-9"></a><span class="co"># select the first bam file</span></span>
-<span id="cb458-10"><a href="chip-quality-control.html#cb458-10"></a>chip_file =<span class="st"> </span>bam_files[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="chip-quality-control.html#cb457-1"></a><span class="co"># list the bam files in the directory</span></span>
+<span id="cb457-2"><a href="chip-quality-control.html#cb457-2"></a><span class="co"># the &#39;$&#39; sign tells the pattern recognizer to omit bam.bai files</span></span>
+<span id="cb457-3"><a href="chip-quality-control.html#cb457-3"></a>bam_files =<span class="st"> </span><span class="kw">list.files</span>(</span>
+<span id="cb457-4"><a href="chip-quality-control.html#cb457-4"></a>    <span class="dt">path       =</span> data_path, </span>
+<span id="cb457-5"><a href="chip-quality-control.html#cb457-5"></a>    <span class="dt">full.names =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb457-6"><a href="chip-quality-control.html#cb457-6"></a>    <span class="dt">pattern    =</span> <span class="st">&#39;bam$&#39;</span></span>
+<span id="cb457-7"><a href="chip-quality-control.html#cb457-7"></a>)</span>
+<span id="cb457-8"><a href="chip-quality-control.html#cb457-8"></a></span>
+<span id="cb457-9"><a href="chip-quality-control.html#cb457-9"></a><span class="co"># select the first bam file</span></span>
+<span id="cb457-10"><a href="chip-quality-control.html#cb457-10"></a>chip_file =<span class="st"> </span>bam_files[<span class="dv">1</span>]</span></code></pre></div>
 <p>We will use the <code>readGAlignments()</code> function from the <code>GenomicAlignments</code>
 package to load the reads into <strong>R</strong>, and then the <code>GRanges()</code> function
 to convert them into a <code>GRanges</code> object.</p>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="chip-quality-control.html#cb459-1"></a><span class="co"># load the genomic alignments package</span></span>
-<span id="cb459-2"><a href="chip-quality-control.html#cb459-2"></a><span class="kw">library</span>(GenomicAlignments)</span>
-<span id="cb459-3"><a href="chip-quality-control.html#cb459-3"></a></span>
-<span id="cb459-4"><a href="chip-quality-control.html#cb459-4"></a><span class="co"># read the ChIP reads into R</span></span>
-<span id="cb459-5"><a href="chip-quality-control.html#cb459-5"></a>reads =<span class="st"> </span><span class="kw">readGAlignments</span>(chip_file)</span>
-<span id="cb459-6"><a href="chip-quality-control.html#cb459-6"></a></span>
-<span id="cb459-7"><a href="chip-quality-control.html#cb459-7"></a><span class="co"># the reads need to be converted to a granges object</span></span>
-<span id="cb459-8"><a href="chip-quality-control.html#cb459-8"></a>reads =<span class="st"> </span><span class="kw">granges</span>(reads)</span></code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="chip-quality-control.html#cb458-1"></a><span class="co"># load the genomic alignments package</span></span>
+<span id="cb458-2"><a href="chip-quality-control.html#cb458-2"></a><span class="kw">library</span>(GenomicAlignments)</span>
+<span id="cb458-3"><a href="chip-quality-control.html#cb458-3"></a></span>
+<span id="cb458-4"><a href="chip-quality-control.html#cb458-4"></a><span class="co"># read the ChIP reads into R</span></span>
+<span id="cb458-5"><a href="chip-quality-control.html#cb458-5"></a>reads =<span class="st"> </span><span class="kw">readGAlignments</span>(chip_file)</span>
+<span id="cb458-6"><a href="chip-quality-control.html#cb458-6"></a></span>
+<span id="cb458-7"><a href="chip-quality-control.html#cb458-7"></a><span class="co"># the reads need to be converted to a granges object</span></span>
+<span id="cb458-8"><a href="chip-quality-control.html#cb458-8"></a>reads =<span class="st"> </span><span class="kw">granges</span>(reads)</span></code></pre></div>
 <p>Because DNA fragments are being sequenced from their ends (both the 3’ and 5’ end),
 the read enrichment does not correspond to the exact location of the bound protein.
 Rather, reads end to form clusters of enrichment upstream and downstream of the true binding location.
@@ -760,18 +760,18 @@ takes two arguments:</p>
 the reads will be extended towards the <strong>3’</strong> end. If <code>fix</code> is set to end, they will
 be extended towards the <strong>5’</strong> end)</p></li>
 </ol>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="chip-quality-control.html#cb460-1"></a><span class="co"># extends the reads towards the 3&#39; end</span></span>
-<span id="cb460-2"><a href="chip-quality-control.html#cb460-2"></a>reads =<span class="st"> </span><span class="kw">resize</span>(reads, <span class="dt">width=</span><span class="dv">200</span>, <span class="dt">fix=</span><span class="st">&#39;start&#39;</span>)</span>
-<span id="cb460-3"><a href="chip-quality-control.html#cb460-3"></a></span>
-<span id="cb460-4"><a href="chip-quality-control.html#cb460-4"></a><span class="co"># keeps only chromosome 21</span></span>
-<span id="cb460-5"><a href="chip-quality-control.html#cb460-5"></a>reads =<span class="st"> </span><span class="kw">keepSeqlevels</span>(reads, <span class="st">&#39;chr21&#39;</span>, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="chip-quality-control.html#cb459-1"></a><span class="co"># extends the reads towards the 3&#39; end</span></span>
+<span id="cb459-2"><a href="chip-quality-control.html#cb459-2"></a>reads =<span class="st"> </span><span class="kw">resize</span>(reads, <span class="dt">width=</span><span class="dv">200</span>, <span class="dt">fix=</span><span class="st">&#39;start&#39;</span>)</span>
+<span id="cb459-3"><a href="chip-quality-control.html#cb459-3"></a></span>
+<span id="cb459-4"><a href="chip-quality-control.html#cb459-4"></a><span class="co"># keeps only chromosome 21</span></span>
+<span id="cb459-5"><a href="chip-quality-control.html#cb459-5"></a>reads =<span class="st"> </span><span class="kw">keepSeqlevels</span>(reads, <span class="st">&#39;chr21&#39;</span>, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>)</span></code></pre></div>
 <p>Conversion of reads into coverage vectors is done with the <code>coverage()</code>
 function.
 The function takes only one argument (<code>width</code>), which corresponds to chromosome sizes.
 For this purpose we can use the, previously created, <code>seqlengths</code> variable.
 The <code>coverage()</code> function converts the reads into a compressed <code>Rle</code> object. We have introduced these workflows in Chapter <a href="genomicIntervals.html#genomicIntervals">6</a>.</p>
-<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="chip-quality-control.html#cb461-1"></a><span class="co"># convert the reads into a signal profile</span></span>
-<span id="cb461-2"><a href="chip-quality-control.html#cb461-2"></a>cov =<span class="st"> </span><span class="kw">coverage</span>(reads, <span class="dt">width =</span> seqlengths)</span></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="chip-quality-control.html#cb460-1"></a><span class="co"># convert the reads into a signal profile</span></span>
+<span id="cb460-2"><a href="chip-quality-control.html#cb460-2"></a>cov =<span class="st"> </span><span class="kw">coverage</span>(reads, <span class="dt">width =</span> seqlengths)</span></code></pre></div>
 <pre><code>## RleList of length 1
 ## $chr21
 ## integer-Rle of length 46709983 with 199419 runs
@@ -779,15 +779,15 @@ The <code>coverage()</code> function converts the reads into a compressed <code>
 ##   Values :       0       1       0       1 ...       1       0       1       0</code></pre>
 <p>The name of the output file is created by changing the file suffix from <strong>.bam</strong>
 to <strong>.bigWig</strong>.</p>
-<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="chip-quality-control.html#cb463-1"></a><span class="co"># change the file extension from .bam to .bigWig</span></span>
-<span id="cb463-2"><a href="chip-quality-control.html#cb463-2"></a>output_file =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;.bam&#39;</span>,<span class="st">&#39;.bigWig&#39;</span>, chip_file)</span></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="chip-quality-control.html#cb462-1"></a><span class="co"># change the file extension from .bam to .bigWig</span></span>
+<span id="cb462-2"><a href="chip-quality-control.html#cb462-2"></a>output_file =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;.bam&#39;</span>,<span class="st">&#39;.bigWig&#39;</span>, chip_file)</span></code></pre></div>
 <p>Now we can use the <code>export.bw()</code> function from the rtracklayer package to
 write the bigWig file.</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="chip-quality-control.html#cb464-1"></a><span class="co"># load the rtracklayer package</span></span>
-<span id="cb464-2"><a href="chip-quality-control.html#cb464-2"></a><span class="kw">library</span>(rtracklayer)</span>
-<span id="cb464-3"><a href="chip-quality-control.html#cb464-3"></a></span>
-<span id="cb464-4"><a href="chip-quality-control.html#cb464-4"></a><span class="co"># export the bigWig output file</span></span>
-<span id="cb464-5"><a href="chip-quality-control.html#cb464-5"></a><span class="kw">export.bw</span>(cov, <span class="st">&#39;output_file&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="chip-quality-control.html#cb463-1"></a><span class="co"># load the rtracklayer package</span></span>
+<span id="cb463-2"><a href="chip-quality-control.html#cb463-2"></a><span class="kw">library</span>(rtracklayer)</span>
+<span id="cb463-3"><a href="chip-quality-control.html#cb463-3"></a></span>
+<span id="cb463-4"><a href="chip-quality-control.html#cb463-4"></a><span class="co"># export the bigWig output file</span></span>
+<span id="cb463-5"><a href="chip-quality-control.html#cb463-5"></a><span class="kw">export.bw</span>(cov, <span class="st">&#39;output_file&#39;</span>)</span></code></pre></div>
 <div id="vizualization-of-track-data-using-gviz" class="section level4">
 <h4><span class="header-section-number">9.5.3.1</span> Vizualization of track data using Gviz</h4>
 <p>We can create genome browserlike visualizations using the <code>Gviz</code> package,
@@ -798,30 +798,30 @@ genomic annotation, or a signal profile; subsequently we define the order
 of the tracks and plot them.
 Here we will define two tracks, a genome axis, which will show the position
 along the human chromosome 21; and a signal track from our CTCF experiment.</p>
-<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="chip-quality-control.html#cb465-1"></a><span class="kw">library</span>(Gviz)</span>
-<span id="cb465-2"><a href="chip-quality-control.html#cb465-2"></a><span class="co"># define the genome axis track</span></span>
-<span id="cb465-3"><a href="chip-quality-control.html#cb465-3"></a>axis   =<span class="st"> </span><span class="kw">GenomeAxisTrack</span>(</span>
-<span id="cb465-4"><a href="chip-quality-control.html#cb465-4"></a>    <span class="dt">range =</span> <span class="kw">GRanges</span>(<span class="st">&#39;chr21&#39;</span>, <span class="kw">IRanges</span>(<span class="dv">1</span>, <span class="dt">width=</span>seqlengths))</span>
-<span id="cb465-5"><a href="chip-quality-control.html#cb465-5"></a>)</span>
-<span id="cb465-6"><a href="chip-quality-control.html#cb465-6"></a></span>
-<span id="cb465-7"><a href="chip-quality-control.html#cb465-7"></a><span class="co"># convert the signal into genomic ranges and define the signal track</span></span>
-<span id="cb465-8"><a href="chip-quality-control.html#cb465-8"></a>gcov   =<span class="st"> </span><span class="kw">as</span>(cov, <span class="st">&#39;GRanges&#39;</span>)</span>
-<span id="cb465-9"><a href="chip-quality-control.html#cb465-9"></a>dtrack =<span class="st"> </span><span class="kw">DataTrack</span>(gcov, <span class="dt">name =</span> <span class="st">&quot;CTCF&quot;</span>, <span class="dt">type=</span><span class="st">&#39;l&#39;</span>)</span>
-<span id="cb465-10"><a href="chip-quality-control.html#cb465-10"></a></span>
-<span id="cb465-11"><a href="chip-quality-control.html#cb465-11"></a><span class="co"># define the track ordering</span></span>
-<span id="cb465-12"><a href="chip-quality-control.html#cb465-12"></a>track_list =<span class="st"> </span><span class="kw">list</span>(axis,dtrack)</span></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="chip-quality-control.html#cb464-1"></a><span class="kw">library</span>(Gviz)</span>
+<span id="cb464-2"><a href="chip-quality-control.html#cb464-2"></a><span class="co"># define the genome axis track</span></span>
+<span id="cb464-3"><a href="chip-quality-control.html#cb464-3"></a>axis   =<span class="st"> </span><span class="kw">GenomeAxisTrack</span>(</span>
+<span id="cb464-4"><a href="chip-quality-control.html#cb464-4"></a>    <span class="dt">range =</span> <span class="kw">GRanges</span>(<span class="st">&#39;chr21&#39;</span>, <span class="kw">IRanges</span>(<span class="dv">1</span>, <span class="dt">width=</span>seqlengths))</span>
+<span id="cb464-5"><a href="chip-quality-control.html#cb464-5"></a>)</span>
+<span id="cb464-6"><a href="chip-quality-control.html#cb464-6"></a></span>
+<span id="cb464-7"><a href="chip-quality-control.html#cb464-7"></a><span class="co"># convert the signal into genomic ranges and define the signal track</span></span>
+<span id="cb464-8"><a href="chip-quality-control.html#cb464-8"></a>gcov   =<span class="st"> </span><span class="kw">as</span>(cov, <span class="st">&#39;GRanges&#39;</span>)</span>
+<span id="cb464-9"><a href="chip-quality-control.html#cb464-9"></a>dtrack =<span class="st"> </span><span class="kw">DataTrack</span>(gcov, <span class="dt">name =</span> <span class="st">&quot;CTCF&quot;</span>, <span class="dt">type=</span><span class="st">&#39;l&#39;</span>)</span>
+<span id="cb464-10"><a href="chip-quality-control.html#cb464-10"></a></span>
+<span id="cb464-11"><a href="chip-quality-control.html#cb464-11"></a><span class="co"># define the track ordering</span></span>
+<span id="cb464-12"><a href="chip-quality-control.html#cb464-12"></a>track_list =<span class="st"> </span><span class="kw">list</span>(axis,dtrack)</span></code></pre></div>
 <p>Tracks are plotted with the <code>plotTracks()</code> function. The <code>sizes</code> argument needs to be the same size as the track_list, and defines the
 relative size of each track.
 Figure <a href="chip-quality-control.html#fig:genome-browser-gviz-show">9.3</a> shows the output of the
 <code>plotTracks()</code> function.</p>
-<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="chip-quality-control.html#cb466-1"></a><span class="co"># plot the list of browser tracks</span></span>
-<span id="cb466-2"><a href="chip-quality-control.html#cb466-2"></a><span class="co"># sizes argument defines the relative sizes of tracks</span></span>
-<span id="cb466-3"><a href="chip-quality-control.html#cb466-3"></a><span class="co"># background title defines the color for the track labels</span></span>
-<span id="cb466-4"><a href="chip-quality-control.html#cb466-4"></a><span class="kw">plotTracks</span>(</span>
-<span id="cb466-5"><a href="chip-quality-control.html#cb466-5"></a>    <span class="dt">trackList        =</span> track_list, </span>
-<span id="cb466-6"><a href="chip-quality-control.html#cb466-6"></a>    <span class="dt">sizes            =</span> <span class="kw">c</span>(.<span class="dv">1</span>,<span class="dv">1</span>), </span>
-<span id="cb466-7"><a href="chip-quality-control.html#cb466-7"></a>    <span class="dt">background.title =</span> <span class="st">&quot;black&quot;</span></span>
-<span id="cb466-8"><a href="chip-quality-control.html#cb466-8"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="chip-quality-control.html#cb465-1"></a><span class="co"># plot the list of browser tracks</span></span>
+<span id="cb465-2"><a href="chip-quality-control.html#cb465-2"></a><span class="co"># sizes argument defines the relative sizes of tracks</span></span>
+<span id="cb465-3"><a href="chip-quality-control.html#cb465-3"></a><span class="co"># background title defines the color for the track labels</span></span>
+<span id="cb465-4"><a href="chip-quality-control.html#cb465-4"></a><span class="kw">plotTracks</span>(</span>
+<span id="cb465-5"><a href="chip-quality-control.html#cb465-5"></a>    <span class="dt">trackList        =</span> track_list, </span>
+<span id="cb465-6"><a href="chip-quality-control.html#cb465-6"></a>    <span class="dt">sizes            =</span> <span class="kw">c</span>(.<span class="dv">1</span>,<span class="dv">1</span>), </span>
+<span id="cb465-7"><a href="chip-quality-control.html#cb465-7"></a>    <span class="dt">background.title =</span> <span class="st">&quot;black&quot;</span></span>
+<span id="cb465-8"><a href="chip-quality-control.html#cb465-8"></a>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:genome-browser-gviz-show"></span>
 <img src="09-chip-seq-analysis_files/figure-html/genome-browser-gviz-show-1.png" alt="ChIP-seq signal visualized as a browser track using Gviz." width="50%" />
 <p class="caption">
@@ -866,7 +866,7 @@ This is done by calculating the coverage vector of the read starting position (s
 for each strand), and converting the coverage vector into a Boolean vector.
 The Boolean vector contains the information of which genomic positions
 contained the DNA fragment ends.</p>
-<p>Similarity between two boolean vectors can be promptly computed using the Jaccard index.
+<p>Similarity between two Boolean vectors can be promptly computed using the Jaccard index.
 The Jaccard index is defined as an intersection between two Boolean vectors,
 divided by their union as shown in Figure <a href="chip-quality-control.html#fig:FigureJaccardSimilarity">9.5</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:FigureJaccardSimilarity"></span>
@@ -880,59 +880,59 @@ Then we create signal profiles, separately for reads on the <strong>+</strong> a
 strands.
 Unlike before, we do not extend the reads to the average expected fragment
 length (200 base pairs); we keep only the starting position of each read.</p>
-<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="chip-quality-control.html#cb467-1"></a><span class="co"># load the reads</span></span>
-<span id="cb467-2"><a href="chip-quality-control.html#cb467-2"></a>reads =<span class="st"> </span><span class="kw">readGAlignments</span>(chip_file)</span>
-<span id="cb467-3"><a href="chip-quality-control.html#cb467-3"></a>reads =<span class="st"> </span><span class="kw">granges</span>(reads)</span>
-<span id="cb467-4"><a href="chip-quality-control.html#cb467-4"></a></span>
-<span id="cb467-5"><a href="chip-quality-control.html#cb467-5"></a><span class="co"># keep only the starting position of each read</span></span>
-<span id="cb467-6"><a href="chip-quality-control.html#cb467-6"></a>reads =<span class="st"> </span><span class="kw">resize</span>(reads, <span class="dt">width=</span><span class="dv">1</span>, <span class="dt">fix=</span><span class="st">&#39;start&#39;</span>)</span>
-<span id="cb467-7"><a href="chip-quality-control.html#cb467-7"></a></span>
-<span id="cb467-8"><a href="chip-quality-control.html#cb467-8"></a>reads =<span class="st"> </span><span class="kw">keepSeqlevels</span>(reads, <span class="st">&#39;chr21&#39;</span>, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="chip-quality-control.html#cb466-1"></a><span class="co"># load the reads</span></span>
+<span id="cb466-2"><a href="chip-quality-control.html#cb466-2"></a>reads =<span class="st"> </span><span class="kw">readGAlignments</span>(chip_file)</span>
+<span id="cb466-3"><a href="chip-quality-control.html#cb466-3"></a>reads =<span class="st"> </span><span class="kw">granges</span>(reads)</span>
+<span id="cb466-4"><a href="chip-quality-control.html#cb466-4"></a></span>
+<span id="cb466-5"><a href="chip-quality-control.html#cb466-5"></a><span class="co"># keep only the starting position of each read</span></span>
+<span id="cb466-6"><a href="chip-quality-control.html#cb466-6"></a>reads =<span class="st"> </span><span class="kw">resize</span>(reads, <span class="dt">width=</span><span class="dv">1</span>, <span class="dt">fix=</span><span class="st">&#39;start&#39;</span>)</span>
+<span id="cb466-7"><a href="chip-quality-control.html#cb466-7"></a></span>
+<span id="cb466-8"><a href="chip-quality-control.html#cb466-8"></a>reads =<span class="st"> </span><span class="kw">keepSeqlevels</span>(reads, <span class="st">&#39;chr21&#39;</span>, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>)</span></code></pre></div>
 <p>Now we can calculate the coverage vector of the read starting position.
-The coverage vector is then automatically converted into a boolean vector by
+The coverage vector is then automatically converted into a Boolean vector by
 asking which genomic positions have <span class="math inline">\(coverage &gt; 0\)</span>.</p>
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="chip-quality-control.html#cb468-1"></a><span class="co"># calculate the coverage profile for plus and minus strand</span></span>
-<span id="cb468-2"><a href="chip-quality-control.html#cb468-2"></a>reads =<span class="st"> </span><span class="kw">split</span>(reads, <span class="kw">strand</span>(reads))</span>
-<span id="cb468-3"><a href="chip-quality-control.html#cb468-3"></a></span>
-<span id="cb468-4"><a href="chip-quality-control.html#cb468-4"></a><span class="co"># coverage(x, width = seqlengths)[[1]] &gt; 0 </span></span>
-<span id="cb468-5"><a href="chip-quality-control.html#cb468-5"></a><span class="co"># calculates the coverage and converts</span></span>
-<span id="cb468-6"><a href="chip-quality-control.html#cb468-6"></a><span class="co"># the coverage vector into a boolean</span></span>
-<span id="cb468-7"><a href="chip-quality-control.html#cb468-7"></a>cov   =<span class="st"> </span><span class="kw">lapply</span>(reads, <span class="cf">function</span>(x){</span>
-<span id="cb468-8"><a href="chip-quality-control.html#cb468-8"></a>    <span class="kw">coverage</span>(x, <span class="dt">width =</span> seqlengths)[[<span class="dv">1</span>]] <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></span>
-<span id="cb468-9"><a href="chip-quality-control.html#cb468-9"></a>})</span>
-<span id="cb468-10"><a href="chip-quality-control.html#cb468-10"></a>cov   =<span class="st"> </span><span class="kw">lapply</span>(cov, as.vector)</span></code></pre></div>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="chip-quality-control.html#cb467-1"></a><span class="co"># calculate the coverage profile for plus and minus strand</span></span>
+<span id="cb467-2"><a href="chip-quality-control.html#cb467-2"></a>reads =<span class="st"> </span><span class="kw">split</span>(reads, <span class="kw">strand</span>(reads))</span>
+<span id="cb467-3"><a href="chip-quality-control.html#cb467-3"></a></span>
+<span id="cb467-4"><a href="chip-quality-control.html#cb467-4"></a><span class="co"># coverage(x, width = seqlengths)[[1]] &gt; 0 </span></span>
+<span id="cb467-5"><a href="chip-quality-control.html#cb467-5"></a><span class="co"># calculates the coverage and converts</span></span>
+<span id="cb467-6"><a href="chip-quality-control.html#cb467-6"></a><span class="co"># the coverage vector into a boolean</span></span>
+<span id="cb467-7"><a href="chip-quality-control.html#cb467-7"></a>cov   =<span class="st"> </span><span class="kw">lapply</span>(reads, <span class="cf">function</span>(x){</span>
+<span id="cb467-8"><a href="chip-quality-control.html#cb467-8"></a>    <span class="kw">coverage</span>(x, <span class="dt">width =</span> seqlengths)[[<span class="dv">1</span>]] <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span></span>
+<span id="cb467-9"><a href="chip-quality-control.html#cb467-9"></a>})</span>
+<span id="cb467-10"><a href="chip-quality-control.html#cb467-10"></a>cov   =<span class="st"> </span><span class="kw">lapply</span>(cov, as.vector)</span></code></pre></div>
 <p>We will now shift the coverage vector from the plus strand by <span class="math inline">\(1\)</span> to <span class="math inline">\(400\)</span> base pairs, and for each pair shift we will calculate the Jaccard index between the vectors
 on the plus and minus strand.</p>
-<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="chip-quality-control.html#cb469-1"></a><span class="co"># defines the shift range</span></span>
-<span id="cb469-2"><a href="chip-quality-control.html#cb469-2"></a>wsize =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">400</span></span>
-<span id="cb469-3"><a href="chip-quality-control.html#cb469-3"></a></span>
-<span id="cb469-4"><a href="chip-quality-control.html#cb469-4"></a><span class="co"># defines the jaccard similarity</span></span>
-<span id="cb469-5"><a href="chip-quality-control.html#cb469-5"></a>jaccard =<span class="st"> </span><span class="cf">function</span>(x,y)<span class="kw">sum</span>((x <span class="op">&amp;</span><span class="st"> </span>y)) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>((x <span class="op">|</span><span class="st"> </span>y))</span>
-<span id="cb469-6"><a href="chip-quality-control.html#cb469-6"></a></span>
-<span id="cb469-7"><a href="chip-quality-control.html#cb469-7"></a><span class="co"># shifts the + vector by 1 - 400 nucleotides and </span></span>
-<span id="cb469-8"><a href="chip-quality-control.html#cb469-8"></a><span class="co"># calculates the correlation coefficient</span></span>
-<span id="cb469-9"><a href="chip-quality-control.html#cb469-9"></a>cc =<span class="st"> </span><span class="kw">shiftApply</span>(</span>
-<span id="cb469-10"><a href="chip-quality-control.html#cb469-10"></a>    <span class="dt">SHIFT =</span> wsize, </span>
-<span id="cb469-11"><a href="chip-quality-control.html#cb469-11"></a>    <span class="dt">X     =</span> cov[[<span class="st">&#39;+&#39;</span>]], </span>
-<span id="cb469-12"><a href="chip-quality-control.html#cb469-12"></a>    <span class="dt">Y     =</span> cov[[<span class="st">&#39;-&#39;</span>]], </span>
-<span id="cb469-13"><a href="chip-quality-control.html#cb469-13"></a>    <span class="dt">FUN   =</span> jaccard</span>
-<span id="cb469-14"><a href="chip-quality-control.html#cb469-14"></a>)</span>
-<span id="cb469-15"><a href="chip-quality-control.html#cb469-15"></a></span>
-<span id="cb469-16"><a href="chip-quality-control.html#cb469-16"></a><span class="co"># converts the results into a data frame</span></span>
-<span id="cb469-17"><a href="chip-quality-control.html#cb469-17"></a>cc =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">fragment_size =</span> wsize, <span class="dt">cross_correlation =</span> cc)</span></code></pre></div>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="chip-quality-control.html#cb468-1"></a><span class="co"># defines the shift range</span></span>
+<span id="cb468-2"><a href="chip-quality-control.html#cb468-2"></a>wsize =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">400</span></span>
+<span id="cb468-3"><a href="chip-quality-control.html#cb468-3"></a></span>
+<span id="cb468-4"><a href="chip-quality-control.html#cb468-4"></a><span class="co"># defines the jaccard similarity</span></span>
+<span id="cb468-5"><a href="chip-quality-control.html#cb468-5"></a>jaccard =<span class="st"> </span><span class="cf">function</span>(x,y)<span class="kw">sum</span>((x <span class="op">&amp;</span><span class="st"> </span>y)) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>((x <span class="op">|</span><span class="st"> </span>y))</span>
+<span id="cb468-6"><a href="chip-quality-control.html#cb468-6"></a></span>
+<span id="cb468-7"><a href="chip-quality-control.html#cb468-7"></a><span class="co"># shifts the + vector by 1 - 400 nucleotides and </span></span>
+<span id="cb468-8"><a href="chip-quality-control.html#cb468-8"></a><span class="co"># calculates the correlation coefficient</span></span>
+<span id="cb468-9"><a href="chip-quality-control.html#cb468-9"></a>cc =<span class="st"> </span><span class="kw">shiftApply</span>(</span>
+<span id="cb468-10"><a href="chip-quality-control.html#cb468-10"></a>    <span class="dt">SHIFT =</span> wsize, </span>
+<span id="cb468-11"><a href="chip-quality-control.html#cb468-11"></a>    <span class="dt">X     =</span> cov[[<span class="st">&#39;+&#39;</span>]], </span>
+<span id="cb468-12"><a href="chip-quality-control.html#cb468-12"></a>    <span class="dt">Y     =</span> cov[[<span class="st">&#39;-&#39;</span>]], </span>
+<span id="cb468-13"><a href="chip-quality-control.html#cb468-13"></a>    <span class="dt">FUN   =</span> jaccard</span>
+<span id="cb468-14"><a href="chip-quality-control.html#cb468-14"></a>)</span>
+<span id="cb468-15"><a href="chip-quality-control.html#cb468-15"></a></span>
+<span id="cb468-16"><a href="chip-quality-control.html#cb468-16"></a><span class="co"># converts the results into a data frame</span></span>
+<span id="cb468-17"><a href="chip-quality-control.html#cb468-17"></a>cc =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">fragment_size =</span> wsize, <span class="dt">cross_correlation =</span> cc)</span></code></pre></div>
 <p>We can finally plot the shift in base pairs versus the correlation coefficient:</p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="chip-quality-control.html#cb470-1"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb470-2"><a href="chip-quality-control.html#cb470-2"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> cc, <span class="kw">aes</span>(fragment_size, cross_correlation)) <span class="op">+</span></span>
-<span id="cb470-3"><a href="chip-quality-control.html#cb470-3"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb470-4"><a href="chip-quality-control.html#cb470-4"></a><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">which.max</span>(cc<span class="op">$</span>cross_correlation), </span>
-<span id="cb470-5"><a href="chip-quality-control.html#cb470-5"></a>               <span class="dt">size=</span><span class="dv">2</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">linetype=</span><span class="dv">2</span>) <span class="op">+</span></span>
-<span id="cb470-6"><a href="chip-quality-control.html#cb470-6"></a><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></span>
-<span id="cb470-7"><a href="chip-quality-control.html#cb470-7"></a><span class="st">    </span><span class="kw">theme</span>(</span>
-<span id="cb470-8"><a href="chip-quality-control.html#cb470-8"></a>        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),</span>
-<span id="cb470-9"><a href="chip-quality-control.html#cb470-9"></a>        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb470-10"><a href="chip-quality-control.html#cb470-10"></a>        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
-<span id="cb470-11"><a href="chip-quality-control.html#cb470-11"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;Shift in base pairs&#39;</span>) <span class="op">+</span></span>
-<span id="cb470-12"><a href="chip-quality-control.html#cb470-12"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;Jaccard similarity&#39;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="chip-quality-control.html#cb469-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb469-2"><a href="chip-quality-control.html#cb469-2"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> cc, <span class="kw">aes</span>(fragment_size, cross_correlation)) <span class="op">+</span></span>
+<span id="cb469-3"><a href="chip-quality-control.html#cb469-3"></a><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
+<span id="cb469-4"><a href="chip-quality-control.html#cb469-4"></a><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="kw">which.max</span>(cc<span class="op">$</span>cross_correlation), </span>
+<span id="cb469-5"><a href="chip-quality-control.html#cb469-5"></a>               <span class="dt">size=</span><span class="dv">2</span>, <span class="dt">color=</span><span class="st">&#39;red&#39;</span>, <span class="dt">linetype=</span><span class="dv">2</span>) <span class="op">+</span></span>
+<span id="cb469-6"><a href="chip-quality-control.html#cb469-6"></a><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></span>
+<span id="cb469-7"><a href="chip-quality-control.html#cb469-7"></a><span class="st">    </span><span class="kw">theme</span>(</span>
+<span id="cb469-8"><a href="chip-quality-control.html#cb469-8"></a>        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),</span>
+<span id="cb469-9"><a href="chip-quality-control.html#cb469-9"></a>        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb469-10"><a href="chip-quality-control.html#cb469-10"></a>        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
+<span id="cb469-11"><a href="chip-quality-control.html#cb469-11"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;Shift in base pairs&#39;</span>) <span class="op">+</span></span>
+<span id="cb469-12"><a href="chip-quality-control.html#cb469-12"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;Jaccard similarity&#39;</span>) </span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:correlation-plot"></span>
 <img src="09-chip-seq-analysis_files/figure-html/correlation-plot-1.png" alt="The figure shows the correlation coefficient between the ChIP-seq signal on + and $-$ strands. The peak of the distribution designates the fragment size" width="50%" />
 <p class="caption">
@@ -957,32 +957,32 @@ differing GC composition were equally enriched in all experiments.</p>
 <p>We will do the following: Firstly we will calculate the GC content of each
 of the tilling windows, and then we will compare the GC content with the corresponding
 cpm (count per million reads) value, for each tile.</p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="chip-quality-control.html#cb471-1"></a><span class="co"># fetches the chromosome lengths and constructs the tiles</span></span>
-<span id="cb471-2"><a href="chip-quality-control.html#cb471-2"></a><span class="kw">library</span>(GenomeInfoDb)</span>
-<span id="cb471-3"><a href="chip-quality-control.html#cb471-3"></a><span class="kw">library</span>(GenomicRanges)</span>
-<span id="cb471-4"><a href="chip-quality-control.html#cb471-4"></a></span>
-<span id="cb471-5"><a href="chip-quality-control.html#cb471-5"></a>hg_chrs        =<span class="st"> </span><span class="kw">getChromInfoFromUCSC</span>(<span class="st">&#39;hg38&#39;</span>)</span>
-<span id="cb471-6"><a href="chip-quality-control.html#cb471-6"></a>hg_chrs        =<span class="st"> </span><span class="kw">subset</span>(hg_chrs, <span class="kw">grepl</span>(<span class="st">&#39;chr21$&#39;</span>,chrom))</span>
-<span id="cb471-7"><a href="chip-quality-control.html#cb471-7"></a>seqlengths     =<span class="st"> </span><span class="kw">with</span>(hg_chrs, <span class="kw">setNames</span>(size, chrom))</span>
-<span id="cb471-8"><a href="chip-quality-control.html#cb471-8"></a></span>
-<span id="cb471-9"><a href="chip-quality-control.html#cb471-9"></a><span class="co"># tileGenome produces a list per chromosome</span></span>
-<span id="cb471-10"><a href="chip-quality-control.html#cb471-10"></a><span class="co"># unlist combines the elemenents of the list </span></span>
-<span id="cb471-11"><a href="chip-quality-control.html#cb471-11"></a><span class="co"># into one GRanges object</span></span>
-<span id="cb471-12"><a href="chip-quality-control.html#cb471-12"></a>tilling_window =<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">tileGenome</span>(</span>
-<span id="cb471-13"><a href="chip-quality-control.html#cb471-13"></a>    <span class="dt">seqlengths =</span> seqlengths, </span>
-<span id="cb471-14"><a href="chip-quality-control.html#cb471-14"></a>    <span class="dt">tilewidth  =</span> <span class="dv">1000</span></span>
-<span id="cb471-15"><a href="chip-quality-control.html#cb471-15"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="chip-quality-control.html#cb470-1"></a><span class="co"># fetches the chromosome lengths and constructs the tiles</span></span>
+<span id="cb470-2"><a href="chip-quality-control.html#cb470-2"></a><span class="kw">library</span>(GenomeInfoDb)</span>
+<span id="cb470-3"><a href="chip-quality-control.html#cb470-3"></a><span class="kw">library</span>(GenomicRanges)</span>
+<span id="cb470-4"><a href="chip-quality-control.html#cb470-4"></a></span>
+<span id="cb470-5"><a href="chip-quality-control.html#cb470-5"></a>hg_chrs        =<span class="st"> </span><span class="kw">getChromInfoFromUCSC</span>(<span class="st">&#39;hg38&#39;</span>)</span>
+<span id="cb470-6"><a href="chip-quality-control.html#cb470-6"></a>hg_chrs        =<span class="st"> </span><span class="kw">subset</span>(hg_chrs, <span class="kw">grepl</span>(<span class="st">&#39;chr21$&#39;</span>,chrom))</span>
+<span id="cb470-7"><a href="chip-quality-control.html#cb470-7"></a>seqlengths     =<span class="st"> </span><span class="kw">with</span>(hg_chrs, <span class="kw">setNames</span>(size, chrom))</span>
+<span id="cb470-8"><a href="chip-quality-control.html#cb470-8"></a></span>
+<span id="cb470-9"><a href="chip-quality-control.html#cb470-9"></a><span class="co"># tileGenome produces a list per chromosome</span></span>
+<span id="cb470-10"><a href="chip-quality-control.html#cb470-10"></a><span class="co"># unlist combines the elemenents of the list </span></span>
+<span id="cb470-11"><a href="chip-quality-control.html#cb470-11"></a><span class="co"># into one GRanges object</span></span>
+<span id="cb470-12"><a href="chip-quality-control.html#cb470-12"></a>tilling_window =<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">tileGenome</span>(</span>
+<span id="cb470-13"><a href="chip-quality-control.html#cb470-13"></a>    <span class="dt">seqlengths =</span> seqlengths, </span>
+<span id="cb470-14"><a href="chip-quality-control.html#cb470-14"></a>    <span class="dt">tilewidth  =</span> <span class="dv">1000</span></span>
+<span id="cb470-15"><a href="chip-quality-control.html#cb470-15"></a>))</span></code></pre></div>
 <p>We will extract the sequence information from the <code>BSgenome.Hsapiens.UCSC.hg38</code>
 package. <code>BSgenome</code> are generic Bioconductor containers for genomic sequences.
 Sequences are extracted from the <code>BSgenome</code> container using the <code>getSeq()</code> function.
 The <code>getSeq()</code> function takes as input the genome object, and the ranges with the
 regions of interest; in our case, the tilling windows.
 The function returns a <code>DNAString</code> object.</p>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="chip-quality-control.html#cb472-1"></a><span class="co"># loads the human genome sequence</span></span>
-<span id="cb472-2"><a href="chip-quality-control.html#cb472-2"></a><span class="kw">library</span>(BSgenome.Hsapiens.UCSC.hg38)</span>
-<span id="cb472-3"><a href="chip-quality-control.html#cb472-3"></a></span>
-<span id="cb472-4"><a href="chip-quality-control.html#cb472-4"></a><span class="co"># extracts the sequence from the human genome</span></span>
-<span id="cb472-5"><a href="chip-quality-control.html#cb472-5"></a>seq =<span class="st"> </span><span class="kw">getSeq</span>(BSgenome.Hsapiens.UCSC.hg38, tilling_window)</span></code></pre></div>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="chip-quality-control.html#cb471-1"></a><span class="co"># loads the human genome sequence</span></span>
+<span id="cb471-2"><a href="chip-quality-control.html#cb471-2"></a><span class="kw">library</span>(BSgenome.Hsapiens.UCSC.hg38)</span>
+<span id="cb471-3"><a href="chip-quality-control.html#cb471-3"></a></span>
+<span id="cb471-4"><a href="chip-quality-control.html#cb471-4"></a><span class="co"># extracts the sequence from the human genome</span></span>
+<span id="cb471-5"><a href="chip-quality-control.html#cb471-5"></a>seq =<span class="st"> </span><span class="kw">getSeq</span>(BSgenome.Hsapiens.UCSC.hg38, tilling_window)</span></code></pre></div>
 <p>To calculate the GC content, we will use the <code>oligonucleotideFrequency()</code> function on the
 <code>DNAString</code> object. By setting the width parameter to 2 we will
 calculate the <strong>dinucleotide</strong> frequency.
@@ -991,51 +991,51 @@ dinucleotides observed in each tilling window.
 Because we have tilling windows of the same length, we do not
 necessarily need to normalize the counts by the window length.
 If all of the windows have different lengths (i.e. when at the ChIP-seq peaks), then normalization is a prerequisite.</p>
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="chip-quality-control.html#cb473-1"></a><span class="co"># calculates the frequency of all possible dimers </span></span>
-<span id="cb473-2"><a href="chip-quality-control.html#cb473-2"></a><span class="co"># in our sequence set</span></span>
-<span id="cb473-3"><a href="chip-quality-control.html#cb473-3"></a>nuc =<span class="st"> </span><span class="kw">oligonucleotideFrequency</span>(seq, <span class="dt">width =</span> <span class="dv">2</span>)</span>
-<span id="cb473-4"><a href="chip-quality-control.html#cb473-4"></a></span>
-<span id="cb473-5"><a href="chip-quality-control.html#cb473-5"></a><span class="co"># converts the matrix into a data.frame</span></span>
-<span id="cb473-6"><a href="chip-quality-control.html#cb473-6"></a>nuc =<span class="st"> </span><span class="kw">as.data.frame</span>(nuc)</span>
-<span id="cb473-7"><a href="chip-quality-control.html#cb473-7"></a></span>
-<span id="cb473-8"><a href="chip-quality-control.html#cb473-8"></a><span class="co"># calculates the percentages, and rounds the number</span></span>
-<span id="cb473-9"><a href="chip-quality-control.html#cb473-9"></a>nuc =<span class="st"> </span><span class="kw">round</span>(nuc<span class="op">/</span><span class="dv">1000</span>,<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="chip-quality-control.html#cb472-1"></a><span class="co"># calculates the frequency of all possible dimers </span></span>
+<span id="cb472-2"><a href="chip-quality-control.html#cb472-2"></a><span class="co"># in our sequence set</span></span>
+<span id="cb472-3"><a href="chip-quality-control.html#cb472-3"></a>nuc =<span class="st"> </span><span class="kw">oligonucleotideFrequency</span>(seq, <span class="dt">width =</span> <span class="dv">2</span>)</span>
+<span id="cb472-4"><a href="chip-quality-control.html#cb472-4"></a></span>
+<span id="cb472-5"><a href="chip-quality-control.html#cb472-5"></a><span class="co"># converts the matrix into a data.frame</span></span>
+<span id="cb472-6"><a href="chip-quality-control.html#cb472-6"></a>nuc =<span class="st"> </span><span class="kw">as.data.frame</span>(nuc)</span>
+<span id="cb472-7"><a href="chip-quality-control.html#cb472-7"></a></span>
+<span id="cb472-8"><a href="chip-quality-control.html#cb472-8"></a><span class="co"># calculates the percentages, and rounds the number</span></span>
+<span id="cb472-9"><a href="chip-quality-control.html#cb472-9"></a>nuc =<span class="st"> </span><span class="kw">round</span>(nuc<span class="op">/</span><span class="dv">1000</span>,<span class="dv">3</span>)</span></code></pre></div>
 <p>Now we can combine the GC frequency with the cpm values.
 We will convert the cpm values to the log10 scale. To avoid
 taking the <span class="math inline">\(log(0)\)</span>, we add a pseudo count of 1 to cpm.</p>
-<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="chip-quality-control.html#cb474-1"></a><span class="co"># counts the number of reads per tilling window </span></span>
-<span id="cb474-2"><a href="chip-quality-control.html#cb474-2"></a><span class="co"># for each experiment</span></span>
-<span id="cb474-3"><a href="chip-quality-control.html#cb474-3"></a>so =<span class="st"> </span><span class="kw">summarizeOverlaps</span>(tilling_window, bam_files)</span>
-<span id="cb474-4"><a href="chip-quality-control.html#cb474-4"></a></span>
-<span id="cb474-5"><a href="chip-quality-control.html#cb474-5"></a><span class="co"># converts the raw counts to cpm values</span></span>
-<span id="cb474-6"><a href="chip-quality-control.html#cb474-6"></a>counts  =<span class="st"> </span><span class="kw">assays</span>(so)[[<span class="dv">1</span>]]</span>
-<span id="cb474-7"><a href="chip-quality-control.html#cb474-7"></a>cpm     =<span class="st"> </span><span class="kw">t</span>(<span class="kw">t</span>(counts)<span class="op">*</span>(<span class="dv">1000000</span><span class="op">/</span><span class="kw">colSums</span>(counts)))</span>
-<span id="cb474-8"><a href="chip-quality-control.html#cb474-8"></a></span>
-<span id="cb474-9"><a href="chip-quality-control.html#cb474-9"></a><span class="co"># because the cpm scale has a large dynamic range</span></span>
-<span id="cb474-10"><a href="chip-quality-control.html#cb474-10"></a><span class="co"># we transform it using the log function</span></span>
-<span id="cb474-11"><a href="chip-quality-control.html#cb474-11"></a>cpm_log =<span class="st"> </span><span class="kw">log10</span>(cpm<span class="op">+</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="chip-quality-control.html#cb473-1"></a><span class="co"># counts the number of reads per tilling window </span></span>
+<span id="cb473-2"><a href="chip-quality-control.html#cb473-2"></a><span class="co"># for each experiment</span></span>
+<span id="cb473-3"><a href="chip-quality-control.html#cb473-3"></a>so =<span class="st"> </span><span class="kw">summarizeOverlaps</span>(tilling_window, bam_files)</span>
+<span id="cb473-4"><a href="chip-quality-control.html#cb473-4"></a></span>
+<span id="cb473-5"><a href="chip-quality-control.html#cb473-5"></a><span class="co"># converts the raw counts to cpm values</span></span>
+<span id="cb473-6"><a href="chip-quality-control.html#cb473-6"></a>counts  =<span class="st"> </span><span class="kw">assays</span>(so)[[<span class="dv">1</span>]]</span>
+<span id="cb473-7"><a href="chip-quality-control.html#cb473-7"></a>cpm     =<span class="st"> </span><span class="kw">t</span>(<span class="kw">t</span>(counts)<span class="op">*</span>(<span class="dv">1000000</span><span class="op">/</span><span class="kw">colSums</span>(counts)))</span>
+<span id="cb473-8"><a href="chip-quality-control.html#cb473-8"></a></span>
+<span id="cb473-9"><a href="chip-quality-control.html#cb473-9"></a><span class="co"># because the cpm scale has a large dynamic range</span></span>
+<span id="cb473-10"><a href="chip-quality-control.html#cb473-10"></a><span class="co"># we transform it using the log function</span></span>
+<span id="cb473-11"><a href="chip-quality-control.html#cb473-11"></a>cpm_log =<span class="st"> </span><span class="kw">log10</span>(cpm<span class="op">+</span><span class="dv">1</span>)</span></code></pre></div>
 <p>Combine the cpm values with the GC content,</p>
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="chip-quality-control.html#cb475-1"></a>gc =<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">data.frame</span>(cpm_log), <span class="dt">GC =</span> nuc[<span class="st">&#39;GC&#39;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb474-1"><a href="chip-quality-control.html#cb474-1"></a>gc =<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">data.frame</span>(cpm_log), <span class="dt">GC =</span> nuc[<span class="st">&#39;GC&#39;</span>])</span></code></pre></div>
 <p>and plot the results.</p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="chip-quality-control.html#cb476-1"></a><span class="kw">ggplot</span>(</span>
-<span id="cb476-2"><a href="chip-quality-control.html#cb476-2"></a>    <span class="dt">data =</span> gc, </span>
-<span id="cb476-3"><a href="chip-quality-control.html#cb476-3"></a>    <span class="kw">aes</span>(</span>
-<span id="cb476-4"><a href="chip-quality-control.html#cb476-4"></a>        <span class="dt">x =</span> GC, </span>
-<span id="cb476-5"><a href="chip-quality-control.html#cb476-5"></a>        <span class="dt">y =</span> GM12878_hg38_CTCF_r1.chr21.bam</span>
-<span id="cb476-6"><a href="chip-quality-control.html#cb476-6"></a>    )) <span class="op">+</span></span>
-<span id="cb476-7"><a href="chip-quality-control.html#cb476-7"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">2</span>, <span class="dt">alpha=</span>.<span class="dv">3</span>) <span class="op">+</span></span>
-<span id="cb476-8"><a href="chip-quality-control.html#cb476-8"></a><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></span>
-<span id="cb476-9"><a href="chip-quality-control.html#cb476-9"></a><span class="st">  </span><span class="kw">theme</span>(</span>
-<span id="cb476-10"><a href="chip-quality-control.html#cb476-10"></a>    <span class="dt">axis.text  =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),</span>
-<span id="cb476-11"><a href="chip-quality-control.html#cb476-11"></a>    <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb476-12"><a href="chip-quality-control.html#cb476-12"></a>    <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
-<span id="cb476-13"><a href="chip-quality-control.html#cb476-13"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;GC content in one kilobase windows&#39;</span>) <span class="op">+</span></span>
-<span id="cb476-14"><a href="chip-quality-control.html#cb476-14"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;log10( cpm + 1 )&#39;</span>) <span class="op">+</span></span>
-<span id="cb476-15"><a href="chip-quality-control.html#cb476-15"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;CTCF Replicate 1&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="chip-quality-control.html#cb475-1"></a><span class="kw">ggplot</span>(</span>
+<span id="cb475-2"><a href="chip-quality-control.html#cb475-2"></a>    <span class="dt">data =</span> gc, </span>
+<span id="cb475-3"><a href="chip-quality-control.html#cb475-3"></a>    <span class="kw">aes</span>(</span>
+<span id="cb475-4"><a href="chip-quality-control.html#cb475-4"></a>        <span class="dt">x =</span> GC, </span>
+<span id="cb475-5"><a href="chip-quality-control.html#cb475-5"></a>        <span class="dt">y =</span> GM12878_hg38_CTCF_r1.chr21.bam</span>
+<span id="cb475-6"><a href="chip-quality-control.html#cb475-6"></a>    )) <span class="op">+</span></span>
+<span id="cb475-7"><a href="chip-quality-control.html#cb475-7"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">2</span>, <span class="dt">alpha=</span>.<span class="dv">3</span>) <span class="op">+</span></span>
+<span id="cb475-8"><a href="chip-quality-control.html#cb475-8"></a><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></span>
+<span id="cb475-9"><a href="chip-quality-control.html#cb475-9"></a><span class="st">  </span><span class="kw">theme</span>(</span>
+<span id="cb475-10"><a href="chip-quality-control.html#cb475-10"></a>    <span class="dt">axis.text  =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),</span>
+<span id="cb475-11"><a href="chip-quality-control.html#cb475-11"></a>    <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb475-12"><a href="chip-quality-control.html#cb475-12"></a>    <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
+<span id="cb475-13"><a href="chip-quality-control.html#cb475-13"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;GC content in one kilobase windows&#39;</span>) <span class="op">+</span></span>
+<span id="cb475-14"><a href="chip-quality-control.html#cb475-14"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;log10( cpm + 1 )&#39;</span>) <span class="op">+</span></span>
+<span id="cb475-15"><a href="chip-quality-control.html#cb475-15"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;CTCF Replicate 1&#39;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:gc-plot"></span>
-<img src="09-chip-seq-analysis_files/figure-html/gc-plot-1.png" alt="GC content abundance in a ChIP-seq experiment" width="50%" />
+<img src="09-chip-seq-analysis_files/figure-html/gc-plot-1.png" alt="GC content abundance in a ChIP-seq experiment." width="50%" />
 <p class="caption">
-FIGURE 9.7: GC content abundance in a ChIP-seq experiment
+FIGURE 9.7: GC content abundance in a ChIP-seq experiment.
 </p>
 </div>
 <p>Figure <a href="chip-quality-control.html#fig:gc-plot">9.7</a> visualizes the CPM versus GC content, and
@@ -1051,37 +1051,37 @@ some of the samples were affected by unknown batch effects. Such effects
 need to be taken into account in downstream analysis.</p>
 <p>Firstly, we will reorder the columns of the <code>data.frame</code> using the <code>pivot_longer()</code>
 function from the <code>tidyr</code> package.</p>
-<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="chip-quality-control.html#cb477-1"></a><span class="co"># load the tidyr package</span></span>
-<span id="cb477-2"><a href="chip-quality-control.html#cb477-2"></a><span class="kw">library</span>(tidyr)</span>
-<span id="cb477-3"><a href="chip-quality-control.html#cb477-3"></a></span>
-<span id="cb477-4"><a href="chip-quality-control.html#cb477-4"></a><span class="co"># pivot_longer converts a fat data.frame into a tall data.frame, </span></span>
-<span id="cb477-5"><a href="chip-quality-control.html#cb477-5"></a><span class="co"># which is the format used by the ggplot package</span></span>
-<span id="cb477-6"><a href="chip-quality-control.html#cb477-6"></a>gcd =<span class="st"> </span><span class="kw">pivot_longer</span>(</span>
-<span id="cb477-7"><a href="chip-quality-control.html#cb477-7"></a>    <span class="dt">data      =</span> gc, </span>
-<span id="cb477-8"><a href="chip-quality-control.html#cb477-8"></a>    <span class="dt">cols      =</span> <span class="op">-</span>GC,</span>
-<span id="cb477-9"><a href="chip-quality-control.html#cb477-9"></a>    <span class="dt">names_to  =</span> <span class="st">&#39;experiment&#39;</span>,</span>
-<span id="cb477-10"><a href="chip-quality-control.html#cb477-10"></a>    <span class="dt">values_to =</span> <span class="st">&#39;cpm&#39;</span></span>
-<span id="cb477-11"><a href="chip-quality-control.html#cb477-11"></a>)</span>
-<span id="cb477-12"><a href="chip-quality-control.html#cb477-12"></a></span>
-<span id="cb477-13"><a href="chip-quality-control.html#cb477-13"></a><span class="co"># we select the ChIP files corresponding to the ctcf experiment</span></span>
-<span id="cb477-14"><a href="chip-quality-control.html#cb477-14"></a>gcd =<span class="st"> </span><span class="kw">subset</span>(gcd, <span class="kw">grepl</span>(<span class="st">&#39;CTCF&#39;</span>, experiment))</span>
-<span id="cb477-15"><a href="chip-quality-control.html#cb477-15"></a></span>
-<span id="cb477-16"><a href="chip-quality-control.html#cb477-16"></a><span class="co"># remove the chr21 suffix</span></span>
-<span id="cb477-17"><a href="chip-quality-control.html#cb477-17"></a>gcd<span class="op">$</span>experiment =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;chr21.&#39;</span>,<span class="st">&#39;&#39;</span>,gcd<span class="op">$</span>experiment)     </span></code></pre></div>
+<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="chip-quality-control.html#cb476-1"></a><span class="co"># load the tidyr package</span></span>
+<span id="cb476-2"><a href="chip-quality-control.html#cb476-2"></a><span class="kw">library</span>(tidyr)</span>
+<span id="cb476-3"><a href="chip-quality-control.html#cb476-3"></a></span>
+<span id="cb476-4"><a href="chip-quality-control.html#cb476-4"></a><span class="co"># pivot_longer converts a fat data.frame into a tall data.frame, </span></span>
+<span id="cb476-5"><a href="chip-quality-control.html#cb476-5"></a><span class="co"># which is the format used by the ggplot package</span></span>
+<span id="cb476-6"><a href="chip-quality-control.html#cb476-6"></a>gcd =<span class="st"> </span><span class="kw">pivot_longer</span>(</span>
+<span id="cb476-7"><a href="chip-quality-control.html#cb476-7"></a>    <span class="dt">data      =</span> gc, </span>
+<span id="cb476-8"><a href="chip-quality-control.html#cb476-8"></a>    <span class="dt">cols      =</span> <span class="op">-</span>GC,</span>
+<span id="cb476-9"><a href="chip-quality-control.html#cb476-9"></a>    <span class="dt">names_to  =</span> <span class="st">&#39;experiment&#39;</span>,</span>
+<span id="cb476-10"><a href="chip-quality-control.html#cb476-10"></a>    <span class="dt">values_to =</span> <span class="st">&#39;cpm&#39;</span></span>
+<span id="cb476-11"><a href="chip-quality-control.html#cb476-11"></a>)</span>
+<span id="cb476-12"><a href="chip-quality-control.html#cb476-12"></a></span>
+<span id="cb476-13"><a href="chip-quality-control.html#cb476-13"></a><span class="co"># we select the ChIP files corresponding to the ctcf experiment</span></span>
+<span id="cb476-14"><a href="chip-quality-control.html#cb476-14"></a>gcd =<span class="st"> </span><span class="kw">subset</span>(gcd, <span class="kw">grepl</span>(<span class="st">&#39;CTCF&#39;</span>, experiment))</span>
+<span id="cb476-15"><a href="chip-quality-control.html#cb476-15"></a></span>
+<span id="cb476-16"><a href="chip-quality-control.html#cb476-16"></a><span class="co"># remove the chr21 suffix</span></span>
+<span id="cb476-17"><a href="chip-quality-control.html#cb476-17"></a>gcd<span class="op">$</span>experiment =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;chr21.&#39;</span>,<span class="st">&#39;&#39;</span>,gcd<span class="op">$</span>experiment)     </span></code></pre></div>
 <p>We can now visualize the relationship using a scatter plot.
 Figure <a href="chip-quality-control.html#fig:gc-tidy-plot">9.8</a> compares the GC content dependency on the CPM between
 the first and the second CTCF replicate. In this case, the replicate looks similar.</p>
-<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="chip-quality-control.html#cb478-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> gcd, <span class="kw">aes</span>(GC, <span class="kw">log10</span>(cpm<span class="op">+</span><span class="dv">1</span>))) <span class="op">+</span></span>
-<span id="cb478-2"><a href="chip-quality-control.html#cb478-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">2</span>, <span class="dt">alpha=</span>.<span class="dv">05</span>) <span class="op">+</span></span>
-<span id="cb478-3"><a href="chip-quality-control.html#cb478-3"></a><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></span>
-<span id="cb478-4"><a href="chip-quality-control.html#cb478-4"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>experiment, <span class="dt">nrow=</span><span class="dv">1</span>)<span class="op">+</span></span>
-<span id="cb478-5"><a href="chip-quality-control.html#cb478-5"></a><span class="st">  </span><span class="kw">theme</span>(</span>
-<span id="cb478-6"><a href="chip-quality-control.html#cb478-6"></a>    <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),</span>
-<span id="cb478-7"><a href="chip-quality-control.html#cb478-7"></a>    <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb478-8"><a href="chip-quality-control.html#cb478-8"></a>    <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
-<span id="cb478-9"><a href="chip-quality-control.html#cb478-9"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;GC content in one kilobase windows&#39;</span>) <span class="op">+</span></span>
-<span id="cb478-10"><a href="chip-quality-control.html#cb478-10"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;log10( cpm + 1 )&#39;</span>) <span class="op">+</span></span>
-<span id="cb478-11"><a href="chip-quality-control.html#cb478-11"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;CTCF Replicates 1 and 2&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="chip-quality-control.html#cb477-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> gcd, <span class="kw">aes</span>(GC, <span class="kw">log10</span>(cpm<span class="op">+</span><span class="dv">1</span>))) <span class="op">+</span></span>
+<span id="cb477-2"><a href="chip-quality-control.html#cb477-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">2</span>, <span class="dt">alpha=</span>.<span class="dv">05</span>) <span class="op">+</span></span>
+<span id="cb477-3"><a href="chip-quality-control.html#cb477-3"></a><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></span>
+<span id="cb477-4"><a href="chip-quality-control.html#cb477-4"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>experiment, <span class="dt">nrow=</span><span class="dv">1</span>)<span class="op">+</span></span>
+<span id="cb477-5"><a href="chip-quality-control.html#cb477-5"></a><span class="st">  </span><span class="kw">theme</span>(</span>
+<span id="cb477-6"><a href="chip-quality-control.html#cb477-6"></a>    <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),</span>
+<span id="cb477-7"><a href="chip-quality-control.html#cb477-7"></a>    <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb477-8"><a href="chip-quality-control.html#cb477-8"></a>    <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>)) <span class="op">+</span></span>
+<span id="cb477-9"><a href="chip-quality-control.html#cb477-9"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;GC content in one kilobase windows&#39;</span>) <span class="op">+</span></span>
+<span id="cb477-10"><a href="chip-quality-control.html#cb477-10"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&#39;log10( cpm + 1 )&#39;</span>) <span class="op">+</span></span>
+<span id="cb477-11"><a href="chip-quality-control.html#cb477-11"></a><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;CTCF Replicates 1 and 2&#39;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:gc-tidy-plot"></span>
 <img src="09-chip-seq-analysis_files/figure-html/gc-tidy-plot-1.png" alt="Comparison of GC content and signal abundance between two CTCF biological replicates" width="50%" />
 <p class="caption">
@@ -1112,7 +1112,7 @@ A heuristic solution is to organize the genomic annotation into a
 hierarchy which will imply prioritization.
 We can then look, for each read, which functional categories it overlaps, and
 if it is within multiple categories, we assign the read to the topmost category.
-As an example, let’s say that we have 4 genomic categories: 1) TSS (transcription start sites), 2) exon, 3) intron, and 4) intergenic with the following hierarchy: <strong>TSS -&gt; exon -&gt; intron -&gt; intergenic</strong>. This means that if a read overlaps a TSS and an intron, it will be annotates as TSS. This approach is shown in Figure
+As an example, let’s say that we have 4 genomic categories: 1) TSS (transcription start sites), 2) exon, 3) intron, and 4) intergenic with the following hierarchy: <strong>TSS -&gt; exon -&gt; intron -&gt; intergenic</strong>. This means that if a read overlaps a TSS and an intron, it will be annotated as TSS. This approach is shown in Figure
 <a href="chip-quality-control.html#fig:Figure-Hierarchical-Annotation">9.9</a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:Figure-Hierarchical-Annotation"></span>
 <img src="Figures/Hierarchical_Annotation.png" alt="Principle of hierarchical annotation. The region of interest is annotated as the topmost ranked category that it overlaps. In this case, our region overlaps a TSS, an exon, and an intergenic region. Because the TSS has the topmost rank, it is annotated as a TSS." width="50%" />
@@ -1128,21 +1128,21 @@ the reads.</p>
 <p>There are multiple sources of genomic annotation. <strong>UCSC</strong>,
 <strong>Genbank</strong>, and <strong>Ensembl</strong> databases represent stable resources,
 from which the annotation can be easily obtained.</p>
-<p><code>AnnotationHub</code> is a Bioconductor -based online resource which contains a large number of experiments from various
+<p><code>AnnotationHub</code> is a Bioconductor-based online resource which contains a large number of experiments from various
 sources. We will use the <code>AnnotationHub</code> to download the location of
 genes corresponding to the <strong>hg38</strong> genome. The hub is accessed in the following way:</p>
-<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="chip-quality-control.html#cb479-1"></a><span class="co"># load the AnnotationHub package</span></span>
-<span id="cb479-2"><a href="chip-quality-control.html#cb479-2"></a><span class="kw">library</span>(AnnotationHub)</span>
-<span id="cb479-3"><a href="chip-quality-control.html#cb479-3"></a></span>
-<span id="cb479-4"><a href="chip-quality-control.html#cb479-4"></a><span class="co"># connect to the hub object</span></span>
-<span id="cb479-5"><a href="chip-quality-control.html#cb479-5"></a>hub =<span class="st"> </span><span class="kw">AnnotationHub</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb478"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb478-1"><a href="chip-quality-control.html#cb478-1"></a><span class="co"># load the AnnotationHub package</span></span>
+<span id="cb478-2"><a href="chip-quality-control.html#cb478-2"></a><span class="kw">library</span>(AnnotationHub)</span>
+<span id="cb478-3"><a href="chip-quality-control.html#cb478-3"></a></span>
+<span id="cb478-4"><a href="chip-quality-control.html#cb478-4"></a><span class="co"># connect to the hub object</span></span>
+<span id="cb478-5"><a href="chip-quality-control.html#cb478-5"></a>hub =<span class="st"> </span><span class="kw">AnnotationHub</span>()</span></code></pre></div>
 <p>The <code>hub</code> variable contains the programming interface towards the online database. We can use the <code>query()</code> function to find out the ID of the
 “ENSEMBL” gene annotation.</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="chip-quality-control.html#cb480-1"></a><span class="co"># query the hub for the human annotation</span></span>
-<span id="cb480-2"><a href="chip-quality-control.html#cb480-2"></a>AnnotationHub<span class="op">::</span><span class="kw">query</span>(</span>
-<span id="cb480-3"><a href="chip-quality-control.html#cb480-3"></a>    <span class="dt">x       =</span> hub, </span>
-<span id="cb480-4"><a href="chip-quality-control.html#cb480-4"></a>    <span class="dt">pattern =</span> <span class="kw">c</span>(<span class="st">&#39;ENSEMBL&#39;</span>,<span class="st">&#39;Homo&#39;</span>,<span class="st">&#39;GRCh38&#39;</span>,<span class="st">&#39;chr&#39;</span>,<span class="st">&#39;gtf&#39;</span>)</span>
-<span id="cb480-5"><a href="chip-quality-control.html#cb480-5"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="chip-quality-control.html#cb479-1"></a><span class="co"># query the hub for the human annotation</span></span>
+<span id="cb479-2"><a href="chip-quality-control.html#cb479-2"></a>AnnotationHub<span class="op">::</span><span class="kw">query</span>(</span>
+<span id="cb479-3"><a href="chip-quality-control.html#cb479-3"></a>    <span class="dt">x       =</span> hub, </span>
+<span id="cb479-4"><a href="chip-quality-control.html#cb479-4"></a>    <span class="dt">pattern =</span> <span class="kw">c</span>(<span class="st">&#39;ENSEMBL&#39;</span>,<span class="st">&#39;Homo&#39;</span>,<span class="st">&#39;GRCh38&#39;</span>,<span class="st">&#39;chr&#39;</span>,<span class="st">&#39;gtf&#39;</span>)</span>
+<span id="cb479-5"><a href="chip-quality-control.html#cb479-5"></a>)</span></code></pre></div>
 <pre><code>## AnnotationHub with 32 records
 ## # snapshotDate(): 2020-04-27
 ## # $dataprovider: Ensembl
@@ -1169,8 +1169,8 @@ genes corresponding to the <strong>hg38</strong> genome. The hub is accessed in 
 To download the data from the hub, we use the <code>[[</code> operator on the
 hub API.
 We will download the annotation in the <strong>GTF</strong> format, into a <code>GRanges</code> object.</p>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="chip-quality-control.html#cb482-1"></a><span class="co"># retrieve the human gene annotation</span></span>
-<span id="cb482-2"><a href="chip-quality-control.html#cb482-2"></a>gtf =<span class="st"> </span>hub[[<span class="st">&#39;AH61126&#39;</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="chip-quality-control.html#cb481-1"></a><span class="co"># retrieve the human gene annotation</span></span>
+<span id="cb481-2"><a href="chip-quality-control.html#cb481-2"></a>gtf =<span class="st"> </span>hub[[<span class="st">&#39;AH61126&#39;</span>]]</span></code></pre></div>
 <pre><code>## GRanges object with 6 ranges and 3 metadata columns:
 ##       seqnames      ranges strand |   source       type     score
 ##          &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;factor&gt;   &lt;factor&gt; &lt;numeric&gt;
@@ -1187,34 +1187,34 @@ without the <strong>chr</strong> prefix.
 We need to therefore append the prefix to the chromosome names (seqlevels).
 <code>pruning.mode = 'coarse'</code> designates that the chromosome names will be replaced
 in the gtf object.</p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="chip-quality-control.html#cb484-1"></a><span class="co"># extract ensemel chromosome names</span></span>
-<span id="cb484-2"><a href="chip-quality-control.html#cb484-2"></a>ensembl_seqlevels =<span class="st"> </span><span class="kw">seqlevels</span>(gtf)</span>
-<span id="cb484-3"><a href="chip-quality-control.html#cb484-3"></a></span>
-<span id="cb484-4"><a href="chip-quality-control.html#cb484-4"></a><span class="co"># paste the chr prefix to the chromosome names</span></span>
-<span id="cb484-5"><a href="chip-quality-control.html#cb484-5"></a>ucsc_seqlevels    =<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;chr&#39;</span>, ensembl_seqlevels)</span>
-<span id="cb484-6"><a href="chip-quality-control.html#cb484-6"></a></span>
-<span id="cb484-7"><a href="chip-quality-control.html#cb484-7"></a><span class="co"># replace ensembl with ucsc chromosome names</span></span>
-<span id="cb484-8"><a href="chip-quality-control.html#cb484-8"></a><span class="kw">seqlevels</span>(gtf, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>) =<span class="st"> </span>ucsc_seqlevels</span></code></pre></div>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="chip-quality-control.html#cb483-1"></a><span class="co"># extract ensemel chromosome names</span></span>
+<span id="cb483-2"><a href="chip-quality-control.html#cb483-2"></a>ensembl_seqlevels =<span class="st"> </span><span class="kw">seqlevels</span>(gtf)</span>
+<span id="cb483-3"><a href="chip-quality-control.html#cb483-3"></a></span>
+<span id="cb483-4"><a href="chip-quality-control.html#cb483-4"></a><span class="co"># paste the chr prefix to the chromosome names</span></span>
+<span id="cb483-5"><a href="chip-quality-control.html#cb483-5"></a>ucsc_seqlevels    =<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&#39;chr&#39;</span>, ensembl_seqlevels)</span>
+<span id="cb483-6"><a href="chip-quality-control.html#cb483-6"></a></span>
+<span id="cb483-7"><a href="chip-quality-control.html#cb483-7"></a><span class="co"># replace ensembl with ucsc chromosome names</span></span>
+<span id="cb483-8"><a href="chip-quality-control.html#cb483-8"></a><span class="kw">seqlevels</span>(gtf, <span class="dt">pruning.mode=</span><span class="st">&#39;coarse&#39;</span>) =<span class="st"> </span>ucsc_seqlevels</span></code></pre></div>
 <p>And finally we subset only regions which correspond to chromosome 21.</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="chip-quality-control.html#cb485-1"></a><span class="co"># keep only chromosome 21</span></span>
-<span id="cb485-2"><a href="chip-quality-control.html#cb485-2"></a>gtf =<span class="st"> </span>gtf[<span class="kw">seqnames</span>(gtf) <span class="op">==</span><span class="st"> &#39;chr21&#39;</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="chip-quality-control.html#cb484-1"></a><span class="co"># keep only chromosome 21</span></span>
+<span id="cb484-2"><a href="chip-quality-control.html#cb484-2"></a>gtf =<span class="st"> </span>gtf[<span class="kw">seqnames</span>(gtf) <span class="op">==</span><span class="st"> &#39;chr21&#39;</span>]</span></code></pre></div>
 </div>
 <div id="constructing-genomic-annotation" class="section level4">
 <h4><span class="header-section-number">9.5.6.3</span> Constructing genomic annotation</h4>
 <p>Once we have downloaded the annotation we can define the functional hierarchy.
 We will use the previously mentioned ordering: <strong>TSS -&gt; exon -&gt; intron -&gt; intergenic</strong>, with <strong>TSS</strong> having the highest priority and the intergenic regions having the lowest priority.</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="chip-quality-control.html#cb486-1"></a><span class="co"># construct a GRangesList with human annotation</span></span>
-<span id="cb486-2"><a href="chip-quality-control.html#cb486-2"></a>annotation_list =<span class="st"> </span><span class="kw">GRangesList</span>(</span>
-<span id="cb486-3"><a href="chip-quality-control.html#cb486-3"></a>    </span>
-<span id="cb486-4"><a href="chip-quality-control.html#cb486-4"></a>    <span class="co"># promoters function extends the gtf around the TSS </span></span>
-<span id="cb486-5"><a href="chip-quality-control.html#cb486-5"></a>    <span class="co"># by an upstream and downstream amounts</span></span>
-<span id="cb486-6"><a href="chip-quality-control.html#cb486-6"></a>    <span class="dt">tss    =</span> <span class="kw">promoters</span>(</span>
-<span id="cb486-7"><a href="chip-quality-control.html#cb486-7"></a>        <span class="dt">x =</span> <span class="kw">subset</span>(gtf, type<span class="op">==</span><span class="st">&#39;gene&#39;</span>), </span>
-<span id="cb486-8"><a href="chip-quality-control.html#cb486-8"></a>        <span class="dt">upstream   =</span> <span class="dv">1000</span>, </span>
-<span id="cb486-9"><a href="chip-quality-control.html#cb486-9"></a>        <span class="dt">downstream =</span> <span class="dv">1000</span>),</span>
-<span id="cb486-10"><a href="chip-quality-control.html#cb486-10"></a>    <span class="dt">exon   =</span> <span class="kw">subset</span>(gtf, type<span class="op">==</span><span class="st">&#39;exon&#39;</span>),</span>
-<span id="cb486-11"><a href="chip-quality-control.html#cb486-11"></a>    <span class="dt">intron =</span> <span class="kw">subset</span>(gtf, type<span class="op">==</span><span class="st">&#39;gene&#39;</span>)</span>
-<span id="cb486-12"><a href="chip-quality-control.html#cb486-12"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="chip-quality-control.html#cb485-1"></a><span class="co"># construct a GRangesList with human annotation</span></span>
+<span id="cb485-2"><a href="chip-quality-control.html#cb485-2"></a>annotation_list =<span class="st"> </span><span class="kw">GRangesList</span>(</span>
+<span id="cb485-3"><a href="chip-quality-control.html#cb485-3"></a>    </span>
+<span id="cb485-4"><a href="chip-quality-control.html#cb485-4"></a>    <span class="co"># promoters function extends the gtf around the TSS </span></span>
+<span id="cb485-5"><a href="chip-quality-control.html#cb485-5"></a>    <span class="co"># by an upstream and downstream amounts</span></span>
+<span id="cb485-6"><a href="chip-quality-control.html#cb485-6"></a>    <span class="dt">tss    =</span> <span class="kw">promoters</span>(</span>
+<span id="cb485-7"><a href="chip-quality-control.html#cb485-7"></a>        <span class="dt">x =</span> <span class="kw">subset</span>(gtf, type<span class="op">==</span><span class="st">&#39;gene&#39;</span>), </span>
+<span id="cb485-8"><a href="chip-quality-control.html#cb485-8"></a>        <span class="dt">upstream   =</span> <span class="dv">1000</span>, </span>
+<span id="cb485-9"><a href="chip-quality-control.html#cb485-9"></a>        <span class="dt">downstream =</span> <span class="dv">1000</span>),</span>
+<span id="cb485-10"><a href="chip-quality-control.html#cb485-10"></a>    <span class="dt">exon   =</span> <span class="kw">subset</span>(gtf, type<span class="op">==</span><span class="st">&#39;exon&#39;</span>),</span>
+<span id="cb485-11"><a href="chip-quality-control.html#cb485-11"></a>    <span class="dt">intron =</span> <span class="kw">subset</span>(gtf, type<span class="op">==</span><span class="st">&#39;gene&#39;</span>)</span>
+<span id="cb485-12"><a href="chip-quality-control.html#cb485-12"></a>)</span></code></pre></div>
 </div>
 <div id="annotating-reads" class="section level4">
 <h4><span class="header-section-number">9.5.6.4</span> Annotating reads</h4>
@@ -1231,94 +1231,94 @@ files to annotate each experiment.</p>
 <li>Count the number of reads in each category.</li>
 </ol>
 <p>The crucial step to understand here is using the <code>arrange()</code> and <code>filter()</code> functions to keep only one annotated category per read.</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="chip-quality-control.html#cb487-1"></a>annotateReads =<span class="st"> </span><span class="cf">function</span>(bam_file, annotation_list){</span>
-<span id="cb487-2"><a href="chip-quality-control.html#cb487-2"></a>    </span>
-<span id="cb487-3"><a href="chip-quality-control.html#cb487-3"></a>    <span class="kw">library</span>(dplyr)</span>
-<span id="cb487-4"><a href="chip-quality-control.html#cb487-4"></a>    <span class="kw">message</span>(<span class="kw">basename</span>(bam_file))</span>
-<span id="cb487-5"><a href="chip-quality-control.html#cb487-5"></a>    </span>
-<span id="cb487-6"><a href="chip-quality-control.html#cb487-6"></a>    <span class="co"># load the reads into R</span></span>
-<span id="cb487-7"><a href="chip-quality-control.html#cb487-7"></a>    bam    =<span class="st"> </span><span class="kw">readGAlignments</span>(bam_file)</span>
-<span id="cb487-8"><a href="chip-quality-control.html#cb487-8"></a>    </span>
-<span id="cb487-9"><a href="chip-quality-control.html#cb487-9"></a>    <span class="co"># find overlaps between reads and annotation</span></span>
-<span id="cb487-10"><a href="chip-quality-control.html#cb487-10"></a>    result =<span class="st"> </span><span class="kw">as.data.frame</span>(</span>
-<span id="cb487-11"><a href="chip-quality-control.html#cb487-11"></a>        <span class="kw">findOverlaps</span>(bam, annotation_list)</span>
-<span id="cb487-12"><a href="chip-quality-control.html#cb487-12"></a>    ) </span>
-<span id="cb487-13"><a href="chip-quality-control.html#cb487-13"></a>    </span>
-<span id="cb487-14"><a href="chip-quality-control.html#cb487-14"></a>    <span class="co"># appends to the annotation index the corresponding</span></span>
-<span id="cb487-15"><a href="chip-quality-control.html#cb487-15"></a>    <span class="co"># annotation name</span></span>
-<span id="cb487-16"><a href="chip-quality-control.html#cb487-16"></a>    annotation_name   =<span class="st"> </span><span class="kw">names</span>(annotation_list)[result<span class="op">$</span>subjectHits]</span>
-<span id="cb487-17"><a href="chip-quality-control.html#cb487-17"></a>    result<span class="op">$</span>annotation =<span class="st"> </span>annotation_name</span>
-<span id="cb487-18"><a href="chip-quality-control.html#cb487-18"></a>    </span>
-<span id="cb487-19"><a href="chip-quality-control.html#cb487-19"></a>    <span class="co"># order the overlaps based on the hierarchy</span></span>
-<span id="cb487-20"><a href="chip-quality-control.html#cb487-20"></a>    result =<span class="st"> </span>result[<span class="kw">order</span>(result<span class="op">$</span>subjectHits),]</span>
-<span id="cb487-21"><a href="chip-quality-control.html#cb487-21"></a>        </span>
-<span id="cb487-22"><a href="chip-quality-control.html#cb487-22"></a>    <span class="co"># select only one category per read</span></span>
-<span id="cb487-23"><a href="chip-quality-control.html#cb487-23"></a>    result =<span class="st"> </span><span class="kw">subset</span>(result, <span class="op">!</span><span class="kw">duplicated</span>(queryHits))</span>
-<span id="cb487-24"><a href="chip-quality-control.html#cb487-24"></a>        </span>
-<span id="cb487-25"><a href="chip-quality-control.html#cb487-25"></a>    <span class="co"># count the number of reads in each category</span></span>
-<span id="cb487-26"><a href="chip-quality-control.html#cb487-26"></a>    <span class="co"># group the result data frame by the corresponding category</span></span>
-<span id="cb487-27"><a href="chip-quality-control.html#cb487-27"></a>    result =<span class="st"> </span><span class="kw">group_by</span>(<span class="dt">.data=</span>result, annotation)</span>
-<span id="cb487-28"><a href="chip-quality-control.html#cb487-28"></a>    </span>
-<span id="cb487-29"><a href="chip-quality-control.html#cb487-29"></a>    <span class="co"># count the number of reads in each category</span></span>
-<span id="cb487-30"><a href="chip-quality-control.html#cb487-30"></a>    result =<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">.data =</span> result, <span class="dt">counts =</span> <span class="kw">length</span>(annotation))</span>
-<span id="cb487-31"><a href="chip-quality-control.html#cb487-31"></a>    </span>
-<span id="cb487-32"><a href="chip-quality-control.html#cb487-32"></a>    <span class="co"># classify all reads which are outside of </span></span>
-<span id="cb487-33"><a href="chip-quality-control.html#cb487-33"></a>    <span class="co"># the annotation as intergenic</span></span>
-<span id="cb487-34"><a href="chip-quality-control.html#cb487-34"></a>    result =<span class="st"> </span><span class="kw">rbind</span>(</span>
-<span id="cb487-35"><a href="chip-quality-control.html#cb487-35"></a>        result, </span>
-<span id="cb487-36"><a href="chip-quality-control.html#cb487-36"></a>        <span class="kw">data.frame</span>(</span>
-<span id="cb487-37"><a href="chip-quality-control.html#cb487-37"></a>                <span class="dt">annotation =</span> <span class="st">&#39;intergenic&#39;</span>,</span>
-<span id="cb487-38"><a href="chip-quality-control.html#cb487-38"></a>                <span class="dt">counts     =</span> <span class="kw">length</span>(bam) <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(result<span class="op">$</span>counts)</span>
-<span id="cb487-39"><a href="chip-quality-control.html#cb487-39"></a>            )</span>
-<span id="cb487-40"><a href="chip-quality-control.html#cb487-40"></a>        )</span>
-<span id="cb487-41"><a href="chip-quality-control.html#cb487-41"></a>    </span>
-<span id="cb487-42"><a href="chip-quality-control.html#cb487-42"></a>    <span class="co"># calculate the frequency</span></span>
-<span id="cb487-43"><a href="chip-quality-control.html#cb487-43"></a>    result<span class="op">$</span>frequency  =<span class="st"> </span><span class="kw">with</span>(result, <span class="kw">round</span>(counts<span class="op">/</span><span class="kw">sum</span>(counts),<span class="dv">2</span>))</span>
-<span id="cb487-44"><a href="chip-quality-control.html#cb487-44"></a></span>
-<span id="cb487-45"><a href="chip-quality-control.html#cb487-45"></a>    <span class="co"># append the experiment name</span></span>
-<span id="cb487-46"><a href="chip-quality-control.html#cb487-46"></a>    result<span class="op">$</span>experiment =<span class="st"> </span><span class="kw">basename</span>(bam_file)</span>
-<span id="cb487-47"><a href="chip-quality-control.html#cb487-47"></a>        </span>
-<span id="cb487-48"><a href="chip-quality-control.html#cb487-48"></a>    <span class="kw">return</span>(result)</span>
-<span id="cb487-49"><a href="chip-quality-control.html#cb487-49"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="chip-quality-control.html#cb486-1"></a>annotateReads =<span class="st"> </span><span class="cf">function</span>(bam_file, annotation_list){</span>
+<span id="cb486-2"><a href="chip-quality-control.html#cb486-2"></a>    </span>
+<span id="cb486-3"><a href="chip-quality-control.html#cb486-3"></a>    <span class="kw">library</span>(dplyr)</span>
+<span id="cb486-4"><a href="chip-quality-control.html#cb486-4"></a>    <span class="kw">message</span>(<span class="kw">basename</span>(bam_file))</span>
+<span id="cb486-5"><a href="chip-quality-control.html#cb486-5"></a>    </span>
+<span id="cb486-6"><a href="chip-quality-control.html#cb486-6"></a>    <span class="co"># load the reads into R</span></span>
+<span id="cb486-7"><a href="chip-quality-control.html#cb486-7"></a>    bam    =<span class="st"> </span><span class="kw">readGAlignments</span>(bam_file)</span>
+<span id="cb486-8"><a href="chip-quality-control.html#cb486-8"></a>    </span>
+<span id="cb486-9"><a href="chip-quality-control.html#cb486-9"></a>    <span class="co"># find overlaps between reads and annotation</span></span>
+<span id="cb486-10"><a href="chip-quality-control.html#cb486-10"></a>    result =<span class="st"> </span><span class="kw">as.data.frame</span>(</span>
+<span id="cb486-11"><a href="chip-quality-control.html#cb486-11"></a>        <span class="kw">findOverlaps</span>(bam, annotation_list)</span>
+<span id="cb486-12"><a href="chip-quality-control.html#cb486-12"></a>    ) </span>
+<span id="cb486-13"><a href="chip-quality-control.html#cb486-13"></a>    </span>
+<span id="cb486-14"><a href="chip-quality-control.html#cb486-14"></a>    <span class="co"># appends to the annotation index the corresponding</span></span>
+<span id="cb486-15"><a href="chip-quality-control.html#cb486-15"></a>    <span class="co"># annotation name</span></span>
+<span id="cb486-16"><a href="chip-quality-control.html#cb486-16"></a>    annotation_name   =<span class="st"> </span><span class="kw">names</span>(annotation_list)[result<span class="op">$</span>subjectHits]</span>
+<span id="cb486-17"><a href="chip-quality-control.html#cb486-17"></a>    result<span class="op">$</span>annotation =<span class="st"> </span>annotation_name</span>
+<span id="cb486-18"><a href="chip-quality-control.html#cb486-18"></a>    </span>
+<span id="cb486-19"><a href="chip-quality-control.html#cb486-19"></a>    <span class="co"># order the overlaps based on the hierarchy</span></span>
+<span id="cb486-20"><a href="chip-quality-control.html#cb486-20"></a>    result =<span class="st"> </span>result[<span class="kw">order</span>(result<span class="op">$</span>subjectHits),]</span>
+<span id="cb486-21"><a href="chip-quality-control.html#cb486-21"></a>        </span>
+<span id="cb486-22"><a href="chip-quality-control.html#cb486-22"></a>    <span class="co"># select only one category per read</span></span>
+<span id="cb486-23"><a href="chip-quality-control.html#cb486-23"></a>    result =<span class="st"> </span><span class="kw">subset</span>(result, <span class="op">!</span><span class="kw">duplicated</span>(queryHits))</span>
+<span id="cb486-24"><a href="chip-quality-control.html#cb486-24"></a>        </span>
+<span id="cb486-25"><a href="chip-quality-control.html#cb486-25"></a>    <span class="co"># count the number of reads in each category</span></span>
+<span id="cb486-26"><a href="chip-quality-control.html#cb486-26"></a>    <span class="co"># group the result data frame by the corresponding category</span></span>
+<span id="cb486-27"><a href="chip-quality-control.html#cb486-27"></a>    result =<span class="st"> </span><span class="kw">group_by</span>(<span class="dt">.data=</span>result, annotation)</span>
+<span id="cb486-28"><a href="chip-quality-control.html#cb486-28"></a>    </span>
+<span id="cb486-29"><a href="chip-quality-control.html#cb486-29"></a>    <span class="co"># count the number of reads in each category</span></span>
+<span id="cb486-30"><a href="chip-quality-control.html#cb486-30"></a>    result =<span class="st"> </span><span class="kw">summarise</span>(<span class="dt">.data =</span> result, <span class="dt">counts =</span> <span class="kw">length</span>(annotation))</span>
+<span id="cb486-31"><a href="chip-quality-control.html#cb486-31"></a>    </span>
+<span id="cb486-32"><a href="chip-quality-control.html#cb486-32"></a>    <span class="co"># classify all reads which are outside of </span></span>
+<span id="cb486-33"><a href="chip-quality-control.html#cb486-33"></a>    <span class="co"># the annotation as intergenic</span></span>
+<span id="cb486-34"><a href="chip-quality-control.html#cb486-34"></a>    result =<span class="st"> </span><span class="kw">rbind</span>(</span>
+<span id="cb486-35"><a href="chip-quality-control.html#cb486-35"></a>        result, </span>
+<span id="cb486-36"><a href="chip-quality-control.html#cb486-36"></a>        <span class="kw">data.frame</span>(</span>
+<span id="cb486-37"><a href="chip-quality-control.html#cb486-37"></a>                <span class="dt">annotation =</span> <span class="st">&#39;intergenic&#39;</span>,</span>
+<span id="cb486-38"><a href="chip-quality-control.html#cb486-38"></a>                <span class="dt">counts     =</span> <span class="kw">length</span>(bam) <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(result<span class="op">$</span>counts)</span>
+<span id="cb486-39"><a href="chip-quality-control.html#cb486-39"></a>            )</span>
+<span id="cb486-40"><a href="chip-quality-control.html#cb486-40"></a>        )</span>
+<span id="cb486-41"><a href="chip-quality-control.html#cb486-41"></a>    </span>
+<span id="cb486-42"><a href="chip-quality-control.html#cb486-42"></a>    <span class="co"># calculate the frequency</span></span>
+<span id="cb486-43"><a href="chip-quality-control.html#cb486-43"></a>    result<span class="op">$</span>frequency  =<span class="st"> </span><span class="kw">with</span>(result, <span class="kw">round</span>(counts<span class="op">/</span><span class="kw">sum</span>(counts),<span class="dv">2</span>))</span>
+<span id="cb486-44"><a href="chip-quality-control.html#cb486-44"></a></span>
+<span id="cb486-45"><a href="chip-quality-control.html#cb486-45"></a>    <span class="co"># append the experiment name</span></span>
+<span id="cb486-46"><a href="chip-quality-control.html#cb486-46"></a>    result<span class="op">$</span>experiment =<span class="st"> </span><span class="kw">basename</span>(bam_file)</span>
+<span id="cb486-47"><a href="chip-quality-control.html#cb486-47"></a>        </span>
+<span id="cb486-48"><a href="chip-quality-control.html#cb486-48"></a>    <span class="kw">return</span>(result)</span>
+<span id="cb486-49"><a href="chip-quality-control.html#cb486-49"></a>}</span></code></pre></div>
 <p>We execute the annotation function on all files.</p>
-<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="chip-quality-control.html#cb488-1"></a><span class="co"># list all bam files in the folder</span></span>
-<span id="cb488-2"><a href="chip-quality-control.html#cb488-2"></a>bam_files   =<span class="st"> </span><span class="kw">list.files</span>(data_path, <span class="dt">full.names=</span><span class="ot">TRUE</span>, <span class="dt">pattern=</span><span class="st">&#39;bam$&#39;</span>)</span>
-<span id="cb488-3"><a href="chip-quality-control.html#cb488-3"></a></span>
-<span id="cb488-4"><a href="chip-quality-control.html#cb488-4"></a><span class="co"># calculate the read distribution for every file</span></span>
-<span id="cb488-5"><a href="chip-quality-control.html#cb488-5"></a>annot_reads_list =<span class="st"> </span><span class="kw">lapply</span>(bam_files, <span class="cf">function</span>(x){</span>
-<span id="cb488-6"><a href="chip-quality-control.html#cb488-6"></a>    <span class="kw">annotateReads</span>(</span>
-<span id="cb488-7"><a href="chip-quality-control.html#cb488-7"></a>        <span class="dt">bam_file        =</span> x, </span>
-<span id="cb488-8"><a href="chip-quality-control.html#cb488-8"></a>        <span class="dt">annotation_list =</span> annotation_list</span>
-<span id="cb488-9"><a href="chip-quality-control.html#cb488-9"></a>    )</span>
-<span id="cb488-10"><a href="chip-quality-control.html#cb488-10"></a>})</span></code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="chip-quality-control.html#cb487-1"></a><span class="co"># list all bam files in the folder</span></span>
+<span id="cb487-2"><a href="chip-quality-control.html#cb487-2"></a>bam_files   =<span class="st"> </span><span class="kw">list.files</span>(data_path, <span class="dt">full.names=</span><span class="ot">TRUE</span>, <span class="dt">pattern=</span><span class="st">&#39;bam$&#39;</span>)</span>
+<span id="cb487-3"><a href="chip-quality-control.html#cb487-3"></a></span>
+<span id="cb487-4"><a href="chip-quality-control.html#cb487-4"></a><span class="co"># calculate the read distribution for every file</span></span>
+<span id="cb487-5"><a href="chip-quality-control.html#cb487-5"></a>annot_reads_list =<span class="st"> </span><span class="kw">lapply</span>(bam_files, <span class="cf">function</span>(x){</span>
+<span id="cb487-6"><a href="chip-quality-control.html#cb487-6"></a>    <span class="kw">annotateReads</span>(</span>
+<span id="cb487-7"><a href="chip-quality-control.html#cb487-7"></a>        <span class="dt">bam_file        =</span> x, </span>
+<span id="cb487-8"><a href="chip-quality-control.html#cb487-8"></a>        <span class="dt">annotation_list =</span> annotation_list</span>
+<span id="cb487-9"><a href="chip-quality-control.html#cb487-9"></a>    )</span>
+<span id="cb487-10"><a href="chip-quality-control.html#cb487-10"></a>})</span></code></pre></div>
 <p>First, we combine the results in one data frame, and
 reformat the experiment names.</p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="chip-quality-control.html#cb489-1"></a><span class="co"># collapse the per-file read distributions into one data.frame</span></span>
-<span id="cb489-2"><a href="chip-quality-control.html#cb489-2"></a>annot_reads_df =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">bind_rows</span>(annot_reads_list)</span>
-<span id="cb489-3"><a href="chip-quality-control.html#cb489-3"></a></span>
-<span id="cb489-4"><a href="chip-quality-control.html#cb489-4"></a><span class="co"># format the experiment names</span></span>
-<span id="cb489-5"><a href="chip-quality-control.html#cb489-5"></a>experiment_name =<span class="st"> </span>annot_reads_df<span class="op">$</span>experiment</span>
-<span id="cb489-6"><a href="chip-quality-control.html#cb489-6"></a>experiment_name =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;.chr21.bam&#39;</span>,<span class="st">&#39;&#39;</span>, experiment_name)</span>
-<span id="cb489-7"><a href="chip-quality-control.html#cb489-7"></a>experiment_name =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;GM12878_hg38_&#39;</span>,<span class="st">&#39;&#39;</span>,experiment_name)</span>
-<span id="cb489-8"><a href="chip-quality-control.html#cb489-8"></a>annot_reads_df<span class="op">$</span>experiment =<span class="st"> </span>experiment_name</span></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="chip-quality-control.html#cb488-1"></a><span class="co"># collapse the per-file read distributions into one data.frame</span></span>
+<span id="cb488-2"><a href="chip-quality-control.html#cb488-2"></a>annot_reads_df =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">bind_rows</span>(annot_reads_list)</span>
+<span id="cb488-3"><a href="chip-quality-control.html#cb488-3"></a></span>
+<span id="cb488-4"><a href="chip-quality-control.html#cb488-4"></a><span class="co"># format the experiment names</span></span>
+<span id="cb488-5"><a href="chip-quality-control.html#cb488-5"></a>experiment_name =<span class="st"> </span>annot_reads_df<span class="op">$</span>experiment</span>
+<span id="cb488-6"><a href="chip-quality-control.html#cb488-6"></a>experiment_name =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;.chr21.bam&#39;</span>,<span class="st">&#39;&#39;</span>, experiment_name)</span>
+<span id="cb488-7"><a href="chip-quality-control.html#cb488-7"></a>experiment_name =<span class="st"> </span><span class="kw">sub</span>(<span class="st">&#39;GM12878_hg38_&#39;</span>,<span class="st">&#39;&#39;</span>,experiment_name)</span>
+<span id="cb488-8"><a href="chip-quality-control.html#cb488-8"></a>annot_reads_df<span class="op">$</span>experiment =<span class="st"> </span>experiment_name</span></code></pre></div>
 <p>And plot the results.</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="chip-quality-control.html#cb490-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> annot_reads_df, </span>
-<span id="cb490-2"><a href="chip-quality-control.html#cb490-2"></a>       <span class="kw">aes</span>(</span>
-<span id="cb490-3"><a href="chip-quality-control.html#cb490-3"></a>           <span class="dt">x    =</span> experiment, </span>
-<span id="cb490-4"><a href="chip-quality-control.html#cb490-4"></a>           <span class="dt">y    =</span> frequency, </span>
-<span id="cb490-5"><a href="chip-quality-control.html#cb490-5"></a>           <span class="dt">fill =</span> annotation</span>
-<span id="cb490-6"><a href="chip-quality-control.html#cb490-6"></a>        )) <span class="op">+</span></span>
-<span id="cb490-7"><a href="chip-quality-control.html#cb490-7"></a><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&#39;identity&#39;</span>) <span class="op">+</span></span>
-<span id="cb490-8"><a href="chip-quality-control.html#cb490-8"></a><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></span>
-<span id="cb490-9"><a href="chip-quality-control.html#cb490-9"></a><span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&#39;Set2&#39;</span>) <span class="op">+</span></span>
-<span id="cb490-10"><a href="chip-quality-control.html#cb490-10"></a><span class="st">    </span><span class="kw">theme</span>(</span>
-<span id="cb490-11"><a href="chip-quality-control.html#cb490-11"></a>        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),</span>
-<span id="cb490-12"><a href="chip-quality-control.html#cb490-12"></a>        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb490-13"><a href="chip-quality-control.html#cb490-13"></a>        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb490-14"><a href="chip-quality-control.html#cb490-14"></a>        <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span></span>
-<span id="cb490-15"><a href="chip-quality-control.html#cb490-15"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;Sample&#39;</span>) <span class="op">+</span></span>
-<span id="cb490-16"><a href="chip-quality-control.html#cb490-16"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;Percentage of reads&#39;</span>) <span class="op">+</span></span>
-<span id="cb490-17"><a href="chip-quality-control.html#cb490-17"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&#39;Percentage of reads in annotation&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="chip-quality-control.html#cb489-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> annot_reads_df, </span>
+<span id="cb489-2"><a href="chip-quality-control.html#cb489-2"></a>       <span class="kw">aes</span>(</span>
+<span id="cb489-3"><a href="chip-quality-control.html#cb489-3"></a>           <span class="dt">x    =</span> experiment, </span>
+<span id="cb489-4"><a href="chip-quality-control.html#cb489-4"></a>           <span class="dt">y    =</span> frequency, </span>
+<span id="cb489-5"><a href="chip-quality-control.html#cb489-5"></a>           <span class="dt">fill =</span> annotation</span>
+<span id="cb489-6"><a href="chip-quality-control.html#cb489-6"></a>        )) <span class="op">+</span></span>
+<span id="cb489-7"><a href="chip-quality-control.html#cb489-7"></a><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&#39;identity&#39;</span>) <span class="op">+</span></span>
+<span id="cb489-8"><a href="chip-quality-control.html#cb489-8"></a><span class="st">    </span><span class="kw">theme_bw</span>() <span class="op">+</span></span>
+<span id="cb489-9"><a href="chip-quality-control.html#cb489-9"></a><span class="st">    </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&#39;Set2&#39;</span>) <span class="op">+</span></span>
+<span id="cb489-10"><a href="chip-quality-control.html#cb489-10"></a><span class="st">    </span><span class="kw">theme</span>(</span>
+<span id="cb489-11"><a href="chip-quality-control.html#cb489-11"></a>        <span class="dt">axis.text =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&#39;bold&#39;</span>),</span>
+<span id="cb489-12"><a href="chip-quality-control.html#cb489-12"></a>        <span class="dt">axis.title =</span> <span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb489-13"><a href="chip-quality-control.html#cb489-13"></a>        <span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb489-14"><a href="chip-quality-control.html#cb489-14"></a>        <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>)) <span class="op">+</span></span>
+<span id="cb489-15"><a href="chip-quality-control.html#cb489-15"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&#39;Sample&#39;</span>) <span class="op">+</span></span>
+<span id="cb489-16"><a href="chip-quality-control.html#cb489-16"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&#39;Percentage of reads&#39;</span>) <span class="op">+</span></span>
+<span id="cb489-17"><a href="chip-quality-control.html#cb489-17"></a><span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&#39;Percentage of reads in annotation&#39;</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span id="fig:read-annotation-plot"></span>
 <img src="09-chip-seq-analysis_files/figure-html/read-annotation-plot-1.png" alt="Read distribution in genomice functional annotation categories." width="50%" />
 <p class="caption">

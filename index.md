@@ -1,7 +1,7 @@
 --- 
 title: "Computational Genomics with R"
 author: "Altuna Akalin"
-date: "2020-09-20"
+date: "2020-09-30"
 knit: "bookdown::render_book"
 documentclass: krantz
 classoption: numberinsequence,krantz2
@@ -27,7 +27,7 @@ cover-image: images/cover.jpg
 
 <a href="" target="_blank"><img src="images/cover.jpg" style="display: block; margin: auto;" /></a>
 
-The aim of this book is to provide the fundamentals for data analysis for genomics. We developed this book based on the computational genomics courses we are giving every year. We have had invariably an interdisciplinary audience with backgrounds from physics, biology, medicine, math, computer science or other quantitative fields. We want this book to be a starting point for computational genomics students and a guide for further data analysis in more specific topics in genomics. This is why we tried to cover a large variety of topics from programming to basic genome biology. As the field is interdisciplinary, it requires different starting points for people with different backgrounds. A biologist might skip sections on basic genome biology and start with R programming, whereas a computer scientist might want to start with genome biology. In the same manner, a more experienced person might want to refer to this book when s/he needs to do a certain type of analysis which s/he does not have prior experience.
+The aim of this book is to provide the fundamentals for data analysis for genomics. We developed this book based on the computational genomics courses we are giving every year. We have had invariably an interdisciplinary audience with backgrounds from physics, biology, medicine, math, computer science or other quantitative fields. We want this book to be a starting point for computational genomics students and a guide for further data analysis in more specific topics in genomics. This is why we tried to cover a large variety of topics from programming to basic genome biology. As the field is interdisciplinary, it requires different starting points for people with different backgrounds. A biologist might skip sections on basic genome biology and start with R programming, whereas a computer scientist might want to start with genome biology. In the same manner, a more experienced person might want to refer to this book when needing to do a certain type of analysis, but having no prior experience.
 
 
 ![Creative Commons License](images/by-nc-sa.png)  
@@ -42,11 +42,11 @@ biologists, medical scientists, computer scientists and people from other quanti
 
  - Biologists and medical scientists who generate the data and are keen on analyzing it themselves.
  - Students and researchers who are formally starting to do research on or using computational genomics do not have extensive domain-specific knowledge, but have at least a beginner-level understanding in a quantitative field, for example, math, stats.
- - Experienced researchers looking for recipes or quick how-tos to get started in specific data analysis tasks related to computational genomics. 
+ - Experienced researchers looking for recipes or quick how-to's to get started in specific data analysis tasks related to computational genomics. 
 
 
 ### What will you get out of this?  {-}
-This resource describes the skills and provides how-tos that will help readers 
+This resource describes the skills and provides how-to's that will help readers 
 analyze their own genomics data.
 
 After reading:
@@ -62,8 +62,8 @@ After reading:
 
 ## Structure of the book {-}
 The book is designed with the idea that practical and conceptual
-understanding of data analysis methods is as important, if not more important, than the theoretical understanding, such as detailed derivation of equations in statistics or machine learning. That is why we first try to give a conceptual explanation of the concepts then we try to give essential parts of the mathematical formulas for more detailed understanding. In this spirit, we always show the code and 
-explain the code for a particular data analysis task. We also give additional references such as books, websites , video lectures and scientific papers for readers who desire to gain deeper theoretical understanding of data-analysis-related methods or concepts.
+understanding of data analysis methods is as important, if not more important, than the theoretical understanding, such as detailed derivation of equations in statistics or machine learning. That is why we first try to give a conceptual explanation of the concepts then we try to give essential parts of the mathematical formulas for more detailed understanding. In this spirit, we always show and 
+explain the code for a particular data analysis task. We also give additional references such as books, websites, video lectures and scientific papers for readers who desire to gain deeper theoretical understanding of data analysis-related methods or concepts.
 
 Chapter \@ref(intro): "Introduction to Genomics" introduces the basic concepts in genome biology and genomics. Understanding these concepts is important for computational genomics. 
 
@@ -73,7 +73,7 @@ Chapter \@ref(genomicIntervals): "Operations on Genomic Intervals and Genome Ari
 
 The next chapters deal with specific analysis of high-throughput sequencing data and integrating different kinds of datasets. Chapter \@ref(processingReads): "Quality Check, Processing and Alignment of High-throughput Sequencing Reads" introduces quality checks that need to be done on sequencing reads and different ways to process them further. Chapters \@ref(rnaseqanalysis), \@ref(chipseq) and \@ref(bsseq) deal with RNA-seq analysis, ChIP-seq analysis and BS-seq analysis. The last chapter, Chapter \@ref(multiomics):"Multi-omics Analysis" deals with methods for integrating multiple omics datasets.
 
-Most chapters have exercises that reinforce some of the important points introduced in the chapters. The exercises are classified into Beginner, Intermediate and Advanced categories. If you are well versed in a certain subject you might want to skip Beginner-level exercises.
+Most chapters have exercises that reinforce some of the important points introduced in the chapters. The exercises are classified into beginner, intermediate and advanced categories. If you are well versed in a certain subject you might want to skip beginner-level exercises.
 
 To sum it up, this book is a comprehensive guide for computational genomics. Some sections are there for the sake of the wide interdisciplinary audience and completeness, and not all sections will be equally useful to all readers of this broad audience. 
 
@@ -147,7 +147,7 @@ This book is compiled with R 4.0.0 and the following packages. We only list the 
 
 ## Acknowledgements {-}
 
-I wish to thank the R and Bioconductor community for developing and maintaining libraries for genomic data analysis. Without their constant work and dedication, writing such a book would not be possible.
+I wish to thank the R and Bioconductor communities for developing and maintaining libraries for genomic data analysis. Without their constant work and dedication, writing such a book would not be possible.
 
 I also wish to thank all my past and present mentors, colleagues and employers.
 The interaction with them provided the motivation to write such a book, and organize and teach hands-on courses on computational genomics.
@@ -156,7 +156,7 @@ I wish to thank John Kimmel, the editor from Chapman & Hall/CRC, who helped me p
 
 This has been a long journey for me. I started writing parts of this book as early as 2013. If it wasn't for Vedran Franke, Bora Uyar and Jonathan Ronen, it would have taken even longer. They kindly agreed to contribute the missing chapters and they did a great job. I am thankful for their contributions.
 
-The following people kindly contributed fixes for typos and code, and various suggestions: Thomas Schalch, Alex Gosdschan, Rodrigo Ogava, Fei Zhao, Jonathan Kitt, Janani Ravi, Christian Schudoma, Samuel Sledzieski and Dania Hamo, Sarvesh Nikumbh.
+The following people kindly contributed fixes for typos and code, and various suggestions: Thomas Schalch, Alex Gosdschan, Rodrigo Ogava, Fei Zhao, Jonathan Kitt, Janani Ravi, Christian Schudoma, Samuel Sledzieski, Dania Hamo and Sarvesh Nikumbh.
  
 \BeginKnitrBlock{flushright}<p class="flushright">Altuna Akalin  
 Berlin, Germany</p>\EndKnitrBlock{flushright}

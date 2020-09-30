@@ -24,7 +24,7 @@
 <meta name="author" content="Altuna Akalin" />
 
 
-<meta name="date" content="2020-09-20" />
+<meta name="date" content="2020-09-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -422,7 +422,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="bsseq.html"><a href="bsseq.html"><i class="fa fa-check"></i><b>10</b> DNA methylation analysis using bisulfite sequencing data</a><ul>
-<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation ?</a><ul>
+<li class="chapter" data-level="10.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html"><i class="fa fa-check"></i><b>10.1</b> What is DNA methylation?</a><ul>
 <li class="chapter" data-level="10.1.1" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-dna-methylation-is-set"><i class="fa fa-check"></i><b>10.1.1</b> How DNA methylation is set ?</a></li>
 <li class="chapter" data-level="10.1.2" data-path="what-is-dna-methylation.html"><a href="what-is-dna-methylation.html#how-to-measure-dna-methylation-with-bisulfite-sequencing"><i class="fa fa-check"></i><b>10.1.2</b> How to measure DNA methylation with bisulfite sequencing</a></li>
 </ul></li>
@@ -455,7 +455,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="11.2" data-path="latent-variable-models-for-multi-omics-integration.html"><a href="latent-variable-models-for-multi-omics-integration.html"><i class="fa fa-check"></i><b>11.2</b> Latent variable models for multi-omics integration</a></li>
 <li class="chapter" data-level="11.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><i class="fa fa-check"></i><b>11.3</b> Matrix factorization methods for unsupervised multi-omics data integration</a><ul>
 <li class="chapter" data-level="11.3.1" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#multiple-factor-analysis"><i class="fa fa-check"></i><b>11.3.1</b> Multiple factor analysis</a></li>
-<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix Factorization</a></li>
+<li class="chapter" data-level="11.3.2" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#joint-non-negative-matrix-factorization"><i class="fa fa-check"></i><b>11.3.2</b> Joint non-negative matrix factorization</a></li>
 <li class="chapter" data-level="11.3.3" data-path="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html"><a href="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration.html#icluster"><i class="fa fa-check"></i><b>11.3.3</b> iCluster</a></li>
 </ul></li>
 <li class="chapter" data-level="11.4" data-path="clustering-using-latent-factors.html"><a href="clustering-using-latent-factors.html"><i class="fa fa-check"></i><b>11.4</b> Clustering using latent factors</a><ul>
@@ -497,17 +497,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="annotation-of-dmrsdmcs-and-segments" class="section level2">
 <h2><span class="header-section-number">10.6</span> Annotation of DMRs/DMCs and segments</h2>
 <p>The regions of interest obtained through differential methylation or segmentation analysis often need to be integrated with genome annotation datasets. Without this type of integration, differential methylation or segmentation results will be hard to interpret in biological terms. The most common annotation task is to see where regions of interest land in relation to genes and gene parts and regulatory regions: Do they mostly occupy promoter, intronic or exonic regions? Do they overlap with repeats? Do they overlap with other epigenomic markers or long-range regulatory regions? These questions are not specific to methylation −nearly all regions of interest obtained via genome-wide studies have to deal with such questions. Thus, there are already multiple software tools that can produce such annotations. One is the Bioconductor package <a href="http://bioconductor.org/packages/release/bioc/html/genomation.html"><code>genomation</code></a><span class="citation">(Akalin, Franke, Vlahoviček, et al. <a href="#ref-Akalin2015-yk" role="doc-biblioref">2015</a>)</span>. It can be used to annotate DMRs/DMCs and it can also be used to integrate methylation proportions over the genome with other quantitative information and produce meta-gene plots or heatmaps. Below, we are reading a BED file for transcripts and using that to annotate DMCs with promoter/intron/exon/intergenic annotation. The <code>genomation::readTranscriptFeatures()</code> function reads a BED12 file, calculates the coordinates of promoters, exons, and introns and the subsequent function uses that information for annotation.</p>
-<div class="sourceCode" id="cb595"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb595-1"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-1"></a><span class="kw">library</span>(genomation)</span>
-<span id="cb595-2"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-2"></a></span>
-<span id="cb595-3"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-3"></a><span class="co"># read the gene BED file</span></span>
-<span id="cb595-4"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-4"></a>transcriptBED=<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;refseq.hg18.bed.txt&quot;</span>, </span>
-<span id="cb595-5"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-5"></a>                                           <span class="dt">package =</span> <span class="st">&quot;methylKit&quot;</span>)</span>
-<span id="cb595-6"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-6"></a>gene.obj=<span class="kw">readTranscriptFeatures</span>(transcriptBED)</span>
-<span id="cb595-7"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-7"></a><span class="co">#</span></span>
-<span id="cb595-8"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-8"></a><span class="co"># annotate differentially methylated CpGs with </span></span>
-<span id="cb595-9"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-9"></a><span class="co"># promoter/exon/intron using annotation data</span></span>
-<span id="cb595-10"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-10"></a><span class="co">#</span></span>
-<span id="cb595-11"><a href="annotation-of-dmrsdmcs-and-segments.html#cb595-11"></a><span class="kw">annotateWithGeneParts</span>(<span class="kw">as</span>(all.diff,<span class="st">&quot;GRanges&quot;</span>),gene.obj)</span></code></pre></div>
+<div class="sourceCode" id="cb594"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb594-1"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-1"></a><span class="kw">library</span>(genomation)</span>
+<span id="cb594-2"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-2"></a></span>
+<span id="cb594-3"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-3"></a><span class="co"># read the gene BED file</span></span>
+<span id="cb594-4"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-4"></a>transcriptBED=<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;refseq.hg18.bed.txt&quot;</span>, </span>
+<span id="cb594-5"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-5"></a>                                           <span class="dt">package =</span> <span class="st">&quot;methylKit&quot;</span>)</span>
+<span id="cb594-6"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-6"></a>gene.obj=<span class="kw">readTranscriptFeatures</span>(transcriptBED)</span>
+<span id="cb594-7"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-7"></a><span class="co">#</span></span>
+<span id="cb594-8"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-8"></a><span class="co"># annotate differentially methylated CpGs with </span></span>
+<span id="cb594-9"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-9"></a><span class="co"># promoter/exon/intron using annotation data</span></span>
+<span id="cb594-10"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-10"></a><span class="co">#</span></span>
+<span id="cb594-11"><a href="annotation-of-dmrsdmcs-and-segments.html#cb594-11"></a><span class="kw">annotateWithGeneParts</span>(<span class="kw">as</span>(all.diff,<span class="st">&quot;GRanges&quot;</span>),gene.obj)</span></code></pre></div>
 <pre><code>##   promoter       exon     intron intergenic 
 ##      28.24      15.27      33.59      58.02 
 ##   promoter       exon     intron intergenic 
@@ -517,20 +517,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##       5     815   49918   52410   94644  313528</code></pre>
 <p>Similarly, we can read the CpG island annotation and annotate our differentially methylated bases/regions with them.</p>
-<div class="sourceCode" id="cb597"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb597-1"><a href="annotation-of-dmrsdmcs-and-segments.html#cb597-1"></a><span class="co"># read the shores and flanking regions and name the flanks as shores </span></span>
-<span id="cb597-2"><a href="annotation-of-dmrsdmcs-and-segments.html#cb597-2"></a><span class="co"># and CpG islands as CpGi</span></span>
-<span id="cb597-3"><a href="annotation-of-dmrsdmcs-and-segments.html#cb597-3"></a>cpg.file=<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;cpgi.hg18.bed.txt&quot;</span>, </span>
-<span id="cb597-4"><a href="annotation-of-dmrsdmcs-and-segments.html#cb597-4"></a>                                        <span class="dt">package =</span> <span class="st">&quot;methylKit&quot;</span>)</span>
-<span id="cb597-5"><a href="annotation-of-dmrsdmcs-and-segments.html#cb597-5"></a>cpg.obj=<span class="kw">readFeatureFlank</span>(cpg.file,</span>
-<span id="cb597-6"><a href="annotation-of-dmrsdmcs-and-segments.html#cb597-6"></a>                           <span class="dt">feature.flank.name=</span><span class="kw">c</span>(<span class="st">&quot;CpGi&quot;</span>,<span class="st">&quot;shores&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb596"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb596-1"><a href="annotation-of-dmrsdmcs-and-segments.html#cb596-1"></a><span class="co"># read the shores and flanking regions and name the flanks as shores </span></span>
+<span id="cb596-2"><a href="annotation-of-dmrsdmcs-and-segments.html#cb596-2"></a><span class="co"># and CpG islands as CpGi</span></span>
+<span id="cb596-3"><a href="annotation-of-dmrsdmcs-and-segments.html#cb596-3"></a>cpg.file=<span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;cpgi.hg18.bed.txt&quot;</span>, </span>
+<span id="cb596-4"><a href="annotation-of-dmrsdmcs-and-segments.html#cb596-4"></a>                                        <span class="dt">package =</span> <span class="st">&quot;methylKit&quot;</span>)</span>
+<span id="cb596-5"><a href="annotation-of-dmrsdmcs-and-segments.html#cb596-5"></a>cpg.obj=<span class="kw">readFeatureFlank</span>(cpg.file,</span>
+<span id="cb596-6"><a href="annotation-of-dmrsdmcs-and-segments.html#cb596-6"></a>                           <span class="dt">feature.flank.name=</span><span class="kw">c</span>(<span class="st">&quot;CpGi&quot;</span>,<span class="st">&quot;shores&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning: &#39;GenomicRangesList&#39; is deprecated.
 ## Use &#39;GRangesList(..., compress=FALSE)&#39; instead.
 ## See help(&quot;Deprecated&quot;)</code></pre>
-<div class="sourceCode" id="cb599"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb599-1"><a href="annotation-of-dmrsdmcs-and-segments.html#cb599-1"></a><span class="co">#</span></span>
-<span id="cb599-2"><a href="annotation-of-dmrsdmcs-and-segments.html#cb599-2"></a><span class="co"># convert methylDiff object to GRanges and annotate</span></span>
-<span id="cb599-3"><a href="annotation-of-dmrsdmcs-and-segments.html#cb599-3"></a>diffCpGann=<span class="kw">annotateWithFeatureFlank</span>(<span class="kw">as</span>(all.diff,<span class="st">&quot;GRanges&quot;</span>),</span>
-<span id="cb599-4"><a href="annotation-of-dmrsdmcs-and-segments.html#cb599-4"></a>                                    cpg.obj<span class="op">$</span>CpGi,cpg.obj<span class="op">$</span>shores,</span>
-<span id="cb599-5"><a href="annotation-of-dmrsdmcs-and-segments.html#cb599-5"></a>                         <span class="dt">feature.name=</span><span class="st">&quot;CpGi&quot;</span>,<span class="dt">flank.name=</span><span class="st">&quot;shores&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb598"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb598-1"><a href="annotation-of-dmrsdmcs-and-segments.html#cb598-1"></a><span class="co">#</span></span>
+<span id="cb598-2"><a href="annotation-of-dmrsdmcs-and-segments.html#cb598-2"></a><span class="co"># convert methylDiff object to GRanges and annotate</span></span>
+<span id="cb598-3"><a href="annotation-of-dmrsdmcs-and-segments.html#cb598-3"></a>diffCpGann=<span class="kw">annotateWithFeatureFlank</span>(<span class="kw">as</span>(all.diff,<span class="st">&quot;GRanges&quot;</span>),</span>
+<span id="cb598-4"><a href="annotation-of-dmrsdmcs-and-segments.html#cb598-4"></a>                                    cpg.obj<span class="op">$</span>CpGi,cpg.obj<span class="op">$</span>shores,</span>
+<span id="cb598-5"><a href="annotation-of-dmrsdmcs-and-segments.html#cb598-5"></a>                         <span class="dt">feature.name=</span><span class="st">&quot;CpGi&quot;</span>,<span class="dt">flank.name=</span><span class="st">&quot;shores&quot;</span>)</span></code></pre></div>
 <p>Besides these, DMRs/DMCs might be associated with changes in gene regulation. It might be desirable to overlap them with known transcription binding sites or motifs or histone modifications. These are simply overlap operations for these kinds of analysis. You can use the <code>genomation::annotateWithFeature()</code> function or any other approach shown in Chapter <a href="genomicIntervals.html#genomicIntervals">6</a>, and you can also do motif discovery with methods shown in Chapter <a href="chipseq.html#chipseq">9</a>.</p>
 <div id="further-annotation-with-genes-or-gene-sets" class="section level3">
 <h3><span class="header-section-number">10.6.1</span> Further annotation with genes or gene sets</h3>
