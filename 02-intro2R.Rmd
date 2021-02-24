@@ -595,7 +595,7 @@ The task above is a bit pointless. Normally in a loop, you would want to do some
 the data frame (by subtracting the end coordinate from the start coordinate).\index{R Programming Language!loops}
 
 
-**Note:**If you are going to run a loop that has a lot of repetitions, it is smart to try the loop with few repetitions first and check the results. This will help you make sure the code in the loop works before executing it thousands of times.
+**Note:** If you are going to run a loop that has a lot of repetitions, it is smart to try the loop with few repetitions first and check the results. This will help you make sure the code in the loop works before executing it thousands of times.
 
 ```{r forloop2}
 # this is where we will keep the lenghts
