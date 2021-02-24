@@ -75,7 +75,7 @@ scale(df)
 ```
 
 
-### Hiearchical clustering
+### Hierarchical clustering
 This is one of the most ubiquitous clustering algorithms. Using this algorithm you can see the relationship of individual data points and relationships of clusters. This is achieved by successively joining small clusters to each other based on the inter-cluster distance. Eventually, you get a tree structure or a dendrogram that shows the relationship between the individual data points and clusters. The height of the dendrogram is the distance between clusters. Here we can show how to use this on our toy data set from four patients. The base function in R to do hierarchical clustering in `hclust()`. Below, we apply that function on Euclidean distances between patients. The resulting clustering tree or dendrogram is shown in Figure \@ref(fig:expPlot).\index{clustering!hierarchical clustering}
 ```{r toyClust,fig.cap="Dendrogram of distance matrix",out.width='50%'}
 d=dist(df)
