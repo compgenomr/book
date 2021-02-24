@@ -197,7 +197,7 @@ legend("bottomright",
 The plot we obtained shows the separation between clusters. However, it does not do a great job showing the separation between clusters 3 and 4, which represent CML and "no leukemia" patients. We might need another dimension to properly visualize that separation. In addition, those two clusters were closely related in the hierarchical clustering as well. 
 
 ### How to choose "k", the number of clusters
-Up to this point, we have avoided the question of selecting optimal number clusters. How do we know where to cut our dendrogram or which k to choose ? 
+Up to this point, we have avoided the question of selecting optimal number of clusters. How do we know where to cut our dendrogram or which k to choose ? 
 First of all, this is a difficult question. Usually, clusters have different granularity. Some clusters are tight and compact and some are wide, and both these types of clusters can be in the same data set. When visualized, some large clusters may look like they may have sub-clusters. So should we consider the large cluster as one cluster or should we consider the sub-clusters as individual clusters? There are some metrics to help but there is no definite answer. We will show a couple of them below.
 
 #### Silhouette 
