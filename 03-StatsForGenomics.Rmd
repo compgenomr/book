@@ -761,20 +761,20 @@ dx=rowMeans(data[,group1])-rowMeans(data[,group2])
   
 require(matrixStats)
 
-# get the esimate of pooled variance 
+# get the estimate of pooled variance 
 stderr = sqrt( (rowVars(data[,group1])*(n1-1) + 
        rowVars(data[,group2])*(n2-1)) / (n1+n2-2) * ( 1/n1 + 1/n2 ))
 
 # do the shrinking towards median
 mod.stderr = (stderr + median(stderr)) / 2 # moderation in variation
 
-# esimate t statistic with moderated variance
+# estimate t statistic with moderated variance
 t.mod <- dx / mod.stderr
 
 # calculate P-value of rejecting null 
 p.mod = 2*pt( -abs(t.mod), n1+n2-2 )
 
-# esimate t statistic without moderated variance
+# estimate t statistic without moderated variance
 t = dx / stderr
 
 # calculate P-value of rejecting null 
