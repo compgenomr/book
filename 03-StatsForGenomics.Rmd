@@ -955,7 +955,7 @@ $$
 \epsilon_1 \\
 \epsilon_2 \\ 
 \epsilon_3 \\ 
-\epsilon_0
+\epsilon_4
 \end{array}\right]
 $$
  
