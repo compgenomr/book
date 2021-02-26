@@ -1550,7 +1550,7 @@ the issue.
 
 ##### Correlation of explanatory variables
 If the explanatory variables are correlated that could lead to something  
-known as multicolinearity. When this happens SE estimates of the coefficients will be too large. This is usually observed in time-course
+known as multicollinearity. When this happens SE estimates of the coefficients will be too large. This is usually observed in time-course
 data.
 
 ##### Correlation of error terms
