@@ -56,7 +56,7 @@ There are many methods to use for supervised learning problems. However, there a
 Many of these steps are identical for different supervised learning methods. Therefore, we will use the [`caret`](http://topepo.github.io/caret/index.html) package to\index{R Packages!\texttt{caret}} perform these steps, which streamlines the steps and provides a similar interface for different supervised learning methods. There are other similar packages, such as [`mlr`](https://mlr.mlr-org.com/), \index{R Packages!\texttt{mlr}}that can provide similar functionality. For now, we will focus on classification models, which is a subset of supervised learning models. In these types of models, we try to predict a categorical response variable, such as if a patient has the disease or not, or what type of disease the patient has based on predictor variables. 
 
 ## Use case: Disease subtype from genomics data
-We will start our illustration of machine learning using a real dataset from tumor biopsies. We will use the gene expression data of glioblastoma tumor samples from The Cancer Genome Atlas\index{The Cancer Genome Atlas (TCGA)} project. We will try to predict the subtype of this disease using molecular markers. \index{CpG island}This subtype is characterized by large-scale epigenetic alterations called the "CpG island methylator phenotype" or "CIMP" [@pmid20399149]; half of the patients in our data set have this subtype and the rest do not, and we will try to predict which ones have the CIMP subtype. There two data objects we need for this exercise, one for gene expression values per tumor sample and the other one is subtype annotation per patient. In the expression data set, every row is a patient and every column is a gene expression value\index{gene expression}. There are 184 tumor samples. This data set might be a bit small for real-world applications, however it is very relevant for the genomics focus of this book and the small datasets take less time to train, which is useful for reproducibility  purposes. We will read these data sets from the **compGenomRData** package now with the `readRDS()` function.
+We will start our illustration of machine learning using a real dataset from tumor biopsies. We will use the gene expression data of glioblastoma tumor samples from The Cancer Genome Atlas\index{The Cancer Genome Atlas (TCGA)} project. We will try to predict the subtype of this disease using molecular markers. \index{CpG island}This subtype is characterized by large-scale epigenetic alterations called the "CpG island methylator phenotype" or "CIMP" [@pmid20399149]; half of the patients in our data set have this subtype and the rest do not, and we will try to predict which ones have the CIMP subtype. There are two data objects we need for this exercise, one for gene expression values per tumor sample and the other one is subtype annotation per patient. In the expression data set, every row is a patient and every column is a gene expression value\index{gene expression}. There are 184 tumor samples. This data set might be a bit small for real-world applications, however it is very relevant for the genomics focus of this book and the small datasets take less time to train, which is useful for reproducibility  purposes. We will read these data sets from the **compGenomRData** package now with the `readRDS()` function.
 ```{r,readMLdata}
 # get file paths
 fileLGGexp=system.file("extdata",
@@ -114,7 +114,7 @@ tgexp <- t(gexp)
 We can filter predictor variables which have low variation. They are not likely to have any predictive importance since there is not much variation and they will just slow our algorithms. The more variables, the slower the algorithms will be generally. The `caret::preProcess()` function can help filter the predictor variables with near zero variance. 
 ```{r nzv,eval=FALSE}
 library(caret)
-# remove near zero variation for the columns at least
+# remove near zero variation for the columns where at least
 # 85% of the values are the same
 # this function creates the filter but doesn't apply it yet
 nzv=preProcess(tgexp,method="nzv",uniqueCut = 15)
@@ -142,7 +142,7 @@ tgexp=predict(processCenter,tgexp)
 We will next filter the predictor variables that are highly correlated. You may choose not to do this as some methods can handle correlation between predictor variables.\index{collinearity} However, the fewer predictor variables we have, the faster the model fitting can be done.
 
 ```{r filterCorr}
-# create a filter for removing higly correlated variables
+# create a filter for removing highly correlated variables
 # if two variables are highly correlated only one of them
 # is removed
 corrFilt=preProcess(tgexp, method = "corr",cutoff = 0.9)
