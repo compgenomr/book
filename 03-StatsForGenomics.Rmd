@@ -320,7 +320,7 @@ original sample. Then, we calculate the parameter of interest, in this case the 
 repeat this process a large number of times, such as 1000. At this point, we would have a distribution of re-sampled
 means. We can then calculate the 2.5th and 97.5th percentiles and these will
 be our so-called 95% confidence interval. This procedure, resampling with replacement to
-estimate the precision of population parameter estimates, is known as the __bootstrap resampling__ or __bootstraping__.\index{bootstrap resampling}
+estimate the precision of population parameter estimates, is known as the __bootstrap resampling__ or __bootstrapping__.\index{bootstrap resampling}
 
 Let's see how we can do this in practice. We simulate a sample
 coming from a normal distribution (but we pretend we don't know the 
