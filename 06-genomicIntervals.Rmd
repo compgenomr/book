@@ -181,7 +181,7 @@ information including exon/intron structure of transcripts in a single line. We 
 2) **GFF**: GFF format is a tabular text format for genomic features similar to BED. However,
 it is a more flexible format than BED, which makes it harder to parse at times. Many gene annotation files are in this format.
     - `genomation::gffToGranges()`
-    - `rtracklayer::impot.gff()`
+    - `rtracklayer::import.gff()`
 
 3) **BAM/SAM**: BAM format is a compressed and indexed tabular file format designed for aligned sequencing reads. SAM is the uncompressed version of the BAM file. We will touch upon BAM files in this chapter. The uncompressed SAM file is similar in spirit to a BED file where you have the basic location of chromosomal location information plus additional columns that are related to the quality of alignment or other relevant information. We will introduce this format in detail later in this chapter.\index{BAM file} 
 \index{SAM file}
@@ -258,7 +258,7 @@ The reads from sequencing machines are usually pre-processed and aligned to the 
 
 ### Counting mapped reads for a set of regions
 
-The `Rsamtools` package has functions to query BAM files\index{R Packages!\texttt{Rsamtools}}. The function we will use in the first example is the `countBam()` function, which takes input of the BAM file and param argument. The `param` argument takes a `ScanBamParam` object. The object is instantiated using `ScanBamParam()` and contains parameters for scanning the BAM file. The example below is a simple example where `ScanBamParam()` only includes regions of interest, promoters on chr21.
+The `Rsamtools` package has functions to query BAM files\index{R Packages!\texttt{Rsamtools}}. The function we will use in the first example is the `countBam()` function, which takes as input of the BAM file and param argument. The `param` argument takes a `ScanBamParam` object. The object is instantiated using `ScanBamParam()` and contains parameters for scanning the BAM file. The example below is a simple example where `ScanBamParam()` only includes regions of interest, promoters on chr21.
 
 ```{r,countBam}
 promoter.gr=tss.gr
@@ -447,7 +447,7 @@ assays(se)[[1]] # get the first table
 
 
 #### Subsetting
-Subsetting is easy using `[ ]` notation. This is similar to the way we 
+Subsetting is easy using the `[ ]` notation. This is similar to the way we 
 subset data frames or matrices.
 ```{r,subsetSe1}
 # subset the first five transcripts and first three samples
@@ -481,7 +481,7 @@ different genomic datasets over that locus. This is similar to looking at the da
 over one of the genome browsers. Below we will display genes, GpG islands and read \index{R Packages!\texttt{Gviz}}
 coverage from a ChIP-seq experiment using the `Gviz` package\index{ChIP-seq}. For the `Gviz` package, we first need to 
 set the tracks to display. The tracks can be in various formats. They can be R 
-objects such as `IRanges`,`GRanges` and `data.frame`, or  they can be in flat file formats
+objects such as `IRanges`, `GRanges` and `data.frame`, or  they can be in flat file formats
 such as bigWig, BED, and BAM. After the tracks are set, we can display them with the
 `plotTracks` function, the resulting plot is shown in Figure \@ref(fig:GvizExchp6).
 
