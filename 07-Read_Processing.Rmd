@@ -95,7 +95,7 @@ fastqc_install()
 fastqc(fq.dir = folder,qc.dir = "fastqc_results")
 ```
 
-Now that we have run FastQC on our fastq files, we can read the results to R and construct plots or reports. The `gc_report()` function can create an Rmarkdown-based report from FastQC output.
+Now that we have run FastQC on our fastq files, we can read the results to R and construct plots or reports. The `qc_report()` function can create an Rmarkdown-based report from FastQC output.
 ```{r, fastqcr2,eval=FALSE}
 # view the report rendered by R functions
 qc_report(qc.path="fastqc_results", 
