@@ -167,7 +167,7 @@ signal profile [@bonhoure_2014].
 
 The choice of normalization method depends on the type of analysis [@angelini_2015];
 if we want to quantitatively compare the abundance of different histone marks in 
-different cell types, we will need the different normalization procedure than if
+different cell types, we will need a different normalization procedure than if
 we want to compare TF binding in the same setting.
 
 
@@ -724,7 +724,7 @@ export.bw(cov, 'output_file')
 
 #### Vizualization of track data using Gviz
 
-We can create genome browserlike visualizations using the `Gviz` package, 
+We can create genome browser-like visualizations using the `Gviz` package, 
 which was introduced in Chapter \@ref(genomicIntervals).
 The `Gviz` is a tool which enables exhaustive customized visualization of 
 genomics experiments. The basic usage principle is to define tracks, where each track can represent
@@ -2026,7 +2026,7 @@ ggplot(
         axis.title = element_text(size=12,face="bold"),
         plot.title = element_text(hjust = 0.5)) +
     xlab('Experiment') +
-    ylab('Percetage of reads in region') +
+    ylab('Percentage of reads in region') +
     ggtitle('Percentage of reads in peaks for H3K36me3') +
     scale_fill_manual(values=c('gray','red'))
 ```
@@ -2249,7 +2249,7 @@ ggplot(
     axis.title = element_text(size=14,face="bold"),
     plot.title = element_text(hjust = 0.5)) +
   xlab('Peak rank') +
-  ylab('Percetage of peaks with motif') +
+  ylab('Percentage of peaks with motif') +
   ggtitle('Percentage of CTCF peaks with the CTCF motif')
 ```
 
