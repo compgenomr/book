@@ -320,7 +320,7 @@ original sample. Then, we calculate the parameter of interest, in this case the 
 repeat this process a large number of times, such as 1000. At this point, we would have a distribution of re-sampled
 means. We can then calculate the 2.5th and 97.5th percentiles and these will
 be our so-called 95% confidence interval. This procedure, resampling with replacement to
-estimate the precision of population parameter estimates, is known as the __bootstrap resampling__ or __bootstraping__.\index{bootstrap resampling}
+estimate the precision of population parameter estimates, is known as the __bootstrap resampling__ or __bootstrapping__.\index{bootstrap resampling}
 
 Let's see how we can do this in practice. We simulate a sample
 coming from a normal distribution (but we pretend we don't know the 
@@ -761,20 +761,20 @@ dx=rowMeans(data[,group1])-rowMeans(data[,group2])
   
 require(matrixStats)
 
-# get the esimate of pooled variance 
+# get the estimate of pooled variance 
 stderr = sqrt( (rowVars(data[,group1])*(n1-1) + 
        rowVars(data[,group2])*(n2-1)) / (n1+n2-2) * ( 1/n1 + 1/n2 ))
 
 # do the shrinking towards median
 mod.stderr = (stderr + median(stderr)) / 2 # moderation in variation
 
-# esimate t statistic with moderated variance
+# estimate t statistic with moderated variance
 t.mod <- dx / mod.stderr
 
 # calculate P-value of rejecting null 
 p.mod = 2*pt( -abs(t.mod), n1+n2-2 )
 
-# esimate t statistic without moderated variance
+# estimate t statistic without moderated variance
 t = dx / stderr
 
 # calculate P-value of rejecting null 
@@ -955,7 +955,7 @@ $$
 \epsilon_1 \\
 \epsilon_2 \\ 
 \epsilon_3 \\ 
-\epsilon_0
+\epsilon_4
 \end{array}\right]
 $$
  
@@ -1550,7 +1550,7 @@ the issue.
 
 ##### Correlation of explanatory variables
 If the explanatory variables are correlated that could lead to something  
-known as multicolinearity. When this happens SE estimates of the coefficients will be too large. This is usually observed in time-course
+known as multicollinearity. When this happens SE estimates of the coefficients will be too large. This is usually observed in time-course
 data.
 
 ##### Correlation of error terms

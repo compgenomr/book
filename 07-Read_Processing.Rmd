@@ -95,7 +95,7 @@ fastqc_install()
 fastqc(fq.dir = folder,qc.dir = "fastqc_results")
 ```
 
-Now that we have run FastQC on our fastq files, we can read the results to R and construct plots or reports. The `gc_report()` function can create an Rmarkdown-based report from FastQC output.
+Now that we have run FastQC on our fastq files, we can read the results to R and construct plots or reports. The `qc_report()` function can create an Rmarkdown-based report from FastQC output.
 ```{r, fastqcr2,eval=FALSE}
 # view the report rendered by R functions
 qc_report(qc.path="fastqc_results", 
@@ -112,7 +112,7 @@ qc_plot(qc, "Per base sequence quality")
 ```
 
 
-Apart from this, the bioconductor packages Rqc [@Rqc] (see `Rqc::rqcReport` function), QuasR [@gaidatzis_quasr:_2015] (see `QuasR::qQCReport` function), systemPipeR [@backman_systempiper:_2016] (see `systemPipeR::seeFastq` function), and ShortRead [@morgan_shortread:_2009] (see `ShortRead::report` function) can all generate quality reports in a similar fashion to FastQC with some differences in plot content and number.
+Apart from this, the Bioconductor packages Rqc [@Rqc] (see `Rqc::rqcReport` function), QuasR [@gaidatzis_quasr:_2015] (see `QuasR::qQCReport` function), systemPipeR [@backman_systempiper:_2016] (see `systemPipeR::seeFastq` function), and ShortRead [@morgan_shortread:_2009] (see `ShortRead::report` function) can all generate quality reports in a similar fashion to FastQC with some differences in plot content and number.
 
 ## Filtering and trimming reads
 Based on the results of the quality check, you may want to trim or filter the reads. The quality check might have shown the number of reads that have low quality scores. These reads will probably not align very well because of the potential mistakes in base calling, or they may align to wrong places in the genome. Therefore, you may want to remove these reads from your fastq file. Another potential scenario is that parts of your reads need to be trimmed in order to align the reads. In some cases, adapters will be present in either side of the read; in other cases technical errors will lead to decreasing base quality towards the ends of the reads. Both in these cases, the portion of the read should be trimmed so the read can align or better align the genome. We will show how to use the `QuasR` package to trim the reads. Other packages such as `ShortRead` also have capabilities to trim and filter reads. However, the `QuasR::preprocessReads()` function provides a single interface to multiple preprocessing possibilities. With this function, we match adapter sequences and remove them. We can remove  low-complexity reads (reads containing repetitive sequences). We can trim the start or ends of the reads by a pre-defined length. 

@@ -75,7 +75,7 @@ scale(df)
 ```
 
 
-### Hiearchical clustering
+### Hierarchical clustering
 This is one of the most ubiquitous clustering algorithms. Using this algorithm you can see the relationship of individual data points and relationships of clusters. This is achieved by successively joining small clusters to each other based on the inter-cluster distance. Eventually, you get a tree structure or a dendrogram that shows the relationship between the individual data points and clusters. The height of the dendrogram is the distance between clusters. Here we can show how to use this on our toy data set from four patients. The base function in R to do hierarchical clustering in `hclust()`. Below, we apply that function on Euclidean distances between patients. The resulting clustering tree or dendrogram is shown in Figure \@ref(fig:expPlot).\index{clustering!hierarchical clustering}
 ```{r toyClust,fig.cap="Dendrogram of distance matrix",out.width='50%'}
 d=dist(df)
@@ -175,7 +175,7 @@ type2kmclu = data.frame(
 table(type2kmclu)
 ```
 
-We cannot visualize the clustering from partitioning methods with a tree like we did for hierarchical clustering. Even if we can get the distances between patients the algorithm does not return the distances between clusters out of the box. However, if we had a way to visualize the distances between patients in 2 dimensions we could see the how patients and clusters relate to each other. It turns out that there is a way to compress between patient distances to a 2-dimensional plot. There are many ways to do this, and we introduce these dimension-reduction methods including the one we will use later in this chapter. For now, we are going to use a method called "multi-dimensional scaling" and plot the patients in a 2D plot color coded by their cluster assignments shown in Figure \@ref(fig:kmeansmds). We will explain this method in more detail in the [Multi-dimensional scaling] section below.
+We cannot visualize the clustering from partitioning methods with a tree like we did for hierarchical clustering. Even if we can get the distances between patients the algorithm does not return the distances between clusters out of the box. However, if we had a way to visualize the distances between patients in 2 dimensions we could see how patients and clusters relate to each other. It turns out that there is a way to compress between patient distances to a 2-dimensional plot. There are many ways to do this, and we introduce these dimension-reduction methods including the one we will use later in this chapter. For now, we are going to use a method called "multi-dimensional scaling" and plot the patients in a 2D plot color coded by their cluster assignments shown in Figure \@ref(fig:kmeansmds). We will explain this method in more detail in the [Multi-dimensional scaling] section below.
 
 ```{r, kmeansmds,out.width='50%',fig.cap="K-means cluster memberships are shown in a multi-dimensional scaling plot"}
 # Calculate distances
@@ -197,7 +197,7 @@ legend("bottomright",
 The plot we obtained shows the separation between clusters. However, it does not do a great job showing the separation between clusters 3 and 4, which represent CML and "no leukemia" patients. We might need another dimension to properly visualize that separation. In addition, those two clusters were closely related in the hierarchical clustering as well. 
 
 ### How to choose "k", the number of clusters
-Up to this point, we have avoided the question of selecting optimal number clusters. How do we know where to cut our dendrogram or which k to choose ? 
+Up to this point, we have avoided the question of selecting optimal number of clusters. How do we know where to cut our dendrogram or which k to choose ? 
 First of all, this is a difficult question. Usually, clusters have different granularity. Some clusters are tight and compact and some are wide, and both these types of clusters can be in the same data set. When visualized, some large clusters may look like they may have sub-clusters. So should we consider the large cluster as one cluster or should we consider the sub-clusters as individual clusters? There are some metrics to help but there is no definite answer. We will show a couple of them below.
 
 #### Silhouette 
@@ -534,7 +534,7 @@ As you might have noticed, we set again a random seed with the `set.seed()` func
 
 __Want to know more ?__
 
-- How perplexity affects t-sne, interactive examples:  https://distill.pub/2016/misread-tsne/
+- How perplexity affects t-SNE, interactive examples:  https://distill.pub/2016/misread-tsne/
 - More on perplexity: https://blog.paperspace.com/dimension-reduction-with-t-sne/
 - Intro to t-SNE: https://www.oreilly.com/learning/an-illustrated-introduction-to-the-t-sne-algorithm
 
