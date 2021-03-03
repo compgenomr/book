@@ -2496,7 +2496,7 @@ ctcf_peaks = head(ctcf_peaks, n = 500)
 ctcf_peaks = reduce(ctcf_peaks)
 ```
 
-Create a region of $+/-$ 50 bp around the center of the peaks, 
+Create a region of $+/-$ 25 bp around the center of the peaks, 
 
 ```{r motif-discovery.resize}
 # expand the CTCF peaks
