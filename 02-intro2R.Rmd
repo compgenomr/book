@@ -345,7 +345,7 @@ You can save your R objects directly into a file using `save()` and `saveRDS()` 
 ```{r writeData2,eval= FALSE}
 save(cpgi.df,enh.df,file="mydata.RData")
 load("mydata.RData")
-# saveRDS() can save one object at a type
+# saveRDS() can save one object at a time
 saveRDS(cpgi.df,file="cpgi.rds")
 x=readRDS("cpgi.rds")
 head(x)
