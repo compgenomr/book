@@ -180,7 +180,7 @@ information including exon/intron structure of transcripts in a single line. We 
 
 2) **GFF**: GFF format is a tabular text format for genomic features similar to BED. However,
 it is a more flexible format than BED, which makes it harder to parse at times. Many gene annotation files are in this format.
-    - `genomation::gffToGranges()`
+    - `genomation::gffToGRanges()`
     - `rtracklayer::impot.gff()`
 
 3) **BAM/SAM**: BAM format is a compressed and indexed tabular file format designed for aligned sequencing reads. SAM is the uncompressed version of the BAM file. We will touch upon BAM files in this chapter. The uncompressed SAM file is similar in spirit to a BED file where you have the basic location of chromosomal location information plus additional columns that are related to the quality of alignment or other relevant information. We will introduce this format in detail later in this chapter.\index{BAM file} 
