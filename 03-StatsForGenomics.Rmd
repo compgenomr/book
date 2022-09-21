@@ -108,7 +108,7 @@ mean can be affected by outliers easily\index{outliers}.
 If certain values are very high or low compared to the 
 bulk of the sample, this will shift mean toward those outliers. However, the median is not affected by outliers. It is simply the value in a distribution where half 
 of the values are above and the other half are below. In R, the `median()` function 
-will calculate the mean of a provided vector of numbers.  \index{median}Let's create a set of random numbers and calculate their mean and median using
+will calculate the median of a provided vector of numbers.  \index{median}Let's create a set of random numbers and calculate their mean and median using
 R. 
 ```{r runifMeanMedChp3}
 #create 10 random numbers from uniform distribution 
