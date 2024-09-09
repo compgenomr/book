@@ -104,8 +104,8 @@ Visualization is an important part of all data analysis techniques including com
  - Visualization of quantitative assays for given locus in the genome
 
 ## Getting started with R
-Download and install R (http://cran.r-project.org/) and RStudio (http://www.rstudio.com/) if you do not have them already. Rstudio is optional but it is a great tool if you are just starting to learn R.
-You will need specific data sets to run the code snippets in this book; we have explained how to install and use the data in the [Data for the book] section in the [Preface]. If you have not used Rstudio before, we recommend running it and familiarizing yourself with it first. To put it simply, this interface combines multiple features you will need while analyzing data. You can see your code, how it is executed, the plots you make, and your data all in one interface. 
+Download and install R (http://cran.r-project.org/) and RStudio (http://www.rstudio.com/) if you do not have them already. RStudio is optional but it is a great tool if you are just starting to learn R.
+You will need specific data sets to run the code snippets in this book; we have explained how to install and use the data in the [Data for the book] section in the [Preface]. If you have not used RStudio before, we recommend running it and familiarizing yourself with it first. To put it simply, this interface combines multiple features you will need while analyzing data. You can see your code, how it is executed, the plots you make, and your data all in one interface. 
 
 
 ### Installing packages
@@ -116,12 +116,12 @@ You can install CRAN packages using `install.packages()` (# is the comment chara
 # install package named "randomForests" from CRAN
 install.packages("randomForests")
 ```
-You can install bioconductor packages with a specific installer script.
+You can install Bioconductor packages with a specific installer script.
 ```{r installpack2,eval=FALSE}
 # get the installer package if you don't have
 install.packages("BiocManager")
 
-# install bioconductor package "rtracklayer"
+# install Bioconductor package "rtracklayer"
 BiocManager::install("rtracklayer")
 ```
 You can install packages from GitHub using the `install_github()` function from `devtools` package.
@@ -146,7 +146,7 @@ You can also update CRAN and Bioconductor packages.
 # updating CRAN packages
 update.packages()
 
-# updating bioconductor packages
+# updating Bioconductor packages
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install()
@@ -229,8 +229,8 @@ A matrix refers to a numeric array of rows and columns. You can think of it as a
 x<-c(1,2,3,4)
 y<-c(4,5,6,7)
 m1<-cbind(x,y);m1
-t(m1)                # transpose of m1
-dim(m1)              # 2 by 5 matrix
+t(m1)                # transposed of m1
+dim(m1)              # 4 by 2 matrix
 ```
 You can also directly list the elements and specify the matrix:
 ```{r matrix2}
@@ -379,7 +379,7 @@ We can modify all the plots by providing certain arguments to the plotting funct
 hist(x,main="Hello histogram!!!",col="red")
 ```
 
-Next, we will make a scatter plot. Scatter plots are one  the most common plots you will encounter in data analysis. We will sample another set of 50 values and plot those against the ones we sampled earlier. The scatter plot shows values of two variables for a set of data points. It is useful to visualize relationships between two variables. It is frequently used in connection with correlation and linear regression. There are other variants of scatter plots which show density of the points with different colors. We will show examples of those scatter plots in later chapters. The scatter plot from our sampling experiment is shown in Figure \@ref(fig:makeScatter). Notice that, in addition to `main` argument we used `xlab` and `ylab` arguments to give labels to the plot. You can customize the plots even more than this. See `?plot` and `?par` for more arguments that can help you customize the plots.
+Next, we will make a scatter plot. Scatter plots are one of the most common plots you will encounter in data analysis. We will sample another set of 50 values and plot those against the ones we sampled earlier. The scatter plot shows values of two variables for a set of data points. It is useful to visualize relationships between two variables. It is frequently used in connection with correlation and linear regression. There are other variants of scatter plots which show density of the points with different colors. We will show examples of those scatter plots in later chapters. The scatter plot from our sampling experiment is shown in Figure \@ref(fig:makeScatter). Notice that, in addition to `main` argument we used `xlab` and `ylab` arguments to give labels to the plot. You can customize the plots even more than this. See `?plot` and `?par` for more arguments that can help you customize the plots.
 
 ```{r makeScatter,out.width='50%',fig.width=5, fig.cap="Scatter plot example."}
 # randomly sample 50 points from normal distribution
@@ -595,7 +595,7 @@ The task above is a bit pointless. Normally in a loop, you would want to do some
 the data frame (by subtracting the end coordinate from the start coordinate).\index{R Programming Language!loops}
 
 
-**Note:**If you are going to run a loop that has a lot of repetitions, it is smart to try the loop with few repetitions first and check the results. This will help you make sure the code in the loop works before executing it thousands of times.
+**Note:** If you are going to run a loop that has a lot of repetitions, it is smart to try the loop with few repetitions first and check the results. This will help you make sure the code in the loop works before executing it thousands of times.
 
 ```{r forloop2}
 # this is where we will keep the lenghts
@@ -968,7 +968,7 @@ hist(x1,main="title")
 18. Do the same as above but this time with `par(mfrow=c(1,2))`. [Difficulty: **Beginner/Intermediate**] 
 
 
-19. Save your plot using the "Export" button in Rstudio. [Difficulty: **Beginner**] 
+19. Save your plot using the "Export" button in RStudio. [Difficulty: **Beginner**] 
 
 20. You can make a scatter plot showing the density
 of points rather than points themselves. If you use points it looks like this:

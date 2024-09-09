@@ -189,7 +189,7 @@ selectedGenes <- names(V[order(V, decreasing = T)][1:100])
 
 Now we can quickly produce a heatmap where samples and genes are clustered (see Figure \@ref(fig:tpmhierClust1) ).
 
-```{r tpmhierClust1, fig.cap="Clustering and visualization of the topmost variable genes as a heatmap.",out.width = "50%"}
+```{r tpmhierClust1, fig.cap="Clustering and visualization of the top most variable genes as a heatmap.",out.width = "50%"}
 library(pheatmap)
 pheatmap(tpm[selectedGenes,], scale = 'row', show_rownames = FALSE)
 ```
@@ -395,7 +395,7 @@ ggplot(data = as.data.frame(DEresults), aes(x = pvalue)) +
 ##### PCA plot
 A final diagnosis is to check the biological reproducibility of the sample replicates in a PCA plot or a heatmap. To plot the PCA results, we need to extract the normalized counts from the DESeqDataSet object. It is possible to color the points in the scatter plot by the variable of interest, which helps to see if the replicates cluster well (Figure \@ref(fig:DEpca)). 
 
-```{r DEpca, fig.cap='Principle component analysis plot based on top 500 most variable genes.'}
+```{r DEpca, fig.cap='Principal component analysis plot based on top 500 most variable genes.'}
 library(DESeq2)
 # extract normalized counts from the DESeqDataSet object
 countsNormalized <- DESeq2::counts(dds, normalized = TRUE)
@@ -488,7 +488,7 @@ kable(goResults[order(goResults$p.value),
 
 A gene set is a collection of genes with some common property. This shared property among a set of genes could be a GO term, a common biological pathway, a shared interaction partner, or any biologically relevant commonality that is meaningful in the context of the pursued experiment. Gene set enrichment analysis (GSEA) is a valuable exploratory analysis tool that can associate systematic changes to a high-level function rather than individual genes. Analysis of coordinated changes of expression levels of gene sets can provide complementary benefits on top of per-gene-based differential expression analyses. For instance, consider a gene set belonging to a biological pathway where each member of the pathway displays a slight deregulation in a disease sample compared to a normal sample. In such a case, individual genes might not be picked up by the per-gene-based differential expression analysis. Thus, the GO/Pathway enrichment on the differentially expressed list of genes would not show an enrichment of this pathway. However, the additive effect of slight changes of the genes could amount to a large effect at the level of the gene set, thus the pathway could be detected as a significant pathway that could explain the mechanistic problems in the disease sample. 
 
-We use the bioconductor package `gage` [@luo_gage:_2009] \index{R Packages!\texttt{gage}}to demonstrate how to do GSEA using normalized expression data of the samples as input. Here we are using only two gene sets: one from the top GO term discovered from the previous GO analysis, one that we compile by randomly selecting a list of genes. However, annotated gene sets can be used from databases such as MSIGDB [@subramanian_gene_2005], which compile gene sets from a variety of resources such as KEGG [@kanehisa_kegg_2016] and REACTOME [@fabregat_reactome_2018]. 
+We use the Bioconductor package `gage` [@luo_gage:_2009] \index{R Packages!\texttt{gage}}to demonstrate how to do GSEA using normalized expression data of the samples as input. Here we are using only two gene sets: one from the top GO term discovered from the previous GO analysis, one that we compile by randomly selecting a list of genes. However, annotated gene sets can be used from databases such as MSIGDB [@subramanian_gene_2005], which compile gene sets from a variety of resources such as KEGG [@kanehisa_kegg_2016] and REACTOME [@fabregat_reactome_2018]. 
 
 ```{r gsea_setup}
 
@@ -778,7 +778,7 @@ for(k in 1:4) {
 ```
 
 Based on the separation of case and control samples in the PCA plots in Figure \@ref(fig:ruvsf1), 
-we can see that the samples are better separated even at k = 2 when using `RUVs()`. Here, we re-run the `RUVs()` function using k = 2, in order to do more diagnostic plots. We try to pick a value of k that is good enough to distinguish the samples by condition of interest. While setting the value of k to higher values could improve the percentage of explained variation by the first principle component to up to 61%, we try to avoid setting the value unnecessarily high to avoid removing factors that might also correlate with important biological differences between conditions. 
+we can see that the samples are better separated even at k = 2 when using `RUVs()`. Here, we re-run the `RUVs()` function using k = 2, in order to do more diagnostic plots. We try to pick a value of k that is good enough to distinguish the samples by condition of interest. While setting the value of k to higher values could improve the percentage of explained variation by the first principal component to up to 61%, we try to avoid setting the value unnecessarily high to avoid removing factors that might also correlate with important biological differences between conditions. 
 
 ```{r ruv_s2}
  
@@ -786,7 +786,7 @@ we can see that the samples are better separated even at k = 2 when using `RUVs(
 set_s <- RUVs(set, unique(rownames(set)), k=2, differences) #
 ```
 
-Now let's do diagnostics again: compare the count matrices with or without RUVs processing, comparing RLE plots (Figure \@ref(fig:ruvsf2)) and PCA plots (Figure \@ref(fig:ruvsf3)) to see the effect of RUVg on the normalization and separation of case and control samples. 
+Now let's do diagnostics again: compare the count matrices with or without RUVs processing, comparing RLE plots (Figure \@ref(fig:ruvsf2)) and PCA plots (Figure \@ref(fig:ruvsf3)) to see the effect of RUVs on the normalization and separation of case and control samples. 
 
 ```{r ruvsf2,fig.width=8, fig.cap='RLE plots to observe the effect of RUVs.'}
 ## compare the initial and processed objects

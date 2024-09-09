@@ -56,7 +56,7 @@ There are many methods to use for supervised learning problems. However, there a
 Many of these steps are identical for different supervised learning methods. Therefore, we will use the [`caret`](http://topepo.github.io/caret/index.html) package to\index{R Packages!\texttt{caret}} perform these steps, which streamlines the steps and provides a similar interface for different supervised learning methods. There are other similar packages, such as [`mlr`](https://mlr.mlr-org.com/), \index{R Packages!\texttt{mlr}}that can provide similar functionality. For now, we will focus on classification models, which is a subset of supervised learning models. In these types of models, we try to predict a categorical response variable, such as if a patient has the disease or not, or what type of disease the patient has based on predictor variables. 
 
 ## Use case: Disease subtype from genomics data
-We will start our illustration of machine learning using a real dataset from tumor biopsies. We will use the gene expression data of glioblastoma tumor samples from The Cancer Genome Atlas\index{The Cancer Genome Atlas (TCGA)} project. We will try to predict the subtype of this disease using molecular markers. \index{CpG island}This subtype is characterized by large-scale epigenetic alterations called the "CpG island methylator phenotype" or "CIMP" [@pmid20399149]; half of the patients in our data set have this subtype and the rest do not, and we will try to predict which ones have the CIMP subtype. There two data objects we need for this exercise, one for gene expression values per tumor sample and the other one is subtype annotation per patient. In the expression data set, every row is a patient and every column is a gene expression value\index{gene expression}. There are 184 tumor samples. This data set might be a bit small for real-world applications, however it is very relevant for the genomics focus of this book and the small datasets take less time to train, which is useful for reproducibility  purposes. We will read these data sets from the **compGenomRData** package now with the `readRDS()` function.
+We will start our illustration of machine learning using a real dataset from tumor biopsies. We will use the gene expression data of glioblastoma tumor samples from The Cancer Genome Atlas\index{The Cancer Genome Atlas (TCGA)} project. We will try to predict the subtype of this disease using molecular markers. \index{CpG island}This subtype is characterized by large-scale epigenetic alterations called the "CpG island methylator phenotype" or "CIMP" [@pmid20399149]; half of the patients in our data set have this subtype and the rest do not, and we will try to predict which ones have the CIMP subtype. There are two data objects we need for this exercise, one for gene expression values per tumor sample and the other one is subtype annotation per patient. In the expression data set, every row is a patient and every column is a gene expression value\index{gene expression}. There are 184 tumor samples. This data set might be a bit small for real-world applications, however it is very relevant for the genomics focus of this book and the small datasets take less time to train, which is useful for reproducibility  purposes. We will read these data sets from the **compGenomRData** package now with the `readRDS()` function.
 ```{r,readMLdata}
 # get file paths
 fileLGGexp=system.file("extdata",
@@ -114,7 +114,7 @@ tgexp <- t(gexp)
 We can filter predictor variables which have low variation. They are not likely to have any predictive importance since there is not much variation and they will just slow our algorithms. The more variables, the slower the algorithms will be generally. The `caret::preProcess()` function can help filter the predictor variables with near zero variance. 
 ```{r nzv,eval=FALSE}
 library(caret)
-# remove near zero variation for the columns at least
+# remove near zero variation for the columns where at least
 # 85% of the values are the same
 # this function creates the filter but doesn't apply it yet
 nzv=preProcess(tgexp,method="nzv",uniqueCut = 15)
@@ -142,7 +142,7 @@ tgexp=predict(processCenter,tgexp)
 We will next filter the predictor variables that are highly correlated. You may choose not to do this as some methods can handle correlation between predictor variables.\index{collinearity} However, the fewer predictor variables we have, the faster the model fitting can be done.
 
 ```{r filterCorr}
-# create a filter for removing higly correlated variables
+# create a filter for removing highly correlated variables
 # if two variables are highly correlated only one of them
 # is removed
 corrFilt=preProcess(tgexp, method = "corr",cutoff = 0.9)
@@ -192,7 +192,7 @@ tgexp=merge(patient,tgexp,by="row.names")
 rownames(tgexp)=tgexp[,1]
 tgexp=tgexp[,-1]
 ```
-Now that the response variable or the class label is merged with our dataset, we can split it into test and training sets with the `caret::createPartition()` function. 
+Now that the response variable or the class label is merged with our dataset, we can split it into test and training sets with the `caret::createDataPartition()` function. 
 ```{r datapart}
 
 set.seed(3031) # set the random number seed for reproducibility 
@@ -200,7 +200,7 @@ set.seed(3031) # set the random number seed for reproducibility
 # get indices for 70% of the data set
 intrain <- createDataPartition(y = tgexp[,1], p= 0.7)[[1]]
 
-# seperate test and training sets
+# separate test and training sets
 training <- tgexp[intrain,]
 testing <- tgexp[-intrain,]
 
@@ -294,7 +294,7 @@ Test set accuracy is not as good as the training accuracy, which is usually the 
 
 
 ### Receiver Operating Characteristic (ROC) curves
-One important and popular metric when evaluating performance is looking at receiver operating characteristic (ROC) curves.\index{receiver operating characteristic (ROC) curve} The ROC curve is created by evaluating the class probabilities for the model across a continuum of thresholds. Typically, in the case of two-class classification, the methods return a probability for one of the classes. If that probability is higher than $0.5$, you call the label, for example, class A. If less than $0.5$, we call the label class B. However, we can move that threshold and change what we call class A or B. For each candidate threshold, the resulting sensitivity and 1-specificity are plotted against each other. The best possible prediction would result in a point in the upper left corner, representing 100% sensitivity (no false negatives) and 100% specificity (no false positives). For the best model, the curve will be almost like a square. Since this is important information, area under the curve (AUC) is \index{area under the curve (AUC)}calculated. This is a quantity between 0 and 1, and the closer to 1, the better the performance of your classifier in terms of sensitivity and specificity. For an uninformative classification model, AUC will be $0.5$. Although, ROC curves are initially designed for two-class problems, later extensions made it possible to use ROC curves for multi-class problems.
+One important and popular metric when evaluating performance is looking at receiver operating characteristic (ROC) curves.\index{receiver operating characteristic (ROC) curve} The ROC curve is created by evaluating the class probabilities for the model across a continuum of thresholds. Typically, in the case of two-class classification, the methods return a probability for one of the classes. If that probability is higher than $0.5$, you call the label, for example, class A. If less than $0.5$, we call the label class B. However, we can move that threshold and change what we call class A or B. For each candidate threshold, the resulting sensitivity and 1-specificity are plotted against each other. The best possible prediction would result in a point in the upper left corner, representing 100% sensitivity (no false negatives) and 100% specificity (no false positives). For the best model, the curve will be almost like a square. Since this is important information, the area under the curve (AUC) is \index{area under the curve (AUC)}calculated. This is a quantity between 0 and 1, and the closer to 1, the better the performance of your classifier in terms of sensitivity and specificity. For an uninformative classification model, AUC will be $0.5$. Although ROC curves are initially designed for two-class problems, later extensions made it possible to use ROC curves for multi-class problems.
 
 ROC curves can also be used to determine alternate cutoffs for class probabilities for two-class problems. However, this will always result in a trade-off between sensitivity and specificity. Sometimes it might be desirable to limit the number of false positives because making such mistakes would be too costly for the individual cases. For example, if predicted with a certain disease, you might be recommended to have surgery. However, if your classifier has a relatively high false positive rate, low specificity, you might have surgery for no reason. Typically, you want your classification model to have high specificity and sensitivity, which may not always be possible in the real world. You might have to choose what is more important for a specific problem and try to increase that.
 
@@ -496,7 +496,7 @@ Although the variable drop-out strategy will still be slow if you have a lot of 
 A common hurdle in many applications of machine learning on genomic data is the large class imbalance. The imbalance refers to relative difference in the sizes of the groups being classified. For example, if we had class imbalance in our example data set we could have much more CIMP samples in the training than noCIMP samples, or the other way around. Another example with severe class imbalance would be enhancer prediction [@enhancerImbalance]. Depending on which training data set you use, you can have a couple of hundred to thousands of positive examples for enhancer locations in the human genome. In either case, the negative set, "not enhancer", will overwhelm the training, because the human genome is 3 billion base-pairs long and most of that does not overlap with an enhancer annotation. In whatever strategy you pick to build a negative set, it will contain many more data points than the positive set. As we have mentioned in the model performance section above, if we have a severe imbalance in the class sizes, the training algorithm may get better accuracy just by calling everything one class. This will be evident in specificity and sensitivity metrics, and the related balanced accuracy metric. Below, we will discuss a couple of techniques that might help when the training set has class imbalance. 
 
 ### Sampling for class balance
-If we think class imbalance is a problem based on looking at the relative sizes of the classes and relevant accuracy metrics of a model, there are a couple of things that might help. First, we can try sampling or "stratified" sampling when we are constructing our training set. This simply means that before training we can we build the classification model with samples of the data so we have the same size classes. This could be down-sampling the classes with too many data points. For this purpose, you can simply use the `sample()` or `caret::downSample()` function and create your training set prior to modeling. In addition, the minority class could be up-sampled for the missing number of data points using sampling with replacement similar to bootstrap sampling with the `caret::upSample()` function. There are more advanced up-sampling methods such as the synthetic up-sampling method SMOTE [@smote]. In this method, each data point from the minority class is up-sampled synthetically by adding variability to the predictor variable vector from one of the k-nearest neighbors of the data point. Specifically, one neighbor is randomly chosen and the difference between predictor variables of the neighbor and the original data point is added to the original predictor variables after multiplying the difference values with a random number between $0$ and $1$. This creates synthetic data points that are similar to original data points but not identical. This method and other similar methods of synthetic sampling are available at [`smotefamily`](https://cran.r-project.org/web/packages/smotefamily/index.html) package \index{R Packages!\texttt{smotefamily}} in CRAN.
+If we think class imbalance is a problem based on looking at the relative sizes of the classes and relevant accuracy metrics of a model, there are a couple of things that might help. First, we can try sampling or "stratified" sampling when we are constructing our training set. This simply means that before training we can build the classification model with samples of the data so we have the same size classes. This could be down-sampling the classes with too many data points. For this purpose, you can simply use the `sample()` or `caret::downSample()` function and create your training set prior to modeling. In addition, the minority class could be up-sampled for the missing number of data points using sampling with replacement similar to bootstrap sampling with the `caret::upSample()` function. There are more advanced up-sampling methods such as the synthetic up-sampling method SMOTE [@smote]. In this method, each data point from the minority class is up-sampled synthetically by adding variability to the predictor variable vector from one of the k-nearest neighbors of the data point. Specifically, one neighbor is randomly chosen and the difference between predictor variables of the neighbor and the original data point is added to the original predictor variables after multiplying the difference values with a random number between $0$ and $1$. This creates synthetic data points that are similar to original data points but not identical. This method and other similar methods of synthetic sampling are available at [`smotefamily`](https://cran.r-project.org/web/packages/smotefamily/index.html) package \index{R Packages!\texttt{smotefamily}} in CRAN.
 
 In addition to the strategies above, some methods can do sampling during training to cope with the effects of class imbalance. For example, random forests has a sampling step during training, and this step can be altered to do stratified sampling. We will be introducing random forests later in the chapter. 
 
@@ -711,7 +711,7 @@ trctrl <- trainControl(method = "cv",number=10)
 enetFit <- train(subtype~., data = training, 
                  method = "glmnet",
                  trControl=trctrl,
-                 # alpha and lambda paramters to try
+                 # alpha and lambda parameters to try
                  tuneGrid = data.frame(alpha=0.5,
                                        lambda=seq(0.1,0.7,0.05)))
 
@@ -845,7 +845,7 @@ In a practical sense, the number of nodes in the hidden layer (size) and some re
 
 We will train a simple neural network on our cancer data set. In this simple example, the network architecture is somewhat fixed. We can only the choose number of nodes (denoted by "size") in the hidden layer and a regularization parameter (denoted by "decay"). Increasing the number of nodes in the hidden layer or in other implementations increasing the number of the hidden layers, will help model non-linear relationships but can overfit. One way to combat that is to limit the number of nodes in the hidden layer; another way is to regularize the weights. The decay parameter does just that, it penalizes the loss function by $decay(weigths^2)$. In the example below, we try 1 or 2 nodes in the hidden layer in the interest of simplicity and run-time. In addition, we set `decay=0`, which will correspond to not doing any regularization. 
 ```{r, nnet, eval=FALSE}
-#svm code here
+#nnet code here
 library(nnet)
 set.seed(17)
 
@@ -942,7 +942,7 @@ set.seed(18)
 
 par(mfrow=c(1,2))
 
-# we are not going to do any cross-validatin
+# we are not going to do any cross-validation
 # and rely on OOB error
 trctrl <- trainControl(method = "none")
 

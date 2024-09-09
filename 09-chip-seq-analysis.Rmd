@@ -167,7 +167,7 @@ signal profile [@bonhoure_2014].
 
 The choice of normalization method depends on the type of analysis [@angelini_2015];
 if we want to quantitatively compare the abundance of different histone marks in 
-different cell types, we will need the different normalization procedure than if
+different cell types, we will need a different normalization procedure than if
 we want to compare TF binding in the same setting.
 
 
@@ -413,7 +413,7 @@ biological replicates; biological replicates should show greater similarity
 than ChIP of different proteins. The second function is to see whether our experiments conform to known prior knowledge. For example, we would expect to see greater similarity between proteins
 which belong to the same protein complex.
 
-To quantify the ChIP signal we will firstly construct 1-kilobase-wide tilling
+To quantify the ChIP signal we will firstly construct 1-kilobase-wide tiling
 windows over the genome, and subsequently count the number of reads
 in each window, for each experiment. We will then normalize the counts, to
 account for a different total number of reads in each experiment, and finally 
@@ -457,20 +457,20 @@ seqlengths = with(hg_chrs, setNames(size, chrom))
 
 Then we construct the windows.
 
-```{r sample-clustering.tilling_window}
+```{r sample-clustering.tiling_window}
 # load the genomic ranges package
 library(GenomicRanges)
 
 # tileGenome function returns a list of GRanges of a given width, 
 # spanning the whole chromosome
-tilling_window = tileGenome(seqlengths, tilewidth=1000)
+tiling_window = tileGenome(seqlengths, tilewidth=1000)
 
 # unlist converts the list to one GRanges object
-tilling_window = unlist(tilling_window)
+tiling_window = unlist(tiling_window)
 ```
 
-```{r sample-clustering.show_tilling_window, include=TRUE, echo=FALSE, eval=TRUE}
-tilling_window
+```{r sample-clustering.show_tiling_window, include=TRUE, echo=FALSE, eval=TRUE}
+tiling_window
 ```
 
 We will use the `summarizeOverlaps()` function from the `GenomicAlignments` package
@@ -492,7 +492,7 @@ bam_files = list.files(
 )
 
 # use summarizeOverlaps to count the reads
-so = summarizeOverlaps(tilling_window, bam_files)
+so = summarizeOverlaps(tiling_window, bam_files)
 
 # extract the counts from the SummarizedExperiment
 counts = assays(so)[[1]]
@@ -503,7 +503,7 @@ Different ChIP experiments were sequenced to different depths; each experiment
 contains a different number of reads. To remove the effect of the experimental
 depth on the quantification, the samples need to be normalized.
 The standard normalization procedure, for ChIP data, is to divide the 
-counts in each tilling window by the total number of sequenced reads, and
+counts in each tiling window by the total number of sequenced reads, and
 multiply it by a constant factor (to avoid extremely small numbers).
 This normalization procedure is called the **cpm**\index{cpm} - counts per million.
 
@@ -724,7 +724,7 @@ export.bw(cov, 'output_file')
 
 #### Vizualization of track data using Gviz
 
-We can create genome browserlike visualizations using the `Gviz` package, 
+We can create genome browser-like visualizations using the `Gviz` package, 
 which was introduced in Chapter \@ref(genomicIntervals).
 The `Gviz` is a tool which enables exhaustive customized visualization of 
 genomics experiments. The basic usage principle is to define tracks, where each track can represent
@@ -906,7 +906,7 @@ different sequence composition is to look at whether regions with
 differing GC composition were equally enriched in all experiments.
 
 We will do the following: Firstly we will calculate the GC content of each
-of the tilling windows, and then we will compare the GC content with the corresponding
+of the tiling windows, and then we will compare the GC content with the corresponding
 cpm\index{cpm} (count per million reads) value, for each tile.
 
 
@@ -922,7 +922,7 @@ seqlengths     = with(hg_chrs, setNames(size, chrom))
 # tileGenome produces a list per chromosome
 # unlist combines the elemenents of the list 
 # into one GRanges object
-tilling_window = unlist(tileGenome(
+tiling_window = unlist(tileGenome(
     seqlengths = seqlengths, 
     tilewidth  = 1000
 ))
@@ -932,7 +932,7 @@ We will extract the sequence information from the `BSgenome.Hsapiens.UCSC.hg38`
 package. `BSgenome` are generic Bioconductor containers for genomic sequences.
 Sequences are extracted from the `BSgenome` container using the `getSeq()` function.
 The `getSeq()` function takes as input the genome object, and the ranges with the 
-regions of interest; in our case, the tilling windows.
+regions of interest; in our case, the tiling windows.
 The function returns a `DNAString` object.
 
 
@@ -941,7 +941,7 @@ The function returns a `DNAString` object.
 library(BSgenome.Hsapiens.UCSC.hg38)
 
 # extracts the sequence from the human genome
-seq = getSeq(BSgenome.Hsapiens.UCSC.hg38, tilling_window)
+seq = getSeq(BSgenome.Hsapiens.UCSC.hg38, tiling_window)
 ```
 
 
@@ -949,8 +949,8 @@ To calculate the GC content, we will use the `oligonucleotideFrequency()` functi
 `DNAString` object. By setting the width parameter to 2 we will 
 calculate the **dinucleotide** frequency. 
 Each row in the resulting table will contain the number of all possible 
-dinucleotides observed in each tilling window.
-Because we have tilling windows of the same length, we do not 
+dinucleotides observed in each tiling window.
+Because we have tiling windows of the same length, we do not 
 necessarily need to normalize the counts by the window length.
 If all of the windows have different lengths (i.e. when at the ChIP-seq peaks), then normalization is a prerequisite.
 
@@ -972,9 +972,9 @@ We will convert the cpm values to the log10 scale. To avoid
 taking the $log(0)$, we add a pseudo count of 1 to cpm.
 
 ```{r gc.cpm, cache=TRUE, warning=FALSE}
-# counts the number of reads per tilling window 
+# counts the number of reads per tiling window 
 # for each experiment
-so = summarizeOverlaps(tilling_window, bam_files)
+so = summarizeOverlaps(tiling_window, bam_files)
 
 # converts the raw counts to cpm values
 counts  = assays(so)[[1]]
@@ -1550,11 +1550,11 @@ hg_chrs = subset(hg_chrs, grepl('chr21$',chrom))
 seqlengths = with(hg_chrs, setNames(size, chrom))
 
 # define the windows
-tilling_window = unlist(tileGenome(seqlengths, tilewidth=1000))
+tiling_window = unlist(tileGenome(seqlengths, tilewidth=1000))
 
 # count the reads
 counts         = summarizeOverlaps(
-    features = tilling_window, 
+    features = tiling_window, 
     reads    = c(chip_file, control_file)
 )
 
@@ -1595,7 +1595,7 @@ higher enrichment in the ChIP samples, while the regions below the diagonal
 show higher enrichment in the Input samples.
 
 
-Let us now perform for peak calling. `normR` usage is deceivingly simple; we need to provide the location ChIP and Control read files, and the genome version to the `enrichR()` function. The function will automatically create tilling windows (250bp by default), count the number of reads in each window, and fit a mixture of binomial distributions.
+Let us now perform for peak calling. `normR` usage is deceivingly simple; we need to provide the location ChIP and Control read files, and the genome version to the `enrichR()` function. The function will automatically create tiling windows (250bp by default), count the number of reads in each window, and fit a mixture of binomial distributions.
 
 ```{r, peak-calling.sharp.peak-calling, message=FALSE, warning=FALSE}
 library(normr)
@@ -1673,8 +1673,8 @@ write.table(ctcf_peaks, file.path(data_path, 'CTCF_peaks.txt'),
 We can now repeat the CTCF versus Input plot, and label significantly marked peaks. Using the count overlaps we mark which of our 1-kb regions contained significant peaks.
 
 ```{r peak-calling.sharp.peak-calling.countOvlaps}
-# find enriched tilling windows
-enriched_regions = countOverlaps(tilling_window, ctcf_peaks) > 0
+# find enriched tiling windows
+enriched_regions = countOverlaps(tiling_window, ctcf_peaks) > 0
 ```
 
 
@@ -1830,8 +1830,8 @@ control_file = file.path(data_path, 'GM12878_hg38_Input_r5.chr21.bam')
 ```
 
 Because H3K36 regions span broad domains, it is necessary to increase the 
-tilling window size which will be used for counting.
-Using the `countConfiguration()` function, we will set the tilling window size
+tiling window size which will be used for counting.
+Using the `countConfiguration()` function, we will set the tiling window size
 to 5000 base pairs.
 
 ```{r peak-calling.broad.config}
@@ -1962,14 +1962,14 @@ to our peak regions.
 #### Percentage of reads in peaks
 
 To calculate the reads in peaks, we will firstly extract the number of reads
-in each tilling window from the `normR` produced fit object.
+in each tiling window from the `normR` produced fit object.
 This is done using the `getCounts()` function.
-We will then use the q-value to define which tilling windows correspond
+We will then use the q-value to define which tiling windows correspond
 to peaks, and count the number of reads within and outside peaks.
 
 
 ```{r peak-quality.counts}
-# extract, per tilling window, counts from the fit object
+# extract, per tiling window, counts from the fit object
 h3k36_counts = data.frame(getCounts(h3k36_fit))
     
 # change the column names of the data.frame
@@ -2026,7 +2026,7 @@ ggplot(
         axis.title = element_text(size=12,face="bold"),
         plot.title = element_text(hjust = 0.5)) +
     xlab('Experiment') +
-    ylab('Percetage of reads in region') +
+    ylab('Percentage of reads in region') +
     ggtitle('Percentage of reads in peaks for H3K36me3') +
     scale_fill_manual(values=c('gray','red'))
 ```
@@ -2249,7 +2249,7 @@ ggplot(
     axis.title = element_text(size=14,face="bold"),
     plot.title = element_text(hjust = 0.5)) +
   xlab('Peak rank') +
-  ylab('Percetage of peaks with motif') +
+  ylab('Percentage of peaks with motif') +
   ggtitle('Percentage of CTCF peaks with the CTCF motif')
 ```
 
@@ -2496,7 +2496,7 @@ ctcf_peaks = head(ctcf_peaks, n = 500)
 ctcf_peaks = reduce(ctcf_peaks)
 ```
 
-Create a region of $+/-$ 50 bp around the center of the peaks, 
+Create a region of $+/-$ 25 bp around the center of the peaks, 
 
 ```{r motif-discovery.resize}
 # expand the CTCF peaks
