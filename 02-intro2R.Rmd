@@ -252,11 +252,10 @@ chr <- c("chr1", "chr1", "chr2", "chr2")
 strand <- c("-","-","+","+")
 start<- c(200,4000,100,400)
 end<-c(250,410,200,450)
-mydata <- data.frame(chr,start,end,strand)
-#change column names
-names(mydata) <- c("chr","start","end","strand")
-mydata # OR this will work too
-mydata <- data.frame(chr=chr,start=start,end=end,strand=strand)
+mydata <- data.frame(chr,start,end,strand) # create data frame
+names(mydata) <- c("chr","start","end","strand") # change column names
+mydata 
+mydata <- data.frame(chr=chr,start=start,end=end,strand=strand) # OR this will work too
 mydata
 ```
 There are a variety of ways to extract the elements of a data frame. You can extract certain columns using column numbers or names, or you can extract certain rows by using row numbers. You can also extract data using logical arguments, such as extracting all rows that have a value in a column larger than your threshold.
