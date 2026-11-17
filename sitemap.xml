@@ -2,58 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://compgenomr.github.io/book/index.html</loc>
-    <lastmod>2026-11-17T14:49:33.180Z</lastmod>
+    <lastmod>2026-11-17T20:49:39.278Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/00-author.html</loc>
-    <lastmod>2026-11-17T12:02:41.377Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.722Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/01-intro2Genomics.html</loc>
-    <lastmod>2026-11-17T12:02:41.392Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.724Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/02-intro2R.html</loc>
-    <lastmod>2026-11-17T12:02:41.413Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.726Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/03-statsForGenomics.html</loc>
-    <lastmod>2026-11-17T12:02:41.493Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.740Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/04-unsupervisedLearning.html</loc>
-    <lastmod>2026-11-17T12:02:41.510Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.765Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/05-supervisedLearning.html</loc>
-    <lastmod>2026-11-17T12:02:41.538Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.783Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/06-genomicIntervals.html</loc>
-    <lastmod>2026-11-17T12:02:41.555Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.806Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/07-Read_Processing.html</loc>
-    <lastmod>2026-11-17T12:02:41.560Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.822Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/08-rna-seq-analysis.html</loc>
-    <lastmod>2026-11-17T12:02:41.574Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.827Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/09-chip-seq-analysis.html</loc>
-    <lastmod>2026-11-17T12:02:41.605Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.868Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/10-bs-seq-analysis.html</loc>
-    <lastmod>2026-11-17T12:02:41.623Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.904Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/11-multiomics-analysis.html</loc>
-    <lastmod>2026-11-17T13:55:19.032Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.912Z</lastmod>
   </url>
   <url>
     <loc>https://compgenomr.github.io/book/12-references.html</loc>
-    <lastmod>2026-11-17T12:02:41.643Z</lastmod>
+    <lastmod>2026-11-17T20:49:38.929Z</lastmod>
   </url>
 </urlset>
