@@ -47,6 +47,7 @@ format:
     toc-depth: 3
     number-sections: true
     code-copy: true
+    lightbox: true
     include-in-header: addons/analytics.html
     include-before-body: addons/header-banner.html
     include-after-body: addons/footer-banner.html
