@@ -1,0 +1,95 @@
+<style>
+/* Base container: exactly one banner element on every page */
+#cgr-top-banner {
+  margin: 10px 0 20px 0;
+  line-height: 1.5;
+}
+
+/* Landing page (Preface): prominent colored card banner */
+#cgr-top-banner.banner-landing {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border: 1px solid #c7d2fe;
+  border-left: 5px solid #4f46e5;
+  border-radius: 8px;
+  padding: 12px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #1e1b4b;
+}
+
+#cgr-top-banner.banner-landing .banner-badge {
+  display: inline-block;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+#cgr-top-banner.banner-landing a {
+  color: #4338ca;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-landing a:hover {
+  color: #312e81;
+}
+
+/* Chapters & Subpages: subtle, non-distracting 1-line announcement */
+#cgr-top-banner.banner-subtle {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0;
+  padding: 0 0 8px 0;
+  margin: 4px 0 18px 0;
+  font-size: 0.84rem;
+  color: #64748b;
+  box-shadow: none;
+}
+
+#cgr-top-banner.banner-subtle a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-subtle a:hover {
+  color: #1d4ed8;
+}
+</style>
+
+<div id="cgr-top-banner" class="banner-subtle" role="region" aria-label="Announcements">
+  Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!
+</div>
+
+<script>
+(function() {
+  try {
+    var p = window.location.pathname;
+    var isLanding = (
+      p.endsWith("/index.html") ||
+      p.endsWith("/") ||
+      p === "" ||
+      (document.getElementById("preface") !== null && p.indexOf(".html") === -1)
+    );
+    if (p.indexOf(".html") !== -1 && !p.endsWith("index.html")) {
+      isLanding = false;
+    }
+    if (isLanding) {
+      var b = document.getElementById("cgr-top-banner");
+      if (b) {
+        b.className = "banner-landing";
+        b.innerHTML = '<span class="banner-badge">🚀 New</span> Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!';
+      }
+    }
+  } catch(e) {}
+})();
+</script>
