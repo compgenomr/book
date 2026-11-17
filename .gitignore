@@ -14,3 +14,7 @@ compgenomrReloaded.log
 compgenomrReloaded.rds
 compgenomrReloaded_cache/
 .DS_Store
+/.quarto/
+**/*.quarto_ipynb
+_gh_pages/
+source_md_backup/

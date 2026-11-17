@@ -1,0 +1,56 @@
+project:
+  type: book
+  output-dir: _gh_pages
+
+book:
+  title: "Computational Genomics with R"
+  author: "Altuna Akalin"
+  date: "2020-09-30"
+  description: "A guide to computational genomics using R. The book covers fundamental topics with practical examples for an interdisciplinary audience."
+  cover-image: images/cover.png
+  favicon: images/favicon.png
+  site-url: "https://compgenomr.github.io/book/"
+  repo-url: "https://github.com/compgenomr/book"
+  repo-actions: [edit, issue]
+  sidebar:
+    style: "floating"
+    search: true
+    collapse-level: 1
+  page-footer:
+    left: "Computational Genomics with R — Altuna Akalin"
+    right: "[CC BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/)"
+  chapters:
+    - index.qmd
+    - 00-author.qmd
+    - 01-intro2Genomics.qmd
+    - 02-intro2R.qmd
+    - 03-statsForGenomics.qmd
+    - 04-unsupervisedLearning.qmd
+    - 05-supervisedLearning.qmd
+    - 06-genomicIntervals.qmd
+    - 07-Read_Processing.qmd
+    - 08-rna-seq-analysis.qmd
+    - 09-chip-seq-analysis.qmd
+    - 10-bs-seq-analysis.qmd
+    - 11-multiomics-analysis.qmd
+    - 12-references.qmd
+
+bibliography:
+  - book.bib
+  - packages.bib
+
+format:
+  html:
+    theme: flatly
+    css: css/style.css
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-copy: true
+    include-in-header: addons/analytics.html
+    include-before-body: addons/header-banner.html
+    include-after-body: addons/footer-banner.html
+    margin-header: addons/margin-header.html
+
+execute:
+  enabled: false
