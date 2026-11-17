@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A guide to computational genomics using R. The book covers fundamental topics with practical examples for an interdisciplinary audience.">
+
+<title>4&nbsp; Exploratory Data Analysis with Unsupervised Machine Learning – Computational Genomics with R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./05-supervisedLearning.html" rel="next">
+<link href="./03-statsForGenomics.html" rel="prev">
+<link href="./images/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3386ba8bb730b0c8829dca417ec99718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Umami Analytics (Privacy-friendly, cookie-free, GDPR-compliant) -->
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="9ee01346-97c1-4be2-bfa8-4b70be9e59f4"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04-unsupervisedLearning.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis with Unsupervised Machine Learning</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computational Genomics with R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/compgenomr/book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Authors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro2Genomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R for Genomic Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-statsForGenomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistics for Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-unsupervisedLearning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis with Unsupervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-supervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Predictive Modeling with Supervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-genomicIntervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Operations on Genomic Intervals and Genome Arithmetic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-Read_Processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quality Check, Processing and Alignment of High-throughput Sequencing Reads</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-rna-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">RNA-seq Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-chip-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ChIP-seq analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bs-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DNA methylation analysis using bisulfite sequencing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-multiomics-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multi-omics Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<style>
+/* Right margin cover thumbnail styling */
+.cgr-margin-cover {
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.cgr-margin-cover img {
+  max-width: 175px;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cgr-margin-cover img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+/* Suppress large cover image in landing page body */
+.quarto-cover-image {
+  display: none !important;
+}
+</style>
+<div class="cgr-margin-cover text-center">
+  <a href="./index.html" title="Computational Genomics with R">
+    <img src="./images/cover.png" alt="Computational Genomics with R cover" class="img-fluid">
+  </a>
+</div>
+
+</div></div>
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#clustering-grouping-samples-based-on-their-similarity" id="toc-clustering-grouping-samples-based-on-their-similarity" class="nav-link active" data-scroll-target="#clustering-grouping-samples-based-on-their-similarity"><span class="header-section-number">4.1</span> Clustering: Grouping samples based on their similarity</a>
+  <ul class="collapse">
+  <li><a href="#distance-metrics" id="toc-distance-metrics" class="nav-link" data-scroll-target="#distance-metrics"><span class="header-section-number">4.1.1</span> Distance metrics</a></li>
+  <li><a href="#hiearchical-clustering" id="toc-hiearchical-clustering" class="nav-link" data-scroll-target="#hiearchical-clustering"><span class="header-section-number">4.1.2</span> Hiearchical clustering</a></li>
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">4.1.3</span> K-means clustering</a></li>
+  <li><a href="#how-to-choose-k-the-number-of-clusters" id="toc-how-to-choose-k-the-number-of-clusters" class="nav-link" data-scroll-target="#how-to-choose-k-the-number-of-clusters"><span class="header-section-number">4.1.4</span> How to choose “k”, the number of clusters</a></li>
+  </ul></li>
+  <li><a href="#dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d" id="toc-dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d" class="nav-link" data-scroll-target="#dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d"><span class="header-section-number">4.2</span> Dimensionality reduction techniques: Visualizing complex data sets in 2D</a>
+  <ul class="collapse">
+  <li><a href="#principal-component-analysis" id="toc-principal-component-analysis" class="nav-link" data-scroll-target="#principal-component-analysis"><span class="header-section-number">4.2.1</span> Principal component analysis</a></li>
+  <li><a href="#other-matrix-factorization-methods-for-dimensionality-reduction" id="toc-other-matrix-factorization-methods-for-dimensionality-reduction" class="nav-link" data-scroll-target="#other-matrix-factorization-methods-for-dimensionality-reduction"><span class="header-section-number">4.2.2</span> Other matrix factorization methods for dimensionality reduction</a></li>
+  <li><a href="#multi-dimensional-scaling" id="toc-multi-dimensional-scaling" class="nav-link" data-scroll-target="#multi-dimensional-scaling"><span class="header-section-number">4.2.3</span> Multi-dimensional scaling</a></li>
+  <li><a href="#t-distributed-stochastic-neighbor-embedding-t-sne" id="toc-t-distributed-stochastic-neighbor-embedding-t-sne" class="nav-link" data-scroll-target="#t-distributed-stochastic-neighbor-embedding-t-sne"><span class="header-section-number">4.2.4</span> t-Distributed Stochastic Neighbor Embedding (t-SNE)</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.3</span> Exercises</a>
+  <ul class="collapse">
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering"><span class="header-section-number">4.3.1</span> Clustering</a></li>
+  <li><a href="#dimension-reduction" id="toc-dimension-reduction" class="nav-link" data-scroll-target="#dimension-reduction"><span class="header-section-number">4.3.2</span> Dimension reduction</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/compgenomr/book/edit/main/04-unsupervisedLearning.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+<style>
+/* Base container: exactly one banner element on every page */
+#cgr-top-banner {
+  margin: 10px 0 20px 0;
+  line-height: 1.5;
+}
+
+/* Landing page (Preface): prominent colored card banner */
+#cgr-top-banner.banner-landing {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border: 1px solid #c7d2fe;
+  border-left: 5px solid #4f46e5;
+  border-radius: 8px;
+  padding: 12px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #1e1b4b;
+}
+
+#cgr-top-banner.banner-landing .banner-badge {
+  display: inline-block;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+#cgr-top-banner.banner-landing a {
+  color: #4338ca;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-landing a:hover {
+  color: #312e81;
+}
+
+/* Chapters & Subpages: subtle, non-distracting 1-line announcement */
+#cgr-top-banner.banner-subtle {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0;
+  padding: 0 0 8px 0;
+  margin: 4px 0 18px 0;
+  font-size: 0.84rem;
+  color: #64748b;
+  box-shadow: none;
+}
+
+#cgr-top-banner.banner-subtle a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-subtle a:hover {
+  color: #1d4ed8;
+}
+</style>
+
+<div id="cgr-top-banner" class="banner-subtle" role="region" aria-label="Announcements">
+  Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!
+</div>
+
+<script>
+(function() {
+  try {
+    var p = window.location.pathname;
+    var isLanding = (
+      p.endsWith("/index.html") ||
+      p.endsWith("/") ||
+      p === "" ||
+      (document.getElementById("preface") !== null && p.indexOf(".html") === -1)
+    );
+    if (p.indexOf(".html") !== -1 && !p.endsWith("index.html")) {
+      isLanding = false;
+    }
+    if (isLanding) {
+      var b = document.getElementById("cgr-top-banner");
+      if (b) {
+        b.className = "banner-landing";
+        b.innerHTML = '<span class="banner-badge">🚀 New</span> Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!';
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-unsupervisedLearning" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis with Unsupervised Machine Learning</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this chapter, we will focus on using some of the machine learning techniques to explore genomics data. The goals of data exploration are usually many. Generally, we want to understand how the variables in our data set relate to each other and how the samples defined by those variables relate to each other. These points of information can be used to generate a hypothesis, find outliers in the samples or identify sample groups that need more data points. In this chapter, we will focus on two main classes of techniques: “clustering” and “dimension reduction”. We will show how to use these techniques and how to visualize them using R. As these techniques are fundamental for data analysis, we will see more of their use cases in <a href="08-rna-seq-analysis.html" class="quarto-xref"><span>Chapter 8</span></a>, <a href="09-chip-seq-analysis.html" class="quarto-xref"><span>Chapter 9</span></a>, <a href="10-bs-seq-analysis.html" class="quarto-xref"><span>Chapter 10</span></a> and <a href="11-multiomics-analysis.html" class="quarto-xref"><span>Chapter 11</span></a>.</p>
+<section id="clustering-grouping-samples-based-on-their-similarity" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="clustering-grouping-samples-based-on-their-similarity"><span class="header-section-number">4.1</span> Clustering: Grouping samples based on their similarity</h2>
+<p>In genomics, we would very frequently want to assess how our samples relate to each other. Are our replicates similar to each other? Do the samples from the same treatment group have similar genome-wide signals? Do the patients with similar diseases have similar gene expression profiles? Take the last question for example. We need to define a distance or similarity metric between patients’ expression profiles and use that metric to find groups of patients that are more similar to each other than the rest of the patients. This, in essence, is the general idea behind clustering. We need a distance metric and a method to utilize that distance metric to find self-similar groups. Clustering is a ubiquitous procedure in bioinformatics as well as any field that deals with high-dimensional data. It is very likely that every genomics paper containing multiple samples has some sort of clustering. Due to this ubiquity and general usefulness, it is an essential technique to learn.</p>
+<section id="distance-metrics" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="distance-metrics"><span class="header-section-number">4.1.1</span> Distance metrics</h3>
+<p>The first required step for clustering is the distance metric. This is simply a measurement of how similar gene expressions are to each other. There are many options for distance metrics and the choice of the metric is quite important for clustering. Consider a simple example where we have four patients and expression of three genes measured in <a href="#tbl-exptable" class="quarto-xref">Table&nbsp;<span>4.1</span></a>. Which patients look similar to each other based on their gene expression profiles ?</p>
+<div id="tbl-exptable" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-exptable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.1: Gene expressions from patients
+</figcaption>
+<div aria-describedby="tbl-exptable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">IRX4</th>
+<th style="text-align: right;">OCT4</th>
+<th style="text-align: right;">PAX6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">patient1</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">patient2</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">patient3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">patient4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">9</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>It may not be obvious from the table at first sight, but if we plot the gene expression profile for each patient (shown in <a href="#fig-expPlot" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>), we will see that expression profiles of patient 1 and patient 2 are more similar to each other than patient 3 or patient 4.</p>
+<div id="fig-expPlot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-expPlot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/expPlot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-expPlot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: Gene expression values for different patients. Certain patients have gene expression values that are similar to each other.
+</figcaption>
+</figure>
+</div>
+<p>But how can we quantify what we see? A simple metric for distance between gene expression vectors between a given patient pair is the sum of the absolute difference between gene expression values. This can be formulated as follows: <span class="math inline">\(d_{AB}={\sum _{i=1}^{n}|e_{Ai}-e_{Bi}|}\)</span>, where <span class="math inline">\(d_{AB}\)</span> is the distance between patients A and B, and the <span class="math inline">\(e_{Ai}\)</span> and <span class="math inline">\(e_{Bi}\)</span> are expression values of the <span class="math inline">\(i\)</span>th gene for patients A and B. This distance metric is called the <strong>“Manhattan distance”</strong> or <strong>“L1 norm”</strong>.</p>
+<p>Another distance metric uses the sum of squared distances and takes the square root of resulting value; this metric can be formulated as: <span class="math inline">\(d_{AB}={{\sqrt {\sum _{i=1}^{n}(e_{Ai}-e_{Bi})^{2}}}}\)</span>. This distance is called <strong>“Euclidean Distance”</strong> or <strong>“L2 norm”</strong>. This is usually the default distance metric for many clustering algorithms. Due to the squaring operation, values that are very different get higher contribution to the distance. Due to this, compared to the Manhattan distance, it can be affected more by outliers. But, generally if the outliers are rare, this distance metric works well.</p>
+<p>The last metric we will introduce is the <strong>“correlation distance”</strong>. This is simply <span class="math inline">\(d_{AB}=1-\rho\)</span>, where <span class="math inline">\(\rho\)</span> is the Pearson correlation coefficient between two vectors; in our case those vectors are gene expression profiles of patients. Using this distance the gene expression vectors that have a similar pattern will have a small distance, whereas when the vectors have different patterns they will have a large distance. In this case, the linear correlation between vectors matters, although the scale of the vectors might be different.</p>
+<p>Now let’s see how we can calculate these distances in R. First, we have our gene expression per patient table.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##          IRX4 OCT4 PAX6
+## patient1   11   10    1
+## patient2   13   13    3
+## patient3    2    4   10
+## patient4    1    3    9</code></pre>
+<p>Next, we calculate the distance metrics using the <code>dist()</code> function and <code>1-cor()</code> expression.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dist</span>(df,<span class="at">method=</span><span class="st">"manhattan"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##          patient1 patient2 patient3
+## patient2        7                  
+## patient3       24       27         
+## patient4       25       28        3</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dist</span>(df,<span class="at">method=</span><span class="st">"euclidean"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##           patient1  patient2  patient3
+## patient2  4.123106                    
+## patient3 14.071247 15.842980          
+## patient4 14.594520 16.733201  1.732051</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.dist</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">cor</span>(<span class="fu">t</span>(df))) <span class="co"># correlation distance</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##             patient1    patient2    patient3
+## patient2 0.004129405                        
+## patient3 1.988522468 1.970725343            
+## patient4 1.988522468 1.970725343 0.000000000</code></pre>
+<section id="scaling-before-calculating-the-distance" class="level4" data-number="4.1.1.1">
+<h4 data-number="4.1.1.1" class="anchored" data-anchor-id="scaling-before-calculating-the-distance"><span class="header-section-number">4.1.1.1</span> Scaling before calculating the distance</h4>
+<p>Before we proceed to the clustering, there is one more thing we need to take care of. Should we normalize our data? The scale of the vectors in our expression matrix can affect the distance calculation. Gene expression tables might have some sort of normalization, so the values are in comparable scales. But somehow, if a gene’s expression values are on a much higher scale than the other genes, that gene will affect the distance more than others when using Euclidean or Manhattan distance. If that is the case we can scale the variables. The traditional way of scaling variables is to subtract their mean, and divide by their standard deviation, this operation is also called “standardization”. If this is done on all genes, each gene will have the same effect on distance measures. The decision to apply scaling ultimately depends on our data and what you want to achieve. If the gene expression values are previously normalized between patients, having genes that dominate the distance metric could have a biological meaning and therefore it may not be desirable to further scale variables. In R, the standardization is done via the <code>scale()</code> function. Here we scale the gene expression values.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##          IRX4 OCT4 PAX6
+## patient1   11   10    1
+## patient2   13   13    3
+## patient3    2    4   10
+## patient4    1    3    9</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scale</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##                IRX4       OCT4       PAX6
+## patient1  0.6932522  0.5212860 -1.0733721
+## patient2  1.0194886  1.1468293 -0.6214260
+## patient3 -0.7748113 -0.7298004  0.9603856
+## patient4 -0.9379295 -0.9383149  0.7344125
+## attr(,"scaled:center")
+## IRX4 OCT4 PAX6 
+## 6.75 7.50 5.75 
+## attr(,"scaled:scale")
+##     IRX4     OCT4     PAX6 
+## 6.130525 4.795832 4.425306</code></pre>
+</section>
+</section>
+<section id="hiearchical-clustering" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="hiearchical-clustering"><span class="header-section-number">4.1.2</span> Hiearchical clustering</h3>
+<p>This is one of the most ubiquitous clustering algorithms. Using this algorithm you can see the relationship of individual data points and relationships of clusters. This is achieved by successively joining small clusters to each other based on the inter-cluster distance. Eventually, you get a tree structure or a dendrogram that shows the relationship between the individual data points and clusters. The height of the dendrogram is the distance between clusters. Here we can show how to use this on our toy data set from four patients. The base function in R to do hierarchical clustering in <code>hclust()</code>. Below, we apply that function on Euclidean distances between patients. The resulting clustering tree or dendrogram is shown in <a href="#fig-expPlot" class="quarto-xref">Figure&nbsp;<span>4.1</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">dist</span>(df)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>hc<span class="ot">=</span><span class="fu">hclust</span>(d,<span class="at">method=</span><span class="st">"complete"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-toyClust" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-toyClust-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/toyClust-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-toyClust-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: Dendrogram of distance matrix
+</figcaption>
+</figure>
+</div>
+<p>In the above code snippet, we have used the <code>method="complete"</code> argument without explaining it. The <code>method</code> argument defines the criteria that directs how the sub-clusters are merged. During clustering, starting with single-member clusters, the clusters are merged based on the distance between them. There are many different ways to define distance between clusters, and based on which definition you use, the hierarchical clustering results change. So the <code>method</code> argument controls that. There are a couple of values this argument can take; we list them and their description below:</p>
+<ul>
+<li><strong>“complete”</strong> stands for “Complete Linkage” and the distance between two clusters is defined as the largest distance between any members of the two clusters.</li>
+<li><strong>“single”</strong> stands for “Single Linkage” and the distance between two clusters is defined as the smallest distance between any members of the two clusters.</li>
+<li><strong>“average”</strong> stands for “Average Linkage” or more precisely the UPGMA (Unweighted Pair Group Method with Arithmetic Mean) method. In this case, the distance between two clusters is defined as the average distance between any members of the two clusters.</li>
+<li><strong>“ward.D2”</strong> and <strong>“ward.D”</strong> stands for different implementations of Ward’s minimum variance method. This method aims to find compact, spherical clusters by selecting clusters to merge based on the change in the cluster variances. The clusters are merged if the increase in the combined variance over the sum of the cluster-specific variances is the minimum compared to alternative merging operations.</li>
+</ul>
+<p>In real life, we would get expression profiles from thousands of genes and we will typically have many more patients than our toy example. One such data set is gene expression values from 60 bone marrow samples of patients with one of the four main types of leukemia (ALL, AML, CLL, CML) or no-leukemia controls. We trimmed that data set down to the top 1000 most variable genes to be able to work with it more easily, since genes that are not very variable do not contribute much to the distances between patients. We will now use this data set to cluster the patients and display the values as a heatmap and a dendrogram. The heatmap shows the expression values of genes across patients in a color coded manner. The heatmap function, <code>pheatmap()</code>, that we will use performs the clustering as well. The matrix that contains gene expressions has the genes in the rows and the patients in the columns. Therefore, we will also use a column-side color code to mark the patients based on their leukemia type. For the hierarchical clustering, we will use Ward’s method designated by the <code>clustering_method</code> argument to the <code>pheatmap()</code> function. The resulting heatmap is shown in <a href="#fig-heatmap1" class="quarto-xref">Figure&nbsp;<span>4.3</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>expFile<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,<span class="st">"leukemiaExpressionSubset.rds"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>mat<span class="ot">=</span><span class="fu">readRDS</span>(expFile)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># set the leukemia type annotation for each sample</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>annotation_col <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">LeukemiaType =</span><span class="fu">substr</span>(<span class="fu">colnames</span>(mat),<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(annotation_col)<span class="ot">=</span><span class="fu">colnames</span>(mat)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(mat,<span class="at">show_rownames=</span><span class="cn">FALSE</span>,<span class="at">show_colnames=</span><span class="cn">FALSE</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">annotation_col=</span>annotation_col,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">scale =</span> <span class="st">"none"</span>,<span class="at">clustering_method=</span><span class="st">"ward.D2"</span>,</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_cols=</span><span class="st">"euclidean"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-heatmap1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heatmap1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/heatmap1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heatmap1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: Heatmap of gene expression values from leukemia patients. Each column represents a patient. Columns are clustered using gene expression and color coded by disease type: ALL, AML, CLL, CML or no-leukemia
+</figcaption>
+</figure>
+</div>
+<p>As we can observe in the heatmap, each cluster has a distinct set of expression values. The main clusters almost perfectly distinguish the leukemia types. Only one CML patient is clustered as a non-leukemia sample. This could mean that gene expression profiles are enough to classify leukemia type. More detailed analysis and experiments are needed to verify that, but by looking at this exploratory analysis we can decide where to focus our efforts next.</p>
+<section id="where-to-cut-the-tree" class="level4" data-number="4.1.2.1">
+<h4 data-number="4.1.2.1" class="anchored" data-anchor-id="where-to-cut-the-tree"><span class="header-section-number">4.1.2.1</span> Where to cut the tree ?</h4>
+<p>The example above seems like a clear-cut example where we can pick clusters from the dendrogram by eye. This is mostly due to Ward’s method, where compact clusters are preferred. However, as is usually the case, we do not have patient labels and it would be difficult to tell which leaves (patients) in the dendrogram we should consider as part of the same cluster. In other words, how deep we should cut the dendrogram so that every patient sample still connected via the remaining sub-dendrograms constitute clusters. The <code>cutree()</code> function provides the functionality to output either desired number of clusters or clusters obtained from cutting the dendrogram at a certain height. Below, we will cluster the patients with hierarchical clustering using the default method “complete linkage” and cut the dendrogram at a certain height. In this case, you will also observe that, changing from Ward’s distance to complete linkage had an effect on clustering. Now the two clusters that are defined by Ward’s distance are closer to each other and harder to separate from each other, shown in <a href="#fig-hclustNcut" class="quarto-xref">Figure&nbsp;<span>4.4</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hcl<span class="ot">=</span><span class="fu">hclust</span>(<span class="fu">dist</span>(<span class="fu">t</span>(mat)))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hcl,<span class="at">labels =</span> <span class="cn">FALSE</span>, <span class="at">hang=</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rect.hclust</span>(hcl, <span class="at">h =</span> <span class="dv">80</span>, <span class="at">border =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-hclustNcut" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hclustNcut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/hclustNcut-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hclustNcut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.4: Dendrogram of Leukemia patients clustered by hierarchical clustering. Rectangles show the cluster we will get if we cut the tree at <code>height=80</code>.
+</figcaption>
+</figure>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>clu.k5<span class="ot">=</span><span class="fu">cutree</span>(hcl,<span class="at">k=</span><span class="dv">5</span>) <span class="co"># cut tree so that there are 5 clusters</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>clu.h80<span class="ot">=</span><span class="fu">cutree</span>(hcl,<span class="at">h=</span><span class="dv">80</span>) <span class="co"># cut tree/dendrogram from height 80</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(clu.k5) <span class="co"># number of samples for each cluster</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## clu.k5
+##  1  2  3  4  5 
+## 12  3  9 12 24</code></pre>
+<p>Apart from the arbitrary values for the height or the number of clusters, how can we define clusters more systematically? As this is a general question, we will show how to decide the optimal number of clusters later in this chapter.</p>
+</section>
+</section>
+<section id="k-means-clustering" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">4.1.3</span> K-means clustering</h3>
+<p>Another very common clustering algorithm is k-means. This method divides or partitions the data points, our working example patients, into a pre-determined, “k” number of clusters <span class="citation" data-cites="hartigan1979algorithm">(<a href="12-references.html#ref-hartigan1979algorithm" role="doc-biblioref">Hartigan and Wong 1979</a>)</span>. Hence, these types of methods are generally called “partitioning” methods. The algorithm is initialized with randomly chosen <span class="math inline">\(k\)</span> centers or centroids. In a sense, a centroid is a data point with multiple values. In our working example, it is a hypothetical patient with gene expression values. But in the initialization phase, those gene expression values are chosen randomly within the boundaries of the gene expression distributions from real patients. As the next step in the algorithm, each patient is assigned to the closest centroid, and in the next iteration, centroids are set to the mean of values of the genes in the cluster. This process of setting centroids and assigning patients to the clusters repeats itself until the sum of squared distances to cluster centroids is minimized.</p>
+<p>As you might see, the cluster algorithm starts with random initial centroids. This feature might yield different results for each run of the algorithm. We will now show how to use the k-means method on the gene expression data set. We will use <code>set.seed()</code> for reproducibility. In the wild, you might want to run this algorithm multiple times to see if your clustering results are stable.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># we have to transpore the matrix t()</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># so that we calculate distances between patients</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>kclu<span class="ot">=</span><span class="fu">kmeans</span>(<span class="fu">t</span>(mat),<span class="at">centers=</span><span class="dv">5</span>)  </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># number of data points in each cluster</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(kclu<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## 
+##  1  2  3  4  5 
+## 12 14 11 12 11</code></pre>
+<p>Now let us check the percentage of each leukemia type in each cluster. We can visualize this as a table. Looking at the table below, we see that each of the 5 clusters predominantly represents one of the 4 leukemia types or the control patients without leukemia.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>type2kclu <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">LeukemiaType =</span><span class="fu">substr</span>(<span class="fu">colnames</span>(mat),<span class="dv">1</span>,<span class="dv">3</span>),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">cluster=</span>kclu<span class="sc">$</span>cluster)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(type2kclu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##             cluster
+## LeukemiaType  1  2  3  4  5
+##          ALL 12  0  0  0  0
+##          AML  0  1  0  0 11
+##          CLL  0  0  0 12  0
+##          CML  0  1 11  0  0
+##          NoL  0 12  0  0  0</code></pre>
+<p>Another related and maybe more robust algorithm is called <strong>“k-medoids”</strong> clustering <span class="citation" data-cites="reynolds2006clustering">(<a href="12-references.html#ref-reynolds2006clustering" role="doc-biblioref">Reynolds et al. 2006</a>)</span>. The procedure is almost identical to k-means clustering with a couple of differences. In this case, centroids chosen are real data points in our case patients, and the metric we are trying to optimize in each iteration is based on the Manhattan distance to the centroid. In k-means this was based on the sum of squared distances, so Euclidean distance. Below we show how to use the k-medoids clustering function <code>pam()</code> from the <code>cluster</code> package.}</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>kmclu<span class="ot">=</span>cluster<span class="sc">::</span><span class="fu">pam</span>(<span class="fu">t</span>(mat),<span class="at">k=</span><span class="dv">5</span>) <span class="co">#  cluster using k-medoids</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># make a data frame with Leukemia type and cluster id</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>type2kmclu <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">LeukemiaType =</span><span class="fu">substr</span>(<span class="fu">colnames</span>(mat),<span class="dv">1</span>,<span class="dv">3</span>),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">cluster=</span>kmclu<span class="sc">$</span>cluster)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(type2kmclu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##             cluster
+## LeukemiaType  1  2  3  4  5
+##          ALL 12  0  0  0  0
+##          AML  0 10  1  1  0
+##          CLL  0  0  0  0 12
+##          CML  0  0  0 12  0
+##          NoL  0  0 12  0  0</code></pre>
+<p>We cannot visualize the clustering from partitioning methods with a tree like we did for hierarchical clustering. Even if we can get the distances between patients the algorithm does not return the distances between clusters out of the box. However, if we had a way to visualize the distances between patients in 2 dimensions we could see the how patients and clusters relate to each other. It turns out that there is a way to compress between patient distances to a 2-dimensional plot. There are many ways to do this, and we introduce these dimension-reduction methods including the one we will use later in this chapter. For now, we are going to use a method called “multi-dimensional scaling” and plot the patients in a 2D plot color coded by their cluster assignments shown in <a href="#fig-kmeansmds" class="quarto-xref">Figure&nbsp;<span>4.5</span></a>. We will explain this method in more detail in the <a href="#multi-dimensional-scaling">Multi-dimensional scaling</a> section below.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate distances</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>dists<span class="ot">=</span><span class="fu">dist</span>(<span class="fu">t</span>(mat))</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate MDS</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>mds<span class="ot">=</span><span class="fu">cmdscale</span>(dists)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the patients in the 2D space</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mds,<span class="at">pch=</span><span class="dv">19</span>,<span class="at">col=</span><span class="fu">rainbow</span>(<span class="dv">5</span>)[kclu<span class="sc">$</span>cluster])</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="co"># set the legend for cluster colors</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">paste</span>(<span class="st">"clu"</span>,<span class="fu">unique</span>(kclu<span class="sc">$</span>cluster)),</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill=</span><span class="fu">rainbow</span>(<span class="dv">5</span>)[<span class="fu">unique</span>(kclu<span class="sc">$</span>cluster)],</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">border=</span><span class="cn">NA</span>,<span class="at">box.col=</span><span class="cn">NA</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-kmeansmds" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-kmeansmds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/kmeansmds-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kmeansmds-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.5: K-means cluster memberships are shown in a multi-dimensional scaling plot
+</figcaption>
+</figure>
+</div>
+<p>The plot we obtained shows the separation between clusters. However, it does not do a great job showing the separation between clusters 3 and 4, which represent CML and “no leukemia” patients. We might need another dimension to properly visualize that separation. In addition, those two clusters were closely related in the hierarchical clustering as well.</p>
+</section>
+<section id="how-to-choose-k-the-number-of-clusters" class="level3" data-number="4.1.4">
+<h3 data-number="4.1.4" class="anchored" data-anchor-id="how-to-choose-k-the-number-of-clusters"><span class="header-section-number">4.1.4</span> How to choose “k”, the number of clusters</h3>
+<p>Up to this point, we have avoided the question of selecting optimal number clusters. How do we know where to cut our dendrogram or which k to choose ? First of all, this is a difficult question. Usually, clusters have different granularity. Some clusters are tight and compact and some are wide, and both these types of clusters can be in the same data set. When visualized, some large clusters may look like they may have sub-clusters. So should we consider the large cluster as one cluster or should we consider the sub-clusters as individual clusters? There are some metrics to help but there is no definite answer. We will show a couple of them below.</p>
+<section id="silhouette" class="level4" data-number="4.1.4.1">
+<h4 data-number="4.1.4.1" class="anchored" data-anchor-id="silhouette"><span class="header-section-number">4.1.4.1</span> Silhouette</h4>
+<p>One way to determine the quality of the clustering is to measure the expected self-similar nature of the points in a set of clusters. The silhouette value does just that and it is a measure of how similar a data point is to its own cluster compared to other clusters <span class="citation" data-cites="rousseeuw1987silhouettes">(<a href="12-references.html#ref-rousseeuw1987silhouettes" role="doc-biblioref">Rousseeuw 1987</a>)</span>. The silhouette value ranges from -1 to +1, where values that are positive indicate that the data point is well matched to its own cluster, if the value is zero it is a borderline case, and if the value is minus it means that the data point might be mis-clustered because it is more similar to a neighboring cluster. If most data points have a high value, then the clustering is appropriate. Ideally, one can create many different clusterings with each with a different <span class="math inline">\(k\)</span> parameter indicating the number of clusters, and assess their appropriateness using the average silhouette values. In R, silhouette values are referred to as silhouette widths in the documentation.</p>
+<p>A silhouette value is calculated for each data point. In our working example, each patient will get silhouette values showing how well they are matched to their assigned clusters. Formally this calculated as follows. For each data point <span class="math inline">\(i\)</span>, we calculate <span class="math inline">\({\displaystyle a(i)}\)</span>, which denotes the average distance between <span class="math inline">\(i\)</span> and all other data points within the same cluster. This shows how well the point fits into that cluster. For the same data point, we also calculate <span class="math inline">\({\displaystyle b(i)}\)</span>, which denotes the lowest average distance of <span class="math inline">\({\displaystyle i}\)</span> to all points in any other cluster, of which <span class="math inline">\({\displaystyle i}\)</span> is not a member. The cluster with this lowest average <span class="math inline">\(b(i)\)</span> is the “neighboring cluster” of data point <span class="math inline">\({\displaystyle i}\)</span> since it is the next best fit cluster for that data point. Then, the silhouette value for a given data point is <span class="math inline">\(s(i) = \frac{b(i) - a(i)}{\max\{a(i),b(i)\}}\)</span>.</p>
+<p>As described, this quantity is positive when <span class="math inline">\(b(i)\)</span> is high and <span class="math inline">\(a(i)\)</span> is low, meaning that the data point <span class="math inline">\(i\)</span> is self-similar to its cluster. And the silhouette value, <span class="math inline">\(s(i)\)</span>, is negative if it is more similar to its neighbors than its assigned cluster.</p>
+<p>In R, we can calculate silhouette values using the <code>cluster::silhouette()</code> function. Below, we calculate the silhouette values for k-medoids clustering with the <code>pam()</code> function with <code>k=5</code>. The resulting silhouette values are shown in <a href="#fig-sill" class="quarto-xref">Figure&nbsp;<span>4.6</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>pamclu<span class="ot">=</span>cluster<span class="sc">::</span><span class="fu">pam</span>(<span class="fu">t</span>(mat),<span class="at">k=</span><span class="dv">5</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">silhouette</span>(pamclu),<span class="at">main=</span><span class="cn">NULL</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-sill" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sill-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/sill-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sill-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.6: Silhouette values for k-medoids with <code>k=5</code>
+</figcaption>
+</figure>
+</div>
+<p>Now, let us calculate the average silhouette value for different <span class="math inline">\(k\)</span> values and compare. We will use <code>sapply()</code> function to get average silhouette values across <span class="math inline">\(k\)</span> values between 2 and 7. Within <code>sapply()</code> there is an anonymous function that that does the clustering and calculates average silhouette values for each <span class="math inline">\(k\)</span>. The plot showing average silhouette values for different <span class="math inline">\(k\)</span> values is shown in <a href="#fig-sillav" class="quarto-xref">Figure&nbsp;<span>4.7</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Ks<span class="ot">=</span><span class="fu">sapply</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">function</span>(i) </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summary</span>(<span class="fu">silhouette</span>(<span class="fu">pam</span>(<span class="fu">t</span>(mat),<span class="at">k=</span>i)))<span class="sc">$</span>avg.width)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>,Ks,<span class="at">xlab=</span><span class="st">"k"</span>,<span class="at">ylab=</span><span class="st">"av. silhouette"</span>,<span class="at">type=</span><span class="st">"b"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">19</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-sillav" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sillav-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/sillav-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sillav-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.7: Average silhouette values for k-medoids clustering for <code>k</code> values between 2 and 7
+</figcaption>
+</figure>
+</div>
+<p>In this case, it seems the best value for <span class="math inline">\(k\)</span> is 4. The k-medoids function <code>pam()</code> will usually cluster CML and “no Leukemia” cases together when <code>k=4</code>, which are also related clusters according to the hierarchical clustering we did earlier.</p>
+</section>
+<section id="gap-statistic" class="level4" data-number="4.1.4.2">
+<h4 data-number="4.1.4.2" class="anchored" data-anchor-id="gap-statistic"><span class="header-section-number">4.1.4.2</span> Gap statistic</h4>
+<p>As clustering aims to find self-similar data points, it would be reasonable to expect with the correct number of clusters the total within-cluster variation is minimized. Within-cluster variation for a single cluster can simply be defined as the sum of squares from the cluster mean, which in this case is the centroid we defined in the k-means algorithm. The total within-cluster variation is then the sum of within-cluster variations for each cluster. This can be formally defined as follows:</p>
+<p><span class="math inline">\(\displaystyle W_k = \sum_{k=1}^K \sum_{\mathrm{x}_i \in C_k} (\mathrm{x}_i - \mu_k )^2\)</span></p>
+<p>where <span class="math inline">\(\mathrm{x}_i\)</span> is a data point in cluster <span class="math inline">\(k\)</span>, and <span class="math inline">\(\mu_k\)</span> is the cluster mean, and <span class="math inline">\(W_k\)</span> is the total within-cluster variation quantity we described. However, the problem is that the variation quantity decreases with the number of clusters. The more centroids we have, the smaller the distances to the centroids become. A more reliable approach would be somehow calculating the expected variation from a reference null distribution and compare that to the observed variation for each <span class="math inline">\(k\)</span>. In the gap statistic approach, the expected distribution is calculated via sampling points from the boundaries of the original data and calculating within-cluster variation quantity for multiple rounds of sampling <span class="citation" data-cites="tibshirani2001estimating">(<a href="12-references.html#ref-tibshirani2001estimating" role="doc-biblioref">Tibshirani et al. 2001</a>)</span>. This way we have an expectation about the variability when there is no clustering, and then compare that expected variation to the observed within-cluster variation. The expected variation should also go down with the increasing number of clusters, but for the optimal number of clusters, the expected variation will be furthest away from observed variation. This distance is called the <strong>“gap statistic”</strong> and defined as follows: <span class="math inline">\(\displaystyle \mathrm{Gap}_n(k) = E_n^*\{\log W_k\} - \log W_k\)</span>, where <span class="math inline">\(E_n^*\{\log W_k\}\)</span> is the expected variation in log-scale under a sample size <span class="math inline">\(n\)</span> from the reference distribution and <span class="math inline">\(\log W_k\)</span> is the observed variation. Our aim is to choose the <span class="math inline">\(k\)</span> number of clusters that maximizes <span class="math inline">\(\mathrm{Gap}_n(k)\)</span>.</p>
+<p>We can easily calculate the gap statistic with the <code>cluster::clusGap()</code> function. We will now use that function to calculate the gap statistic for our patient gene expression data. The resulting gap statistics are shown in <a href="#fig-clusGap" class="quarto-xref">Figure&nbsp;<span>4.8</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># define the clustering function</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>pam1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x,k) </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">cluster =</span> <span class="fu">pam</span>(x,k, <span class="at">cluster.only=</span><span class="cn">TRUE</span>))</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the gap statistic</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>pam.gap<span class="ot">=</span> <span class="fu">clusGap</span>(<span class="fu">t</span>(mat), <span class="at">FUN =</span> pam1, <span class="at">K.max =</span> <span class="dv">8</span>,<span class="at">B=</span><span class="dv">50</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the gap statistic accross k values</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pam.gap, <span class="at">main =</span> <span class="st">"Gap statistic for the 'Leukemia' data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-clusGap" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-clusGap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/clusGap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-clusGap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.8: Gap statistic for clustering the leukemia dataset with k-medoids (pam) algorithm.
+</figcaption>
+</figure>
+</div>
+<p>In this case, the gap statistic shows that <span class="math inline">\(k=7\)</span> is the best if we take the maximum value as the best. However, after <span class="math inline">\(k=6\)</span>, the statistic has more or less a stable curve. This observation is incorporated into algorithms that can select the best <span class="math inline">\(k\)</span> value based on the gap statistic. A reasonable way is to take the simulation error (error bars in <a href="#fig-clusGap" class="quarto-xref">Figure&nbsp;<span>4.8</span></a>) into account, and take the smallest <span class="math inline">\(k\)</span> whose gap statistic is larger or equal to the one of <span class="math inline">\(k+1\)</span> minus the simulation error. Formally written, we would pick the smallest <span class="math inline">\(k\)</span> satisfying the following condition: <span class="math inline">\(\mathrm{Gap}(k) \geq \mathrm{Gap}(k+1) - s_{k+1}\)</span>, where <span class="math inline">\(s_{k+1}\)</span> is the simulation error for <span class="math inline">\(\mathrm{Gap}(k+1)\)</span>.</p>
+<p>Using this procedure gives us <span class="math inline">\(k=6\)</span> as the optimum number of clusters. Biologically, we know that there are 5 main patient categories but this does not mean there are no sub-categories or sub-types for the cancers we are looking at.</p>
+</section>
+<section id="other-methods" class="level4" data-number="4.1.4.3">
+<h4 data-number="4.1.4.3" class="anchored" data-anchor-id="other-methods"><span class="header-section-number">4.1.4.3</span> Other methods</h4>
+<p>There are several other methods that provide insight into how many clusters. In fact, the package <code>NbClust</code> provides 30 different ways to determine the number of optimal clusters and can offer a voting mechanism to pick the best number. Below, we show how to use this function for some of the optimal number of cluster detection methods.}</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(NbClust)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>nb <span class="ot">=</span> <span class="fu">NbClust</span>(<span class="at">data=</span><span class="fu">t</span>(mat), </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">distance =</span> <span class="st">"euclidean"</span>, <span class="at">min.nc =</span> <span class="dv">2</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">max.nc =</span> <span class="dv">7</span>, <span class="at">method =</span> <span class="st">"kmeans"</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">index=</span><span class="fu">c</span>(<span class="st">"kl"</span>,<span class="st">"ch"</span>,<span class="st">"cindex"</span>,<span class="st">"db"</span>,<span class="st">"silhouette"</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"duda"</span>,<span class="st">"pseudot2"</span>,<span class="st">"beale"</span>,<span class="st">"ratkowsky"</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"gap"</span>,<span class="st">"gamma"</span>,<span class="st">"mcclain"</span>,<span class="st">"gplus"</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"tau"</span>,<span class="st">"sdindex"</span>,<span class="st">"sdbw"</span>))</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(nb<span class="sc">$</span>Best.nc[<span class="dv">1</span>,]) <span class="co"># consensus seems to be 3 clusters </span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>However, readers should keep in mind that clustering is an exploratory technique. If you have solid labels for your data points, maybe clustering is just a sanity check, and you should just do predictive modeling instead. However, in biology there are rarely solid labels and things have different granularity. Take the leukemia patients case we have been using for example, it is known that leukemia types have subtypes and those sub-types that have different mutation profiles and consequently have different molecular signatures. Because of this, it is not surprising that some optimal cluster number techniques will find more clusters to be appropriate. On the other hand, CML (chronic myeloid leukemia) is a slow progressing disease and maybe their molecular signatures are closer to “no leukemia” patients, so clustering algorithms may confuse the two depending on what granularity they are operating with. It is always good to look at the heatmaps after clustering, if you have meaningful self-similar data points, even if the labels you have do not agree that there can be different clusters, you can perform downstream analysis to understand the sub-clusters better. As we have seen, we can estimate the optimal number of clusters but we cannot take that estimation as the absolute truth. Given more data points or a different set of expression signatures, you may have different optimal clusterings, or the supposed optimal clustering might overlook previously known sub-groups of your data.</p>
+</section>
+</section>
+</section>
+<section id="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="dimensionality-reduction-techniques-visualizing-complex-data-sets-in-2d"><span class="header-section-number">4.2</span> Dimensionality reduction techniques: Visualizing complex data sets in 2D</h2>
+<p>In statistics, dimension reduction techniques are a set of processes for reducing the number of random variables by obtaining a set of principal variables. For example, in the context of a gene expression matrix across different patient samples, this might mean getting a set of new variables that cover the variation in sets of genes. This way samples can be represented by a couple of principal variables instead of thousands of genes. This is useful for visualization, clustering and predictive modeling.</p>
+<section id="principal-component-analysis" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="principal-component-analysis"><span class="header-section-number">4.2.1</span> Principal component analysis</h3>
+<p>Principal component analysis (PCA) is maybe the most popular technique to examine high-dimensional data. There are multiple interpretations of how PCA reduces dimensionality. We will first focus on geometrical interpretation, where this operation can be interpreted as rotating the original dimensions of the data. For this, we go back to our example gene expression data set. In this example, we will represent our patients with expression profiles of just two genes, CD33 (ENSG00000105383) and PYGL (ENSG00000100504). This way we can visualize them in a scatter plot (see <a href="#fig-scatterb4PCA" class="quarto-xref">Figure&nbsp;<span>4.9</span></a>).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mat[<span class="fu">rownames</span>(mat)<span class="sc">==</span><span class="st">"ENSG00000100504"</span>,],</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>     mat[<span class="fu">rownames</span>(mat)<span class="sc">==</span><span class="st">"ENSG00000105383"</span>,],<span class="at">pch=</span><span class="dv">19</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">"CD33 (ENSG00000105383)"</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"PYGL (ENSG00000100504)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-scatterb4PCA" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-scatterb4PCA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/scatterb4PCA-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatterb4PCA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.9: Gene expression values of CD33 and PYGL genes across leukemia patients.
+</figcaption>
+</figure>
+</div>
+<p>PCA rotates the original data space such that the axes of the new coordinate system point to the directions of highest variance of the data. The axes or new variables are termed principal components (PCs) and are ordered by variance: The first component, PC 1, represents the direction of the highest variance of the data. The direction of the second component, PC 2, represents the highest of the remaining variance orthogonal to the first component. This can be naturally extended to obtain the required number of components, which together span a component space covering the desired amount of variance. In our toy example with only two genes, the principal components are drawn over the original scatter plot and in the next plot we show the new coordinate system based on the principal components. We will calculate the PCA with the <code>princomp()</code> function; this function returns the new coordinates as well. These new coordinates are simply a projection of data over the new coordinates. We will decorate the scatter plots with eigenvectors showing the direction of greatest variation. Then, we will plot the new coordinates (the resulting plot is shown in <a href="#fig-pcaRot" class="quarto-xref">Figure&nbsp;<span>4.10</span></a>). These are automatically calculated by the <code>princomp()</code> function. Notice that we are using the <code>scale()</code> function when plotting coordinates and also before calculating the PCA. This function centers the data, meaning it subtracts the mean of each column vector from the elements in the vector. This essentially gives the columns a zero mean. It also divides the data by the standard deviation of the centered columns. These two operations help bring the data to a common scale, which is important for PCA not to be affected by different scales in the data.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># create the subset of the data with two genes only</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># notice that we transpose the matrix so samples are </span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># on the columns</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>sub.mat<span class="ot">=</span><span class="fu">t</span>(mat[<span class="fu">rownames</span>(mat) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"ENSG00000100504"</span>,<span class="st">"ENSG00000105383"</span>),])</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ploting our genes of interest as scatter plots</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">scale</span>(mat[<span class="fu">rownames</span>(mat)<span class="sc">==</span><span class="st">"ENSG00000100504"</span>,]),</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>     <span class="fu">scale</span>(mat[<span class="fu">rownames</span>(mat)<span class="sc">==</span><span class="st">"ENSG00000105383"</span>,]),</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">19</span>,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">"CD33 (ENSG00000105383)"</span>,</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"PYGL (ENSG00000100504)"</span>,</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="fu">as.factor</span>(annotation_col<span class="sc">$</span>LeukemiaType),</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>),<span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="co"># create the legend for the Leukemia types</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>,</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">unique</span>(annotation_col<span class="sc">$</span>LeukemiaType),</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span><span class="fu">palette</span>(<span class="st">"default"</span>),</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">border=</span><span class="cn">NA</span>,<span class="at">box.col=</span><span class="cn">NA</span>)</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the PCA only for our genes and all the samples</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>pr<span class="ot">=</span><span class="fu">princomp</span>(<span class="fu">scale</span>(sub.mat))</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the direction of eigenvectors</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a><span class="co"># pr$loadings returned by princomp has the eigenvectors</span></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="at">x0=</span><span class="dv">0</span>, <span class="at">y0=</span><span class="dv">0</span>, <span class="at">x1 =</span> pr<span class="sc">$</span>loadings[<span class="dv">1</span>,<span class="dv">1</span>], </span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>         <span class="at">y1 =</span> pr<span class="sc">$</span>loadings[<span class="dv">2</span>,<span class="dv">1</span>],<span class="at">col=</span><span class="st">"pink"</span>,<span class="at">lwd=</span><span class="dv">3</span>)</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="at">x0=</span><span class="dv">0</span>, <span class="at">y0=</span><span class="dv">0</span>, <span class="at">x1 =</span> pr<span class="sc">$</span>loadings[<span class="dv">1</span>,<span class="dv">2</span>], </span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a>         <span class="at">y1 =</span> pr<span class="sc">$</span>loadings[<span class="dv">2</span>,<span class="dv">2</span>],<span class="at">col=</span><span class="st">"gray"</span>,<span class="at">lwd=</span><span class="dv">3</span>)</span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-34"><a href="#cb30-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-35"><a href="#cb30-35" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the samples in the new coordinate system</span></span>
+<span id="cb30-36"><a href="#cb30-36" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="sc">-</span>pr<span class="sc">$</span>scores,<span class="at">pch=</span><span class="dv">19</span>,</span>
+<span id="cb30-37"><a href="#cb30-37" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="fu">as.factor</span>(annotation_col<span class="sc">$</span>LeukemiaType),</span>
+<span id="cb30-38"><a href="#cb30-38" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>),<span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>))</span>
+<span id="cb30-39"><a href="#cb30-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-40"><a href="#cb30-40" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the new coordinate basis vectors</span></span>
+<span id="cb30-41"><a href="#cb30-41" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="at">x0=</span><span class="dv">0</span>, <span class="at">y0=</span><span class="dv">0</span>, <span class="at">x1 =</span><span class="sc">-</span><span class="dv">2</span>, </span>
+<span id="cb30-42"><a href="#cb30-42" aria-hidden="true" tabindex="-1"></a>         <span class="at">y1 =</span> <span class="dv">0</span>,<span class="at">col=</span><span class="st">"pink"</span>,<span class="at">lwd=</span><span class="dv">3</span>)</span>
+<span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a><span class="fu">arrows</span>(<span class="at">x0=</span><span class="dv">0</span>, <span class="at">y0=</span><span class="dv">0</span>, <span class="at">x1 =</span> <span class="dv">0</span>, </span>
+<span id="cb30-44"><a href="#cb30-44" aria-hidden="true" tabindex="-1"></a>         <span class="at">y1 =</span> <span class="sc">-</span><span class="dv">1</span>,<span class="at">col=</span><span class="st">"gray"</span>,<span class="at">lwd=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-pcaRot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pcaRot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/pcaRot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pcaRot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.10: Geometric interpretation of PCA finding eigenvectors that point to the direction of highest variance. Eigenvectors can be used as a new coordinate system.
+</figcaption>
+</figure>
+</div>
+<p>As you can see, the new coordinate system is useful by itself. The X-axis, which represents the first component, separates the data along the lymphoblastic and myeloid leukemias.</p>
+<p>PCA in this case, is obtained by calculating eigenvectors of the covariance matrix via an operation called eigen decomposition. The covariance matrix is obtained by covariance of pairwise variables of our expression matrix, which is simply <span class="math inline">\({ \operatorname{cov} (X,Y)={\frac {1}{n}}\sum _{i=1}^{n}(x_{i}-\mu_X)(y_{i}-\mu_Y)}\)</span>, where <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are expression values of genes in a sample in our example. This is a measure of how things vary together, if highly expressed genes in sample A are also highly expressed in sample B and lowly expressed in sample A are also lowly expressed in sample B, then sample A and B will have positive covariance. If the opposite is true, then they will have negative covariance. This quantity is related to correlation, and as we saw in the previous chapter, correlation is standardized covariance. Covariance of variables can be obtained with the <code>cov()</code> function, and eigen decomposition of such a matrix will produce a set of orthogonal vectors that span the directions of highest variation. In 2D, you can think of this operation as rotating two perpendicular lines together until they point to the directions where most of the variation in the data lies, similar to <a href="#fig-pcaRot" class="quarto-xref">Figure&nbsp;<span>4.10</span></a>. An important intuition is that, after the rotation prescribed by eigenvectors is complete, the covariance between variables in this rotated dataset will be zero. There is a proper mathematical relationship between covariances of the rotated dataset and the original dataset. That’s why operating on the covariance matrix is related to the rotation of the original dataset.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cov.mat<span class="ot">=</span><span class="fu">cov</span>(sub.mat) <span class="co"># calculate covariance matrix</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>cov.mat</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">eigen</span>(cov.mat) <span class="co"># obtain eigen decomposition for eigen values and vectors</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Eigenvectors and eigenvalues of the covariance matrix indicate the direction and the magnitude of variation of the data. In our visual example, the eigenvectors are so-called principal components. The eigenvector indicates the direction and the eigenvalues indicate the variation in that direction. Eigenvectors and values exist in pairs: every eigenvector has a corresponding eigenvalue and the eigenvectors are linearly independent from each other, which means they are orthogonal or uncorrelated as in our working example above. The eigenvectors are ranked by their corresponding eigenvalue, the higher the eigenvalue the more important the eigenvector is, because it explains more of the variation compared to the other eigenvectors. This feature of PCA makes the dimension reduction possible. We can sometimes display data sets that have many variables only in 2D or 3D because these top eigenvectors are sometimes enough to capture most of variation in the data. The <code>screeplot()</code> function takes the output of the <code>princomp()</code> or <code>prcomp()</code> functions as input and plots the variance explained by eigenvectors.</p>
+<section id="singular-value-decomposition-and-principal-component-analysis" class="level4" data-number="4.2.1.1">
+<h4 data-number="4.2.1.1" class="anchored" data-anchor-id="singular-value-decomposition-and-principal-component-analysis"><span class="header-section-number">4.2.1.1</span> Singular value decomposition and principal component analysis</h4>
+<p>A more common way to calculate PCA is through something called singular value decomposition (SVD). This results in another interpretation of PCA, which is called “latent factor” or “latent component” interpretation. In a moment, it will be clearer what we mean by “latent factors”. SVD is a matrix factorization or decomposition algorithm that decomposes an input matrix,<span class="math inline">\(X\)</span>, to three matrices as follows: <span class="math inline">\(\displaystyle \mathrm{X} = USV^T\)</span>. In essence, many matrices can be decomposed as a product of multiple matrices and we will come to other techniques later in this chapter. Singular value decomposition is shown in <a href="#fig-SVDcartoon" class="quarto-xref">Figure&nbsp;<span>4.11</span></a>. <span class="math inline">\(U\)</span> is the matrix with eigenarrays on the columns and this has the same dimensions as the input matrix; you might see elsewhere the columns are called eigenassays. <span class="math inline">\(S\)</span> is the matrix that contains the singular values on the diagonal. The singular values are also known as eigenvalues and their square is proportional to explained variation by each eigenvector. Finally, the matrix <span class="math inline">\(V^T\)</span> contains the eigenvectors on its rows. Its interpretation is still the same. Geometrically, eigenvectors point to the direction of highest variance in the data. They are uncorrelated or geometrically orthogonal to each other. These interpretations are identical to the ones we made before. The slight difference is that the decomposition seems to output <span class="math inline">\(V^T\)</span>, which is just the transpose of the matrix <span class="math inline">\(V\)</span>. However, the SVD algorithms in R usually return the matrix <span class="math inline">\(V\)</span>. If you want the eigenvectors, you either simply use the columns of matrix <span class="math inline">\(V\)</span> or rows of <span class="math inline">\(V^T\)</span>.</p>
+<div id="fig-SVDcartoon" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-SVDcartoon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/SVDcartoon.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-SVDcartoon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.11: Singular value decomposition (SVD) explained in a diagram.
+</figcaption>
+</figure>
+</div>
+<p>One thing that is new in <a href="#fig-SVDcartoon" class="quarto-xref">Figure&nbsp;<span>4.11</span></a> is the concept of eigenarrays. The eigenarrays, sometimes called eigenassays, represent the sample space and can be used to plot the relationship between samples rather than genes. In this way, SVD offers additional information than the PCA using the covariance matrix. It offers us a way to summarize both genes and samples. As we can project the gene expression profiles over the top two eigengenes and get a 2D representation of genes, but with the SVD, we can also project the samples over the top two eigenarrays and get a representation of samples in 2D scatter plot. The eigenvector could represent independent expression programs across samples, such as cell-cycle, if we had time-based expression profiles. However, there is no guarantee that each eigenvector will be biologically meaningful. Similarly each eigenarray represents samples with specific expression characteristics. For example, the samples that have a particular pathway activated might be correlated to an eigenarray returned by SVD.</p>
+<p>Previously, in order to map samples to the reduced 2D space we had to transpose the genes-by-samples matrix before using the <code>princomp()</code> function. We will now first use SVD on the genes-by-samples matrix to get eigenarrays and use that to plot samples on the reduced dimensions. We will project the columns in our original expression data on eigenarrays and use the first two dimensions in the scatter plot. If you look at the code you will see that for the projection we use <span class="math inline">\(U^T  X\)</span> operation, which is just <span class="math inline">\(S V^T\)</span> if you follow the linear algebra. We will also perform the PCA this time with the <code>prcomp()</code> function on the transposed genes-by-samples matrix to get similar information, and plot the samples on the reduced coordinates.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">svd</span>(<span class="fu">scale</span>(mat)) <span class="co"># apply SVD</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>assays<span class="ot">=</span><span class="fu">t</span>(d<span class="sc">$</span>u) <span class="sc">%*%</span> <span class="fu">scale</span>(mat) <span class="co"># projection on eigenassays</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(assays[<span class="dv">1</span>,],assays[<span class="dv">2</span>,],<span class="at">pch=</span><span class="dv">19</span>,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span><span class="fu">as.factor</span>(annotation_col<span class="sc">$</span>LeukemiaType))</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(d$v[,1],d$v[,2],pch=19,</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co">#     col=annotation_col$LeukemiaType)</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>pr<span class="ot">=</span><span class="fu">prcomp</span>(<span class="fu">t</span>(mat),<span class="at">center=</span><span class="cn">TRUE</span>,<span class="at">scale=</span><span class="cn">TRUE</span>) <span class="co"># apply PCA on transposed matrix</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co"># plot new coordinates from PCA, projections on eigenvectors</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="co"># since the matrix is transposed eigenvectors represent </span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pr<span class="sc">$</span>x[,<span class="dv">1</span>],pr<span class="sc">$</span>x[,<span class="dv">2</span>],<span class="at">col=</span><span class="fu">as.factor</span>(annotation_col<span class="sc">$</span>LeukemiaType))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-svd" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-svd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/svd-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-svd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.12: SVD on the matrix and its transpose
+</figcaption>
+</figure>
+</div>
+<p>As you can see in <a href="#fig-svd" class="quarto-xref">Figure&nbsp;<span>4.12</span></a>, the two approaches yield separation of samples, although they are slightly different. The difference comes from the centering and scaling. In the first case, we scale and center columns and in the second case we scale and center rows since the matrix is transposed. If we do not do any scaling or centering we would get identical plots.</p>
+<section id="eigenvectors-as-latent-factorsvariables" class="level5" data-number="4.2.1.1.1">
+<h5 data-number="4.2.1.1.1" class="anchored" data-anchor-id="eigenvectors-as-latent-factorsvariables"><span class="header-section-number">4.2.1.1.1</span> Eigenvectors as latent factors/variables</h5>
+<p>Finally, we can introduce the latent factor interpretation of PCA via SVD. As we have already mentioned, eigenvectors can also be interpreted as expression programs that are shared by several genes such as cell cycle expression program when measuring gene expression across samples taken in different time points. In this interpretation, linear combination of expression programs makes up the expression profile of the genes. Linear combination simply means multiplying the expression program with a weight and adding them up. Our <span class="math inline">\(USV^T\)</span> matrix multiplication can be rearranged to yield such an understanding, we can multiply eigenarrays <span class="math inline">\(U\)</span> with the diagonal eigenvalues <span class="math inline">\(S\)</span>, to produce an m-by-n weights matrix called <span class="math inline">\(W\)</span>, so <span class="math inline">\(W=US\)</span> and we can re-write the equation as just weights by eigenvectors matrix, <span class="math inline">\(X=WV^T\)</span> as shown in <a href="#fig-SVDasWeigths" class="quarto-xref">Figure&nbsp;<span>4.13</span></a>.</p>
+<div id="fig-SVDasWeigths" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-SVDasWeigths-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/SVDasWeights.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-SVDasWeigths-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.13: Singular value decomposition (SVD) reorganized as multiplication of m-by-n weights matrix and eigenvectors
+</figcaption>
+</figure>
+</div>
+<p>This simple transformation now makes it clear that indeed, if eigenvectors represent expression programs, their linear combination makes up individual gene expression profiles. As an example, we can show the linear combination of the first two eigenvectors can approximate the expression profile of a hypothetical gene in the gene expression matrix. <a href="#fig-SVDlatentExample" class="quarto-xref">Figure&nbsp;<span>4.14</span></a> shows eigenvector 1 and eigenvector 2 combined with certain weights in <span class="math inline">\(W\)</span> matrix can approximate gene expression pattern our example gene.</p>
+<div id="fig-SVDlatentExample" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-SVDlatentExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/SVDlatentExample.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-SVDlatentExample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.14: Gene expression of a gene can be regarded as a linear combination of eigenvectors.
+</figcaption>
+</figure>
+</div>
+<p>However, SVD does not care about biology. The eigenvectors are just obtained from the data with constraints of orthogonality and the direction of variation. There are examples of eigenvectors representing real expression programs but that does not mean eigenvectors will always be biologically meaningful. Sometimes a combination of them might make more sense in biology than single eigenvectors. This is also the same for the other matrix factorization techniques we describe below.</p>
+</section>
+</section>
+</section>
+<section id="other-matrix-factorization-methods-for-dimensionality-reduction" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="other-matrix-factorization-methods-for-dimensionality-reduction"><span class="header-section-number">4.2.2</span> Other matrix factorization methods for dimensionality reduction</h3>
+<p>We must mention a few other techniques that are similar to SVD in spirit. Remember, we mentioned that every matrix can be decomposed to other matrices where matrix multiplication operations reconstruct the original matrix, which is in general called “matrix factorization”. In the case of SVD/PCA, the constraint is that eigenvectors/arrays are orthogonal, however, there are other decomposition algorithms with other constraints.</p>
+<section id="independent-component-analysis-ica" class="level4" data-number="4.2.2.1">
+<h4 data-number="4.2.2.1" class="anchored" data-anchor-id="independent-component-analysis-ica"><span class="header-section-number">4.2.2.1</span> Independent component analysis (ICA)</h4>
+<p>We will first start with independent component analysis (ICA) which is an extension of PCA. ICA algorithm decomposes a given matrix <span class="math inline">\(X\)</span> as follows: <span class="math inline">\(X=SA\)</span> <span class="citation" data-cites="hyvarinen2013independent">(<a href="12-references.html#ref-hyvarinen2013independent" role="doc-biblioref">Hyvärinen 2013</a>)</span>. The rows of <span class="math inline">\(A\)</span> could be interpreted similar to the eigengenes and columns of <span class="math inline">\(S\)</span> could be interpreted as eigenarrays. These components are sometimes called metagenes and metasamples in the literature. Traditionally, <span class="math inline">\(S\)</span> is called the source matrix and <span class="math inline">\(A\)</span> is called mixing matrix. ICA is developed for a problem called “blind-source separation”. In this problem, multiple microphones record sound from multiple instruments, and the task is to disentangle sounds from original instruments since each microphone is recording a combination of sounds. In this respect, the matrix <span class="math inline">\(S\)</span> contains the original signals (sounds from different instruments) and their linear combinations identified by the weights in <span class="math inline">\(A\)</span>, and the product of <span class="math inline">\(A\)</span> and <span class="math inline">\(S\)</span> makes up the matrix <span class="math inline">\(X\)</span>, which is the observed signal from different microphones. With this interpretation in mind, if the interest is strictly expression patterns that represent the hidden expression programs, we see that the genes-by-samples matrix is transposed to a samples-by-genes matrix, so that the columns of <span class="math inline">\(S\)</span> represent these expression patterns, here referred to as “metagenes”, hopefully representing distinct expression programs (<a href="#fig-ICAcartoon" class="quarto-xref">Figure&nbsp;<span>4.15</span></a> ).</p>
+<div id="fig-ICAcartoon" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ICAcartoon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ICAcartoon.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ICAcartoon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.15: Independent Component Analysis (ICA)
+</figcaption>
+</figure>
+</div>
+<p>ICA requires that the columns of the <span class="math inline">\(S\)</span> matrix, the “metagenes” in our example above, are statistically independent. This is a stronger constraint than uncorrelatedness. In this case, there should be no relationship between non-linear transformation of the data either. There are different ways of ensuring this statistical indepedence and this is the main constraint when finding the optimal <span class="math inline">\(A\)</span> and <span class="math inline">\(S\)</span> matrices. The various ICA algorithms use different proxies for statistical independence, and the definition of that proxy is the main difference between many ICA algorithms. The algorithm we are going to use requires that metagenes or sources in the <span class="math inline">\(S\)</span> matrix are non-Gaussian (non-normal) as possible. Non-Gaussianity is shown to be related to statistical independence <span class="citation" data-cites="hyvarinen2013independent">(<a href="12-references.html#ref-hyvarinen2013independent" role="doc-biblioref">Hyvärinen 2013</a>)</span>. Below, we are using the <code>fastICA::fastICA()</code> function to extract 2 components and plot the rows of matrix <span class="math inline">\(A\)</span> which represents metagenes shown in <a href="#fig-fastICAex" class="quarto-xref">Figure&nbsp;<span>4.16</span></a>. This way, we can visualize samples in a 2D plot. If we wanted to plot the relationship between genes we would use the columns of matrix <span class="math inline">\(S\)</span>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fastICA)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>ica.res<span class="ot">=</span><span class="fu">fastICA</span>(<span class="fu">t</span>(mat),<span class="at">n.comp=</span><span class="dv">2</span>) <span class="co"># apply ICA</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot reduced dimensions</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ica.res<span class="sc">$</span>S[,<span class="dv">1</span>],ica.res<span class="sc">$</span>S[,<span class="dv">2</span>],<span class="at">col=</span><span class="fu">as.factor</span>(annotation_col<span class="sc">$</span>LeukemiaType))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-fastICAex" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fastICAex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/fastICAex-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fastICAex-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.16: Leukemia gene expression values per patient on reduced dimensions by ICA.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="non-negative-matrix-factorization-nmf" class="level4" data-number="4.2.2.2">
+<h4 data-number="4.2.2.2" class="anchored" data-anchor-id="non-negative-matrix-factorization-nmf"><span class="header-section-number">4.2.2.2</span> Non-negative matrix factorization (NMF)</h4>
+<p>Non-negative matrix factorization algorithms are series of algorithms that aim to decompose the matrix <span class="math inline">\(X\)</span> into the product of matrices <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span>, <span class="math inline">\(X=WH\)</span> (<a href="#fig-NMFcartoon" class="quarto-xref">Figure&nbsp;<span>4.17</span></a>) <span class="citation" data-cites="lee2001algorithms">(<a href="12-references.html#ref-lee2001algorithms" role="doc-biblioref">Lee and Seung 2001</a>)</span>. The constraint is that <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span> must contain non-negative values, so must <span class="math inline">\(X\)</span>. This is well suited for data sets that cannot contain negative values such as gene expression. This also implies additivity of components or latent factors. This is in line with the idea that expression pattern of a gene across samples is the weighted sum of multiple metagenes. Unlike ICA and SVD/PCA, the metagenes can never be combined in a subtractive way. In this sense, expression programs potentially captured by metagenes are combined additively.</p>
+<div id="fig-NMFcartoon" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-NMFcartoon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/NMFcartoon.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-NMFcartoon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.17: Non-negative matrix factorization summary
+</figcaption>
+</figure>
+</div>
+<p>The algorithms that compute NMF try to minimize the cost function <span class="math inline">\(D(X,WH)\)</span>, which is the distance between <span class="math inline">\(X\)</span> and <span class="math inline">\(WH\)</span>. The early algorithms just use the Euclidean distance, which translates to <span class="math inline">\(\sum(X-WH)^2\)</span>; this is also known as the Frobenius norm and you will see in the literature it is written as :<span class="math inline">\(\||X-WH||_{F}\)</span>. However, this is not the only distance metric; other distance metrics are also used in NMF algorithms. In addition, there could be other parameters to optimize that relates to sparseness of the <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span> matrices. With sparse <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span>, each entry in the <span class="math inline">\(X\)</span> matrix is expressed as the sum of a small number of components. This makes the interpretation easier, if the weights are <span class="math inline">\(0\)</span> then there is no contribution from the corresponding factors.</p>
+<p>Below, we are plotting the values of metagenes (rows of <span class="math inline">\(H\)</span>) for components 1 and 3, shown in <a href="#fig-nmfCode" class="quarto-xref">Figure&nbsp;<span>4.18</span></a>. In this context, these values can also be interpreted as the relationship between samples. If we wanted to plot the relationship between genes we would plot the columns of the <span class="math inline">\(W\)</span> matrix.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(NMF)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>res<span class="ot">=</span>NMF<span class="sc">::</span><span class="fu">nmf</span>(mat,<span class="at">rank=</span><span class="dv">3</span>,<span class="at">seed=</span><span class="st">"nndsvd"</span>) <span class="co"># nmf with 3 components/factors</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">basis</span>(res) <span class="co"># get W</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">coef</span>(res)  <span class="co"># get H</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plot 1st factor against 3rd factor</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(h[<span class="dv">1</span>,],h[<span class="dv">3</span>,],<span class="at">col=</span><span class="fu">as.factor</span>(annotation_col<span class="sc">$</span>LeukemiaType),<span class="at">pch=</span><span class="dv">19</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-nmfCode" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-nmfCode-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/nmfCode-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nmfCode-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.18: Leukemia gene expression values per patient on reduced dimensions by NMF. Components 1 and 3 is used for the plot.
+</figcaption>
+</figure>
+</div>
+<p>We should add the note that, due to random starting points of the optimization algorithm, NMF is usually run multiple times and a consensus clustering approach is used when clustering samples. This simply means that samples are clustered together if they cluster together in multiple runs of the NMF. The NMF package we used above has built-in ways to achieve this. In addition, NMF is a family of algorithms. The choice of cost function to optimize the difference between <span class="math inline">\(X\)</span> and <span class="math inline">\(WH\)</span>, and the methods used for optimization create multiple variants of NMF. The “method” parameter in the above <code>nmf()</code> function controls the algorithm choice for NMF. }</p>
+</section>
+<section id="choosing-the-number-of-components-and-ranking-components-in-importance" class="level4" data-number="4.2.2.3">
+<h4 data-number="4.2.2.3" class="anchored" data-anchor-id="choosing-the-number-of-components-and-ranking-components-in-importance"><span class="header-section-number">4.2.2.3</span> Choosing the number of components and ranking components in importance</h4>
+<p>In both ICA and NMF, there is no well-defined way to rank components or to select the number of components. There are a couple of approaches that might suit both ICA and NMF for ranking components. One can use the norms of columns/rows in mixing matrices. This could simply mean take the sum of absolute values in mixing matrices. For our ICA example above, we would take the sum of the absolute values of the rows of <span class="math inline">\(A\)</span> since we transposed the input matrix <span class="math inline">\(X\)</span> before ICA. And for the NMF, we would use the columns of <span class="math inline">\(W\)</span>. These ideas assume that the larger coefficients in the weight or mixing matrices indicate more important components.</p>
+<p>For selecting the optimal number of components, the NMF package provides different strategies. One way is to calculate the RSS for each <span class="math inline">\(k\)</span>, the number of components, and take the <span class="math inline">\(k\)</span> where the RSS curve starts to stabilize. However, these strategies require that you run the algorithm with multiple possible component numbers. The <code>nmf</code> function will run these automatically when the <code>rank</code> argument is a vector of numbers. For ICA there is no straightforward way to choose the right number of components. A common strategy is to start with as many components as variables and try to rank them by their usefulness.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Want to know more ?</strong></p>
+<p>The NMF package vignette has extensive information on how to run NMF to get stable results and an estimate of components: https://cran.r-project.org/web/packages/NMF/vignettes/NMF-vignette.pdf</p>
+</div>
+</div>
+</section>
+</section>
+<section id="multi-dimensional-scaling" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="multi-dimensional-scaling"><span class="header-section-number">4.2.3</span> Multi-dimensional scaling</h3>
+<p>MDS is a set of data analysis techniques that displays the structure of distance data in a high-dimensional space into a lower dimensional space without much loss of information <span class="citation" data-cites="cox2000multidimensional">(<a href="12-references.html#ref-cox2000multidimensional" role="doc-biblioref">Cox and Cox 2000</a>)</span>. The overall goal of MDS is to faithfully represent these distances with the lowest possible dimensions. The so-called “classical multi-dimensional scaling” algorithm, tries to minimize the following function:</p>
+<p><span class="math inline">\({\displaystyle Stress_{D}(z_{1},z_{2},...,z_{N})={\Biggl (}{\frac {\sum _{i,j}{\bigl (}d_{ij}-\|z_{i}-z_{j}\|{\bigr )}^{2}}{\sum _{i,j}d_{ij}^{2}}}{\Biggr )}^{1/2}}\)</span></p>
+<p>Here the function compares the new data points on the lower dimension <span class="math inline">\((z_{1},z_{2},...,z_{N})\)</span> to the input distances between data points or distance between samples in our gene expression example. It turns out, this problem can be efficiently solved with SVD/PCA on the scaled distance matrix, the projection on eigenvectors will be the most optimal solution for the equation above. Therefore, classical MDS is sometimes called Principal Coordinates Analysis in the literature. However, later variants improve on classical MDS by using this as a starting point and optimize a slightly different cost function that again measures how well the low-dimensional distances correspond to high-dimensional distances. This variant is called non-metric MDS and due to the nature of the cost function, it assumes a less stringent relationship between the low-dimensional distances $|z_{i}-z_{j}| and input distances <span class="math inline">\(d_{ij}\)</span>. Formally, this procedure tries to optimize the following function.</p>
+<p><span class="math inline">\({\displaystyle Stress_{D}(z_{1},z_{2},...,z_{N})={\Biggl (}{\frac {\sum _{i,j}{\bigl (}\|z_{i}-z_{j}\|-\theta(d_{ij}){\bigr )}^{2}}{\sum _{i,j}\|z_{i}-z_{j}\|^{2}}}{\Biggr )}^{1/2}}\)</span></p>
+<p>The core of a non-metric MDS algorithm is a two-fold optimization process. First the optimal monotonic transformation of the distances has to be found, which is shown in the above formula as <span class="math inline">\(\theta(d_{ij})\)</span>. Secondly, the points on a low dimension configuration have to be optimally arranged, so that their distances match the scaled distances as closely as possible. These two steps are repeated until some convergence criteria is reached. This usually means that the cost function does not improve much after certain number of iterations. The basic steps in a non-metric MDS algorithm are:</p>
+<ol type="1">
+<li>Find a random low-dimensional configuration of points, or in the variant we will be using below we start with the configuration returned by classical MDS.</li>
+<li>Calculate the distances between the points in the low dimension <span class="math inline">\(\|z_{i}-z_{j}\|\)</span>, <span class="math inline">\(z_{i}\)</span> and <span class="math inline">\(z_{j}\)</span> are vector of positions for samples <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>.</li>
+<li>Find the optimal monotonic transformation of the input distance, <span class="math inline">\({\textstyle \theta(d_{ij})}\)</span>, to approximate input distances to low-dimensional distances. This is achieved by isotonic regression, where a monotonically increasing free-form function is fit. This step practically ensures that ranking of low-dimensional distances are similar to rankings of input distances.</li>
+<li>Minimize the stress function by re-configuring low-dimensional space and keeping <span class="math inline">\(\theta\)</span> function constant.</li>
+<li>Repeat from Step 2 until convergence.</li>
+</ol>
+<p>We will now demonstrate both classical MDS and Kruskal’s isometric MDS.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>mds<span class="ot">=</span><span class="fu">cmdscale</span>(<span class="fu">dist</span>(<span class="fu">t</span>(mat)))</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>isomds<span class="ot">=</span>MASS<span class="sc">::</span><span class="fu">isoMDS</span>(<span class="fu">dist</span>(<span class="fu">t</span>(mat)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## initial  value 15.907414 
+## final  value 13.462986 
+## converged</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the patients in the 2D space</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mds,<span class="at">pch=</span><span class="dv">19</span>,<span class="at">col=</span><span class="fu">as.factor</span>(annotation_col<span class="sc">$</span>LeukemiaType),</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">"classical MDS"</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(isomds<span class="sc">$</span>points,<span class="at">pch=</span><span class="dv">19</span>,<span class="at">col=</span><span class="fu">as.factor</span>(annotation_col<span class="sc">$</span>LeukemiaType),</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">"isotonic MDS"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-mds2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mds2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/mds2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mds2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.19: Leukemia gene expression values per patient on reduced dimensions by classical MDS and isometric MDS.
+</figcaption>
+</figure>
+</div>
+<p>The resulting plot is shown in <a href="#fig-mds2" class="quarto-xref">Figure&nbsp;<span>4.19</span></a>. In this example, there is not much difference between isotonic MDS and classical MDS. However, there might be cases where different MDS methods provide visible changes in the scatter plots.</p>
+</section>
+<section id="t-distributed-stochastic-neighbor-embedding-t-sne" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="t-distributed-stochastic-neighbor-embedding-t-sne"><span class="header-section-number">4.2.4</span> t-Distributed Stochastic Neighbor Embedding (t-SNE)</h3>
+<p>t-SNE maps the distances in high-dimensional space to lower dimensions and it is similar to the MDS method in this respect. But the benefit of this particular method is that it tries to preserve the local structure of the data so the distances and grouping of the points we observe in lower dimensions such as a 2D scatter plot is as close as possible to the distances we observe in the high-dimensional space <span class="citation" data-cites="maaten2008visualizing">(<a href="12-references.html#ref-maaten2008visualizing" role="doc-biblioref">Maaten and Hinton 2008</a>)</span>. As with other dimension reduction methods, you can choose how many lower dimensions you need. The main difference of t-SNE, as mentiones above, is that it tries to preserve the local structure of the data. This kind of local structure embedding is missing in the MDS algorithm, which also has a similar goal. MDS tries to optimize the distances as a whole, whereas t-SNE optimizes the distances with the local structure in mind. This is defined by the “perplexity” parameter in the arguments. This parameter controls how much the local structure influences the distance calculation. The lower the value, the more the local structure is taken into account. Similar to MDS, the process is an optimization algorithm. Here, we also try to minimize the divergence between observed distances and lower dimension distances. However, in the case of t-SNE, the observed distances and lower dimensional distances are transformed using a probabilistic framework with their local variance in mind.</p>
+<p>From here on, we will provide a bit more detail on how the algorithm works in case the conceptual description above is too shallow. In t-SNE the Euclidean distances between data points are transformed into a conditional similarity between points. This is done by assuming a normal distribution on each data point with a variance calculated ultimately by the use of the “perplexity” parameter. The perplexity parameter is, in a sense, a guess about the number of the closest neighbors each point has. Setting it to higher values gives more weight to global structure. Given <span class="math inline">\(d_{ij}\)</span> is the Euclidean distance between point <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, the similarity score <span class="math inline">\(p_{ij}\)</span> is calculated as shown below.</p>
+<p><span class="math display">\[p_{j | i} = \frac{\exp(-\|d_{ij}\|^2 / 2 σ_i^2)}{∑_{k \neq i} \exp(-\|d_{ik}\|^2 / 2 σ_i^2)}\]</span></p>
+<p>This distance is symmetrized by incorporating <span class="math inline">\(p_{i | j}\)</span> as shown below.</p>
+<p><span class="math display">\[p_{i j}=\frac{p_{j|i} + p_{i|j}}{2n}\]</span></p>
+<p>For the distances in the reduced dimension, we use t-distribution with one degree of freedom. In the formula below, <span class="math inline">\(| y_i-y_j\|^2\)</span> is Euclidean distance between points <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> in the reduced dimensions.</p>
+<p><span class="math display">\[
+q_{i j} = \frac{(1+ \| y_i-y_j\|^2)^{-1}}{(∑_{k \neq l} 1+ \| y_k-y_l\|^2)^{-1} }
+\]</span></p>
+<p>As most of the algorithms we have seen in this section, t-SNE is an optimization process in essence. In every iteration the points along lower dimensions are re-arranged to minimize the formulated difference between the observed joint probabilities (<span class="math inline">\(p_{i j}\)</span>) and low-dimensional joint probabilities (<span class="math inline">\(q_{i j}\)</span>). Here we are trying to compare probability distributions. In this case, this is done using a method called Kullback-Leibler divergence, or KL-divergence. In the formula below, since the <span class="math inline">\(p_{i j}\)</span> is pre-defined using original distances, the only way to optimize is to play with <span class="math inline">\(q_{i j}\)</span> because it depends on the configuration of points in the lower dimensional space. This configuration is optimized to minimize the KL-divergence between <span class="math inline">\(p_{i j}\)</span> and <span class="math inline">\(q_{i j}\)</span>.</p>
+<p><span class="math display">\[
+KL(P||Q) = \sum_{i, j} p_{ij} \, \log \frac{p_{ij}}{q_{ij}}.
+\]</span> Strictly speaking, KL-divergence measures how well the distribution <span class="math inline">\(P\)</span> which is observed using the original data points can be approximated by distribution <span class="math inline">\(Q\)</span>, which is modeled using points on the lower dimension. If the distributions are identical, KL-divergence would be <span class="math inline">\(0\)</span>. Naturally, the more divergent the distributions are, the higher the KL-divergence will be.</p>
+<p>We will now show how to use t-SNE on our gene expression data set using the <code>Rtsne</code> package }. We are setting the random seed because again, the t-SNE optimization algorithm has random starting points and this might create non-identical results in every run. After calculating the t-SNE lower dimension embeddings we plot the points in a 2D scatter plot, shown in <a href="#fig-tsne" class="quarto-xref">Figure&nbsp;<span>4.20</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"Rtsne"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>) <span class="co"># Set a seed if you want reproducible results</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>tsne_out <span class="ot">&lt;-</span> <span class="fu">Rtsne</span>(<span class="fu">t</span>(mat),<span class="at">perplexity =</span> <span class="dv">10</span>) <span class="co"># Run TSNE</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a> <span class="co">#image(t(as.matrix(dist(tsne_out$Y))))</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the objects in the 2D tsne representation</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tsne_out<span class="sc">$</span>Y,<span class="at">col=</span><span class="fu">as.factor</span>(annotation_col<span class="sc">$</span>LeukemiaType),</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch=</span><span class="dv">19</span>)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create the legend for the Leukemia types</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">unique</span>(annotation_col<span class="sc">$</span>LeukemiaType),</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span><span class="fu">palette</span>(<span class="st">"default"</span>),</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">border=</span><span class="cn">NA</span>,<span class="at">box.col=</span><span class="cn">NA</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-tsne" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tsne-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="04-unsupervisedLearning_files/figure-html/tsne-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tsne-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.20: t-SNE of leukemia expression dataset
+</figcaption>
+</figure>
+</div>
+<p>As you might have noticed, we set again a random seed with the <code>set.seed()</code> function. The optimization algorithm starts with random configuration of points in the lower dimension space, and in each iteration it tries to improve on the previous lower dimension conflagration, which is why starting points can result in different final outcomes.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Want to know more ?</strong></p>
+<ul>
+<li>How perplexity affects t-sne, interactive examples: https://distill.pub/2016/misread-tsne/</li>
+<li>More on perplexity: https://blog.paperspace.com/dimension-reduction-with-t-sne/</li>
+<li>Intro to t-SNE: https://www.oreilly.com/learning/an-illustrated-introduction-to-the-t-sne-algorithm</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.3</span> Exercises</h2>
+<p>For this set of exercises we will be using the expression data shown below:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>expFile<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"leukemiaExpressionSubset.rds"</span>,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>mat<span class="ot">=</span><span class="fu">readRDS</span>(expFile)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="clustering" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="clustering"><span class="header-section-number">4.3.1</span> Clustering</h3>
+<ol type="1">
+<li><p>We want to observe the effect of data transformation in this exercise. Scale the expression matrix with the <code>scale()</code> function. In addition, try taking the logarithm of the data with the <code>log2()</code> function prior to scaling. Make box plots of the unscaled and scaled data sets using the <code>boxplot()</code> function. [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>For the same problem above using the unscaled data and different data transformation strategies, use the <code>ward.d</code> distance in hierarchical clustering and plot multiple heatmaps. You can try to use the <code>pheatmap</code> library or any other library that can plot a heatmap with a dendrogram. Which data-scaling strategy provides more homogeneous clusters with respect to disease types? [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>For the transformed and untransformed data sets used in the exercise above, use the silhouette for deciding number of clusters using hierarchical clustering. [Difficulty: <strong>Intermediate/Advanced</strong>]</p></li>
+<li><p>Now, use the Gap Statistic for deciding the number of clusters in hierarchical clustering. Is it the same number of clusters identified by two methods? Is it similar to the number of clusters obtained using the k-means algorithm in the chapter. [Difficulty: <strong>Intermediate/Advanced</strong>]</p></li>
+</ol>
+</section>
+<section id="dimension-reduction" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="dimension-reduction"><span class="header-section-number">4.3.2</span> Dimension reduction</h3>
+<p>We will be using the leukemia expression data set again. You can use it as shown in the clustering exercises.</p>
+<ol type="1">
+<li><p>Do PCA on the expression matrix using the <code>princomp()</code> function and then use the <code>screeplot()</code> function to visualize the explained variation by eigenvectors. How many top components explain 95% of the variation? [Difficulty: <strong>Beginner</strong>]</p></li>
+<li><p>Our next tasks are to remove eigenvectors and reconstruct the matrix using SVD, then calculate the reconstruction error as the difference between original and reconstructed matrix. Remove a few eigenvectors, reconstruct the matrix and calculate the reconstruction error. Reconstruction error can be euclidean distance between original and reconstructed matrices. HINT: You have to use the <code>svd()</code> function and equalize eigenvalue to <span class="math inline">\(0\)</span> for the component you want to remove. [Difficulty: <strong>Intermediate/Advanced</strong>]</p></li>
+<li><p>Produce a 10-component ICA from the expression data set. Remove each component and measure the reconstruction error without that component. Rank the components by decreasing reconstruction-error. [Difficulty: <strong>Advanced</strong>]</p></li>
+<li><p>In this exercise we use the <code>Rtsne()</code> function on the leukemia expression data set. Try to increase and decrease perplexity t-sne, and describe the observed changes in 2D plots. [Difficulty: <strong>Beginner</strong>]</p></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-cox2000multidimensional" class="csl-entry" role="listitem">
+Cox, T. F., and M. A. A. Cox. 2000. <em>Multidimensional Scaling, Second Edition</em>. Chapman &amp; Hall/CRC Monographs on Statistics &amp; Applied Probability. CRC Press.
+</div>
+<div id="ref-hartigan1979algorithm" class="csl-entry" role="listitem">
+Hartigan, John A, and Manchek A Wong. 1979. <span>“Algorithm AS 136: A k-Means Clustering Algorithm.”</span> <em>Journal of the Royal Statistical Society. Series C (Applied Statistics)</em> 28 (1): 100–108.
+</div>
+<div id="ref-hyvarinen2013independent" class="csl-entry" role="listitem">
+Hyvärinen, Aapo. 2013. <span>“Independent Component Analysis: Recent Advances.”</span> <em>Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences</em> 371 (1984): 20110534.
+</div>
+<div id="ref-lee2001algorithms" class="csl-entry" role="listitem">
+Lee, Daniel D, and H Sebastian Seung. 2001. <span>“Algorithms for Non-Negative Matrix Factorization.”</span> <em>Advances in Neural Information Processing Systems</em>, 556–62.
+</div>
+<div id="ref-maaten2008visualizing" class="csl-entry" role="listitem">
+Maaten, Laurens van der, and Geoffrey Hinton. 2008. <span>“Visualizing Data Using t-SNE.”</span> <em>Journal of Machine Learning Research</em> 9 (Nov): 2579–605.
+</div>
+<div id="ref-reynolds2006clustering" class="csl-entry" role="listitem">
+Reynolds, Alan P, Graeme Richards, Beatriz de la Iglesia, and Victor J Rayward-Smith. 2006. <span>“Clustering Rules: A Comparison of Partitioning and Hierarchical Clustering Algorithms.”</span> <em>Journal of Mathematical Modelling and Algorithms</em> 5 (4): 475–504.
+</div>
+<div id="ref-rousseeuw1987silhouettes" class="csl-entry" role="listitem">
+Rousseeuw, Peter J. 1987. <span>“Silhouettes: A Graphical Aid to the Interpretation and Validation of Cluster Analysis.”</span> <em>Journal of Computational and Applied Mathematics</em> 20: 53–65.
+</div>
+<div id="ref-tibshirani2001estimating" class="csl-entry" role="listitem">
+Tibshirani, Robert, Guenther Walther, and Trevor Hastie. 2001. <span>“Estimating the Number of Clusters in a Data Set via the Gap Statistic.”</span> <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em> 63 (2): 411–23.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<div class="cgr-global-banner bottom-banner" role="complementary" aria-label="Book Updates">
+  <div class="banner-container">
+    <div class="banner-title">Stay Connected with Computational Genomics</div>
+    <div class="banner-text">
+      Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer" class="banner-link">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer" class="banner-link">Substack Blog</a> for updates!
+    </div>
+  </div>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/compgenomr\.github\.io\/book\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./03-statsForGenomics.html" class="pagination-link" aria-label="Statistics for Genomics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistics for Genomics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./05-supervisedLearning.html" class="pagination-link" aria-label="Predictive Modeling with Supervised Machine Learning">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Predictive Modeling with Supervised Machine Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Computational Genomics with R — Altuna Akalin</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/compgenomr/book/edit/main/04-unsupervisedLearning.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

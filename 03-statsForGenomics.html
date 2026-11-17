@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A guide to computational genomics using R. The book covers fundamental topics with practical examples for an interdisciplinary audience.">
+
+<title>3&nbsp; Statistics for Genomics – Computational Genomics with R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./04-unsupervisedLearning.html" rel="next">
+<link href="./02-intro2R.html" rel="prev">
+<link href="./images/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3386ba8bb730b0c8829dca417ec99718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Umami Analytics (Privacy-friendly, cookie-free, GDPR-compliant) -->
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="9ee01346-97c1-4be2-bfa8-4b70be9e59f4"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03-statsForGenomics.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistics for Genomics</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computational Genomics with R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/compgenomr/book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Authors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro2Genomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R for Genomic Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-statsForGenomics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistics for Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-unsupervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis with Unsupervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-supervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Predictive Modeling with Supervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-genomicIntervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Operations on Genomic Intervals and Genome Arithmetic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-Read_Processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quality Check, Processing and Alignment of High-throughput Sequencing Reads</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-rna-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">RNA-seq Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-chip-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ChIP-seq analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bs-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DNA methylation analysis using bisulfite sequencing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-multiomics-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multi-omics Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<style>
+/* Right margin cover thumbnail styling */
+.cgr-margin-cover {
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.cgr-margin-cover img {
+  max-width: 175px;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cgr-margin-cover img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+/* Suppress large cover image in landing page body */
+.quarto-cover-image {
+  display: none !important;
+}
+</style>
+<div class="cgr-margin-cover text-center">
+  <a href="./index.html" title="Computational Genomics with R">
+    <img src="./images/cover.png" alt="Computational Genomics with R cover" class="img-fluid">
+  </a>
+</div>
+
+</div></div>
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions" id="toc-how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions" class="nav-link active" data-scroll-target="#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions"><span class="header-section-number">3.1</span> How to summarize collection of data points: The idea behind statistical distributions</a>
+  <ul class="collapse">
+  <li><a href="#describing-the-central-tendency-mean-and-median" id="toc-describing-the-central-tendency-mean-and-median" class="nav-link" data-scroll-target="#describing-the-central-tendency-mean-and-median"><span class="header-section-number">3.1.1</span> Describing the central tendency: Mean and median</a></li>
+  <li><a href="#describing-the-spread-measurements-of-variation" id="toc-describing-the-spread-measurements-of-variation" class="nav-link" data-scroll-target="#describing-the-spread-measurements-of-variation"><span class="header-section-number">3.1.2</span> Describing the spread: Measurements of variation</a></li>
+  <li><a href="#precision-of-estimates-confidence-intervals" id="toc-precision-of-estimates-confidence-intervals" class="nav-link" data-scroll-target="#precision-of-estimates-confidence-intervals"><span class="header-section-number">3.1.3</span> Precision of estimates: Confidence intervals</a></li>
+  </ul></li>
+  <li><a href="#how-to-test-for-differences-between-samples" id="toc-how-to-test-for-differences-between-samples" class="nav-link" data-scroll-target="#how-to-test-for-differences-between-samples"><span class="header-section-number">3.2</span> How to test for differences between samples</a>
+  <ul class="collapse">
+  <li><a href="#randomization-based-testing-for-difference-of-the-means" id="toc-randomization-based-testing-for-difference-of-the-means" class="nav-link" data-scroll-target="#randomization-based-testing-for-difference-of-the-means"><span class="header-section-number">3.2.1</span> Randomization-based testing for difference of the means</a></li>
+  <li><a href="#using-t-test-for-difference-of-the-means-between-two-samples" id="toc-using-t-test-for-difference-of-the-means-between-two-samples" class="nav-link" data-scroll-target="#using-t-test-for-difference-of-the-means-between-two-samples"><span class="header-section-number">3.2.2</span> Using t-test for difference of the means between two samples</a></li>
+  <li><a href="#multiple-testing-correction" id="toc-multiple-testing-correction" class="nav-link" data-scroll-target="#multiple-testing-correction"><span class="header-section-number">3.2.3</span> Multiple testing correction</a></li>
+  <li><a href="#moderated-t-tests-using-information-from-multiple-comparisons" id="toc-moderated-t-tests-using-information-from-multiple-comparisons" class="nav-link" data-scroll-target="#moderated-t-tests-using-information-from-multiple-comparisons"><span class="header-section-number">3.2.4</span> Moderated t-tests: Using information from multiple comparisons</a></li>
+  </ul></li>
+  <li><a href="#relationship-between-variables-linear-models-and-correlation" id="toc-relationship-between-variables-linear-models-and-correlation" class="nav-link" data-scroll-target="#relationship-between-variables-linear-models-and-correlation"><span class="header-section-number">3.3</span> Relationship between variables: Linear models and correlation</a>
+  <ul class="collapse">
+  <li><a href="#how-to-fit-a-line" id="toc-how-to-fit-a-line" class="nav-link" data-scroll-target="#how-to-fit-a-line"><span class="header-section-number">3.3.1</span> How to fit a line</a></li>
+  <li><a href="#how-to-estimate-the-error-of-the-coefficients" id="toc-how-to-estimate-the-error-of-the-coefficients" class="nav-link" data-scroll-target="#how-to-estimate-the-error-of-the-coefficients"><span class="header-section-number">3.3.2</span> How to estimate the error of the coefficients</a></li>
+  <li><a href="#accuracy-of-the-model" id="toc-accuracy-of-the-model" class="nav-link" data-scroll-target="#accuracy-of-the-model"><span class="header-section-number">3.3.3</span> Accuracy of the model</a></li>
+  <li><a href="#regression-with-categorical-variables" id="toc-regression-with-categorical-variables" class="nav-link" data-scroll-target="#regression-with-categorical-variables"><span class="header-section-number">3.3.4</span> Regression with categorical variables</a></li>
+  <li><a href="#regression-pitfalls" id="toc-regression-pitfalls" class="nav-link" data-scroll-target="#regression-pitfalls"><span class="header-section-number">3.3.5</span> Regression pitfalls</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3.4</span> Exercises</a>
+  <ul class="collapse">
+  <li><a href="#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1" id="toc-how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1" class="nav-link" data-scroll-target="#how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><span class="header-section-number">3.4.1</span> How to summarize collection of data points: The idea behind statistical distributions</a></li>
+  <li><a href="#how-to-test-for-differences-in-samples" id="toc-how-to-test-for-differences-in-samples" class="nav-link" data-scroll-target="#how-to-test-for-differences-in-samples"><span class="header-section-number">3.4.2</span> How to test for differences in samples</a></li>
+  <li><a href="#relationship-between-variables-linear-models-and-correlation-1" id="toc-relationship-between-variables-linear-models-and-correlation-1" class="nav-link" data-scroll-target="#relationship-between-variables-linear-models-and-correlation-1"><span class="header-section-number">3.4.3</span> Relationship between variables: Linear models and correlation</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/compgenomr/book/edit/main/03-statsForGenomics.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+<style>
+/* Base container: exactly one banner element on every page */
+#cgr-top-banner {
+  margin: 10px 0 20px 0;
+  line-height: 1.5;
+}
+
+/* Landing page (Preface): prominent colored card banner */
+#cgr-top-banner.banner-landing {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border: 1px solid #c7d2fe;
+  border-left: 5px solid #4f46e5;
+  border-radius: 8px;
+  padding: 12px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #1e1b4b;
+}
+
+#cgr-top-banner.banner-landing .banner-badge {
+  display: inline-block;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+#cgr-top-banner.banner-landing a {
+  color: #4338ca;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-landing a:hover {
+  color: #312e81;
+}
+
+/* Chapters & Subpages: subtle, non-distracting 1-line announcement */
+#cgr-top-banner.banner-subtle {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0;
+  padding: 0 0 8px 0;
+  margin: 4px 0 18px 0;
+  font-size: 0.84rem;
+  color: #64748b;
+  box-shadow: none;
+}
+
+#cgr-top-banner.banner-subtle a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-subtle a:hover {
+  color: #1d4ed8;
+}
+</style>
+
+<div id="cgr-top-banner" class="banner-subtle" role="region" aria-label="Announcements">
+  Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!
+</div>
+
+<script>
+(function() {
+  try {
+    var p = window.location.pathname;
+    var isLanding = (
+      p.endsWith("/index.html") ||
+      p.endsWith("/") ||
+      p === "" ||
+      (document.getElementById("preface") !== null && p.indexOf(".html") === -1)
+    );
+    if (p.indexOf(".html") !== -1 && !p.endsWith("index.html")) {
+      isLanding = false;
+    }
+    if (isLanding) {
+      var b = document.getElementById("cgr-top-banner");
+      if (b) {
+        b.className = "banner-landing";
+        b.innerHTML = '<span class="banner-badge">🚀 New</span> Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!';
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-stats" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistics for Genomics</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This chapter will summarize statistics methods frequently used in computational genomics. As these fields are continuously evolving, the techniques introduced here do not form an exhaustive list but mostly cornerstone methods that are often and still being used. In addition, we focused on giving intuitive and practical understanding of the methods with relevant examples from the field. If you want to dig deeper into statistics and math, beyond what is described here, we included appropriate references with annotation after each major section.</p>
+<section id="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions"><span class="header-section-number">3.1</span> How to summarize collection of data points: The idea behind statistical distributions</h2>
+<p>In biology and many other fields, data is collected via experimentation. The nature of the experiments and natural variation in biology makes it impossible to get the same exact measurements every time you measure something. For example, if you are measuring gene expression values for a certain gene, say PAX6, and let’s assume you are measuring expression per sample and cell with any method (microarrays, rt-qPCR, etc.). You will not get the same expression value even if your samples are homogeneous, due to technical bias in experiments or natural variation in the samples. Instead, we would like to describe this collection of data some other way that represents the general properties of the data. <a href="#fig-pax6ReplicatesChp3" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> shows a sample of 20 expression values from the PAX6 gene.</p>
+<div id="fig-pax6ReplicatesChp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pax6ReplicatesChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/pax6ReplicatesChp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pax6ReplicatesChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Expression of the PAX6 gene in 20 replicate experiments.
+</figcaption>
+</figure>
+</div>
+<section id="describing-the-central-tendency-mean-and-median" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="describing-the-central-tendency-mean-and-median"><span class="header-section-number">3.1.1</span> Describing the central tendency: Mean and median</h3>
+<p>As seen in <a href="#fig-pax6ReplicatesChp3" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>, the points from this sample are distributed around a central value and the histogram below the dot plot shows the number of points in each bin. Another observation is that there are some bins that have more points than others. If we want to summarize what we observe, we can try to represent the collection of data points with an expression value that is typical to get, something that represents the general tendency we observe on the dot plot and the histogram. This value is sometimes called the central value or central tendency, and there are different ways to calculate such a value. In <a href="#fig-pax6ReplicatesChp3" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>, we see that all the values are spread around 6.13 (red line), and that is indeed what we call the mean value of this sample of expression values. It can be calculated with the following formula <span class="math inline">\(\overline{X}=\sum_{i=1}^n x_i/n\)</span>, where <span class="math inline">\(x_i\)</span> is the expression value of an experiment and <span class="math inline">\(n\)</span> is the number of expression values obtained from the experiments. In R, the <code>mean()</code> function will calculate the mean of a provided vector of numbers. This is called a “sample mean”. In reality, there are many more than 20 possible PAX6 expression values (provided each cell is of the identical cell type and is in identical conditions). If we had the time and the funding to sample all cells and measure PAX6 expression we would get a collection of values that would be called, in statistics, a “population”. In our case, the population will look like the left hand side of the <a href="#fig-pax6MorereplicatesChp3" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>. What we have done with our 20 data points is that we took a sample of PAX6 expression values from this population, and calculated the sample mean.</p>
+<div id="fig-pax6MorereplicatesChp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pax6MorereplicatesChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/pax6MorereplicatesChp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pax6MorereplicatesChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Expression of all possible PAX6 gene expression measures on all available biological samples (left). Expression of the PAX6 gene from the statistical sample, a random subset from the population of biological samples (right).
+</figcaption>
+</figure>
+</div>
+<p>The mean of the population is calculated the same way but traditionally the Greek letter <span class="math inline">\(\mu\)</span> is used to denote the population mean. Normally, we would not have access to the population and we will use the sample mean and other quantities derived from the sample to estimate the population properties. This is the basic idea behind statistical inference, which we will see in action in later sections as well. We estimate the population parameters from the sample parameters and there is some uncertainty associated with those estimates. We will be trying to assess those uncertainties and make decisions in the presence of those uncertainties.</p>
+<p>We are not yet done with measuring central tendency. There are other ways to describe it, such as the median value. The mean can be affected by outliers easily. If certain values are very high or low compared to the bulk of the sample, this will shift mean toward those outliers. However, the median is not affected by outliers. It is simply the value in a distribution where half of the values are above and the other half are below. In R, the <code>median()</code> function will calculate the median of a provided vector of numbers.Let’s create a set of random numbers and calculate their mean and median using R.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#create 10 random numbers from uniform distribution </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">runif</span>(<span class="dv">10</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate mean</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0.3738963</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate median</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0.3277896</code></pre>
+</section>
+<section id="describing-the-spread-measurements-of-variation" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="describing-the-spread-measurements-of-variation"><span class="header-section-number">3.1.2</span> Describing the spread: Measurements of variation</h3>
+<p>Another useful way to summarize a collection of data points is to measure how variable the values are. You can simply describe the range of the values, such as the minimum and maximum values. You can easily do that in R with the <code>range()</code> function. A more common way to calculate variation is by calculating something called “standard deviation” or the related quantity called “variance”. This is a quantity that shows how variable the values are. A value around zero indicates there is not much variation in the values of the data points, and a high value indicates high variation in the values. The variance is the squared distance of data points from the mean. Population variance is again a quantity we usually do not have access to and is simply calculated as follows <span class="math inline">\(\sigma^2=\sum_{i=1}^n \frac{(x_i-\mu)^2}{n}\)</span>, where <span class="math inline">\(\mu\)</span> is the population mean, <span class="math inline">\(x_i\)</span> is the <span class="math inline">\(i\)</span>th data point in the population and <span class="math inline">\(n\)</span> is the population size. However, when we only have access to a sample, this formulation is biased. That means that it underestimates the population variance, so we make a small adjustment when we calculate the sample variance, denoted as <span class="math inline">\(s^2\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+s^2=\sum_{i=1}^n \frac{(x_i-\overline{X})^2}{n-1} &amp;&amp; \text{ where $x_i$ is the ith data point and
+$\overline{X}$ is the sample mean.}
+\end{aligned}
+\]</span></p>
+<p>The sample standard deviation is simply the square root of the sample variance, <span class="math inline">\(s=\sqrt{\sum_{i=1}^n \frac{(x_i-\overline{X})^2}{n-1}}\)</span>. The good thing about standard deviation is that it has the same unit as the mean so it is more intuitive.</p>
+<p>We can calculate the sample standard deviation and variation with the <code>sd()</code> and <code>var()</code> functions in R. These functions take a vector of numeric values as input and calculate the desired quantities. Below we use those functions on a randomly generated vector of numbers.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">6</span>,<span class="at">sd=</span><span class="fl">0.7</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0.2531495</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0.5031397</code></pre>
+<p>One potential problem with the variance is that it could be affected by outliers. The points that are too far away from the mean will have a large effect on the variance even though there might be few of them. A way to measure variance that could be less affected by outliers is looking at where the bulk of the distribution is. How do we define where the bulk is? One common way is to look at the difference between 75th percentile and 25th percentile, this effectively removes a lot of potential outliers which will be towards the edges of the range of values. This is called the interquartile range, and can be easily calculated using R via the <code>IQR()</code> function and the quantiles of a vector are calculated with the <code>quantile()</code> function.</p>
+<p>Let us plot the boxplot for a random vector and also calculate IQR using R. In the boxplot (<a href="#fig-boxplot2Chp3" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>), 25th and 75th percentiles are the edges of the box, and the median is marked with a thick line cutting through the box.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="at">mean=</span><span class="dv">6</span>,<span class="at">sd=</span><span class="fl">0.7</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0.5010954</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##       0%      25%      50%      75%     100% 
+## 5.437119 5.742895 5.860302 6.243991 6.558112</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(x,<span class="at">horizontal =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-boxplot2Chp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot2Chp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/boxplot2Chp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot2Chp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Boxplot showing the 25th percentile and 75th percentile and median for a set of points sampled from a normal distribution with mean=6 and standard deviation=0.7.
+</figcaption>
+</figure>
+</div>
+<section id="frequently-used-statistical-distributions" class="level4" data-number="3.1.2.1">
+<h4 data-number="3.1.2.1" class="anchored" data-anchor-id="frequently-used-statistical-distributions"><span class="header-section-number">3.1.2.1</span> Frequently used statistical distributions</h4>
+<p>The distributions have parameters (such as mean and variance) that summarize them, but also they are functions that assign each outcome of a statistical experiment to its probability of occurrence. One distribution that you will frequently encounter is the normal distribution or Gaussian distribution. The normal distribution has a typical “bell-curve” shape and is characterized by mean and standard deviation. A set of data points that follow normal distribution will mostly be close to the mean but spread around it, controlled by the standard deviation parameter. That means that if we sample data points from a normal distribution, we are more likely to sample data points near the mean and sometimes away from the mean. The probability of an event occurring is higher if it is nearby the mean. The effect of the parameters for the normal distribution can be observed in the following plot.</p>
+<div id="fig-normDistChp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-normDistChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/normDistChp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-normDistChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: Different parameters for normal distribution and effect of those on the shape of the distribution
+</figcaption>
+</figure>
+</div>
+<p>The normal distribution is often denoted by <span class="math inline">\(\mathcal{N}(\mu,\,\sigma^2)\)</span>. When a random variable <span class="math inline">\(X\)</span> is distributed normally with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, we write:</p>
+<p><span class="math display">\[X\ \sim\ \mathcal{N}(\mu,\,\sigma^2)\]</span></p>
+<p>The probability density function of the normal distribution with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span> is as follows:</p>
+<p><span class="math display">\[P(x)=\frac{1}{\sigma\sqrt{2\pi} } \; e^{ -\frac{(x-\mu)^2}{2\sigma^2} } \]</span></p>
+<p>The probability density function gives the probability of observing a value on a normal distribution defined by the <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span> parameters.</p>
+<p>Oftentimes, we do not need the exact probability of a value, but we need the probability of observing a value larger or smaller than a critical value or reference point. For example, we might want to know the probability of <span class="math inline">\(X\)</span> being smaller than or equal to -2 for a normal distribution with mean <span class="math inline">\(0\)</span> and standard deviation <span class="math inline">\(2\)</span>: <span class="math inline">\(P(X &lt;= -2 \; | \;  \mu=0,\sigma=2)\)</span>. In this case, what we want is the area under the curve shaded in dark blue. To be able to do that, we need to integrate the probability density function but we will usually let software do that. Traditionally, one calculates a Z-score which is simply <span class="math inline">\((X-\mu)/\sigma=(-2-0)/2= -1\)</span>, and corresponds to how many standard deviations you are away from the mean. This is also called “standardization”, the corresponding value is distributed in “standard normal distribution” where <span class="math inline">\(\mathcal{N}(0,\,1)\)</span>. After calculating the Z-score, we can look up the area under the curve for the left and right sides of the Z-score in a table, but again, we use software for that. The tables are outdated when you can use a computer.</p>
+<p>Below in <a href="#fig-zscore" class="quarto-xref">Figure&nbsp;<span>3.5</span></a>, we show the Z-score and the associated probabilities derived from the calculation above for <span class="math inline">\(P(X &lt;= -2 \; | \;  \mu=0,\sigma=2)\)</span>.</p>
+<div id="fig-zscore" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-zscore-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/zscore-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-zscore-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.5: Z-score and associated probabilities for Z= -1
+</figcaption>
+</figure>
+</div>
+<p>In R, the family of <code>*norm</code> functions (<code>rnorm</code>,<code>dnorm</code>,<code>qnorm</code> and <code>pnorm</code>) can be used to operate with the normal distribution, such as calculating probabilities and generating random numbers drawn from a normal distribution. We show some of those capabilities below.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the value of probability density function when X= -2,</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># where mean=0 and sd=2</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0.1209854</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the probability of P(X =&lt; -2) where mean=0 and sd=2</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0.1586553</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the probability of P(X &gt; -2) where mean=0 and sd=2</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">2</span>,<span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0.8413447</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get 5 random numbers from normal dist with  mean=0 and sd=2</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>, <span class="at">mean=</span><span class="dv">0</span> , <span class="at">sd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] -1.8109030 -1.9220710 -0.5146717  0.8216728 -0.7900804</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get y value corresponding to P(X &gt; y) = 0.15 with  mean=0 and sd=2</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qnorm</span>( <span class="fl">0.15</span>, <span class="at">mean=</span><span class="dv">0</span> , <span class="at">sd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] -2.072867</code></pre>
+<p>There are many other distribution functions in R that can be used the same way. You have to enter the distribution-specific parameters along with your critical value, quantiles, or number of random numbers depending on which function you are using in the family. We will list some of those functions below.</p>
+<ul>
+<li><p><code>dbinom</code> is for the binomial distribution. This distribution is usually used to model fractional data and binary data. Examples from genomics include methylation data.</p></li>
+<li><p><code>dpois</code> is used for the Poisson distribution and <code>dnbinom</code> is used for the negative binomial distribution. These distributions are used to model count data such as sequencing read counts.</p></li>
+<li><p><code>df</code> (F distribution) and <code>dchisq</code> (Chi-Squared distribution) are used in relation to the distribution of variation. The F distribution is used to model<br>
+ratios of variation and Chi-Squared distribution is used to model distribution of variations. You will frequently encounter these in linear models and generalized linear models.</p></li>
+</ul>
+</section>
+</section>
+<section id="precision-of-estimates-confidence-intervals" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="precision-of-estimates-confidence-intervals"><span class="header-section-number">3.1.3</span> Precision of estimates: Confidence intervals</h3>
+<p>When we take a random sample from a population and compute a statistic, such as the mean, we are trying to approximate the mean of the population. How well this sample statistic estimates the population value will always be a concern. A confidence interval addresses this concern because it provides a range of values which will plausibly contain the population parameter of interest. Normally, we would not have access to a population. If we did, we would not have to estimate the population parameters and their precision.</p>
+<p>When we do not have access to the population, one way to estimate intervals is to repeatedly take samples from the original sample with replacement, that is, we take a data point from the sample we replace, and we take another data point until we have sample size of the original sample. Then, we calculate the parameter of interest, in this case the mean, and repeat this process a large number of times, such as 1000. At this point, we would have a distribution of re-sampled means. We can then calculate the 2.5th and 97.5th percentiles and these will be our so-called 95% confidence interval. This procedure, resampling with replacement to estimate the precision of population parameter estimates, is known as the <strong>bootstrap resampling</strong> or <strong>bootstraping</strong>.</p>
+<p>Let’s see how we can do this in practice. We simulate a sample coming from a normal distribution (but we pretend we don’t know the population parameters). We will estimate the precision of the mean of the sample using bootstrapping to build confidence intervals, the resulting plot after this procedure is shown in <a href="#fig-bootstrapChp3" class="quarto-xref">Figure&nbsp;<span>3.6</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mosaic)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">21</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>sample1<span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">50</span>,<span class="dv">20</span>,<span class="dv">5</span>) <span class="co"># simulate a sample</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># do bootstrap resampling, sampling with replacement</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>boot.means<span class="ot">=</span><span class="fu">do</span>(<span class="dv">1000</span>) <span class="sc">*</span> <span class="fu">mean</span>(<span class="fu">resample</span>(sample1))</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co"># get percentiles from the bootstrap means</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>q<span class="ot">=</span><span class="fu">quantile</span>(boot.means[,<span class="dv">1</span>],<span class="at">p=</span><span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.975</span>))</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the histogram</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(boot.means[,<span class="dv">1</span>],<span class="at">col=</span><span class="st">"cornflowerblue"</span>,<span class="at">border=</span><span class="st">"white"</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xlab=</span><span class="st">"sample means"</span>)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">c</span>(q[<span class="dv">1</span>], q[<span class="dv">2</span>] ),<span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>q[<span class="dv">1</span>],<span class="at">y=</span><span class="dv">200</span>,<span class="fu">round</span>(q[<span class="dv">1</span>],<span class="dv">3</span>),<span class="at">adj=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>q[<span class="dv">2</span>],<span class="at">y=</span><span class="dv">200</span>,<span class="fu">round</span>(q[<span class="dv">2</span>],<span class="dv">3</span>),<span class="at">adj=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-bootstrapChp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bootstrapChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/bootstrapChp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bootstrapChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.6: Precision estimate of the sample mean using 1000 bootstrap samples. Confidence intervals derived from the bootstrap samples are shown with red lines.
+</figcaption>
+</figure>
+</div>
+<p>If we had a convenient mathematical method to calculate the confidence interval, we could also do without resampling methods. It turns out that if we take repeated samples from a population with sample size <span class="math inline">\(n\)</span>, the distribution of means (<span class="math inline">\(\overline{X}\)</span>) of those samples will be approximately normal with mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma/\sqrt{n}\)</span>. This is also known as the <strong>Central Limit Theorem(CLT)</strong> and is one of the most important theorems in statistics. This also means that <span class="math inline">\(\frac{\overline{X}-\mu}{\sigma\sqrt{n}}\)</span> has a standard normal distribution and we can calculate the Z-score, and then we can get the percentiles associated with the Z-score. Below, we are showing the Z-score calculation for the distribution of <span class="math inline">\(\overline{X}\)</span>, and then we are deriving the confidence intervals starting with the fact that the probability of Z being between <span class="math inline">\(-1.96\)</span> and <span class="math inline">\(1.96\)</span> is <span class="math inline">\(0.95\)</span>. We then use algebra to show that the probability that unknown <span class="math inline">\(\mu\)</span> is captured between <span class="math inline">\(\overline{X}-1.96\sigma/\sqrt{n}\)</span> and <span class="math inline">\(\overline{X}+1.96\sigma/\sqrt{n}\)</span> is <span class="math inline">\(0.95\)</span>, which is commonly known as the 95% confidence interval.</p>
+<p><span class="math display">\[\begin{array}{ccc}
+Z=\frac{\overline{X}-\mu}{\sigma/\sqrt{n}}\\
+P(-1.96 &lt; Z &lt; 1.96)=0.95 \\
+P(-1.96 &lt; \frac{\overline{X}-\mu}{\sigma/\sqrt{n}} &lt; 1.96)=0.95\\
+P(\mu-1.96\sigma/\sqrt{n} &lt; \overline{X} &lt; \mu+1.96\sigma/\sqrt{n})=0.95\\
+P(\overline{X}-1.96\sigma/\sqrt{n} &lt; \mu &lt; \overline{X}+1.96\sigma/\sqrt{n})=0.95\\
+confint=[\overline{X}-1.96\sigma/\sqrt{n},\overline{X}+1.96\sigma/\sqrt{n}]
+\end{array}\]</span></p>
+<p>A 95% confidence interval for the population mean is the most common interval to use, and would mean that we would expect 95% of the interval estimates to include the population parameter, in this case, the mean. However, we can pick any value such as 99% or 90%. We can generalize the confidence interval for <span class="math inline">\(100(1-\alpha)\)</span> as follows:</p>
+<p><span class="math display">\[\overline{X} \pm Z_{\alpha/2}\sigma/\sqrt{n}\]</span></p>
+<p>In R, we can do this using the <code>qnorm()</code> function to get Z-scores associated with <span class="math inline">\({\alpha/2}\)</span> and <span class="math inline">\({1-\alpha/2}\)</span>. As you can see, the confidence intervals we calculated using CLT are very similar to the ones we got from the bootstrap for the same sample. For bootstrap we got <span class="math inline">\([19.21, 21.989]\)</span> and for the CLT-based estimate we got <span class="math inline">\([19.23638, 22.00819]\)</span>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>alpha<span class="ot">=</span><span class="fl">0.05</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>sd<span class="ot">=</span><span class="dv">5</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>n<span class="ot">=</span><span class="dv">50</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(sample1)<span class="sc">+</span><span class="fu">qnorm</span>(<span class="fu">c</span>(alpha<span class="sc">/</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">-</span>alpha<span class="sc">/</span><span class="dv">2</span>))<span class="sc">*</span>sd<span class="sc">/</span><span class="fu">sqrt</span>(n)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 19.23638 22.00819</code></pre>
+<p>The good thing about CLT is, as long as the sample size is large, regardless of the population distribution, the distribution of sample means drawn from that population will always be normal. In <a href="#fig-sampleMeanschp3" class="quarto-xref">Figure&nbsp;<span>3.7</span></a>, we repeatedly draw samples 1000 times with sample size <span class="math inline">\(n=10\)</span>,<span class="math inline">\(30\)</span>, and <span class="math inline">\(100\)</span> from a bimodal, exponential and a uniform distribution and we are getting sample mean distributions following normal distribution.</p>
+<div id="fig-sampleMeanschp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sampleMeanschp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/sampleMeanschp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sampleMeanschp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.7: Sample means are normally distributed regardless of the population distribution they are drawn from.
+</figcaption>
+</figure>
+</div>
+<p>However, we should note that how we constructed the confidence interval using standard normal distribution, <span class="math inline">\(N(0,1)\)</span>, only works when we know the population standard deviation. In reality, we usually have only access to a sample and have no idea about the population standard deviation. If this is the case, we should estimate the standard deviation using the sample standard deviation and use something called the <em>t distribution</em> instead<br>
+of the standard normal distribution in our interval calculation. Our confidence interval becomes <span class="math inline">\(\overline{X} \pm t_{\alpha/2}s/\sqrt{n}\)</span>, with t distribution parameter <span class="math inline">\(d.f=n-1\)</span>, since now the following quantity is t distributed <span class="math inline">\(\frac{\overline{X}-\mu}{s/\sqrt{n}}\)</span> instead of standard normal distribution.</p>
+<p>The t distribution is similar to the standard normal distribution and has mean <span class="math inline">\(0\)</span> but its spread is larger than the normal distribution especially when the sample size is small, and has one parameter <span class="math inline">\(v\)</span> for the degrees of freedom, which is <span class="math inline">\(n-1\)</span> in this case. Degrees of freedom is simply the number of data points minus the number of parameters estimated.Here we are estimating the mean from the data, therefore the degrees of freedom is <span class="math inline">\(n-1\)</span>. The resulting distributions are shown in <a href="#fig-tdistChp3" class="quarto-xref">Figure&nbsp;<span>3.8</span></a>.</p>
+<div id="fig-tdistChp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tdistChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/tdistChp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tdistChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.8: Normal distribution and t distribution with different degrees of freedom. With increasing degrees of freedom, the t distribution approximates the normal distribution better.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="how-to-test-for-differences-between-samples" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="how-to-test-for-differences-between-samples"><span class="header-section-number">3.2</span> How to test for differences between samples</h2>
+<p>Oftentimes we would want to compare sets of samples. Such comparisons include if wild-type samples have different expression compared to mutants or if healthy samples are different from disease samples in some measurable feature (blood count, gene expression, methylation of certain loci). Since there is variability in our measurements, we need to take that into account when comparing the sets of samples. We can simply subtract the means of two samples, but given the variability of sampling, at the very least we need to decide a cutoff value for differences of means; small differences of means can be explained by random chance due to sampling. That means we need to compare the difference we get to a value that is typical to get if the difference between two group means were only due to sampling. If you followed the logic above, here we actually introduced two core ideas of something called “hypothesis testing”, which is simply using statistics to determine the probability that a given hypothesis (Ex: if two sample sets are from the same population or not) is true. Formally, expanded version of those two core ideas are as follows:</p>
+<ol type="1">
+<li>Decide on a hypothesis to test, often called the “null hypothesis” (<span class="math inline">\(H_0\)</span>). In our case, the hypothesis is that there is no difference between sets of samples. An “alternative hypothesis” (<span class="math inline">\(H_1\)</span>) is that there is a difference between the samples.</li>
+<li>Decide on a statistic to test the truth of the null hypothesis.</li>
+<li>Calculate the statistic.</li>
+<li>Compare it to a reference value to establish significance, the P-value. Based on that, either reject or not reject the null hypothesis, <span class="math inline">\(H_0\)</span>.</li>
+</ol>
+<section id="randomization-based-testing-for-difference-of-the-means" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="randomization-based-testing-for-difference-of-the-means"><span class="header-section-number">3.2.1</span> Randomization-based testing for difference of the means</h3>
+<p>There is one intuitive way to go about this. If we believe there are no differences between samples, that means the sample labels (test vs.&nbsp;control or healthy vs.&nbsp;disease) have no meaning. So, if we randomly assign labels to the samples and calculate the difference of the means, this creates a null distribution for <span class="math inline">\(H_0\)</span> where we can compare the real difference and measure how unlikely it is to get such a value under the expectation of the null hypothesis. We can calculate all possible permutations to calculate the null distribution. However, sometimes that is not very feasible and the equivalent approach would be generating the null distribution by taking a smaller number of random samples with shuffled group membership.</p>
+<p>Below, we are doing this process in R. We are first simulating two samples from two different distributions. These would be equivalent to gene expression measurements obtained under different conditions. Then, we calculate the differences in the means and do the randomization procedure to get a null distribution when we assume there is no difference between samples, <span class="math inline">\(H_0\)</span>. We then calculate how often we would get the original difference we calculated under the assumption that <span class="math inline">\(H_0\)</span> is true. The resulting null distribution and the original value is shown in <a href="#fig-randomTestchp3" class="quarto-xref">Figure&nbsp;<span>3.9</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>gene1<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">30</span>,<span class="at">mean=</span><span class="dv">4</span>,<span class="at">sd=</span><span class="dv">2</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>gene2<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">30</span>,<span class="at">mean=</span><span class="dv">2</span>,<span class="at">sd=</span><span class="dv">2</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>org.diff<span class="ot">=</span><span class="fu">mean</span>(gene1)<span class="sc">-</span><span class="fu">mean</span>(gene2)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>gene.df<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">exp=</span><span class="fu">c</span>(gene1,gene2),</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">group=</span><span class="fu">c</span>( <span class="fu">rep</span>(<span class="st">"test"</span>,<span class="dv">30</span>),<span class="fu">rep</span>(<span class="st">"control"</span>,<span class="dv">30</span>) ) )</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>exp.null <span class="ot">&lt;-</span> <span class="fu">do</span>(<span class="dv">1000</span>) <span class="sc">*</span> <span class="fu">diff</span>(mosaic<span class="sc">::</span><span class="fu">mean</span>(exp <span class="sc">~</span> <span class="fu">shuffle</span>(group), <span class="at">data=</span>gene.df))</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(exp.null[,<span class="dv">1</span>],<span class="at">xlab=</span><span class="st">"null distribution | no difference in samples"</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="fu">expression</span>(<span class="fu">paste</span>(H[<span class="dv">0</span>],<span class="st">" :no difference in means"</span>) ),</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>),<span class="at">col=</span><span class="st">"cornflowerblue"</span>,<span class="at">border=</span><span class="st">"white"</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="fu">quantile</span>(exp.null[,<span class="dv">1</span>],<span class="fl">0.95</span>),<span class="at">col=</span><span class="st">"red"</span> )</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span>org.diff,<span class="at">col=</span><span class="st">"blue"</span> )</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span><span class="fu">quantile</span>(exp.null[,<span class="dv">1</span>],<span class="fl">0.95</span>),<span class="at">y=</span><span class="dv">200</span>,<span class="st">"0.05"</span>,<span class="at">adj=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>org.diff,<span class="at">y=</span><span class="dv">200</span>,<span class="st">"org. diff."</span>,<span class="at">adj=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">col=</span><span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-randomTestchp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-randomTestchp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/randomTestchp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-randomTestchp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.9: The null distribution for differences of means obtained via randomization. The original difference is marked via the blue line. The red line marks the value that corresponds to P-value of 0.05
+</figcaption>
+</figure>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>p.val<span class="ot">=</span><span class="fu">sum</span>(exp.null[,<span class="dv">1</span>]<span class="sc">&gt;</span>org.diff)<span class="sc">/</span><span class="fu">length</span>(exp.null[,<span class="dv">1</span>])</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>p.val</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0.001</code></pre>
+<p>After doing random permutations and getting a null distribution, it is possible to get a confidence interval for the distribution of difference in means. This is simply the <span class="math inline">\(2.5th\)</span> and <span class="math inline">\(97.5th\)</span> percentiles of the null distribution, and directly related to the P-value calculation above.</p>
+</section>
+<section id="using-t-test-for-difference-of-the-means-between-two-samples" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="using-t-test-for-difference-of-the-means-between-two-samples"><span class="header-section-number">3.2.2</span> Using t-test for difference of the means between two samples</h3>
+<p>We can also calculate the difference between means using a t-test. Sometimes we will have too few data points in a sample to do a meaningful randomization test, also randomization takes more time than doing a t-test. This is a test that depends on the t distribution. The line of thought follows from the CLT and we can show differences in means are t distributed. There are a couple of variants of the t-test for this purpose. If we assume the population variances are equal we can use the following version</p>
+<p><span class="math display">\[t = \frac{\bar {X}_1 - \bar{X}_2}{s_{X_1X_2} \cdot \sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}\]</span> where <span class="math display">\[s_{X_1X_2} = \sqrt{\frac{(n_1-1)s_{X_1}^2+(n_2-1)s_{X_2}^2}{n_1+n_2-2}}\]</span> In the first equation above, the quantity is t distributed with <span class="math inline">\(n_1+n_2-2\)</span> degrees of freedom. We can calculate the quantity and then use software to look for the percentile of that value in that t distribution, which is our P-value. When we cannot assume equal variances, we use “Welch’s t-test” which is the default t-test in R and also works well when variances and the sample sizes are the same. For this test we calculate the following quantity:</p>
+<p><span class="math display">\[t = \frac{\overline{X}_1 - \overline{X}_2}{s_{\overline{X}_1 - \overline{X}_2}}\]</span> where <span class="math display">\[s_{\overline{X}_1 - \overline{X}_2} = \sqrt{\frac{s_1^2 }{ n_1} + \frac{s_2^2 }{n_2}}\]</span></p>
+<p>and the degrees of freedom equals to</p>
+<p><span class="math display">\[\mathrm{d.f.} = \frac{(s_1^2/n_1 + s_2^2/n_2)^2}{(s_1^2/n_1)^2/(n_1-1) + (s_2^2/n_2)^2/(n_2-1)}
+\]</span></p>
+<p>Luckily, R does all those calculations for us. Below we will show the use of <code>t.test()</code> function in R. We will use it on the samples we simulated above.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Welch's t-test</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">t.test</span>(gene1,gene2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  gene1 and gene2
+## t = 3.7653, df = 47.552, p-value = 0.0004575
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.872397 2.872761
+## sample estimates:
+## mean of x mean of y 
+##  4.057728  2.185149</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># t-test with equal variance assumption</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>stats<span class="sc">::</span><span class="fu">t.test</span>(gene1,gene2,<span class="at">var.equal=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  gene1 and gene2
+## t = 3.7653, df = 58, p-value = 0.0003905
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.8770753 2.8680832
+## sample estimates:
+## mean of x mean of y 
+##  4.057728  2.185149</code></pre>
+<p>A final word on t-tests: they generally assume a population where samples coming from them have a normal distribution, however it is been shown t-test can tolerate deviations from normality, especially, when two distributions are moderately skewed in the same direction. This is due to the central limit theorem, which says that the means of samples will be distributed normally no matter the population distribution if sample sizes are large.</p>
+</section>
+<section id="multiple-testing-correction" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="multiple-testing-correction"><span class="header-section-number">3.2.3</span> Multiple testing correction</h3>
+<p>We should think of hypothesis testing as a non-error-free method of making decisions. There will be times when we declare something significant and accept <span class="math inline">\(H_1\)</span> but we will be wrong. These decisions are also called “false positives” or “false discoveries”, and are also known as “type I errors”. Similarly, we can fail to reject a hypothesis when we actually should. These cases are known as “false negatives”, also known as “type II errors”.</p>
+<p>The ratio of true negatives to the sum of true negatives and false positives (<span class="math inline">\(\frac{TN}{FP+TN}\)</span>) is known as specificity. And we usually want to decrease the FP and get higher specificity. The ratio of true positives to the sum of true positives and false negatives (<span class="math inline">\(\frac{TP}{TP+FN}\)</span>) is known as sensitivity. And, again, we usually want to decrease the FN and get higher sensitivity. Sensitivity is also known as the “power of a test” in the context of hypothesis testing. More powerful tests will be highly sensitive and will have fewer type II errors. For the t-test, the power is positively associated with sample size and the effect size. The larger the sample size, the smaller the standard error, and looking for the larger effect sizes will similarly increase the power.</p>
+<p>The general summary of these different decision combinations are included in the table below.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;"><span class="math inline">\(H_0\)</span> is TRUE, [Gene is NOT differentially expressed]</th>
+<th style="text-align: center;"><span class="math inline">\(H_1\)</span> is TRUE, [Gene is differentially expressed]</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Accept <span class="math inline">\(H_0\)</span> (claim that the gene is not differentially expressed)</td>
+<td style="text-align: center;">True Negatives (TN)</td>
+<td style="text-align: center;">False Negatives (FN) ,type II error</td>
+<td><span class="math inline">\(m_0\)</span>: number of truly null hypotheses</td>
+</tr>
+<tr class="even">
+<td>reject <span class="math inline">\(H_0\)</span> (claim that the gene is differentially expressed)</td>
+<td style="text-align: center;">False Positives (FP) ,type I error</td>
+<td style="text-align: center;">True Positives (TP)</td>
+<td><span class="math inline">\(m-m_0\)</span>: number of truly alternative hypotheses</td>
+</tr>
+</tbody>
+</table>
+<p>We expect to make more type I errors as the number of tests increase, which means we will reject the null hypothesis by mistake. For example, if we perform a test at the 5% significance level, there is a 5% chance of incorrectly rejecting the null hypothesis if the null hypothesis is true. However, if we make 1000 tests where all null hypotheses are true for each of them, the average number of incorrect rejections is 50. And if we apply the rules of probability, there is almost a 100% chance that we will have at least one incorrect rejection. There are multiple statistical techniques to prevent this from happening. These techniques generally push the P-values obtained from multiple tests to higher values; if the individual P-value is low enough it survives this process. The simplest method is just to multiply the individual P-value (<span class="math inline">\(p_i\)</span>) by the number of tests (<span class="math inline">\(m\)</span>), <span class="math inline">\(m \cdot p_i\)</span>. This is called “Bonferroni correction”. However, this is too harsh if you have thousands of tests. Other methods are developed to remedy this. Those methods rely on ranking the P-values and dividing <span class="math inline">\(m \cdot p_i\)</span> by the rank, <span class="math inline">\(i\)</span>, :<span class="math inline">\(\frac{m \cdot p_i }{i}\)</span>, which is derived from the Benjamini–Hochberg procedure. This procedure is developed to control for “False Discovery Rate (FDR)” , which is the proportion of false positives among all significant tests. And in practical terms, we get the “FDR-adjusted P-value” from the procedure described above. This gives us an estimate of the proportion of false discoveries for a given test. To elaborate, p-value of 0.05 implies that 5% of all tests will be false positives. An FDR-adjusted p-value of 0.05 implies that 5% of significant tests will be false positives. The FDR-adjusted P-values will result in a lower number of false positives.</p>
+<p>One final method that is also popular is called the “q-value” method and related to the method above. This procedure relies on estimating the proportion of true null hypotheses from the distribution of raw p-values and using that quantity to come up with what is called a “q-value”, which is also an FDR-adjusted P-value <span class="citation" data-cites="Storey2003-nv">(<a href="12-references.html#ref-Storey2003-nv" role="doc-biblioref">Storey and Tibshirani 2003</a>)</span>. That can be practically defined as “the proportion of significant features that turn out to be false leads.” A q-value 0.01 would mean 1% of the tests called significant at this level will be truly null on average. Within the genomics community q-value and FDR adjusted P-value are synonymous although they can be calculated differently.</p>
+<p>In R, the base function <code>p.adjust()</code> implements most of the p-value correction methods described above. For the q-value, we can use the <code>qvalue</code> package from Bioconductor. Below we demonstrate how to use them on a set of simulated p-values. The plot in <a href="#fig-multtest" class="quarto-xref">Figure&nbsp;<span>3.10</span></a> shows that Bonferroni correction does a terrible job. FDR(BH) and q-value approach are better but, the q-value approach is more permissive than FDR(BH).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qvalue)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(hedenfalk)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>qvalues <span class="ot">&lt;-</span> <span class="fu">qvalue</span>(hedenfalk<span class="sc">$</span>p)<span class="sc">$</span>q</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>bonf.pval<span class="ot">=</span><span class="fu">p.adjust</span>(hedenfalk<span class="sc">$</span>p,<span class="at">method =</span><span class="st">"bonferroni"</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>fdr.adj.pval<span class="ot">=</span><span class="fu">p.adjust</span>(hedenfalk<span class="sc">$</span>p,<span class="at">method =</span><span class="st">"fdr"</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hedenfalk<span class="sc">$</span>p,qvalues,<span class="at">pch=</span><span class="dv">19</span>,<span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"raw P-values"</span>,<span class="at">ylab=</span><span class="st">"adjusted P-values"</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(hedenfalk<span class="sc">$</span>p,bonf.pval,<span class="at">pch=</span><span class="dv">19</span>,<span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(hedenfalk<span class="sc">$</span>p,fdr.adj.pval,<span class="at">pch=</span><span class="dv">19</span>,<span class="at">col=</span><span class="st">"blue"</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomright"</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">"q-value"</span>,<span class="st">"FDR (BH)"</span>,<span class="st">"Bonferroni"</span>),</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill=</span><span class="fu">c</span>(<span class="st">"black"</span>,<span class="st">"blue"</span>,<span class="st">"red"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-multtest" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-multtest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/multtest-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multtest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.10: Adjusted P-values via different methods and their relationship to raw P-values
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="moderated-t-tests-using-information-from-multiple-comparisons" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="moderated-t-tests-using-information-from-multiple-comparisons"><span class="header-section-number">3.2.4</span> Moderated t-tests: Using information from multiple comparisons</h3>
+<p>In genomics, we usually do not do one test but many, as described above. That means we may be able to use the information from the parameters obtained from all comparisons to influence the individual parameters. For example, if you have many variances calculated for thousands of genes across samples, you can force individual variance estimates to shrink toward the mean or the median of the distribution of variances. This usually creates better performance in individual variance estimates and therefore better performance in significance testing, which depends on variance estimates. How much the values are shrunk toward a common value depends on the exact method used. These tests in general are called moderated t-tests or shrinkage t-tests. One approach popularized by Limma software is to use so-called “Empirical Bayes methods”. The main formulation in these methods is <span class="math inline">\(\hat{V_g} = aV_0 + bV_g\)</span>, where <span class="math inline">\(V_0\)</span> is the background variability and <span class="math inline">\(V_g\)</span> is the individual variability. Then, these methods estimate <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> in various ways to come up with a “shrunk” version of the variability, <span class="math inline">\(\hat{V_g}\)</span>. Bayesian inference can make use of prior knowledge to make inference about properties of the data. In a Bayesian viewpoint, the prior knowledge, in this case variability of other genes, can be used to calculate the variability of an individual gene. In our case, <span class="math inline">\(V_0\)</span> would be the prior knowledge we have on the variability of the genes and we use that knowledge to influence our estimate for the individual genes.</p>
+<p>Below we are simulating a gene expression matrix with 1000 genes, and 3 test and 3 control groups. Each row is a gene, and in normal circumstances we would like to find differentially expressed genes. In this case, we are simulating them from the same distribution, so in reality we do not expect any differences. We then use the adjusted standard error estimates in empirical Bayesian spirit but, in a very crude way. We just shrink the gene-wise standard error estimates towards the median with equal <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> weights. That is to say, we add the individual estimate to the median of the standard error distribution from all genes and divide that quantity by 2. So if we plug that into the above formula, what we do is:</p>
+<p><span class="math display">\[ \hat{V_g} = (V_0 + V_g)/2 \]</span></p>
+<p>In the code below, we are avoiding for loops or apply family functions by using vectorized operations. The code below samples gene expression values from a hypothetical distribution. Since all the values come from the same distribution, we do not expect differences between groups. We then calculate moderated and unmoderated t-test statistics and plot the P-value distributions for tests. The results are shown in <a href="#fig-modTtestChp3" class="quarto-xref">Figure&nbsp;<span>3.11</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co">#sample data matrix from normal distribution</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>gset<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">3000</span>,<span class="at">mean=</span><span class="dv">200</span>,<span class="at">sd=</span><span class="dv">70</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>data<span class="ot">=</span><span class="fu">matrix</span>(gset,<span class="at">ncol=</span><span class="dv">6</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co"># set groups</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>group1<span class="ot">=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>group2<span class="ot">=</span><span class="dv">4</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>n1<span class="ot">=</span><span class="dv">3</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>n2<span class="ot">=</span><span class="dv">3</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>dx<span class="ot">=</span><span class="fu">rowMeans</span>(data[,group1])<span class="sc">-</span><span class="fu">rowMeans</span>(data[,group2])</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(matrixStats)</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="co"># get the esimate of pooled variance </span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>stderr <span class="ot">=</span> <span class="fu">sqrt</span>( (<span class="fu">rowVars</span>(data[,group1])<span class="sc">*</span>(n1<span class="dv">-1</span>) <span class="sc">+</span> </span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>       <span class="fu">rowVars</span>(data[,group2])<span class="sc">*</span>(n2<span class="dv">-1</span>)) <span class="sc">/</span> (n1<span class="sc">+</span>n2<span class="dv">-2</span>) <span class="sc">*</span> ( <span class="dv">1</span><span class="sc">/</span>n1 <span class="sc">+</span> <span class="dv">1</span><span class="sc">/</span>n2 ))</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="co"># do the shrinking towards median</span></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>mod.stderr <span class="ot">=</span> (stderr <span class="sc">+</span> <span class="fu">median</span>(stderr)) <span class="sc">/</span> <span class="dv">2</span> <span class="co"># moderation in variation</span></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a><span class="co"># esimate t statistic with moderated variance</span></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>t.mod <span class="ot">&lt;-</span> dx <span class="sc">/</span> mod.stderr</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate P-value of rejecting null </span></span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>p.mod <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">pt</span>( <span class="sc">-</span><span class="fu">abs</span>(t.mod), n1<span class="sc">+</span>n2<span class="dv">-2</span> )</span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a><span class="co"># esimate t statistic without moderated variance</span></span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>t <span class="ot">=</span> dx <span class="sc">/</span> stderr</span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate P-value of rejecting null </span></span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">pt</span>( <span class="sc">-</span><span class="fu">abs</span>(t), n1<span class="sc">+</span>n2<span class="dv">-2</span> )</span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(p,<span class="at">col=</span><span class="st">"cornflowerblue"</span>,<span class="at">border=</span><span class="st">"white"</span>,<span class="at">main=</span><span class="st">""</span>,<span class="at">xlab=</span><span class="st">"P-values t-test"</span>)</span>
+<span id="cb35-38"><a href="#cb35-38" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">"signifcant tests:"</span>,<span class="fu">sum</span>(p<span class="sc">&lt;</span><span class="fl">0.05</span>))  )</span>
+<span id="cb35-39"><a href="#cb35-39" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(p.mod,<span class="at">col=</span><span class="st">"cornflowerblue"</span>,<span class="at">border=</span><span class="st">"white"</span>,<span class="at">main=</span><span class="st">""</span>,</span>
+<span id="cb35-40"><a href="#cb35-40" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"P-values mod. t-test"</span>)</span>
+<span id="cb35-41"><a href="#cb35-41" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="fu">paste</span>(<span class="st">"signifcant tests:"</span>,<span class="fu">sum</span>(p.mod<span class="sc">&lt;</span><span class="fl">0.05</span>))  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-modTtestChp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-modTtestChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/modTtestChp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-modTtestChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.11: The distributions of P-values obtained by t-tests and moderated t-tests
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Want to know more ?</strong></p>
+<ul>
+<li>Basic statistical concepts
+<ul>
+<li>“Cartoon guide to statistics” by Gonick &amp; Smith <span class="citation" data-cites="gonick2005cartoon">(<a href="12-references.html#ref-gonick2005cartoon" role="doc-biblioref">Gonick and Smith 2005</a>)</span>. Provides central concepts depicted as cartoons in a funny but clear and accurate manner.</li>
+<li>“OpenIntro Statistics” <span class="citation" data-cites="diez2015openintro">(<a href="12-references.html#ref-diez2015openintro" role="doc-biblioref">Diez et al. 2015</a>)</span> (Free e-book http://openintro.org). This book provides fundamental statistical concepts in a clear and easy way. It includes R code.</li>
+</ul></li>
+<li>Hands-on statistics recipes with R
+<ul>
+<li>“The R book” <span class="citation" data-cites="crawley2012r">(<a href="12-references.html#ref-crawley2012r" role="doc-biblioref">Crawley 2012</a>)</span>. This is the main R book for anyone interested in statistical concepts and their application in R. It requires some background in statistics since the main focus is applications in R.</li>
+</ul></li>
+<li>Moderated tests
+<ul>
+<li>Comparison of moderated tests for differential expression <span class="citation" data-cites="de2010benchmark">(<a href="12-references.html#ref-de2010benchmark" role="doc-biblioref">De Hertogh et al. 2010</a>)</span> http://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-11-17</li>
+<li>Limma method developed for testing differential expression between genes using a moderated test <span class="citation" data-cites="smyth2004linear">(<a href="12-references.html#ref-smyth2004linear" role="doc-biblioref">Smyth Gordon 2004</a>)</span> http://www.statsci.org/smyth/pubs/ebayes.pdf</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="relationship-between-variables-linear-models-and-correlation" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="relationship-between-variables-linear-models-and-correlation"><span class="header-section-number">3.3</span> Relationship between variables: Linear models and correlation</h2>
+<p>In genomics, we would often need to measure or model the relationship between variables. We might want to know about expression of a particular gene in liver in relation to the dosage of a drug that patient receives. Or, we may want to know DNA methylation of a certain locus in the genome in relation to the age of the sample donor. Or, we might be interested in the relationship between histone modifications and gene expression. Is there a linear relationship, the more histone modification the more the gene is expressed ?</p>
+<p>In these situations and many more, linear regression or linear models can be used to model the relationship with a “dependent” or “response” variable (expression or methylation in the above examples) and one or more “independent” or “explanatory” variables (age, drug dosage or histone modification in the above examples). Our simple linear model has the following components.</p>
+<p><span class="math display">\[  Y= \beta_0+\beta_1X + \epsilon \]</span></p>
+<p>In the equation above, <span class="math inline">\(Y\)</span> is the response variable and <span class="math inline">\(X\)</span> is the explanatory variable. <span class="math inline">\(\epsilon\)</span> is the mean-zero error term. Since the line fit will not be able to precisely predict the <span class="math inline">\(Y\)</span> values, there will be some error associated with each prediction when we compare it to the original <span class="math inline">\(Y\)</span> values. This error is captured in the <span class="math inline">\(\epsilon\)</span> term. We can alternatively write the model as follows to emphasize that the model approximates <span class="math inline">\(Y\)</span>, in this case notice that we removed the <span class="math inline">\(\epsilon\)</span> term: <span class="math inline">\(Y \sim \beta_0+\beta_1X\)</span>.</p>
+<p>The plot below in <a href="#fig-histoneLmChp3" class="quarto-xref">Figure&nbsp;<span>3.12</span></a> shows the relationship between histone modification (trimethylated forms of histone H3 at lysine 4, aka H3K4me3) and gene expression for 100 genes. The blue line is our model with estimated coefficients (<span class="math inline">\(\hat{y}=\hat{\beta}_0 + \hat{\beta}_1X\)</span>, where <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> are the estimated values of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, and <span class="math inline">\(\hat{y}\)</span> indicates the prediction). The red lines indicate the individual errors per data point, indicated as <span class="math inline">\(\epsilon\)</span> in the formula above.</p>
+<div id="fig-histoneLmChp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histoneLmChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/histoneLmChp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histoneLmChp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.12: Relationship between histone modification score and gene expression. Increasing histone modification, H3K4me3, seems to be associated with increasing gene expression. Each dot is a gene
+</figcaption>
+</figure>
+</div>
+<p>There could be more than one explanatory variable. We then simply add more <span class="math inline">\(X\)</span> and <span class="math inline">\(\beta\)</span> to our model. If there are two explanatory variables our model will look like this:</p>
+<p><span class="math display">\[  Y= \beta_0+\beta_1X_1 +\beta_2X_2 + \epsilon \]</span></p>
+<p>In this case, we will be fitting a plane rather than a line. However, the fitting process which we will describe in the later sections will not change for our gene expression problem. We can introduce one more histone modification, H3K27me3. We will then have a linear model with 2 explanatory variables and the fitted plane will look like the one in <a href="#fig-histoneLm2chp3" class="quarto-xref">Figure&nbsp;<span>3.13</span></a>. The gene expression values are shown as dots below and above the fitted plane. Linear regression and its extensions which make use of other distributions (generalized linear models) are central in computational genomics for statistical tests. We will see more of how regression is used in statistical hypothesis testing for computational genomics in <a href="08-rna-seq-analysis.html" class="quarto-xref"><span>Chapter 8</span></a> and <a href="10-bs-seq-analysis.html" class="quarto-xref"><span>Chapter 10</span></a>.</p>
+<div id="fig-histoneLm2chp3" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histoneLm2chp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/histoneLm2chp3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histoneLm2chp3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.13: Association of gene expression with H3K4me3 and H3K27me3 histone modifications.
+</figcaption>
+</figure>
+</div>
+<section id="matrix-notation-for-linear-models" class="level4" data-number="3.3.0.1">
+<h4 data-number="3.3.0.1" class="anchored" data-anchor-id="matrix-notation-for-linear-models"><span class="header-section-number">3.3.0.1</span> Matrix notation for linear models</h4>
+<p>We can naturally have more explanatory variables than just two. The formula below has <span class="math inline">\(n\)</span> explanatory variables.</p>
+<p><span class="math display">\[Y= \beta_0+\beta_1X_1+\beta_2X_2 +  \beta_3X_3 + .. + \beta_nX_n +\epsilon\]</span></p>
+<p>If there are many variables, it would be easier to write the model in matrix notation. The matrix form of linear model with two explanatory variables will look like the one below. The first matrix would be our data matrix. This contains our explanatory variables and a column of 1s. The second term is a column vector of <span class="math inline">\(\beta\)</span> values. We also add a vector of error terms, <span class="math inline">\(\epsilon\)</span>s, to the matrix multiplication.</p>
+<p><span class="math display">\[
+\mathbf{Y} = \left[\begin{array}{rrr}
+1 &amp; X_{1,1} &amp; X_{1,2} \\
+1 &amp; X_{2,1} &amp; X_{2,2} \\
+1 &amp; X_{3,1} &amp; X_{3,2} \\
+1 &amp; X_{4,1} &amp; X_{4,2}
+\end{array}\right]
+%
+\left[\begin{array}{rrr}
+\beta_0 \\
+\beta_1 \\
+\beta_2
+\end{array}\right]
+%
++
+\left[\begin{array}{rrr}
+\epsilon_1 \\
+\epsilon_2 \\
+\epsilon_3 \\
+\epsilon_0
+\end{array}\right]
+\]</span></p>
+<p>The multiplication of the data matrix and <span class="math inline">\(\beta\)</span> vector and addition of the error terms simply results in the following set of equations per data point:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_1= \beta_0+\beta_1X_{1,1}+\beta_2X_{1,2} +\epsilon_1 \\
+Y_2= \beta_0+\beta_1X_{2,1}+\beta_2X_{2,2} +\epsilon_2 \\
+Y_3= \beta_0+\beta_1X_{3,1}+\beta_2X_{3,2} +\epsilon_3 \\
+Y_4= \beta_0+\beta_1X_{4,1}+\beta_2X_{4,2} +\epsilon_4
+\end{aligned}
+\]</span></p>
+<p>This expression involving the multiplication of the data matrix, the <span class="math inline">\(\beta\)</span> vector and vector of error terms (<span class="math inline">\(\epsilon\)</span>) could be simply written as follows.</p>
+<p><span class="math display">\[Y=X\beta + \epsilon\]</span></p>
+<p>In the equation, above <span class="math inline">\(Y\)</span> is the vector of response variables, <span class="math inline">\(X\)</span> is the data matrix, and <span class="math inline">\(\beta\)</span> is the vector of coefficients. This notation is more concise and often used in scientific papers. However, this also means you need some understanding of linear algebra to follow the math laid out in such resources.</p>
+</section>
+<section id="how-to-fit-a-line" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="how-to-fit-a-line"><span class="header-section-number">3.3.1</span> How to fit a line</h3>
+<p>At this point a major question is left unanswered: How did we fit this line? We basically need to define <span class="math inline">\(\beta\)</span> values in a structured way. There are multiple ways of understanding how to do this, all of which converge to the same end point. We will describe them one by one.</p>
+<section id="the-cost-or-loss-function-approach" class="level4" data-number="3.3.1.1">
+<h4 data-number="3.3.1.1" class="anchored" data-anchor-id="the-cost-or-loss-function-approach"><span class="header-section-number">3.3.1.1</span> The cost or loss function approach</h4>
+<p>This is the first approach and in my opinion is easiest to understand. We try to optimize a function, often called the “cost function” or “loss function”. The cost function is the sum of squared differences between the predicted <span class="math inline">\(\hat{Y}\)</span> values from our model and the original <span class="math inline">\(Y\)</span> values. The optimization procedure tries to find <span class="math inline">\(\beta\)</span> values that minimize this difference between the reality and predicted values.</p>
+<p><span class="math display">\[min \sum{(y_i-(\beta_0+\beta_1x_i))^2}\]</span></p>
+<p>Note that this is related to the error term, <span class="math inline">\(\epsilon\)</span>, we already mentioned above. We are trying to minimize the squared sum of <span class="math inline">\(\epsilon_i\)</span> for each data point. We can do this minimization by a bit of calculus. The rough algorithm is as follows:</p>
+<ol type="1">
+<li>Pick a random starting point, random <span class="math inline">\(\beta\)</span> values.</li>
+<li>Take the partial derivatives of the cost function to see which direction is the way to go in the cost function.</li>
+<li>Take a step toward the direction that minimizes the cost function.
+<ul>
+<li>Step size is a parameter to choose, there are many variants.</li>
+</ul></li>
+<li>Repeat step 2,3 until convergence.</li>
+</ol>
+<p>This is the basis of the “gradient descent” algorithm. With the help of partial derivatives we define a “gradient” on the cost function and follow that through multiple iterations until convergence, meaning until the results do not improve defined by a margin. The algorithm usually converges to optimum <span class="math inline">\(\beta\)</span> values. In <a href="#fig-3dcostfunc" class="quarto-xref">Figure&nbsp;<span>3.14</span></a>, we show the cost function over various <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> values for the histone modification and gene expression data set. The algorithm will pick a point on this graph and traverse it incrementally based on the derivatives and converge to the bottom of the cost function “well”. Such optimization methods are the core of machine learning methods we will cover later in <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a> and <a href="05-supervisedLearning.html" class="quarto-xref"><span>Chapter 5</span></a>.</p>
+<div id="fig-3dcostfunc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-3dcostfunc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/3dcostfunc-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-3dcostfunc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.14: Cost function landscape for linear regression with changing beta values. The optimization process tries to find the lowest point in this landscape by implementing a strategy for updating beta values toward the lowest point in the landscape.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="not-cost-function-but-maximum-likelihood-function" class="level4" data-number="3.3.1.2">
+<h4 data-number="3.3.1.2" class="anchored" data-anchor-id="not-cost-function-but-maximum-likelihood-function"><span class="header-section-number">3.3.1.2</span> Not cost function but maximum likelihood function</h4>
+<p>We can also think of this problem from a more statistical point of view. In essence, we are looking for best statistical parameters, in this case <span class="math inline">\(\beta\)</span> values, for our model that are most likely to produce such a scatter of data points given the explanatory variables. This is called the “maximum likelihood” approach. The approach assumes that a given response variable <span class="math inline">\(y_i\)</span> follows a normal distribution with mean <span class="math inline">\(\beta_0+\beta_1x_i\)</span> and variance <span class="math inline">\(s^2\)</span>. Therefore the probability of observing any given <span class="math inline">\(y_i\)</span> value is dependent on the <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> values. Since <span class="math inline">\(x_i\)</span>, the explanatory variable, is fixed within our data set, we can maximize the probability of observing any given <span class="math inline">\(y_i\)</span> by varying <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> values. The trick is to find <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> values that maximizes the probability of observing all the response variables in the dataset given the explanatory variables. The probability of observing a response variable <span class="math inline">\(y_i\)</span> with assumptions we described above is shown below. Note that this assumes variance is constant and <span class="math inline">\(s^2=\frac{\sum{\epsilon_i}}{n-2}\)</span> is an unbiased estimation for population variance, <span class="math inline">\(\sigma^2\)</span>.</p>
+<p><span class="math display">\[P(y_{i})=\frac{1}{s\sqrt{2\pi} }e^{-\frac{1}{2}\left(\frac{y_i-(\beta_0 + \beta_1x_i)}{s}\right)^2}\]</span></p>
+<p>Following from the probability equation above, the likelihood function (shown as <span class="math inline">\(L\)</span> below) for linear regression is multiplication of <span class="math inline">\(P(y_{i})\)</span> for all data points.</p>
+<p><span class="math display">\[L=P(y_1)P(y_2)P(y_3)..P(y_n)=\prod\limits_{i=1}^n{P_i}\]</span></p>
+<p>This can be simplified to the following equation by some algebra, assumption of normal distribution, and taking logs (since it is easier to add than multiply).</p>
+<p><span class="math display">\[ln(L) = -nln(s\sqrt{2\pi}) - \frac{1}{2s^2} \sum\limits_{i=1}^n{(y_i-(\beta_0 + \beta_1x_i))^2} \]</span></p>
+<p>As you can see, the right part of the function is the negative of the cost function defined above. If we wanted to optimize this function we would need to take the derivative of the function with respect to the <span class="math inline">\(\beta\)</span> parameters. That means we can ignore the first part since there are no <span class="math inline">\(\beta\)</span> terms there. This simply reduces to the negative of the cost function. Hence, this approach produces exactly the same result as the cost function approach. The difference is that we defined our problem within the domain of statistics. This particular function has still to be optimized. This can be done with some calculus without the need for an iterative approach.</p>
+<p>The maximum likelihood approach also opens up other possibilities for regression. For the case above, we assumed that the points around the mean are distributed by normal distribution. However, there are other cases where this assumption may not hold. For example, for the count data the mean and variance relationship is not constant; the higher the mean counts, the higher the variance. In these cases, the regression framework with maximum likelihood estimation can still be used. We simply change the underlying assumptions about the distribution and calculate the likelihood with a new distribution in mind, and maximize the parameters for that likelihood. This gives way to “generalized linear model” approach where errors for the response variables can have other distributions than normal distribution. We will see examples of these generalized linear models in <a href="08-rna-seq-analysis.html" class="quarto-xref"><span>Chapter 8</span></a> and <a href="10-bs-seq-analysis.html" class="quarto-xref"><span>Chapter 10</span></a>.</p>
+</section>
+<section id="linear-algebra-and-closed-form-solution-to-linear-regression" class="level4" data-number="3.3.1.3">
+<h4 data-number="3.3.1.3" class="anchored" data-anchor-id="linear-algebra-and-closed-form-solution-to-linear-regression"><span class="header-section-number">3.3.1.3</span> Linear algebra and closed-form solution to linear regression</h4>
+<p>The last approach we will describe is the minimization process using linear algebra. If you find this concept challenging, feel free to skip it, but scientific publications and other books frequently use matrix notation and linear algebra to define and solve regression problems. In this case, we do not use an iterative approach. Instead, we will minimize the cost function by explicitly taking its derivatives with respect to <span class="math inline">\(\beta\)</span>’s and setting them to zero. This is doable by employing linear algebra and matrix calculus. This approach is also called “ordinary least squares”. We will not show the whole derivation here, but the following expression is what we are trying to minimize in matrix notation, which is basically a different notation of the same minimization problem defined above. Remember <span class="math inline">\(\epsilon_i=Y_i-(\beta_0+\beta_1x_i)\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum\epsilon_{i}^2=\epsilon^T\epsilon=(Y-{\beta}{X})^T(Y-{\beta}{X}) \\
+=Y^T{Y}-2{\beta}^T{Y}+{\beta}^TX^TX{\beta}
+\end{aligned}
+\]</span> After rearranging the terms, we take the derivative of <span class="math inline">\(\epsilon^T\epsilon\)</span> with respect to <span class="math inline">\(\beta\)</span>, and equalize that to zero. We then arrive at the following for estimated <span class="math inline">\(\beta\)</span> values, <span class="math inline">\(\hat{\beta}\)</span>:</p>
+<p><span class="math display">\[\hat{\beta}=(X^TX)^{-1}X^TY\]</span></p>
+<p>This requires you to calculate the inverse of the <span class="math inline">\(X^TX\)</span> term, which could be slow for large matrices. Using an iterative approach over the cost function derivatives will be faster for larger problems. The linear algebra notation is something you will see in the papers or other resources often. If you input the data matrix X and solve the <span class="math inline">\((X^TX)^{-1}\)</span> , you get the following values for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> for simple regression . However, we should note that this simple linear regression case can easily be solved algebraically without the need for matrix operations. This can be done by taking the derivative of <span class="math inline">\(\sum{(y_i-(\beta_0+\beta_1x_i))^2}\)</span> with respect to <span class="math inline">\(\beta_1\)</span>, rearranging the terms and equalizing the derivative to zero.</p>
+<p><span class="math display">\[\hat{\beta_1}=\frac{\sum{(x_i-\overline{X})(y_i-\overline{Y})}}{ \sum{(x_i-\overline{X})^2} }\]</span> <span class="math display">\[\hat{\beta_0}=\overline{Y}-\hat{\beta_1}\overline{X}\]</span></p>
+</section>
+<section id="fitting-lines-in-r" class="level4" data-number="3.3.1.4">
+<h4 data-number="3.3.1.4" class="anchored" data-anchor-id="fitting-lines-in-r"><span class="header-section-number">3.3.1.4</span> Fitting lines in R</h4>
+<p>After all this theory, you will be surprised how easy it is to fit lines in R. This is achieved just by the <code>lm()</code> function, which stands for linear models. Let’s do this for a simulated data set and plot the fit. The first step is to simulate the data. We will decide on <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> values. Then we will decide on the variance parameter, <span class="math inline">\(\sigma\)</span>, to be used in simulation of error terms, <span class="math inline">\(\epsilon\)</span>. We will first find <span class="math inline">\(Y\)</span> values, just using the linear equation <span class="math inline">\(Y=\beta0+\beta_1X\)</span>, for a set of <span class="math inline">\(X\)</span> values. Then, we will add the error terms to get our simulated values.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set random number seed, so that the random numbers from the text</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># is the same when you run the code.</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># get 50 X values between 1 and 100</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">50</span>,<span class="dv">1</span>,<span class="dv">100</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co"># set b0,b1 and variance (sigma)</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="dv">20</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate error terms from normal distribution</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>eps <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">50</span>,<span class="dv">0</span>,sigma)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="co"># get y values from the linear equation and addition of error terms</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> b0 <span class="sc">+</span> b1<span class="sc">*</span>x<span class="sc">+</span> eps</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now let us fit a line using the <code>lm()</code> function. The function requires a formula, and optionally a data frame. We need to pass the following expression within the <code>lm()</code> function, <code>y~x</code>, where <code>y</code> is the simulated <span class="math inline">\(Y\)</span> values and <code>x</code> is the explanatory variables <span class="math inline">\(X\)</span>. We will then use the <code>abline()</code> function to draw the fit. The resulting plot is shown in <a href="#fig-geneExpLinearModel" class="quarto-xref">Figure&nbsp;<span>3.15</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>mod1<span class="ot">=</span><span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the data points</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x,y,<span class="at">pch=</span><span class="dv">20</span>,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">"Gene Expression"</span>,<span class="at">xlab=</span><span class="st">"Histone modification score"</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the linear fit</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(mod1,<span class="at">col=</span><span class="st">"blue"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-geneExpLinearModel" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-geneExpLinearModel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/geneExpLinearModel-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-geneExpLinearModel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.15: Gene expression and histone modification score modeled by linear regression.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="how-to-estimate-the-error-of-the-coefficients" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="how-to-estimate-the-error-of-the-coefficients"><span class="header-section-number">3.3.2</span> How to estimate the error of the coefficients</h3>
+<p>Since we are using a sample to estimate the coefficients, they are not exact; with every random sample they will vary. In <a href="#fig-regCoeffRandomSamples" class="quarto-xref">Figure&nbsp;<span>3.16</span></a>, we take multiple samples from the population and fit lines to each sample; with each sample the lines slightly change. We are overlaying the points and the lines for each sample on top of the other samples. When we take 200 samples and fit lines for each of them, the line fits are variable. And, we get a normal-like distribution of <span class="math inline">\(\beta\)</span> values with a defined mean and standard deviation, which is called standard error of the coefficients.</p>
+<div id="fig-regCoeffRandomSamples" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-regCoeffRandomSamples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/regCoeffRandomSamples-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-regCoeffRandomSamples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.16: Regression coefficients vary with every random sample. The figure illustrates the variability of regression coefficients when regression is done using a sample of data points. Histograms depict this variability for <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span> coefficients.
+</figcaption>
+</figure>
+</div>
+<p>Normally, we will not have access to the population to do repeated sampling, model fitting, and estimation of the standard error for the coefficients. But there is statistical theory that helps us infer the population properties from the sample. When we assume that error terms have constant variance and mean zero , we can model the uncertainty in the regression coefficients, <span class="math inline">\(\beta\)</span>s. The estimates for standard errors of <span class="math inline">\(\beta\)</span>s for simple regression are as follows and shown without derivation.</p>
+<p><span class="math display">\[
+\begin{aligned}
+s=RSE=\sqrt{\frac{\sum{(y_i-(\beta_0+\beta_1x_i))^2}}{n-2}  } =\sqrt{\frac{\sum{\epsilon^2}}{n-2}  } \\
+SE(\hat{\beta_1})=\frac{s}{\sqrt{\sum{(x_i-\overline{X})^2}}} \\
+SE(\hat{\beta_0})=s\sqrt{ \frac{1}{n} + \frac{\overline{X}^2}{\sum{(x_i-\overline{X})^2} }  }
+\end{aligned}
+\]</span></p>
+<p>Notice that that <span class="math inline">\(SE(\beta_1)\)</span> depends on the estimate of variance of residuals shown as <span class="math inline">\(s\)</span> or <strong>Residual Standard Error (RSE)</strong>. Notice also the standard error depends on the spread of <span class="math inline">\(X\)</span>. If <span class="math inline">\(X\)</span> values have more variation, the standard error will be lower. This intuitively makes sense since if the spread of <span class="math inline">\(X\)</span> is low, the regression line will be able to wiggle more compared to a regression line that is fit to the same number of points but covers a greater range on the X-axis.</p>
+<p>The standard error estimates can also be used to calculate confidence intervals and test hypotheses, since the following quantity, called t-score, approximately follows a t-distribution with <span class="math inline">\(n-p\)</span> degrees of freedom, where <span class="math inline">\(n\)</span> is the number of data points and <span class="math inline">\(p\)</span> is the number of coefficients estimated.</p>
+<p><span class="math display">\[ \frac{\hat{\beta_i}-\beta_test}{SE(\hat{\beta_i})}\]</span></p>
+<p>Often, we would like to test the null hypothesis if a coefficient is equal to zero or not. For simple regression, this could mean if there is a relationship between the explanatory variable and the response variable. We would calculate the t-score as follows <span class="math inline">\(\frac{\hat{\beta_i}-0}{SE(\hat{\beta_i})}\)</span>, and compare it to the t-distribution with <span class="math inline">\(d.f.=n-p\)</span> to get the p-value.</p>
+<p>We can also calculate the uncertainty of the regression coefficients using confidence intervals, the range of values that are likely to contain <span class="math inline">\(\beta_i\)</span>. The 95% confidence interval for <span class="math inline">\(\hat{\beta_i}\)</span> is <span class="math inline">\(\hat{\beta_i}\)</span> ± <span class="math inline">\(t_{0.975}SE(\hat{\beta_i})\)</span>. <span class="math inline">\(t_{0.975}\)</span> is the 97.5% percentile of the t-distribution with <span class="math inline">\(d.f. = n – p\)</span>.</p>
+<p>In R, the <code>summary()</code> function will test all the coefficients for the null hypothesis <span class="math inline">\(\beta_i=0\)</span>. The function takes the model output obtained from the <code>lm()</code> function. To demonstrate this, let us first get some data. The procedure below simulates data to be used in a regression setting and it is useful to examine what the linear model expects to model the data.</p>
+<p>Since we have the data, we can build our model and call the <code>summary</code> function. We will then use the <code>confint()</code> function to get the confidence intervals on the coefficients and the <code>coef()</code> function to pull out the estimated coefficients from the model.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>mod1<span class="ot">=</span><span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -77.11 -18.44   0.33  16.06  57.23 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 13.24538    6.28869   2.106   0.0377 *  
+## x            0.49954    0.05131   9.736 4.54e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 28.77 on 98 degrees of freedom
+## Multiple R-squared:  0.4917, Adjusted R-squared:  0.4865 
+## F-statistic: 94.78 on 1 and 98 DF,  p-value: 4.537e-16</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get confidence intervals </span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##                 2.5 %     97.5 %
+## (Intercept) 0.7656777 25.7250883
+## x           0.3977129  0.6013594</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pull out coefficients from the model</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(mod1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## (Intercept)           x 
+##  13.2453830   0.4995361</code></pre>
+<p>The <code>summary()</code> function prints out an extensive list of values. The “Coefficients” section has the estimates, their standard error, t score, and the p-value from the hypothesis test <span class="math inline">\(H_0:\beta_i=0\)</span>. As you can see, the estimate we get for the coefficients and their standard errors are close to the ones we get from repeatedly sampling and getting a distribution of coefficients. This is statistical inference at work, so we can estimate the population properties within a certain error using just a sample.</p>
+</section>
+<section id="accuracy-of-the-model" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="accuracy-of-the-model"><span class="header-section-number">3.3.3</span> Accuracy of the model</h3>
+<p>If you have observed the table output of the <code>summary()</code> function, you must have noticed there are some other outputs, such as “Residual standard error”, “Multiple R-squared” and “F-statistic”. These are metrics that are useful for assessing the accuracy of the model. We will explain them one by one.</p>
+<p><strong>RSE</strong> is simply the square-root of the sum of squared error terms, divided by degrees of freedom, <span class="math inline">\(n-p\)</span>. For the simple linear regression case, degrees of freedom is <span class="math inline">\(n-2\)</span>. Sum of the squares of the error terms is also called the <strong>“Residual sum of squares”</strong>, RSS. So the RSE is calculated as follows:</p>
+<p><span class="math display">\[ s=RSE=\sqrt{\frac{\sum{(y_i-\hat{Y_i})^2 }}{n-p}}=\sqrt{\frac{RSS}{n-p}}\]</span></p>
+<p>The RSE is a way of assessing the model fit. The larger the RSE the worse the model is. However, this is an absolute measure in the units of <span class="math inline">\(Y\)</span> and we have nothing to compare against. One idea is that we divide it by the RSS of a simpler model for comparative purposes. That simpler model is in this case is the model with the intercept, <span class="math inline">\(\beta_0\)</span>. A very bad model will have close to zero coefficients for explanatory variables, and the RSS of that model will be close to the RSS of the model with only the intercept. In such a model the intercept will be equal to <span class="math inline">\(\overline{Y}\)</span>. As it turns out, the RSS of the model with just the intercept is called the <em>“Total Sum of Squares” or TSS</em>. A good model will have a low <span class="math inline">\(RSS/TSS\)</span>. The metric <span class="math inline">\(R^2\)</span> uses these quantities to calculate a score between 0 and 1, and the closer to 1, the better the model. Here is how it is calculated:</p>
+<p><span class="math display">\[R^2=1-\frac{RSS}{TSS}=\frac{TSS-RSS}{TSS}=1-\frac{RSS}{TSS}\]</span></p>
+<p>The <span class="math inline">\(TSS-RSS\)</span> part of the formula is often referred to as “explained variability” in the model. The bottom part is for “total variability”. With this interpretation, the higher the “explained variability”, the better the model. For simple linear regression with one explanatory variable, the square root of <span class="math inline">\(R^2\)</span> is a quantity known as the absolute value of the correlation coefficient, which can be calculated for any pair of variables, not only the response and the explanatory variables. <em>Correlation</em> is the general measure of linear relationship between two variables. One of the most popular flavors of correlation is the Pearson correlation coefficient. Formally, it is the <em>covariance</em> of X and Y divided by multiplication of standard deviations of X and Y. In R, it can be calculated with the <code>cor()</code> function.</p>
+<p><span class="math display">\[
+r_{xy}=\frac{cov(X,Y)}{\sigma_x\sigma_y}
+      =\frac{\sum\limits_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})}
+            {\sqrt{\sum\limits_{i=1}^n (x_i-\bar{x})^2 \sum\limits_{i=1}^n (y_i-\bar{y})^2}}
+\]</span> In the equation above, <span class="math inline">\(cov\)</span> is the covariance; this is again a measure of how much two variables change together, like correlation. If two variables show similar behavior, they will usually have a positive covariance value. If they have opposite behavior, the covariance will have a negative value. However, these values are boundless. A normalized way of looking at covariance is to divide covariance by the multiplication of standard errors of X and Y. This bounds the values to -1 and 1, and as mentioned above, is called Pearson correlation coefficient. The values that change in a similar manner will have a positive coefficient, the values that change in an opposite manner will have a negative coefficient, and pairs that do not have a linear relationship will have <span class="math inline">\(0\)</span> or near <span class="math inline">\(0\)</span> correlation. In <a href="#fig-CorCovar" class="quarto-xref">Figure&nbsp;<span>3.17</span></a>, we are showing <span class="math inline">\(R^2\)</span>, the correlation coefficient, and covariance for different scatter plots.</p>
+<div id="fig-CorCovar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-CorCovar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/CorCovar-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-CorCovar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.17: Correlation and covariance for different scatter plots.
+</figcaption>
+</figure>
+</div>
+<p>For simple linear regression, correlation can be used to assess the model. However, this becomes useless as a measure of general accuracy if there is more than one explanatory variable as in multiple linear regression. In that case, <span class="math inline">\(R^2\)</span> is a measure of accuracy for the model. Interestingly, the square of the correlation of predicted values and original response variables (<span class="math inline">\((cor(Y,\hat{Y}))^2\)</span> ) equals <span class="math inline">\(R^2\)</span> for multiple linear regression.</p>
+<p>The last accuracy measure, or the model fit in general we are going to explain is <em>F-statistic</em>. This is a quantity that depends on the RSS and TSS again. It can also answer one important question that other metrics cannot easily answer. That question is whether or not any of the explanatory variables have predictive value or in other words if all the explanatory variables are zero. We can write the null hypothesis as follows:</p>
+<p><span class="math display">\[H_0: \beta_1=\beta_2=\beta_3=...=\beta_p=0 \]</span></p>
+<p>where the alternative is:</p>
+<p><span class="math display">\[H_1: \text{at least one } \beta_i \neq 0 \]</span></p>
+<p>Remember that <span class="math inline">\(TSS-RSS\)</span> is analogous to “explained variability” and the RSS is analogous to “unexplained variability”. For the F-statistic, we divide explained variance by unexplained variance. Explained variance is just the <span class="math inline">\(TSS-RSS\)</span> divided by degrees of freedom, and unexplained variance is the RSE. The ratio will follow the F-distribution with two parameters, the degrees of freedom for the explained variance and the degrees of freedom for the unexplained variance. The F-statistic for a linear model is calculated as follows.</p>
+<p><span class="math display">\[F=\frac{(TSS-RSS)/(p-1)}{RSS/(n-p)}=\frac{(TSS-RSS)/(p-1)}{RSE} \sim F(p-1,n-p)\]</span></p>
+<p>If the variances are the same, the ratio will be 1, and when <span class="math inline">\(H_0\)</span> is true, then it can be shown that expected value of <span class="math inline">\((TSS-RSS)/(p-1)\)</span> will be <span class="math inline">\(\sigma^2\)</span>, which is estimated by the RSE. So, if the variances are significantly different, the ratio will need to be significantly bigger than 1. If the ratio is large enough we can reject the null hypothesis. To assess that, we need to use software or look up the tables for F statistics with calculated parameters. In R, function <code>qf()</code> can be used to calculate critical value of the ratio. Benefit of the F-test over looking at significance of coefficients one by one is that we circumvent multiple testing problem. If there are lots of explanatory variables at least 5% of the time (assuming we use 0.05 as P-value significance cutoff), p-values from coefficient t-tests will be wrong. In summary, F-test is a better choice for testing if there is any association between the explanatory variables and the response variable.</p>
+</section>
+<section id="regression-with-categorical-variables" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="regression-with-categorical-variables"><span class="header-section-number">3.3.4</span> Regression with categorical variables</h3>
+<p>An important feature of linear regression is that categorical variables can be used as explanatory variables, this feature is very useful in genomics where explanatory variables can often be categorical. To put it in context, in our histone modification example we can also include if promoters have CpG islands or not as a variable. In addition, in differential gene expression, we usually test the difference between different conditions, which can be encoded as categorical variables in a linear regression. We can sure use the t-test for that as well if there are only 2 conditions, but if there are more conditions and other variables to control for, such as age or sex of the samples, we need to take those into account for our statistics, and the t-test alone cannot handle such complexity. In addition, when we have categorical variables we can also have numeric variables in the model and we certainly do not have to include only one type of variable in a model.</p>
+<p>The simplest model with categorical variables includes two levels that can be encoded in 0 and 1. Below, we show linear regression with categorical variables. We then plot the fitted line. This plot is shown in <a href="#fig-LMcategorical" class="quarto-xref">Figure&nbsp;<span>3.18</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>gene1<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">30</span>,<span class="at">mean=</span><span class="dv">4</span>,<span class="at">sd=</span><span class="dv">2</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>gene2<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">30</span>,<span class="at">mean=</span><span class="dv">2</span>,<span class="at">sd=</span><span class="dv">2</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>gene.df<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">exp=</span><span class="fu">c</span>(gene1,gene2),</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">group=</span><span class="fu">c</span>( <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">30</span>),<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">30</span>) ) )</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>mod2<span class="ot">=</span><span class="fu">lm</span>(exp<span class="sc">~</span>group,<span class="at">data=</span>gene.df)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## 
+## Call:
+## lm(formula = exp ~ group, data = gene.df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.7290 -1.0664  0.0122  1.3840  4.5629 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   2.1851     0.3517   6.214 6.04e-08 ***
+## group         1.8726     0.4973   3.765 0.000391 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.926 on 58 degrees of freedom
+## Multiple R-squared:  0.1964, Adjusted R-squared:  0.1826 
+## F-statistic: 14.18 on 1 and 58 DF,  p-value: 0.0003905</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(mosaic)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotModel</span>(mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-LMcategorical" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-LMcategorical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="03-statsForGenomics_files/figure-html/LMcategorical-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-LMcategorical-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.18: Linear model with a categorical variable coded as 0 and 1.
+</figcaption>
+</figure>
+</div>
+<p>We can even compare more levels, and we do not even have to encode them ourselves. We can pass categorical variables to the <code>lm()</code> function.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>gene.df<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">exp=</span><span class="fu">c</span>(gene1,gene2,gene2),</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">group=</span><span class="fu">c</span>( <span class="fu">rep</span>(<span class="st">"A"</span>,<span class="dv">30</span>),<span class="fu">rep</span>(<span class="st">"B"</span>,<span class="dv">30</span>),<span class="fu">rep</span>(<span class="st">"C"</span>,<span class="dv">30</span>) ) </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>                  )</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>mod3<span class="ot">=</span><span class="fu">lm</span>(exp<span class="sc">~</span>group,<span class="at">data=</span>gene.df)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## 
+## Call:
+## lm(formula = exp ~ group, data = gene.df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.7290 -1.0793 -0.0976  1.4844  4.5629 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   4.0577     0.3781  10.731  &lt; 2e-16 ***
+## groupB       -1.8726     0.5348  -3.502 0.000732 ***
+## groupC       -1.8726     0.5348  -3.502 0.000732 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.071 on 87 degrees of freedom
+## Multiple R-squared:  0.1582, Adjusted R-squared:  0.1388 
+## F-statistic: 8.174 on 2 and 87 DF,  p-value: 0.0005582</code></pre>
+</section>
+<section id="regression-pitfalls" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="regression-pitfalls"><span class="header-section-number">3.3.5</span> Regression pitfalls</h3>
+<p>In most cases one should look at the error terms (residuals) vs.&nbsp;the fitted values plot. Any structure in this plot indicates problems such as non-linearity, correlation of error terms, non-constant variance or unusual values driving the fit. Below we briefly explain the potential issues with the linear regression.</p>
+<section id="non-linearity" class="level5" data-number="3.3.5.0.1">
+<h5 data-number="3.3.5.0.1" class="anchored" data-anchor-id="non-linearity"><span class="header-section-number">3.3.5.0.1</span> Non-linearity</h5>
+<p>If the true relationship is far from linearity, prediction accuracy is reduced and all the other conclusions are questionable. In some cases, transforming the data with <span class="math inline">\(logX\)</span>, <span class="math inline">\(\sqrt{X}\)</span>, and <span class="math inline">\(X^2\)</span> could resolve the issue.</p>
+</section>
+<section id="correlation-of-explanatory-variables" class="level5" data-number="3.3.5.0.2">
+<h5 data-number="3.3.5.0.2" class="anchored" data-anchor-id="correlation-of-explanatory-variables"><span class="header-section-number">3.3.5.0.2</span> Correlation of explanatory variables</h5>
+<p>If the explanatory variables are correlated that could lead to something<br>
+known as multicolinearity. When this happens SE estimates of the coefficients will be too large. This is usually observed in time-course data.</p>
+</section>
+<section id="correlation-of-error-terms" class="level5" data-number="3.3.5.0.3">
+<h5 data-number="3.3.5.0.3" class="anchored" data-anchor-id="correlation-of-error-terms"><span class="header-section-number">3.3.5.0.3</span> Correlation of error terms</h5>
+<p>This assumes that the errors of the response variables are uncorrelated with each other. If they are, the confidence intervals of the coefficients might be too narrow.</p>
+</section>
+<section id="non-constant-variance-of-error-terms" class="level5" data-number="3.3.5.0.4">
+<h5 data-number="3.3.5.0.4" class="anchored" data-anchor-id="non-constant-variance-of-error-terms"><span class="header-section-number">3.3.5.0.4</span> Non-constant variance of error terms</h5>
+<p>This means that different response variables have the same variance in their errors, regardless of the values of the predictor variables. If the errors are not constant (ex: the errors grow as X values increase), this will result in unreliable estimates in standard errors as the model assumes constant variance. Transformation of data, such as <span class="math inline">\(logX\)</span> and <span class="math inline">\(\sqrt{X}\)</span>, could help in some cases.</p>
+</section>
+<section id="outliers-and-high-leverage-points" class="level5" data-number="3.3.5.0.5">
+<h5 data-number="3.3.5.0.5" class="anchored" data-anchor-id="outliers-and-high-leverage-points"><span class="header-section-number">3.3.5.0.5</span> Outliers and high leverage points</h5>
+<p>Outliers are extreme values for Y and high leverage points are unusual X values. Both of these extremes have the power to affect the fitted line and the standard errors. In some cases (Ex: if there are measurement errors), they can be removed from the data for a better fit.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Want to know more ?</strong></p>
+<ul>
+<li>Linear models and derivations of equations including matrix notation
+<ul>
+<li><em>Applied Linear Statistical Models</em> by Kutner, Nachtsheim, et al. <span class="citation" data-cites="kutner2003applied">(<a href="12-references.html#ref-kutner2003applied" role="doc-biblioref">Kutner et al. 2003</a>)</span></li>
+<li><em>Elements of Statistical Learning</em> by Hastie &amp; Tibshirani <span class="citation" data-cites="friedman2001elements">(<a href="12-references.html#ref-friedman2001elements" role="doc-biblioref">Friedman et al. 2001</a>)</span></li>
+<li><em>An Introduction to Statistical Learning</em> by James, Witten, et al. <span class="citation" data-cites="james2013introduction">(<a href="12-references.html#ref-james2013introduction" role="doc-biblioref">James et al. 2013</a>)</span></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.4</span> Exercises</h2>
+<section id="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="how-to-summarize-collection-of-data-points-the-idea-behind-statistical-distributions-1"><span class="header-section-number">3.4.1</span> How to summarize collection of data points: The idea behind statistical distributions</h3>
+<ol type="1">
+<li>Calculate the means and variances of the rows of the following simulated data set, and plot the distributions of means and variances using <code>hist()</code> and <code>boxplot()</code> functions. [Difficulty: <strong>Beginner/Intermediate</strong>]</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co">#sample data matrix from normal distribution</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>gset<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">600</span>,<span class="at">mean=</span><span class="dv">200</span>,<span class="at">sd=</span><span class="dv">70</span>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>data<span class="ot">=</span><span class="fu">matrix</span>(gset,<span class="at">ncol=</span><span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="2" type="1">
+<li><p>Using the data generated above, calculate the standard deviation of the distribution of the means using the <code>sd()</code> function. Compare that to the expected standard error obtained from the central limit theorem keeping in mind the population parameters were <span class="math inline">\(\sigma=70\)</span> and <span class="math inline">\(n=6\)</span>. How does the estimate from the random samples change if we simulate more data with <code>data=matrix(rnorm(6000,mean=200,sd=70),ncol=6) keeping the number of samples per dataset constant, as n=6</code>? [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Simulate 30 random variables using the <code>rpois()</code> function. Do this 1000 times and calculate the mean of each sample. Plot the sampling distributions of the means using a histogram. Get the 2.5th and 97.5th percentiles of the distribution. [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Use the <code>t.test()</code> function to calculate confidence intervals of the mean on the first random sample <code>pois1</code> simulated from the <code>rpois()</code> function below. [Difficulty: <strong>Intermediate</strong>]</p></li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#HINT</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="co">#sample 30 values from poisson dist with lamda paramater =30</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>pois1<span class="ot">=</span><span class="fu">rpois</span>(<span class="dv">30</span>,<span class="at">lambda=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="5" type="1">
+<li>Use the bootstrap confidence interval for the mean on <code>pois1</code>. [Difficulty: <strong>Intermediate/Advanced</strong>]</li>
+<li>Compare the theoretical confidence interval of the mean from the <code>t.test</code> and the bootstrap confidence interval. Are they similar? [Difficulty: <strong>Intermediate/Advanced</strong>]<br>
+</li>
+<li>Try to re-create the following figure, which demonstrates the CLT concept.[Difficulty: <strong>Advanced</strong>] <img src="03-statsForGenomics_files/figure-html/unnamed-chunk-1-1.png" width="55%" style="display: block; margin: auto;"></li>
+</ol>
+</section>
+<section id="how-to-test-for-differences-in-samples" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="how-to-test-for-differences-in-samples"><span class="header-section-number">3.4.2</span> How to test for differences in samples</h3>
+<ol type="1">
+<li>Test the difference of means of the following simulated genes using the randomization, <code>t-test()</code>, and <code>wilcox.test()</code> functions. Plot the distributions using histograms and boxplots. [Difficulty: <strong>Intermediate/Advanced</strong>]</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">101</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>gene1<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">30</span>,<span class="at">mean=</span><span class="dv">4</span>,<span class="at">sd=</span><span class="dv">3</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>gene2<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">30</span>,<span class="at">mean=</span><span class="dv">3</span>,<span class="at">sd=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="2" type="1">
+<li>Test the difference of the means of the following simulated genes using the randomization, <code>t-test()</code> and <code>wilcox.test()</code> functions. Plot the distributions using histograms and boxplots. [Difficulty: <strong>Intermediate/Advanced</strong>]</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>gene1<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">30</span>,<span class="at">mean=</span><span class="dv">4</span>,<span class="at">sd=</span><span class="dv">2</span>)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>gene2<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">30</span>,<span class="at">mean=</span><span class="dv">2</span>,<span class="at">sd=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="3" type="1">
+<li>We need an extra data set for this exercise. Read the gene expression data set as follows: <code>gexpFile=system.file("extdata","geneExpMat.rds",package="compGenomRData") data=readRDS(gexpFile)</code>. The data has 100 differentially expressed genes. The first 3 columns are the test samples, and the last 3 are the control samples. Do a t-test for each gene (each row is a gene), and record the p-values. Then, do a moderated t-test, as shown in section “Moderated t-tests” in this chapter, and record the p-values. Make a p-value histogram and compare two approaches in terms of the number of significant tests with the <span class="math inline">\(0.05\)</span> threshold. On the p-values use FDR (BH), Bonferroni and q-value adjustment methods. Calculate how many adjusted p-values are below 0.05 for each approach. [Difficulty: <strong>Intermediate/Advanced</strong>]</li>
+</ol>
+</section>
+<section id="relationship-between-variables-linear-models-and-correlation-1" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="relationship-between-variables-linear-models-and-correlation-1"><span class="header-section-number">3.4.3</span> Relationship between variables: Linear models and correlation</h3>
+<p>Below we are going to simulate X and Y values that are needed for the rest of the exercise.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set random number seed, so that the random numbers from the text</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="co"># is the same when you run the code.</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">32</span>)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co"># get 50 X values between 1 and 100</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">runif</span>(<span class="dv">50</span>,<span class="dv">1</span>,<span class="dv">100</span>)</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="co"># set b0,b1 and variance (sigma)</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="dv">20</span></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate error terms from normal distribution</span></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>eps <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">50</span>,<span class="dv">0</span>,sigma)</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a><span class="co"># get y values from the linear equation and addition of error terms</span></span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> b0 <span class="sc">+</span> b1<span class="sc">*</span>x<span class="sc">+</span> eps</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol type="1">
+<li><p>Run the code then fit a line to predict Y based on X. [Difficulty:<strong>Intermediate</strong>]</p></li>
+<li><p>Plot the scatter plot and the fitted line. [Difficulty:<strong>Intermediate</strong>]</p></li>
+<li><p>Calculate correlation and R^2. [Difficulty:<strong>Intermediate</strong>]</p></li>
+<li><p>Run the <code>summary()</code> function and try to extract P-values for the model from the object returned by <code>summary</code>. See <code>?summary.lm</code>. [Difficulty:<strong>Intermediate/Advanced</strong>]</p></li>
+<li><p>Plot the residuals vs.&nbsp;the fitted values plot, by calling the <code>plot()</code> function with <code>which=1</code> as the second argument. First argument is the model returned by <code>lm()</code>. [Difficulty:<strong>Advanced</strong>]</p></li>
+<li><p>For the next exercises, read the data set histone modification data set. Use the following to get the path to the file:</p></li>
+</ol>
+<pre><code>hmodFile=system.file("extdata",
+                    "HistoneModeVSgeneExp.rds",
+                     package="compGenomRData")`</code></pre>
+<p>There are 3 columns in the dataset. These are measured levels of H3K4me3, H3K27me3 and gene expression per gene. Once you read in the data, plot the scatter plot for H3K4me3 vs.&nbsp;expression. [Difficulty:<strong>Beginner</strong>]</p>
+<ol start="7" type="1">
+<li><p>Plot the scatter plot for H3K27me3 vs.&nbsp;expression. [Difficulty:<strong>Beginner</strong>]</p></li>
+<li><p>Fit the model for prediction of expression data using: 1) Only H3K4me3 as explanatory variable, 2) Only H3K27me3 as explanatory variable, and 3) Using both H3K4me3 and H3K27me3 as explanatory variables. Inspect the <code>summary()</code> function output in each case, which terms are significant. [Difficulty:<strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Is using H3K4me3 and H3K27me3 better than the model with only H3K4me3? [Difficulty:<strong>Intermediate</strong>]</p></li>
+<li><p>Plot H3k4me3 vs.&nbsp;H3k27me3. Inspect the points that do not follow a linear trend. Are they clustered at certain segments of the plot? Bonus: Is there any biological or technical interpretation for those points? [Difficulty:<strong>Intermediate/Advanced</strong>]</p></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-crawley2012r" class="csl-entry" role="listitem">
+Crawley, M. J. 2012. <em>The r Book</em>. Wiley. <a href="https://books.google.de/books?id=XYDl0mlH-moC">https://books.google.de/books?id=XYDl0mlH-moC</a>.
+</div>
+<div id="ref-de2010benchmark" class="csl-entry" role="listitem">
+De Hertogh, Benoı̂t, Bertrand De Meulder, Fabrice Berger, et al. 2010. <span>“A Benchmark for Statistical Microarray Data Analysis That Preserves Actual Biological and Technical Variance.”</span> <em>BMC Bioinformatics</em> 11 (1): 17.
+</div>
+<div id="ref-diez2015openintro" class="csl-entry" role="listitem">
+Diez, D. M., C. D. Barr, M. Çetinkaya-Rundel, and Amazon.com. 2015. <em>OpenIntro Statistics</em>. OpenIntro, Incorporated. <a href="https://books.google.de/books?id=wfcPswEACAAJ">https://books.google.de/books?id=wfcPswEACAAJ</a>.
+</div>
+<div id="ref-friedman2001elements" class="csl-entry" role="listitem">
+Friedman, Jerome, Trevor Hastie, and Robert Tibshirani. 2001. <em>The Elements of Statistical Learning</em>. Vol. 1. Springer series in statistics New York.
+</div>
+<div id="ref-gonick2005cartoon" class="csl-entry" role="listitem">
+Gonick, L., and W. Smith. 2005. <em>The Cartoon Guide to Statistics</em>. Collins Reference. <a href="https://books.google.de/books?id=-U7vygAACAAJ">https://books.google.de/books?id=-U7vygAACAAJ</a>.
+</div>
+<div id="ref-james2013introduction" class="csl-entry" role="listitem">
+James, G., D. Witten, T. Hastie, and R. Tibshirani. 2013. <em>An Introduction to Statistical Learning: With Applications in r</em>. Springer Texts in Statistics. Springer New York. <a href="https://books.google.de/books?id=qcI\_AAAAQBAJ">https://books.google.de/books?id=qcI\_AAAAQBAJ</a>.
+</div>
+<div id="ref-kutner2003applied" class="csl-entry" role="listitem">
+Kutner, M. H., C. J. Nachtsheim, and J. Neter. 2003. <em>Applied Linear Regression Models</em>. The McGraw-Hill/Irwin Series Operations and Decision Sciences. McGraw-Hill Higher Education. <a href="https://books.google.de/books?id=0nAMAAAACAAJ">https://books.google.de/books?id=0nAMAAAACAAJ</a>.
+</div>
+<div id="ref-smyth2004linear" class="csl-entry" role="listitem">
+Smyth Gordon, K. 2004. <span>“Linear Models and Empirical Bayes Methods for Assessing Differential Expression in Microarray Experiments.”</span> <em>Statistical Applications in Genetics and Molecular Biology</em> 3 (1): 1–25.
+</div>
+<div id="ref-Storey2003-nv" class="csl-entry" role="listitem">
+Storey, John D, and Robert Tibshirani. 2003. <span>“Statistical Significance for Genomewide Studies.”</span> <em>Proc. Natl. Acad. Sci. U. S. A.</em> 100 (16): 9440–45.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<div class="cgr-global-banner bottom-banner" role="complementary" aria-label="Book Updates">
+  <div class="banner-container">
+    <div class="banner-title">Stay Connected with Computational Genomics</div>
+    <div class="banner-text">
+      Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer" class="banner-link">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer" class="banner-link">Substack Blog</a> for updates!
+    </div>
+  </div>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/compgenomr\.github\.io\/book\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./02-intro2R.html" class="pagination-link" aria-label="Introduction to R for Genomic Data Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R for Genomic Data Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./04-unsupervisedLearning.html" class="pagination-link" aria-label="Exploratory Data Analysis with Unsupervised Machine Learning">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis with Unsupervised Machine Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Computational Genomics with R — Altuna Akalin</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/compgenomr/book/edit/main/03-statsForGenomics.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

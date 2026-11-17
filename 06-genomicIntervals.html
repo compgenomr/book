@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A guide to computational genomics using R. The book covers fundamental topics with practical examples for an interdisciplinary audience.">
+
+<title>6&nbsp; Operations on Genomic Intervals and Genome Arithmetic – Computational Genomics with R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07-Read_Processing.html" rel="next">
+<link href="./05-supervisedLearning.html" rel="prev">
+<link href="./images/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3386ba8bb730b0c8829dca417ec99718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Umami Analytics (Privacy-friendly, cookie-free, GDPR-compliant) -->
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="9ee01346-97c1-4be2-bfa8-4b70be9e59f4"></script>
+
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-genomicIntervals.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Operations on Genomic Intervals and Genome Arithmetic</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computational Genomics with R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/compgenomr/book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Authors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro2Genomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R for Genomic Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-statsForGenomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistics for Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-unsupervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis with Unsupervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-supervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Predictive Modeling with Supervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-genomicIntervals.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Operations on Genomic Intervals and Genome Arithmetic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-Read_Processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quality Check, Processing and Alignment of High-throughput Sequencing Reads</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-rna-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">RNA-seq Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-chip-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ChIP-seq analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bs-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DNA methylation analysis using bisulfite sequencing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-multiomics-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multi-omics Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<style>
+/* Right margin cover thumbnail styling */
+.cgr-margin-cover {
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.cgr-margin-cover img {
+  max-width: 175px;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cgr-margin-cover img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+/* Suppress large cover image in landing page body */
+.quarto-cover-image {
+  display: none !important;
+}
+</style>
+<div class="cgr-margin-cover text-center">
+  <a href="./index.html" title="Computational Genomics with R">
+    <img src="./images/cover.png" alt="Computational Genomics with R cover" class="img-fluid">
+  </a>
+</div>
+
+</div></div>
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#operations-on-genomic-intervals-with-genomicranges-package" id="toc-operations-on-genomic-intervals-with-genomicranges-package" class="nav-link active" data-scroll-target="#operations-on-genomic-intervals-with-genomicranges-package"><span class="header-section-number">6.1</span> Operations on genomic intervals with <code>GenomicRanges</code> package</a>
+  <ul class="collapse">
+  <li><a href="#how-to-create-and-manipulate-a-granges-object" id="toc-how-to-create-and-manipulate-a-granges-object" class="nav-link" data-scroll-target="#how-to-create-and-manipulate-a-granges-object"><span class="header-section-number">6.1.1</span> How to create and manipulate a GRanges object</a></li>
+  <li><a href="#getting-genomic-regions-into-r-as-granges-objects" id="toc-getting-genomic-regions-into-r-as-granges-objects" class="nav-link" data-scroll-target="#getting-genomic-regions-into-r-as-granges-objects"><span class="header-section-number">6.1.2</span> Getting genomic regions into R as GRanges objects</a></li>
+  <li><a href="#finding-regions-that-dodo-not-overlap-with-another-set-of-regions" id="toc-finding-regions-that-dodo-not-overlap-with-another-set-of-regions" class="nav-link" data-scroll-target="#finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><span class="header-section-number">6.1.3</span> Finding regions that do/do not overlap with another set of regions</a></li>
+  </ul></li>
+  <li><a href="#dealing-with-mapped-high-throughput-sequencing-reads" id="toc-dealing-with-mapped-high-throughput-sequencing-reads" class="nav-link" data-scroll-target="#dealing-with-mapped-high-throughput-sequencing-reads"><span class="header-section-number">6.2</span> Dealing with mapped high-throughput sequencing reads</a>
+  <ul class="collapse">
+  <li><a href="#counting-mapped-reads-for-a-set-of-regions" id="toc-counting-mapped-reads-for-a-set-of-regions" class="nav-link" data-scroll-target="#counting-mapped-reads-for-a-set-of-regions"><span class="header-section-number">6.2.1</span> Counting mapped reads for a set of regions</a></li>
+  </ul></li>
+  <li><a href="#dealing-with-continuous-scores-over-the-genome" id="toc-dealing-with-continuous-scores-over-the-genome" class="nav-link" data-scroll-target="#dealing-with-continuous-scores-over-the-genome"><span class="header-section-number">6.3</span> Dealing with continuous scores over the genome</a>
+  <ul class="collapse">
+  <li><a href="#extracting-subsections-of-rle-and-rlelist-objects" id="toc-extracting-subsections-of-rle-and-rlelist-objects" class="nav-link" data-scroll-target="#extracting-subsections-of-rle-and-rlelist-objects"><span class="header-section-number">6.3.1</span> Extracting subsections of Rle and RleList objects</a></li>
+  </ul></li>
+  <li><a href="#genomic-intervals-with-more-information-summarizedexperiment-class" id="toc-genomic-intervals-with-more-information-summarizedexperiment-class" class="nav-link" data-scroll-target="#genomic-intervals-with-more-information-summarizedexperiment-class"><span class="header-section-number">6.4</span> Genomic intervals with more information: SummarizedExperiment class</a>
+  <ul class="collapse">
+  <li><a href="#create-a-summarizedexperiment-object" id="toc-create-a-summarizedexperiment-object" class="nav-link" data-scroll-target="#create-a-summarizedexperiment-object"><span class="header-section-number">6.4.1</span> Create a SummarizedExperiment object</a></li>
+  <li><a href="#subset-and-manipulate-the-summarizedexperiment-object" id="toc-subset-and-manipulate-the-summarizedexperiment-object" class="nav-link" data-scroll-target="#subset-and-manipulate-the-summarizedexperiment-object"><span class="header-section-number">6.4.2</span> Subset and manipulate the SummarizedExperiment object</a></li>
+  </ul></li>
+  <li><a href="#visualizing-and-summarizing-genomic-intervals" id="toc-visualizing-and-summarizing-genomic-intervals" class="nav-link" data-scroll-target="#visualizing-and-summarizing-genomic-intervals"><span class="header-section-number">6.5</span> Visualizing and summarizing genomic intervals</a>
+  <ul class="collapse">
+  <li><a href="#visualizing-intervals-on-a-locus-of-interest" id="toc-visualizing-intervals-on-a-locus-of-interest" class="nav-link" data-scroll-target="#visualizing-intervals-on-a-locus-of-interest"><span class="header-section-number">6.5.1</span> Visualizing intervals on a locus of interest</a></li>
+  <li><a href="#summaries-of-genomic-intervals-on-multiple-loci" id="toc-summaries-of-genomic-intervals-on-multiple-loci" class="nav-link" data-scroll-target="#summaries-of-genomic-intervals-on-multiple-loci"><span class="header-section-number">6.5.2</span> Summaries of genomic intervals on multiple loci</a></li>
+  <li><a href="#making-karyograms-and-circos-plots" id="toc-making-karyograms-and-circos-plots" class="nav-link" data-scroll-target="#making-karyograms-and-circos-plots"><span class="header-section-number">6.5.3</span> Making karyograms and circos plots</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">6.6</span> Exercises</a>
+  <ul class="collapse">
+  <li><a href="#operations-on-genomic-intervals-with-the-genomicranges-package" id="toc-operations-on-genomic-intervals-with-the-genomicranges-package" class="nav-link" data-scroll-target="#operations-on-genomic-intervals-with-the-genomicranges-package"><span class="header-section-number">6.6.1</span> Operations on genomic intervals with the <code>GenomicRanges</code> package</a></li>
+  <li><a href="#dealing-with-mapped-high-throughput-sequencing-reads-1" id="toc-dealing-with-mapped-high-throughput-sequencing-reads-1" class="nav-link" data-scroll-target="#dealing-with-mapped-high-throughput-sequencing-reads-1"><span class="header-section-number">6.6.2</span> Dealing with mapped high-throughput sequencing reads</a></li>
+  <li><a href="#dealing-with-contiguous-scores-over-the-genome" id="toc-dealing-with-contiguous-scores-over-the-genome" class="nav-link" data-scroll-target="#dealing-with-contiguous-scores-over-the-genome"><span class="header-section-number">6.6.3</span> Dealing with contiguous scores over the genome</a></li>
+  <li><a href="#visualizing-and-summarizing-genomic-intervals-1" id="toc-visualizing-and-summarizing-genomic-intervals-1" class="nav-link" data-scroll-target="#visualizing-and-summarizing-genomic-intervals-1"><span class="header-section-number">6.6.4</span> Visualizing and summarizing genomic intervals</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/compgenomr/book/edit/main/06-genomicIntervals.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+<style>
+/* Base container: exactly one banner element on every page */
+#cgr-top-banner {
+  margin: 10px 0 20px 0;
+  line-height: 1.5;
+}
+
+/* Landing page (Preface): prominent colored card banner */
+#cgr-top-banner.banner-landing {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border: 1px solid #c7d2fe;
+  border-left: 5px solid #4f46e5;
+  border-radius: 8px;
+  padding: 12px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #1e1b4b;
+}
+
+#cgr-top-banner.banner-landing .banner-badge {
+  display: inline-block;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+#cgr-top-banner.banner-landing a {
+  color: #4338ca;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-landing a:hover {
+  color: #312e81;
+}
+
+/* Chapters & Subpages: subtle, non-distracting 1-line announcement */
+#cgr-top-banner.banner-subtle {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0;
+  padding: 0 0 8px 0;
+  margin: 4px 0 18px 0;
+  font-size: 0.84rem;
+  color: #64748b;
+  box-shadow: none;
+}
+
+#cgr-top-banner.banner-subtle a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-subtle a:hover {
+  color: #1d4ed8;
+}
+</style>
+
+<div id="cgr-top-banner" class="banner-subtle" role="region" aria-label="Announcements">
+  Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!
+</div>
+
+<script>
+(function() {
+  try {
+    var p = window.location.pathname;
+    var isLanding = (
+      p.endsWith("/index.html") ||
+      p.endsWith("/") ||
+      p === "" ||
+      (document.getElementById("preface") !== null && p.indexOf(".html") === -1)
+    );
+    if (p.indexOf(".html") !== -1 && !p.endsWith("index.html")) {
+      isLanding = false;
+    }
+    if (isLanding) {
+      var b = document.getElementById("cgr-top-banner");
+      if (b) {
+        b.className = "banner-landing";
+        b.innerHTML = '<span class="banner-badge">🚀 New</span> Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!';
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-genomicIntervals" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Operations on Genomic Intervals and Genome Arithmetic</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Considerable time in computational genomics is spent on overlapping different features of the genome. Each feature can be represented with a genomic interval within the chromosomal coordinate system. In addition, each interval can carry different sorts of information. An interval may for instance represent exon coordinates or a transcription factor binding site. On the other hand, you can have base-pair resolution, continuous scores over the genome such as read coverage, or scores that could be associated with only certain bases such as in the case of CpG methylation (see <a href="#fig-gintsum" class="quarto-xref">Figure&nbsp;<span>6.1</span></a> ). Typically, you will need to overlap intervals of interest with other features of the genome, again represented as intervals. For example, you may want to overlap transcription factor binding sites with CpG islands or promoters to quantify what percentage of binding sites overlap with your regions of interest. Overlapping mapped reads from high-throughput sequencing experiments with genomic features such as exons, promoters, and enhancers can also be classified as operations on genomic intervals. You can think of a million other ways that involve overlapping two sets of different features on the genome. This chapter aims to show how to do analysis involving operations on genomic intervals.</p>
+<div id="fig-gintsum" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gintsum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/genomeIntervalSummary.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gintsum-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: Summary of genomic intervals with different kinds of information.
+</figcaption>
+</figure>
+</div>
+<section id="operations-on-genomic-intervals-with-genomicranges-package" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="operations-on-genomic-intervals-with-genomicranges-package"><span class="header-section-number">6.1</span> Operations on genomic intervals with <code>GenomicRanges</code> package</h2>
+<p>The <a href="http://bioconductor.org">Bioconductor</a> project has a dedicated package called <a href="http://www.bioconductor.org/packages/release/bioc/html/GenomicRanges.html"><code>GenomicRanges</code></a> to deal with genomic intervals. In this section, we will provide use cases involving operations on genomic intervals. The main reason we will stick to this package is that it provides tools to do overlap operations. However, the package requires that users operate on specific data types that are conceptually similar to a tabular data structure implemented in a way that makes overlapping and related operations easier. The main object we will be using is called the <code>GRanges</code> object and we will also see some other related objects from the <code>GenomicRanges</code> package.}</p>
+<section id="how-to-create-and-manipulate-a-granges-object" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="how-to-create-and-manipulate-a-granges-object"><span class="header-section-number">6.1.1</span> How to create and manipulate a GRanges object</h3>
+<p><code>GRanges</code> (from <code>GenomicRanges</code> package) is the main object that holds the genomic intervals and extra information about those intervals. Here we will show how to create one. Conceptually, it is similar to a data frame and some operations such as using <code>[ ]</code> notation to subset the table will also work on <code>GRanges</code>, but keep in mind that not everything that works for data frames will work on <code>GRanges</code> objects.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GenomicRanges)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>gr<span class="ot">=</span><span class="fu">GRanges</span>(<span class="at">seqnames=</span><span class="fu">c</span>(<span class="st">"chr1"</span>,<span class="st">"chr2"</span>,<span class="st">"chr2"</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">ranges=</span><span class="fu">IRanges</span>(<span class="at">start=</span><span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">150</span>,<span class="dv">200</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">end=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>)),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">strand=</span><span class="fu">c</span>(<span class="st">"+"</span>,<span class="st">"-"</span>,<span class="st">"-"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>gr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## GRanges object with 3 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1    50-100      +
+##   [2]     chr2   150-200      -
+##   [3]     chr2   200-300      -
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># subset like a data frame</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gr[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## GRanges object with 2 ranges and 0 metadata columns:
+##       seqnames    ranges strand
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt;
+##   [1]     chr1    50-100      +
+##   [2]     chr2   150-200      -
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<p>As you can see, it looks a bit like a data frame. Also, note that the peculiar second argument “ranges” basically contains the start and end positions of the genomic intervals. However, you cannot just give start and end positions, you actually have to provide another object of <code>IRanges</code>. Do not let this confuse you; <code>GRanges</code> actually depends on another object that is very similar to itself called <code>IRanges</code> and you have to provide the “ranges” argument as an <code>IRanges</code> object. In its simplest form, an <code>IRanges</code> object can be constructed by providing start and end positions to the <code>IRanges()</code> function. Think of it as something you just have to provide in order to construct the <code>GRanges</code> object.</p>
+<p><code>GRanges</code> can also contain other information about the genomic interval such as scores, names, etc. You can provide extra information at the time of the construction or you can add it later. Here is how you can do that:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>gr<span class="ot">=</span><span class="fu">GRanges</span>(<span class="at">seqnames=</span><span class="fu">c</span>(<span class="st">"chr1"</span>,<span class="st">"chr2"</span>,<span class="st">"chr2"</span>),</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">ranges=</span><span class="fu">IRanges</span>(<span class="at">start=</span><span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">150</span>,<span class="dv">200</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">end=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>)),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">names=</span><span class="fu">c</span>(<span class="st">"id1"</span>,<span class="st">"id3"</span>,<span class="st">"id2"</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">scores=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">90</span>,<span class="dv">50</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># or add it later (replaces the existing meta data)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">mcols</span>(gr)<span class="ot">=</span><span class="fu">DataFrame</span>(<span class="at">name2=</span><span class="fu">c</span>(<span class="st">"pax6"</span>,<span class="st">"meis1"</span>,<span class="st">"zic4"</span>),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">score2=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>gr<span class="ot">=</span><span class="fu">GRanges</span>(<span class="at">seqnames=</span><span class="fu">c</span>(<span class="st">"chr1"</span>,<span class="st">"chr2"</span>,<span class="st">"chr2"</span>),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">ranges=</span><span class="fu">IRanges</span>(<span class="at">start=</span><span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">150</span>,<span class="dv">200</span>),</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                          <span class="at">end=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">200</span>,<span class="dv">300</span>)),</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">names=</span><span class="fu">c</span>(<span class="st">"id1"</span>,<span class="st">"id3"</span>,<span class="st">"id2"</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">scores=</span><span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">90</span>,<span class="dv">50</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># or appends to existing meta data</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">mcols</span>(gr)<span class="ot">=</span><span class="fu">cbind</span>(<span class="fu">mcols</span>(gr),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">DataFrame</span>(<span class="at">name2=</span><span class="fu">c</span>(<span class="st">"pax6"</span>,<span class="st">"meis1"</span>,<span class="st">"zic4"</span>)) )</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>gr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## GRanges object with 3 ranges and 3 metadata columns:
+##       seqnames    ranges strand |       names    scores       name2
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;numeric&gt; &lt;character&gt;
+##   [1]     chr1    50-100      * |         id1       100        pax6
+##   [2]     chr2   150-200      * |         id3        90       meis1
+##   [3]     chr2   200-300      * |         id2        50        zic4
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># elementMetadata() and values() do the same things</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">elementMetadata</span>(gr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## DataFrame with 3 rows and 3 columns
+##         names    scores       name2
+##   &lt;character&gt; &lt;numeric&gt; &lt;character&gt;
+## 1         id1       100        pax6
+## 2         id3        90       meis1
+## 3         id2        50        zic4</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(gr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## DataFrame with 3 rows and 3 columns
+##         names    scores       name2
+##   &lt;character&gt; &lt;numeric&gt; &lt;character&gt;
+## 1         id1       100        pax6
+## 2         id3        90       meis1
+## 3         id2        50        zic4</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you may also add metadata using the $ operator, as for data frames</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>gr<span class="sc">$</span>name3 <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"A"</span>,<span class="st">"C"</span>, <span class="st">"B"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>gr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## GRanges object with 3 ranges and 4 metadata columns:
+##       seqnames    ranges strand |       names    scores       name2       name3
+##          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;numeric&gt; &lt;character&gt; &lt;character&gt;
+##   [1]     chr1    50-100      * |         id1       100        pax6           A
+##   [2]     chr2   150-200      * |         id3        90       meis1           C
+##   [3]     chr2   200-300      * |         id2        50        zic4           B
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome; no seqlengths</code></pre>
+</section>
+<section id="getting-genomic-regions-into-r-as-granges-objects" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="getting-genomic-regions-into-r-as-granges-objects"><span class="header-section-number">6.1.2</span> Getting genomic regions into R as GRanges objects</h3>
+<p>There are multiple ways you can read your genomic features into R and create a <code>GRanges</code> object. Most genomic interval data comes in a tabular format that has the basic information about the location of the interval and some other information. We already showed how to read BED files as a data frame in <a href="02-intro2R.html" class="quarto-xref"><span>Chapter 2</span></a>. Now we will show how to convert it to the <code>GRanges</code> object. This is one way of doing it, but there are more convenient ways described further in the text.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read CpGi data set</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>filePath<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"cpgi.hg19.chr21.bed"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>cpgi.df <span class="ot">=</span> <span class="fu">read.table</span>(filePath, <span class="at">header =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">stringsAsFactors=</span><span class="cn">FALSE</span>) </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># remove chr names with "_"</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>cpgi.df <span class="ot">=</span>cpgi.df [<span class="fu">grep</span>(<span class="st">"_"</span>,cpgi.df[,<span class="dv">1</span>],<span class="at">invert=</span><span class="cn">TRUE</span>),]</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>cpgi.gr<span class="ot">=</span><span class="fu">GRanges</span>(<span class="at">seqnames=</span>cpgi.df[,<span class="dv">1</span>],</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">ranges=</span><span class="fu">IRanges</span>(<span class="at">start=</span>cpgi.df[,<span class="dv">2</span>],</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                              <span class="at">end=</span>cpgi.df[,<span class="dv">3</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You may need to do some pre-processing before/after reading in the BED file. Below is an example of getting transcription start sites from BED files containing RefSeq transcript locations.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read refseq file</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>filePathRefseq<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"refseq.hg19.chr21.bed"</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>ref.df <span class="ot">=</span> <span class="fu">read.table</span>(filePathRefseq, <span class="at">header =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">stringsAsFactors=</span><span class="cn">FALSE</span>) </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>ref.gr<span class="ot">=</span><span class="fu">GRanges</span>(<span class="at">seqnames=</span>ref.df[,<span class="dv">1</span>],</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">ranges=</span><span class="fu">IRanges</span>(<span class="at">start=</span>ref.df[,<span class="dv">2</span>],</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">end=</span>ref.df[,<span class="dv">3</span>]),</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">strand=</span>ref.df[,<span class="dv">6</span>],<span class="at">name=</span>ref.df[,<span class="dv">4</span>])</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># get TSS</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>tss.gr<span class="ot">=</span>ref.gr</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co"># end of the + strand genes must be equalized to start pos</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="fu">end</span>(tss.gr[<span class="fu">strand</span>(tss.gr)<span class="sc">==</span><span class="st">"+"</span>,])  <span class="ot">=</span><span class="fu">start</span>(tss.gr[<span class="fu">strand</span>(tss.gr)<span class="sc">==</span><span class="st">"+"</span>,])</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co"># startof the - strand genes must be equalized to end pos</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="fu">start</span>(tss.gr[<span class="fu">strand</span>(tss.gr)<span class="sc">==</span><span class="st">"-"</span>,])<span class="ot">=</span><span class="fu">end</span>(tss.gr[<span class="fu">strand</span>(tss.gr)<span class="sc">==</span><span class="st">"-"</span>,])</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co"># remove duplicated TSSes ie alternative transcripts</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co"># this keeps the first instance and removes duplicates</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>tss.gr<span class="ot">=</span>tss.gr[<span class="sc">!</span><span class="fu">duplicated</span>(tss.gr),]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Another way of doing this from a BED file is to use the <code>readTranscriptfeatures()</code> function from the <code>genomation</code> package. This function takes care of the steps described in the code chunk above.</p>
+<p>Reading the genomic features as text files and converting to <code>GRanges</code> is not the only way to create a <code>GRanges</code> object. With the help of the <a href="http://www.bioconductor.org/packages/release/bioc/html/rtracklayer.html"><code>rtracklayer</code></a> package we can directly import BED files.}</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(rtracklayer)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># we are reading a BED file, the path to the file</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># is stored in filePathRefseq variable</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">import.bed</span>(filePathRefseq)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Next, we will show how to use other methods to automatically obtain the data in the <code>GRanges</code> format from online databases. But you will not be able to use these methods for every data set, so it is good to know how to read data from flat files as well. We will use the <code>rtracklayer</code> package to download data from the UCSC Genome Browser. We will download CpG islands as <code>GRanges</code> objects. The <code>rtracklayer</code> workflow we show below works like using the UCSC table browser. You need to select which species you are working with, then you need to select which dataset you need to download and lastly you download the UCSC dataset or track as a <code>GRanges</code> object.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(rtracklayer)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>session <span class="ot">&lt;-</span> <span class="fu">browserSession</span>(<span class="st">"UCSC"</span>,<span class="at">url =</span> <span class="st">'http://genome-euro.ucsc.edu/cgi-bin/'</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">genome</span>(session) <span class="ot">&lt;-</span> <span class="st">"mm9"</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="do">## choose CpG island track on chr12</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>query <span class="ot">&lt;-</span> <span class="fu">ucscTableQuery</span>(session, <span class="at">track=</span><span class="st">"CpG Islands"</span>,<span class="at">table=</span><span class="st">"cpgIslandExt"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">range=</span><span class="fu">GRangesForUCSCGenome</span>(<span class="st">"mm9"</span>, <span class="st">"chr12"</span>))</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="do">## get the GRanges object for the track</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">track</span>(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>There is also an interface to the Ensembl database called <a href="https://bioconductor.org/packages/release/bioc/html/biomaRt.html">biomaRt</a>. } This package will enable you to access and import all of the datasets included in Ensembl. Another similar package is <a href="https://bioconductor.org/packages/release/bioc/html/AnnotationHub.html">AnnotationHub</a>.} This package is an aggregator for different datasets from various sources. Using <code>AnnotationHub</code> one can access data sets from the UCSC browser, Ensembl browser and datasets from genomics consortia such as ENCODE and Roadmap Epigenomics. We provide examples of using <code>Biomart</code> package further into the chapter. In addition, the <code>AnnotationHub</code> package is used in <a href="09-chip-seq-analysis.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<section id="frequently-used-file-formats-and-how-to-read-them-into-r-as-a-table" class="level4" data-number="6.1.2.1">
+<h4 data-number="6.1.2.1" class="anchored" data-anchor-id="frequently-used-file-formats-and-how-to-read-them-into-r-as-a-table"><span class="header-section-number">6.1.2.1</span> Frequently used file formats and how to read them into R as a table</h4>
+<p>There are multiple file formats in genomics but some of them you will see more frequently than others. We already mentioned some of them. Here is a list of files and functions that can read them into R as <code>GRanges</code> objects or something coercible to <code>GRanges</code> objects.</p>
+<ol type="1">
+<li><p><strong>BED</strong>: This format is used and popularized by the UCSC browser, and can hold a variety of information including exon/intron structure of transcripts in a single line. We will be using BED files in this chapter. In its simplest form, the BED file contains the chromosome name, the start position and end position for a genomic feature of interest.</p>
+<ul>
+<li><code>genomation::readBed()</code></li>
+<li><code>genomation::readTranscriptFeatures()</code> good for getting intron/exon/promoters from BED12 files</li>
+<li><code>rtracklayer::import.bed()</code></li>
+</ul></li>
+<li><p><strong>GFF</strong>: GFF format is a tabular text format for genomic features similar to BED. However, it is a more flexible format than BED, which makes it harder to parse at times. Many gene annotation files are in this format.</p>
+<ul>
+<li><code>genomation::gffToGranges()</code></li>
+<li><code>rtracklayer::impot.gff()</code></li>
+</ul></li>
+<li><p><strong>BAM/SAM</strong>: BAM format is a compressed and indexed tabular file format designed for aligned sequencing reads. SAM is the uncompressed version of the BAM file. We will touch upon BAM files in this chapter. The uncompressed SAM file is similar in spirit to a BED file where you have the basic location of chromosomal location information plus additional columns that are related to the quality of alignment or other relevant information. We will introduce this format in detail later in this chapter.</p>
+<ul>
+<li><code>GenomicAlignments::readGAlignments</code></li>
+<li><code>Rsamtools::scanBam</code> returns a data frame with columns from a SAM/BAM file.</li>
+</ul></li>
+<li><p><strong>BigWig</strong>: This is used to for storing scores associated with genomic intervals. It is an indexed format. Similar to BAM, this makes it easier to query and only necessary portions of the file could be loaded into memory.</p>
+<ul>
+<li><code>rtracklayer::import.bw()</code></li>
+</ul></li>
+<li><p><strong>Generic Text files</strong>: This represents any text file with the minimal information of chromosome, start and end coordinates.</p>
+<ul>
+<li><code>genomation::readGeneric()</code></li>
+</ul></li>
+<li><p><strong>Tabix/Bcf</strong>: These are tabular file formats indexed and compressed similar to BAM. The following functions return lists rather than tabular data structures. These formats are mostly used to store genomic variation data such as SNPs and indels.</p>
+<ul>
+<li><code>Rsamtools::scanTabix</code></li>
+<li><code>Rsamtools::scanBcf</code></li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="finding-regions-that-dodo-not-overlap-with-another-set-of-regions" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="finding-regions-that-dodo-not-overlap-with-another-set-of-regions"><span class="header-section-number">6.1.3</span> Finding regions that do/do not overlap with another set of regions</h3>
+<p>This is one of the most common tasks in genomics. Usually, you have a set of regions that you are interested in and you want to see if they overlap with another set of regions or see how many of them overlap. A good example is transcription factor binding sites determined by <a href="http://en.wikipedia.org/wiki/ChIP-sequencing">ChIP-seq</a> experiments. We will introduce ChIP-seq in more detail in <a href="09-chip-seq-analysis.html" class="quarto-xref"><span>Chapter 9</span></a>. However, in these types of experiments and the following analysis, one usually ends up with genomic regions that are bound by transcription factors. One of the standard next questions would be to annotate binding sites with genomic annotations such as promoter, exon, intron and/or CpG islands, which are important for gene regulation. Below is a demonstration of how transcription factor binding sites can be annotated using CpG islands. First, we will get the subset of binding sites that overlap with the CpG islands. In this case, binding sites are ChIP-seq peaks.</p>
+<p>In the code snippet below, we read the ChIP-seq analysis output files using the <code>genomation::readBroadPeak()</code> function. This function directly outputs a <code>GRanges</code> object. These output files are similar to BED files, where the location of the predicted binding sites are written out in a tabular format with some analysis-related scores and/or P-values. After reading the files, we can find the subset of peaks that overlap with the CpG islands using the <code>subsetByoverlaps()</code> function.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(genomation)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>filePathPeaks<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,   </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep1.broadPeak.gz"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># read the peaks from a bed file</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>pk1.gr<span class="ot">=</span><span class="fu">readBroadPeak</span>(filePathPeaks)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># get the peaks that overlap with CpG islands</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="fu">subsetByOverlaps</span>(pk1.gr,cpgi.gr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## GRanges object with 44 ranges and 5 metadata columns:
+##        seqnames            ranges strand |        name     score signalValue
+##           &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt; &lt;integer&gt;   &lt;numeric&gt;
+##    [1]    chr21   9825360-9826582      * |   peak14562        56      183.11
+##    [2]    chr21   9968469-9968984      * |   peak14593       947     3064.92
+##    [3]    chr21 15755368-15755956      * |   peak14828        90      291.90
+##    [4]    chr21 19191579-19192525      * |   peak14840       290      940.03
+##    [5]    chr21 26979619-26980048      * |   peak14854        32      104.67
+##    ...      ...               ...    ... .         ...       ...         ...
+##   [40]    chr21 46237464-46237809      * |   peak15034        32      106.36
+##   [41]    chr21 46707702-46708084      * |   peak15037        67      217.02
+##   [42]    chr21 46961552-46961875      * |   peak15039        38      124.31
+##   [43]    chr21 47743587-47744125      * |   peak15050       353     1141.58
+##   [44]    chr21 47878412-47878891      * |   peak15052       104      338.78
+##           pvalue    qvalue
+##        &lt;integer&gt; &lt;integer&gt;
+##    [1]        -1        -1
+##    [2]        -1        -1
+##    [3]        -1        -1
+##    [4]        -1        -1
+##    [5]        -1        -1
+##    ...       ...       ...
+##   [40]        -1        -1
+##   [41]        -1        -1
+##   [42]        -1        -1
+##   [43]        -1        -1
+##   [44]        -1        -1
+##   -------
+##   seqinfo: 23 sequences from an unspecified genome; no seqlengths</code></pre>
+<p>For each CpG island, we can count the number of peaks that overlap with a given CpG island with <code>GenomicRanges::countOverlaps()</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>counts<span class="ot">=</span><span class="fu">countOverlaps</span>(pk1.gr,cpgi.gr)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0 0 0 0 0 0</code></pre>
+<p>The <code>GenomicRanges::findOverlaps()</code> function can be used to see one-to-one overlaps between peaks and CpG islands. It returns a matrix showing which peak overlaps which CpG island.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">findOverlaps</span>(pk1.gr,cpgi.gr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## Hits object with 45 hits and 0 metadata columns:
+##        queryHits subjectHits
+##        &lt;integer&gt;   &lt;integer&gt;
+##    [1]     14562           1
+##    [2]     14593           3
+##    [3]     14828           8
+##    [4]     14840          13
+##    [5]     14854          16
+##    ...       ...         ...
+##   [41]     15034         155
+##   [42]     15037         166
+##   [43]     15039         176
+##   [44]     15050         192
+##   [45]     15052         200
+##   -------
+##   queryLength: 26121 / subjectLength: 205</code></pre>
+<p>Another interesting thing would be to look at the distances to the nearest CpG islands for each peak. In addition, just finding the nearest CpG island could also be interesting. Oftentimes, you will need to find the nearest TSS or gene to your regions of interest, and the code below is handy for doing that using the <code>nearest()</code> and <code>distanceToNearest()</code> functions, the resulting plot is shown in <a href="#fig-findNearest" class="quarto-xref">Figure&nbsp;<span>6.2</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find nearest CpGi to each TSS</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>n.ind<span class="ot">=</span><span class="fu">nearest</span>(pk1.gr,cpgi.gr)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># get distance to nearest</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>dists<span class="ot">=</span><span class="fu">distanceToNearest</span>(pk1.gr,cpgi.gr,<span class="at">select=</span><span class="st">"arbitrary"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>dists</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## Hits object with 620 hits and 1 metadata column:
+##         queryHits subjectHits |  distance
+##         &lt;integer&gt;   &lt;integer&gt; | &lt;integer&gt;
+##     [1]     14440           1 |    384188
+##     [2]     14441           1 |    382968
+##     [3]     14442           1 |    381052
+##     [4]     14443           1 |    379311
+##     [5]     14444           1 |    376978
+##     ...       ...         ... .       ...
+##   [616]     15055         205 |     26212
+##   [617]     15056         205 |     27402
+##   [618]     15057         205 |     30468
+##   [619]     15058         205 |     31611
+##   [620]     15059         205 |     34090
+##   -------
+##   queryLength: 26121 / subjectLength: 205</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># histogram of the distances to nearest TSS</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dist2plot<span class="ot">=</span><span class="fu">mcols</span>(dists)[,<span class="dv">1</span>]</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">log10</span>(dist2plot),<span class="at">xlab=</span><span class="st">"log10(dist to nearest TSS)"</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">"Distances"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-findNearest" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-findNearest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/findNearest-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-findNearest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: Histogram of distances of CpG islands to the nearest TSSes.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="dealing-with-mapped-high-throughput-sequencing-reads" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="dealing-with-mapped-high-throughput-sequencing-reads"><span class="header-section-number">6.2</span> Dealing with mapped high-throughput sequencing reads</h2>
+<p>The reads from sequencing machines are usually pre-processed and aligned to the genome with the help of specific bioinformatics tools. We have introduced the details of general read processing, quality check and alignment methods in <a href="07-Read_Processing.html" class="quarto-xref"><span>Chapter 7</span></a>. In this section we will deal with mapped reads. Since each mapped read has a start and end position the genome, mapped reads can be thought of as genomic intervals stored in a file. After mapping, the next task is to quantify the enrichment of those aligned reads in the regions of interest. You may want to count how many reads overlap with your promoter set of interest or you may want to quantify RNA-seq reads overlap with exons. This is similar to operations on genomic intervals which are described previously. If you can read all your alignments into memory and create a <code>GRanges</code> object, you can apply the previously described operations. However, most of the time we can not read all mapped reads into memory, so we have to use specialized tools to query and quantify alignments on a given set of regions. One of the most common alignment formats is SAM/BAM format, most aligners will produce SAM/BAM output or you will be able to convert your specific alignment format to SAM/BAM format. The BAM format is a binary version of the human-readable SAM format. The SAM format has specific columns that contain different kinds of information about the alignment such as mismatches, qualities etc. (see [http://samtools.sourceforge.net/SAM1.pdf] for SAM format specification).</p>
+<section id="counting-mapped-reads-for-a-set-of-regions" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="counting-mapped-reads-for-a-set-of-regions"><span class="header-section-number">6.2.1</span> Counting mapped reads for a set of regions</h3>
+<p>The <code>Rsamtools</code> package has functions to query BAM files}. The function we will use in the first example is the <code>countBam()</code> function, which takes input of the BAM file and param argument. The <code>param</code> argument takes a <code>ScanBamParam</code> object. The object is instantiated using <code>ScanBamParam()</code> and contains parameters for scanning the BAM file. The example below is a simple example where <code>ScanBamParam()</code> only includes regions of interest, promoters on chr21.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>promoter.gr<span class="ot">=</span>tss.gr</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">start</span>(promoter.gr)<span class="ot">=</span><span class="fu">start</span>(promoter.gr)<span class="sc">-</span><span class="dv">1000</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">end</span>(promoter.gr)  <span class="ot">=</span><span class="fu">end</span>(promoter.gr)<span class="sc">+</span><span class="dv">1000</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>promoter.gr<span class="ot">=</span>promoter.gr[<span class="fu">seqnames</span>(promoter.gr)<span class="sc">==</span><span class="st">"chr21"</span>]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Rsamtools)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>bamfilePath<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam"</span>,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co"># get reads for regions of interest from the bam file</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>param <span class="ot">&lt;-</span> <span class="fu">ScanBamParam</span>(<span class="at">which=</span>promoter.gr)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>counts<span class="ot">=</span><span class="fu">countBam</span>(bamfilePath, <span class="at">param=</span>param)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Alternatively, aligned reads can be read in using the <code>GenomicAlignments</code> package (which on this occasion relies on the <code>Rsamtools</code> package).}</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GenomicAlignments)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>alns <span class="ot">&lt;-</span> <span class="fu">readGAlignments</span>(bamfilePath, <span class="at">param=</span>param)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="dealing-with-continuous-scores-over-the-genome" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="dealing-with-continuous-scores-over-the-genome"><span class="header-section-number">6.3</span> Dealing with continuous scores over the genome</h2>
+<p>Most high-throughput data can be viewed as a continuous score over the bases of the genome. In case of RNA-seq or ChIP-seq experiments, the data can be represented as read coverage values per genomic base position. In addition, other information (not necessarily from high-throughput experiments) can be represented this way. The GC content and conservation scores per base are prime examples of other data sets that can be represented as scores over the genome. This sort of data can be stored as a generic text file or can have special formats such as Wig (stands for wiggle) from UCSC, or the bigWig format, which is an indexed binary format of the wig files. The bigWig format is great for data that covers a large fraction of the genome with varying scores, because the file is much smaller than regular text files that have the same information and it can be queried more easily since it is indexed.</p>
+<p>In R/Bioconductor, continuous data can also be represented in a compressed format, called Rle vector, which stands for run-length encoded vector. This gives superior memory performance over regular vectors because repeating consecutive values are represented as one value in the Rle vector (see <a href="#fig-Rle" class="quarto-xref">Figure&nbsp;<span>6.3</span></a>).</p>
+<div id="fig-Rle" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Rle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/Rle_demo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Rle-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: Rle encoding explained.
+</figcaption>
+</figure>
+</div>
+<p>Typically, for genome-wide data you will have an <code>RleList</code> object, which is a list of Rle vectors per chromosome. You can obtain such vectors by reading the reads in and calling the <code>coverage()</code> function from the <code>GenomicRanges</code> package. Let’s try that on the above data set.}</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>covs<span class="ot">=</span><span class="fu">coverage</span>(alns) <span class="co"># get coverage vectors</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>covs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## RleList of length 24
+## $chr1
+## integer-Rle of length 249250621 with 1 run
+##   Lengths: 249250621
+##   Values :         0
+## 
+## $chr2
+## integer-Rle of length 243199373 with 1 run
+##   Lengths: 243199373
+##   Values :         0
+## 
+## $chr3
+## integer-Rle of length 198022430 with 1 run
+##   Lengths: 198022430
+##   Values :         0
+## 
+## $chr4
+## integer-Rle of length 191154276 with 1 run
+##   Lengths: 191154276
+##   Values :         0
+## 
+## $chr5
+## integer-Rle of length 180915260 with 1 run
+##   Lengths: 180915260
+##   Values :         0
+## 
+## ...
+## &lt;19 more elements&gt;</code></pre>
+<p>Alternatively, you can get the coverage from the BAM file directly. Below, we are getting the coverage directly from the BAM file for our previously defined promoters.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>covs<span class="ot">=</span><span class="fu">coverage</span>(bamfilePath, <span class="at">param=</span>param) <span class="co"># get coverage vectors</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>One of the most common ways of storing score data is, as mentioned, the wig or bigWig format. Most of the ENCODE project data can be downloaded in bigWig format. In addition, conservation scores can also be downloaded in the wig/bigWig format. You can import bigWig files into R using the <code>import()</code> function from the <code>rtracklayer</code> package. However, it is generally not advisable to read the whole bigWig file in memory as was the case with BAM files. Usually, you will be interested in only a fraction of the genome, such as promoters, exons etc. So it is best that you extract the data for those regions and read those into memory rather than the whole file. Below we read a bigWig file only for the bases on promoters. The operation returns a <code>GRanges</code> object with the score column which indicates the scores in the bigWig file per genomic region.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtracklayer)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># File from ENCODE ChIP-seq tracks</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>bwFile<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"wgEncodeHaibTfbsA549.chr21.bw"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>bw.gr<span class="ot">=</span><span class="fu">import</span>(bwFile, <span class="at">which=</span>promoter.gr) <span class="co"># get coverage vectors</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>bw.gr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## GRanges object with 9205 ranges and 1 metadata column:
+##          seqnames            ranges strand |     score
+##             &lt;Rle&gt;         &lt;IRanges&gt;  &lt;Rle&gt; | &lt;numeric&gt;
+##      [1]    chr21   9825456-9825457      * |         1
+##      [2]    chr21   9825458-9825464      * |         2
+##      [3]    chr21   9825465-9825466      * |         4
+##      [4]    chr21   9825467-9825470      * |         5
+##      [5]    chr21           9825471      * |         6
+##      ...      ...               ...    ... .       ...
+##   [9201]    chr21 48055809-48055856      * |         2
+##   [9202]    chr21 48055857-48055858      * |         1
+##   [9203]    chr21 48055872-48055921      * |         1
+##   [9204]    chr21 48055944-48055993      * |         1
+##   [9205]    chr21 48056069-48056118      * |         1
+##   -------
+##   seqinfo: 1 sequence from an unspecified genome</code></pre>
+<p>Following this we can create an <code>RleList</code> object from the <code>GRanges</code> with the <code>coverage()</code> function.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>cov.bw<span class="ot">=</span><span class="fu">coverage</span>(bw.gr,<span class="at">weight =</span> <span class="st">"score"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># or get this directly from</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>cov.bw<span class="ot">=</span><span class="fu">import</span>(bwFile, <span class="at">which=</span>promoter.gr,<span class="at">as =</span> <span class="st">"RleList"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="extracting-subsections-of-rle-and-rlelist-objects" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="extracting-subsections-of-rle-and-rlelist-objects"><span class="header-section-number">6.3.1</span> Extracting subsections of Rle and RleList objects</h3>
+<p>Frequently, we will need to extract subsections of the Rle vectors or <code>RleList</code> objects. We will need to do this to visualize that subsection or get some statistics out of those sections. For example, we could be interested in average coverage per base for the regions we are interested in. We have to extract those regions from the <code>RleList</code> object and apply summary statistics. Below, we show how to extract subsections of the <code>RleList</code> object. We are extracting promoter regions from the ChIP-seq read coverage <code>RleList</code>. Following that, we will plot one of the promoter’s coverage values.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>myViews<span class="ot">=</span><span class="fu">Views</span>(cov.bw,<span class="fu">as</span>(promoter.gr,<span class="st">"IRangesList"</span>)) <span class="co"># get subsets of coverage</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># there is a views object for each chromosome</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>myViews</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## RleViewsList object of length 1:
+## $chr21
+## Views on a 48129895-length Rle subject
+## 
+## views:
+##          start      end width
+##   [1] 42218039 42220039  2001 [2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [2] 17441841 17443841  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [3] 17565698 17567698  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [4] 30395937 30397937  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [5] 27542138 27544138  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 1 1 1 ...]
+##   [6] 27511708 27513708  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [7] 32930290 32932290  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [8] 27542446 27544446  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [9] 28338439 28340439  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   ...      ...      ...   ... ...
+## [370] 47517032 47519032  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]
+## [371] 47648157 47650157  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]
+## [372] 47603373 47605373  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [373] 47647738 47649738  2001 [2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 ...]
+## [374] 47704236 47706236  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [375] 47742785 47744785  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [376] 47881383 47883383  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]
+## [377] 48054506 48056506  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [378] 48024035 48026035  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>myViews[[<span class="dv">1</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## Views on a 48129895-length Rle subject
+## 
+## views:
+##          start      end width
+##   [1] 42218039 42220039  2001 [2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [2] 17441841 17443841  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [3] 17565698 17567698  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [4] 30395937 30397937  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [5] 27542138 27544138  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 1 1 1 ...]
+##   [6] 27511708 27513708  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [7] 32930290 32932290  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [8] 27542446 27544446  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   [9] 28338439 28340439  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+##   ...      ...      ...   ... ...
+## [370] 47517032 47519032  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]
+## [371] 47648157 47650157  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]
+## [372] 47603373 47605373  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [373] 47647738 47649738  2001 [2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 ...]
+## [374] 47704236 47706236  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [375] 47742785 47744785  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [376] 47881383 47883383  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]
+## [377] 48054506 48056506  2001 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...]
+## [378] 48024035 48026035  2001 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 ...]</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the coverage vector from the 5th view and plot</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(myViews[[<span class="dv">1</span>]][[<span class="dv">5</span>]],<span class="at">type=</span><span class="st">"l"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-getViews" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-getViews-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/getViews-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-getViews-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.4: Coverage vector extracted from the RleList via the Views() function is plotted as a line plot.
+</figcaption>
+</figure>
+</div>
+<p>Next, we are interested in average coverage per base for the promoters using summary functions that work on the <code>Views</code> object.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the mean of the views</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">viewMeans</span>(myViews[[<span class="dv">1</span>]])</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 0.2258871 0.3498251 1.2243878 0.4997501 2.0904548 0.6996502</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the max of the views</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">viewMaxs</span>(myViews[[<span class="dv">1</span>]])</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1]  2  4 12  4 21  6</code></pre>
+</section>
+</section>
+<section id="genomic-intervals-with-more-information-summarizedexperiment-class" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="genomic-intervals-with-more-information-summarizedexperiment-class"><span class="header-section-number">6.4</span> Genomic intervals with more information: SummarizedExperiment class</h2>
+<p>As we have seen, genomic intervals can be mainly contained in a <code>GRanges</code> object. It can also contain additional columns associated with each interval. Here you can save information such as read counts or other scores associated with the interval. However, genomic data often have many layers. With <code>GRanges</code> you can have a table associated with the intervals, but what happens if you have many tables and each table has some metadata associated with it. In addition, rows and columns might have additional annotation that cannot be contained by row or column names. For these cases, the <code>SummarizedExperiment</code> class is ideal. It can hold multi-layered tabular data associated with each genomic interval and the meta-data associated with rows and columns, or associated with each table. For example, genomic intervals associated with the <code>SummarizedExperiment</code> object can be gene locations, and each tabular data structure can be RNA-seq read counts in a time course experiment. Each table could represent different conditions in which experiments are performed. The <code>SummarizedExperiment</code> class is outlined in the figure below (<a href="#fig-SumExpOv" class="quarto-xref">Figure&nbsp;<span>6.5</span></a> ).</p>
+<div id="fig-SumExpOv" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-SumExpOv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/Summarized.Experiment.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-SumExpOv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.5: Overview of SummarizedExperiment class and functions. Adapted from the SummarizedExperiment package vignette.
+</figcaption>
+</figure>
+</div>
+<section id="create-a-summarizedexperiment-object" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="create-a-summarizedexperiment-object"><span class="header-section-number">6.4.1</span> Create a SummarizedExperiment object</h3>
+<p>Here we show how to create a basic <code>SummarizedExperiment</code> object. We will first create a matrix of read counts. This matrix will represent read counts from a series of RNA-seq experiments from different time points. Following that, we create a <code>GRanges</code> object to represent the locations of the genes, and a table for column annotations. This will include the names for the columns and any other value we want to represent. Finally, we will create a <code>SummarizedExperiment</code> object by combining all those pieces.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simulate an RNA-seq read counts table</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>nrows <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>ncols <span class="ot">&lt;-</span> <span class="dv">6</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">runif</span>(nrows <span class="sc">*</span> ncols, <span class="dv">1</span>, <span class="fl">1e4</span>), nrows)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="co"># create gene locations</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>rowRanges <span class="ot">&lt;-</span> <span class="fu">GRanges</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"chr1"</span>, <span class="st">"chr2"</span>), <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">150</span>)),</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">IRanges</span>(<span class="fu">floor</span>(<span class="fu">runif</span>(<span class="dv">200</span>, <span class="fl">1e5</span>, <span class="fl">1e6</span>)), <span class="at">width=</span><span class="dv">100</span>),</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">strand=</span><span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"+"</span>, <span class="st">"-"</span>), <span class="dv">200</span>, <span class="cn">TRUE</span>),</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">feature_id=</span><span class="fu">paste0</span>(<span class="st">"gene"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>))</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="co"># create table for the columns</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>colData <span class="ot">&lt;-</span> <span class="fu">DataFrame</span>(<span class="at">timepoint=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">row.names=</span>LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>])</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="co"># create SummarizedExperiment object</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>se<span class="ot">=</span><span class="fu">SummarizedExperiment</span>(<span class="at">assays=</span><span class="fu">list</span>(<span class="at">counts=</span>counts),</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">rowRanges=</span>rowRanges, <span class="at">colData=</span>colData)</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>se</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## class: RangedSummarizedExperiment 
+## dim: 200 6 
+## metadata(0):
+## assays(1): counts
+## rownames: NULL
+## rowData names(1): feature_id
+## colnames(6): A B ... E F
+## colData names(1): timepoint</code></pre>
+</section>
+<section id="subset-and-manipulate-the-summarizedexperiment-object" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="subset-and-manipulate-the-summarizedexperiment-object"><span class="header-section-number">6.4.2</span> Subset and manipulate the SummarizedExperiment object</h3>
+<p>Now that we have a <code>SummarizedExperiment</code> object, we can subset it and extract/change parts of it.</p>
+<section id="extracting-parts-of-the-object" class="level4" data-number="6.4.2.1">
+<h4 data-number="6.4.2.1" class="anchored" data-anchor-id="extracting-parts-of-the-object"><span class="header-section-number">6.4.2.1</span> Extracting parts of the object</h4>
+<p><code>colData()</code> and <code>rowData()</code> extract the column-associated and row-associated tables. <code>metaData()</code> extracts the meta-data table if there is any table associated.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se) <span class="co"># extract column associated data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## DataFrame with 6 rows and 1 column
+##   timepoint
+##   &lt;integer&gt;
+## A         1
+## B         2
+## C         3
+## D         4
+## E         5
+## F         6</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(se) <span class="co"># extrac row associated data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## DataFrame with 200 rows and 1 column
+##      feature_id
+##     &lt;character&gt;
+## 1         gene1
+## 2         gene2
+## 3         gene3
+## 4         gene4
+## 5         gene5
+## ...         ...
+## 196     gene196
+## 197     gene197
+## 198     gene198
+## 199     gene199
+## 200     gene200</code></pre>
+<p>To extract the main table or tables that contain the values of interest such as read counts, we must use the <code>assays()</code> function. This returns a list of <code>DataFrame</code> objects associated with the object.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assays</span>(se) <span class="co"># extract list of assays</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## List of length 1
+## names(1): counts</code></pre>
+<p>You can use names with <code>$</code> or <code>[]</code> notation to extract specific tables from the list.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assays</span>(se)<span class="sc">$</span>counts <span class="co"># get the table named "counts"</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">assays</span>(se)[[<span class="dv">1</span>]] <span class="co"># get the first table</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="subsetting" class="level4" data-number="6.4.2.2">
+<h4 data-number="6.4.2.2" class="anchored" data-anchor-id="subsetting"><span class="header-section-number">6.4.2.2</span> Subsetting</h4>
+<p>Subsetting is easy using <code>[ ]</code> notation. This is similar to the way we subset data frames or matrices.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># subset the first five transcripts and first three samples</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>se[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## class: RangedSummarizedExperiment 
+## dim: 5 3 
+## metadata(0):
+## assays(1): counts
+## rownames: NULL
+## rowData names(1): feature_id
+## colnames(3): A B C
+## colData names(1): timepoint</code></pre>
+<p>One can also use the <code>$</code> operator to subset based on <code>colData()</code> columns. You can extract certain samples or in our case, time points.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>se[, se<span class="sc">$</span>timepoint <span class="sc">==</span> <span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In addition, as <code>SummarizedExperiment</code> objects are <code>GRanges</code> objects on steroids, they support all of the <code>findOverlaps()</code> methods and associated functions that work on <code>GRanges</code> objects.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset for only rows which are in chr1:100,000-1,100,000 </span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>roi <span class="ot">&lt;-</span> <span class="fu">GRanges</span>(<span class="at">seqnames=</span><span class="st">"chr1"</span>, <span class="at">ranges=</span><span class="dv">100000</span><span class="sc">:</span><span class="dv">1100000</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="fu">subsetByOverlaps</span>(se, roi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## class: RangedSummarizedExperiment 
+## dim: 50 6 
+## metadata(0):
+## assays(1): counts
+## rownames: NULL
+## rowData names(1): feature_id
+## colnames(6): A B ... E F
+## colData names(1): timepoint</code></pre>
+</section>
+</section>
+</section>
+<section id="visualizing-and-summarizing-genomic-intervals" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="visualizing-and-summarizing-genomic-intervals"><span class="header-section-number">6.5</span> Visualizing and summarizing genomic intervals</h2>
+<p>Data integration and visualization is cornerstone of genomic data analysis. Below, we will show different ways of integrating and visualizing genomic intervals. These methods can be used to visualize large amounts of data in a locus-specific or multi-loci manner.</p>
+<section id="visualizing-intervals-on-a-locus-of-interest" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="visualizing-intervals-on-a-locus-of-interest"><span class="header-section-number">6.5.1</span> Visualizing intervals on a locus of interest</h3>
+<p>Oftentimes, we will be interested in a particular genomic locus and try to visualize different genomic datasets over that locus. This is similar to looking at the data over one of the genome browsers. Below we will display genes, GpG islands and read } coverage from a ChIP-seq experiment using the <code>Gviz</code> package. For the <code>Gviz</code> package, we first need to set the tracks to display. The tracks can be in various formats. They can be R objects such as <code>IRanges</code>,<code>GRanges</code> and <code>data.frame</code>, or they can be in flat file formats such as bigWig, BED, and BAM. After the tracks are set, we can display them with the <code>plotTracks</code> function, the resulting plot is shown in <a href="#fig-GvizExchp6" class="quarto-xref">Figure&nbsp;<span>6.6</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Gviz)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co"># set tracks to display</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set CpG island track</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>cpgi.track<span class="ot">=</span><span class="fu">AnnotationTrack</span>(cpgi.gr,</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">name =</span> <span class="st">"CpG"</span>)</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="co"># set gene track</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="co"># we will get this from EBI Biomart webservice</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>gene.track <span class="ot">&lt;-</span> <span class="fu">BiomartGeneRegionTrack</span>(<span class="at">genome =</span> <span class="st">"hg19"</span>,</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">chromosome =</span> <span class="st">"chr21"</span>, </span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">start =</span> <span class="dv">27698681</span>, <span class="at">end =</span> <span class="dv">28083310</span>,</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">name =</span> <span class="st">"ENSEMBL"</span>)</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a><span class="co"># set track for ChIP-seq coverage</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>chipseqFile<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"wgEncodeHaibTfbsA549.chr21.bw"</span>,</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>cov.track<span class="ot">=</span><span class="fu">DataTrack</span>(chipseqFile,<span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">name=</span><span class="st">"coverage"</span>)</span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a><span class="co"># call the display function plotTracks</span></span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>track.list<span class="ot">=</span><span class="fu">list</span>(cpgi.track,gene.track,cov.track)</span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a><span class="fu">plotTracks</span>(track.list,<span class="at">from=</span><span class="dv">27698681</span>,<span class="at">to=</span><span class="dv">28083310</span>,<span class="at">chromsome=</span><span class="st">"chr21"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-GvizExchp6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-GvizExchp6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/GvizExchp6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-GvizExchp6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.6: Genomic data tracks visualized using the Gviz functions.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="summaries-of-genomic-intervals-on-multiple-loci" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="summaries-of-genomic-intervals-on-multiple-loci"><span class="header-section-number">6.5.2</span> Summaries of genomic intervals on multiple loci</h3>
+<p>Looking at data one region at a time could be inefficient. One can summarize different data sets over thousands of regions of interest and identify patterns. These summaries can include different data types such as motifs, read coverage and other scores associated with genomic intervals. The <code>genomation</code> package can summarize and help identify patterns in the datasets. The datasets can have different kinds of information and multiple file types can be used such as BED, GFF, BAM and bigWig. We will look at H3K4me3 ChIP-seq and DNAse-seq signals from the H1 embryonic stem cell line. H3K4me3 is usually associated with promoters and regions with high DNAse-seq signal are associated with accessible regions, which means mostly regulatory regions. We will summarize those datasets around the transcription start sites (TSS) of genes on chromosome 20 of the human hg19 assembly. We will first read the genes and extract the region around the TSS, 500bp upstream and downstream. We will then create a matrix of ChIP-seq scores for those regions. Each row will represent a region around a specific TSS and columns will be the scores per base. We will then plot average enrichment values around the TSS of genes on chromosome 20.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get transcription start sites on chr20</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(genomation)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>transcriptFile<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"refseq.hg19.chr20.bed"</span>,</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>feat<span class="ot">=</span><span class="fu">readTranscriptFeatures</span>(transcriptFile,</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">remove.unusual =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">up.flank =</span> <span class="dv">500</span>, <span class="at">down.flank =</span> <span class="dv">500</span>)</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>prom<span class="ot">=</span>feat<span class="sc">$</span>promoters <span class="co"># get promoters from the features</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a><span class="co"># get for H3K4me3 values around TSSes</span></span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a><span class="co"># we use strand.aware=TRUE so - strands will</span></span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a><span class="co"># be reversed</span></span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>H3K4me3File<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"H1.ESC.H3K4me3.chr20.bw"</span>,</span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>sm<span class="ot">=</span><span class="fu">ScoreMatrix</span>(H3K4me3File,prom,</span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>               <span class="at">type=</span><span class="st">"bigWig"</span>,<span class="at">strand.aware =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a><span class="co"># look for the average enrichment</span></span>
+<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMeta</span>(sm, <span class="at">profile.names =</span> <span class="st">"H3K4me3"</span>, <span class="at">xcoords =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">500</span>,<span class="dv">500</span>),</span>
+<span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">ylab=</span><span class="st">"H3K4me3 enrichment"</span>,<span class="at">dispersion =</span> <span class="st">"se"</span>,</span>
+<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a>         <span class="at">xlab=</span><span class="st">"bases around TSS"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-metaRegionchp6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-metaRegionchp6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/metaRegionchp6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-metaRegionchp6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.7: Meta-region plot using genomation.
+</figcaption>
+</figure>
+</div>
+<p>The resulting plot is shown in <a href="#fig-metaRegionchp6" class="quarto-xref">Figure&nbsp;<span>6.7</span></a>. The pattern we see is expected, there is a dip just around TSS and the signal is more intense downstream of the TSS.</p>
+<p>We can also plot a heatmap where each row is a region around the TSS and color coded by enrichment. This can show us not only the general pattern, as in the meta-region plot, but also how many of the regions produce such a pattern. The <code>heatMatrix()</code> function shown below achieves that. The resulting heatmap plot is shown in <a href="#fig-heatmatrix1Chp6" class="quarto-xref">Figure&nbsp;<span>6.8</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatMatrix</span>(sm,<span class="at">order=</span><span class="cn">TRUE</span>,<span class="at">xcoords =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">500</span>,<span class="dv">500</span>),</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">xlab=</span><span class="st">"bases around TSS"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-heatmatrix1Chp6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heatmatrix1Chp6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/heatmatrix1Chp6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heatmatrix1Chp6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.8: Heatmap of enrichment of H3K4me2 around the TSS.
+</figcaption>
+</figure>
+</div>
+<p>Here we saw that about half of the regions do not have any signal. In addition it seems the multi-modal profile we have observed earlier is more complicated. Certain regions seem to have signal on both sides of the TSS, whereas others have signal mostly on the downstream side.</p>
+<p>Normally, there would be more than one experiment or we can integrate datasets from public repositories. In this case, we can see how different signals look in the regions we are interested in. Now, we will also use DNAse-seq data and create a list of matrices with our datasets and plot the average profile of the signals from both datasets. The resulting meta-region plot is shown in <a href="#fig-heatmatrixlistchp6" class="quarto-xref">Figure&nbsp;<span>6.9</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>DNAseFile<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"H1.ESC.dnase.chr20.bw"</span>,</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>sml<span class="ot">=</span><span class="fu">ScoreMatrixList</span>(<span class="fu">c</span>(<span class="at">H3K4me3=</span>H3K4me3File,</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">DNAse=</span>DNAseFile),prom,</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">type=</span><span class="st">"bigWig"</span>,<span class="at">strand.aware =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMeta</span>(sml)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-heatmatrixlistchp6" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-heatmatrixlistchp6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/heatmatrixlistchp6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-heatmatrixlistchp6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.9: Average profiles of DNAse and H3K4me3 ChIP-seq.
+</figcaption>
+</figure>
+</div>
+<p>We should now look at the heatmaps side by side and we should also cluster the rows based on their similarity. We will be using <code>multiHeatMatrix</code> since we have multiple <code>ScoreMatrix</code> objects in the list. In this case, we will also use the <code>winsorize</code> argument to limit extreme values, every score above 95th percentile will be equalized the value of the 95th percentile. In addition, <code>heatMatrix</code> and <code>multiHeatMatrix</code> can cluster the rows. Below, we will be using k-means clustering with 3 clusters.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1029</span>)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">multiHeatMatrix</span>(sml,<span class="at">order=</span><span class="cn">TRUE</span>,<span class="at">xcoords =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">500</span>,<span class="dv">500</span>),</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">xlab=</span><span class="st">"bases around TSS"</span>,<span class="at">winsorize =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">95</span>),</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">matrix.main =</span> <span class="fu">c</span>(<span class="st">"H3K4me3"</span>,<span class="st">"DNAse"</span>),</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">column.scale=</span><span class="cn">TRUE</span>,</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">clustfun=</span><span class="cf">function</span>(x) <span class="fu">kmeans</span>(x, <span class="at">centers=</span><span class="dv">3</span>)<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-multiHeatMatrix" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-multiHeatMatrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/multiHeatMatrix-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-multiHeatMatrix-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.10: Heatmaps of H3K4me3 and DNAse data.
+</figcaption>
+</figure>
+</div>
+<p>The resulting heatmaps are shown in <a href="#fig-multiHeatMatrix" class="quarto-xref">Figure&nbsp;<span>6.10</span></a>. These plots revealed a different picture than we have observed before. Almost half of the promoters have no signal for DNAse or H3K4me3; these regions are probably not active and associated genes are not expressed. For regions with the H3K4me3 signal, there are two major patterns: one pattern where both downstream and upstream of the TSS are enriched, and on the other pattern, mostly downstream of the TSS is enriched.</p>
+</section>
+<section id="making-karyograms-and-circos-plots" class="level3" data-number="6.5.3">
+<h3 data-number="6.5.3" class="anchored" data-anchor-id="making-karyograms-and-circos-plots"><span class="header-section-number">6.5.3</span> Making karyograms and circos plots</h3>
+<p>Chromosomal karyograms and circos plots are beneficial for displaying data over the whole genome of chromosomes of interest, although the information that can be displayed over these large regions are usually not very clear and only large trends can be discerned by eye, such as loss of methylation in large regions or genome-wide. Below, we show how to use the <code>ggbio</code> package for plotting. This package has a slightly different syntax than base graphics. The syntax follows “grammar of graphics” logic, and depends on the <code>ggplot2</code> package we introduced in <a href="02-intro2R.html" class="quarto-xref"><span>Chapter 2</span></a>. It is a deconstructed way of thinking about the plot. You add your data and apply mappings and transformations in order to achieve the final output. In <code>ggbio</code>, things are relatively easy since a high-level function, the <code>autoplot</code> function, will recognize } most of the datatypes and guess the most appropriate plot type. You can change its behavior by applying low-level functions. We first get the sizes of chromosomes and make a karyogram template. The empty karyogram is shown in <a href="#fig-karyo1" class="quarto-xref">Figure&nbsp;<span>6.11</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbio)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(ideoCyto, <span class="at">package =</span> <span class="st">"biovizBase"</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(<span class="fu">seqinfo</span>(ideoCyto<span class="sc">$</span>hg19), <span class="at">layout =</span> <span class="st">"karyogram"</span>)</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-karyo1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-karyo1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/karyo1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-karyo1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.11: Karyogram example.
+</figcaption>
+</figure>
+</div>
+<p>Next, we would like to plot CpG islands on this karyogram. We simply do this by adding a layer with the <code>layout_karyogram()</code> function. The resulting karyogram is shown in <a href="#fig-karyo2" class="quarto-xref">Figure&nbsp;<span>6.12</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read CpG islands from a generic text file</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>CpGiFile<span class="ot">=</span>filePath<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"CpGi.hg19.table.txt"</span>,</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>cpgi.gr<span class="ot">=</span>genomation<span class="sc">::</span><span class="fu">readGeneric</span>(CpGiFile, </span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">chr =</span> <span class="dv">1</span>, <span class="at">start =</span> <span class="dv">2</span>, <span class="at">end =</span> <span class="dv">3</span>,<span class="at">header=</span><span class="cn">TRUE</span>, </span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">keep.all.metadata =</span><span class="cn">TRUE</span>,<span class="at">remove.unusual=</span><span class="cn">TRUE</span> )</span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">layout_karyogram</span>(cpgi.gr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-karyo2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-karyo2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/karyo2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-karyo2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.12: Karyogram of CpG islands over the human genome.
+</figcaption>
+</figure>
+</div>
+<p>Next, we would like to plot some data over the chromosomes. This could be the ChIP-seq signal or any other signal over the genome; we will use CpG island scores from the data set we read earlier. We will plot a point proportional to “obsExp” column in the data set. We use the <code>ylim</code> argument to squish the chromosomal rectangles and plot on top of those. The <code>aes</code> argument defines how the data is mapped to geometry. In this case, the argument indicates that the points will have an x coordinate from CpG island start positions and a y coordinate from the obsExp score of CpG islands. The resulting karyogram is shown in <a href="#fig-karyoCpG" class="quarto-xref">Figure&nbsp;<span>6.13</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">layout_karyogram</span>(cpgi.gr, <span class="fu">aes</span>(<span class="at">x=</span> start, <span class="at">y =</span> obsExp),</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">geom=</span><span class="st">"point"</span>,</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">50</span>), <span class="at">color =</span> <span class="st">"red"</span>,</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">size=</span><span class="fl">0.1</span>,<span class="at">rect.height=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-karyoCpG" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-karyoCpG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/karyoCpG-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-karyoCpG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.13: Karyogram of CpG islands and their observed/expected scores over the human genome.
+</figcaption>
+</figure>
+</div>
+<p>Another way to depict regions or quantitative signals on the chromosomes is circos plots. These are circular plots usually used for showing chromosomal rearrangements, but can also be used for depicting signals. The <code>ggbio</code> package can produce all kinds of circos plots. Below, we will show how to use that for our CpG island score example, and the resulting plot is shown in <a href="#fig-circosCpG" class="quarto-xref">Figure&nbsp;<span>6.14</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set the chromsome in a circle</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="co"># color set to white to look transparent </span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">layout_circle</span>(ideoCyto<span class="sc">$</span>hg19, <span class="at">geom =</span> <span class="st">"ideo"</span>, <span class="at">fill =</span> <span class="st">"white"</span>,</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">colour=</span><span class="st">"white"</span>,<span class="at">cytoband =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">radius =</span> <span class="dv">39</span>, <span class="at">trackWidth =</span> <span class="dv">2</span>)</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the scores as points   </span></span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">layout_circle</span>(cpgi.gr, <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">grid=</span><span class="cn">TRUE</span>,</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>                           <span class="at">size =</span> <span class="fl">0.01</span>, <span class="fu">aes</span>(<span class="at">y =</span> obsExp),<span class="at">color=</span><span class="st">"red"</span>,</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">radius =</span> <span class="dv">42</span>, <span class="at">trackWidth =</span> <span class="dv">10</span>)</span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a><span class="co"># set the chromosome names</span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> <span class="fu">layout_circle</span>(<span class="fu">as</span>(<span class="fu">seqinfo</span>(ideoCyto<span class="sc">$</span>hg19),<span class="st">"GRanges"</span>), </span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">geom =</span> <span class="st">"text"</span>, <span class="fu">aes</span>(<span class="at">label =</span> seqnames), </span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>                      <span class="at">vjust =</span> <span class="dv">0</span>, <span class="at">radius =</span> <span class="dv">55</span>, <span class="at">trackWidth =</span> <span class="dv">7</span>,</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>                      <span class="at">size=</span><span class="dv">3</span>) </span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a><span class="co"># display the plot</span></span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-circosCpG" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-circosCpG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-genomicIntervals_files/figure-html/circosCpG-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-circosCpG-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.14: Circos plot for CpG island scores.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">6.6</span> Exercises</h2>
+<p>The data for the exercises is within the <code>compGenomRData</code> package.</p>
+<p>Run the following to see the data files.</p>
+<pre><code>dir(system.file("extdata",
+             package="compGenomRData"))</code></pre>
+<p>You will need some of those files to complete the exercises.</p>
+<section id="operations-on-genomic-intervals-with-the-genomicranges-package" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="operations-on-genomic-intervals-with-the-genomicranges-package"><span class="header-section-number">6.6.1</span> Operations on genomic intervals with the <code>GenomicRanges</code> package</h3>
+<ol type="1">
+<li>Create a <code>GRanges</code> object using the information in the table below:[Difficulty: <strong>Beginner</strong>]</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">chr</th>
+<th style="text-align: left;">start</th>
+<th style="text-align: left;">end</th>
+<th style="text-align: left;">strand</th>
+<th style="text-align: left;">score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">chr1</td>
+<td style="text-align: left;">10000</td>
+<td style="text-align: left;">10300</td>
+<td style="text-align: left;">+</td>
+<td style="text-align: left;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chr1</td>
+<td style="text-align: left;">11100</td>
+<td style="text-align: left;">11500</td>
+<td style="text-align: left;">-</td>
+<td style="text-align: left;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">chr2</td>
+<td style="text-align: left;">20000</td>
+<td style="text-align: left;">20030</td>
+<td style="text-align: left;">+</td>
+<td style="text-align: left;">15</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" type="1">
+<li><p>Use the <code>start()</code>, <code>end()</code>, <code>strand()</code>,<code>seqnames()</code> and <code>width()</code> functions on the <code>GRanges</code> object you created. Figure out what they are doing. Can you get a subset of the <code>GRanges</code> object for intervals that are only on the + strand? If you can do that, try getting intervals that are on chr1. <em>HINT:</em> <code>GRanges</code> objects can be subset using the <code>[ ]</code> operator, similar to data frames, but you may need to use <code>start()</code>, <code>end()</code> and <code>strand()</code>,<code>seqnames()</code> within the <code>[]</code>. [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Import mouse (mm9 assembly) CpG islands and RefSeq transcripts for chr12 from the UCSC browser as <code>GRanges</code> objects using <code>rtracklayer</code> functions. HINT: Check chapter content and modify the code there as necessary. If that somehow does not work, go to the UCSC browser and download it as a BED file. The track name for Refseq genes is “RefSeq Genes” and the table name is “refGene”. [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Following from the exercise above, get the promoters of Refseq transcripts (-1000bp and +1000 bp of the TSS) and calculate what percentage of them overlap with CpG islands. HINT: You have to get the promoter coordinates and use the <code>findOverlaps()</code> or <code>subsetByOverlaps()</code> from the <code>GenomicRanges</code> package. To get promoters, type <code>?promoters</code> on the R console and see how to use that function to get promoters or calculate their coordinates as shown in the chapter. [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Plot the distribution of CpG island lengths for CpG islands that overlap with the promoters. [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Get canonical peaks for SP1 (peaks that are in both replicates) on chr21. Peaks for each replicate are located in the <code>wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep1.broadPeak.gz</code> and <code>wgEncodeHaibTfbsGm12878Sp1Pcr1xPkRep2.broadPeak.gz</code> files. <strong>HINT</strong>: You need to use <code>findOverlaps()</code> or <code>subsetByOverlaps()</code> to get the subset of peaks that occur in both replicates (canonical peaks). You can try to read “…broadPeak.gz” files using the <code>genomation::readBroadPeak()</code> function; broadPeak is just an extended BED format. In addition, you can try to use <code>the coverage()</code> and <code>slice()</code> functions to get more precise canonical peak locations. [Difficulty: <strong>Intermediate/Advanced</strong>]</p></li>
+</ol>
+</section>
+<section id="dealing-with-mapped-high-throughput-sequencing-reads-1" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="dealing-with-mapped-high-throughput-sequencing-reads-1"><span class="header-section-number">6.6.2</span> Dealing with mapped high-throughput sequencing reads</h3>
+<ol type="1">
+<li>Count the reads overlapping with canonical SP1 peaks using the BAM file for one of the replicates. The following file in the <code>compGenomRData</code> package contains the alignments for SP1 ChIP-seq reads: <code>wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam</code>. <strong>HINT</strong>: Use functions from the <code>GenomicAlignments</code> package. [Difficulty: <strong>Beginner/Intermediate</strong>]</li>
+</ol>
+</section>
+<section id="dealing-with-contiguous-scores-over-the-genome" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="dealing-with-contiguous-scores-over-the-genome"><span class="header-section-number">6.6.3</span> Dealing with contiguous scores over the genome</h3>
+<ol type="1">
+<li><p>Extract the <code>Views</code> object for the promoters on chr20 from the <code>H1.ESC.H3K4me1.chr20.bw</code> file available at <code>CompGenomRData</code> package. Plot the first “View” as a line plot. <strong>HINT</strong>: See the code in the relevant section in the chapter and adapt the code from there. [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Make a histogram of the maximum signal for the Views in the object you extracted above. You can use any of the view summary functions or use <code>lapply()</code> and write your own summary function. [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Get the genomic positions of maximum signal in each view and make a <code>GRanges</code> object. <strong>HINT</strong>: See the <code>?viewRangeMaxs</code> help page. Try to make a <code>GRanges</code> object out of the returned object. [Difficulty: <strong>Intermediate</strong>]</p></li>
+</ol>
+</section>
+<section id="visualizing-and-summarizing-genomic-intervals-1" class="level3" data-number="6.6.4">
+<h3 data-number="6.6.4" class="anchored" data-anchor-id="visualizing-and-summarizing-genomic-intervals-1"><span class="header-section-number">6.6.4</span> Visualizing and summarizing genomic intervals</h3>
+<ol type="1">
+<li>Extract -500,+500 bp regions around the TSSes on chr21; there are refseq files for the hg19 human genome assembly in the <code>compGenomRData</code> package. Use SP1 ChIP-seq data in the <code>compGenomRData</code> package, access the file path via the <code>system.file()</code> function, the file name is: <code>wgEncodeHaibTfbsGm12878Sp1Pcr1xAlnRep1.chr21.bam</code>. Create an average profile of read coverage around the TSSes. Following that, visualize the read coverage with a heatmap. <strong>HINT</strong>: All of these are possible using the <code>genomation</code> package functions. Check <code>help(ScoreMatrix)</code> to see how you can use bam files. As an example here is how you can get the file path to refseq annotation on chr21. [Difficulty: <strong>Intermediate/Advanced</strong>]</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>transcriptFilechr21<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"refseq.hg19.chr21.bed"</span>,</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="2" type="1">
+<li><p>Extract -500,+500 bp regions around the TSSes on chr20. Use H3K4me3 (<code>H1.ESC.H3K4me3.chr20.bw</code>) and H3K27ac (<code>H1.ESC.H3K27ac.chr20.bw</code>) ChIP-seq enrichment data in the <code>compGenomRData</code> package and create heatmaps and average signal profiles for regions around the TSSes.[Difficulty: <strong>Intermediate/Advanced</strong>]</p></li>
+<li><p>Download P300 ChIP-seq peaks data from the UCSC browser. The peaks are locations where P300 binds. The P300 binding marks enhancer regions in the genome. (<strong>HINT</strong>: group: “regulation”, track: “Txn Factor ChIP”, table:“wgEncodeRegTfbsClusteredV3”, you need to filter the rows for “EP300” name.) Check enrichment of H3K4me3, H3K27ac and DNase-seq (<code>H1.ESC.dnase.chr20.bw</code>) experiments on chr20 on and arounf the P300 binding-sites, use data from <code>compGenomRData</code> package. Make multi-heatmaps and metaplots. What is different from the TSS profiles? [Difficulty: <strong>Advanced</strong>]</p></li>
+<li><p>Cluster the rows of multi-heatmaps for the task above. Are there obvious clusters? <strong>HINT</strong>: Check arguments of the <code>multiHeatMatrix()</code> function. [Difficulty: <strong>Advanced</strong>]</p></li>
+<li><p>Visualize one of the -500,+500 bp regions around the TSS using <code>Gviz</code> functions. You should visualize both H3K4me3 and H3K27ac and the gene models. [Difficulty: <strong>Advanced</strong>]</p></li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<div class="cgr-global-banner bottom-banner" role="complementary" aria-label="Book Updates">
+  <div class="banner-container">
+    <div class="banner-title">Stay Connected with Computational Genomics</div>
+    <div class="banner-text">
+      Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer" class="banner-link">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer" class="banner-link">Substack Blog</a> for updates!
+    </div>
+  </div>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/compgenomr\.github\.io\/book\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./05-supervisedLearning.html" class="pagination-link" aria-label="Predictive Modeling with Supervised Machine Learning">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Predictive Modeling with Supervised Machine Learning</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07-Read_Processing.html" class="pagination-link" aria-label="Quality Check, Processing and Alignment of High-throughput Sequencing Reads">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quality Check, Processing and Alignment of High-throughput Sequencing Reads</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Computational Genomics with R — Altuna Akalin</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/compgenomr/book/edit/main/06-genomicIntervals.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

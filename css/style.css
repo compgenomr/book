@@ -41,26 +41,80 @@ blockquote > p:last-child {
 blockquote > p:first-child {
   text-align: inherit;
 }
-.header-section-number {
-  padding-right: .2em;
-  font-weight: 500;
-}
-.level1 .header-section-number {
-  display: inline-block;
-  border-bottom: 3px solid;
-}
-.level1 h1 {
-  border-bottom: 1px solid;
-}
-h1, h2, h3, h4, h5, h6 {
-  font-weight: normal;
-}
-h1.title {
-  font-weight: 700;
-}
 .smallcaps {
   font-variant: small-caps;
 }
 .book .book-body .page-wrapper .page-inner section.normal strong {
   font-weight: 600;
+}
+
+/* ==========================================================================
+   Global Announcement Banners (Bottom Banner)
+   ========================================================================== */
+
+.cgr-global-banner.bottom-banner {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 5px solid #0284c7;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 40px 0 25px 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.cgr-global-banner.bottom-banner .banner-title {
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.cgr-global-banner.bottom-banner .banner-text {
+  font-size: 0.95rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.cgr-global-banner.bottom-banner .banner-link {
+  color: #0284c7;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease-in-out;
+}
+
+.cgr-global-banner.bottom-banner .banner-link:hover {
+  color: #0369a1;
+}
+
+/* ==========================================================================
+   Margin Header & Cover Image
+   ========================================================================== */
+
+/* Suppress large cover image on the landing page body */
+.quarto-cover-image {
+  display: none !important;
+}
+
+/* Right margin cover thumbnail */
+.cgr-margin-cover {
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.cgr-margin-cover img {
+  max-width: 175px;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cgr-margin-cover img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }

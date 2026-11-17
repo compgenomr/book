@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A guide to computational genomics using R. The book covers fundamental topics with practical examples for an interdisciplinary audience.">
+
+<title>10&nbsp; DNA methylation analysis using bisulfite sequencing data – Computational Genomics with R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./11-multiomics-analysis.html" rel="next">
+<link href="./09-chip-seq-analysis.html" rel="prev">
+<link href="./images/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3386ba8bb730b0c8829dca417ec99718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Umami Analytics (Privacy-friendly, cookie-free, GDPR-compliant) -->
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="9ee01346-97c1-4be2-bfa8-4b70be9e59f4"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10-bs-seq-analysis.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DNA methylation analysis using bisulfite sequencing data</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computational Genomics with R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/compgenomr/book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Authors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro2Genomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R for Genomic Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-statsForGenomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistics for Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-unsupervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis with Unsupervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-supervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Predictive Modeling with Supervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-genomicIntervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Operations on Genomic Intervals and Genome Arithmetic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-Read_Processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quality Check, Processing and Alignment of High-throughput Sequencing Reads</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-rna-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">RNA-seq Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-chip-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ChIP-seq analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bs-seq-analysis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DNA methylation analysis using bisulfite sequencing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-multiomics-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multi-omics Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<style>
+/* Right margin cover thumbnail styling */
+.cgr-margin-cover {
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.cgr-margin-cover img {
+  max-width: 175px;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cgr-margin-cover img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+/* Suppress large cover image in landing page body */
+.quarto-cover-image {
+  display: none !important;
+}
+</style>
+<div class="cgr-margin-cover text-center">
+  <a href="./index.html" title="Computational Genomics with R">
+    <img src="./images/cover.png" alt="Computational Genomics with R cover" class="img-fluid">
+  </a>
+</div>
+
+</div></div>
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#what-is-dna-methylation" id="toc-what-is-dna-methylation" class="nav-link active" data-scroll-target="#what-is-dna-methylation"><span class="header-section-number">10.1</span> What is DNA methylation?</a>
+  <ul class="collapse">
+  <li><a href="#how-dna-methylation-is-set" id="toc-how-dna-methylation-is-set" class="nav-link" data-scroll-target="#how-dna-methylation-is-set"><span class="header-section-number">10.1.1</span> How DNA methylation is set?</a></li>
+  <li><a href="#how-to-measure-dna-methylation-with-bisulfite-sequencing" id="toc-how-to-measure-dna-methylation-with-bisulfite-sequencing" class="nav-link" data-scroll-target="#how-to-measure-dna-methylation-with-bisulfite-sequencing"><span class="header-section-number">10.1.2</span> How to measure DNA methylation with bisulfite sequencing</a></li>
+  </ul></li>
+  <li><a href="#analyzing-dna-methylation-data" id="toc-analyzing-dna-methylation-data" class="nav-link" data-scroll-target="#analyzing-dna-methylation-data"><span class="header-section-number">10.2</span> Analyzing DNA methylation data</a></li>
+  <li><a href="#processing-raw-data-and-getting-data-into-r" id="toc-processing-raw-data-and-getting-data-into-r" class="nav-link" data-scroll-target="#processing-raw-data-and-getting-data-into-r"><span class="header-section-number">10.3</span> Processing raw data and getting data into R</a></li>
+  <li><a href="#data-filtering-and-exploratory-analysis" id="toc-data-filtering-and-exploratory-analysis" class="nav-link" data-scroll-target="#data-filtering-and-exploratory-analysis"><span class="header-section-number">10.4</span> Data filtering and exploratory analysis</a>
+  <ul class="collapse">
+  <li><a href="#reading-methylation-call-files" id="toc-reading-methylation-call-files" class="nav-link" data-scroll-target="#reading-methylation-call-files"><span class="header-section-number">10.4.1</span> Reading methylation call files</a></li>
+  <li><a href="#further-quality-check" id="toc-further-quality-check" class="nav-link" data-scroll-target="#further-quality-check"><span class="header-section-number">10.4.2</span> Further quality check</a></li>
+  <li><a href="#merging-samples-into-a-single-table" id="toc-merging-samples-into-a-single-table" class="nav-link" data-scroll-target="#merging-samples-into-a-single-table"><span class="header-section-number">10.4.3</span> Merging samples into a single table</a></li>
+  <li><a href="#filtering-cpgs" id="toc-filtering-cpgs" class="nav-link" data-scroll-target="#filtering-cpgs"><span class="header-section-number">10.4.4</span> Filtering CpGs</a></li>
+  <li><a href="#clustering-samples" id="toc-clustering-samples" class="nav-link" data-scroll-target="#clustering-samples"><span class="header-section-number">10.4.5</span> Clustering samples</a></li>
+  <li><a href="#principal-component-analysis" id="toc-principal-component-analysis" class="nav-link" data-scroll-target="#principal-component-analysis"><span class="header-section-number">10.4.6</span> Principal component analysis</a></li>
+  </ul></li>
+  <li><a href="#extracting-interesting-regions-differential-methylation-and-segmentation" id="toc-extracting-interesting-regions-differential-methylation-and-segmentation" class="nav-link" data-scroll-target="#extracting-interesting-regions-differential-methylation-and-segmentation"><span class="header-section-number">10.5</span> Extracting interesting regions: Differential methylation and segmentation</a>
+  <ul class="collapse">
+  <li><a href="#differential-methylation" id="toc-differential-methylation" class="nav-link" data-scroll-target="#differential-methylation"><span class="header-section-number">10.5.1</span> Differential methylation</a></li>
+  <li><a href="#methylation-segmentation" id="toc-methylation-segmentation" class="nav-link" data-scroll-target="#methylation-segmentation"><span class="header-section-number">10.5.2</span> Methylation segmentation</a></li>
+  <li><a href="#working-with-large-files" id="toc-working-with-large-files" class="nav-link" data-scroll-target="#working-with-large-files"><span class="header-section-number">10.5.3</span> Working with large files</a></li>
+  </ul></li>
+  <li><a href="#annotation-of-dmrsdmcs-and-segments" id="toc-annotation-of-dmrsdmcs-and-segments" class="nav-link" data-scroll-target="#annotation-of-dmrsdmcs-and-segments"><span class="header-section-number">10.6</span> Annotation of DMRs/DMCs and segments</a>
+  <ul class="collapse">
+  <li><a href="#further-annotation-with-genes-or-gene-sets" id="toc-further-annotation-with-genes-or-gene-sets" class="nav-link" data-scroll-target="#further-annotation-with-genes-or-gene-sets"><span class="header-section-number">10.6.1</span> Further annotation with genes or gene sets</a></li>
+  </ul></li>
+  <li><a href="#other-r-packages-that-can-be-used-for-methylation-analysis" id="toc-other-r-packages-that-can-be-used-for-methylation-analysis" class="nav-link" data-scroll-target="#other-r-packages-that-can-be-used-for-methylation-analysis"><span class="header-section-number">10.7</span> Other R packages that can be used for methylation analysis</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">10.8</span> Exercises</a>
+  <ul class="collapse">
+  <li><a href="#differential-methylation-1" id="toc-differential-methylation-1" class="nav-link" data-scroll-target="#differential-methylation-1"><span class="header-section-number">10.8.1</span> Differential methylation</a></li>
+  <li><a href="#methylome-segmentation" id="toc-methylome-segmentation" class="nav-link" data-scroll-target="#methylome-segmentation"><span class="header-section-number">10.8.2</span> Methylome segmentation</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/compgenomr/book/edit/main/10-bs-seq-analysis.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+<style>
+/* Base container: exactly one banner element on every page */
+#cgr-top-banner {
+  margin: 10px 0 20px 0;
+  line-height: 1.5;
+}
+
+/* Landing page (Preface): prominent colored card banner */
+#cgr-top-banner.banner-landing {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border: 1px solid #c7d2fe;
+  border-left: 5px solid #4f46e5;
+  border-radius: 8px;
+  padding: 12px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #1e1b4b;
+}
+
+#cgr-top-banner.banner-landing .banner-badge {
+  display: inline-block;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+#cgr-top-banner.banner-landing a {
+  color: #4338ca;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-landing a:hover {
+  color: #312e81;
+}
+
+/* Chapters & Subpages: subtle, non-distracting 1-line announcement */
+#cgr-top-banner.banner-subtle {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0;
+  padding: 0 0 8px 0;
+  margin: 4px 0 18px 0;
+  font-size: 0.84rem;
+  color: #64748b;
+  box-shadow: none;
+}
+
+#cgr-top-banner.banner-subtle a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-subtle a:hover {
+  color: #1d4ed8;
+}
+</style>
+
+<div id="cgr-top-banner" class="banner-subtle" role="region" aria-label="Announcements">
+  Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!
+</div>
+
+<script>
+(function() {
+  try {
+    var p = window.location.pathname;
+    var isLanding = (
+      p.endsWith("/index.html") ||
+      p.endsWith("/") ||
+      p === "" ||
+      (document.getElementById("preface") !== null && p.indexOf(".html") === -1)
+    );
+    if (p.indexOf(".html") !== -1 && !p.endsWith("index.html")) {
+      isLanding = false;
+    }
+    if (isLanding) {
+      var b = document.getElementById("cgr-top-banner");
+      if (b) {
+        b.className = "banner-landing";
+        b.innerHTML = '<span class="banner-badge">🚀 New</span> Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!';
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-bsseq" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DNA methylation analysis using bisulfite sequencing data</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>The epigenome consists of chemical modifications of DNA and histones. These modifications are shown to be associated with gene regulation in various settings (see <a href="01-intro2Genomics.html" class="quarto-xref"><span>Chapter 1</span></a> for an intro). These modifications in turn have specific importance for cell type identification. There are many different ways of measuring such modifications. We have shown how histone modifications can be measured in a genome-wide manner in <a href="09-chip-seq-analysis.html" class="quarto-xref"><span>Chapter 9</span></a> using ChIP-seq. In this chapter we will focus on the analysis of DNA methylation data using data from a technique called bisulfite sequencing (BS-seq). We will introduce how to process data and data quality checks, as well as statistical analysis relevant for BS-seq data.</p>
+<section id="what-is-dna-methylation" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="what-is-dna-methylation"><span class="header-section-number">10.1</span> What is DNA methylation?</h2>
+<p>Cytosine methylation (5-methylcytosine, 5mC) is one of the main covalent base modifications in eukaryotic genomes, generally observed on CpG dinucleotides. Methylation can also rarely occur in a non-CpG context, but this was mainly observed in human embryonic stem and neuronal cells <span class="citation" data-cites="Lister2009-sd Lister2013-vs">(<a href="12-references.html#ref-Lister2009-sd" role="doc-biblioref">Lister et al. 2009</a>; <a href="12-references.html#ref-Lister2013-vs" role="doc-biblioref">Lister et al. 2013</a>)</span>. DNA methylation is a part of the epigenetic regulation mechanism of gene expression. It is cell-type-specific DNA modification. It is reversible but mostly remains stable through cell division. There are roughly 28 million CpGs in the human genome, 60–80% are generally methylated. Less than 10% of CpGs occur in CG-dense regions that are termed CpG islands in the human genome <span class="citation" data-cites="Smith2013-jh">(<a href="12-references.html#ref-Smith2013-jh" role="doc-biblioref">Smith and Meissner 2013</a>)</span>. It has been demonstrated that DNA methylation is also not uniformly distributed over the genome, but rather is associated with CpG density. In vertebrate genomes, cytosine bases are usually unmethylated in CpG-rich regions such as CpG islands and tend to be methylated in CpG-deficient regions. Vertebrate genomes are largely CpG deficient except at CpG islands. Conversely, invertebrates such as <em>Drosophila melanogaster</em> and <em>Caenorhabditis elegans</em> do not exhibit cytosine methylation and consequently do not have CpG rich and poor regions but rather a steady CpG frequency over their genomes <span class="citation" data-cites="Deaton2011-pm">(<a href="12-references.html#ref-Deaton2011-pm" role="doc-biblioref">Deaton and Bird 2011</a>)</span>.</p>
+<section id="how-dna-methylation-is-set" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="how-dna-methylation-is-set"><span class="header-section-number">10.1.1</span> How DNA methylation is set?</h3>
+<p>DNA methylation is established by DNA methyltransferases DNMT3A and DNMT3B in combination with DNMT3L and maintained through cell division by the methyltransferase DNMT1 and associated proteins. DNMT3a and DNMT3b are in charge of the de novo methylation during early development. Loss of 5mC can be achieved passively by dilution during replication or exclusion of DNMT1 from the nucleus. Recent discoveries of the ten-eleven translocation (TET) family of proteins and their ability to convert 5-methylcytosine (5mC) into 5-hydroxymethylcytosine (5hmC) in vertebrates provide a path for catalyzed active DNA demethylation <span class="citation" data-cites="Tahiliani2009-ar">(<a href="12-references.html#ref-Tahiliani2009-ar" role="doc-biblioref">Tahiliani et al. 2009</a>)</span>. Iterative oxidations of 5hmC catalyzed by TET result in 5-formylcytosine (5fC) and 5-carboxylcytosine (5caC). 5caC mark is excised from DNA by G/T mismatch-specific thymine-DNA glycosylase (TDG), which as a result reverts cytosine residue to its unmodified state <span class="citation" data-cites="He2011-pw">(<a href="12-references.html#ref-He2011-pw" role="doc-biblioref">He et al. 2011</a>)</span>. Apart from these, mainly bacteria, but possibly higher eukaryotes, contain base modifications on bases other than cytosine, such as methylated adenine or guanine <span class="citation" data-cites="Clark2011-sc">(<a href="12-references.html#ref-Clark2011-sc" role="doc-biblioref">Clark et al. 2011</a>)</span>.</p>
+</section>
+<section id="how-to-measure-dna-methylation-with-bisulfite-sequencing" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="how-to-measure-dna-methylation-with-bisulfite-sequencing"><span class="header-section-number">10.1.2</span> How to measure DNA methylation with bisulfite sequencing</h3>
+<p>One of the most reliable and popular ways to measure DNA methylation is high-throughput bisulfite sequencing. This method, and the related ones, allow measurement of DNA methylation at the single nucleotide resolution. The bisulfite conversion turns unmethylated Cs to Ts and methylated Cs remain intact. Then, the only thing to do is to align the reads with those C-&gt;T conversions and count C-&gt;T mutations to calculate fraction of methylated bases. In the end, we can get quantitative genome-wide measurements for DNA methylation.</p>
+</section>
+</section>
+<section id="analyzing-dna-methylation-data" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="analyzing-dna-methylation-data"><span class="header-section-number">10.2</span> Analyzing DNA methylation data</h2>
+<p>For the remainder of this chapter, we will explain how to do DNA methylation analysis using R. The analysis process is somewhat similar to the analysis patterns observed in other sequencing data analyses. The process can be chunked to four main parts with further sub-chunks:</p>
+<ol type="1">
+<li>Processing raw data</li>
+</ol>
+<ul>
+<li>Quality check</li>
+<li>Alignment and post-alignment processing</li>
+<li>Methylation calling</li>
+<li>Filtering bases</li>
+</ul>
+<ol start="2" type="1">
+<li>Exploratory analysis</li>
+</ol>
+<ul>
+<li>Clustering</li>
+<li>PCA</li>
+</ul>
+<ol start="3" type="1">
+<li>Finding interesting regions</li>
+</ol>
+<ul>
+<li>Differential methylation</li>
+<li>Methylation segmentation</li>
+</ul>
+<ol start="4" type="1">
+<li>Annotating interesting regions</li>
+</ol>
+<ul>
+<li>Nearest genes</li>
+<li>Annotation with other genomic features</li>
+<li>Integration with other quantitative genomics data</li>
+</ul>
+</section>
+<section id="processing-raw-data-and-getting-data-into-r" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="processing-raw-data-and-getting-data-into-r"><span class="header-section-number">10.3</span> Processing raw data and getting data into R</h2>
+<p>The rawest form of data that most users get is probably in the form of fastq files obtained from the sequencing experiments. We will describe the necessary steps and the tools that can be used for raw data processing and if they exist, we will mention their R equivalents. However, the data processing is usually done outside of the R framework, and for the following sections we will assume that the data processing is done and our analysis is starting from methylation call files.</p>
+<p>The typical data processing step starts with a data quality check. The fastq files are first run through quality check software that shows the quality of the sequencing run. We would typically use <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">fastQC</a> for this. However, there are several bioconductor packages that could be of use, such as <a href="https://bioconductor.org/packages/release/bioc/html/Rqc.html"><code>Rqc</code></a> and <a href="https://bioconductor.org/packages/release/bioc/html/QuasR.html"><code>QuasR</code></a>. We have introduced how to use some of these tools for sequencing quality check in <a href="07-Read_Processing.html" class="quarto-xref"><span>Chapter 7</span></a>. Following the quality check, provided everything is OK, the reads can be aligned to the genome. Before the alignment, adapters or low-quality ends of the reads can be trimmed to increase number of alignments. Low-quality ends mostly likely have poor basecalls, which will lead to many mismatches. Reads with non-trimmed adapters will also not align to the genome. We would use adapter trimming tools such as <a href="https://cutadapt.readthedocs.io/en/stable/">cutadapt</a> or <a href="https://github.com/seqan/flexbar">flexbar</a> for this purpose, although there are a bunch of them to choose from. Following this, reads are aligned to the genome with a bisulfite-treatment-aware aligner. For our own purposes, we use Bismark<span class="citation" data-cites="Krueger2011-vv">(<a href="12-references.html#ref-Krueger2011-vv" role="doc-biblioref">Krueger and Andrews 2011</a>)</span>, however there are other equally accurate aligners, and some are reviewed <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3378906/">here</a>. In addition, the Bioconductor package <a href="https://bioconductor.org/packages/release/bioc/html/QuasR.html"><code>QuasR</code></a> can align BS-seq reads within the R framework.</p>
+<p>After alignment, we need to call C-&gt;T conversions and calculate the fraction/percentage of methylation. Most of the time, aligners come with auxiliary tools that calculate per-base methylation values. Normally, they output a tabular format containing the location of the Cs and methylation value and strand. Within R, <code>QuasR</code>} and <code>methylKit</code> }can call methylation values from BAM files albeit with some limitations. In essence, these methylation call files can be easily read into R and downstream analysis within R starts from that point. An important quality measure at this stage is to look at the conversion rate. This simply means how many unmethylated Cs are converted to Ts. Since we expect non-CpG methylation to be rare, we can simply count the number of C-&gt;T conversions in the non-CpG context and calculate conversion rate. The best way to do this would be via spike-in sequences where we expect no methylation at all. Since non-CpG methylation is tissue specific, calculating the conversion rate using non-CpG Cs might be misleading in some cases.</p>
+</section>
+<section id="data-filtering-and-exploratory-analysis" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="data-filtering-and-exploratory-analysis"><span class="header-section-number">10.4</span> Data filtering and exploratory analysis</h2>
+<p>We assume that we start the analysis in R with the methylation call files. We will read those files in and carry out exploratory analysis, and we will show how to filter bases or regions from the data and in what circumstances we might need to do so. We will use the <a href="https://bioconductor.org/packages/release/bioc/html/methylKit.html">methylKit</a><span class="citation" data-cites="Akalin2012-af">(<a href="12-references.html#ref-Akalin2012-af" role="doc-biblioref">Akalin et al. 2012</a>)</span> package for the bulk of the analysis. }</p>
+<section id="reading-methylation-call-files" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="reading-methylation-call-files"><span class="header-section-number">10.4.1</span> Reading methylation call files</h3>
+<p>A typical methylation call file looks like this:</p>
+<pre><code>##         chrBase   chr    base strand coverage freqC  freqT
+## 1 chr21.9764539 chr21 9764539      R       12 25.00  75.00
+## 2 chr21.9764513 chr21 9764513      R       12  0.00 100.00
+## 3 chr21.9820622 chr21 9820622      F       13  0.00 100.00
+## 4 chr21.9837545 chr21 9837545      F       11  0.00 100.00
+## 5 chr21.9849022 chr21 9849022      F      124 72.58  27.42</code></pre>
+<p>Most of the time bisulfite sequencing experiments have test and control samples. The test samples can be from a disease tissue while the control samples can be from a healthy tissue. You can read a set of methylation call files that have test/control conditions giving a <code>treatment</code> vector option. The treatment vector defines the sample groups and it is very important for the differential methylation analysis. For the sake of subsequent analysis, file.list, sample.id and treatment option should have the same order. In the following example, the first two files have the sample IDs “test1” and “test2” and as determined by the treatment vector they belong to the same group. The third and fourth files have sample IDs “ctrl1” and “ctrl2” and they belong to the same group as indicated by the treatment vector. We will first get a list of file paths and have a look at the content.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(methylKit)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>file.list <span class="ot">=</span> <span class="fu">list</span>( <span class="fu">system.file</span>(<span class="st">"extdata"</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"test1.myCpG.txt"</span>, <span class="at">package =</span> <span class="st">"methylKit"</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">system.file</span>(<span class="st">"extdata"</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"test2.myCpG.txt"</span>, <span class="at">package =</span> <span class="st">"methylKit"</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">system.file</span>(<span class="st">"extdata"</span>, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"control1.myCpG.txt"</span>, <span class="at">package =</span> <span class="st">"methylKit"</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">system.file</span>(<span class="st">"extdata"</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"control2.myCpG.txt"</span>, <span class="at">package =</span> <span class="st">"methylKit"</span>) )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If you look what is inside the <code>file.list</code> variable, you will see that it is a simple list of file paths. Each file contains methylation calls for a given sample. Now, we can read the files with the <code>methRead()</code> function.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the files to a methylRawList object: myobj</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>myobj<span class="ot">=</span><span class="fu">methRead</span>(file.list,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">sample.id=</span><span class="fu">list</span>(<span class="st">"test1"</span>,<span class="st">"test2"</span>,<span class="st">"ctrl1"</span>,<span class="st">"ctrl2"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">assembly=</span><span class="st">"hg18"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">treatment=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">context=</span><span class="st">"CpG"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>           )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Tab-separated bedgraph like formats from Bismark methylation caller can also be read in by methylkit. In those cases, we have to provide either <code>pipeline="bismarkCoverage"</code> or <code>pipeline="bismarkCytosineReport"</code> to the <code>methRead()</code> function. In addition to the options we mentioned above, any tab-separated text file with a generic format can be read in using methylKit, such as methylation ratio files from <a href="http://code.google.com/p/bsmap/">BSMAP</a>. See <a href="http://zvfak.blogspot.com/2012/10/how-to-read-bsmap-methylation-ratio.html">here</a> for an example.</p>
+<p>Before we move on, let us have a look at what kind of information is stored in <code>myobj</code>. This is technically a <code>methylRawList</code> object, which is essentially a list of <code>methylRaw</code> objects. These objects hold the information for the genomic location of Cs, and methylated Cs and unmethylated Cs.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## inside the methylRawList object</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(myobj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 4</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(myobj[[<span class="dv">1</span>]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##     chr   start     end strand coverage numCs numTs
+## 1 chr21 9764513 9764513      -       12     0    12
+## 2 chr21 9764539 9764539      -       12     3     9
+## 3 chr21 9820622 9820622      +       13     0    13
+## 4 chr21 9837545 9837545      +       11     0    11
+## 5 chr21 9849022 9849022      +      124    90    34
+## 6 chr21 9853296 9853296      +       17    10     7</code></pre>
+</section>
+<section id="further-quality-check" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="further-quality-check"><span class="header-section-number">10.4.2</span> Further quality check</h3>
+<p>It is always a good idea to check how the data looks before proceeding further. For example, the methylation values should have bimodal distribution generally. This can be checked via the <code>getMethylationStats()</code> function. Normally, we should see bimodal distributions. Strong deviations from the bimodality may be due to poor experimental quality, such as problems with bisulfite treatment. Below we show how to get these plots using the <code>getMethylationStats()</code> function. The result is shown in <a href="#fig-methStats" class="quarto-xref">Figure&nbsp;<span>10.1</span></a>. As expected, it has a bimodal distribution where most CpGs have either high methylation or low methylation.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getMethylationStats</span>(myobj[[<span class="dv">2</span>]],<span class="at">plot=</span><span class="cn">TRUE</span>,<span class="at">both.strands=</span><span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-methStats" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-methStats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-bs-seq-analysis_files/figure-html/methStats-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-methStats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1: Histogram for methylation values for all CpGs in the dataset.
+</figcaption>
+</figure>
+</div>
+<p>In addition, we might want to see coverage values. By default, methylkit handles bases with at least 10X coverage but that can be changed. The bases with unusually high coverage are usually alarming. It might indicate a PCR bias issue in the experimental procedure. The general coverage statistics can be checked with the <code>getCoverageStats()</code> function shown below. The resulting plot is shown in <a href="#fig-coverageStats" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getCoverageStats</span>(myobj[[<span class="dv">2</span>]],<span class="at">plot=</span><span class="cn">TRUE</span>,<span class="at">both.strands=</span><span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-coverageStats" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coverageStats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-bs-seq-analysis_files/figure-html/coverageStats-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coverageStats-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.2: Histogram for log10 read counts per CpG.
+</figcaption>
+</figure>
+</div>
+<p>It might be useful to filter samples based on coverage. Particularly, if our samples are suffering from PCR bias, it would be useful to discard bases with very high read coverage. Furthermore, we would also like to discard bases that have low read coverage; a high enough read coverage will increase the power of the statistical tests. The code below filters a <code>methylRawList</code>, discards bases that have coverage below 10X, and also discards the bases that have more than 99.9th percentile of coverage in each sample.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>filtered.myobj<span class="ot">=</span><span class="fu">filterByCoverage</span>(myobj,<span class="at">lo.count=</span><span class="dv">10</span>,<span class="at">lo.perc=</span><span class="cn">NULL</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">hi.count=</span><span class="cn">NULL</span>,<span class="at">hi.perc=</span><span class="fl">99.9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="merging-samples-into-a-single-table" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="merging-samples-into-a-single-table"><span class="header-section-number">10.4.3</span> Merging samples into a single table</h3>
+<p>When we first read the files, each file is stored as its own entity. If we want to compare samples in any way, we need to make a unified data structure that contains CpGs that are covered in most samples. The <code>unite()</code> function creates a new object using the CpGs covered in each sample.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## we use :: notation to make sure unite() function from methylKit is called</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>meth<span class="ot">=</span>methylKit<span class="sc">::</span><span class="fu">unite</span>(myobj, <span class="at">destrand=</span><span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Let us take a look at the data content of the <code>methylBase</code> object:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(meth)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##     chr   start     end strand coverage1 numCs1 numTs1 coverage2 numCs2 numTs2
+## 1 chr21 9853296 9853296      +        17     10      7       333    268     65
+## 2 chr21 9853326 9853326      +        17     12      5       329    249     79
+## 3 chr21 9860126 9860126      +        39     38      1        83     78      5
+## 4 chr21 9906604 9906604      +        68     42     26       111     97     14
+## 5 chr21 9906616 9906616      +        68     52     16       111    104      7
+## 6 chr21 9906619 9906619      +        68     59      9       111    109      2
+##   coverage3 numCs3 numTs3 coverage4 numCs4 numTs4
+## 1        18     16      2       395    341     54
+## 2        16     14      2       379    284     95
+## 3        83     83      0        41     40      1
+## 4        23     18      5        37     33      4
+## 5        23     14      9        37     27     10
+## 6        22     18      4        37     29      8</code></pre>
+<p>By default, the <code>unite()</code> function produces bases/regions covered in all samples. That requirement can be relaxed using the <code>min.per.group</code> option in the <code>unite()</code> function.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># creates a methylBase object, </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># where only CpGs covered with at least 1 sample per group will be returned</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># there were two groups defined by the treatment vector, </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># given during the creation of myobj: treatment=c(1,1,0,0)</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>meth.min<span class="ot">=</span><span class="fu">unite</span>(myobj,<span class="at">min.per.group=</span><span class="dv">1</span>L)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="filtering-cpgs" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="filtering-cpgs"><span class="header-section-number">10.4.4</span> Filtering CpGs</h3>
+<p>We might need to filter the CpGs further before exploratory analysis or even before the downstream analysis such as differential methylation. For exploratory analysis, it is of general interest to see how samples relate to each other and we might want to remove CpGs that are not variable before doing that. Or we might remove Cs that are potentially C-&gt;T mutations. First, we show how to filter based on variation. Below, we extract percent methylation values from CpGs as a matrix. Calculate the standard deviation for each CpG and filter based on standard deviation. We also plot the distribution of per-CpG standard deviations with the <code>hist()</code> function. The resulting plot is shown in <a href="#fig-methVar" class="quarto-xref">Figure&nbsp;<span>10.3</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pm<span class="ot">=</span><span class="fu">percMethylation</span>(meth) <span class="co"># get percent methylation matrix</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>mds<span class="ot">=</span>matrixStats<span class="sc">::</span><span class="fu">rowSds</span>(pm) <span class="co"># calculate standard deviation of CpGs</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(meth[mds<span class="sc">&gt;</span><span class="dv">20</span>,])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##      chr   start     end strand coverage1 numCs1 numTs1 coverage2 numCs2 numTs2
+## 11 chr21 9906681 9906681      +        21     12      9        60     56      4
+## 12 chr21 9906694 9906694      +        21      9     12        60     53      7
+## 13 chr21 9906700 9906700      +        13      6      7        53     43     10
+## 14 chr21 9906714 9906714      +        14      3     11        41     37      4
+## 18 chr21 9906873 9906873      +        12      8      4        41     33      8
+## 23 chr21 9927527 9927527      +        17      5     12        40     22     18
+##    coverage3 numCs3 numTs3 coverage4 numCs4 numTs4
+## 11        37     14     23        26     11     15
+## 12        39     16     23        26     15     11
+## 13        30      8     22        23     10     13
+## 14        25     19      6        21     19      2
+## 18        15      4     11        22      7     15
+## 23        32     32      0        14     11      3</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(mds,<span class="at">col=</span><span class="st">"cornflowerblue"</span>,<span class="at">xlab=</span><span class="st">"Std. dev. per CpG"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-methVar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-methVar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-bs-seq-analysis_files/figure-html/methVar-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-methVar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.3: Histogram of per-CpG standard deviations.
+</figcaption>
+</figure>
+</div>
+<p>Now, let’s assume we know the locations of C-&gt;T mutations. These locations should be removed from the analysis as they do not represent bisulfite-treatment-associated conversions. Mutation locations are stored in a <code>GRanges</code> object, and we can use that to remove CpGs overlapping with mutations. In order to do the overlap operation, we will convert the methylKit object to a <code>GRanges</code> object and do the filtering with the <code>%over%</code> function within <code>[ ]</code>. The returned object will still be a methylKit object.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GenomicRanges)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># example SNP</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>mut<span class="ot">=</span><span class="fu">GRanges</span>(<span class="at">seqnames=</span><span class="fu">c</span>(<span class="st">"chr21"</span>,<span class="st">"chr21"</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">ranges=</span><span class="fu">IRanges</span>(<span class="at">start=</span><span class="fu">c</span>(<span class="dv">9853296</span>, <span class="dv">9853326</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                           <span class="at">end=</span><span class="fu">c</span>( <span class="dv">9853296</span>,<span class="dv">9853326</span>)))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># select CpGs that do not overlap with mutations</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>sub.meth<span class="ot">=</span>meth[<span class="sc">!</span> <span class="fu">as</span>(meth,<span class="st">"GRanges"</span>) <span class="sc">%over%</span> mut,]</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meth)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 963</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(sub.meth)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## [1] 961</code></pre>
+</section>
+<section id="clustering-samples" class="level3" data-number="10.4.5">
+<h3 data-number="10.4.5" class="anchored" data-anchor-id="clustering-samples"><span class="header-section-number">10.4.5</span> Clustering samples</h3>
+<p>Clustering is used for grouping data points by their similarity. It is a general concept that can be achieved by many different algorithms and we introduced clustering and multiple prominent clustering algorithms in <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a>. In the context of DNA methylation, we are trying to find samples that are similar to each other. For example, if we sequenced 3 heart samples and 4 liver samples, we would expect liver samples will be more similar to each other than heart samples on the DNA methylation space.</p>
+<p>The following function will cluster the samples and draw a dendrogram. It will use correlation distance, which is <span class="math inline">\(1-\rho\)</span> , where <span class="math inline">\(\rho\)</span> is the correlation coefficient between two pairs of samples. The cluster tree will be drawn using the “ward” method. This specific variant uses a “bottom up” approach: each data point starts in its own cluster, and pairs of clusters are merged as one moves up the hierarchy. In Ward’s method, two clusters are merged if the variance is minimized compared to other possible merge operations. This bottom up approach helps build the dendrogram showing the relationship between clusters. The result of the clustering is shown in <a href="#fig-clusterMethPlot" class="quarto-xref">Figure&nbsp;<span>10.4</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">clusterSamples</span>(meth, <span class="at">dist=</span><span class="st">"correlation"</span>, <span class="at">method=</span><span class="st">"ward"</span>, <span class="at">plot=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-clusterMethPlot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-clusterMethPlot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-bs-seq-analysis_files/figure-html/clusterMethPlot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-clusterMethPlot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.4: Dendrogram for samples using correlation distance and Ward’s method for hierarchical clustering.
+</figcaption>
+</figure>
+</div>
+<pre><code>## 
+## Call:
+## hclust(d = d, method = HCLUST.METHODS[hclust.method])
+## 
+## Cluster method   : ward.D 
+## Distance         : pearson 
+## Number of objects: 4</code></pre>
+<p>Setting the <code>plot=FALSE</code> will return a dendrogram object which can be manipulated by users or fed in to other user functions that can work with dendrograms.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>hc <span class="ot">=</span> <span class="fu">clusterSamples</span>(meth, <span class="at">dist=</span><span class="st">"correlation"</span>, <span class="at">method=</span><span class="st">"ward"</span>, <span class="at">plot=</span><span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="principal-component-analysis" class="level3" data-number="10.4.6">
+<h3 data-number="10.4.6" class="anchored" data-anchor-id="principal-component-analysis"><span class="header-section-number">10.4.6</span> Principal component analysis</h3>
+<p>Principal component analysis (PCA) is a mathematical transformation of (possibly) correlated variables into a number of uncorrelated variables called principal components. The resulting components from this transformation are defined in such a way that the first principal component has the highest variance and accounts for most of the variability in the data. We have introduced PCA and other similar methods in <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a>. The following function will plot a scree plot for importance of components and the result is shown in <a href="#fig-pcaMethScree" class="quarto-xref">Figure&nbsp;<span>10.5</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">PCASamples</span>(meth, <span class="at">screeplot=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-pcaMethScree" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pcaMethScree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-bs-seq-analysis_files/figure-html/pcaMethScree-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pcaMethScree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.5: Scree plot for explained variance for principal components.
+</figcaption>
+</figure>
+</div>
+<p>We can also plot the PC1 and PC2 axes and a scatter plot of our samples on those axes which will reveal how they cluster within these new dimensions. Similar to the clustering dendrogram, we would like to see samples that are similar to be close to each other on the scatter plot. If they are not, it might indicate problems with the experiment such as batch effects. The function below plots the samples in such a scatter plot on principal component axes. The resulting plot is shown in <a href="#fig-pcaMethScatter" class="quarto-xref">Figure&nbsp;<span>10.6</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pc<span class="ot">=</span><span class="fu">PCASamples</span>(meth,<span class="at">obj.return =</span> <span class="cn">TRUE</span>, <span class="at">adj.lim=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-pcaMethScatter" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pcaMethScatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-bs-seq-analysis_files/figure-html/pcaMethScatter-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pcaMethScatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.6: Samples plotted on principal components.
+</figcaption>
+</figure>
+</div>
+<p>In this case, we also returned an object from the plotting function. This is the output of the <code>prcomp()</code> function, which includes loadings and eigenvectors which might be useful. You can also do your own PCA analysis using <code>percMethylation()</code> and <code>prcomp()</code>. In the case above, the methylation matrix is transposed. This allows us to compare distances between samples on the PCA scatter plot.</p>
+</section>
+</section>
+<section id="extracting-interesting-regions-differential-methylation-and-segmentation" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="extracting-interesting-regions-differential-methylation-and-segmentation"><span class="header-section-number">10.5</span> Extracting interesting regions: Differential methylation and segmentation</h2>
+<p>When analyzing DNA methylation data, we usually look for regions that are different than the rest of the methylome or different from a reference methylome. These regions are so-called “interesting regions”. They usually mark important genomic features that are related to gene regulation, which in turn defines the cell type. Therefore, it is a general interest to find such regions and analyze them further to understand our biological sample or to answer specific research questions. Below we will describe two ways of defining “regions of interest”.</p>
+<section id="differential-methylation" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="differential-methylation"><span class="header-section-number">10.5.1</span> Differential methylation</h3>
+<p>Once methylation proportions per base are obtained, generally, the differences between methylation profiles are considered next. When there are multiple sample groups where each group defines a separate biological entity or treatment, it is usually of interest to locate bases or regions with different methylation proportions across the sample groups. The bases or regions with different methylation proportions across samples are called differentially methylated CpG sites (DMCs) and differentially methylated regions (DMRs). They have been shown to play a role in many different diseases due to their association with epigenetic control of gene regulation. In addition, DNA methylation profiles can be highly tissue-specific due to their role in gene regulation <span class="citation" data-cites="Schubeler2015-ai">(<a href="12-references.html#ref-Schubeler2015-ai" role="doc-biblioref">Schübeler 2015</a>)</span>. DNA methylation is highly informative when studying normal and diseased cells, because it can also act as a biomarker. For example, the presence of large-scale abnormally methylated genomic regions is a hallmark feature of many types of cancers <span class="citation" data-cites="Ehrlich2002-hv">(<a href="12-references.html#ref-Ehrlich2002-hv" role="doc-biblioref">Ehrlich 2002</a>)</span>. Because of the aforementioned reasons, investigating differential methylation is usually one of the primary goals of doing bisulfite sequencing.</p>
+<section id="fishers-exact-test" class="level4" data-number="10.5.1.1">
+<h4 data-number="10.5.1.1" class="anchored" data-anchor-id="fishers-exact-test"><span class="header-section-number">10.5.1.1</span> Fisher’s exact test</h4>
+<p>Differential DNA methylation is usually calculated by comparing the proportion of methylated Cs in a test sample relative to a control. In simple comparisons between such pairs of samples (i.e.&nbsp;test and control), methods such as Fisher’s exact test can be used. If there are replicates, replicates can be pooled within groups to a single sample per group. This strategy, however, does not take into account biological variability between replicates. We will now show how to compare pairs of samples via the <code>calculateDiffMeth()</code> function in <code>methylKit</code>. When there is only one sample per sample group, <code>calculateDiffMeth()</code> automatically applies Fisher’s exact test. We will now extract one sample from each group and run <code>calculateDiffMeth()</code>, which will automatically run Fisher’s exact test.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getSampleID</span>(meth)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>new.meth<span class="ot">=</span><span class="fu">reorganize</span>(meth,<span class="at">sample.ids=</span><span class="fu">c</span>(<span class="st">"test1"</span>,<span class="st">"ctrl1"</span>),<span class="at">treatment=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>dmf<span class="ot">=</span><span class="fu">calculateDiffMeth</span>(new.meth)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>As mentioned, we can also pool the samples from the same group by adding up the number of Cs and Ts per group. This way even if we have replicated experiments we treat them as single experiments, and can apply Fisher’s exact test. We will now pool the samples and apply the <code>calculateDiffMeth()</code> function.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pooled.meth<span class="ot">=</span><span class="fu">pool</span>(meth,<span class="at">sample.ids=</span><span class="fu">c</span>(<span class="st">"test"</span>,<span class="st">"control"</span>))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>dm.pooledf<span class="ot">=</span><span class="fu">calculateDiffMeth</span>(pooled.meth)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>calculateDiffMeth()</code> function returns the P-values for all bases or regions in the input methylBase object. We need to filter to get differentially methylated CpGs. This can be done via the <code>getMethlyDiff()</code> function or simple filtering via <code>[ ]</code> notation. Below we show how to filter the <code>methylDiff</code> object output by the <code>calculateDiffMeth()</code> function in order to get differentially methylated CpGs. The function arguments define cutoff values for the methylation difference between groups and q-value. In these cases, we require a methylation difference of 25% and a q-value of at least <span class="math inline">\(0.01\)</span>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get differentially methylated bases/regions with specific cutoffs</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>all.diff<span class="ot">=</span><span class="fu">getMethylDiff</span>(dm.pooledf,<span class="at">difference=</span><span class="dv">25</span>,<span class="at">qvalue=</span><span class="fl">0.01</span>,<span class="at">type=</span><span class="st">"all"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get hyper-methylated</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>hyper<span class="ot">=</span><span class="fu">getMethylDiff</span>(dm.pooledf,<span class="at">difference=</span><span class="dv">25</span>,<span class="at">qvalue=</span><span class="fl">0.01</span>,<span class="at">type=</span><span class="st">"hyper"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># get hypo-methylated</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>hypo<span class="ot">=</span><span class="fu">getMethylDiff</span>(dm.pooledf,<span class="at">difference=</span><span class="dv">25</span>,<span class="at">qvalue=</span><span class="fl">0.01</span>,<span class="at">type=</span><span class="st">"hypo"</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">#using [ ] notation</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>hyper2<span class="ot">=</span>dm.pooledf[dm.pooledf<span class="sc">$</span>qvalue <span class="sc">&lt;</span> <span class="fl">0.01</span> <span class="sc">&amp;</span> dm.pooledf<span class="sc">$</span>meth.diff <span class="sc">&gt;</span> <span class="dv">25</span>,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="logistic-regression-based-tests" class="level4" data-number="10.5.1.2">
+<h4 data-number="10.5.1.2" class="anchored" data-anchor-id="logistic-regression-based-tests"><span class="header-section-number">10.5.1.2</span> Logistic regression based tests</h4>
+<p>Regression-based methods are generally used to model methylation levels in relation to the sample groups and variation between replicates. Differences between currently available regression methods stem from the choice of distribution to model the data and the variation associated with it. In the simplest case, linear regression can be used to model methylation per given CpG or loci across sample groups. The model fits regression coefficients to model the expected methylation proportion values for each CpG site across sample groups. Hence, the null hypothesis of the model coefficients being zero could be tested using t-statistics. However, linear-regression-based methods might produce fitted methylation levels outside the range <span class="math inline">\([0,1]\)</span> unless the values are transformed before regression. An alternative is logistic regression, which can deal with data strictly bounded between 0 and 1 and with non-constant variance, such as methylation proportion/fraction values. In the logistic regression, it is assumed that fitted values have variation <span class="math inline">\(np(1-p)\)</span>, where <span class="math inline">\(p\)</span> is the fitted methylation proportion for a given sample and <span class="math inline">\(n\)</span> is the read coverage. If the observed variance is larger or smaller than assumed by the model, one speaks of under- or over-dispersion. This over/under-dispersion can be corrected by calculating a scaling factor and using that factor to adjust the variance estimates as in <span class="math inline">\(np(1-p)s\)</span>, where <span class="math inline">\(s\)</span> is the scaling factor. MethylKit can apply logistic regression to test the methylation difference with or without the over-dispersion correction. In this case, Chi-square or F-test can be used to compare the difference in the deviances of the null model and the alternative model. The null model assumes there is no relationship between sample groups and methylation, and the alternative model assumes that there is a relationship where sample groups are predictive of methylation values for a given CpG or region for which the model is constructed. Next, we are going to use the logistic-regression-based model with over-dispersion correction and Chi-square test.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dm.lr<span class="ot">=</span><span class="fu">calculateDiffMeth</span>(meth,<span class="at">overdispersion =</span> <span class="st">"MN"</span>,<span class="at">test =</span><span class="st">"Chisq"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="betabinomial-distribution-based-tests" class="level4" data-number="10.5.1.3">
+<h4 data-number="10.5.1.3" class="anchored" data-anchor-id="betabinomial-distribution-based-tests"><span class="header-section-number">10.5.1.3</span> Betabinomial-distribution-based tests</h4>
+<p>More complex regression models use beta binomial distribution and are particularly useful for better modeling the variance. Similar to logistic regression, their observation follows binomial distribution (number of reads), but methylation proportion itself can vary across samples, according to a beta distribution. It can deal with fitting values in the <span class="math inline">\([0,1]\)</span> range and performs better when there is greater variance than expected by the simple logistic model. In essence, these models have a different way of calculating a scaling factor when there is over-dispersion in the model. Further enhancements are made to these models by using the empirical Bayes methods that can better estimate hyper parameters of the beta distribution (variance-related parameters) by borrowing information between loci or regions within the genome to aid with inference about each individual loci or region. We are now going to use a beta-binomial based model called DSS <span class="citation" data-cites="Feng2014-pd">(<a href="12-references.html#ref-Feng2014-pd" role="doc-biblioref">Feng et al. 2014</a>)</span> to calculate differential methylation.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dm.dss<span class="ot">=</span><span class="fu">calculateDiffMethDSS</span>(meth)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## Using internal DSS code...</code></pre>
+</section>
+<section id="differential-methylation-for-regions-rather-than-base-pairs" class="level4" data-number="10.5.1.4">
+<h4 data-number="10.5.1.4" class="anchored" data-anchor-id="differential-methylation-for-regions-rather-than-base-pairs"><span class="header-section-number">10.5.1.4</span> Differential methylation for regions rather than base-pairs</h4>
+<p>Until now, we have worked on differentially methylated cytosines. However, working with base-pair resolution data has its problems. Not all the CpGs will be covered in all samples. If covered they may have low coverage, which reduces the power of the tests. Instead of base-pairs, we can choose to work with regions. So, it might be desirable to summarize methylation information over pre-defined regions rather than doing base-pair resolution analysis. <code>methylKit</code> provides functionality to do such analysis. We can either tile the whole genome to tiles with predefined length, or we can use pre-defined regions such as promoters or CpG islands. This kind of regional analysis is carried out by adding up C and T counts from each covered cytosine and returning a total C and T count for each region.</p>
+<p>The function below tiles the genome with windows of <span class="math inline">\(1000\)</span> bp length and <span class="math inline">\(1000\)</span> bp step-size and summarizes the methylation information on those tiles. In this case, it returns a <code>methylRawList</code> object which can be fed into <code>unite()</code> and <code>calculateDiffMeth()</code> functions consecutively to get differentially methylated regions.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tiles<span class="ot">=</span><span class="fu">tileMethylCounts</span>(myobj,<span class="at">win.size=</span><span class="dv">1000</span>,<span class="at">step.size=</span><span class="dv">1000</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tiles[[<span class="dv">1</span>]],<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##     chr   start     end strand coverage numCs numTs
+## 1 chr21 9764001 9765000      *       24     3    21
+## 2 chr21 9820001 9821000      *       13     0    13
+## 3 chr21 9837001 9838000      *       11     0    11</code></pre>
+<p>In addition, if we are interested in particular regions, we can also get those regions as methylKit objects after summarizing the methylation information as described above. The code below summarizes the methylation information over a given set of promoter regions and outputs a <code>methylRaw</code> or <code>methylRawList</code> object depending on the input. We are using the output of <code>genomation</code> functions used above to provide the locations of promoters. For regional summary functions, we need to provide regions of interest as GRanges objects}.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(genomation)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># read the gene BED file</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>gene.obj<span class="ot">=</span><span class="fu">readTranscriptFeatures</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"refseq.hg18.bed.txt"</span>, </span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">package =</span> <span class="st">"methylKit"</span>))</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>promoters<span class="ot">=</span><span class="fu">regionCounts</span>(myobj,gene.obj<span class="sc">$</span>promoters)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(promoters[[<span class="dv">1</span>]])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##     chr    start      end strand coverage numCs numTs
+## 1 chr21 10011791 10013791      -     7953  6662  1290
+## 2 chr21 10119796 10121796      -     1725  1171   554
+## 3 chr21 10119808 10121808      -     1725  1171   554
+## 4 chr21 13903368 13905368      +       10    10     0
+## 5 chr21 14273636 14275636      -      282   220    62
+## 6 chr21 14509336 14511336      +     1058    55  1003</code></pre>
+<p>In addition, it is possible to cluster DMCs based on their proximity and direction of differential methylation. This can be achieved by the <code>methSeg()</code> function in methylKit. We will see more about the <code>methSeg()</code> function in the following section. But it can take the output of <code>getMethylDiff()</code> function and therefore can work on DMCs to get differentially methylated regions.</p>
+</section>
+<section id="adding-covariates" class="level4" data-number="10.5.1.5">
+<h4 data-number="10.5.1.5" class="anchored" data-anchor-id="adding-covariates"><span class="header-section-number">10.5.1.5</span> Adding covariates</h4>
+<p>Covariates can be included in the analysis as well in methylKit. The <code>calculateDiffMeth()</code> function will then try to separate the influence of the covariates from the treatment effect via the logistic regression model. In this case, we will test if the full model (model with treatment and covariates) is better than the model with the covariates only. If there is no effect due to the treatment (sample groups), the full model will not explain the data better than the model with covariates only. In <code>calculateDiffMeth()</code>, this is achieved by supplying the <code>covariates</code> argument in the format of a <code>data.frame</code>. Below, we simulate methylation data and add a <code>data.frame</code> for the age. The data frame can include more columns, and those columns can also be <code>factor</code> variables. The row order of the data.frame should match the order of samples in the <code>methylBase</code> object. Below we are showing an example of this using a simulated data set where methylation values of CpGs will be affected by the age of the sample.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>covariates<span class="ot">=</span><span class="fu">data.frame</span>(<span class="at">age=</span><span class="fu">c</span>(<span class="dv">30</span>,<span class="dv">80</span>,<span class="dv">34</span>,<span class="dv">30</span>,<span class="dv">80</span>,<span class="dv">40</span>))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>sim.methylBase<span class="ot">=</span><span class="fu">dataSim</span>(<span class="at">replicates=</span><span class="dv">6</span>,<span class="at">sites=</span><span class="dv">1000</span>,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">treatment=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">3</span>)),</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">covariates=</span>covariates,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sample.ids=</span><span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"test"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>),<span class="fu">paste0</span>(<span class="st">"ctrl"</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)))</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>my.diffMeth3<span class="ot">=</span><span class="fu">calculateDiffMeth</span>(sim.methylBase,</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>                               <span class="at">covariates=</span>covariates,</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>                               <span class="at">overdispersion=</span><span class="st">"MN"</span>,</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>                               <span class="at">test=</span><span class="st">"Chisq"</span>,<span class="at">mc.cores=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="methylation-segmentation" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="methylation-segmentation"><span class="header-section-number">10.5.2</span> Methylation segmentation</h3>
+<p>The analysis of methylation dynamics is not exclusively restricted to differentially methylated regions across samples. Apart from this there is also an interest in examining the methylation profiles within the same sample. Usually, depressions in methylation profiles pinpoint regulatory regions like gene promoters that co-localize with CG-dense CpG islands. On the other hand, many gene-body regions are extensively methylated and CpG-poor <span class="citation" data-cites="Bock2012-oh">(<a href="12-references.html#ref-Bock2012-oh" role="doc-biblioref">Bock et al. 2012</a>)</span>. These observations would describe a bimodal model of either hyper- or hypomethylated regions depending on the local density of CpGs <span class="citation" data-cites="Lovkvist2016-ky">(<a href="12-references.html#ref-Lovkvist2016-ky" role="doc-biblioref">Lövkvist et al. 2016</a>)</span>. However, given the detection of CpG-poor regions with locally reduced levels of methylation (on average 30%) in pluripotent embryonic stem cells and in neuronal progenitors in both mouse and human, a different model also seems reasonable <span class="citation" data-cites="Stadler2011-iu">(<a href="12-references.html#ref-Stadler2011-iu" role="doc-biblioref">Stadler et al. 2011a</a>)</span>. These low-methylated regions (LMRs) are located distal to promoters, have little overlap with CpG islands, and are associated with enhancer marks such as p300 binding sites and H3K27ac enrichment.</p>
+<p>Now we are going to try to segment a portion for the H1 human embryonic stem cell line. MethylKit }uses change-point analysis to segment the methylome. In change-point analysis, the change-points of a genome-wide methylation signal are recorded and the genome is partitioned into regions between consecutive change points. CpGs in each segment are similar to each other more than the following segment. After segmentation, methylKit function <code>methSeg()</code> identifies segments that are further clustered into segment classes using a mixture modeling approach. This clustering is based on only the average methylation level of the segments and allows the detection of distinct methylome features comparable to unmethylated regions (UMRs), lowly methylated regions (LMRs), and fully methylated regions (FMRs) mentioned in Stadler et al. <span class="citation" data-cites="Stadler2011-yv">(<a href="12-references.html#ref-Stadler2011-yv" role="doc-biblioref">Stadler et al. 2011b</a>)</span>. The code snippet below reads the methylation data from the H1 cell line as a <code>GRanges</code> object, and runs the segmentation with potentially up to classes of segments. Mixture modeling determines the optimal number of segments using a statistic called Bayesian information criterion (BIC). The BIC is a statistic based on model likelihood and helps us select the model that fits the data better. We have set the number of segment classes to try using the <code>G=1:4</code> argument. The <code>minSeg</code> arguments are related to the minimum number of CpGs in the segments. The function <code>methSeg()</code> outputs a diagnostic plot for segmentation. This plot is shown in <a href="#fig-segDiag" class="quarto-xref">Figure&nbsp;<span>10.7</span></a>. It shows methylation values and lengths of segments in each segment class, as well as the BIC for different numbers of segments.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read methylation data</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>methFile<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>,<span class="st">"H1.chr21.chr22.rds"</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>mbw<span class="ot">=</span><span class="fu">readRDS</span>(methFile)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="co"># segment the methylation data</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>res<span class="ot">=</span><span class="fu">methSeg</span>(mbw,<span class="at">minSeg=</span><span class="dv">10</span>,<span class="at">G=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">join.neighbours =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-segDiag" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-segDiag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-bs-seq-analysis_files/figure-html/segDiag-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-segDiag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.7: Segmentation characteristics shown in different plots. Top left: Mean methylation values per segment in each segment class. Top middle: Length of each segment as boxplots for each segment class. Top right: Number of segments in each segment class. Bottom left: Distribution of segment methylation values. Bottom right: BIC for different number of segment classes
+</figcaption>
+</figure>
+</div>
+<p>In this case, we know that BIC does not improve much after 4 segment classes. Now, we will not have a look at the characteristics of the segment classes. We are going to plot the mean methylation value and the length of the segment as a scatter plot; the result of this plot is shown in <a href="#fig-segplot" class="quarto-xref">Figure&nbsp;<span>10.8</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot </span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res<span class="sc">$</span>seg.mean,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">log10</span>(<span class="fu">width</span>(res)),<span class="at">pch=</span><span class="dv">20</span>,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col=</span>scales<span class="sc">::</span><span class="fu">alpha</span>(<span class="fu">rainbow</span>(<span class="dv">4</span>)[<span class="fu">as.numeric</span>(res<span class="sc">$</span>seg.group)], <span class="fl">0.2</span>),</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">"log10(length)"</span>,</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"methylation proportion"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-segplot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-segplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-bs-seq-analysis_files/figure-html/segplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-segplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.8: Scatter plot of segment mean, methylation values versus segment length. Each dot is a segment identified by the <em>methSeg()</em> function.
+</figcaption>
+</figure>
+</div>
+<p>The highly methylated segment classes that have more than 70% methylation are usually longer; the median length is 17889 bp. The segment class that has the lowest methylation values have the median length of 1376 bp and the shortest segment class has low to medium methylation level, with median length of 412 bp.</p>
+</section>
+<section id="working-with-large-files" class="level3" data-number="10.5.3">
+<h3 data-number="10.5.3" class="anchored" data-anchor-id="working-with-large-files"><span class="header-section-number">10.5.3</span> Working with large files</h3>
+<p>We might want to perform differential methylation analysis in R using whole genome methylation data of multiple samples. The problem is that for genome-wide experiments, file sizes can easily range from hundreds of megabytes to gigabytes and processing multiple instances of those files in memory (RAM) might become unfeasible unless we have access to a high-performance compute cluster (HPC) with extensive RAM. If we want to use a desktop computer or laptop with limited RAM, we either need to restrict our analysis to a subset of the data or use packages that can handle this situation.</p>
+<p>The methylKit package provides the capability of dealing with large files and high numbers of samples by exploiting flat file databases to substitute in-memory objects. The internal data, apart from meta information, has a tabular structure storing chromosome, start/end position, and strand information of the associated CpG base just like many other biological formats like BED, GFF or SAM. By exporting this tabular data into a TAB-delimited file and making sure it is accordingly position-sorted, it can be indexed using the generic <a href="http://www.htslib.org/doc/tabix.html">tabix tool</a>. In general, tabix indexing is a generalization of BAM indexing for generic TAB-delimited files. It inherits all the advantages of BAM indexing, including data compression and efficient random access in terms of few seek function calls per query <span class="citation" data-cites="Li2011-wc">(<a href="12-references.html#ref-Li2011-wc" role="doc-biblioref">Li 2011</a>)</span>. <code>MethylKit</code> relies on <a href="http://bioconductor.org/packages/release/bioc/html/Rsamtools.html"><code>Rsamtools</code></a> which implements tabix functionality for R. This way internal methylKit objects can be efficiently stored as a compressed file on the disk and still }be quickly accessed. Another advantage is that existing compressed files can be loaded in interactive sessions, allowing the backup and transfer of intermediate analysis results.</p>
+<p><code>methylKit</code> provides the capability for storing objects in tabix format within various functions. Every methylKit object has its tabix-based flat-file database equivalent. For example, when reading a methylation call file, the <code>dbtype</code> argument can be provided, which will create tabix-based objects.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a> myobj<span class="ot">=</span><span class="fu">methRead</span>( file.list,</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">sample.id=</span><span class="fu">list</span>(<span class="st">"test1"</span>,<span class="st">"test2"</span>,<span class="st">"ctrl1"</span>,<span class="st">"ctrl2"</span>),</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">assembly=</span><span class="st">"hg18"</span>,<span class="at">treatment=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">dbtype=</span><span class="st">"tabix"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The advantage of tabix-based objects is of course saving memory and more efficient parallelization for differential methylation calculation. However, since the data is written to a file and indexed whenever a new object is created, working with tabix-based objects will be slower at certain steps of the analysis compared to in-memory objects.</p>
+</section>
+</section>
+<section id="annotation-of-dmrsdmcs-and-segments" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="annotation-of-dmrsdmcs-and-segments"><span class="header-section-number">10.6</span> Annotation of DMRs/DMCs and segments</h2>
+<p>The regions of interest obtained through differential methylation or segmentation analysis often need to be integrated with genome annotation datasets. Without this type of integration, differential methylation or segmentation results will be hard to interpret in biological terms. The most common annotation task is to see where regions of interest land in relation to genes and gene parts and regulatory regions: Do they mostly occupy promoter, intronic or exonic regions? Do they overlap with repeats? Do they overlap with other epigenomic markers or long-range regulatory regions? These questions are not specific to methylation −nearly all regions of interest obtained via genome-wide studies have to deal with such questions. Thus, there are already multiple software tools that can produce such annotations. One is the Bioconductor package <a href="http://bioconductor.org/packages/release/bioc/html/genomation.html"><code>genomation</code></a><span class="citation" data-cites="Akalin2015-yk">(<a href="12-references.html#ref-Akalin2015-yk" role="doc-biblioref">Akalin et al. 2015</a>)</span>. }It can be used to annotate DMRs/DMCs and it can also be used to integrate methylation proportions over the genome with other quantitative information and produce meta-gene plots or heatmaps. Below, we are reading a BED file for transcripts and using that to annotate DMCs with promoter/intron/exon/intergenic annotation. The <code>genomation::readTranscriptFeatures()</code> function reads a BED12 file, calculates the coordinates of promoters, exons, and introns and the subsequent function uses that information for annotation.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(genomation)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># read the gene BED file</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>transcriptBED<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"refseq.hg18.bed.txt"</span>, </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">package =</span> <span class="st">"methylKit"</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>gene.obj<span class="ot">=</span><span class="fu">readTranscriptFeatures</span>(transcriptBED)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co"># annotate differentially methylated CpGs with </span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="co"># promoter/exon/intron using annotation data</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="fu">annotateWithGeneParts</span>(<span class="fu">as</span>(all.diff,<span class="st">"GRanges"</span>),gene.obj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>##   promoter       exon     intron intergenic 
+##      28.24      15.27      33.59      58.02 
+##   promoter       exon     intron intergenic 
+##      28.24       0.00      13.74      58.02 
+## promoter     exon   intron 
+##     0.29     0.03     0.17 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##       5     815   49918   52410   94644  313528</code></pre>
+<p>Similarly, we can read the CpG island annotation and annotate our differentially methylated bases/regions with them.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read the shores and flanking regions and name the flanks as shores </span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># and CpG islands as CpGi</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>cpg.file<span class="ot">=</span><span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"cpgi.hg18.bed.txt"</span>, </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">package =</span> <span class="st">"methylKit"</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>cpg.obj<span class="ot">=</span><span class="fu">readFeatureFlank</span>(cpg.file,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">feature.flank.name=</span><span class="fu">c</span>(<span class="st">"CpGi"</span>,<span class="st">"shores"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## Warning: 'GenomicRangesList' is deprecated.
+## Use 'GRangesList(..., compress=FALSE)' instead.
+## See help("Deprecated")</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co"># convert methylDiff object to GRanges and annotate</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>diffCpGann<span class="ot">=</span><span class="fu">annotateWithFeatureFlank</span>(<span class="fu">as</span>(all.diff,<span class="st">"GRanges"</span>),</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                                    cpg.obj<span class="sc">$</span>CpGi,cpg.obj<span class="sc">$</span>shores,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">feature.name=</span><span class="st">"CpGi"</span>,<span class="at">flank.name=</span><span class="st">"shores"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Besides these, DMRs/DMCs might be associated with changes in gene regulation. It might be desirable to overlap them with known transcription binding sites or motifs or histone modifications. These are simply overlap operations for these kinds of analysis. You can use the <code>genomation::annotateWithFeature()</code> function or any other approach shown in <a href="06-genomicIntervals.html" class="quarto-xref"><span>Chapter 6</span></a>, and you can also do motif discovery with methods shown in <a href="09-chip-seq-analysis.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<section id="further-annotation-with-genes-or-gene-sets" class="level3" data-number="10.6.1">
+<h3 data-number="10.6.1" class="anchored" data-anchor-id="further-annotation-with-genes-or-gene-sets"><span class="header-section-number">10.6.1</span> Further annotation with genes or gene sets</h3>
+<p>The next obvious steps for annotating your DMRs/DMCs are figuring out which genes they are associated with. Figuring out which genes are associated with your regions of interest can give a better idea of the biological implications of the methylation changes. Once you have your gene set, you can do gene set analysis as shown in <a href="08-rna-seq-analysis.html" class="quarto-xref"><span>Chapter 8</span></a> or in <a href="11-multiomics-analysis.html" class="quarto-xref"><span>Chapter 11</span></a>. There are also packages such as <a href="https://www.bioconductor.org/packages/release/bioc/html/rGREAT.html"><code>rGREAT</code></a> that can simultaneously associate DMRs or any other region of interest to genes and do gene set analysis.</p>
+</section>
+</section>
+<section id="other-r-packages-that-can-be-used-for-methylation-analysis" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="other-r-packages-that-can-be-used-for-methylation-analysis"><span class="header-section-number">10.7</span> Other R packages that can be used for methylation analysis</h2>
+<ul>
+<li><a href="http://bioconductor.org/packages/release/bioc/html/genomation.html">DSS</a> beta-binomial models with empirical Bayes for moderating dispersion.</li>
+<li><a href="http://bioconductor.org/packages/release/bioc/html/BSseq.html">BSseq</a> Regional differential methylation analysis using smoothing and linear-regression-based tests.</li>
+<li><a href="http://bioconductor.org/packages/release/bioc/html/BiSeq.html">BiSeq</a> Regional differential methylation analysis using beta-binomial models.</li>
+<li><a href="http://bioconductor.org/packages/release/bioc/html/MethylSeekR.html">MethylSeekR</a>: Methylome segmentation using HMM and cutoffs.</li>
+<li><a href="http://bioconductor.org/packages/release/bioc/html/QuasR.html">QuasR</a>: Methylation aware alignment and methylation calling, as well as fastQC-like fastq raw data quality check features.</li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">10.8</span> Exercises</h2>
+<section id="differential-methylation-1" class="level3" data-number="10.8.1">
+<h3 data-number="10.8.1" class="anchored" data-anchor-id="differential-methylation-1"><span class="header-section-number">10.8.1</span> Differential methylation</h3>
+<p>The main objective of this exercise is getting differential methylated cytosines between two groups of samples: IDH-mut (AML patients with IDH mutations) vs.&nbsp;NBM (normal bone marrow samples).</p>
+<ol type="1">
+<li>Download methylation call files from GEO. These files are readable by methlKit using default <code>methRead</code> arguments. [Difficulty: <strong>Beginner</strong>]</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>samples</th>
+<th style="text-align: left;">Link</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>IDH1_rep1</td>
+<td style="text-align: left;"><a href="https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM919990&amp;format=file&amp;file=GSM919990%5FIDH%2Dmut%5F1%5FmyCpG%2Etxt%2Egz">link</a></td>
+</tr>
+<tr class="even">
+<td>IDH1_rep2</td>
+<td style="text-align: left;"><a href="https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM919991&amp;format=file&amp;file=GSM919991%5FIDH%5Fmut%5F2%5FmyCpG%2Etxt%2Egz">link</a></td>
+</tr>
+<tr class="odd">
+<td>NBM_rep1</td>
+<td style="text-align: left;"><a href="https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM919982&amp;format=file&amp;file=GSM919982%5FNBM%5F1%5FmyCpG%2Etxt%2Egz">link</a></td>
+</tr>
+<tr class="even">
+<td>NBM_rep2</td>
+<td style="text-align: left;"><a href="https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSM919984&amp;format=file&amp;file=GSM919984%5FNBM%5F2%5FRep1%5FmyCpG%2Etxt%2Egz">link</a></td>
+</tr>
+</tbody>
+</table>
+<p>Example code for reading a file:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(methylKit)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>m<span class="ot">=</span><span class="fu">methRead</span>(<span class="st">"~/Downloads/GSM919982_NBM_1_myCpG.txt.gz"</span>,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">sample.id =</span> <span class="st">"idh"</span>,<span class="at">assembly=</span><span class="st">"hg18"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="2" type="1">
+<li>Find differentially methylated cytosines. Use chr1 and chr2 only if you need to save time. You can subset it after you download the files either in R or Unix. The files are for hg18 assembly of human genome. [Difficulty: <strong>Beginner</strong>]</li>
+<li>Describe the general differential methylation trend, what is the main effect for most CpGs? [Difficulty: <strong>Intermediate</strong>]</li>
+<li>Annotate differentially methylated cytosines (DMCs) as promoter/intron/exon? [Difficulty: <strong>Beginner</strong>]</li>
+<li>Which genes are the nearest to DMCs? [Difficulty: <strong>Intermediate</strong>]</li>
+<li>Can you do gene set analysis either in R or via web-based tools? [Difficulty: <strong>Advanced</strong>]</li>
+</ol>
+</section>
+<section id="methylome-segmentation" class="level3" data-number="10.8.2">
+<h3 data-number="10.8.2" class="anchored" data-anchor-id="methylome-segmentation"><span class="header-section-number">10.8.2</span> Methylome segmentation</h3>
+<p>The main objective of this exercise is to learn how to do methylome segmentation and the downstream analysis for annotation and data integration.</p>
+<ol type="1">
+<li>Download the human embryonic stem-cell (H1 Cell Line) methylation bigWig files from the <a href="http://egg2.wustl.edu/roadmap/web_portal/processed_data.html#MethylData">Roadmap Epigenomics website</a>. It may take a while to understand how the website is structured and which bigWig file to use. That is part of the exercise. The files you will download are for hg19 assembly unless stated otherwise. [Difficulty: <strong>Beginner</strong>]</li>
+<li>Do segmentation on hESC methylome. You can only use chr1 if using the whole genome takes too much time. [Difficulty: <strong>Intermediate</strong>]</li>
+<li>Annotate segments and the kinds of gene-based features each segment class overlaps with (promoter/exon/intron). [Difficulty: <strong>Beginner</strong>]</li>
+<li>For each segment type, annotate the segments with chromHMM annotations from the Roadmap Epigenome database available <a href="https://egg2.wustl.edu/roadmap/web_portal/chr_state_learning.html#core_15state">here</a>. The specific file you should use is <a href="https://egg2.wustl.edu/roadmap/data/byFileType/chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final/E003_15_coreMarks_mnemonics.bed.gz">here</a>. This is a bed file with chromHMM annotations. chromHMM annotations are parts of the genome identified by a hidden-Markov-model-based machine learning algorithm. The segments correspond to active promoters, enhancers, active transcription, insulators, etc. The chromHMM model uses histone modification ChIP-seq and potentially other ChIP-seq data sets to annotate the genome.[Difficulty: <strong>Advanced</strong>]</li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-Akalin2015-yk" class="csl-entry" role="listitem">
+Akalin, Altuna, Vedran Franke, Kristian Vlahoviček, Christopher E Mason, and Dirk Schübeler. 2015. <span>“Genomation: A Toolkit to Summarize, Annotate and Visualize Genomic Intervals.”</span> <em>Bioinformatics</em> 31 (7): 1127–29.
+</div>
+<div id="ref-Akalin2012-af" class="csl-entry" role="listitem">
+Akalin, Altuna, Matthias Kormaksson, Sheng Li, et al. 2012. <span>“methylKit: A Comprehensive <span>R</span> Package for the Analysis of Genome-Wide <span>DNA</span> Methylation Profiles.”</span> <em>Genome Biol.</em> 13 (10): R87.
+</div>
+<div id="ref-Bock2012-oh" class="csl-entry" role="listitem">
+Bock, Christoph, Isabel Beerman, Wen-Hui Lien, et al. 2012. <span>“<span>DNA</span> Methylation Dynamics During in Vivo Differentiation of Blood and Skin Stem Cells.”</span> <em>Mol. Cell</em> 47 (4): 633–47.
+</div>
+<div id="ref-Clark2011-sc" class="csl-entry" role="listitem">
+Clark, Tyson A, Kristi E Spittle, Stephen W Turner, and Jonas Korlach. 2011. <span>“Direct Detection and Sequencing of Damaged <span>DNA</span> Bases.”</span> <em>Genome Integr.</em> 2 (December): 10.
+</div>
+<div id="ref-Deaton2011-pm" class="csl-entry" role="listitem">
+Deaton, A M, and A Bird. 2011. <span>“<span>CpG</span> Islands and the Regulation of Transcription.”</span> <em>Genes Dev.</em> 25 (10): 1010–22.
+</div>
+<div id="ref-Ehrlich2002-hv" class="csl-entry" role="listitem">
+Ehrlich, Melanie. 2002. <span>“<span>DNA</span> Methylation in Cancer: Too Much, but Also Too Little.”</span> <em>Oncogene</em> 21 (35): 5400–5413.
+</div>
+<div id="ref-Feng2014-pd" class="csl-entry" role="listitem">
+Feng, Hao, Karen N Conneely, and Hao Wu. 2014. <span>“A Bayesian Hierarchical Model to Detect Differentially Methylated Loci from Single Nucleotide Resolution Sequencing Data.”</span> <em>Nucleic Acids Res.</em> 42 (8): e69.
+</div>
+<div id="ref-He2011-pw" class="csl-entry" role="listitem">
+He, Yu-Fei, Bin-Zhong Li, Zheng Li, et al. 2011. <span>“Tet-Mediated Formation of 5-Carboxylcytosine and Its Excision by <span>TDG</span> in Mammalian <span>DNA</span>.”</span> <em>Science</em> 333 (6047): 1303–7.
+</div>
+<div id="ref-Krueger2011-vv" class="csl-entry" role="listitem">
+Krueger, Felix, and Simon R Andrews. 2011. <span>“Bismark: A Flexible Aligner and Methylation Caller for <span>Bisulfite-Seq</span> Applications.”</span> <em>Bioinformatics</em> 27 (11): 1571–72.
+</div>
+<div id="ref-Li2011-wc" class="csl-entry" role="listitem">
+Li, Heng. 2011. <span>“Tabix: Fast Retrieval of Sequence Features from Generic <span class="nocase">TAB-delimited</span> Files.”</span> <em>Bioinformatics</em> 27 (5): 718–19.
+</div>
+<div id="ref-Lister2013-vs" class="csl-entry" role="listitem">
+Lister, R, E A Mukamel, J R Nery, et al. 2013. <span>“Global Epigenomic Reconfiguration During Mammalian Brain Development.”</span> <em>Science</em> 341 (6146): 1237905–5.
+</div>
+<div id="ref-Lister2009-sd" class="csl-entry" role="listitem">
+Lister, Ryan, Mattia Pelizzola, Robert H Dowen, et al. 2009. <span>“Human <span>DNA</span> Methylomes at Base Resolution Show Widespread Epigenomic Differences.”</span> <em>Nature</em> 462 (7271): 315–22.
+</div>
+<div id="ref-Lovkvist2016-ky" class="csl-entry" role="listitem">
+Lövkvist, Cecilia, Ian B Dodd, Kim Sneppen, and Jan O Haerter. 2016. <span>“<span>DNA</span> Methylation in Human Epigenomes Depends on Local Topology of <span>CpG</span> Sites.”</span> <em>Nucleic Acids Res.</em> 44 (11): 5123–32.
+</div>
+<div id="ref-Schubeler2015-ai" class="csl-entry" role="listitem">
+Schübeler, Dirk. 2015. <span>“Function and Information Content of <span>DNA</span> Methylation.”</span> <em>Nature</em> 517 (7534): 321–26.
+</div>
+<div id="ref-Smith2013-jh" class="csl-entry" role="listitem">
+Smith, Zachary D, and Alexander Meissner. 2013. <span>“<span>DNA</span> Methylation: Roles in Mammalian Development.”</span> <em>Nat. Rev. Genet.</em> 14 (3): 204–20.
+</div>
+<div id="ref-Stadler2011-iu" class="csl-entry" role="listitem">
+Stadler, Michael B, Rabih Murr, Lukas Burger, et al. 2011a. <span>“<span class="nocase">DNA-binding</span> Factors Shape the Mouse Methylome at Distal Regulatory Regions.”</span> <em>Nature</em> 480 (7378): 490–95.
+</div>
+<div id="ref-Stadler2011-yv" class="csl-entry" role="listitem">
+Stadler, Michael B, Rabih Murr, Lukas Burger, et al. 2011b. <span>“<span class="nocase">DNA-binding</span> Factors Shape the Mouse Methylome at Distal Regulatory Regions.”</span> <em>Nature</em> 480 (7378): 490–95.
+</div>
+<div id="ref-Tahiliani2009-ar" class="csl-entry" role="listitem">
+Tahiliani, Mamta, Kian Peng Koh, Yinghua Shen, et al. 2009. <span>“Conversion of 5-Methylcytosine to 5-Hydroxymethylcytosine in Mammalian <span>DNA</span> by <span>MLL</span> Partner <span>TET1</span>.”</span> <em>Science</em> 324 (5929): 930–35.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<div class="cgr-global-banner bottom-banner" role="complementary" aria-label="Book Updates">
+  <div class="banner-container">
+    <div class="banner-title">Stay Connected with Computational Genomics</div>
+    <div class="banner-text">
+      Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer" class="banner-link">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer" class="banner-link">Substack Blog</a> for updates!
+    </div>
+  </div>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/compgenomr\.github\.io\/book\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./09-chip-seq-analysis.html" class="pagination-link" aria-label="ChIP-seq analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ChIP-seq analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./11-multiomics-analysis.html" class="pagination-link" aria-label="Multi-omics Analysis">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multi-omics Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Computational Genomics with R — Altuna Akalin</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/compgenomr/book/edit/main/10-bs-seq-analysis.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

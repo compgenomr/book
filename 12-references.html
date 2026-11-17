@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A guide to computational genomics using R. The book covers fundamental topics with practical examples for an interdisciplinary audience.">
+
+<title>References – Computational Genomics with R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./11-multiomics-analysis.html" rel="prev">
+<link href="./images/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3386ba8bb730b0c8829dca417ec99718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Umami Analytics (Privacy-friendly, cookie-free, GDPR-compliant) -->
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="9ee01346-97c1-4be2-bfa8-4b70be9e59f4"></script>
+
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./12-references.html">References</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computational Genomics with R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/compgenomr/book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Authors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro2Genomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R for Genomic Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-statsForGenomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistics for Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-unsupervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis with Unsupervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-supervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Predictive Modeling with Supervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-genomicIntervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Operations on Genomic Intervals and Genome Arithmetic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-Read_Processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quality Check, Processing and Alignment of High-throughput Sequencing Reads</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-rna-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">RNA-seq Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-chip-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ChIP-seq analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bs-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DNA methylation analysis using bisulfite sequencing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-multiomics-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multi-omics Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-references.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<style>
+/* Right margin cover thumbnail styling */
+.cgr-margin-cover {
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.cgr-margin-cover img {
+  max-width: 175px;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cgr-margin-cover img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+/* Suppress large cover image in landing page body */
+.quarto-cover-image {
+  display: none !important;
+}
+</style>
+<div class="cgr-margin-cover text-center">
+  <a href="./index.html" title="Computational Genomics with R">
+    <img src="./images/cover.png" alt="Computational Genomics with R cover" class="img-fluid">
+  </a>
+</div>
+
+</div></div>
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+<style>
+/* Base container: exactly one banner element on every page */
+#cgr-top-banner {
+  margin: 10px 0 20px 0;
+  line-height: 1.5;
+}
+
+/* Landing page (Preface): prominent colored card banner */
+#cgr-top-banner.banner-landing {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border: 1px solid #c7d2fe;
+  border-left: 5px solid #4f46e5;
+  border-radius: 8px;
+  padding: 12px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #1e1b4b;
+}
+
+#cgr-top-banner.banner-landing .banner-badge {
+  display: inline-block;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+#cgr-top-banner.banner-landing a {
+  color: #4338ca;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-landing a:hover {
+  color: #312e81;
+}
+
+/* Chapters & Subpages: subtle, non-distracting 1-line announcement */
+#cgr-top-banner.banner-subtle {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0;
+  padding: 0 0 8px 0;
+  margin: 4px 0 18px 0;
+  font-size: 0.84rem;
+  color: #64748b;
+  box-shadow: none;
+}
+
+#cgr-top-banner.banner-subtle a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-subtle a:hover {
+  color: #1d4ed8;
+}
+</style>
+
+<div id="cgr-top-banner" class="banner-subtle" role="region" aria-label="Announcements">
+  Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!
+</div>
+
+<script>
+(function() {
+  try {
+    var p = window.location.pathname;
+    var isLanding = (
+      p.endsWith("/index.html") ||
+      p.endsWith("/") ||
+      p === "" ||
+      (document.getElementById("preface") !== null && p.indexOf(".html") === -1)
+    );
+    if (p.indexOf(".html") !== -1 && !p.endsWith("index.html")) {
+      isLanding = false;
+    }
+    if (isLanding) {
+      var b = document.getElementById("cgr-top-banner");
+      if (b) {
+        b.className = "banner-landing";
+        b.innerHTML = '<span class="banner-badge">🚀 New</span> Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!';
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">References</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-aird_2011" class="csl-entry" role="listitem">
+Aird, Daniel, Michael G Ross, Wei-Sheng Chen, et al. 2011.
+<span>“Analyzing and Minimizing <span>PCR</span> Amplification Bias in
+Illumina Sequencing Libraries.”</span> <em>Genome Biol</em> 12 (2): R18.
+<a href="https://doi.org/10.1186/gb-2011-12-2-r18">https://doi.org/10.1186/gb-2011-12-2-r18</a>.
+</div>
+<div id="ref-Akalin2015-yk" class="csl-entry" role="listitem">
+Akalin, Altuna, Vedran Franke, Kristian Vlahoviček, Christopher E Mason,
+and Dirk Schübeler. 2015. <span>“Genomation: A Toolkit to Summarize,
+Annotate and Visualize Genomic Intervals.”</span>
+<em>Bioinformatics</em> 31 (7): 1127–29.
+</div>
+<div id="ref-Akalin2012-af" class="csl-entry" role="listitem">
+Akalin, Altuna, Matthias Kormaksson, Sheng Li, et al. 2012.
+<span>“methylKit: A Comprehensive <span>R</span> Package for the
+Analysis of Genome-Wide <span>DNA</span> Methylation Profiles.”</span>
+<em>Genome Biol.</em> 13 (10): R87.
+</div>
+<div id="ref-Albe_2002_book" class="csl-entry" role="listitem">
+Alberts, B., D. Bray, J. Lewis, M. Raff, K. Roberts, and J. D. Watson.
+2002. <em><span class="nocase">Molecular Biology of the
+Cell</span></em>. 4th ed. Garland.
+</div>
+<div id="ref-allhoff_2014" class="csl-entry" role="listitem">
+Allhoff, Manuel, Kristin Seré, Heike Chauvistré, Qiong Lin, Martin
+Zenke, and Ivan G Costa. 2014. <span>“Detecting Differential Peaks in
+<span>ChIP</span>-Seq Signals with <span>ODIN</span>.”</span>
+<em>Bioinformatics</em> 30 (24): 3467–75. <a href="https://doi.org/10.1093/bioinformatics/btu722">https://doi.org/10.1093/bioinformatics/btu722</a>.
+</div>
+<div id="ref-allhoff_2016" class="csl-entry" role="listitem">
+Allhoff, Manuel, Kristin Seré, Juliana F Pires, Martin Zenke, and Ivan G
+Costa. 2016. <span>“Differential Peak Calling of <span>ChIP</span>-Seq
+Signals with Replicates with <span>THOR</span>.”</span> <em>Nucleic
+Acids Res</em> 44 (20): e153. <a href="https://doi.org/10.1093/nar/gkw680">https://doi.org/10.1093/nar/gkw680</a>.
+</div>
+<div id="ref-anders_detecting_2012" class="csl-entry" role="listitem">
+Anders, Simon, Alejandro Reyes, and Wolfgang Huber. 2012.
+<span>“Detecting Differential Usage of Exons from <span>RNA</span>-Seq
+Data.”</span> <em>Genome Research</em> 22 (10): 2008–17. <a href="https://doi.org/10.1101/gr.133744.111">https://doi.org/10.1101/gr.133744.111</a>.
+</div>
+<div id="ref-noauthor_babraham_nodate" class="csl-entry" role="listitem">
+Andrews, Simon R. 2010. <em>Babraham <span>Bioinformatics</span> -
+<span>FastQC</span> <span>A</span> <span>Quality</span>
+<span>Control</span> Tool for <span>High</span> <span>Throughput</span>
+<span>Sequence</span> <span>Data</span></em>. <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">https://www.bioinformatics.babraham.ac.uk/projects/fastqc/</a>.
+</div>
+<div id="ref-angelini_2015" class="csl-entry" role="listitem">
+Angelini, Claudia, Ruth Heller, Rita Volkinshtein, and Daniel Yekutieli.
+2015. <span>“Is This the Right Normalization? A Diagnostic Tool for
+<span>ChIP</span>-Seq Normalization.”</span> <em><span>BMC</span>
+Bioinformatics</em> 16 (May): 150. <a href="https://doi.org/10.1186/s12859-015-0579-z">https://doi.org/10.1186/s12859-015-0579-z</a>.
+</div>
+<div id="ref-go_first_paper" class="csl-entry" role="listitem">
+Ashburner, M., C. A. Ball, J. A. Blake, et al. 2000. <span>“<span class="nocase"><span>G</span>ene ontology: tool for the unification of
+biology. <span>T</span>he <span>G</span>ene <span>O</span>ntology
+<span>C</span>onsortium</span>.”</span> <em>Nat. Genet.</em> 25 (1):
+25–29.
+</div>
+<div id="ref-backman_systempiper:_2016" class="csl-entry" role="listitem">
+Backman, Tyler W. H., and Thomas Girke. 2016. <span>“<span class="nocase">systemPipeR</span>: <span>NGS</span> Workflow and Report
+Generation Environment.”</span> <em>BMC Bioinformatics</em> 17 (1). <a href="https://doi.org/10.1186/s12859-016-1241-0">https://doi.org/10.1186/s12859-016-1241-0</a>.
+</div>
+<div id="ref-gmapR" class="csl-entry" role="listitem">
+Barr, Cory, Thomas Wu, and Michael Lawrence. 2019. <em>gmapR: An r
+Interface to the GMAP/GSNAP/GSTRUCT Suite</em>.
+</div>
+<div id="ref-bartel2004micrornas" class="csl-entry" role="listitem">
+Bartel, David P. 2004. <span>“MicroRNAs: Genomics, Biogenesis,
+Mechanism, and Function.”</span> <em>Cell</em> 116 (2): 281–97.
+</div>
+<div id="ref-beck_2012" class="csl-entry" role="listitem">
+Beck, Dominik, Miriam B Brandl, Lies Boelen, Ashwin Unnikrishnan, John E
+Pimanda, and Jason W H Wong. 2012. <span>“Signal Analysis for
+Genome-Wide Maps of Histone Modifications Measured by
+<span>ChIP</span>-Seq.”</span> <em>Bioinformatics</em> 28 (8): 1062–69.
+<a href="https://doi.org/10.1093/bioinformatics/bts085">https://doi.org/10.1093/bioinformatics/bts085</a>.
+</div>
+<div id="ref-benjamini_2012" class="csl-entry" role="listitem">
+Benjamini, Yuval, and Terence P Speed. 2012. <span>“Summarizing and
+Correcting the <span>GC</span> Content Bias in High-Throughput
+Sequencing.”</span> <em>Nucleic Acids Res</em> 40 (10): e72. <a href="https://doi.org/10.1093/nar/gks001">https://doi.org/10.1093/nar/gks001</a>.
+</div>
+<div id="ref-dalex" class="csl-entry" role="listitem">
+Biecek, Przemyslaw. 2018. <span>“DALEX: Explainers for Complex
+Predictive Models in r.”</span> <em>Journal of Machine Learning
+Research</em> 19 (84): 1–5. <a href="http://jmlr.org/papers/v19/18-416.html">http://jmlr.org/papers/v19/18-416.html</a>.
+</div>
+<div id="ref-Bock2012-oh" class="csl-entry" role="listitem">
+Bock, Christoph, Isabel Beerman, Wen-Hui Lien, et al. 2012.
+<span>“<span>DNA</span> Methylation Dynamics During in Vivo
+Differentiation of Blood and Skin Stem Cells.”</span> <em>Mol. Cell</em>
+47 (4): 633–47.
+</div>
+<div id="ref-bolger_trimmomatic:_2014" class="csl-entry" role="listitem">
+Bolger, Anthony M., Marc Lohse, and Bjoern Usadel. 2014.
+<span>“Trimmomatic: A Flexible Trimmer for <span>Illumina</span>
+Sequence Data.”</span> <em>Bioinformatics</em> 30 (15): 2114–20. <a href="https://doi.org/10.1093/bioinformatics/btu170">https://doi.org/10.1093/bioinformatics/btu170</a>.
+</div>
+<div id="ref-bonhoure_2014" class="csl-entry" role="listitem">
+Bonhoure, Nicolas, Gergana Bounova, David Bernasconi, et al. 2014.
+<span>“Quantifying <span>ChIP</span>-Seq Data: A Spiking Method
+Providing an Internal Reference for Sample-to-Sample
+Normalization.”</span> <em>Genome Res</em> 24 (7): 1157–68. <a href="https://doi.org/10.1101/gr.168260.113">https://doi.org/10.1101/gr.168260.113</a>.
+</div>
+<div id="ref-boser1992svm" class="csl-entry" role="listitem">
+Boser, Bernhard E, Isabelle M Guyon, and Vladimir N Vapnik. 1992.
+<span>“A Training Algorithm for Optimal Margin Classifiers.”</span>
+<em>Proceedings of the Fifth Annual Workshop on Computational Learning
+Theory</em>, 144–52.
+</div>
+<div id="ref-bray_near-optimal_2016" class="csl-entry" role="listitem">
+Bray, Nicolas L., Harold Pimentel, Páll Melsted, and Lior Pachter. 2016.
+<span>“Near-Optimal Probabilistic <span>RNA</span>-Seq
+Quantification.”</span> <em>Nature Biotechnology</em> 34 (5): 525–27. <a href="https://doi.org/10.1038/nbt.3519">https://doi.org/10.1038/nbt.3519</a>.
+</div>
+<div id="ref-breiman2001random" class="csl-entry" role="listitem">
+Breiman, Leo. 2001. <span>“Random Forests.”</span> <em>Machine
+Learning</em> 45 (1): 5–32.
+</div>
+<div id="ref-smote" class="csl-entry" role="listitem">
+Chawla, Nitesh V, Kevin W Bowyer, Lawrence O Hall, and W Philip
+Kegelmeyer. 2002. <span>“SMOTE: Synthetic Minority over-Sampling
+Technique.”</span> <em>Journal of Artificial Intelligence Research</em>
+16: 321–57.
+</div>
+<div id="ref-chen2016xgboost" class="csl-entry" role="listitem">
+Chen, Tianqi, and Carlos Guestrin. 2016. <span>“Xgboost: A Scalable Tree
+Boosting System.”</span> <em>Proceedings of the 22nd Acm Sigkdd
+International Conference on Knowledge Discovery and Data Mining</em>,
+785–94.
+</div>
+<div id="ref-chen2012systematic" class="csl-entry" role="listitem">
+<span class="nocase">Chen, Yiwen, Nicolas Negre, Qunhua Li, Joanna O
+Mieczkowska, Matthew Slattery, Tao Liu, Yong Zhang, Tae-Kyung Kim,
+Housheng Hansen He, Jennifer Zieba, and others</span>. 2012.
+<span>“Systematic Evaluation of Factors Influencing ChIP-Seq
+Fidelity.”</span> <em>Nature Methods</em> 9 (6): 609–14.
+</div>
+<div id="ref-chen_2012" class="csl-entry" role="listitem">
+Chen, Yiwen, Nicolas Negre, Qunhua Li, Joanna O Mieczkowska, Matthew
+Slattery, Tao Liu, Yong Zhang, Tae-Kyung Kim, Housheng Hansen He,
+Jennifer Zieba, Yijun Ruan, et al. 2012. <span>“Systematic Evaluation of
+Factors Influencing <span>ChIP</span>-Seq Fidelity.”</span> <em>Nat
+Methods</em> 9 (6): 609–14. <a href="https://doi.org/10.1038/nmeth.1985">https://doi.org/10.1038/nmeth.1985</a>.
+</div>
+<div id="ref-chung_2011" class="csl-entry" role="listitem">
+Chung, Dongjun, Pei Fen Kuan, Bo Li, et al. 2011. <span>“Discovering
+Transcription Factor Binding Sites in Highly Repetitive Regions of
+Genomes with Multi-Read Analysis of <span>ChIP</span>-Seq Data.”</span>
+<em><span>PLoS</span> Comput Biol</em> 7 (7): e1002111. <a href="https://doi.org/10.1371/journal.pcbi.1002111">https://doi.org/10.1371/journal.pcbi.1002111</a>.
+</div>
+<div id="ref-Clark2011-sc" class="csl-entry" role="listitem">
+Clark, Tyson A, Kristi E Spittle, Stephen W Turner, and Jonas Korlach.
+2011. <span>“Direct Detection and Sequencing of Damaged <span>DNA</span>
+Bases.”</span> <em>Genome Integr.</em> 2 (December): 10.
+</div>
+<div id="ref-conesa_survey_2016" class="csl-entry" role="listitem">
+Conesa, Ana, Pedro Madrigal, Sonia Tarazona, et al. 2016. <span>“A
+Survey of Best Practices for <span>RNA</span>-Seq Data Analysis.”</span>
+<em>Genome Biology</em> 17 (January): 13. <a href="https://doi.org/10.1186/s13059-016-0881-8">https://doi.org/10.1186/s13059-016-0881-8</a>.
+</div>
+<div id="ref-go_latest_paper" class="csl-entry" role="listitem">
+Consortium, The Gene Ontology. 2017. <span>“<span class="nocase"><span>E</span>xpansion of the <span>G</span>ene
+<span>O</span>ntology knowledgebase and resources</span>.”</span>
+<em>Nucleic Acids Res.</em> 45 (D1): D331–38.
+</div>
+<div id="ref-cox2000multidimensional" class="csl-entry" role="listitem">
+Cox, T. F., and M. A. A. Cox. 2000. <em>Multidimensional Scaling, Second
+Edition</em>. Chapman &amp; Hall/CRC Monographs on Statistics &amp;
+Applied Probability. CRC Press.
+</div>
+<div id="ref-crawley2012r" class="csl-entry" role="listitem">
+Crawley, M. J. 2012. <em>The r Book</em>. Wiley. <a href="https://books.google.de/books?id=XYDl0mlH-moC">https://books.google.de/books?id=XYDl0mlH-moC</a>.
+</div>
+<div id="ref-de2010benchmark" class="csl-entry" role="listitem">
+De Hertogh, Benoı̂t, Bertrand De Meulder, Fabrice Berger, et al. 2010.
+<span>“A Benchmark for Statistical Microarray Data Analysis That
+Preserves Actual Biological and Technical Variance.”</span> <em>BMC
+Bioinformatics</em> 11 (1): 17.
+</div>
+<div id="ref-Rqc" class="csl-entry" role="listitem">
+<span class="nocase">de Souza, Welliton, Benilton S Carvalho, and Iscia
+Lopes-Cendes</span>. 2018. <span>“<span>Rqc</span>: A
+<span>Bioconductor</span> Package for Quality Control of High-Throughput
+Sequencing Data.”</span> <em>Journal of Statistical Software, Code
+Snippets</em> 87 (2): 1–14. <a href="https://doi.org/10.18637/jss.v087.c02">https://doi.org/10.18637/jss.v087.c02</a>.
+</div>
+<div id="ref-Deaton2011-pm" class="csl-entry" role="listitem">
+Deaton, A M, and A Bird. 2011. <span>“<span>CpG</span> Islands and the
+Regulation of Transcription.”</span> <em>Genes Dev.</em> 25 (10):
+1010–22.
+</div>
+<div id="ref-diez2015openintro" class="csl-entry" role="listitem">
+Diez, D. M., C. D. Barr, M. Çetinkaya-Rundel, and Amazon.com. 2015.
+<em>OpenIntro Statistics</em>. OpenIntro, Incorporated. <a href="https://books.google.de/books?id=wfcPswEACAAJ">https://books.google.de/books?id=wfcPswEACAAJ</a>.
+</div>
+<div id="ref-dobin_star:_2013" class="csl-entry" role="listitem">
+Dobin, Alexander, Carrie A. Davis, Felix Schlesinger, et al. 2013.
+<span>“<span>STAR</span>: Ultrafast Universal <span>RNA</span>-Seq
+Aligner.”</span> <em>Bioinformatics</em> 29 (1): 15–21. <a href="https://doi.org/10.1093/bioinformatics/bts635">https://doi.org/10.1093/bioinformatics/bts635</a>.
+</div>
+<div id="ref-pmid22950368" class="csl-entry" role="listitem">
+Dong, X., M. C. Greven, A. Kundaje, et al. 2012. <span>“<span class="nocase"><span>M</span>odeling gene expression using chromatin
+features in various cellular contexts</span>.”</span> <em>Genome
+Biol.</em> 13 (9): R53.
+</div>
+<div id="ref-Ehrlich2002-hv" class="csl-entry" role="listitem">
+Ehrlich, Melanie. 2002. <span>“<span>DNA</span> Methylation in Cancer:
+Too Much, but Also Too Little.”</span> <em>Oncogene</em> 21 (35):
+5400–5413.
+</div>
+<div id="ref-eilbeck2005sequence" class="csl-entry" role="listitem">
+Eilbeck, Karen, Suzanna E Lewis, Christopher J Mungall, et al. 2005.
+<span>“The Sequence Ontology: A Tool for the Unification of Genome
+Annotations.”</span> <em>Genome Biology</em> 6 (5): R44.
+</div>
+<div id="ref-elith2008brt" class="csl-entry" role="listitem">
+Elith, Jane, John R Leathwick, and Trevor Hastie. 2008. <span>“A Working
+Guide to Boosted Regression Trees.”</span> <em>Journal of Animal
+Ecology</em> 77 (4): 802–13.
+</div>
+<div id="ref-ENCODE_Project_Consortium2012-wf" class="csl-entry" role="listitem">
+ENCODE Project Consortium. 2012. <span>“An Integrated Encyclopedia of
+<span>DNA</span> Elements in the Human Genome.”</span> <em>Nature</em>
+489 (7414): 57–74.
+</div>
+<div id="ref-ernst_2012" class="csl-entry" role="listitem">
+Ernst, Jason, and Manolis Kellis. 2012. <span>“<span>ChromHMM</span>:
+Automating Chromatin-State Discovery and Characterization.”</span>
+<em>Nat Methods</em> 9 (3): 215–16. <a href="https://doi.org/10.1038/nmeth.1906">https://doi.org/10.1038/nmeth.1906</a>.
+</div>
+<div id="ref-reactome_latent_paper" class="csl-entry" role="listitem">
+Fabregat, A., S. Jupe, L. Matthews, et al. 2018. <span>“<span class="nocase"><span>T</span>he <span>R</span>eactome
+<span>P</span>athway <span>K</span>nowledgebase</span>.”</span>
+<em>Nucleic Acids Res.</em> 46 (D1): D649–55.
+</div>
+<div id="ref-fabregat_reactome_2018" class="csl-entry" role="listitem">
+Fabregat, Antonio, Steven Jupe, Lisa Matthews, et al. 2018. <span>“The
+<span>Reactome</span> <span>Pathway</span>
+<span>Knowledgebase</span>.”</span> <em>Nucleic Acids Research</em> 46
+(D1): D649–55. <a href="https://doi.org/10.1093/nar/gkx1132">https://doi.org/10.1093/nar/gkx1132</a>.
+</div>
+<div id="ref-felsani_2015" class="csl-entry" role="listitem">
+Felsani, Armando, Bjarki Gudmundsson, Simona Nanni, et al. 2015.
+<span>“Impact of Different <span>ChIP</span>-Seq Protocols on
+<span>DNA</span> Integrity and Quality of Bioinformatics Analysis
+Results.”</span> <em>Brief Funct Genomics</em> 14 (2): 156–62. <a href="https://doi.org/10.1093/bfgp/elu001">https://doi.org/10.1093/bfgp/elu001</a>.
+</div>
+<div id="ref-Feng2014-pd" class="csl-entry" role="listitem">
+Feng, Hao, Karen N Conneely, and Hao Wu. 2014. <span>“A Bayesian
+Hierarchical Model to Detect Differentially Methylated Loci from Single
+Nucleotide Resolution Sequencing Data.”</span> <em>Nucleic Acids
+Res.</em> 42 (8): e69.
+</div>
+<div id="ref-pmid22328731" class="csl-entry" role="listitem">
+Fernandez, M., and D. Miranda-Saavedra. 2012. <span>“<span class="nocase"><span>G</span>enome-wide enhancer prediction from
+epigenetic signatures using genetic algorithm-optimized support vector
+machines</span>.”</span> <em>Nucleic Acids Res.</em> 40 (10): e77.
+</div>
+<div id="ref-mcr" class="csl-entry" role="listitem">
+Fisher, Aaron, Cynthia Rudin, and Francesca Dominici. 2018. <span>“All
+Models Are Wrong but Many Are Useful: Variable Importance for Black-Box,
+Proprietary, or Misspecified Prediction Models, Using Model Class
+Reliance.”</span> <em>arXiv Preprint arXiv:1801.01489</em>.
+</div>
+<div id="ref-friedman2001gbm" class="csl-entry" role="listitem">
+Friedman, Jerome H. 2001. <span>“Greedy Function Approximation: A
+Gradient Boosting Machine.”</span> <em>Annals of Statistics</em>,
+1189–232.
+</div>
+<div id="ref-friedman2003mart" class="csl-entry" role="listitem">
+Friedman, Jerome H, and Jacqueline J Meulman. 2003. <span>“Multiple
+Additive Regression Trees with Application in Epidemiology.”</span>
+<em>Statistics in Medicine</em> 22 (9): 1365–81.
+</div>
+<div id="ref-friedman2010regularization" class="csl-entry" role="listitem">
+Friedman, Jerome, Trevor Hastie, and Rob Tibshirani. 2010.
+<span>“Regularization Paths for Generalized Linear Models via Coordinate
+Descent.”</span> <em>Journal of Statistical Software</em> 33 (1): 1.
+</div>
+<div id="ref-friedman2001elements" class="csl-entry" role="listitem">
+Friedman, Jerome, Trevor Hastie, and Robert Tibshirani. 2001. <em>The
+Elements of Statistical Learning</em>. Vol. 1. Springer series in
+statistics New York.
+</div>
+<div id="ref-gaidatzis_quasr:_2015" class="csl-entry" role="listitem">
+Gaidatzis, Dimos, Anita Lerch, Florian Hahne, and Michael B. Stadler.
+2015. <span>“<span>QuasR</span>: Quantification and Annotation of Short
+Reads in <span>R</span>.”</span> <em>Bioinformatics</em> 31 (7):
+1130–32. <a href="https://doi.org/10.1093/bioinformatics/btu781">https://doi.org/10.1093/bioinformatics/btu781</a>.
+</div>
+<div id="ref-gandolfo_rle_2018" class="csl-entry" role="listitem">
+Gandolfo, Luke C., and Terence P. Speed. 2018. <span>“<span>RLE</span>
+Plots: <span>Visualizing</span> Unwanted Variation in High Dimensional
+Data.”</span> <em>PloS One</em> 13 (2): e0191629. <a href="https://doi.org/10.1371/journal.pone.0191629">https://doi.org/10.1371/journal.pone.0191629</a>.
+</div>
+<div id="ref-gonick2005cartoon" class="csl-entry" role="listitem">
+Gonick, L., and W. Smith. 2005. <em>The Cartoon Guide to
+Statistics</em>. Collins Reference. <a href="https://books.google.de/books?id=-U7vygAACAAJ">https://books.google.de/books?id=-U7vygAACAAJ</a>.
+</div>
+<div id="ref-Gu_2016" class="csl-entry" role="listitem">
+Gu, Zuguang, Roland Eils, and Matthias Schlesner. 2016a. <span>“Complex
+Heatmaps Reveal Patterns and Correlations in Multidimensional Genomic
+Data.”</span> <em>Bioinformatics</em>.
+</div>
+<div id="ref-gu_complex_2016" class="csl-entry" role="listitem">
+Gu, Zuguang, Roland Eils, and Matthias Schlesner. 2016b. <span>“Complex
+Heatmaps Reveal Patterns and Correlations in Multidimensional Genomic
+Data.”</span> <em>Bioinformatics (Oxford, England)</em> 32 (18):
+2847–49. <a href="https://doi.org/10.1093/bioinformatics/btw313">https://doi.org/10.1093/bioinformatics/btw313</a>.
+</div>
+<div id="ref-cmscc" class="csl-entry" role="listitem">
+Guinney, J., R. Dienstmann, X. Wang, et al. 2015. <span>“<span class="nocase"><span>T</span>he consensus molecular subtypes of
+colorectal cancer</span>.”</span> <em>Nat. Med.</em> 21 (11): 1350–56.
+</div>
+<div id="ref-haas_novo_2013" class="csl-entry" role="listitem">
+Haas, Brian J., Alexie Papanicolaou, Moran Yassour, et al. 2013.
+<span>“De Novo Transcript Sequence Reconstruction from
+<span>RNA</span>-<span>Seq</span>: Reference Generation and Analysis
+with <span>Trinity</span>.”</span> <em>Nature Protocols</em> 8 (8). <a href="https://doi.org/10.1038/nprot.2013.084">https://doi.org/10.1038/nprot.2013.084</a>.
+</div>
+<div id="ref-hager2009transcription" class="csl-entry" role="listitem">
+Hager, Gordon L, James G McNally, and Tom Misteli. 2009.
+<span>“Transcription Dynamics.”</span> <em>Molecular Cell</em> 35 (6):
+741–53.
+</div>
+<div id="ref-han_2012" class="csl-entry" role="listitem">
+Han, Zhi, Lu Tian, Thierry Pécot, Tim Huang, Raghu Machiraju, and Kun
+Huang. 2012. <span>“A Signal Processing Approach for Enriched Region
+Detection in <span>RNA</span> Polymerase <span>II</span>
+<span>ChIP</span>-Seq Data.”</span> <em><span>BMC</span>
+Bioinformatics</em> 13 Suppl 2 (March): S2. <a href="https://doi.org/10.1186/1471-2105-13-S2-S2">https://doi.org/10.1186/1471-2105-13-S2-S2</a>.
+</div>
+<div id="ref-hartigan1979algorithm" class="csl-entry" role="listitem">
+Hartigan, John A, and Manchek A Wong. 1979. <span>“Algorithm AS 136: A
+k-Means Clustering Algorithm.”</span> <em>Journal of the Royal
+Statistical Society. Series C (Applied Statistics)</em> 28 (1): 100–108.
+</div>
+<div id="ref-He2011-pw" class="csl-entry" role="listitem">
+He, Yu-Fei, Bin-Zhong Li, Zheng Li, et al. 2011. <span>“Tet-Mediated
+Formation of 5-Carboxylcytosine and Its Excision by <span>TDG</span> in
+Mammalian <span>DNA</span>.”</span> <em>Science</em> 333 (6047): 1303–7.
+</div>
+<div id="ref-helmuth_2016" class="csl-entry" role="listitem">
+Helmuth, Johannes, Na Li, Laura Arrigoni, et al. 2016. <span>“<span class="nocase">normR</span>: Regime Enrichment Calling for
+<span>ChIP</span>-Seq Data.”</span> <em>bioRxiv</em>.
+</div>
+<div id="ref-henikoff2008nucleosome" class="csl-entry" role="listitem">
+Henikoff, Steven. 2008. <span>“Nucleosome Destabilization in the
+Epigenetic Regulation of Gene Expression.”</span> <em>Nature Reviews
+Genetics</em> 9 (1): 15–26.
+</div>
+<div id="ref-hoerl1970ridge" class="csl-entry" role="listitem">
+Hoerl, Arthur E, and Robert W Kennard. 1970. <span>“Ridge Regression:
+Biased Estimation for Nonorthogonal Problems.”</span>
+<em>Technometrics</em> 12 (1): 55–67.
+</div>
+<div id="ref-hoffman_2012" class="csl-entry" role="listitem">
+Hoffman, Michael M, Orion J Buske, Jie Wang, Zhiping Weng, Jeff A
+Bilmes, and William Stafford Noble. 2012. <span>“Unsupervised Pattern
+Discovery in Human Chromatin Structure Through Genomic
+Segmentation.”</span> <em>Nat Methods</em> 9 (5): 473–76. <a href="https://doi.org/10.1038/nmeth.1937">https://doi.org/10.1038/nmeth.1937</a>.
+</div>
+<div id="ref-horvath2013dna" class="csl-entry" role="listitem">
+Horvath, Steve. 2013. <span>“DNA Methylation Age of Human Tissues and
+Cell Types.”</span> <em>Genome Biology</em> 14 (10): 3156.
+</div>
+<div id="ref-hsu2003practical" class="csl-entry" role="listitem">
+<span class="nocase">Hsu, Chih-Wei, Chih-Chung Chang, Chih-Jen Lin, et
+al.</span> 2003. <em>A Practical Guide to Support Vector
+Classification</em>.
+</div>
+<div id="ref-hyvarinen2013independent" class="csl-entry" role="listitem">
+Hyvärinen, Aapo. 2013. <span>“Independent Component Analysis: Recent
+Advances.”</span> <em>Philosophical Transactions of the Royal Society A:
+Mathematical, Physical and Engineering Sciences</em> 371 (1984):
+20110534.
+</div>
+<div id="ref-james2013introduction" class="csl-entry" role="listitem">
+James, G., D. Witten, T. Hastie, and R. Tibshirani. 2013. <em>An
+Introduction to Statistical Learning: With Applications in r</em>.
+Springer Texts in Statistics. Springer New York. <a href="https://books.google.de/books?id=qcI\_AAAAQBAJ">https://books.google.de/books?id=qcI\_AAAAQBAJ</a>.
+</div>
+<div id="ref-jiang_synthetic_2011" class="csl-entry" role="listitem">
+Jiang, Lichun, Felix Schlesinger, Carrie A. Davis, et al. 2011.
+<span>“Synthetic Spike-in Standards for <span>RNA</span>-Seq
+Experiments.”</span> <em>Genome Research</em> 21 (9): 1543–51. <a href="https://doi.org/10.1101/gr.121095.111">https://doi.org/10.1101/gr.121095.111</a>.
+</div>
+<div id="ref-jung_2014" class="csl-entry" role="listitem">
+Jung, Youngsook L, Lovelace J Luquette, Joshua W K Ho, et al. 2014.
+<span>“Impact of Sequencing Depth in <span>ChIP</span>-Seq
+Experiments.”</span> <em>Nucleic Acids Res</em> 42 (9): e74. <a href="https://doi.org/10.1093/nar/gku178">https://doi.org/10.1093/nar/gku178</a>.
+</div>
+<div id="ref-kegg_latest_paper" class="csl-entry" role="listitem">
+Kanehisa, M., M. Furumichi, M. Tanabe, Y. Sato, and K. Morishima. 2017.
+<span>“<span class="nocase"><span>K</span><span>E</span><span>G</span><span>G</span>:
+new perspectives on genomes, pathways, diseases and
+drugs</span>.”</span> <em>Nucleic Acids Res.</em> 45 (D1): D353–61.
+</div>
+<div id="ref-kanehisa_kegg_2016" class="csl-entry" role="listitem">
+Kanehisa, Minoru, Yoko Sato, Masayuki Kawashima, Miho Furumichi, and Mao
+Tanabe. 2016. <span>“<span>KEGG</span> as a Reference Resource for Gene
+and Protein Annotation.”</span> <em>Nucleic Acids Research</em> 44
+(Database issue): D457–62. <a href="https://doi.org/10.1093/nar/gkv1070">https://doi.org/10.1093/nar/gkv1070</a>.
+</div>
+<div id="ref-khan_2018" class="csl-entry" role="listitem">
+Khan, Aziz, Oriol Fornes, Arnaud Stigliani, et al. 2018.
+<span>“<span>JASPAR</span> 2018: Update of the Open-Access Database of
+Transcription Factor Binding Profiles and Its Web Framework.”</span>
+<em>Nucleic Acids Res</em> 46 (D1): D260–66. <a href="https://doi.org/10.1093/nar/gkx1126">https://doi.org/10.1093/nar/gkx1126</a>.
+</div>
+<div id="ref-kharchenko_2008" class="csl-entry" role="listitem">
+Kharchenko, Peter V, Michael Y Tolstorukov, and Peter J Park. 2008.
+<span>“Design and Analysis of <span>ChIP</span>-Seq Experiments for
+<span>DNA</span>-Binding Proteins.”</span> <em>Nat Biotechnol</em> 26
+(12): 1351–59. <a href="https://doi.org/10.1038/nbt.1508">https://doi.org/10.1038/nbt.1508</a>.
+</div>
+<div id="ref-kidder_2011" class="csl-entry" role="listitem">
+Kidder, Benjamin L, Gangqing Hu, and Keji Zhao. 2011.
+<span>“<span>ChIP</span>-Seq: Technical Considerations for Obtaining
+High-Quality Data.”</span> <em>Nat Immunol</em> 12 (10): 918–22. <a href="https://doi.org/10.1038/ni.2117">https://doi.org/10.1038/ni.2117</a>.
+</div>
+<div id="ref-kim_hisat:_2015" class="csl-entry" role="listitem">
+Kim, Daehwan, Ben Langmead, and Steven L Salzberg. 2015.
+<span>“<span>HISAT</span>: A Fast Spliced Aligner with Low Memory
+Requirements.”</span> <em>Nature Methods</em> 12 (4): 357–60. <a href="https://doi.org/10.1038/nmeth.3317">https://doi.org/10.1038/nmeth.3317</a>.
+</div>
+<div id="ref-kim_tophat2:_2013" class="csl-entry" role="listitem">
+Kim, Daehwan, Geo Pertea, Cole Trapnell, Harold Pimentel, Ryan Kelley,
+and Steven L. Salzberg. 2013. <span>“<span>TopHat</span>2: Accurate
+Alignment of Transcriptomes in the Presence of Insertions, Deletions and
+Gene Fusions.”</span> <em>Genome Biology</em> 14 (4): R36. <a href="https://doi.org/10.1186/gb-2013-14-4-r36">https://doi.org/10.1186/gb-2013-14-4-r36</a>.
+</div>
+<div id="ref-pheatmap" class="csl-entry" role="listitem">
+Kolde, Raivo. 2019. <em>Pheatmap: Pretty Heatmaps</em>. <a href="https://CRAN.R-project.org/package=pheatmap">https://CRAN.R-project.org/package=pheatmap</a>.
+</div>
+<div id="ref-pmid25750696" class="csl-entry" role="listitem">
+Kourou, K., T. P. Exarchos, K. P. Exarchos, M. V. Karamouzis, and D. I.
+Fotiadis. 2015. <span>“<span class="nocase"><span>M</span>achine
+learning applications in cancer prognosis and prediction</span>.”</span>
+<em>Comput Struct Biotechnol J</em> 13: 8–17.
+</div>
+<div id="ref-krebs_2014" class="csl-entry" role="listitem">
+Krebs, Wolfgang, Susanne V Schmidt, Alon Goren, et al. 2014.
+<span>“Optimization of Transcription Factor Binding Map Accuracy
+Utilizing Knockout-Mouse Models.”</span> <em>Nucleic Acids Res</em> 42
+(21): 13051–60. <a href="https://doi.org/10.1093/nar/gku1078">https://doi.org/10.1093/nar/gku1078</a>.
+</div>
+<div id="ref-Krueger2011-vv" class="csl-entry" role="listitem">
+Krueger, Felix, and Simon R Andrews. 2011. <span>“Bismark: A Flexible
+Aligner and Methylation Caller for <span>Bisulfite-Seq</span>
+Applications.”</span> <em>Bioinformatics</em> 27 (11): 1571–72.
+</div>
+<div id="ref-kutner2003applied" class="csl-entry" role="listitem">
+Kutner, M. H., C. J. Nachtsheim, and J. Neter. 2003. <em>Applied Linear
+Regression Models</em>. The McGraw-Hill/Irwin Series Operations and
+Decision Sciences. McGraw-Hill Higher Education. <a href="https://books.google.de/books?id=0nAMAAAACAAJ">https://books.google.de/books?id=0nAMAAAACAAJ</a>.
+</div>
+<div id="ref-laajala_2009" class="csl-entry" role="listitem">
+Laajala, Teemu D, Sunil Raghav, Soile Tuomela, Riitta Lahesmaa, Tero
+Aittokallio, and Laura L Elo. 2009. <span>“A Practical Comparison of
+Methods for Detecting Transcription Factor Binding Sites in
+<span>ChIP</span>-Seq Experiments.”</span> <em><span>BMC</span>
+Genomics</em> 10 (December): 618. <a href="https://doi.org/10.1186/1471-2164-10-618">https://doi.org/10.1186/1471-2164-10-618</a>.
+</div>
+<div id="ref-landt_2012" class="csl-entry" role="listitem">
+Landt, Stephen G, Georgi K Marinov, Anshul Kundaje, et al. 2012.
+<span>“<span>ChIP</span>-Seq Guidelines and Practices of the
+<span>ENCODE</span> and <span class="nocase">modENCODE</span>
+Consortia.”</span> <em>Genome Res</em> 22 (9): 1813–31. <a href="https://doi.org/10.1101/gr.136184.111">https://doi.org/10.1101/gr.136184.111</a>.
+</div>
+<div id="ref-langmead2012fast" class="csl-entry" role="listitem">
+Langmead, Ben, and Steven L Salzberg. 2012a. <span>“Fast Gapped-Read
+Alignment with Bowtie 2.”</span> <em>Nature Methods</em> 9 (4): 357.
+</div>
+<div id="ref-langmead_2012" class="csl-entry" role="listitem">
+Langmead, Ben, and Steven L Salzberg. 2012b. <span>“Fast Gapped-Read
+Alignment with Bowtie 2.”</span> <em>Nat Methods</em> 9 (4): 357–59. <a href="https://doi.org/10.1038/nmeth.1923">https://doi.org/10.1038/nmeth.1923</a>.
+</div>
+<div id="ref-langmead_2009" class="csl-entry" role="listitem">
+Langmead, Ben, Cole Trapnell, Mihai Pop, and Steven L Salzberg. 2009.
+<span>“Ultrafast and Memory-Efficient Alignment of Short
+<span>DNA</span> Sequences to the Human Genome.”</span> <em>Genome
+Biol</em> 10 (3): R25. <a href="https://doi.org/10.1186/gb-2009-10-3-r25">https://doi.org/10.1186/gb-2009-10-3-r25</a>.
+</div>
+<div id="ref-lecun2015deep" class="csl-entry" role="listitem">
+LeCun, Yann, Yoshua Bengio, and Geoffrey Hinton. 2015. <span>“Deep
+Learning.”</span> <em>Nature</em> 521 (7553): 436.
+</div>
+<div id="ref-lee2001algorithms" class="csl-entry" role="listitem">
+Lee, Daniel D, and H Sebastian Seung. 2001. <span>“Algorithms for
+Non-Negative Matrix Factorization.”</span> <em>Advances in Neural
+Information Processing Systems</em>, 556–62.
+</div>
+<div id="ref-leek_sva_2012" class="csl-entry" role="listitem">
+Leek, Jeffrey T., W. Evan Johnson, Hilary S. Parker, Andrew E. Jaffe,
+and John D. Storey. 2012. <span>“The Sva Package for Removing Batch
+Effects and Other Unwanted Variation in High-Throughput
+Experiments.”</span> <em>Bioinformatics</em> 28 (6): 882–83. <a href="https://doi.org/10.1093/bioinformatics/bts034">https://doi.org/10.1093/bioinformatics/bts034</a>.
+</div>
+<div id="ref-Li2011-wc" class="csl-entry" role="listitem">
+Li, Heng. 2011. <span>“Tabix: Fast Retrieval of Sequence Features from
+Generic <span class="nocase">TAB-delimited</span> Files.”</span>
+<em>Bioinformatics</em> 27 (5): 718–19.
+</div>
+<div id="ref-li_2009" class="csl-entry" role="listitem">
+Li, Heng, and Richard Durbin. 2009a. <span>“Fast and Accurate Short Read
+Alignment with Burrows-Wheeler Transform.”</span>
+<em>Bioinformatics</em> 25 (14): 1754–60. <a href="https://doi.org/10.1093/bioinformatics/btp324">https://doi.org/10.1093/bioinformatics/btp324</a>.
+</div>
+<div id="ref-li2009fast" class="csl-entry" role="listitem">
+Li, Heng, and Richard Durbin. 2009b. <span>“Fast and Accurate Short Read
+Alignment with Burrows–Wheeler Transform.”</span>
+<em>Bioinformatics</em> 25 (14): 1754–60.
+</div>
+<div id="ref-li2009soap2" class="csl-entry" role="listitem">
+Li, Ruiqiang, Chang Yu, Yingrui Li, et al. 2009. <span>“SOAP2: An
+Improved Ultrafast Tool for Short Read Alignment.”</span>
+<em>Bioinformatics</em> 25 (15): 1966–67.
+</div>
+<div id="ref-li_2014" class="csl-entry" role="listitem">
+Li, Wentian, and Jan Freudenberg. 2014. <span>“Mappability and Read
+Length.”</span> <em>Front Genet</em> 5 (November): 381. <a href="https://doi.org/10.3389/fgene.2014.00381">https://doi.org/10.3389/fgene.2014.00381</a>.
+</div>
+<div id="ref-liang_2012" class="csl-entry" role="listitem">
+Liang, Kun, and Sündüz Keleş. 2012. <span>“Normalization of
+<span>ChIP</span>-Seq Data with Control.”</span> <em><span>BMC</span>
+Bioinformatics</em> 13 (August): 199. <a href="https://doi.org/10.1186/1471-2105-13-199">https://doi.org/10.1186/1471-2105-13-199</a>.
+</div>
+<div id="ref-liao_subread_2013" class="csl-entry" role="listitem">
+Liao, Yang, Gordon K. Smyth, and Wei Shi. 2013. <span>“The
+<span>Subread</span> Aligner: Fast, Accurate and Scalable Read Mapping
+by Seed-and-Vote.”</span> <em>Nucleic Acids Research</em> 41 (10):
+e108–8. <a href="https://doi.org/10.1093/nar/gkt214">https://doi.org/10.1093/nar/gkt214</a>.
+</div>
+<div id="ref-enhancerImbalance" class="csl-entry" role="listitem">
+Libbrecht, M. W., and W. S. Noble. 2015. <span>“<span class="nocase"><span>M</span>achine learning applications in genetics
+and genomics</span>.”</span> <em>Nat. Rev. Genet.</em> 16 (6): 321–32.
+</div>
+<div id="ref-Lister2013-vs" class="csl-entry" role="listitem">
+Lister, R, E A Mukamel, J R Nery, et al. 2013. <span>“Global Epigenomic
+Reconfiguration During Mammalian Brain Development.”</span>
+<em>Science</em> 341 (6146): 1237905–5.
+</div>
+<div id="ref-Lister2009-sd" class="csl-entry" role="listitem">
+Lister, Ryan, Mattia Pelizzola, Robert H Dowen, et al. 2009.
+<span>“Human <span>DNA</span> Methylomes at Base Resolution Show
+Widespread Epigenomic Differences.”</span> <em>Nature</em> 462 (7271):
+315–22.
+</div>
+<div id="ref-love_moderated_2014" class="csl-entry" role="listitem">
+Love, Michael I, Wolfgang Huber, and Simon Anders. 2014.
+<span>“Moderated Estimation of Fold Change and Dispersion for
+<span>RNA</span>-Seq Data with <span>DESeq</span>2.”</span> <em>Genome
+Biology</em> 15 (12). <a href="https://doi.org/10.1186/s13059-014-0550-8">https://doi.org/10.1186/s13059-014-0550-8</a>.
+</div>
+<div id="ref-Lovkvist2016-ky" class="csl-entry" role="listitem">
+Lövkvist, Cecilia, Ian B Dodd, Kim Sneppen, and Jan O Haerter. 2016.
+<span>“<span>DNA</span> Methylation in Human Epigenomes Depends on Local
+Topology of <span>CpG</span> Sites.”</span> <em>Nucleic Acids Res.</em>
+44 (11): 5123–32.
+</div>
+<div id="ref-lun_2014" class="csl-entry" role="listitem">
+Lun, Aaron T L, and Gordon K Smyth. 2014. <span>“De Novo Detection of
+Differentially Bound Regions for <span>ChIP</span>-Seq Data Using Peaks
+and Windows: Controlling Error Rates Correctly.”</span> <em>Nucleic
+Acids Res</em> 42 (11): e95. <a href="https://doi.org/10.1093/nar/gku351">https://doi.org/10.1093/nar/gku351</a>.
+</div>
+<div id="ref-luo_gage:_2009" class="csl-entry" role="listitem">
+Luo, Weijun, Michael S Friedman, Kerby Shedden, Kurt D Hankenson, and
+Peter J Woolf. 2009. <span>“<span>GAGE</span>: Generally Applicable Gene
+Set Enrichment for Pathway Analysis.”</span> <em>BMC Bioinformatics</em>
+10 (1): 161. <a href="https://doi.org/10.1186/1471-2105-10-161">https://doi.org/10.1186/1471-2105-10-161</a>.
+</div>
+<div id="ref-maaten2008visualizing" class="csl-entry" role="listitem">
+Maaten, Laurens van der, and Geoffrey Hinton. 2008. <span>“Visualizing
+Data Using t-SNE.”</span> <em>Journal of Machine Learning Research</em>
+9 (Nov): 2579–605.
+</div>
+<div id="ref-pmid12364589" class="csl-entry" role="listitem">
+Mathe, C., M. F. Sagot, T. Schiex, and P. Rouze. 2002. <span>“<span class="nocase"><span>C</span>urrent methods of gene prediction, their
+strengths and weaknesses</span>.”</span> <em>Nucleic Acids Res.</em> 30
+(19): 4103–17.
+</div>
+<div id="ref-maza_comparison_2013" class="csl-entry" role="listitem">
+Maza, Elie, Pierre Frasse, Pavel Senin, Mondher Bouzayen, and Mohamed
+Zouine. 2013. <span>“Comparison of Normalization Methods for
+Differential Gene Expression Analysis in
+<span>RNA</span>-<span>Seq</span> Experiments: <span>A</span> Matter of
+Relative Size of Studied Transcriptomes.”</span> <em>Communicative &amp;
+Integrative Biology</em> 6 (6): e25849. <a href="https://doi.org/10.4161/cib.25849">https://doi.org/10.4161/cib.25849</a>.
+</div>
+<div id="ref-mckenna_genome_2010" class="csl-entry" role="listitem">
+McKenna, Aaron, Matthew Hanna, Eric Banks, et al. 2010. <span>“The
+<span>Genome</span> <span>Analysis</span> <span>Toolkit</span>:
+<span>A</span> <span>MapReduce</span> Framework for Analyzing
+Next-Generation <span>DNA</span> Sequencing Data.”</span> <em>Genome
+Research</em> 20 (9): 1297–303. <a href="https://doi.org/10.1101/gr.107524.110">https://doi.org/10.1101/gr.107524.110</a>.
+</div>
+<div id="ref-mcpherson_defuse:_2011" class="csl-entry" role="listitem">
+McPherson, Andrew, Fereydoun Hormozdiari, Abdalnasser Zayed, et al.
+2011. <span>“<span class="nocase">deFuse</span>: <span>An</span>
+<span>Algorithm</span> for <span>Gene</span> <span>Fusion</span>
+<span>Discovery</span> in <span>Tumor</span>
+<span>RNA</span>-<span>Seq</span> <span>Data</span>.”</span> <em>PLOS
+Computational Biology</em> 7 (5): e1001138. <a href="https://doi.org/10.1371/journal.pcbi.1001138">https://doi.org/10.1371/journal.pcbi.1001138</a>.
+</div>
+<div id="ref-mermel2011gistic2" class="csl-entry" role="listitem">
+Mermel, Craig H, Steven E Schumacher, Barbara Hill, Matthew L Meyerson,
+Rameen Beroukhim, and Gad Getz. 2011. <span>“GISTIC2. 0 Facilitates
+Sensitive and Confident Localization of the Targets of Focal Somatic
+Copy-Number Alteration in Human Cancers.”</span> <em>Genome Biology</em>
+12 (4): R41.
+</div>
+<div id="ref-micsinai_2012" class="csl-entry" role="listitem">
+Micsinai, Mariann, Fabio Parisi, Francesco Strino, Patrik Asp, Brian D
+Dynlacht, and Yuval Kluger. 2012. <span>“Picking <span>ChIP</span>-Seq
+Peak Detectors for Analyzing Chromatin Modification Experiments.”</span>
+<em>Nucleic Acids Res</em> 40 (9): e70. <a href="https://doi.org/10.1093/nar/gks048">https://doi.org/10.1093/nar/gks048</a>.
+</div>
+<div id="ref-morgan_shortread:_2009" class="csl-entry" role="listitem">
+Morgan, Martin, Simon Anders, Michael Lawrence, Patrick Aboyoun, Hervé
+Pagès, and Robert Gentleman. 2009. <span>“<span>ShortRead</span>: A
+Bioconductor Package for Input, Quality Assessment and Exploration of
+High-Throughput Sequence Data.”</span> <em>Bioinformatics</em> 25 (19):
+2607–8. <a href="https://doi.org/10.1093/bioinformatics/btp450">https://doi.org/10.1093/bioinformatics/btp450</a>.
+</div>
+<div id="ref-morris2014rise" class="csl-entry" role="listitem">
+Morris, Kevin V, and John S Mattick. 2014. <span>“The Rise of Regulatory
+RNA.”</span> <em>Nature Reviews Genetics</em> 15 (6): 423–37.
+</div>
+<div id="ref-mortazavi_2013" class="csl-entry" role="listitem">
+Mortazavi, Ali, Shirley Pepke, Camden Jansen, et al. 2013.
+<span>“Integrating and Mining the Chromatin Landscape of Cell-Type
+Specificity Using Self-Organizing Maps.”</span> <em>Genome Res</em> 23
+(12): 2136–48. <a href="https://doi.org/10.1101/gr.158261.113">https://doi.org/10.1101/gr.158261.113</a>.
+</div>
+<div id="ref-mortazavi_mapping_2008" class="csl-entry" role="listitem">
+Mortazavi, Ali, Brian A. Williams, Kenneth McCue, Lorian Schaeffer, and
+Barbara Wold. 2008. <span>“Mapping and Quantifying Mammalian
+Transcriptomes by <span>RNA</span>-<span>Seq</span>.”</span> <em>Nature
+Methods</em> 5 (7): 621–28. <a href="https://doi.org/10.1038/nmeth.1226">https://doi.org/10.1038/nmeth.1226</a>.
+</div>
+<div id="ref-pmid20399149" class="csl-entry" role="listitem">
+Noushmehr, H., D. J. Weisenberger, K. Diefes, et al. 2010. <span>“<span class="nocase"><span>I</span>dentification of a
+<span>C</span>p<span>G</span> island methylator phenotype that defines a
+distinct subgroup of glioma</span>.”</span> <em>Cancer Cell</em> 17 (5):
+510–22.
+</div>
+<div id="ref-numata2012dna" class="csl-entry" role="listitem">
+Numata, Shusuke, Tianzhang Ye, Thomas M Hyde, et al. 2012. <span>“DNA
+Methylation Signatures in Development and Aging of the Human Prefrontal
+Cortex.”</span> <em>The American Journal of Human Genetics</em> 90 (2):
+260–72.
+</div>
+<div id="ref-patro_salmon:_2017" class="csl-entry" role="listitem">
+Patro, Rob, Geet Duggal, Michael I Love, Rafael A Irizarry, and Carl
+Kingsford. 2017. <span>“Salmon: Fast and Bias-Aware Quantification of
+Transcript Expression Using Dual-Phase Inference.”</span> <em>Nature
+Methods</em> 14 (4): 417–19. <a href="https://doi.org/10.1038/nmeth.4197">https://doi.org/10.1038/nmeth.4197</a>.
+</div>
+<div id="ref-patro_sailfish_2014" class="csl-entry" role="listitem">
+Patro, Rob, Stephen M. Mount, and Carl Kingsford. 2014. <span>“Sailfish
+Enables Alignment-Free Isoform Quantification from <span>RNA</span>-Seq
+Reads Using Lightweight Algorithms.”</span> <em>Nature
+Biotechnology</em> 32 (5): 462–64. <a href="https://doi.org/10.1038/nbt.2862">https://doi.org/10.1038/nbt.2862</a>.
+</div>
+<div id="ref-phillips2009ctcf" class="csl-entry" role="listitem">
+Phillips, Jennifer E, and Victor G Corces. 2009. <span>“CTCF: Master
+Weaver of the Genome.”</span> <em>Cell</em> 137 (7): 1194–211.
+</div>
+<div id="ref-pmid30247488" class="csl-entry" role="listitem">
+Poplin, R., P. C. Chang, D. Alexander, et al. 2018. <span>“<span class="nocase"><span>A</span> universal
+<span>S</span><span>N</span><span>P</span> and small-indel variant
+caller using deep neural networks</span>.”</span> <em>Nat.
+Biotechnol.</em> 36 (10): 983–87.
+</div>
+<div id="ref-rashid_2011" class="csl-entry" role="listitem">
+Rashid, Naim U, Paul G Giresi, Joseph G Ibrahim, Wei Sun, and Jason D
+Lieb. 2011. <span>“<span>ZINBA</span> Integrates Local Covariates with
+<span>DNA</span>-Seq Data to Identify Broad and Narrow Regions of
+Enrichment, Even Within Amplified Genomic Regions.”</span> <em>Genome
+Biol</em> 12 (7): R67. <a href="https://doi.org/10.1186/gb-2011-12-7-r67">https://doi.org/10.1186/gb-2011-12-7-r67</a>.
+</div>
+<div id="ref-reynolds2006clustering" class="csl-entry" role="listitem">
+Reynolds, Alan P, Graeme Richards, Beatriz de la Iglesia, and Victor J
+Rayward-Smith. 2006. <span>“Clustering Rules: A Comparison of
+Partitioning and Hierarchical Clustering Algorithms.”</span> <em>Journal
+of Mathematical Modelling and Algorithms</em> 5 (4): 475–504.
+</div>
+<div id="ref-risso_normalization_2014" class="csl-entry" role="listitem">
+Risso, Davide, John Ngai, Terence P. Speed, and Sandrine Dudoit. 2014.
+<span>“Normalization of <span>RNA</span>-Seq Data Using Factor Analysis
+of Control Genes or Samples.”</span> <em>Nature Biotechnology</em> 32
+(9): 896–902. <a href="https://doi.org/10.1038/nbt.2931">https://doi.org/10.1038/nbt.2931</a>.
+</div>
+<div id="ref-risso_gc-content_2011" class="csl-entry" role="listitem">
+Risso, Davide, Katja Schwartz, Gavin Sherlock, and Sandrine Dudoit.
+2011. <span>“<span>GC</span>-Content Normalization for
+<span>RNA</span>-<span>Seq</span> Data.”</span> <em>BMC
+Bioinformatics</em> 12 (December): 480. <a href="https://doi.org/10.1186/1471-2105-12-480">https://doi.org/10.1186/1471-2105-12-480</a>.
+</div>
+<div id="ref-robertson_novo_2010" class="csl-entry" role="listitem">
+Robertson, Gordon, Jacqueline Schein, Readman Chiu, et al. 2010.
+<span>“<em><span>De</span> Novo</em> Assembly and Analysis of
+<span>RNA</span>-Seq Data.”</span> <em>Nature Methods</em> 7 (11):
+909–12. <a href="https://doi.org/10.1038/nmeth.1517">https://doi.org/10.1038/nmeth.1517</a>.
+</div>
+<div id="ref-robinson_edger:_2010" class="csl-entry" role="listitem">
+Robinson, Mark D., Davis J. McCarthy, and Gordon K. Smyth. 2010.
+<span>“<span class="nocase">edgeR</span>: A <span>Bioconductor</span>
+Package for Differential Expression Analysis of Digital Gene Expression
+Data.”</span> <em>Bioinformatics (Oxford, England)</em> 26 (1): 139–40.
+<a href="https://doi.org/10.1093/bioinformatics/btp616">https://doi.org/10.1093/bioinformatics/btp616</a>.
+</div>
+<div id="ref-rousseeuw1987silhouettes" class="csl-entry" role="listitem">
+Rousseeuw, Peter J. 1987. <span>“Silhouettes: A Graphical Aid to the
+Interpretation and Validation of Cluster Analysis.”</span> <em>Journal
+of Computational and Applied Mathematics</em> 20: 53–65.
+</div>
+<div id="ref-ruffalo_2011" class="csl-entry" role="listitem">
+Ruffalo, Matthew, Thomas LaFramboise, and Mehmet Koyutürk. 2011.
+<span>“Comparative Analysis of Algorithms for Next-Generation Sequencing
+Read Alignment.”</span> <em>Bioinformatics</em> 27 (20): 2790–96. <a href="https://doi.org/10.1093/bioinformatics/btr477">https://doi.org/10.1093/bioinformatics/btr477</a>.
+</div>
+<div id="ref-Schubeler2015-ai" class="csl-entry" role="listitem">
+Schübeler, Dirk. 2015. <span>“Function and Information Content of
+<span>DNA</span> Methylation.”</span> <em>Nature</em> 517 (7534):
+321–26.
+</div>
+<div id="ref-schwartz2007polycomb" class="csl-entry" role="listitem">
+Schwartz, Yuri B, and Vincenzo Pirrotta. 2007. <span>“Polycomb Silencing
+Mechanisms and the Management of Genomic Programmes.”</span> <em>Nature
+Reviews Genetics</em> 8 (1): 9–22.
+</div>
+<div id="ref-shao_2012" class="csl-entry" role="listitem">
+Shao, Zhen, Yijing Zhang, Guo-Cheng Yuan, Stuart H Orkin, and David J
+Waxman. 2012. <span>“<span>MAnorm</span>: A Robust Model for
+Quantitative Comparison of <span>ChIP</span>-Seq Data Sets.”</span>
+<em>Genome Biol</em> 13 (3): R16. <a href="https://doi.org/10.1186/gb-2012-13-3-r16">https://doi.org/10.1186/gb-2012-13-3-r16</a>.
+</div>
+<div id="ref-Smith2013-jh" class="csl-entry" role="listitem">
+Smith, Zachary D, and Alexander Meissner. 2013. <span>“<span>DNA</span>
+Methylation: Roles in Mammalian Development.”</span> <em>Nat. Rev.
+Genet.</em> 14 (3): 204–20.
+</div>
+<div id="ref-smyth2004linear" class="csl-entry" role="listitem">
+Smyth Gordon, K. 2004. <span>“Linear Models and Empirical Bayes Methods
+for Assessing Differential Expression in Microarray Experiments.”</span>
+<em>Statistical Applications in Genetics and Molecular Biology</em> 3
+(1): 1–25.
+</div>
+<div id="ref-song_2011" class="csl-entry" role="listitem">
+Song, Qiang, and Andrew D Smith. 2011. <span>“Identifying Dispersed
+Epigenomic Domains from <span>ChIP</span>-Seq Data.”</span>
+<em>Bioinformatics</em> 27 (6): 870–71. <a href="https://doi.org/10.1093/bioinformatics/btr030">https://doi.org/10.1093/bioinformatics/btr030</a>.
+</div>
+<div id="ref-sood2019dnamod" class="csl-entry" role="listitem">
+Sood, Ankur Jai, Coby Viner, and Michael M Hoffman. 2019. <span>“DNAmod:
+The DNA Modification Database.”</span> <em>Journal of
+Cheminformatics</em> 11 (1): 30.
+</div>
+<div id="ref-Stadler2011-iu" class="csl-entry" role="listitem">
+Stadler, Michael B, Rabih Murr, Lukas Burger, et al. 2011a. <span>“<span class="nocase">DNA-binding</span> Factors Shape the Mouse Methylome at
+Distal Regulatory Regions.”</span> <em>Nature</em> 480 (7378): 490–95.
+</div>
+<div id="ref-Stadler2011-yv" class="csl-entry" role="listitem">
+Stadler, Michael B, Rabih Murr, Lukas Burger, et al. 2011b. <span>“<span class="nocase">DNA-binding</span> Factors Shape the Mouse Methylome at
+Distal Regulatory Regions.”</span> <em>Nature</em> 480 (7378): 490–95.
+</div>
+<div id="ref-stanke_augustus:_2005" class="csl-entry" role="listitem">
+Stanke, Mario, and Burkhard Morgenstern. 2005.
+<span>“<span>AUGUSTUS</span>: A Web Server for Gene Prediction in
+Eukaryotes That Allows User-Defined Constraints.”</span> <em>Nucleic
+Acids Research</em> 33 (Web Server issue): W465–67. <a href="https://doi.org/10.1093/nar/gki458">https://doi.org/10.1093/nar/gki458</a>.
+</div>
+<div id="ref-Storey2003-nv" class="csl-entry" role="listitem">
+Storey, John D, and Robert Tibshirani. 2003. <span>“Statistical
+Significance for Genomewide Studies.”</span> <em>Proc. Natl. Acad. Sci.
+U. S. A.</em> 100 (16): 9440–45.
+</div>
+<div id="ref-strahl2000language" class="csl-entry" role="listitem">
+Strahl, Brian D, and C David Allis. 2000. <span>“The Language of
+Covalent Histone Modifications.”</span> <em>Nature</em> 403 (6765):
+41–45.
+</div>
+<div id="ref-subramanian_gene_2005" class="csl-entry" role="listitem">
+Subramanian, Aravind, Pablo Tamayo, Vamsi K. Mootha, et al. 2005.
+<span>“Gene Set Enrichment Analysis: <span>A</span> Knowledge-Based
+Approach for Interpreting Genome-Wide Expression Profiles.”</span>
+<em>Proceedings of the National Academy of Sciences</em> 102 (43):
+15545–50. <a href="https://doi.org/10.1073/pnas.0506580102">https://doi.org/10.1073/pnas.0506580102</a>.
+</div>
+<div id="ref-Tahiliani2009-ar" class="csl-entry" role="listitem">
+Tahiliani, Mamta, Kian Peng Koh, Yinghua Shen, et al. 2009.
+<span>“Conversion of 5-Methylcytosine to 5-Hydroxymethylcytosine in
+Mammalian <span>DNA</span> by <span>MLL</span> Partner
+<span>TET1</span>.”</span> <em>Science</em> 324 (5929): 930–35.
+</div>
+<div id="ref-TFBSTools" class="csl-entry" role="listitem">
+Tan, Ge, and Boris Lenhard. 2016. <span>“TFBSTools: An r/Bioconductor
+Package for Transcription Factor Binding Site Analysis.”</span>
+<em>Bioinformatics</em> 32: 1555–56. <a href="https://doi.org/10.1093/bioinformatics/btw024">https://doi.org/10.1093/bioinformatics/btw024</a>.
+</div>
+<div id="ref-teng_2016" class="csl-entry" role="listitem">
+Teng, Mingxiang, and Rafael A Irizarry. 2016. <span>“Accounting for
+<span>GC</span>-Content Bias Reduces Systematic Errors and Batch Effects
+in <span>ChIP</span>-Seq Peak Callers.”</span> <em>bioRxiv</em>, January
+1. <a href="http://biorxiv.org/content/early/2016/11/30/090704">http://biorxiv.org/content/early/2016/11/30/090704</a>.
+</div>
+<div id="ref-Teng_2017" class="csl-entry" role="listitem">
+Teng, Mingxiang, and Rafael A. Irizarry. 2017. <span>“Accounting for
+GC-Content Bias Reduces Systematic Errors and Batch Effects in ChIP-Seq
+Data.”</span> <em>Genome Research</em>, ahead of print. <a href="https://doi.org/10.1101/gr.220673.117">https://doi.org/10.1101/gr.220673.117</a>.
+</div>
+<div id="ref-tibshirani1996regression" class="csl-entry" role="listitem">
+Tibshirani, Robert. 1996. <span>“Regression Shrinkage and Selection via
+the Lasso.”</span> <em>Journal of the Royal Statistical Society: Series
+B (Methodological)</em> 58 (1): 267–88.
+</div>
+<div id="ref-tibshirani2001estimating" class="csl-entry" role="listitem">
+Tibshirani, Robert, Guenther Walther, and Trevor Hastie. 2001.
+<span>“Estimating the Number of Clusters in a Data Set via the Gap
+Statistic.”</span> <em>Journal of the Royal Statistical Society: Series
+B (Statistical Methodology)</em> 63 (2): 411–23.
+</div>
+<div id="ref-trapnell_transcript_2010" class="csl-entry" role="listitem">
+Trapnell, Cole, Brian A. Williams, Geo Pertea, et al. 2010.
+<span>“Transcript Assembly and Quantification by
+<span>RNA</span>-<span>Seq</span> Reveals Unannotated Transcripts and
+Isoform Switching During Cell Differentiation.”</span> <em>Nature
+Biotechnology</em> 28 (5): 511–15. <a href="https://doi.org/10.1038/nbt.1621">https://doi.org/10.1038/nbt.1621</a>.
+</div>
+<div id="ref-pmid21428770" class="csl-entry" role="listitem">
+Wang, L., H. L. McLeod, and R. M. Weinshilboum. 2011. <span>“<span class="nocase"><span>G</span>enomics and drug response</span>.”</span>
+<em>N. Engl. J. Med.</em> 364 (12): 1144–53.
+</div>
+<div id="ref-wang2008splicing" class="csl-entry" role="listitem">
+Wang, Zefeng, and Christopher B Burge. 2008. <span>“Splicing Regulation:
+From a Parts List of Regulatory Elements to an Integrated Splicing
+Code.”</span> <em>Rna</em> 14 (5): 802–13.
+</div>
+<div id="ref-wang_rna-seq:_2009" class="csl-entry" role="listitem">
+Wang, Zhong, Mark Gerstein, and Michael Snyder. 2009.
+<span>“<span>RNA</span>-<span>Seq</span>: A Revolutionary Tool for
+Transcriptomics.”</span> <em>Nature Reviews Genetics</em> 10 (1): 57–63.
+<a href="https://doi.org/10.1038/nrg2484">https://doi.org/10.1038/nrg2484</a>.
+</div>
+<div id="ref-Wardle_2015" class="csl-entry" role="listitem">
+Wardle, FC, and H Tan. 2015. <span>“A ChIP on the Shoulder? Chromatin
+Immunoprecipitation and Validation Strategies for ChIP Antibodies
+[Version 1; Referees: 2 Approved].”</span> <em>F1000Research</em> 4
+(235). <a href="https://doi.org/10.12688/f1000research.6719.1">https://doi.org/10.12688/f1000research.6719.1</a>.
+</div>
+<div id="ref-tcga_pan_cancer" class="csl-entry" role="listitem">
+Weinstein, J. N., E. A. Collisson, G. B. Mills, et al. 2013.
+<span>“<span class="nocase"><span>T</span>he <span>C</span>ancer
+<span>G</span>enome <span>A</span>tlas
+<span>P</span>an-<span>C</span>ancer analysis project</span>.”</span>
+<em>Nat. Genet.</em> 45 (10): 1113–20.
+</div>
+<div id="ref-wilbanks_2010" class="csl-entry" role="listitem">
+Wilbanks, Elizabeth G, and Marc T Facciotti. 2010. <span>“Evaluation of
+Algorithm Performance in <span>ChIP</span>-Seq Peak Detection.”</span>
+<em><span>PLoS</span> <span>ONE</span></em> 5 (7): e11471. <a href="https://doi.org/10.1371/journal.pone.0011471">https://doi.org/10.1371/journal.pone.0011471</a>.
+</div>
+<div id="ref-wu_gmap_2016" class="csl-entry" role="listitem">
+Wu, Thomas D., Jens Reeder, Michael Lawrence, Gabe Becker, and Matthew
+J. Brauer. 2016. <span>“<span>GMAP</span> and <span>GSNAP</span> for
+<span>Genomic</span> <span>Sequence</span> <span>Alignment</span>:
+<span>Enhancements</span> to <span>Speed</span>, <span>Accuracy</span>,
+and <span>Functionality</span>.”</span> <em>Methods in Molecular Biology
+(Clifton, N.J.)</em> 1418: 283–334. <a href="https://doi.org/10.1007/978-1-4939-3578-9_15">https://doi.org/10.1007/978-1-4939-3578-9_15</a>.
+</div>
+<div id="ref-xing_2012" class="csl-entry" role="listitem">
+Xing, Haipeng, Yifan Mo, Will Liao, and Michael Q Zhang. 2012.
+<span>“Genome-Wide Localization of Protein-<span>DNA</span> Binding and
+Histone Modification by a Bayesian Change-Point Method with
+<span>ChIP</span>-Seq Data.”</span> <em><span>PLoS</span> Comput
+Biol</em> 8 (7): e1002613. <a href="https://doi.org/10.1371/journal.pcbi.1002613">https://doi.org/10.1371/journal.pcbi.1002613</a>.
+</div>
+<div id="ref-xu_2010" class="csl-entry" role="listitem">
+Xu, Han, Lusy Handoko, Xueliang Wei, et al. 2010. <span>“A Signal-Noise
+Model for Significance Analysis of <span>ChIP</span>-Seq with Negative
+Control.”</span> <em>Bioinformatics</em> 26 (9): 1199–204. <a href="https://doi.org/10.1093/bioinformatics/btq128">https://doi.org/10.1093/bioinformatics/btq128</a>.
+</div>
+<div id="ref-zang_2009" class="csl-entry" role="listitem">
+Zang, Chongzhi, Dustin E Schones, Chen Zeng, Kairong Cui, Keji Zhao, and
+Weiqun Peng. 2009. <span>“A Clustering Approach for Identification of
+Enriched Domains from Histone Modification <span>ChIP</span>-Seq
+Data.”</span> <em>Bioinformatics</em> 25 (15): 1952–58. <a href="https://doi.org/10.1093/bioinformatics/btp340">https://doi.org/10.1093/bioinformatics/btp340</a>.
+</div>
+<div id="ref-zhang_2014" class="csl-entry" role="listitem">
+Zhang, Yanxiao, Yu-Hsuan Lin, Timothy D Johnson, Laura S Rozek, and
+Maureen A Sartor. 2014. <span>“<span>PePr</span>: A Peak-Calling
+Prioritization Pipeline to Identify Consistent or Differential Peaks
+from Replicated <span>ChIP</span>-Seq Data.”</span>
+<em>Bioinformatics</em> 30 (18): 2568–75. <a href="https://doi.org/10.1093/bioinformatics/btu372">https://doi.org/10.1093/bioinformatics/btu372</a>.
+</div>
+<div id="ref-zhang_2008" class="csl-entry" role="listitem">
+Zhang, Yong, Tao Liu, Clifford A Meyer, et al. 2008. <span>“Model-Based
+Analysis of <span>ChIP</span>-Seq (<span>MACS</span>).”</span>
+<em>Genome Biol</em> 9 (9): R137. <a href="https://doi.org/10.1186/gb-2008-9-9-r137">https://doi.org/10.1186/gb-2008-9-9-r137</a>.
+</div>
+<div id="ref-pmid26301843" class="csl-entry" role="listitem">
+Zhou, J., and O. G. Troyanskaya. 2015. <span>“<span class="nocase"><span>P</span>redicting effects of noncoding variants
+with deep learning-based sequence model</span>.”</span> <em>Nat.
+Methods</em> 12 (10): 931–34.
+</div>
+<div id="ref-zou2005regularization" class="csl-entry" role="listitem">
+Zou, Hui, and Trevor Hastie. 2005. <span>“Regularization and Variable
+Selection via the Elastic Net.”</span> <em>Journal of the Royal
+Statistical Society: Series B (Statistical Methodology)</em> 67 (2):
+301–20.
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<div class="cgr-global-banner bottom-banner" role="complementary" aria-label="Book Updates">
+  <div class="banner-container">
+    <div class="banner-title">Stay Connected with Computational Genomics</div>
+    <div class="banner-text">
+      Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer" class="banner-link">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer" class="banner-link">Substack Blog</a> for updates!
+    </div>
+  </div>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/compgenomr\.github\.io\/book\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./11-multiomics-analysis.html" class="pagination-link" aria-label="Multi-omics Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multi-omics Analysis</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Computational Genomics with R — Altuna Akalin</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions"><ul><li><a href="https://github.com/compgenomr/book/edit/main/12-references.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

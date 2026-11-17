@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="A guide to computational genomics using R. The book covers fundamental topics with practical examples for an interdisciplinary audience.">
+
+<title>11&nbsp; Multi-omics Analysis – Computational Genomics with R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./12-references.html" rel="next">
+<link href="./10-bs-seq-analysis.html" rel="prev">
+<link href="./images/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3386ba8bb730b0c8829dca417ec99718.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<!-- Umami Analytics (Privacy-friendly, cookie-free, GDPR-compliant) -->
+<script defer="" src="https://cloud.umami.is/script.js" data-website-id="9ee01346-97c1-4be2-bfa8-4b70be9e59f4"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11-multiomics-analysis.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multi-omics Analysis</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computational Genomics with R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/compgenomr/book" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Authors</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-intro2Genomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-intro2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to R for Genomic Data Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-statsForGenomics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Statistics for Genomics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-unsupervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exploratory Data Analysis with Unsupervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-supervisedLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Predictive Modeling with Supervised Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-genomicIntervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Operations on Genomic Intervals and Genome Arithmetic</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-Read_Processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Quality Check, Processing and Alignment of High-throughput Sequencing Reads</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-rna-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">RNA-seq Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-chip-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">ChIP-seq analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-bs-seq-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DNA methylation analysis using bisulfite sequencing data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-multiomics-analysis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multi-omics Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<style>
+/* Right margin cover thumbnail styling */
+.cgr-margin-cover {
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.cgr-margin-cover img {
+  max-width: 175px;
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cgr-margin-cover img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+/* Suppress large cover image in landing page body */
+.quarto-cover-image {
+  display: none !important;
+}
+</style>
+<div class="cgr-margin-cover text-center">
+  <a href="./index.html" title="Computational Genomics with R">
+    <img src="./images/cover.png" alt="Computational Genomics with R cover" class="img-fluid">
+  </a>
+</div>
+
+</div></div>
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#use-case-multi-omics-data-from-colorectal-cancer" id="toc-use-case-multi-omics-data-from-colorectal-cancer" class="nav-link active" data-scroll-target="#use-case-multi-omics-data-from-colorectal-cancer"><span class="header-section-number">11.1</span> Use case: Multi-omics data from colorectal cancer</a></li>
+  <li><a href="#latent-variable-models-for-multi-omics-integration" id="toc-latent-variable-models-for-multi-omics-integration" class="nav-link" data-scroll-target="#latent-variable-models-for-multi-omics-integration"><span class="header-section-number">11.2</span> Latent variable models for multi-omics integration</a></li>
+  <li><a href="#matrix-factorization-methods-for-unsupervised-multi-omics-data-integration" id="toc-matrix-factorization-methods-for-unsupervised-multi-omics-data-integration" class="nav-link" data-scroll-target="#matrix-factorization-methods-for-unsupervised-multi-omics-data-integration"><span class="header-section-number">11.3</span> Matrix factorization methods for unsupervised multi-omics data integration</a>
+  <ul class="collapse">
+  <li><a href="#multiple-factor-analysis" id="toc-multiple-factor-analysis" class="nav-link" data-scroll-target="#multiple-factor-analysis"><span class="header-section-number">11.3.1</span> Multiple factor analysis</a></li>
+  <li><a href="#joint-non-negative-matrix-factorization" id="toc-joint-non-negative-matrix-factorization" class="nav-link" data-scroll-target="#joint-non-negative-matrix-factorization"><span class="header-section-number">11.3.2</span> Joint non-negative matrix factorization</a></li>
+  <li><a href="#icluster" id="toc-icluster" class="nav-link" data-scroll-target="#icluster"><span class="header-section-number">11.3.3</span> iCluster</a></li>
+  </ul></li>
+  <li><a href="#clustering-using-latent-factors" id="toc-clustering-using-latent-factors" class="nav-link" data-scroll-target="#clustering-using-latent-factors"><span class="header-section-number">11.4</span> Clustering using latent factors</a>
+  <ul class="collapse">
+  <li><a href="#one-hot-clustering" id="toc-one-hot-clustering" class="nav-link" data-scroll-target="#one-hot-clustering"><span class="header-section-number">11.4.1</span> One-hot clustering</a></li>
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link" data-scroll-target="#k-means-clustering"><span class="header-section-number">11.4.2</span> K-means clustering</a></li>
+  </ul></li>
+  <li><a href="#biological-interpretation-of-latent-factors" id="toc-biological-interpretation-of-latent-factors" class="nav-link" data-scroll-target="#biological-interpretation-of-latent-factors"><span class="header-section-number">11.5</span> Biological interpretation of latent factors</a>
+  <ul class="collapse">
+  <li><a href="#inspection-of-feature-weights-in-loading-vectors" id="toc-inspection-of-feature-weights-in-loading-vectors" class="nav-link" data-scroll-target="#inspection-of-feature-weights-in-loading-vectors"><span class="header-section-number">11.5.1</span> Inspection of feature weights in loading vectors</a></li>
+  <li><a href="#making-sense-of-factors-using-enrichment-analysis" id="toc-making-sense-of-factors-using-enrichment-analysis" class="nav-link" data-scroll-target="#making-sense-of-factors-using-enrichment-analysis"><span class="header-section-number">11.5.2</span> Making sense of factors using enrichment analysis</a></li>
+  <li><a href="#interpretation-using-additional-covariates" id="toc-interpretation-using-additional-covariates" class="nav-link" data-scroll-target="#interpretation-using-additional-covariates"><span class="header-section-number">11.5.3</span> Interpretation using additional covariates</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">11.6</span> Exercises</a>
+  <ul class="collapse">
+  <li><a href="#matrix-factorization-methods" id="toc-matrix-factorization-methods" class="nav-link" data-scroll-target="#matrix-factorization-methods"><span class="header-section-number">11.6.1</span> Matrix factorization methods</a></li>
+  <li><a href="#clustering-using-latent-factors-1" id="toc-clustering-using-latent-factors-1" class="nav-link" data-scroll-target="#clustering-using-latent-factors-1"><span class="header-section-number">11.6.2</span> Clustering using latent factors</a></li>
+  <li><a href="#biological-interpretation-of-latent-factors-1" id="toc-biological-interpretation-of-latent-factors-1" class="nav-link" data-scroll-target="#biological-interpretation-of-latent-factors-1"><span class="header-section-number">11.6.3</span> Biological interpretation of latent factors</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/compgenomr/book/edit/main/11-multiomics-analysis.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+<style>
+/* Base container: exactly one banner element on every page */
+#cgr-top-banner {
+  margin: 10px 0 20px 0;
+  line-height: 1.5;
+}
+
+/* Landing page (Preface): prominent colored card banner */
+#cgr-top-banner.banner-landing {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border: 1px solid #c7d2fe;
+  border-left: 5px solid #4f46e5;
+  border-radius: 8px;
+  padding: 12px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #1e1b4b;
+}
+
+#cgr-top-banner.banner-landing .banner-badge {
+  display: inline-block;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+#cgr-top-banner.banner-landing a {
+  color: #4338ca;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-landing a:hover {
+  color: #312e81;
+}
+
+/* Chapters & Subpages: subtle, non-distracting 1-line announcement */
+#cgr-top-banner.banner-subtle {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0;
+  padding: 0 0 8px 0;
+  margin: 4px 0 18px 0;
+  font-size: 0.84rem;
+  color: #64748b;
+  box-shadow: none;
+}
+
+#cgr-top-banner.banner-subtle a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#cgr-top-banner.banner-subtle a:hover {
+  color: #1d4ed8;
+}
+</style>
+
+<div id="cgr-top-banner" class="banner-subtle" role="region" aria-label="Announcements">
+  Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!
+</div>
+
+<script>
+(function() {
+  try {
+    var p = window.location.pathname;
+    var isLanding = (
+      p.endsWith("/index.html") ||
+      p.endsWith("/") ||
+      p === "" ||
+      (document.getElementById("preface") !== null && p.indexOf(".html") === -1)
+    );
+    if (p.indexOf(".html") !== -1 && !p.endsWith("index.html")) {
+      isLanding = false;
+    }
+    if (isLanding) {
+      var b = document.getElementById("cgr-top-banner");
+      if (b) {
+        b.className = "banner-landing";
+        b.innerHTML = '<span class="banner-badge">🚀 New</span> Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer">Substack Blog</a> for updates!';
+      }
+    }
+  } catch(e) {}
+})();
+</script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span id="sec-multiomics" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multi-omics Analysis</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><em>Chapter Author</em>: <strong>Jonathan Ronen</strong></p>
+<p>Living cells are a symphony of complex processes. Modern sequencing technology has led to many comprehensive assays being routinely available to experimenters, giving us different ways to peek at the internal doings of the cells, each experiment revealing a different part of some underlying processes. As an example, most cells have the same DNA, but sequencing the genome of a cell allows us to find mutations and structural alterations that drive tumerogenesis in cancer. If we treat the DNA with bisulfite prior to sequencing, cytosine residues are converted to uracil, but 5-methylcytosine residues are unaffected. This allows us to probe the methylation patterns of the genome, or its methylome. By sequencing the mRNA molecules in a cell, we can calculate the abundance, in different samples, of different mRNA transcripts, or uncover its transcriptome. Performing different experiments on the same samples, for instance RNA-seq, DNA-seq, and BS-seq, results in multi-dimensional omics datasets, which enable the study of relationships between different biological processes, e.g.&nbsp;DNA methylation, mutations, and gene expression, and the leveraging of multiple data types to draw inferences about biological systems. This chapter provides an overview of some of the available methods for such analyses, focusing on matrix factorization approaches. In the examples in this chapter we will demonstrate how these methods are applicable to cancer molecular subtyping, i.e.&nbsp;finding tumors which are driven by the same molecular processes.</p>
+<section id="use-case-multi-omics-data-from-colorectal-cancer" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="use-case-multi-omics-data-from-colorectal-cancer"><span class="header-section-number">11.1</span> Use case: Multi-omics data from colorectal cancer</h2>
+<p>The examples in this chapter will use the following data: a set of 121 tumors from the TCGA <span class="citation" data-cites="tcga_pan_cancer">(<a href="12-references.html#ref-tcga_pan_cancer" role="doc-biblioref">Weinstein et al. 2013</a>)</span> colorectal cancer cohort. The tumors have been profiled for gene expression using RNA-seq, mutations using Exome-seq, and copy number variations using genotyping arrays. Projects such as TCGA have turbocharged efforts to sub-divide cancer into subtypes. Although two tumors arise in the colon, they may have distinct molecular profiles, which is important for treatment decisions. The subset of tumors used in this chapter belong to two distinct molecular subtypes defined by the Colorectal Cancer Subtyping Consortium <span class="citation" data-cites="cmscc">(<a href="12-references.html#ref-cmscc" role="doc-biblioref">Guinney et al. 2015</a>)</span>, <em>CMS1</em> and <em>CMS3</em>. The following code snippets load this multi-omics data from the companion package, starting with gene expression data from RNA-seq (see <a href="08-rna-seq-analysis.html" class="quarto-xref"><span>Chapter 8</span></a>). Below we are reading the RNA-seq data from the <code>compGenomRData</code> package.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>csvfile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"multi-omics"</span>, <span class="st">"COREAD_CMS13_gex.csv"</span>, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(csvfile, <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix the gene names in the data frame</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(x1) <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">strsplit</span>(<span class="fu">rownames</span>(x1), <span class="st">"</span><span class="sc">\\</span><span class="st">|"</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Output a table</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(<span class="fu">t</span>(<span class="fu">head</span>(x1))), <span class="at">caption=</span><span class="st">"Example gene expression data (head)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-moload-ge" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-moload-ge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.1: Example gene expression data (head)
+</figcaption>
+<div aria-describedby="tbl-moload-ge-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">RNF113A</th>
+<th style="text-align: right;">S100A13</th>
+<th style="text-align: right;">AP3D1</th>
+<th style="text-align: right;">ATP6V1G1</th>
+<th style="text-align: right;">UBQLN4</th>
+<th style="text-align: right;">TPPP3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TCGA.A6.2672</td>
+<td style="text-align: right;">21.19567</td>
+<td style="text-align: right;">19.72600</td>
+<td style="text-align: right;">11.53022</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">15.35637</td>
+<td style="text-align: right;">12.76747</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCGA.A6.3809</td>
+<td style="text-align: right;">21.50866</td>
+<td style="text-align: right;">18.65729</td>
+<td style="text-align: right;">12.98830</td>
+<td style="text-align: right;">14.12675</td>
+<td style="text-align: right;">19.62208</td>
+<td style="text-align: right;">0.00000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TCGA.A6.5661</td>
+<td style="text-align: right;">20.08072</td>
+<td style="text-align: right;">18.97034</td>
+<td style="text-align: right;">10.83759</td>
+<td style="text-align: right;">15.31325</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">0.00000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCGA.A6.5665</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">11.88336</td>
+<td style="text-align: right;">10.24248</td>
+<td style="text-align: right;">19.79300</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">0.00000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TCGA.A6.6653</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">12.07753</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">0.00000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCGA.A6.6780</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">12.99128</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">19.96976</td>
+<td style="text-align: right;">13.17618</td>
+<td style="text-align: right;">11.58742</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><a href="#tbl-moload-ge" class="quarto-xref">Table&nbsp;<span>11.1</span></a> shows the head of the gene expression matrix. The rows correspond to patients, referred to by their TCGA identifier, as the first column of the table. Columns represent the genes, and the values are RPKM expression values. The column names are the names or symbols of the genes. The details about how these expression values are calculated are in <a href="08-rna-seq-analysis.html" class="quarto-xref"><span>Chapter 8</span></a>.</p>
+<p>We first <strong>read mutation data</strong> with the following code snippet.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>csvfile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"multi-omics"</span>, <span class="st">"COREAD_CMS13_muts.csv"</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(csvfile, <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Set mutation data to be binary (so if a gene has more than 1 mutation,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># we only count one)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>x2[x2<span class="sc">&gt;</span><span class="dv">0</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># output a table</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(<span class="fu">t</span>(<span class="fu">head</span>(x2))), <span class="at">caption=</span><span class="st">"Example mutation data (head)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-moload-mut" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-moload-mut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.2: Example mutation data (head)
+</figcaption>
+<div aria-describedby="tbl-moload-mut-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">TTN</th>
+<th style="text-align: right;">TP53</th>
+<th style="text-align: right;">APC</th>
+<th style="text-align: right;">KRAS</th>
+<th style="text-align: right;">SYNE1</th>
+<th style="text-align: right;">MUC16</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TCGA.A6.2672</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCGA.A6.3809</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TCGA.A6.5661</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCGA.A6.5665</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TCGA.A6.6653</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCGA.A6.6780</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><a href="#tbl-moload-mut" class="quarto-xref">Table&nbsp;<span>11.2</span></a> shows the mutations of these tumors (mutations were introduced in <a href="01-intro2Genomics.html" class="quarto-xref"><span>Chapter 1</span></a>). In the mutation matrix, each cell is a binary 1/0, indicating whether or not a tumor has a non-synonymous mutation in the gene indicated by the column. These types of mutations change the aminoacid sequence, therefore they are likely to change the function of the protein.</p>
+<p>Next, we <strong>read copy number data</strong> with the following code snippet.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>csvfile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"multi-omics"</span>, <span class="st">"COREAD_CMS13_cnv.csv"</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(csvfile, <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># output a table</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(<span class="fu">t</span>(<span class="fu">head</span>(x3))), </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption=</span><span class="st">"Example copy number data for CRC samples"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="tbl-moload-cnv" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-moload-cnv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.3: Example copy number data for CRC samples
+</figcaption>
+<div aria-describedby="tbl-moload-cnv-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">8p23.2</th>
+<th style="text-align: right;">8p23.3</th>
+<th style="text-align: right;">8p23.1</th>
+<th style="text-align: right;">8p21.3</th>
+<th style="text-align: right;">8p12</th>
+<th style="text-align: right;">8p22</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TCGA.A6.2672</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCGA.A6.3809</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TCGA.A6.5661</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCGA.A6.5665</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TCGA.A6.6653</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TCGA.A6.6780</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Finally, <a href="#tbl-moload-cnv" class="quarto-xref">Table&nbsp;<span>11.3</span></a> shows GISTIC scores <span class="citation" data-cites="mermel2011gistic2">(<a href="12-references.html#ref-mermel2011gistic2" role="doc-biblioref">Mermel et al. 2011</a>)</span> for copy number alterations in these tumors. During transformation from healthy cells to cancer cells, the genome sometimes undergoes large-scale instability; large segments of the genome might be replicated or lost. This will be reflected in each segment’s “copy number”. In this matrix, each column corresponds to a chromosome segment, and the value of the cell is a real-valued score indicating if this segment has been amplified (copied more) or lost, relative to a non-cancer control from the same patient.</p>
+<p>Each of the data types (gene expression, mutations, copy number variation) on its own, provides some signal which allows us to somewhat separate the samples into the two different subtypes. In order to explore these relations, we must first obtain the subtypes of these tumors. The following code snippet reads these, also from the companion package:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># read in the csv from the companion package as a data frame</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>csvfile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"multi-omics"</span>, <span class="st">"COREAD_CMS13_subtypes.csv"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">package=</span><span class="st">"compGenomRData"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>covariates <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(csvfile, <span class="at">row.names=</span><span class="dv">1</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix the TCGA identifiers so they match up with the omics data</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(covariates) <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="at">pattern =</span> <span class="st">'-'</span>, <span class="at">replacement =</span> <span class="st">'</span><span class="sc">\\</span><span class="st">.'</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">rownames</span>(covariates))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>covariates <span class="ot">&lt;-</span> covariates[<span class="fu">colnames</span>(x1),]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dataframe which will be used to annotate later graphs</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>anno_col <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">cms=</span><span class="fu">as.factor</span>(covariates<span class="sc">$</span>cms_label))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(anno_col) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(covariates)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Before proceeding with any multi-omics integration analysis which might obscure the underlying data, it is important to take a look at each omic data type on its own, and in this case in particular, to examine their relation to the underlying condition, i.e.&nbsp;the cancer subtype. A great way to get an eagle-eye view of such large data is using heatmaps (see <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a> for more details).</p>
+<p>We will first check the gene expression data in relation to the subtypes. One way of doing that is plotting a heatmap and clustering the tumors, while displaying a color annotation atop the heatmap, indicating which subtype each tumor belongs to. This is shown in <a href="#fig-mogeneExpressionHeatmap" class="quarto-xref">Figure&nbsp;<span>11.1</span></a>, which is generated by the following code snippet:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(x1,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">annotation_col =</span> anno_col,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">show_colnames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">show_rownames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">main=</span><span class="st">"Gene expression data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-mogeneExpressionHeatmap" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mogeneExpressionHeatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/mogeneExpressionHeatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mogeneExpressionHeatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.1: Heatmap of gene expression data for colorectal cancers.
+</figcaption>
+</figure>
+</div>
+<p>In <a href="#fig-mogeneExpressionHeatmap" class="quarto-xref">Figure&nbsp;<span>11.1</span></a>, each column is a tumor, and each row is a gene. The values in the cells are FPKM values. There is another band above the heatmap annotating each column (tumor) with its corresponding subtype. The tumors are clustered using hierarchical clustering denoted by the dendrogram above the heatmap, according to which the columns (tumors) are ordered. While this ordering corresponds somewhat to the subtypes, it would not be possible to cut this dendrogram in a way which achieves perfect separation between the subtypes.</p>
+<p>Next we repeat the same exercise using the mutation data. The following snippet generates <a href="#fig-momutationsHeatmap" class="quarto-xref">Figure&nbsp;<span>11.2</span></a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(x2,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">annotation_col =</span> anno_col,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">show_colnames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">show_rownames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">main=</span><span class="st">"Mutation data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-momutationsHeatmap" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-momutationsHeatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/momutationsHeatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-momutationsHeatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.2: Heatmap of mutation data for colorectal cancers.
+</figcaption>
+</figure>
+</div>
+<p>An examination of <a href="#fig-momutationsHeatmap" class="quarto-xref">Figure&nbsp;<span>11.2</span></a> shows that tumors clustered and ordered by mutation data correspond very closely to their CMS subtypes. However, one should be careful in drawing conclusions about this result. Upon closer examination, you might notice that the separating factor seems to be that CMS1 tumors have significantly more mutations than do CMS3 tumors. This, rather than mutations in a specific genes, seems to be driving this clustering result. Nevertheless, this hyper-mutated status is an important indicator for this subtype.</p>
+<p>Finally, we look into copy number variation data and try to see if clustered samples are in concordance with subtypes. The following code snippet generates <a href="#fig-moCNVHeatmap" class="quarto-xref">Figure&nbsp;<span>11.3</span></a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(x3,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">annotation_col =</span> anno_col,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">show_colnames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">show_rownames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">main=</span><span class="st">"Copy number data"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-moCNVHeatmap" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moCNVHeatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/moCNVHeatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moCNVHeatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.3: Heatmap of copy number variation data, colorectal cancers.
+</figcaption>
+</figure>
+</div>
+<p>The interpretation of <a href="#fig-moCNVHeatmap" class="quarto-xref">Figure&nbsp;<span>11.3</span></a> is left as an exercise for the reader.</p>
+<p>It is clear that while there is some “signal” in each of these omics types, as is evident from these heatmaps, it is equally clear that none of these omics types completely and on its own explains the subtypes. Each omics type provides but a glimpse into what makes each of these tumors different from a healthy cell. Through the rest of this chapter, we will demonstrate how analyzing the gene expression, mutations, and copy number variations, in tandem, we will be able to get a better picture of what separates these cancer subtypes.</p>
+<p>The next section will describe latent variable models for multi-omics integrations. Latent variable models are a form of dimensionality reduction (see <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a>). Each omics data type is “big data” in its own right; a typical RNA-seq experiment profiles upwards of 50 thousand different transcripts. The difficulties in handling large data matrices are only exacerbated by the introduction of more omics types into the analysis, as we are suggesting here. In order to overcome these challenges, latent variable models are a powerful way to reduce the dimensionality of the data down to a manageable size.</p>
+</section>
+<section id="latent-variable-models-for-multi-omics-integration" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="latent-variable-models-for-multi-omics-integration"><span class="header-section-number">11.2</span> Latent variable models for multi-omics integration</h2>
+<p>Unsupervised multi-omics integration methods are methods that look for patterns within and across data types, in a label-agnostic fashion, i.e.&nbsp;without knowledge of the identity or label of the analyzed samples (e.g.&nbsp;cell type, tumor/normal). This chapter focuses on latent variable models, a form of dimensionality reduction technique (see <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a>). Latent variable models make an assumption that the high-dimensional data we observe (e.g.&nbsp;counts of tens of thousands of mRNA molecules) arise from a lower dimension description. The variables in that lower dimensional description are termed <em>latent variables</em>, as they are believed to be latent in the data, but not directly observable through experimentation. Therefore, there is a need for methods to infer the latent variables from the data. For instance, (see <a href="08-rna-seq-analysis.html" class="quarto-xref"><span>Chapter 8</span></a> for details of RNA-seq analysis) the relative abundance of different mRNA molecules in a cell is largely determined by the cell type. There are other experiments which may be used to discern the cell type of cells (e.g.&nbsp;looking at them under a microscope), but an RNA-seq experiment does not, directly, reveal whether the analyzed sample was taken from one organ or another. A latent variable model would set the cell type as a latent variable, and the observable abundance of mRNA molecules to be dependent on the value of the latent variable (e.g.&nbsp;if the latent variable is “Regulatory T-cell”, we would expect to find high expression of CD4, FOXP3, and CD25).</p>
+</section>
+<section id="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="matrix-factorization-methods-for-unsupervised-multi-omics-data-integration"><span class="header-section-number">11.3</span> Matrix factorization methods for unsupervised multi-omics data integration</h2>
+<p>Matrix factorization techniques attempt to infer a set of latent variables from the data by finding factors of a data matrix. Principal Component Analysis (introduced in <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a>) is a form of matrix factorization which finds factors based on the covariance structure of the data. Generally, matrix factorization methods may be formulated as</p>
+<p><span class="math display">\[
+X = WH,
+\]</span> where <span class="math inline">\(X\)</span> is the <em>data matrix</em>, <span class="math inline">\([M \times N]\)</span> where <span class="math inline">\(M\)</span> is the number of features (typically genes), and <span class="math inline">\(N\)</span> is the number of samples. <span class="math inline">\(W\)</span> is an <span class="math inline">\([M \times K]\)</span> <em>factors</em> matrix, and <span class="math inline">\(H\)</span> is the <span class="math inline">\([K \times N]\)</span> <em>latent variable coefficient matrix</em>. Tying this back to PCA, where <span class="math inline">\(X = U \Sigma V^T\)</span>, we may formulate the factorization in the same terms by setting <span class="math inline">\(W=U\Sigma\)</span> and <span class="math inline">\(H=V^T\)</span>. If <span class="math inline">\(K=rank(X)\)</span>, this factorization is lossless, i.e.&nbsp;<span class="math inline">\(X=WH\)</span>. However if we choose <span class="math inline">\(K&lt;rank(X)\)</span>, the factorization is lossy, i.e.&nbsp;<span class="math inline">\(X \approx WH\)</span>. In that case, matrix factorization methods normally opt to minimize the error</p>
+<p><span class="math display">\[
+min~\|X-WH\|.
+\]</span> As we normally seek a latent variable model with a considerably lower dimensionality than <span class="math inline">\(X\)</span>, this is the more common case.</p>
+<p>The loss function we choose to minimize may be further subject to some constraints or regularization terms. Regularization has been introduced in <a href="05-supervisedLearning.html" class="quarto-xref"><span>Chapter 5</span></a>. In the current context of latent factor models, a regularization term might be added to the loss function, i.e.&nbsp;we might choose to minimize <span class="math inline">\(min~\|X-WH\| + \lambda \|W\|^2\)</span> (this is called <span class="math inline">\(L_2\)</span>-regularization) instead of merely the reconstruction error. Adding such a term to our loss function here will push the <span class="math inline">\(W\)</span> matrix entries towards 0, in effect balancing between better reconstruction of the data and a more parsimonious model. A more parsimonious latent factor model is one with more sparsity in the latent factors. This sparsity is desirable for model interpretation, as will become evident in later sections.</p>
+<div id="fig-momatrixFactorization" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-momatrixFactorization-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/matrix_factorization.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-momatrixFactorization-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.4: General matrix factorization framework. The data matrix on the left-hand side is decomposed into factors on the right-hand side. The equality may be an approximation as some matrix factorization methods are lossless (exact), while others are an approximation.
+</figcaption>
+</figure>
+</div>
+<p>In <a href="#fig-momatrixFactorization" class="quarto-xref">Figure&nbsp;<span>11.4</span></a>, the <span class="math inline">\(5 \times 4\)</span> data matrix <span class="math inline">\(X\)</span> is decomposed to a 2-dimensional latent variable model.</p>
+<section id="multiple-factor-analysis" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="multiple-factor-analysis"><span class="header-section-number">11.3.1</span> Multiple factor analysis</h3>
+<p>Multiple factor analysis is a natural starting point for a discussion about matrix factorization methods for integrating multiple data types. It is a straightforward extension of PCA into the domain of multiple data types <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<p><a href="#fig-moMFA" class="quarto-xref">Figure&nbsp;<span>11.5</span></a> sketches a naive extension of PCA to a multi-omics context.</p>
+<div id="fig-moMFA" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moMFA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/mfa.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moMFA-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.5: A naive extension of PCA to multi-omics; data matrices from different platforms are stacked, before applying PCA.
+</figcaption>
+</figure>
+</div>
+<p>Formally, we have <span class="math display">\[
+X = \begin{bmatrix}
+           X_{1} \\
+           X_{2} \\
+           \vdots \\
+           X_{L}
+         \end{bmatrix} = WH,
+\]</span> a joint decomposition of the different data matrices (<span class="math inline">\(X_i\)</span>) into the factor matrix <span class="math inline">\(W\)</span> and the latent variable matrix <span class="math inline">\(H\)</span>. This way, we can leverage the ability of PCA to find the highest variance decomposition of the data, when the data consists of different omics types. As a reminder, PCA finds the linear combinations of the features which, when the data is projected onto them, preserve the most variance of any <span class="math inline">\(K\)</span>-dimensional space. But because measurements from different experiments have different scales, they will also have variance (and co-variance) at different scales.</p>
+<p>Multiple Factor Analysis addresses this issue and achieves balance among the data types by normalizing each of the data types, before stacking them and passing them on to PCA. Formally, MFA is given by</p>
+<p><span class="math display">\[
+X_n = \begin{bmatrix}
+           X_{1} / \lambda^{(1)}_1 \\
+           X_{2} / \lambda^{(2)}_1 \\
+           \vdots \\
+           X_{L} / \lambda^{(L)}_1
+         \end{bmatrix} = WH,
+\]</span> where <span class="math inline">\(\lambda^{(i)}_1\)</span> is the first eigenvalue of the principal component decomposition of <span class="math inline">\(X_i\)</span>.</p>
+<p>Following this normalization step, we apply PCA to <span class="math inline">\(X_n\)</span>. From there on, MFA analysis is the same as PCA analysis, and we refer the reader to <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a> for more details.</p>
+<section id="mfa-in-r" class="level4" data-number="11.3.1.1">
+<h4 data-number="11.3.1.1" class="anchored" data-anchor-id="mfa-in-r"><span class="header-section-number">11.3.1.1</span> MFA in R</h4>
+<p>MFA is available through the CRAN package <code>FactoMineR</code>. The code snippet below shows how to run it:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the MFA function from the FactoMineR package</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>r.mfa <span class="ot">&lt;-</span> FactoMineR<span class="sc">::</span><span class="fu">MFA</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>(<span class="fu">rbind</span>(x1,x2,x3)), <span class="co"># binding the omics types together</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="fu">dim</span>(x1)[<span class="dv">1</span>], <span class="fu">dim</span>(x2)[<span class="dv">1</span>], <span class="fu">dim</span>(x3)[<span class="dv">1</span>]), <span class="co"># specifying the dimensions of each</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">graph=</span><span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Since this generates a two-dimensional factorization of the multi-omics data, we can now plot each tumor as a dot in a 2D scatter plot to see how well the MFA factors separate the cancer subtypes. The following code snippet generates <a href="#fig-momfascatterplot" class="quarto-xref">Figure&nbsp;<span>11.6</span></a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first, extract the H and W matrices from the MFA run result</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>mfa.h <span class="ot">&lt;-</span> r.mfa<span class="sc">$</span>global.pca<span class="sc">$</span>ind<span class="sc">$</span>coord</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>mfa.w <span class="ot">&lt;-</span> r.mfa<span class="sc">$</span>quanti.var<span class="sc">$</span>coord</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dataframe with the H matrix and the CMS label</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>mfa_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(mfa.h)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>mfa_df<span class="sc">$</span>subtype <span class="ot">&lt;-</span> <span class="fu">factor</span>(covariates[<span class="fu">rownames</span>(mfa_df),]<span class="sc">$</span>cms_label)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create the plot</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(mfa_df, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x=</span>Dim<span class="fl">.1</span>, <span class="at">y=</span>Dim<span class="fl">.2</span>, <span class="at">color=</span>subtype)) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">geom_point</span>() <span class="sc">+</span> ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">"Scatter plot of MFA"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-momfascatterplot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-momfascatterplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/momfascatterplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-momfascatterplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.6: Scatter plot of 2-dimensional MFA for multi-omics data shows separation between the subtypes.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-momfascatterplot" class="quarto-xref">Figure&nbsp;<span>11.6</span></a> shows remarkable separation between the cancer subtypes; it is easy enough to draw a line separating the tumors to CMS subtypes with good accuracy.</p>
+<p>Another way to examine the MFA factors, which is also useful for factor models with more than two components, is a heatmap, as shown in <a href="#fig-momfaheatmap" class="quarto-xref">Figure&nbsp;<span>11.7</span></a>, generated by the following code snippet:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(<span class="fu">t</span>(mfa.h)[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,], <span class="at">annotation_col =</span> anno_col,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">show_colnames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">main=</span><span class="st">"MFA for multi-omics integration"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-momfaheatmap" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-momfaheatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/momfaheatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-momfaheatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.7: A heatmap of the two MFA components shows separation between the cancer subtypes.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-momfaheatmap" class="quarto-xref">Figure&nbsp;<span>11.7</span></a> shows that indeed, when tumors are clustered and ordered using the two MFA factors we learned above, their separation into CMS clusters is nearly trivial.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Want to know more ?</strong></p>
+<ul>
+<li>Learn more about FactoMineR on the website: http://factominer.free.fr/</li>
+<li>Learn more about MFA on the Wikipedia page https://en.wikipedia.org/wiki/Multiple_factor_analysis</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="joint-non-negative-matrix-factorization" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="joint-non-negative-matrix-factorization"><span class="header-section-number">11.3.2</span> Joint non-negative matrix factorization</h3>
+<p>As introduced in <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a>, NMF (Non-negative Matrix Factorization) is an algorithm from 2000 that seeks to find a non-negative additive decomposition for a non-negative data matrix. It takes the familiar form <span class="math inline">\(X \approx WH\)</span>, with <span class="math inline">\(X \ge 0\)</span>, <span class="math inline">\(W \ge 0\)</span>, and <span class="math inline">\(H \ge 0\)</span>. The non-negative constraints make a lossless decomposition (i.e.&nbsp;<span class="math inline">\(X=WH\)</span>) generally impossible. Hence, NMF attempts to find a solution which minimizes the Frobenius norm of the reconstruction:</p>
+<p><span class="math display">\[
+min~\|X-WH\|_F \\
+W \ge 0, \\
+H \ge 0,
+\]</span></p>
+<p>where the Frobenius norm <span class="math inline">\(\|\cdot\|_F\)</span> is the matrix equivalent of the Euclidean distance:</p>
+<p><span class="math display">\[
+\|X\|_F = \sqrt{\sum_i\sum_jx_{ij}^2}.
+\]</span></p>
+<p>This is typically solved for <span class="math inline">\(W\)</span> and <span class="math inline">\(H\)</span> using random initializations followed by iterations of a multiplicative update rule:</p>
+<p><span class="math display">\[\begin{align}
+    W_{t+1} &amp;= W_t^T \frac{XH_t^T}{XH_tH_t^T} \\
+    H_{t+1} &amp;= H_t \frac{W_t^TX}{W^T_tW_tX}.
+\end{align}\]</span></p>
+<p>Since this algorithm is guaranteed only to converge to a local minimum, it is typically run several times with random initializations, and the best result is kept.</p>
+<p>In the multi-omics context, we will, as in the MFA case, wish to find a decomposition for an integrated data matrix of the form</p>
+<p><span class="math display">\[
+X = \begin{bmatrix}
+    X_{1} \\
+    X_{2} \\
+    \vdots \\
+    X_{L}
+\end{bmatrix},
+\]</span></p>
+<p>with <span class="math inline">\(X_i\)</span>s denoting data from different omics platforms.</p>
+<p>As NMF seeks to minimize the reconstruction error <span class="math inline">\(\|X-WH\|_F\)</span>, some care needs to be taken with regards to data normalization. Different omics platforms may produce data with different scales (i.e.&nbsp;real-valued gene expression quantification, binary mutation data, etc.), and so will have different baseline Frobenius norms. To address this, when doing Joint NMF, we first feature-normalize each data matrix, and then normalize by the Frobenius norm of the data matrix. Formally, we run NMF on</p>
+<p><span class="math display">\[
+X = \begin{bmatrix}
+    X_{1}^N / \alpha_1 \\
+    X_{2}^N / \alpha_2 \\
+    \vdots \\
+    X_{L}^N / \alpha_L
+\end{bmatrix},
+\]</span></p>
+<p>where <span class="math inline">\(X_i^N\)</span> is the feature-normalized data matrix <span class="math inline">\(X_i^N = \frac{x^{ij}}{\sum_jx^{ij}}\)</span>, and <span class="math inline">\(\alpha_i = \|X_{i}^N\|_F\)</span>.</p>
+<p>Another consideration with NMF is the non-negativity constraint. Different omics data types may have negative values, for instance, copy-number variations (CNVs) may be positive, indicating gains, or negative, indicating losses, as in <a href="#tbl-mocnv-split1" class="quarto-xref">Table&nbsp;<span>11.4</span></a>. In order to turn such data into a non-negative form, we will split each feature into two features, one new feature holding all the non-negative values of the original feature, and another feature holding the absolute value of the negative ones, as in <a href="#tbl-mocnv-split2" class="quarto-xref">Table&nbsp;<span>11.5</span></a>.</p>
+<div id="tbl-mocnv-split1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mocnv-split1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.4: Example copy number data. Data can be both positive (amplified regions) or negative (deleted regions).
+</figcaption>
+<div aria-describedby="tbl-mocnv-split1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">seg1</th>
+<th style="text-align: right;">seg2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">samp1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">samp2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">samp3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">-2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-mocnv-split2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mocnv-split2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.5: Example copy number data after splitting each column into a column representing copy number gains (+) and a column representing deletions (-). This data matrix is non-negative, and thus suitable for NMF algorithms.
+</figcaption>
+<div aria-describedby="tbl-mocnv-split2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">seg1+</th>
+<th style="text-align: right;">seg1-</th>
+<th style="text-align: right;">seg2+</th>
+<th style="text-align: right;">seg2-</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">samp1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">samp2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">samp3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<section id="nmf-in-r" class="level4" data-number="11.3.2.1">
+<h4 data-number="11.3.2.1" class="anchored" data-anchor-id="nmf-in-r"><span class="header-section-number">11.3.2.1</span> NMF in R</h4>
+<p>Many NMF algorithms are available through the CRAN package <code>NMF</code>. The following code chunk demonstrates how it may be run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Feature-normalize the data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x1.featnorm <span class="ot">&lt;-</span> x1 <span class="sc">/</span> <span class="fu">rowSums</span>(x1)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>x2.featnorm <span class="ot">&lt;-</span> x2 <span class="sc">/</span> <span class="fu">rowSums</span>(x2)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>x3.featnorm <span class="ot">&lt;-</span> x3 <span class="sc">/</span> <span class="fu">rowSums</span>(x3)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalize by each omics type's frobenius norm</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>x1.featnorm.frobnorm <span class="ot">&lt;-</span> x1.featnorm <span class="sc">/</span> <span class="fu">norm</span>(<span class="fu">as.matrix</span>(x1.featnorm), <span class="at">type=</span><span class="st">"F"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>x2.featnorm.frobnorm <span class="ot">&lt;-</span> x2.featnorm <span class="sc">/</span> <span class="fu">norm</span>(<span class="fu">as.matrix</span>(x2.featnorm), <span class="at">type=</span><span class="st">"F"</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>x3.featnorm.frobnorm <span class="ot">&lt;-</span> x3.featnorm <span class="sc">/</span> <span class="fu">norm</span>(<span class="fu">as.matrix</span>(x3.featnorm), <span class="at">type=</span><span class="st">"F"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the features of the CNV matrix into two non-negative features each</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>x3.featnorm.frobnorm.nonneg <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">split_neg_columns</span>(<span class="fu">t</span>(x3.featnorm.frobnorm)))</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># run the nmf function from the NMF package</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(NMF)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## Warning: package 'NMF' was built under R version 4.0.2</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>r.nmf <span class="ot">&lt;-</span> <span class="fu">nmf</span>(<span class="fu">t</span>(<span class="fu">rbind</span>(x1.featnorm.frobnorm,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                     x2.featnorm.frobnorm,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                     x3.featnorm.frobnorm.nonneg)),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>             <span class="dv">2</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">method=</span><span class="st">'Frobenius'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># exctract the H and W matrices from the nmf run result</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>nmf.h <span class="ot">&lt;-</span> NMF<span class="sc">::</span><span class="fu">basis</span>(r.nmf)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>nmf.w <span class="ot">&lt;-</span> NMF<span class="sc">::</span><span class="fu">coef</span>(r.nmf)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>nmfw <span class="ot">&lt;-</span> <span class="fu">t</span>(nmf.w)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>As with MFA, we can examine how well 2-factor NMF splits tumors into subtypes by looking at the scatter plot in <a href="#fig-monmfscatterplot" class="quarto-xref">Figure&nbsp;<span>11.8</span></a>, generated by the following code chunk:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a dataframe with the H matrix and the CMS label (subtype)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>nmf_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(nmf.h)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(nmf_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"dim1"</span>, <span class="st">"dim2"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>nmf_df<span class="sc">$</span>subtype <span class="ot">&lt;-</span> <span class="fu">factor</span>(covariates[<span class="fu">rownames</span>(nmf_df),]<span class="sc">$</span>cms_label)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># create the scatter plot</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(nmf_df, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x=</span>dim1, <span class="at">y=</span>dim2, <span class="at">color=</span>subtype)) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">"Scatter plot of 2-component NMF for multi-omics integration"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-monmfscatterplot" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-monmfscatterplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/monmfscatterplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-monmfscatterplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.8: NMF creates a disentangled representation of the data using two components which allow for separation between tumor sub-types CMS1 and CMS3 based on NMF factors learned from multi-omics data.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-monmfscatterplot" class="quarto-xref">Figure&nbsp;<span>11.8</span></a> shows an important difference between NMF and MFA (PCA). It shows the tendency of samples to lie close to the X or Y axes, that is, the tendency of each sample to be high in only one of the factors. This will be discussed more in the later section on disentangledness.</p>
+<p>Again, should we choose to run NMF with more than two factors, a more useful plot might be the heatmap shown in <a href="#fig-monmfheatmap" class="quarto-xref">Figure&nbsp;<span>11.9</span></a>, generated by the following code snippet:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(<span class="fu">t</span>(nmf_df[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]),</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">annotation_col =</span> anno_col,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">show_colnames=</span><span class="cn">FALSE</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">main=</span><span class="st">"Heatmap of 2-component NMF"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-monmfheatmap" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-monmfheatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/monmfheatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-monmfheatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.9: A heatmap of 2-component NMF factors shows the separability of tumors into subtype clusters. A heatmap representation like this is especially useful when scaling beyond two factors where scatter plots become less practical.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Want to know more ?</strong></p>
+<ul>
+<li>Joint NMF to uncover gene regulatory networks: Zhang S., Li Q., Liu J., Zhou X. J. (2011). A novel computational framework for simultaneous integration of multiple types of genomic data to identify microRNA-gene regulatory modules. <em>Bioinformatics</em> 27, i401–i409. 10.1093/bioinformatics/btr206 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3117336/</li>
+<li>Joint NMF for cancer research: Zhang S., Liu C.-C., Li W., Shen H., Laird P. W., Zhou X. J. (2012). Discovery of multi-dimensional modules by integrative analysis of cancer genomic data. <em>Nucleic Acids Res.</em> 40, 9379–9391. 10.1093/nar/gks725 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3479191/</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="icluster" class="level3" data-number="11.3.3">
+<h3 data-number="11.3.3" class="anchored" data-anchor-id="icluster"><span class="header-section-number">11.3.3</span> iCluster</h3>
+<p>iCluster takes a Bayesian approach to the latent variable model. In Bayesian statistics, we infer distributions over model parameters, rather than finding a single maximum-likelihood parameter estimate. In iCluster, we model the data as</p>
+<p><span class="math display">\[
+X_{(i)} = W_{(i)}Z + \epsilon_i,
+\]</span></p>
+<p>where <span class="math inline">\(X_{(i)}\)</span> is a data matrix from a single omics platform, <span class="math inline">\(W_{(i)}\)</span> are model parameters, <span class="math inline">\(Z\)</span> is a latent variable matrix, and is shared among the different omics platforms, and <span class="math inline">\(\epsilon_i\)</span> is a “noise” random variable, <span class="math inline">\(\epsilon \sim N(0,\Psi)\)</span>, with <span class="math inline">\(\Psi = diag(\psi_1,\dots \psi_M)\)</span> is a diagonal covariance matrix.</p>
+<div id="fig-moiCluster" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moiCluster-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/icluster.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moiCluster-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.10: Sketch of iCluster model. Each omics datatype is decomposed to a coefficient matrix and a shared latent variable matrix, plus noise.
+</figcaption>
+</figure>
+</div>
+<p>Note that with this construction, the omics measurements <span class="math inline">\(X\)</span> are expected to be the same for samples with the same latent variable representation, up to Gaussian noise. Further, we assume a Gaussian prior distribution on the latent variables <span class="math inline">\(Z \sim N(0,I)\)</span>, which means we assume <span class="math inline">\(X_{(i)} \sim N \big( 0,W_{(i)} W_{(i)}^T + \Psi_{(i)} \big)\)</span>. In order to find suitable values for <span class="math inline">\(W\)</span>, <span class="math inline">\(Z\)</span>, and <span class="math inline">\(\Psi\)</span>, we can write down the multivariate normal log-likelihood function and optimize it. For a multivariate normal distribution with mean <span class="math inline">\(0\)</span> and covariance <span class="math inline">\(\Sigma\)</span>, the log-likelihood function is given by</p>
+<p><span class="math display">\[
+\ell = -\frac{1}{2} \bigg( \ln (|\Sigma|) + X^T \Sigma^{-1} X + k\ln (2 \pi) \bigg)
+\]</span></p>
+<p>(this is simply the log of the Probability Density Function of a multivariate Gaussian). For the multi-omics iCluster case, we have <span class="math inline">\(X=\big( X_{(1)}, \dots, X_{(L)} \big)^T\)</span>, <span class="math inline">\(W = \big( W_{(1)}, \dots, W_{(L)} \big)^T\)</span>, where <span class="math inline">\(X\)</span> is a multivariate normal with <span class="math inline">\(0\)</span>-mean and <span class="math inline">\(\Sigma = W W^T + \Psi\)</span> covariance. Hence, the log-likelihood function for the iCluster model is given by:</p>
+<p><span class="math display">\[
+\ell_{iC}(W,\Sigma) = -\frac{1}{2} \bigg( \sum_{i=1}^L \ln (|\Sigma|) + X^T\Sigma^{-1}X + p_i \ln (2 \pi) \bigg)
+\]</span></p>
+<p>where <span class="math inline">\(p_i\)</span> is the number of features in omics data type <span class="math inline">\(i\)</span>. Because this model has more parameters than we typically have samples, we need to push the model to use fewer parameters than it has at its disposal, by using regularization. iCluster uses Lasso regularization, which is a direct penalty on the absolute value of the parameters. I.e., instead of optimizing <span class="math inline">\(\ell_{iC}(W,\Sigma)\)</span>, we will optimize the regularized log-likelihood:</p>
+<p><span class="math display">\[
+\ell = \ell_{iC}(W,\Sigma) - \lambda\|W\|_1.
+\]</span></p>
+<p>The parameter <span class="math inline">\(\lambda\)</span> acts as a dial to weigh the trade-off between better model fits (higher log-likelihood) and a sparser model, with more <span class="math inline">\(w_{ij}\)</span>s set to <span class="math inline">\(0\)</span>, which gives models which generalize better and are more interpretable.</p>
+<p>In order to solve this problem, iCluster employs the Expectation Maximization (EM) algorithm. The full details are beyond the scope of this textbook. We will introduce a short sketch instead. The intuition behind the EM algorithm is a more general case of the k-means clustering algorithm (Chapter 4). The basic <strong>EM algorithm</strong> is as follows.</p>
+<ul>
+<li>Initialize <span class="math inline">\(W\)</span> and <span class="math inline">\(\Psi\)</span>.</li>
+<li><strong>Until convergence of <span class="math inline">\(W\)</span>, <span class="math inline">\(\Psi\)</span></strong>
+<ul>
+<li>E-step: Calculate the expected value of <span class="math inline">\(Z\)</span> given the current estimates of <span class="math inline">\(W\)</span> and <span class="math inline">\(\Psi\)</span> and the data <span class="math inline">\(X\)</span>.</li>
+<li>M-step: Calculate maximum likelihood estimates for the parameters <span class="math inline">\(W\)</span> and <span class="math inline">\(\Psi\)</span> based on the current estimate of <span class="math inline">\(Z\)</span> and the data <span class="math inline">\(X\)</span>.</li>
+</ul></li>
+</ul>
+<section id="icluster-extending-icluster" class="level4" data-number="11.3.3.1">
+<h4 data-number="11.3.3.1" class="anchored" data-anchor-id="icluster-extending-icluster"><span class="header-section-number">11.3.3.1</span> iCluster+: Extending iCluster</h4>
+<p>iCluster+ is an extension of the iCluster framework, which allows for omics types to arise from distributions other than a Gaussian. While normal distributions are a good assumption for log-transformed, centered gene expression data, it is a poor model for binary mutations data, or for copy number variation data, which can typically take the values <span class="math inline">\((-2, 1, 0, 1, 2)\)</span> for heterozygous / monozygous deletions or amplifications. iCluster+ allows the different <span class="math inline">\(X\)</span>s to have different distributions:</p>
+<ul>
+<li>for binary mutations, <span class="math inline">\(X\)</span> is drawn from a multivariate binomial</li>
+<li>for normal, continuous data, <span class="math inline">\(X\)</span> is drawn from a multivariate Gaussian</li>
+<li>for copy number variations, <span class="math inline">\(X\)</span> is drawn from a multinomial</li>
+<li>for count data, <span class="math inline">\(X\)</span> is drawn from a Poisson.</li>
+</ul>
+<p>In that way, iCluster+ allows us to explicitly model our assumptions about the distributions of our different omics data types, and leverage the strengths of Bayesian inference.</p>
+<p>Both iCluster and iCluster+ make use of sophisticated Bayesian inference algorithms (EM for iCluster, Metropolis-Hastings MCMC for iCluster+), which means they do not scale up trivially. Therefore, it is recommended to filter down the features to a manageable size before inputting data to the algorithm. The exact size of “manageable” data depends on your hardware, but a rule of thumb is that dimensions in the thousands are ok, but in the tens of thousands might be too slow.</p>
+</section>
+<section id="running-icluster" class="level4" data-number="11.3.3.2">
+<h4 data-number="11.3.3.2" class="anchored" data-anchor-id="running-icluster"><span class="header-section-number">11.3.3.2</span> Running iCluster+</h4>
+<p>iCluster+ is available through the Bioconductor package <code>iClusterPlus</code>. The following code snippet demonstrates how it can be run with two components:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the iClusterPlus function</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>r.icluster <span class="ot">&lt;-</span> iClusterPlus<span class="sc">::</span><span class="fu">iClusterPlus</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>(x1), <span class="co"># Providing each omics type</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>(x2),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>(x3),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">type=</span><span class="fu">c</span>(<span class="st">"gaussian"</span>, <span class="st">"binomial"</span>, <span class="st">"multinomial"</span>), <span class="co"># Providing the distributions</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">K=</span><span class="dv">2</span>, <span class="co"># provide the number of factors to learn</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="co"># as well as other model parameters</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">lambda=</span><span class="fu">c</span>(.<span class="dv">03</span>,.<span class="dv">03</span>,.<span class="dv">03</span>))</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># extract the H and W matrices from the run result</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co"># here, we refer to H as z, to keep with iCluster terminology</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>icluster.z <span class="ot">&lt;-</span> r.icluster<span class="sc">$</span>meanZ</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(icluster.z) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(covariates) <span class="co"># fix the row names</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>icluster.ws <span class="ot">&lt;-</span> r.icluster<span class="sc">$</span>beta</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co"># construct a dataframe with the H matrix (z) and the cancer subtypes</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co"># for later plotting</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>icp_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(icluster.z)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(icp_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"dim1"</span>, <span class="st">"dim2"</span>)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(icp_df) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(x1)</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>icp_df<span class="sc">$</span>subtype <span class="ot">&lt;-</span> <span class="fu">factor</span>(covariates[<span class="fu">rownames</span>(icp_df),]<span class="sc">$</span>cms_label)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>As with other methods, we examine the iCluster results by looking at the scatter plot in <a href="#fig-moiclusterplusscatter" class="quarto-xref">Figure&nbsp;<span>11.11</span></a> and the heatmap in <a href="#fig-moiclusterplusheatmap" class="quarto-xref">Figure&nbsp;<span>11.12</span></a>. Both figures show that iCluster learns two factors which nearly perfectly discriminate between tumors of the two subtypes.</p>
+<div id="fig-moiclusterplusscatter" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moiclusterplusscatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/moiclusterplusscatter-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moiclusterplusscatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.11: iCluster+ learns factors which allow tumor sub-types CMS1 and CMS3 to be discriminated.
+</figcaption>
+</figure>
+</div>
+<div id="fig-moiclusterplusheatmap" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moiclusterplusheatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/moiclusterplusheatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moiclusterplusheatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.12: iCluster+ factors, shown in a heatmap, separate tumors into their subtypes well.
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Want to know more ?</strong></p>
+<ul>
+<li>Read the original iCluster paper: Shen R., Olshen A. B., Ladanyi M. (2009). Integrative clustering of multiple genomic data types using a joint latent variable model with application to breast and lung cancer subtype analysis. <em>Bioinformatics</em> 25, 2906–2912. 10.1093/bioinformatics/btp543 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2800366/</li>
+<li>Read the original iClusterPlus paper: an extension of iCluster: Shen R., Mo Q., Schultz N., Seshan V. E., Olshen A. B., Huse J., et al.&nbsp;(2012). Integrative subtype discovery in glioblastoma using iCluster. <em>PLoS ONE</em> 7:e35236. 10.1371/journal.pone.0035236 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3335101/</li>
+<li>Learn more about the LASSO for model regularization: Tibshirani, R. (1996). Regression shrinkage and selection via the lasso. <em>J. Royal. Statist. Soc B.</em>, Vol. 58, No.&nbsp;1, pages 267-288: http://www-stat.stanford.edu/%7Etibs/lasso/lasso.pdf</li>
+<li>Learn more about the EM algorithm: Dempster, A. P., et al.&nbsp;Maximum likelihood from incomplete data via the EM algorithm. <em>Journal of the Royal Statistical Society. Series B (Methodological)</em>, vol.&nbsp;39, no. 1, 1977, pp.&nbsp;1–38. JSTOR, JSTOR: http://www.jstor.org/stable/2984875</li>
+<li>Read about MCMC algorithms: Hastings, W.K. (1970). Monte Carlo sampling methods using Markov chains and their applications. <em>Biometrika.</em> 57 (1): 97–109. doi:10.1093/biomet/57.1.97: https://www.jstor.org/stable/2334940</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="clustering-using-latent-factors" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="clustering-using-latent-factors"><span class="header-section-number">11.4</span> Clustering using latent factors</h2>
+<p>A common analysis in biological investigations is clustering. This is often interesting in cancer studies as one hopes to find groups of tumors (clusters) which behave similarly, i.e.&nbsp;have similar risks and/or respond to the same drugs. PCA is a common step in clustering analyses, and so it is easy to see how the latent variable models above may all be a useful pre-processing step before clustering. In the examples below, we will use the latent variables inferred by the algorithms in the previous section on the set of colorectal cancer tumors from the TCGA. For a more complete introduction to clustering, see <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a>.</p>
+<section id="one-hot-clustering" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="one-hot-clustering"><span class="header-section-number">11.4.1</span> One-hot clustering</h3>
+<p>A specific clustering method for NMF data is to assume each sample is driven by one component, i.e.&nbsp;that the number of clusters <span class="math inline">\(K\)</span> is the same as the number of latent variables in the model and that each sample may be associated to one of those components. We assign each sample a cluster label based on the latent variable which affects it the most. <a href="#fig-monmfheatmap" class="quarto-xref">Figure&nbsp;<span>11.9</span></a> above (heatmap of 2-component NMF) shows the latent variable values for the two latent variables, for the 72 tumors, obtained by Joint NMF.</p>
+<p>The two rows are the two latent variables, and the columns are the 72 tumors. We can observe that most tumors are indeed driven mainly by one of the factors, and not a combination of the two. We can use this to assign each tumor a cluster label based on its dominant factor, shown in the following code snippet, which also produces the heatmap in <a href="#fig-moNMFClustering" class="quarto-xref">Figure&nbsp;<span>11.13</span></a>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># one-hot clustering in one line of code:</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># assign each sample the cluster according to its dominant NMF factor</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># easily accessible using the max.col function</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>nmf.clusters <span class="ot">&lt;-</span> <span class="fu">max.col</span>(nmf.h)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nmf.clusters) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(nmf.h)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># create an annotation data frame indicating the NMF one-hot clusters</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># as well as the cancer subtypes, for the heatmap plot below</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>anno_nmf_cl <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">nmf.cluster=</span><span class="fu">factor</span>(nmf.clusters),</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">cms.subtype=</span><span class="fu">factor</span>(covariates[<span class="fu">rownames</span>(nmf.h),]<span class="sc">$</span>cms_label)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># generate the plot</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(<span class="fu">t</span>(nmf.h[<span class="fu">order</span>(nmf.clusters),]),</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_cols=</span><span class="cn">FALSE</span>, <span class="at">cluster_rows=</span><span class="cn">FALSE</span>,</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_col =</span> anno_nmf_cl,</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_colnames =</span> <span class="cn">FALSE</span>,<span class="at">border_color=</span><span class="cn">NA</span>,</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">main=</span><span class="st">"Joint NMF factors</span><span class="sc">\n</span><span class="st">with clusters and molecular subtypes"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-moNMFClustering" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moNMFClustering-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/moNMFClustering-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moNMFClustering-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.13: Joint NMF factors with clusters, and molecular sub-types. One-hot clustering assigns one cluster per dimension, where each sample is assigned a cluster based on its dominant component. The clusters largely recapitulate the CMS sub-types.
+</figcaption>
+</figure>
+</div>
+<p>We see that using one-hot clustering with Joint NMF, we were able to find two clusters in the data which correspond fairly well with the molecular subtype of the tumors.</p>
+<p>The one-hot clustering method does not lend itself very well to the other methods discussed above, i.e.&nbsp;iCluster and MFA. The latent variables produced by those other methods may be negative, and further, in the case of iCluster, are going to assume a multivariate Gaussian shape. As such, it is not trivial to pick one “dominant factor” for them. For NMF variants, this is a very common way to assign clusters.</p>
+</section>
+<section id="k-means-clustering" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">11.4.2</span> K-means clustering</h3>
+<p>K-means clustering was introduced in <a href="04-unsupervisedLearning.html" class="quarto-xref"><span>Chapter 4</span></a>. Briefly, k-means is a special case of the EM algorithm, and indeed iCluster was originally conceived as an extension of K-means from binary cluster assignments to real-valued latent variables. The iCluster algorithm, as it is so named, calls for application of K-means clustering on its latent variables, after the inference step. The following code snippet shows how to pull K-means clusters out of the iCluster results, and produces the heatmap in <a href="#fig-moiClusterHeatmap" class="quarto-xref">Figure&nbsp;<span>11.14</span></a>, which shows how well these clusters correspond to cancer subtypes.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use the kmeans function to cluster the iCluster H matrix (here, z)</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># using 2 as the number of clusters.</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>icluster.clusters <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(icluster.z, <span class="dv">2</span>)<span class="sc">$</span>cluster</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(icluster.clusters) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(icluster.z)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># create an annotation dataframe for the heatmap plot</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># containing the kmeans cluster assignments and the cancer subtypes</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>anno_icluster_cl <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">iCluster=</span><span class="fu">factor</span>(icluster.clusters),</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cms.subtype=</span><span class="fu">factor</span>(covariates<span class="sc">$</span>cms_label))</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co"># generate the figure</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>(icluster.z[<span class="fu">order</span>(icluster.clusters),]), <span class="co"># order z by the kmeans clusters</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_cols=</span><span class="cn">FALSE</span>, <span class="co"># use cluster_cols and cluster_rows=FALSE</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_rows=</span><span class="cn">FALSE</span>, <span class="co"># as we want the ordering by k-means clusters to hold</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_colnames =</span> <span class="cn">FALSE</span>,<span class="at">border_color=</span><span class="cn">NA</span>,</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_col =</span> anno_icluster_cl,</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">main=</span><span class="st">"iCluster factors</span><span class="sc">\n</span><span class="st">with clusters and molecular subtypes"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-moiClusterHeatmap" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moiClusterHeatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/moiClusterHeatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moiClusterHeatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.14: K-means clustering on iCluster+ factors largely recapitulates the CMS sub-types.
+</figcaption>
+</figure>
+</div>
+<p>This demonstrates the ability of iClusterPlus to find clusters which correspond to molecular subtypes, based on multi-omics data.</p>
+</section>
+</section>
+<section id="biological-interpretation-of-latent-factors" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="biological-interpretation-of-latent-factors"><span class="header-section-number">11.5</span> Biological interpretation of latent factors</h2>
+<section id="inspection-of-feature-weights-in-loading-vectors" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="inspection-of-feature-weights-in-loading-vectors"><span class="header-section-number">11.5.1</span> Inspection of feature weights in loading vectors</h3>
+<p>The most straightforward way to go about interpreting the latent factors in a biological context, is to look at the coefficients which are associated with them. The latent variable models introduced above all take the linear form <span class="math inline">\(X \approx WH\)</span>, where <span class="math inline">\(W\)</span> is a factor matrix, with coefficients tying each latent variable with each of the features in the <span class="math inline">\(L\)</span> original multi-omics data matrices. By inspecting these coefficients, we can get a sense of which multi-omics features are co-regulated. The code snippet below generates <a href="#fig-moNMFHeatmap" class="quarto-xref">Figure&nbsp;<span>11.15</span></a>, which shows the coefficients of the Joint NMF analysis above:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create an annotation dataframe for the heatmap</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for each feature, indicating its omics-type</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>data_anno <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">omics=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">'expression'</span>,<span class="fu">dim</span>(x1)[<span class="dv">1</span>]),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>          <span class="fu">rep</span>(<span class="st">'mut'</span>,<span class="fu">dim</span>(x2)[<span class="dv">1</span>]),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>          <span class="fu">rep</span>(<span class="st">'cnv'</span>,<span class="fu">dim</span>(x3.featnorm.frobnorm.nonneg)[<span class="dv">1</span>])))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(data_anno) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rownames</span>(x1),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">paste0</span>(<span class="st">"mut:"</span>, <span class="fu">rownames</span>(x2)),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">rownames</span>(x3.featnorm.frobnorm.nonneg))</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(nmfw) <span class="ot">&lt;-</span> <span class="fu">rownames</span>(data_anno)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># generate the heat map</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(nmfw,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cluster_cols =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>                   <span class="at">annotation_row =</span> data_anno,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>                   <span class="at">main=</span><span class="st">"NMF coefficients"</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>                   <span class="at">clustering_distance_rows =</span> <span class="st">"manhattan"</span>,</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontsize_row =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-moNMFHeatmap" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moNMFHeatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/moNMFHeatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moNMFHeatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.15: Heatmap showing the association of input features from multi-omics data (gene expression, copy number variation, and mutations), with JNMF factors. Gene expression features dominate both factors, but copy numbers and mutations mostly affect only one factor each.
+</figcaption>
+</figure>
+</div>
+<p>Inspection of the factor coefficients in the heatmap above reveals that Joint NMF has found two nearly orthogonal non-negative factors. One is associated with high expression of the HOXC11, ZIC5, and XIRP1 genes, frequent mutations in the BRAF, PCDHGA6, and DNAH5 genes, as well as losses in the 18q12.2 and gains in 8p21.1 cytobands. The other factor is associated with high expression of the SOX1 gene, more frequent mutations in the APC, KRAS, and TP53 genes, and a weak association with some CNVs.</p>
+<section id="disentangled-representations" class="level4" data-number="11.5.1.1">
+<h4 data-number="11.5.1.1" class="anchored" data-anchor-id="disentangled-representations"><span class="header-section-number">11.5.1.1</span> Disentangled representations</h4>
+<p>The property displayed above, where each feature is predominantly associated with only a single factor, is termed <em>disentangledness</em>, i.e.&nbsp;it leads to <em>disentangled</em> latent variable representations, as changing one input feature only affects a single latent variable. This property is very desirable as it greatly simplifies the biological interpretation of modules. Here, we have two modules with a set of co-occurring molecular signatures which merit deeper investigation into the mechanisms by which these different omics features are related. For this reason, NMF is widely used in computational biology today.</p>
+</section>
+</section>
+<section id="making-sense-of-factors-using-enrichment-analysis" class="level3" data-number="11.5.2">
+<h3 data-number="11.5.2" class="anchored" data-anchor-id="making-sense-of-factors-using-enrichment-analysis"><span class="header-section-number">11.5.2</span> Making sense of factors using enrichment analysis</h3>
+<p>In order to investigate the oncogenic processes that drive the differences between tumors, we may draw upon biological prior knowledge by looking for overlaps between genes that drive certain tumors, and genes involved in familiar biological processes.</p>
+<section id="enrichment-analysis" class="level4" data-number="11.5.2.1">
+<h4 data-number="11.5.2.1" class="anchored" data-anchor-id="enrichment-analysis"><span class="header-section-number">11.5.2.1</span> Enrichment analysis</h4>
+<p>The recent decades of genomics have uncovered many of the ways in which genes cooperate to perform biological functions in concert. This work has resulted in rich annotations of genes, groups of genes, and the different functions they carry out. Examples of such annotations include the Gene Ontology Consortium’s <em>GO terms</em> <span class="citation" data-cites="go_first_paper go_latest_paper">(<a href="12-references.html#ref-go_first_paper" role="doc-biblioref">Ashburner et al. 2000</a>; <a href="12-references.html#ref-go_latest_paper" role="doc-biblioref">Consortium 2017</a>)</span>, the <em>Reactome pathways database</em> <span class="citation" data-cites="reactome_latent_paper">(<a href="12-references.html#ref-reactome_latent_paper" role="doc-biblioref">Fabregat et al. 2018</a>)</span>, and the <em>Kyoto Encyclopaedia of Genes and Genomes</em> <span class="citation" data-cites="kegg_latest_paper">(<a href="12-references.html#ref-kegg_latest_paper" role="doc-biblioref">Kanehisa et al. 2017</a>)</span>. These resources, as well as others, publish lists of so-called <em>gene sets</em>, or <em>pathways</em>, which are sets of genes which are known to operate together in some biological function, e.g.&nbsp;protein synthesis, DNA mismatch repair, cellular adhesion, and many other functions. Gene set enrichment analysis is a method which looks for overlaps between genes which we have found to be of interest, e.g.&nbsp;by them being implicated in a certain tumor type, and the a-priori gene sets discussed above.</p>
+<p>In the context of making sense of latent factors, the question we will be asking is whether the genes which drive the value of a latent factor (the genes with the highest factor coefficients) also belong to any interesting annotated gene sets, and whether the overlap is greater than we would expect by chance. If there are <span class="math inline">\(N\)</span> genes in total, <span class="math inline">\(K\)</span> of which belong to a gene set, the probability that <span class="math inline">\(k\)</span> out of the <span class="math inline">\(n\)</span> genes associated with a latent factor are also associated with a gene set is given by the hypergeometric distribution:</p>
+<p><span class="math display">\[
+P(k) = \frac{{\binom{K}{k}} - \binom{N-K}{n-k}}{\binom{N}{n}}.
+\]</span></p>
+<p>The <strong>hypergeometric test</strong> uses the hypergeometric distribution to assess the statistical significance of the presence of genes belonging to a gene set in the latent factor. The null hypothesis is that there is no relationship between genes in a gene set, and genes in a latent factor. When testing for over-representation of gene set genes in a latent factor, the P value from the hypergeometric test is the probability of getting <span class="math inline">\(k\)</span> or more genes from a gene set in a latent factor</p>
+<p><span class="math display">\[
+p = \sum_{i=k}^K P(k=i).
+\]</span></p>
+<p>The hypergeometric enrichment test is also referred to as <em>Fisher’s one-sided exact test</em>. This way, we can determine if the genes associated with a factor significantly overlap (beyond chance) the genes involved in a biological process. Because we will typically be testing many gene sets, we will also need to apply multiple testing correction, such as Benjamini-Hochberg correction (see Chapter 3, multiple testing correction).</p>
+</section>
+<section id="example-in-r" class="level4" data-number="11.5.2.2">
+<h4 data-number="11.5.2.2" class="anchored" data-anchor-id="example-in-r"><span class="header-section-number">11.5.2.2</span> Example in R</h4>
+<p>In R, we can do this analysis using the <code>enrichR</code> package, which gives us access to many gene set libraries. In the example below, we will find the genes associated with preferentially NMF factor 1 or NMF factor 2, by the contribution of those genes’ expression values to the factor. Then, we’ll use <code>enrichR</code> to query the Gene Ontology terms which might be overlapping:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(enrichR)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># select genes associated preferentially with each factor</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># by their relative loading in the W matrix</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>genes.factor<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which</span>(nmfw[<span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">1</span>] <span class="sc">&gt;</span> nmfw[<span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">2</span>]))</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>genes.factor<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which</span>(nmfw[<span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">1</span>] <span class="sc">&lt;</span> nmfw[<span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(x1)[<span class="dv">1</span>],<span class="dv">2</span>]))</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># call the enrichr function to find gene sets enriched</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># in each latent factor in the GO Biological Processes 2018 library</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>go.factor<span class="fl">.1</span> <span class="ot">&lt;-</span> enrichR<span class="sc">::</span><span class="fu">enrichr</span>(genes.factor<span class="fl">.1</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>                                <span class="at">databases =</span> <span class="fu">c</span>(<span class="st">"GO_Biological_Process_2018"</span>)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>                                )<span class="sc">$</span>GO_Biological_Process_2018</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>go.factor<span class="fl">.2</span> <span class="ot">&lt;-</span> enrichR<span class="sc">::</span><span class="fu">enrichr</span>(genes.factor<span class="fl">.2</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>                                <span class="at">databases =</span> <span class="fu">c</span>(<span class="st">"GO_Biological_Process_2018"</span>)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>                                )<span class="sc">$</span>GO_Biological_Process_2018</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The top GO terms associated with NMF factor 2 are shown in <a href="#tbl-monmf-goterms" class="quarto-xref">Table&nbsp;<span>11.6</span></a>:</p>
+<div id="tbl-monmf-goterms" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-monmf-goterms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;11.6: GO-terms associated with NMF factor 2
+</figcaption>
+<div aria-describedby="tbl-monmf-goterms-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 45%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Term</th>
+<th style="text-align: right;">Adjusted.P.value</th>
+<th style="text-align: right;">Combined.Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">nuclear-transcribed mRNA catabolic process (GO:0000956)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">207.7403</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rRNA metabolic process (GO:0016072)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">161.4781</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nuclear-transcribed mRNA catabolic process, nonsense-mediated decay (GO:0000184)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">220.4298</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="interpretation-using-additional-covariates" class="level3" data-number="11.5.3">
+<h3 data-number="11.5.3" class="anchored" data-anchor-id="interpretation-using-additional-covariates"><span class="header-section-number">11.5.3</span> Interpretation using additional covariates</h3>
+<p>Another way to ascribe biological significance to the latent variables is by correlating them with additional covariates we might have about the samples. In our example, the colorectal cancer tumors have also been characterized for microsatellite instability (MSI) status, using an external test (typically PCR-based). By examining the latent variable values as they relate to a tumor’s MSI status, we might discover that we’ve learned latent factors that are related to it. The following code snippet demonstrates how this might be looked into, by generating <a href="#fig-moNMFClinicalCovariates" class="quarto-xref">Figure&nbsp;<span>11.16</span></a> and <a href="#fig-moNMFClinicalCovariates2" class="quarto-xref">Figure&nbsp;<span>11.17</span></a>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create a data frame holding covariates (age, gender, MSI status)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">age=</span>covariates<span class="sc">$</span>age,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">gender=</span><span class="fu">as.numeric</span>(covariates<span class="sc">$</span>gender),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">msi=</span>covariates<span class="sc">$</span>msi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre><code>## Warning in data.frame(age = covariates$age, gender =
+## as.numeric(covariates$gender), : NAs introduced by coercion</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> nmf.h</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(b) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'factor1'</span>, <span class="st">'factor2'</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># concatenate the covariate dataframe with the H matrix</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>cov_factor <span class="ot">&lt;-</span> <span class="fu">cbind</span>(a,b)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># generate the figure</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(cov_factor, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x=</span>msi, <span class="at">y=</span>factor1, <span class="at">group=</span>msi)) <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">"NMF factor 1 microsatellite instability"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-moNMFClinicalCovariates" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moNMFClinicalCovariates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/moNMFClinicalCovariates-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moNMFClinicalCovariates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.16: Box plot showing MSI/MSS status distribution and NMF factor 1 values.
+</figcaption>
+</figure>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(cov_factor, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x=</span>msi, <span class="at">y=</span>factor2, <span class="at">group=</span>msi)) <span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="st">"NMF factor 2 and microsatellite instability"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-moNMFClinicalCovariates2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-moNMFClinicalCovariates2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiomics-analysis_files/figure-html/moNMFClinicalCovariates2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-moNMFClinicalCovariates2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.17: Box plot showing MSI/MSS status distribution and NMF factor 2 values.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-moNMFClinicalCovariates" class="quarto-xref">Figure&nbsp;<span>11.16</span></a> and <a href="#fig-moNMFClinicalCovariates2" class="quarto-xref">Figure&nbsp;<span>11.17</span></a> show that NMF factor 1 and NMF factor 2 are separated by the MSI or MSS (microsatellite stability) status of the tumors.</p>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">11.6</span> Exercises</h2>
+<section id="matrix-factorization-methods" class="level3" data-number="11.6.1">
+<h3 data-number="11.6.1" class="anchored" data-anchor-id="matrix-factorization-methods"><span class="header-section-number">11.6.1</span> Matrix factorization methods</h3>
+<ol type="1">
+<li><p>Find features associated with iCluster and MFA factors, and visualize the feature weights. [Difficulty: <strong>Beginner</strong>]</p></li>
+<li><p>Normalizing the data matrices by their <span class="math inline">\(\lambda_1\)</span>’s as in MFA supposes we wish to assign each data type the same importance in the down-stream analysis. This leads to a natural generalization whereby the different data types may be differently weighted. Provide an implementation of weighed-MFA where the different data types may be assigned individual weights. [Difficulty: <strong>Intermediate</strong>]</p></li>
+<li><p>In order to use NMF algorithms on data which can be negative, we need to split each feature into two new features, one positive and one negative. Implement the following function, and see that the included test does not fail: [Difficulty: <strong>Intermediate/Advanced</strong>]</p></li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Implement this function</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>split_neg_columns <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># your code here</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># a test that shows the function above works</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>test_split_neg_columns <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    input <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>),<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">2</span>)))</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    output <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">2</span>)))</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stopifnot</span>(<span class="fu">all</span>(output <span class="sc">==</span> <span class="fu">split_neg_columns</span>(input)))</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="co"># run the test to verify your solution</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="fu">test_split_neg_columns</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="4" type="1">
+<li>The iCluster+ algorithm has some parameters which may be tuned for maximum performance. The <code>iClusterPlus</code> package has a method, <code>iClusterPlus::tune.iClusterPlus</code>, which does this automatically based on the Bayesian Information Criterion (BIC). Run this method on the data from the examples above and find the optimal lambda and alpha values. [Difficulty: <strong>Beginner/Intermediate</strong>]</li>
+</ol>
+</section>
+<section id="clustering-using-latent-factors-1" class="level3" data-number="11.6.2">
+<h3 data-number="11.6.2" class="anchored" data-anchor-id="clustering-using-latent-factors-1"><span class="header-section-number">11.6.2</span> Clustering using latent factors</h3>
+<ol type="1">
+<li><p>Why is one-hot clustering more suitable for NMF than iCluster? [Difficulty: <strong>Intermediate</strong>]</p></li>
+<li><p>Which clustering algorithm produces better results when combined with NMF, K-means, or one-hot clustering? Why do you think that is? [Difficulty: <strong>Intermediate/Advanced</strong>]</p></li>
+</ol>
+</section>
+<section id="biological-interpretation-of-latent-factors-1" class="level3" data-number="11.6.3">
+<h3 data-number="11.6.3" class="anchored" data-anchor-id="biological-interpretation-of-latent-factors-1"><span class="header-section-number">11.6.3</span> Biological interpretation of latent factors</h3>
+<ol type="1">
+<li><p>Another covariate in the metadata of these tumors is their <em>CpG island methylator Phenotype</em> (CIMP). This is a phenotype carried by a group of colorectal cancers that display hypermethylation of promoter CpG island sites, resulting in the inactivation of some tumor suppressors. This is also assayed using an external test. Do any of the multi-omics methods surveyed find a latent variable that is associated with the tumor’s CIMP phenotype? [Difficulty: <strong>Beginner/Intermediate</strong>]</p></li>
+<li><p>Does MFA give a disentangled representation? Does <code>iCluster</code> give disentangled representations? Why do you think that is? [Difficulty: <strong>Advanced</strong>]</p></li>
+<li><p><a href="#fig-moNMFClinicalCovariates" class="quarto-xref">Figure&nbsp;<span>11.16</span></a> and <a href="#fig-moNMFClinicalCovariates2" class="quarto-xref">Figure&nbsp;<span>11.17</span></a> show that MSI/MSS tumors have different values for NMF factors 1 and 2. Which NMF factor is associated with microsatellite instability? [Difficulty: <strong>Beginner</strong>]</p></li>
+<li><p>Microsatellite instability (MSI) is associated with hyper-mutated tumors. As seen in <a href="#fig-momutationsHeatmap" class="quarto-xref">Figure&nbsp;<span>11.2</span></a>, one of the subtypes has tumors with significantly more mutations than the other. Which subtype is that? Which NMF factor is associated with that subtype? And which NMF factor is associated with MSI? [Difficulty: <strong>Advanced</strong>]</p></li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-go_first_paper" class="csl-entry" role="listitem">
+Ashburner, M., C. A. Ball, J. A. Blake, et al. 2000. <span>“<span class="nocase"><span>G</span>ene ontology: tool for the unification of biology. <span>T</span>he <span>G</span>ene <span>O</span>ntology <span>C</span>onsortium</span>.”</span> <em>Nat. Genet.</em> 25 (1): 25–29.
+</div>
+<div id="ref-go_latest_paper" class="csl-entry" role="listitem">
+Consortium, The Gene Ontology. 2017. <span>“<span class="nocase"><span>E</span>xpansion of the <span>G</span>ene <span>O</span>ntology knowledgebase and resources</span>.”</span> <em>Nucleic Acids Res.</em> 45 (D1): D331–38.
+</div>
+<div id="ref-reactome_latent_paper" class="csl-entry" role="listitem">
+Fabregat, A., S. Jupe, L. Matthews, et al. 2018. <span>“<span class="nocase"><span>T</span>he <span>R</span>eactome <span>P</span>athway <span>K</span>nowledgebase</span>.”</span> <em>Nucleic Acids Res.</em> 46 (D1): D649–55.
+</div>
+<div id="ref-cmscc" class="csl-entry" role="listitem">
+Guinney, J., R. Dienstmann, X. Wang, et al. 2015. <span>“<span class="nocase"><span>T</span>he consensus molecular subtypes of colorectal cancer</span>.”</span> <em>Nat. Med.</em> 21 (11): 1350–56.
+</div>
+<div id="ref-kegg_latest_paper" class="csl-entry" role="listitem">
+Kanehisa, M., M. Furumichi, M. Tanabe, Y. Sato, and K. Morishima. 2017. <span>“<span class="nocase"><span>K</span><span>E</span><span>G</span><span>G</span>: new perspectives on genomes, pathways, diseases and drugs</span>.”</span> <em>Nucleic Acids Res.</em> 45 (D1): D353–61.
+</div>
+<div id="ref-mermel2011gistic2" class="csl-entry" role="listitem">
+Mermel, Craig H, Steven E Schumacher, Barbara Hill, Matthew L Meyerson, Rameen Beroukhim, and Gad Getz. 2011. <span>“GISTIC2. 0 Facilitates Sensitive and Confident Localization of the Targets of Focal Somatic Copy-Number Alteration in Human Cancers.”</span> <em>Genome Biology</em> 12 (4): R41.
+</div>
+<div id="ref-tcga_pan_cancer" class="csl-entry" role="listitem">
+Weinstein, J. N., E. A. Collisson, G. B. Mills, et al. 2013. <span>“<span class="nocase"><span>T</span>he <span>C</span>ancer <span>G</span>enome <span>A</span>tlas <span>P</span>an-<span>C</span>ancer analysis project</span>.”</span> <em>Nat. Genet.</em> 45 (10): 1113–20.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>When dealing with categorical variables, MFA uses MCA (Multiple Correspondence Analysis). This is less relevant to biological data analysis and will not be discussed here.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<div class="cgr-global-banner bottom-banner" role="complementary" aria-label="Book Updates">
+  <div class="banner-container">
+    <div class="banner-title">Stay Connected with Computational Genomics</div>
+    <div class="banner-text">
+      Try our <a href="https://rolv.io" target="_blank" rel="noopener noreferrer" class="banner-link">AI-Assisted Data Analysis App</a> and subscribe to our <a href="https://biodatahacks.substack.com/" target="_blank" rel="noopener noreferrer" class="banner-link">Substack Blog</a> for updates!
+    </div>
+  </div>
+</div>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/compgenomr\.github\.io\/book\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./10-bs-seq-analysis.html" class="pagination-link" aria-label="DNA methylation analysis using bisulfite sequencing data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">DNA methylation analysis using bisulfite sequencing data</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./12-references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Computational Genomics with R — Altuna Akalin</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/compgenomr/book/edit/main/11-multiomics-analysis.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/compgenomr/book/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
