@@ -104,17 +104,17 @@ blockquote > p:first-child {
 }
 
 .cgr-margin-cover img {
-  max-width: 175px;
   width: 100%;
+  max-width: 100%;
   border: 1px solid #e2e8f0;
   border-radius: 6px;
   display: block;
   margin: 0 auto;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .cgr-margin-cover img:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14) !important;
 }
