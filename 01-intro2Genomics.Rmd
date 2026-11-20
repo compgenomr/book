@@ -345,7 +345,7 @@ restricted to CpG dinucleotides, methylation can occur in other bases as well). 
 binding on the region, or methyl-CpG binding proteins induce the spread of
 repressive chromatin domains, thus the gene is silenced if its promoter has
 methylated CG dinucleotides.  DNA methylation usually occurs in repeat
-sequences to repress transposable elements. These elements, when active, can
+sequences to repress transposable elements (Suggestion: DNA methylation usually occurs in repeat sequences, especially in transposable elements, to keep them inactive/repressed). These elements, when active, can
 jump around and insert them to random parts of the genome, potentially disrupting
 the genomic functions.\index{CpG island}
 
@@ -830,3 +830,5 @@ Consortium | What is it for?
 \index{ENCODE}
 \index{Epigenomics Roadmap}
 \index{The Cancer Genome Atlas (TCGA)}
+
+
