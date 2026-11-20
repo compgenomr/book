@@ -390,7 +390,7 @@ plot(x,y,main="scatterplot of random samples",
         ylab="y values",xlab="x values")
 ```
 
-We can also plot boxplots for vectors x and y. Boxplots depict groups of numerical data through their quartiles. The edges of the box denote the 1st and 3rd quartiles, and the line that crosses the box is the median. The distance between the 1st and the 3rd quartiles is called interquartile tange. The whiskers (lines extending from the boxes) are usually defined using the interquartile range for symmetric distributions as follows: `lowerWhisker=Q1-1.5[IQR]` and `upperWhisker=Q3+1.5[IQR]`.
+We can also plot boxplots for vectors x and y. Boxplots depict groups of numerical data through their quartiles. The edges of the box denote the 1st and 3rd quartiles, and the line that crosses the box is the median. The distance between the 1st and the 3rd quartiles is called interquartile range. The whiskers (lines extending from the boxes) are usually defined using the interquartile range for symmetric distributions as follows: `lowerWhisker=Q1-1.5[IQR]` and `upperWhisker=Q3+1.5[IQR]`.
 
 In addition, outliers can be depicted as dots. In this case, outliers are the values that remain outside the whiskers. The resulting plot from the code snippet below is shown in Figure \@ref(fig:makeBoxplot).
 
