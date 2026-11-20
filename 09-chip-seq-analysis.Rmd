@@ -2529,7 +2529,7 @@ reproducible.
 2. **nmotifs** - the number of motifs to look for.
 
 
-```{r rgadem.run, include=TRUE, eval=TRUE, echo=FALSE}
+```{r rgadem.run, include=TRUE, eval=TRUE, echo=TRUE}
 # run the rGADEM motif discovery
 novel_motifs = GADEM(
   Sequences = ctcf_seq,
