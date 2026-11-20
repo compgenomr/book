@@ -356,7 +356,7 @@ One important thing is that with `save()` you can save many objects at a time, a
 Reading large files that contain tables with base R function `read.table()` might take a very long time. Therefore, there are additional packages that provide faster functions to read the files. The `data.table` \index{R Packages!\texttt{data.table}} and `readr` \index{R Packages!\texttt{readr}}packages provide this functionality. Below, we show how to use them. These functions with provided parameters will return equivalent output to the `read.table()` function.
 ```{r fastreader, eval=FALSE}
 library(data.table)
-df.f=d(enhancerFilePath, header = FALSE,data.table=FALSE)
+df.f=fread(enhancerFilePath, header = FALSE,data.table=FALSE)
 
 library(readr)
 df.f2=read_table(enhancerFilePath, col_names = FALSE)
